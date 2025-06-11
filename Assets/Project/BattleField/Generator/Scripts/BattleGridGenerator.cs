@@ -8,7 +8,8 @@ namespace BattleField.Generator
         [Header("Grid Settings")]
         public Vector2Int gridSize = new Vector2Int(10, 10);
         public float CellsGap = 1f;
-        public GameObject _cellPrefab;
+        
+        public CellGenRule CellGenRulePrefab;
 
         public bool EditMode = false;
 
@@ -16,7 +17,7 @@ namespace BattleField.Generator
         [SerializeField, HideInInspector]
         public InspectorCell[,] _inspectorGrid;
         
-        private GameObject[,] _gridCache;
+        private CellGenRule[,] _gridCache;
         private Transform _gridParent;
 
         public void GenerateGrid()
@@ -25,7 +26,7 @@ namespace BattleField.Generator
 
             _gridParent = CreateNewGridContainer();
 
-            _gridCache = new GameObject[gridSize.x, gridSize.y];
+            _gridCache = new CellGenRule[gridSize.x, gridSize.y];
 
             for (int x = 0; x < gridSize.x; x++)
             {
@@ -36,6 +37,8 @@ namespace BattleField.Generator
                         var position = CalculateFieldPosition(x, y, CellsGap);
                         
                         var cell = CreateCell(position, $"Cell ({x}, {y})");
+                        
+                        cell.CellPosition = new Vector2Int(x, y);
 
                         _gridCache[x, y] = cell;
                     }
@@ -59,8 +62,8 @@ namespace BattleField.Generator
                 0
             );
         }
-        private GameObject CreateCell(Vector3 position, string cellName = null){
-            var cell = Instantiate(_cellPrefab, position, Quaternion.identity, _gridParent);
+        private CellGenRule CreateCell(Vector3 position, string cellName = null){
+            var cell = Instantiate(CellGenRulePrefab, position, Quaternion.identity, _gridParent);
             if(cellName != null){
                 cell.name = cellName;
             } 

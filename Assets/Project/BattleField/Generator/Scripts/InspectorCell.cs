@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace BattleField.Generator{
     
@@ -6,6 +7,7 @@ namespace BattleField.Generator{
     public class InspectorCell
     {
         public bool isSelected;
+        public GameObject CellPrefab;
     }
 
     [Serializable]
