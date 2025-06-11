@@ -17,7 +17,7 @@ namespace BattleField.Generator
         [SerializeField, HideInInspector]
         public InspectorCell[,] _inspectorGrid;
         
-        private CellGenRule[,] _gridCache;
+        private GameObject[,] _gridCache;
         private Transform _gridParent;
 
         public void GenerateGrid()
@@ -26,7 +26,7 @@ namespace BattleField.Generator
 
             _gridParent = CreateNewGridContainer();
 
-            _gridCache = new CellGenRule[gridSize.x, gridSize.y];
+            _gridCache = new GameObject[gridSize.x, gridSize.y];
 
             for (int x = 0; x < gridSize.x; x++)
             {
@@ -40,7 +40,7 @@ namespace BattleField.Generator
                         
                         cell.CellPosition = new Vector2Int(x, y);
 
-                        _gridCache[x, y] = cell;
+                        _gridCache[x, y] = cell.gameObject;
                     }
                 }
             }
@@ -69,7 +69,8 @@ namespace BattleField.Generator
             } 
             return cell;
         }
-
+        
+        #if UNITY_EDITOR
         public void ClearGrid()
         {
             if (_gridCache == null) return;
@@ -79,9 +80,12 @@ namespace BattleField.Generator
                 if (cell != null) DestroyImmediate(cell);
             }
 
+            DestroyImmediate(_gridParent.gameObject);
+
             _gridCache = null;
         }
-
+        #endif
+        
         void OnValidate()
         {
             if (_inspectorGrid == null || _inspectorGrid.GetLength(0) != gridSize.x || _inspectorGrid.GetLength(1) != gridSize.y)
