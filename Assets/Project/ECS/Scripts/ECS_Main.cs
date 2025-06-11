@@ -15,11 +15,6 @@ public class ECS_Main : MonoBehaviour
         /*                   Move Future                  */
         /* ############################################## */
         SystemsGroup MoveFuture = _defaultWorld.CreateSystemsGroup();
-
-        MoveFuture.AddSystem(new MoveInputObserveSystem());
-        MoveFuture.AddSystem(new MoveSystem());
-        
-        _defaultWorld.AddSystemsGroup(0, MoveFuture);
     }
 
     
