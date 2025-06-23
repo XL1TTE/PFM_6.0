@@ -8,20 +8,10 @@ namespace BattleField.Generator{
         [SerializeField] public GameObject CellPrefab;
         [HideInInspector] public GameObject Cell;
 
-
-        public void OnValidate()
-        {
-            UnityEditor.EditorApplication.delayCall += SafeUpdateCall;
-        }
-
-        private void SafeUpdateCall()
-        {
-            if(this == null) {return;} 
-            UpdateCell();
-        }
-
         public void UpdateCell()
         {
+            if (this == null) { return; }
+
             DestroyCell();
             
             if(CellPrefab != null){
@@ -31,7 +21,10 @@ namespace BattleField.Generator{
             }
         }
 
-        private void OnDestroy() => DestroyCell();
+        private void OnDestroy()
+        {
+            DestroyCell();
+        }
 
         private void DestroyCell() {
             

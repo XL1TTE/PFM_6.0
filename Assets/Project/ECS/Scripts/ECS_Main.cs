@@ -11,10 +11,7 @@ public class ECS_Main : MonoBehaviour
     }
     void Start()
     {
-        /* ############################################## */
-        /*                   Move Future                  */
-        /* ############################################## */
-        SystemsGroup MoveFuture = _defaultWorld.CreateSystemsGroup();
+        SystemsGroup LogFuture = _defaultWorld.CreateSystemsGroup();
     }
 
     

@@ -5,6 +5,7 @@ using UnityEngine;
 namespace BattleField.Generator.Editor{
     #if UNITY_EDITOR
     
+    [CanEditMultipleObjects]
     [CustomEditor(typeof(CellGenRule))]
     public class CellGenRuleEditor : UnityEditor.Editor
     {
@@ -17,7 +18,11 @@ namespace BattleField.Generator.Editor{
             if (EditorGUI.EndChangeCheck())
             {
                 serializedObject.ApplyModifiedProperties();
-                ((CellGenRule)target).UpdateCell();
+                
+                foreach (var targetObject in targets)
+                {
+                    ((CellGenRule)targetObject).UpdateCell();
+                }
             }
 
             if (GUILayout.Button("Update Cell"))
