@@ -1,12 +1,28 @@
 using System;
 using System.Net;
+using Project.Domain;
+using Scellecs.Morpeh;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace BattleField.Generator{
     public class CellGenRule : MonoBehaviour{
-        [HideInInspector] public Vector2Int CellPosition;
+        [HideInInspector] public Vector2Int GridPosition;
+        [HideInInspector] public Vector3 WorldPosition;
         [SerializeField] public GameObject CellPrefab;
-        [HideInInspector] public GameObject Cell;
+        [HideInInspector] public GameObject CellCache;
+    
+        [HideInInspector] private Entity CellEntityCache;
+
+        void Start()
+        {
+            CellEntityCache = Domain.BattleField.CreateCellEntity(WorldPosition, GridPosition);
+        }
+
+        void OnDisable()
+        {
+            Domain.DeleteEntity(CellEntityCache);
+        }
 
         public void UpdateCell()
         {
@@ -15,9 +31,10 @@ namespace BattleField.Generator{
             DestroyCell();
             
             if(CellPrefab != null){
-                Cell = Instantiate(CellPrefab, transform.position, transform.rotation, transform);
-                Cell.name = "Cell";
-                Cell.hideFlags = HideFlags.NotEditable;
+                
+                CellCache = Instantiate(CellPrefab, transform.position, transform.rotation, transform);
+                CellCache.name = "Cell";
+                CellCache.hideFlags = HideFlags.NotEditable;
             }
         }
 
@@ -28,12 +45,12 @@ namespace BattleField.Generator{
 
         private void DestroyCell() {
             
-            if (Cell != null)
+            if (CellCache != null)
             {
                 if (Application.isPlaying)
-                    Destroy(Cell);
+                    Destroy(CellCache);
                 else
-                    DestroyImmediate(Cell);
+                    DestroyImmediate(CellCache);
             }
         }
 

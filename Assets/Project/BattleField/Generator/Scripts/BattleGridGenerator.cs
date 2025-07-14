@@ -36,9 +36,10 @@ namespace BattleField.Generator
                     {
                         var position = CalculateFieldPosition(x, y, CellsGap);
                         
-                        var cell = CreateCell(position, $"Cell ({x}, {y})");
+                        var cell = CreateCellGenRule(position, $"Cell ({x}, {y})");
                         
-                        cell.CellPosition = new Vector2Int(x, y);
+                        cell.GridPosition = new Vector2Int(x, y);
+                        cell.WorldPosition = position;
 
                         _gridCache[x, y] = cell.gameObject;
                     }
@@ -62,12 +63,12 @@ namespace BattleField.Generator
                 0
             );
         }
-        private CellGenRule CreateCell(Vector3 position, string cellName = null){
-            var cell = Instantiate(CellGenRulePrefab, position, Quaternion.identity, _gridParent);
+        private CellGenRule CreateCellGenRule(Vector3 position, string cellName = null){
+            var cellGenRule = Instantiate(CellGenRulePrefab, position, Quaternion.identity, _gridParent);
             if(cellName != null){
-                cell.name = cellName;
+                cellGenRule.name = cellName;
             } 
-            return cell;
+            return cellGenRule;
         }
         
         #if UNITY_EDITOR

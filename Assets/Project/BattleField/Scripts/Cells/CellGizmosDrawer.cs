@@ -2,13 +2,14 @@ using UnityEngine;
 
 namespace BattleField.Cells
 {
-    public class EnemySpawnCellGizmosDrawer : MonoBehaviour
+    public class CellGizmosDrawer : MonoBehaviour
     {
+        [SerializeField] private Color GizmosColor;
+        
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-
-            Gizmos.color = Color.red;
+            Gizmos.color = GizmosColor;
             Vector3 center = transform.position;
             Vector3 size = Vector3.one;
             Gizmos.DrawCube(center, size);

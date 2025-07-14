@@ -209,8 +209,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2936810101512510055}
-  - component: {fileID: 5603565892283461544}
-  - component: {fileID: 7600278217907347942}
   m_Layer: 0
   m_Name: p_StandartCell
   m_TagString: Untagged
@@ -235,30 +233,3 @@ Transform:
   - {fileID: 3399115397119676697}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5603565892283461544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5595998051278696528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b061a85488e92714abf6411e875916b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7600278217907347942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5595998051278696528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 297d90ad15ee99042854d44b8bd5c03c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializedData:
-    x: 0
-    y: 0
