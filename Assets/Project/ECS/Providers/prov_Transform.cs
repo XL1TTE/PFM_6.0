@@ -1,11 +1,11 @@
-using System;
-using ECS.Components;
+using ECS.Components.Monsters;
 using Scellecs.Morpeh.Providers;
 using Unity.IL2CPP.CompilerServices;
 
 [Il2CppSetOption(Option.NullChecks, false)]
 [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
 [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-public sealed class Provider_TagBattleFieldCell : MonoProvider<TagBattleFieldCell>{
+public sealed class prov_Transform : MonoProvider<TransformComponent> 
+{
     
 }

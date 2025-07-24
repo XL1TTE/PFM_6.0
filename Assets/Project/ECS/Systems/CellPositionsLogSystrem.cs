@@ -1,9 +1,6 @@
 
-using System.Diagnostics;
 using ECS.Components;
-using Project.Domain;
 using Scellecs.Morpeh;
-using Unity.VisualScripting;
 
 namespace ECS.Systems{
 
@@ -18,16 +15,16 @@ namespace ECS.Systems{
         public World World { get; set; }
 
         private Filter _entities; 
-        private Stash<BattleFieldCellPosition> _cellPositions;
+        private Stash<CellPositionComponent> _cellPositions;
 
         public void OnAwake()
         {
             _entities = World.Filter
                 .With<TagBattleFieldCell>()
-                .With<BattleFieldCellPosition>()
+                .With<CellPositionComponent>()
                 .Build();
                 
-            _cellPositions = World.GetStash<BattleFieldCellPosition>();
+            _cellPositions = World.GetStash<CellPositionComponent>();
         }
 
         public void OnUpdate(float deltaTime)

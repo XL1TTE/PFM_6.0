@@ -1,0 +1,65 @@
+using System.Collections;
+using ECS.Requests;
+using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
+using UnityUtilities;
+using UnityUtilities.UnityResources;
+
+[Il2CppSetOption(Option.NullChecks, false)]
+[Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+[Il2CppSetOption(Option.DivideByZeroChecks, false)]
+public sealed class PlanningStageHandleSystem : ISystem 
+{
+    public World World { get; set;}
+    
+    private Request<PlanningStageEnterRequest> _enterRequest;
+
+    public void OnAwake() 
+    {
+        _enterRequest = World.GetRequest<PlanningStageEnterRequest>();
+    }
+
+    public void OnUpdate(float deltaTime) 
+    {
+        foreach(var req in _enterRequest.Consume()){
+            EnterHandle();
+        }
+    }
+
+    public void Dispose()
+    {
+
+    }
+    
+    private void EnterHandle(){
+        RellayCoroutiner.RellayCoroutine(EnterHandleCoroutine());
+    }
+    
+    private void ExitHandle(){
+        
+    }
+    
+    
+    private IEnumerator EnterHandleCoroutine(){
+        
+        /* ############################################## */
+        /*                     Notify                     */
+        /* ############################################## */
+        
+        var notifier = Object.Instantiate(UnityResources.NotifyController);
+        notifier.ShowMessage("Стадия подготовки!");
+        yield return new WaitForSeconds(1.5f);
+        notifier.HideMessage();
+
+        /* ############################################## */
+        /*           Pre-spawn monsters request           */
+        /* ############################################## */
+
+        var genMonsterReq = World.Default.GetRequest<GenerateMonstersRequest>();
+
+        genMonsterReq.Publish(new GenerateMonstersRequest{
+            MosntersCount = 2
+        }, true);
+    }
+}

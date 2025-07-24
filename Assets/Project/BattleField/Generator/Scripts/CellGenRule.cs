@@ -1,22 +1,25 @@
-using System;
-using System.Net;
-using Project.Domain;
+
+using System.Collections;
+using Project;
 using Scellecs.Morpeh;
-using Unity.VisualScripting;
+using Scellecs.Morpeh.Providers;
 using UnityEngine;
+using UnityUtilities;
 
 namespace BattleField.Generator{
     public class CellGenRule : MonoBehaviour{
         [HideInInspector] public Vector2Int GridPosition;
-        [HideInInspector] public Vector3 WorldPosition;
         [SerializeField] public GameObject CellPrefab;
-        [HideInInspector] public GameObject CellCache;
+        [SerializeField] public GameObject CellCache;
     
         [HideInInspector] private Entity CellEntityCache;
 
         void Start()
-        {
-            CellEntityCache = Domain.BattleField.CreateCellEntity(WorldPosition, GridPosition);
+        {   
+            if(CellCache == null || !CellCache.TryFindComponent<EntityProvider>(out var unknown)){return;}
+            Entity entity =  unknown.Entity;
+            
+            CellEntityCache = Domain.BattleField.SetupCellEntity(entity, gameObject.transform.position, GridPosition);
         }
 
         void OnDisable()
@@ -34,7 +37,6 @@ namespace BattleField.Generator{
                 
                 CellCache = Instantiate(CellPrefab, transform.position, transform.rotation, transform);
                 CellCache.name = "Cell";
-                CellCache.hideFlags = HideFlags.NotEditable;
             }
         }
 

@@ -3,7 +3,7 @@ using Scellecs.Morpeh;
 
 namespace ECS.Components{
     [Serializable]
-    public struct BattleFieldCellPosition: IComponent{
+    public struct CellPositionComponent: IComponent{
         public int grid_x;
         public int grid_y;
         

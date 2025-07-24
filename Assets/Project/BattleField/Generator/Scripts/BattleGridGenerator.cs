@@ -34,13 +34,12 @@ namespace BattleField.Generator
                 {
                     if (_inspectorGrid[x, y].isSelected)
                     {
-                        var position = CalculateFieldPosition(x, y, CellsGap);
+                        var Position = CalculateCellPosition(x, y, CellsGap);
                         
-                        var cell = CreateCellGenRule(position, $"Cell ({x}, {y})");
+                        var cell = CreateCellGenRule(Position, $"Cell ({x}, {y})");
                         
                         cell.GridPosition = new Vector2Int(x, y);
-                        cell.WorldPosition = position;
-
+                        
                         _gridCache[x, y] = cell.gameObject;
                     }
                 }
@@ -53,7 +52,7 @@ namespace BattleField.Generator
             return container.transform;
         }
         
-        private Vector3 CalculateFieldPosition(int x, int y, float cellSize) {
+        private Vector3 CalculateCellPosition(int x, int y, float cellSize) {
             float offsetX = (gridSize.x - 1) * cellSize * 0.5f;
             float offsetY = (gridSize.y - 1) * cellSize * 0.5f;
 
@@ -85,7 +84,7 @@ namespace BattleField.Generator
 
             _gridCache = null;
         }
-        #endif
+
         
         void OnValidate()
         {
@@ -101,6 +100,8 @@ namespace BattleField.Generator
                 }
             }
         }
+
+        #endif
     }
 
 }

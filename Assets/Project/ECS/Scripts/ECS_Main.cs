@@ -1,5 +1,4 @@
 using ECS.Systems;
-using Project.Domain;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -13,10 +12,20 @@ public class ECS_Main : MonoBehaviour
     }
     void Start()
     {
-        SystemsGroup LogFuture = _defaultWorld.CreateSystemsGroup();
-        LogFuture.AddSystem(new CellPositionLogSystem(10));
+        
+        SystemsGroup BattleStageHandlerSystemGroup = _defaultWorld.CreateSystemsGroup();
+        BattleStageHandlerSystemGroup.AddSystem(new PlanningStageHandleSystem());
 
-        _defaultWorld.AddSystemsGroup(0, LogFuture);
+        SystemsGroup MonsterSpawnSystemGroup = _defaultWorld.CreateSystemsGroup();
+        MonsterSpawnSystemGroup.AddSystem(new MonstersSpawnRequestSystem());
+        MonsterSpawnSystemGroup.AddSystem(new MonsterSpawnSystem());
+
+        SystemsGroup CellsSystemGroup = _defaultWorld.CreateSystemsGroup();
+        CellsSystemGroup.AddSystem(new CellOccupySystem());
+
+        _defaultWorld.AddSystemsGroup(0, BattleStageHandlerSystemGroup);
+        _defaultWorld.AddSystemsGroup(1, MonsterSpawnSystemGroup);
+        _defaultWorld.AddSystemsGroup(2, CellsSystemGroup);
     }
 
     
