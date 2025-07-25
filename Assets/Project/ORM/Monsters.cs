@@ -19,8 +19,10 @@ namespace Project
                     //Arrange
                     Scellecs.Morpeh.Entity entity = _ecsWorld.CreateEntity();
 
+                    Stash<TagMonster> MonstersStash = _ecsWorld.GetStash<TagMonster>();
                     Stash<SpriteComponent> SpriteStash = _ecsWorld.GetStash<SpriteComponent>();
                     Stash<TransformComponent> TransformStash = _ecsWorld.GetStash<TransformComponent>();
+                    Stash<DraggableComponent> DraggableStash = _ecsWorld.GetStash<DraggableComponent>();
                     
                     GameObject Prefab = PrefabPath.LoadResource<GameObject>();
                     
@@ -28,10 +30,13 @@ namespace Project
                     GameObject monster = UnityEngine.Object.Instantiate(Prefab);
                     
                     ref SpriteComponent c_Sprite = ref SpriteStash.Add(entity);
+                    TagMonster c_Monster = MonstersStash.Add(entity);
                     ref TransformComponent c_Transform = ref TransformStash.Add(entity);
-                    
-                    Prefab.TryFindComponent(out c_Sprite.Sprite);
+                    ref DraggableComponent c_Draggable = ref DraggableStash.Add(entity);
+
+                    monster.TryFindComponent(out c_Sprite.Sprite);
                     c_Transform.Transform = monster.transform;
+                    monster.TryFindComponent(out c_Draggable.Draggable);
 
                     return entity;
                 } 

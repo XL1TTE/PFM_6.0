@@ -487,7 +487,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46f9398cc0f6d449afec974ce97619c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MonsterCountToSpawn: 4
 --- !u!4 &775716198
 Transform:
   m_ObjectHideFlags: 0

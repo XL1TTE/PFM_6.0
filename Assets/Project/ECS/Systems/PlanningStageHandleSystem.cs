@@ -61,5 +61,20 @@ public sealed class PlanningStageHandleSystem : ISystem
         genMonsterReq.Publish(new GenerateMonstersRequest{
             MosntersCount = 2
         }, true);
+
+        /* ############################################## */
+        /*         Hightlight monster spawn cells         */
+        /* ############################################## */
+
+        var highlightMonsterSpawnCellsReq = World.Default.GetRequest<EnableMonsterSpawnCellsHighlightRequest>();
+
+        highlightMonsterSpawnCellsReq.Publish(new EnableMonsterSpawnCellsHighlightRequest{}, true);
+
+        /* ############################################## */
+        /*       Enable drag behaviour for monsters       */
+        /* ############################################## */
+
+        var monsterDragEnableReq = World.Default.GetRequest<EnableMonsterDragRequest>();
+        monsterDragEnableReq.Publish(new EnableMonsterDragRequest{}, true);
     }
 }

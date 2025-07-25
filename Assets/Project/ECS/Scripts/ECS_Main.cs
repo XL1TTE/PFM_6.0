@@ -19,13 +19,18 @@ public class ECS_Main : MonoBehaviour
         SystemsGroup MonsterSpawnSystemGroup = _defaultWorld.CreateSystemsGroup();
         MonsterSpawnSystemGroup.AddSystem(new MonstersSpawnRequestSystem());
         MonsterSpawnSystemGroup.AddSystem(new MonsterSpawnSystem());
+        
+        SystemsGroup MonsterFitures = _defaultWorld.CreateSystemsGroup();
+        MonsterFitures.AddSystem(new MonsterDragHandleSystem());
 
         SystemsGroup CellsSystemGroup = _defaultWorld.CreateSystemsGroup();
         CellsSystemGroup.AddSystem(new CellOccupySystem());
+        CellsSystemGroup.AddSystem(new HighlightSpawnCellSystem());
 
         _defaultWorld.AddSystemsGroup(0, BattleStageHandlerSystemGroup);
         _defaultWorld.AddSystemsGroup(1, MonsterSpawnSystemGroup);
-        _defaultWorld.AddSystemsGroup(2, CellsSystemGroup);
+        _defaultWorld.AddSystemsGroup(2, MonsterFitures);
+        _defaultWorld.AddSystemsGroup(3, CellsSystemGroup);
     }
 
     

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3399115397119676697}
   - component: {fileID: 4096734384576118537}
   - component: {fileID: 7144388237262908289}
+  - component: {fileID: 2435313527233160313}
   m_Layer: 0
   m_Name: CellView
   m_TagString: Untagged
@@ -100,6 +101,19 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_SortAtRoot: 0
+--- !u!114 &2435313527233160313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908443901035298307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eea98d823992ea43b55802b06c644f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _renderer: {fileID: 4096734384576118537}
 --- !u!1 &5595998051278696528
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,6 +125,7 @@ GameObject:
   - component: {fileID: 2936810101512510055}
   - component: {fileID: 1725358881422126254}
   - component: {fileID: 1879159825869935943}
+  - component: {fileID: 4854909746106289406}
   m_Layer: 0
   m_Name: p_PoisonedCell
   m_TagString: Untagged
@@ -163,3 +178,17 @@ MonoBehaviour:
     grid_y: 0
     global_x: 0
     global_y: 0
+--- !u!114 &4854909746106289406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5595998051278696528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa9b410de9716344898d7ae928dae4e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    Sprite: {fileID: 2435313527233160313}
