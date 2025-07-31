@@ -3,8 +3,7 @@ using Scellecs.Morpeh;
 
 namespace ECS.Events
 {
-    public struct CellOccupiedEvent : IEventData{
+    public struct CellUnoccupiedEvent: IEventData{
         public Entity CellEntity;
-        public Entity OccupiedBy;
     }
 }

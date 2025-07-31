@@ -15,7 +15,7 @@ public sealed class MonsterSpawnSystem : ISystem
     public World World { get; set;}
     
     private Stash<CellPositionComponent> _cellPositionStash;
-    private Stash<TransformComponent> _monsterTransformStash;
+    private Stash<TransformRefComponent> _monsterTransformStash;
 
     private Request<SpawnNewMonsterRequest> _spawnRequests;
     private Event<CellOccupiedEvent> _cellOccupiedEvent;
@@ -24,7 +24,7 @@ public sealed class MonsterSpawnSystem : ISystem
     {
         
         _cellPositionStash = World.GetStash<CellPositionComponent>();
-        _monsterTransformStash = World.GetStash<TransformComponent>();
+        _monsterTransformStash = World.GetStash<TransformRefComponent>();
 
         _spawnRequests = World.GetRequest<SpawnNewMonsterRequest>();
         _cellOccupiedEvent = World.GetEvent<CellOccupiedEvent>();
@@ -51,11 +51,13 @@ public sealed class MonsterSpawnSystem : ISystem
             throw new Exception("Monster entity does not have a transform component. Can't spawn monster without it!");
         }
         ref var monsterTransform = ref _monsterTransformStash.Get(monster);
-        monsterTransform.Transform.position = 
+        monsterTransform.TransformRef.position = 
             new UnityEngine.Vector3(cellPos.global_x, cellPos.global_y, 0);
 
         _cellOccupiedEvent.NextFrame(new CellOccupiedEvent{
-            CellEntity = req.CellEntity
+            CellEntity = req.CellEntity,
+            OccupiedBy = monster
         });
+        
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections;
+using ECS.Components;
 using ECS.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -14,10 +15,19 @@ public sealed class PlanningStageHandleSystem : ISystem
     public World World { get; set;}
     
     private Request<PlanningStageEnterRequest> _enterRequest;
+    
+    private Filter _monsterSpawnCells;
+    private Stash<DropTargetComponent> stash_dropTarget;
 
     public void OnAwake() 
     {
         _enterRequest = World.GetRequest<PlanningStageEnterRequest>();
+
+        _monsterSpawnCells = World.Filter
+            .With<TagMonsterSpawnCell>()
+            .Build();
+
+        stash_dropTarget = World.GetStash<DropTargetComponent>();
     }
 
     public void OnUpdate(float deltaTime) 
@@ -70,11 +80,5 @@ public sealed class PlanningStageHandleSystem : ISystem
 
         highlightMonsterSpawnCellsReq.Publish(new EnableMonsterSpawnCellsHighlightRequest{}, true);
 
-        /* ############################################## */
-        /*       Enable drag behaviour for monsters       */
-        /* ############################################## */
-
-        var monsterDragEnableReq = World.Default.GetRequest<EnableMonsterDragRequest>();
-        monsterDragEnableReq.Publish(new EnableMonsterDragRequest{}, true);
     }
 }

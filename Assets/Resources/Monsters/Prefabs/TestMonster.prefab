@@ -113,8 +113,6 @@ GameObject:
   - component: {fileID: 6035625992064192494}
   - component: {fileID: 891918237054815150}
   - component: {fileID: 8582914921812687018}
-  - component: {fileID: 2681093343547101699}
-  - component: {fileID: 5573630963530886397}
   m_Layer: 0
   m_Name: TestMonster
   m_TagString: Untagged
@@ -209,31 +207,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &2681093343547101699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8685494470264504936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a276e719a589145ad77f7f540b58ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5573630963530886397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8685494470264504936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89323706633c2ba45a2481e7301ff6ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDragging: 0
-  m_Collider: {fileID: 0}
-  dampingSpeed: 10
-  zDepth: -10

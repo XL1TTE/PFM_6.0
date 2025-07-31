@@ -12,7 +12,6 @@ public class ECS_Main : MonoBehaviour
     }
     void Start()
     {
-        
         SystemsGroup BattleStageHandlerSystemGroup = _defaultWorld.CreateSystemsGroup();
         BattleStageHandlerSystemGroup.AddSystem(new PlanningStageHandleSystem());
 
@@ -20,8 +19,16 @@ public class ECS_Main : MonoBehaviour
         MonsterSpawnSystemGroup.AddSystem(new MonstersSpawnRequestSystem());
         MonsterSpawnSystemGroup.AddSystem(new MonsterSpawnSystem());
         
-        SystemsGroup MonsterFitures = _defaultWorld.CreateSystemsGroup();
-        MonsterFitures.AddSystem(new MonsterDragHandleSystem());
+        SystemsGroup DragAndDropSystemGroup = _defaultWorld.CreateSystemsGroup();
+        DragAndDropSystemGroup.AddSystem(new CursorDetectionSystem());
+        DragAndDropSystemGroup.AddSystem(new DragInputSystem());
+        DragAndDropSystemGroup.AddSystem(new DragStartSystem());
+        DragAndDropSystemGroup.AddSystem(new DragProcessSystem());
+        DragAndDropSystemGroup.AddSystem(new DragEndSystem());
+
+        SystemsGroup DragAndDropEventsHandlers = _defaultWorld.CreateSystemsGroup();
+        DragAndDropEventsHandlers.AddSystem(new MonsterSpawnCellDropValidataionSystem());
+        DragAndDropEventsHandlers.AddSystem(new DragAndDropCleanupSystem());
 
         SystemsGroup CellsSystemGroup = _defaultWorld.CreateSystemsGroup();
         CellsSystemGroup.AddSystem(new CellOccupySystem());
@@ -29,14 +36,16 @@ public class ECS_Main : MonoBehaviour
 
         _defaultWorld.AddSystemsGroup(0, BattleStageHandlerSystemGroup);
         _defaultWorld.AddSystemsGroup(1, MonsterSpawnSystemGroup);
-        _defaultWorld.AddSystemsGroup(2, MonsterFitures);
-        _defaultWorld.AddSystemsGroup(3, CellsSystemGroup);
+        _defaultWorld.AddSystemsGroup(2, DragAndDropSystemGroup);
+        _defaultWorld.AddSystemsGroup(3, DragAndDropEventsHandlers);
+        _defaultWorld.AddSystemsGroup(4, CellsSystemGroup);
     }
 
     
     void Update()
     {
         _defaultWorld.Update(Time.deltaTime);
+        _defaultWorld.CleanupUpdate(Time.deltaTime);
         _defaultWorld.Commit();
     }
     

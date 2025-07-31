@@ -13,6 +13,8 @@ namespace Project{
             {
                 Stash<CellPositionComponent> CellPositions = _ecsWorld.GetStash<CellPositionComponent>();
 
+                if(!CellPositions.Has(entity)){return entity;}
+
                 // Act
                 ref var CellPosition = ref CellPositions.Get(entity);
                 CellPosition.global_x = global_position.x;

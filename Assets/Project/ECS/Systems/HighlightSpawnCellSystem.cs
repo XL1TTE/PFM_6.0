@@ -3,6 +3,7 @@ using ECS.Components.Monsters;
 using ECS.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,6 +22,9 @@ public sealed class HighlightSpawnCellSystem : ISystem
     private Stash<SpriteComponent> _spriteStash;
     
     
+    private Stash<DropTargetComponent> stash_dropTarget;
+    
+    
     private float _colorIntensityMultiplier = 1.2f;
 
 
@@ -35,6 +39,7 @@ public sealed class HighlightSpawnCellSystem : ISystem
             .Build();
 
         _spriteStash = World.GetStash<SpriteComponent>();
+        stash_dropTarget = World.GetStash<DropTargetComponent>();
     }
 
     public void OnUpdate(float deltaTime) 
@@ -54,9 +59,11 @@ public sealed class HighlightSpawnCellSystem : ISystem
                             color.b * _colorIntensityMultiplier,
                             color.a);
                 
-                sprite.SetColor(newColor);       
+                sprite.SetColor(newColor);     
                 
             }
+
+            MakeCellsDropTargets();
         }
 
         // disable highlight
@@ -82,5 +89,16 @@ public sealed class HighlightSpawnCellSystem : ISystem
     public void Dispose()
     {
 
+    }
+    
+    
+    private void MakeCellsDropTargets(){
+        foreach (var e in _spawnCells)
+        {
+            if(!stash_dropTarget.Has(e)){
+                ref var dropTarget = ref stash_dropTarget.Add(e);
+                dropTarget.DropRadius = 1.0f;
+            }
+        }
     }
 }

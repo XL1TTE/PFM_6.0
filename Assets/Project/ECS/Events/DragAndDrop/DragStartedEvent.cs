@@ -1,11 +1,11 @@
-using ECS.Components.Monsters;
-using Scellecs.Morpeh.Providers;
+using Scellecs.Morpeh;
+using UnityEngine;
 using Unity.IL2CPP.CompilerServices;
 
+[System.Serializable]
 [Il2CppSetOption(Option.NullChecks, false)]
 [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
 [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-public sealed class prov_Transform : MonoProvider<TransformComponent> 
-{
-    
+public struct DragStartedEvent : IEventData {
+    public Entity DraggedEntity;
 }

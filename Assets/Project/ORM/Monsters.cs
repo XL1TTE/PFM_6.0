@@ -1,10 +1,8 @@
 
 
-using System.Collections;
-using ECS.Components;
+
 using ECS.Components.Monsters;
 using Scellecs.Morpeh;
-using Scellecs.Morpeh.Providers;
 using UnityEngine;
 using UnityUtilities;
 
@@ -21,7 +19,7 @@ namespace Project
 
                     Stash<TagMonster> MonstersStash = _ecsWorld.GetStash<TagMonster>();
                     Stash<SpriteComponent> SpriteStash = _ecsWorld.GetStash<SpriteComponent>();
-                    Stash<TransformComponent> TransformStash = _ecsWorld.GetStash<TransformComponent>();
+                    Stash<TransformRefComponent> TransformRefStash = _ecsWorld.GetStash<TransformRefComponent>();
                     Stash<DraggableComponent> DraggableStash = _ecsWorld.GetStash<DraggableComponent>();
                     
                     GameObject Prefab = PrefabPath.LoadResource<GameObject>();
@@ -31,13 +29,16 @@ namespace Project
                     
                     ref SpriteComponent c_Sprite = ref SpriteStash.Add(entity);
                     TagMonster c_Monster = MonstersStash.Add(entity);
-                    ref TransformComponent c_Transform = ref TransformStash.Add(entity);
+                    ref TransformRefComponent c_Transform = ref TransformRefStash.Add(entity);
                     ref DraggableComponent c_Draggable = ref DraggableStash.Add(entity);
+                    
 
                     monster.TryFindComponent(out c_Sprite.Sprite);
-                    c_Transform.Transform = monster.transform;
-                    monster.TryFindComponent(out c_Draggable.Draggable);
+                    c_Transform.TransformRef = monster.transform;            
 
+                    c_Draggable.PickRadius = 1.0f;
+                    
+                    
                     return entity;
                 } 
             }    

@@ -126,6 +126,8 @@ GameObject:
   - component: {fileID: 1725358881422126254}
   - component: {fileID: 1879159825869935943}
   - component: {fileID: 4854909746106289406}
+  - component: {fileID: 7410830658018233798}
+  - component: {fileID: 8794350590607283928}
   m_Layer: 0
   m_Name: p_PoisonedCell
   m_TagString: Untagged
@@ -192,3 +194,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     Sprite: {fileID: 2435313527233160313}
+--- !u!114 &7410830658018233798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5595998051278696528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b3a13c6126e06b4cb4fd3f4dba28811, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8794350590607283928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5595998051278696528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ebec39ca30d444f81d8db903cfa042, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    TransformRef: {fileID: 2936810101512510055}
