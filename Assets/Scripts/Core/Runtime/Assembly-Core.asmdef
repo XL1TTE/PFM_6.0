@@ -1,0 +1,18 @@
+{
+    "name": "Assembly-Core",
+    "rootNamespace": "Core",
+    "references": [
+        "GUID:3377deebfb0acde45876d12c6e3d27cc",
+        "GUID:76aaf6ae431c0d7458029595e33f13b2",
+        "GUID:b081ec9d25fb287409e8b40d1ac3604d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
