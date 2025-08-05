@@ -55,7 +55,7 @@ namespace Gameplay.Features.DragAndDrop.Systems{
                 ref var state = ref stash_dragState.Get(entity);
                 ref var transform = ref stash_transformRef.Get(entity).TransformRef;
 
-                transform.position = mouseWorldPos + state.Offset;
+                transform.position = mouseWorldPos;
                 // adds offset for fix z-fighting
                 transform.position += new Vector3(0, 0, -5);
 

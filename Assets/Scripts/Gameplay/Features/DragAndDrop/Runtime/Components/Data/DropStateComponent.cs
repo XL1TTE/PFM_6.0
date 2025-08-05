@@ -1,17 +1,14 @@
 using Scellecs.Morpeh;
-using UnityEngine;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Gameplay.Features.DragAndDrop.Requests{
+namespace Gameplay.Features.DragAndDrop.Components{
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct StartDragRequest : IRequestData
+    public struct DropStateComponent : IComponent
     {
-        public Entity DraggedEntity;
-        public Vector3 ClickWorldPos;
-        public Vector3 StartPosition;
+        public bool WasHandled;
     }
 }
 

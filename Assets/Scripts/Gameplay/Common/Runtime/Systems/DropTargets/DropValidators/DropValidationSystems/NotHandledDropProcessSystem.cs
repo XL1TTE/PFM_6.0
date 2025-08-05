@@ -1,20 +1,23 @@
+using Core.Components;
 using Gameplay.Features.DragAndDrop.Components;
 using Gameplay.Features.DragAndDrop.Events;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
-namespace Gameplay.Features.DragAndDrop.Systems{
+namespace Gameplay.Common.Systems{
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class DragAndDropCleanupSystem : ISystem
+    public sealed class NotHandledDropProcessSystem : ISystem
     {
         public World World { get; set; }
 
         private Event<DragEndedEvent> evt_dragEnded;
 
+        private Stash<TransformRefComponent> stash_transformRef;
         private Stash<DragStateComponent> stash_dragState;
-        private Stash<CurrentDragTargetComponent> stash_currentDragTarget;
+
         private Stash<DropStateComponent> stash_dropState;
 
 
@@ -23,23 +26,34 @@ namespace Gameplay.Features.DragAndDrop.Systems{
             evt_dragEnded = World.GetEvent<DragEndedEvent>();
 
             stash_dragState = World.GetStash<DragStateComponent>();
-            stash_currentDragTarget = World.GetStash<CurrentDragTargetComponent>();
+            stash_transformRef = World.GetStash<TransformRefComponent>();
+
             stash_dropState = World.GetStash<DropStateComponent>();
+
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach (var evt in evt_dragEnded.publishedChanges)
-            {
-                stash_currentDragTarget.Remove(evt.DraggedEntity);
-                stash_dragState.Remove(evt.DraggedEntity);
-                stash_dropState.Remove(evt.DraggedEntity);
+            foreach(var evt in evt_dragEnded.publishedChanges){
+                if(stash_dropState.Get(evt.DraggedEntity).WasHandled == false)
+                {
+                    ReturnToStartPosition(evt.DraggedEntity);
+                }
             }
         }
 
         public void Dispose()
         {
 
+        }
+
+        private void ReturnToStartPosition(Entity draggedEntity)
+        {
+            Vector3 originPos = stash_dragState.Get(draggedEntity).StartWorldPos;
+
+            ref var transform = ref stash_transformRef.Get(draggedEntity).TransformRef;
+
+            transform.position = originPos;
         }
     }
 

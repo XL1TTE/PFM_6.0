@@ -43,6 +43,7 @@ namespace Gameplay.Common.Mono{
 
             SystemsGroup DragAndDropEventsHandlers = _defaultWorld.CreateSystemsGroup();
             DragAndDropEventsHandlers.AddSystem(new MonsterSpawnCellDropValidataionSystem());
+            DragAndDropEventsHandlers.AddSystem(new NotHandledDropProcessSystem());
             DragAndDropEventsHandlers.AddSystem(new DragAndDropCleanupSystem());
 
             SystemsGroup CellsSystemGroup = _defaultWorld.CreateSystemsGroup();

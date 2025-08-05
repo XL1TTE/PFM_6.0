@@ -1,3 +1,4 @@
+using Core.Components;
 using Gameplay.Features.DragAndDrop.Components;
 using Gameplay.Features.DragAndDrop.Requests;
 using Scellecs.Morpeh;
@@ -13,29 +14,39 @@ namespace Gameplay.Features.DragAndDrop.Systems{
         public World World { get; set; }
 
         private Filter _underCursor;
-
-        private bool isClicked = false;
-
+        
+        private Filter _dragState;
+        
         private Request<StartDragRequest> req_startDrag;
         private Request<EndDragRequest> req_endDrag;
 
         private Stash<UnderCursorComponent> stash_underCursor;
+        private Stash<TransformRefComponent> stash_transformRef;
 
         public void OnAwake()
         {
-            _underCursor = World.Filter.With<UnderCursorComponent>().Build();
+            _underCursor = World.Filter
+                .With<UnderCursorComponent>()
+                .With<DraggableComponent>()
+                .With<TransformRefComponent>()
+                .Build();
+
+            _dragState = World.Filter
+                .With<DragStateComponent>()
+                .Build();
 
             req_startDrag = World.GetRequest<StartDragRequest>();
             req_endDrag = World.GetRequest<EndDragRequest>();
 
             stash_underCursor = World.GetStash<UnderCursorComponent>();
+            stash_transformRef = World.GetStash<TransformRefComponent>();
         }
 
         public void OnUpdate(float deltaTime)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (!isClicked)
+                if (_dragState.IsEmpty())
                 {
 
                     foreach (var entity in _underCursor)
@@ -43,16 +54,15 @@ namespace Gameplay.Features.DragAndDrop.Systems{
                         req_startDrag.Publish(new StartDragRequest
                         {
                             DraggedEntity = entity,
-                            ClickWorldPos = stash_underCursor.Get(entity).HitPoint
+                            ClickWorldPos = stash_underCursor.Get(entity).HitPoint,
+                            StartPosition = stash_transformRef.Get(entity).TransformRef.position
                         });
-                        isClicked = true;
                         break;
                     }
                 }
                 else
                 {
                     req_endDrag.Publish(new EndDragRequest { });
-                    isClicked = false;
                 }
             }
 

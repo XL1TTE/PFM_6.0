@@ -45,7 +45,7 @@ namespace Gameplay.Features.DragAndDrop.Systems{
 
                     stash_dragState.Add(draggedEntity, new DragStateComponent
                     {
-                        StartWorldPos = transform.position,
+                        StartWorldPos = req.StartPosition,
                         Offset = offset,
                         StartParent = transform.parent
                     });
