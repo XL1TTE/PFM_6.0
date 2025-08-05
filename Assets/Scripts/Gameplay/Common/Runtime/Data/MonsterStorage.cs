@@ -6,7 +6,7 @@ using Gameplay.Features.Monster.Components;
 using Scellecs.Morpeh;
 using UnityEngine;
 
-namespace Gameplay.Features.Monster.Data
+namespace Gameplay.Common
 {
     public static class MonsterStorage
     {

@@ -2,7 +2,6 @@ using System;
 using Core.Components;
 using Gameplay.Features.BattleField.Components;
 using Gameplay.Features.BattleField.Events;
-using Gameplay.Features.Monster.Data;
 using Gameplay.Features.Monster.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;

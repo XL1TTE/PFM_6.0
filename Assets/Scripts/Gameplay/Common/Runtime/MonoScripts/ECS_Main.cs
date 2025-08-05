@@ -13,11 +13,23 @@ namespace Gameplay.Common.Mono{
             _defaultWorld = World.Default;
             _defaultWorld.UpdateByUnity = false;
         }
+
         void Start()
         {
-            SystemsGroup BattleStageHandlerSystemGroup = _defaultWorld.CreateSystemsGroup();
-            BattleStageHandlerSystemGroup.AddSystem(new PlanningStageHandleSystem());
+            ConfigureSystems();
+        }
 
+        private void ConfigureSystems()
+        {
+            SystemsGroup StateMachineSystemGroup = _defaultWorld.CreateSystemsGroup();
+            StateMachineSystemGroup.AddInitializer(new StateMachineInitializer());
+            StateMachineSystemGroup.AddSystem(new StateMachineSystem());
+            StateMachineSystemGroup.AddSystem(new StateTransitionSystem());
+
+            SystemsGroup BattlePlanningState = _defaultWorld.CreateSystemsGroup();
+            StateMachineSystemGroup.AddInitializer(new BattlePlanningStateInitializer());
+            StateMachineSystemGroup.AddSystem(new BattlePlanningStateEnterSystem());
+ 
             SystemsGroup MonsterSpawnSystemGroup = _defaultWorld.CreateSystemsGroup();
             MonsterSpawnSystemGroup.AddSystem(new MonstersSpawnRequestSystem());
             MonsterSpawnSystemGroup.AddSystem(new MonsterSpawnSystem());
@@ -40,12 +52,13 @@ namespace Gameplay.Common.Mono{
             SystemsGroup MarkSystems = _defaultWorld.CreateSystemsGroup();
             MarkSystems.AddSystem(new DropTargetMarkSystem());
 
-            _defaultWorld.AddSystemsGroup(0, BattleStageHandlerSystemGroup);
-            _defaultWorld.AddSystemsGroup(1, MonsterSpawnSystemGroup);
-            _defaultWorld.AddSystemsGroup(2, DragAndDropSystemGroup);
-            _defaultWorld.AddSystemsGroup(3, DragAndDropEventsHandlers);
-            _defaultWorld.AddSystemsGroup(4, CellsSystemGroup);
-            _defaultWorld.AddSystemsGroup(5, MarkSystems);
+            _defaultWorld.AddSystemsGroup(0, StateMachineSystemGroup);
+            _defaultWorld.AddSystemsGroup(1, BattlePlanningState);
+            _defaultWorld.AddSystemsGroup(2, MonsterSpawnSystemGroup);
+            _defaultWorld.AddSystemsGroup(3, DragAndDropSystemGroup);
+            _defaultWorld.AddSystemsGroup(4, DragAndDropEventsHandlers);
+            _defaultWorld.AddSystemsGroup(5, CellsSystemGroup);
+            _defaultWorld.AddSystemsGroup(6, MarkSystems);
         }
 
 
