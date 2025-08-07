@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 namespace UI.Widgets
 {
-    public class NotifyMessageController : MonoBehaviour
-    {
+    public class UI_FullscreenNotification: MonoBehaviour{
         [SerializeField] private TextMeshProUGUI _message;
         [SerializeField] private Image _background;
 
@@ -14,17 +13,19 @@ namespace UI.Widgets
             HideSelf();
         }
 
-        public void ShowMessage(string message){
+        public void ShowMessage(string message)
+        {
             _message.text = message;
             ShowSelf();
         }
-        
-        public void HideMessage(){
+
+        public void HideMessage()
+        {
             HideSelf();
         }
-        
+
         public void DestroySelf() => Destroy(gameObject);
-    
+
         private void ShowSelf() => gameObject.SetActive(true);
         private void HideSelf() => gameObject.SetActive(false);
     }

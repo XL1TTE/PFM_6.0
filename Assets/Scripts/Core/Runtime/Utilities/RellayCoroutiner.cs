@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
-namespace UnityUtilities{
+namespace Core.Utilities
+{
     
     public class RellayCoroutiner: MonoBehaviour{
         
