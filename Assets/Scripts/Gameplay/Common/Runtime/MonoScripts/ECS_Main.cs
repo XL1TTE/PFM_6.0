@@ -2,6 +2,8 @@ using Gameplay.Common.Systems;
 using Gameplay.Features.BattleField.Systems;
 using Gameplay.Features.DragAndDrop.Systems;
 using Scellecs.Morpeh;
+using UI;
+using UI.Systems;
 using UnityEngine;
 
 namespace Gameplay.Common.Mono{
@@ -21,6 +23,9 @@ namespace Gameplay.Common.Mono{
 
         private void ConfigureSystems()
         {
+            SystemsGroup SharedUISystemGroup = _defaultWorld.CreateSystemsGroup();
+            SharedUISystemGroup.AddInitializer(new SharedUI_Initializer());
+
             SystemsGroup StateMachineSystemGroup = _defaultWorld.CreateSystemsGroup();
             StateMachineSystemGroup.AddInitializer(new StateMachineInitializer());
             StateMachineSystemGroup.AddSystem(new StateMachineSystem());
@@ -53,13 +58,14 @@ namespace Gameplay.Common.Mono{
             SystemsGroup MarkSystems = _defaultWorld.CreateSystemsGroup();
             MarkSystems.AddSystem(new DropTargetMarkSystem());
 
-            _defaultWorld.AddSystemsGroup(0, StateMachineSystemGroup);
-            _defaultWorld.AddSystemsGroup(1, BattlePlanningState);
-            _defaultWorld.AddSystemsGroup(2, MonsterSpawnSystemGroup);
-            _defaultWorld.AddSystemsGroup(3, DragAndDropSystemGroup);
-            _defaultWorld.AddSystemsGroup(4, DragAndDropEventsHandlers);
-            _defaultWorld.AddSystemsGroup(5, CellsSystemGroup);
-            _defaultWorld.AddSystemsGroup(6, MarkSystems);
+            _defaultWorld.AddSystemsGroup(0, SharedUISystemGroup);
+            _defaultWorld.AddSystemsGroup(1, StateMachineSystemGroup);
+            _defaultWorld.AddSystemsGroup(2, BattlePlanningState);
+            _defaultWorld.AddSystemsGroup(3, MonsterSpawnSystemGroup);
+            _defaultWorld.AddSystemsGroup(4, DragAndDropSystemGroup);
+            _defaultWorld.AddSystemsGroup(5, DragAndDropEventsHandlers);
+            _defaultWorld.AddSystemsGroup(6, CellsSystemGroup);
+            _defaultWorld.AddSystemsGroup(7, MarkSystems);
         }
 
 
