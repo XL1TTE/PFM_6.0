@@ -1,8 +1,8 @@
 using Gameplay.Common.Systems;
 using Gameplay.Features.BattleField.Systems;
 using Gameplay.Features.DragAndDrop.Systems;
+using Persistence.DB;
 using Scellecs.Morpeh;
-using UI;
 using UI.Systems;
 using UnityEngine;
 
@@ -10,21 +10,25 @@ namespace Gameplay.Common.Mono{
     public class ECS_Main : MonoBehaviour
     {
         public static World _defaultWorld;
+                
         void Awake()
         {
             _defaultWorld = World.Default;
+
             _defaultWorld.UpdateByUnity = false;
         }
 
         void Start()
         {
             ConfigureSystems();
+            DataBase.Initialize();
         }
 
         private void ConfigureSystems()
         {
             SystemsGroup SharedUISystemGroup = _defaultWorld.CreateSystemsGroup();
             SharedUISystemGroup.AddInitializer(new SharedUI_Initializer());
+            SharedUISystemGroup.AddSystem(new FullScreenNotificationSystem());
 
             SystemsGroup StateMachineSystemGroup = _defaultWorld.CreateSystemsGroup();
             StateMachineSystemGroup.AddInitializer(new StateMachineInitializer());
@@ -57,6 +61,7 @@ namespace Gameplay.Common.Mono{
             
             SystemsGroup MarkSystems = _defaultWorld.CreateSystemsGroup();
             MarkSystems.AddSystem(new DropTargetMarkSystem());
+            MarkSystems.AddSystem(new MonsterDragControlSystem());
 
             _defaultWorld.AddSystemsGroup(0, SharedUISystemGroup);
             _defaultWorld.AddSystemsGroup(1, StateMachineSystemGroup);

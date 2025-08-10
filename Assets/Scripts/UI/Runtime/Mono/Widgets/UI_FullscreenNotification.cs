@@ -5,7 +5,8 @@ using UnityEngine.UI;
 namespace UI.Widgets
 {
     public class UI_FullscreenNotification: MonoBehaviour{
-        [SerializeField] private TextMeshProUGUI _message;
+        [SerializeField] private TextMeshProUGUI _primaryMessage;
+        [SerializeField] private TextMeshProUGUI _tipMessage;
         [SerializeField] private Image _background;
 
         void Awake()
@@ -13,15 +14,22 @@ namespace UI.Widgets
             HideSelf();
         }
 
-        public void ShowMessage(string message)
+        public void ShowMessage(string message, string tip = "")
         {
-            _message.text = message;
+            _primaryMessage.text = message;
+            _tipMessage.text = tip;
             ShowSelf();
         }
 
         public void HideMessage()
         {
             HideSelf();
+        }
+
+        private void Reset()
+        {
+            _primaryMessage.text = "";
+            _tipMessage.text = "";
         }
 
         public void DestroySelf() => Destroy(gameObject);

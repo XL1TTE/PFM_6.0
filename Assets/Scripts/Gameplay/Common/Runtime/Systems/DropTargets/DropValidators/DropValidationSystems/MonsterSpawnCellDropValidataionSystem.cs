@@ -82,6 +82,7 @@ namespace Gameplay.Features.DragAndDrop.Systems{
             ref var transform = ref stash_transformRef.Get(draggedEntity).TransformRef;
             ref var dropPosition = ref stash_currentDragTarget.Get(draggedEntity).ValidDropPosition;
             transform.position = dropPosition;
+            transform.position += new Vector3(0, 0, transform.position.y * 0.01f);
         }
 
         private void OccupyCell(Entity occupier, Entity cell)

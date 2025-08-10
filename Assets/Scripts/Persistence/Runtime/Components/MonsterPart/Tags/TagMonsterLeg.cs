@@ -1,15 +1,16 @@
-using Core.Components;
-using Scellecs.Morpeh.Providers;
+using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Core.Providers{
+namespace Persistence.Components
+{
+    [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class prov_Sprite : MonoProvider<SpriteComponent>
+    public struct TagMonsterLeg : IComponent
     {
-
     }
+    
 }
 
 

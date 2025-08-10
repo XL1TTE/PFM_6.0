@@ -15,12 +15,12 @@ namespace Core.Utilities
             }
         }
 
-        public static Coroutine RellayCoroutine(IEnumerator enumerator){
+        public static Coroutine Run(IEnumerator enumerator){
             if(_instance == null){return null;}
             return _instance.StartCoroutine(enumerator);
         }
         
-        public static void StopRellayCoroutine(Coroutine coroutine){
+        public static void Stop(Coroutine coroutine){
             if(_instance == null){return;}
             _instance.StopCoroutine(coroutine);
         }

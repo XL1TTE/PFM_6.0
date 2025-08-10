@@ -2,13 +2,18 @@ using UnityEngine;
 
 namespace Core.Utilities.Extantions
 {
-    public class MouseDownYieldInstruction : CustomYieldInstruction
+    public class WaitForMouseDown : CustomYieldInstruction
     {
+        public WaitForMouseDown(int keyIndex){
+            this.keyIndex = keyIndex;
+        }
+        private int keyIndex;
+        
         public override bool keepWaiting
         {
             get
             {
-                return !Input.GetMouseButtonDown(0);   
+                return !Input.GetMouseButtonDown(keyIndex);   
             }
         }
     }

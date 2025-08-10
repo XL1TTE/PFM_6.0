@@ -1,5 +1,6 @@
 using System;
 using Scellecs.Morpeh;
+using UI.Components;
 using UI.Requests;
 using Unity.IL2CPP.CompilerServices;
 
@@ -12,19 +13,24 @@ namespace UI.Systems{
     {
         public World World { get; set; }
         
+        private Entity _sharedUIEntity;
+        private Stash<SharedUIRefsComponent> stash_sharedUIrefs;
 
         public void OnAwake()
         {
             var _request = World.GetRequest<SharedUILinkRequest>();
-
-            foreach(var req in _request.Consume()){
-                LinkSharedUIToEntities();
+            stash_sharedUIrefs = World.GetStash<SharedUIRefsComponent>();
+            foreach (var req in _request.Consume()){
+                LinkSharedUIToEntities(req);
             }
         }
 
-        private void LinkSharedUIToEntities()
+        private void LinkSharedUIToEntities(SharedUILinkRequest req)
         {
-            // Link ui-widgets refs to entities
+            _sharedUIEntity = World.CreateEntity();
+            ref var refs = ref stash_sharedUIrefs.Add(_sharedUIEntity);
+            
+            refs.FullScreenNotification = req.ref_FullScreenNotification;
         }
 
         public void Dispose()

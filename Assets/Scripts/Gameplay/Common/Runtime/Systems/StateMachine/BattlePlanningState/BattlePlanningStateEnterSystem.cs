@@ -1,10 +1,15 @@
+using System.Collections;
+using Core.Utilities;
+using Core.Utilities.Extantions;
 using Gameplay.Common.Components;
 using Gameplay.Common.Events;
 using Gameplay.Common.Requests;
 using Gameplay.Features.BattleField.Components;
 using Gameplay.Features.BattleField.Requests;
 using Gameplay.Features.DragAndDrop.Components;
+using Gameplay.Features.Monster.Components;
 using Scellecs.Morpeh;
+using UI.Requests;
 using Unity.IL2CPP.CompilerServices;
 
 namespace Gameplay.Common.Systems{
@@ -14,25 +19,29 @@ namespace Gameplay.Common.Systems{
     public sealed class BattlePlanningStateEnterSystem : ISystem
     {
         public World World { get; set; }
-        private Filter _monsterSpawnCells;
-
+        
+        private Filter _monsters;
 
         private Event<OnStateEnterEvent> evt_onStateEnter;
 
         private Stash<BattlePlanningState> stash_battlePlanning;
         private Stash<DropTargetComponent> stash_dropTarget;
+        
+        private Request<ChangeMonsterDraggableStateRequest> req_monsterDrag;
 
 
         public void OnAwake()
         {
-            _monsterSpawnCells = World.Filter
-                .With<TagMonsterSpawnCell>()
+            _monsters = World.Filter
+                .With<TagMonster>()
                 .Build();
 
             evt_onStateEnter = World.GetEvent<OnStateEnterEvent>();
 
             stash_battlePlanning = World.GetStash<BattlePlanningState>();
             stash_dropTarget = World.GetStash<DropTargetComponent>();
+
+            req_monsterDrag = World.GetRequest<ChangeMonsterDraggableStateRequest>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -49,16 +58,43 @@ namespace Gameplay.Common.Systems{
 
         }
         
-        private void Enter(Entity stateEntity){
+        
+        private IEnumerator EnterRoutine(Entity stateEntity){
+            
+            World.GetRequest<FullScreenNotificationRequest>().Publish(
+            new FullScreenNotificationRequest{
+                state = FullScreenNotificationRequest.State.Enable,
+                Message = "Planning stage",
+                Tip = "Press LMB to continue..."
+            }, true);
+                            
+            yield return new WaitForMouseDown(0);
+
+            World.GetRequest<FullScreenNotificationRequest>().Publish(
+            new FullScreenNotificationRequest
+            {
+                state = FullScreenNotificationRequest.State.Disable,
+            }, true);
+
             /* ############################################## */
             /*           Pre-spawn monsters request           */
             /* ############################################## */
 
-            var genMonsterReq = World.Default.GetRequest<GenerateMonstersRequest>();
+            var genMonsterReq = World.GetRequest<GenerateMonstersRequest>();
 
             genMonsterReq.Publish(new GenerateMonstersRequest
             {
                 MosntersCount = 2
+            }, true);
+
+
+            /* ########################################## */
+            /*     Draggable monster behaviour enable     */
+            /* ########################################## */
+
+            req_monsterDrag.Publish(new ChangeMonsterDraggableStateRequest{
+               PickupRadius = 0.5f,
+               state = ChangeMonsterDraggableStateRequest.State.Enabled 
             }, true);
 
             /* ############################################## */
@@ -74,6 +110,10 @@ namespace Gameplay.Common.Systems{
 
             req_markMonsterSpawnCellsAsDropTargets.Publish(
                 new MarkMonsterSpawnCellsAsDropTargetRequest { DropRadius = 1.0f }, true);
+        }
+        
+        private void Enter(Entity stateEntity){
+            RellayCoroutiner.Run(EnterRoutine(stateEntity));
         }
         
         private bool isStateValid(Entity stateEntity){

@@ -1,0 +1,18 @@
+{
+    "name": "Assembly-Persistance",
+    "rootNamespace": "Persistence",
+    "references": [
+        "GUID:3377deebfb0acde45876d12c6e3d27cc",
+        "GUID:3906d60cf959a1242874884e5d39795a",
+        "GUID:a4f8ca2177fb8b448a1ad3ee9b7d5445"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
