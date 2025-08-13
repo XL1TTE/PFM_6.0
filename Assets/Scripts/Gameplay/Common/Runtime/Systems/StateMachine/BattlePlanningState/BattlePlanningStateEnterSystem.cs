@@ -1,6 +1,6 @@
 using System.Collections;
 using Core.Utilities;
-using Core.Utilities.Extantions;
+using Core.Utilities.Extentions;
 using Gameplay.Common.Components;
 using Gameplay.Common.Events;
 using Gameplay.Common.Requests;
@@ -9,7 +9,10 @@ using Gameplay.Features.BattleField.Requests;
 using Gameplay.Features.DragAndDrop.Components;
 using Gameplay.Features.Monster.Components;
 using Scellecs.Morpeh;
+using UI.Components;
+using UI.Components.Tags;
 using UI.Requests;
+using UI.Widgets;
 using Unity.IL2CPP.CompilerServices;
 
 namespace Gameplay.Common.Systems{
@@ -69,6 +72,13 @@ namespace Gameplay.Common.Systems{
             }, true);
                             
             yield return new WaitForMouseDown(0);
+            
+            /* ########################################## */
+            /*              Change plate text             */
+            /* ########################################## */
+            
+            PlateWithText.Instance.Show("Planning stage");
+            
 
             World.GetRequest<FullScreenNotificationRequest>().Publish(
             new FullScreenNotificationRequest
@@ -93,7 +103,6 @@ namespace Gameplay.Common.Systems{
             /* ########################################## */
 
             req_monsterDrag.Publish(new ChangeMonsterDraggableStateRequest{
-               PickupRadius = 0.5f,
                state = ChangeMonsterDraggableStateRequest.State.Enabled 
             }, true);
 
@@ -109,7 +118,8 @@ namespace Gameplay.Common.Systems{
                 World.Default.GetRequest<MarkMonsterSpawnCellsAsDropTargetRequest>();
 
             req_markMonsterSpawnCellsAsDropTargets.Publish(
-                new MarkMonsterSpawnCellsAsDropTargetRequest { DropRadius = 1.0f }, true);
+                new MarkMonsterSpawnCellsAsDropTargetRequest { DropRadius = 1.0f, 
+                state = MarkMonsterSpawnCellsAsDropTargetRequest.State.Enable }, true);
         }
         
         private void Enter(Entity stateEntity){

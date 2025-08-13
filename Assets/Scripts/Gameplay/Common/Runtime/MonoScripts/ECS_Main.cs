@@ -1,3 +1,4 @@
+using Core.Systems;
 using Gameplay.Common.Systems;
 using Gameplay.Features.BattleField.Systems;
 using Gameplay.Features.DragAndDrop.Systems;
@@ -29,6 +30,8 @@ namespace Gameplay.Common.Mono{
             SystemsGroup SharedUISystemGroup = _defaultWorld.CreateSystemsGroup();
             SharedUISystemGroup.AddInitializer(new SharedUI_Initializer());
             SharedUISystemGroup.AddSystem(new FullScreenNotificationSystem());
+            
+            SystemsGroup UIElements = _defaultWorld.CreateSystemsGroup();
 
             SystemsGroup StateMachineSystemGroup = _defaultWorld.CreateSystemsGroup();
             StateMachineSystemGroup.AddInitializer(new StateMachineInitializer());
@@ -38,6 +41,11 @@ namespace Gameplay.Common.Mono{
             SystemsGroup BattlePlanningState = _defaultWorld.CreateSystemsGroup();
             StateMachineSystemGroup.AddInitializer(new BattlePlanningStateInitializer());
             StateMachineSystemGroup.AddSystem(new BattlePlanningStateEnterSystem());
+            StateMachineSystemGroup.AddSystem(new BattlePlanningStateExitSystem());
+            
+            SystemsGroup BattleState = _defaultWorld.CreateSystemsGroup();
+            StateMachineSystemGroup.AddInitializer(new BattleStateInitializer());
+            StateMachineSystemGroup.AddSystem(new BattleStateEnterSystem());
  
             SystemsGroup MonsterSpawnSystemGroup = _defaultWorld.CreateSystemsGroup();
             MonsterSpawnSystemGroup.AddSystem(new MonstersSpawnRequestSystem());
@@ -62,15 +70,22 @@ namespace Gameplay.Common.Mono{
             SystemsGroup MarkSystems = _defaultWorld.CreateSystemsGroup();
             MarkSystems.AddSystem(new DropTargetMarkSystem());
             MarkSystems.AddSystem(new MonsterDragControlSystem());
+            
+            SystemsGroup ButtonSystems = _defaultWorld.CreateSystemsGroup();
+            ButtonSystems.AddSystem(new ButtonClickObserveSystem());
+            ButtonSystems.AddSystem(new ExitPlanningStageButtonSystem());
 
             _defaultWorld.AddSystemsGroup(0, SharedUISystemGroup);
             _defaultWorld.AddSystemsGroup(1, StateMachineSystemGroup);
             _defaultWorld.AddSystemsGroup(2, BattlePlanningState);
-            _defaultWorld.AddSystemsGroup(3, MonsterSpawnSystemGroup);
-            _defaultWorld.AddSystemsGroup(4, DragAndDropSystemGroup);
-            _defaultWorld.AddSystemsGroup(5, DragAndDropEventsHandlers);
-            _defaultWorld.AddSystemsGroup(6, CellsSystemGroup);
-            _defaultWorld.AddSystemsGroup(7, MarkSystems);
+            _defaultWorld.AddSystemsGroup(3, BattleState);
+            _defaultWorld.AddSystemsGroup(4, ButtonSystems);
+            _defaultWorld.AddSystemsGroup(5, UIElements);
+            _defaultWorld.AddSystemsGroup(6, MonsterSpawnSystemGroup);
+            _defaultWorld.AddSystemsGroup(7, DragAndDropSystemGroup);
+            _defaultWorld.AddSystemsGroup(8, DragAndDropEventsHandlers);
+            _defaultWorld.AddSystemsGroup(9, CellsSystemGroup);
+            _defaultWorld.AddSystemsGroup(10, MarkSystems);
         }
 
 

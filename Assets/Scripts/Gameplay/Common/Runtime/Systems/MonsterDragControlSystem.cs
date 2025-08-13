@@ -17,14 +17,14 @@ namespace Gameplay.Common.Systems{
         
         private Filter _monsters;
         
-        private Stash<DraggableComponent> stash_draggable;
+        private Stash<DraggableTag> stash_draggable;
 
         public void OnAwake()
         {
             _monsters = World.Filter
                 .With<TagMonster>().Build();
 
-            stash_draggable = World.GetStash<DraggableComponent>();
+            stash_draggable = World.GetStash<DraggableTag>();
 
             _request = World.GetRequest<ChangeMonsterDraggableStateRequest>();
         }
@@ -35,7 +35,7 @@ namespace Gameplay.Common.Systems{
             {
                 if (req.state == ChangeMonsterDraggableStateRequest.State.Enabled)
                 {
-                    EnableDraggable(req.PickupRadius);
+                    EnableDraggable();
                 }
                 else if (req.state == ChangeMonsterDraggableStateRequest.State.Disabled)
                 {
@@ -59,10 +59,10 @@ namespace Gameplay.Common.Systems{
             }
         }
 
-        private void EnableDraggable(float PickRadius)
+        private void EnableDraggable()
         {
             foreach(var m in _monsters){
-                stash_draggable.Set(m, new DraggableComponent{PickRadius = PickRadius});
+                stash_draggable.Set(m);
             }
         }
     }

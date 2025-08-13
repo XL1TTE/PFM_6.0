@@ -37,4 +37,5 @@ namespace UI.Widgets
         private void ShowSelf() => gameObject.SetActive(true);
         private void HideSelf() => gameObject.SetActive(false);
     }
+
 }

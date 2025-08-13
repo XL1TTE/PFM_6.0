@@ -13,7 +13,7 @@ namespace Gameplay.Common.Systems{
         
         private Filter _currentState;
         
-        private Request<StateChangeRequest> req_stateChange;
+        private Request<ChangeStateRequest> req_stateChange;
         private Request<StateTransitionRequest> req_stateTransition;
         
         private Stash<CurrentStateComponent> stash_currentState;
@@ -24,7 +24,7 @@ namespace Gameplay.Common.Systems{
                 .With<CurrentStateComponent>()
                 .Build();
 
-            req_stateChange = World.GetRequest<StateChangeRequest>();
+            req_stateChange = World.GetRequest<ChangeStateRequest>();
             req_stateTransition = World.GetRequest<StateTransitionRequest>();
 
             stash_currentState = World.GetStash<CurrentStateComponent>();

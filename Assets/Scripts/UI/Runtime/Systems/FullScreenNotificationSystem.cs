@@ -1,4 +1,4 @@
-using Core.Utilities.Extantions;
+using Core.Utilities.Extentions;
 using Scellecs.Morpeh;
 using UI.Components;
 using UI.Requests;

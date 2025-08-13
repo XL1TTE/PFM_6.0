@@ -10,6 +10,5 @@ namespace Gameplay.Common.Requests
         }
         
         public State state;
-        public float PickupRadius;
     }
 }

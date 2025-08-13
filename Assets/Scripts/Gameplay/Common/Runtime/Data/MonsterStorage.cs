@@ -1,6 +1,6 @@
 
 using Core.Components;
-using Core.Utilities.Extantions;
+using Core.Utilities.Extentions;
 using Gameplay.Features.DragAndDrop.Components;
 using Gameplay.Features.Monster;
 using Gameplay.Features.Monster.Components;
@@ -27,7 +27,7 @@ namespace Gameplay.Common
                 Stash<TagMonster> MonstersStash = _ecsWorld.GetStash<TagMonster>();
                 Stash<SpriteComponent> SpriteStash = _ecsWorld.GetStash<SpriteComponent>();
                 Stash<TransformRefComponent> TransformRefStash = _ecsWorld.GetStash<TransformRefComponent>();
-                Stash<DraggableComponent> DraggableStash = _ecsWorld.GetStash<DraggableComponent>();
+                Stash<DraggableTag> DraggableStash = _ecsWorld.GetStash<DraggableTag>();
 
                 MonsterDammy Prefab = PrefabPath.LoadResource<MonsterDammy>();
                 
@@ -47,12 +47,11 @@ namespace Gameplay.Common
 
                 TagMonster c_Monster = MonstersStash.Add(entity);
                 ref TransformRefComponent c_Transform = ref TransformRefStash.Add(entity);
-                ref DraggableComponent c_Draggable = ref DraggableStash.Add(entity);
+                ref DraggableTag c_Draggable = ref DraggableStash.Add(entity);
                 
 
                 c_Transform.TransformRef = monster.transform;            
 
-                c_Draggable.PickRadius = 0.5f;
                 
                 
                 return entity;

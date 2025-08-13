@@ -1,4 +1,4 @@
-using Core.Utilities.Extantions;
+using Core.Utilities.Extentions;
 using Gameplay.Features.Monster.Data;
 using Infrastructure.Data;
 using Scellecs.Morpeh;

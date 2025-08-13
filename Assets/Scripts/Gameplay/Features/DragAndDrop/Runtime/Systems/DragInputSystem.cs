@@ -27,7 +27,7 @@ namespace Gameplay.Features.DragAndDrop.Systems{
         {
             _underCursor = World.Filter
                 .With<UnderCursorComponent>()
-                .With<DraggableComponent>()
+                .With<DraggableTag>()
                 .With<TransformRefComponent>()
                 .Build();
 

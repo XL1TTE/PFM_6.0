@@ -1,4 +1,4 @@
-using Core.Utilities.Extantions;
+using Core.Utilities.Extentions;
 using Gameplay.Common.Components;
 using Gameplay.Common.Events;
 using Gameplay.Common.Requests;

@@ -1,6 +1,6 @@
 
 using Core.Components;
-using Core.Utilities.Extantions;
+using Core.Utilities.Extentions;
 using Gameplay.Features.Monster;
 using Gameplay.Features.Monster.Components;
 using Persistence.Components;
@@ -17,7 +17,8 @@ namespace Persistence.Buiders{
 
             stash_tagMonster = _ecsWorld.GetStash<TagMonster>();
             stash_transformRef = _ecsWorld.GetStash<TransformRefComponent>();
-            
+            stash_cursorDetector = _ecsWorld.GetStash<TagCursorDetector>();
+
             pfb_monsterDammy = _monsterDammyPath.LoadResource<MonsterDammy>();
 
             if (pfb_monsterDammy == null)
@@ -38,6 +39,7 @@ namespace Persistence.Buiders{
         
         Stash<TagMonster> stash_tagMonster;
         Stash<TransformRefComponent> stash_transformRef;
+        Stash<TagCursorDetector> stash_cursorDetector;
         
         
         
@@ -97,6 +99,8 @@ namespace Persistence.Buiders{
 
             stash_tagMonster.Add(entity);
             ref TransformRefComponent c_Transform = ref stash_transformRef.Add(entity);
+
+            stash_cursorDetector.Add(entity, new TagCursorDetector{DetectionRadius = 1.0f});
 
             c_Transform.TransformRef = monsterDammy.transform;
 

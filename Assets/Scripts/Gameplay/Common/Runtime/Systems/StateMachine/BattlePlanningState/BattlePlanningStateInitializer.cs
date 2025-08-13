@@ -18,9 +18,9 @@ namespace Gameplay.Common.Systems{
             Entity stateEntity = World.CreateEntity();
             stash_battlePlanningState.Add(stateEntity);
 
-            var req = World.Default.GetRequest<StateChangeRequest>();
+            var req = World.Default.GetRequest<ChangeStateRequest>();
 
-            req.Publish(new StateChangeRequest
+            req.Publish(new ChangeStateRequest
             {
                 NextState = stateEntity
             });
@@ -32,4 +32,3 @@ namespace Gameplay.Common.Systems{
         }
     }
 }
-
