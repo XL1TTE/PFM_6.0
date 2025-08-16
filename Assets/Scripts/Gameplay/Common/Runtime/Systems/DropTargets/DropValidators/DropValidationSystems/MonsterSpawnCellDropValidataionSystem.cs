@@ -1,9 +1,11 @@
 using Core.Components;
+using Core.Utilities.Extentions;
 using Gameplay.Features.BattleField.Components;
 using Gameplay.Features.BattleField.Events;
 using Gameplay.Features.DragAndDrop.Components;
 using Gameplay.Features.DragAndDrop.Events;
 using Gameplay.Features.DragAndDrop.Requests;
+using Gameplay.Features.Monster.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -15,6 +17,8 @@ namespace Gameplay.Features.DragAndDrop.Systems{
     public sealed class MonsterSpawnCellDropValidataionSystem : ISystem
     {
         public World World { get; set; }
+        
+        private Filter _occupiedMonsterSpawnCells;
 
         private Request<StartDragRequest> req_startDrag;
 
@@ -27,10 +31,16 @@ namespace Gameplay.Features.DragAndDrop.Systems{
         private Stash<TagMonsterSpawnCell> stash_spawnCell;
         private Stash<TagOccupiedCell> stash_occupiedCell;
         private Stash<DropStateComponent> stash_dropState;
+        private Stash<TagMonster> stash_monsterTag;
 
 
         public void OnAwake()
         {
+            _occupiedMonsterSpawnCells = World.Filter
+                .With<TagMonsterSpawnCell>()
+                .With<TagOccupiedCell>()
+                .Build();
+
             req_startDrag = World.GetRequest<StartDragRequest>();
 
             evt_dragEnded = World.GetEvent<DragEndedEvent>();
@@ -42,28 +52,39 @@ namespace Gameplay.Features.DragAndDrop.Systems{
             stash_spawnCell = World.GetStash<TagMonsterSpawnCell>();
             stash_occupiedCell = World.GetStash<TagOccupiedCell>();
             stash_dropState = World.GetStash<DropStateComponent>();
+            stash_monsterTag = World.GetStash<TagMonster>();
         }
 
         public void OnUpdate(float deltaTime)
         {
             foreach (var evt in evt_dragEnded.publishedChanges)
             {
-                if(evt.WasSuccessful == false){return;}
+                if(Validate(evt) == false){return;} // if monster droped on monster spawn cell
+                
+                var cellToDrop = evt.DropTargetEntity;
+                var draggedMonster = evt.DraggedEntity;
 
-                if (IsDropTargetMonsterSpawnCell(evt.DropTargetEntity) == false){return;}
-
-                OccupyCell(evt.DraggedEntity, evt.DropTargetEntity);
-
-                if (IsCellOccupied(evt.DropTargetEntity) == true){
-                    Entity occupier = stash_occupiedCell.Get(evt.DropTargetEntity).Occupier;
-                    if(occupier.Id == evt.DraggedEntity.Id) {return;}
+                if (IsCellOccupied(cellToDrop) == true){
+                    Entity occupierOfCellToDrop = stash_occupiedCell.Get(cellToDrop).Occupier;
                     
-                    req_startDrag.Publish(new StartDragRequest{
+                    if(occupierOfCellToDrop.Id == draggedMonster.Id) {return;} // if try to drop on the same cell
+                    
+                    req_startDrag.Publish(new StartDragRequest{ // starts dragging for cell occupier
                         ClickWorldPos = Input.mousePosition,
-                        DraggedEntity = occupier,
-                        StartPosition = stash_dragState.Get(evt.DraggedEntity).StartWorldPos
+                        DraggedEntity = occupierOfCellToDrop,
+                        StartPosition = stash_dragState.Get(draggedMonster).StartWorldPos
                     }, true);
+
+                    var draggedMonsterCell = FindOccupiedCell(draggedMonster);
+                    
+                    if(draggedMonsterCell.IsExist()){
+                        OccupyCell(occupierOfCellToDrop, draggedMonsterCell);
+                    }
+
                 }
+
+                OccupyCell(draggedMonster, cellToDrop);
+                MarkDropAsHandled(draggedMonster);
             }
         }
 
@@ -72,30 +93,34 @@ namespace Gameplay.Features.DragAndDrop.Systems{
 
         }
         
+        private Entity FindOccupiedCell(Entity occupier){
+            foreach(var e in _occupiedMonsterSpawnCells){
+                if(stash_occupiedCell.Get(e).Occupier.Id == occupier.Id){return e;}
+            }
+            return default;
+        }
+        
         private void MarkDropAsHandled(Entity draggedEntity)
         {
             ref var dropState = ref stash_dropState.Get(draggedEntity);
             dropState.WasHandled = true;
         }
-        private void AlignInCellCenter(Entity draggedEntity)
+        private void AlignInCellCenter(Entity draggedEntity, Entity cell)
         {
             ref var transform = ref stash_transformRef.Get(draggedEntity).TransformRef;
-            ref var dropPosition = ref stash_currentDragTarget.Get(draggedEntity).ValidDropPosition;
+            var dropPosition =  stash_transformRef.Get(cell).TransformRef.position;
             transform.position = dropPosition;
             transform.position += new Vector3(0, 0, transform.position.y * 0.01f);
         }
 
         private void OccupyCell(Entity occupier, Entity cell)
         {
-
-            AlignInCellCenter(occupier);
+            AlignInCellCenter(occupier, cell);
             evt_cellOccupied.NextFrame(new CellOccupiedEvent
             {
                 CellEntity = cell,
                 OccupiedBy = occupier
             });
-            MarkDropAsHandled(occupier);
-
         }
 
         private bool IsDropTargetMonsterSpawnCell(Entity dropTarget)
@@ -108,6 +133,15 @@ namespace Gameplay.Features.DragAndDrop.Systems{
             if (stash_occupiedCell.Has(dropTarget)) { return true; }
 
             return false;
+        }
+    
+    
+        private bool Validate(DragEndedEvent evt){
+            if(stash_monsterTag.Has(evt.DraggedEntity) == false ){return false;}
+            if (evt.WasSuccessful == false) { return false; }
+            if (IsDropTargetMonsterSpawnCell(evt.DropTargetEntity) == false) { return false; }
+            
+            return true;
         }
     }
 

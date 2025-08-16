@@ -47,9 +47,10 @@ namespace Gameplay.Common.Mono{
             StateMachineSystemGroup.AddInitializer(new BattleStateInitializer());
             StateMachineSystemGroup.AddSystem(new BattleStateEnterSystem());
  
-            SystemsGroup MonsterSpawnSystemGroup = _defaultWorld.CreateSystemsGroup();
-            MonsterSpawnSystemGroup.AddSystem(new MonstersSpawnRequestSystem());
-            MonsterSpawnSystemGroup.AddSystem(new MonsterSpawnSystem());
+            SystemsGroup MonsterSystems = _defaultWorld.CreateSystemsGroup();
+            MonsterSystems.AddSystem(new MonstersSpawnRequestSystem());
+            MonsterSystems.AddSystem(new MonsterSpawnSystem());
+            MonsterSystems.AddSystem(new MonsterGhostSystem());
 
             SystemsGroup DragAndDropSystemGroup = _defaultWorld.CreateSystemsGroup();
             DragAndDropSystemGroup.AddSystem(new CursorDetectionSystem());
@@ -81,8 +82,8 @@ namespace Gameplay.Common.Mono{
             _defaultWorld.AddSystemsGroup(3, BattleState);
             _defaultWorld.AddSystemsGroup(4, ButtonSystems);
             _defaultWorld.AddSystemsGroup(5, UIElements);
-            _defaultWorld.AddSystemsGroup(6, MonsterSpawnSystemGroup);
-            _defaultWorld.AddSystemsGroup(7, DragAndDropSystemGroup);
+            _defaultWorld.AddSystemsGroup(6, DragAndDropSystemGroup);
+            _defaultWorld.AddSystemsGroup(7, MonsterSystems);
             _defaultWorld.AddSystemsGroup(8, DragAndDropEventsHandlers);
             _defaultWorld.AddSystemsGroup(9, CellsSystemGroup);
             _defaultWorld.AddSystemsGroup(10, MarkSystems);

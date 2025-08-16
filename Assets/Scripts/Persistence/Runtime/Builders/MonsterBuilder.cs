@@ -18,6 +18,7 @@ namespace Persistence.Buiders{
             stash_tagMonster = _ecsWorld.GetStash<TagMonster>();
             stash_transformRef = _ecsWorld.GetStash<TransformRefComponent>();
             stash_cursorDetector = _ecsWorld.GetStash<TagCursorDetector>();
+            stash_monsterDammyRef = _ecsWorld.GetStash<MonsterDammyRefComponent>();
 
             pfb_monsterDammy = _monsterDammyPath.LoadResource<MonsterDammy>();
 
@@ -40,6 +41,7 @@ namespace Persistence.Buiders{
         Stash<TagMonster> stash_tagMonster;
         Stash<TransformRefComponent> stash_transformRef;
         Stash<TagCursorDetector> stash_cursorDetector;
+        Stash<MonsterDammyRefComponent> stash_monsterDammyRef;
         
         
         
@@ -58,6 +60,8 @@ namespace Persistence.Buiders{
             Entity entity = _ecsWorld.CreateEntity();
             
             MonsterDammy monsterDammy = UnityEngine.Object.Instantiate(pfb_monsterDammy);
+            
+            #region Part Attachment
             
             if(!DataBase.TryFindRecordByID(id_head, out var rec_head)){
                 throw new System.Exception($"Record with id: {id_head} was not found.");
@@ -96,13 +100,17 @@ namespace Persistence.Buiders{
             if(DataBase.TryGetRecord<LegSpritePath>(rec_nearLeg, out var spr_nearLeg)){
                 monsterDammy.AttachNearLeg(spr_nearLeg.NearSprite.LoadResource<Sprite>());
             }
+            
+            #endregion
 
             stash_tagMonster.Add(entity);
+            
             ref TransformRefComponent c_Transform = ref stash_transformRef.Add(entity);
+            c_Transform.TransformRef = monsterDammy.transform;
 
             stash_cursorDetector.Add(entity, new TagCursorDetector{DetectionRadius = 1.0f});
 
-            c_Transform.TransformRef = monsterDammy.transform;
+            stash_monsterDammyRef.Add(entity, new MonsterDammyRefComponent{MonsterDammy = monsterDammy });
 
             return entity;
         }

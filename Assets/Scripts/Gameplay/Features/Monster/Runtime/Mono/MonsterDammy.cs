@@ -1,3 +1,4 @@
+using Core.Utilities.Extentions;
 using UnityEngine;
 
 namespace Gameplay.Features.Monster{
@@ -9,6 +10,8 @@ namespace Gameplay.Features.Monster{
         [SerializeField] private SpriteRenderer HeadAnchor;
         [SerializeField] private SpriteRenderer NearArmAnchor;
         [SerializeField] private SpriteRenderer FarArmAnchor;
+        
+        #region Part attachment
         
         public void AttachNearLeg(Sprite sprite){
             NearLegAnchor.sprite = sprite;
@@ -29,6 +32,35 @@ namespace Gameplay.Features.Monster{
             HeadAnchor.sprite = sprite;
         }
         
+        #endregion
+        
+        
+        public void ChangeColor(string hex){
+            if(NearLegAnchor != null){
+                NearLegAnchor.color = hex.ToColor();
+            }
+            if(FarLegAnchor != null){
+                FarLegAnchor.color = hex.ToColor();
+            }
+            if(HeadAnchor != null){
+                HeadAnchor.color = hex.ToColor();
+            }
+            if(BodyAnchor != null){
+                BodyAnchor.color = hex.ToColor();
+            } 
+            if(NearArmAnchor != null){
+                NearArmAnchor.color = hex.ToColor();
+            }
+            if(FarArmAnchor != null){
+                FarArmAnchor.color = hex.ToColor();
+            }
+        }
+    
+        
+        public void DestroySelf(){
+            Destroy(gameObject);
+        }
+    
     }
 }
 

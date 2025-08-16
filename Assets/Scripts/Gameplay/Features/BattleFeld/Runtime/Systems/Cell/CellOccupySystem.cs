@@ -33,17 +33,9 @@ namespace Gameplay.Features.BattleField.Systems{
             foreach (var evt in _cellOccupiedEvent.publishedChanges)
             {
                 // Unoccupy previous cell
-                foreach (var cell in _occupiedCells)
-                {
-                    if (stash_occupiedCell.Get(cell).Occupier.Id == evt.OccupiedBy.Id)
-                    {
-                        stash_occupiedCell.Remove(cell);
-                    }
-                }
-                stash_occupiedCell.Set(evt.CellEntity, new TagOccupiedCell
-                {
-                    Occupier = evt.OccupiedBy
-                });
+                UnoccupyCell(evt);
+
+                OccupyCell(evt);
             }
 
         }
@@ -52,6 +44,29 @@ namespace Gameplay.Features.BattleField.Systems{
         {
 
         }
+        
+        private void UnoccupyCell(CellOccupiedEvent evt){
+            foreach (var cell in _occupiedCells)
+            {
+                if (stash_occupiedCell.Has(cell))
+                {
+                    if (stash_occupiedCell.Get(cell).Occupier.Id == evt.OccupiedBy.Id)
+                    {
+                        stash_occupiedCell.Remove(cell);
+                    }
+                }
+
+            }
+        }
+    
+        private void OccupyCell(CellOccupiedEvent evt)
+        {
+            stash_occupiedCell.Set(evt.CellEntity, new TagOccupiedCell
+            {
+                Occupier = evt.OccupiedBy
+            });
+        }
+    
     }
 }
 

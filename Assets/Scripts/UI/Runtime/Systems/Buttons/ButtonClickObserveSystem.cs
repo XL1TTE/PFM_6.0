@@ -10,7 +10,7 @@ using UnityEngine;
 [Il2CppSetOption(Option.DivideByZeroChecks, false)]
 public sealed class ButtonClickObserveSystem : ISystem 
 {
-    public World World { get; set;}
+    public World World { get; set; }
     
     private Filter _buttonsUnderCursor;
     
