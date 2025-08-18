@@ -15,8 +15,9 @@ namespace Gameplay.Common.Systems{
     {
         public World World { get; set; }
 
-        private Stash<CellPositionComponent> _cellPositionStash;
-        private Stash<TransformRefComponent> _monsterTransformStash;
+        private Stash<CellPositionComponent> stash_cellPosition;
+        private Stash<TransformRefComponent> stash_monsterTransform;
+        private Stash<GridPosition> stash_gridPosition;
 
         private Request<SpawnNewMonsterRequest> _spawnRequests;
         private Event<CellOccupiedEvent> _cellOccupiedEvent;
@@ -26,8 +27,9 @@ namespace Gameplay.Common.Systems{
 
         public void OnAwake()
         {
-            _cellPositionStash = World.GetStash<CellPositionComponent>();
-            _monsterTransformStash = World.GetStash<TransformRefComponent>();
+            stash_cellPosition = World.GetStash<CellPositionComponent>();
+            stash_monsterTransform = World.GetStash<TransformRefComponent>();
+            stash_gridPosition = World.GetStash<GridPosition>();
 
             _spawnRequests = World.GetRequest<SpawnNewMonsterRequest>();
             _cellOccupiedEvent = World.GetEvent<CellOccupiedEvent>();
@@ -50,7 +52,7 @@ namespace Gameplay.Common.Systems{
 
         private void SpawnNewMonster(SpawnNewMonsterRequest req)
         {
-            var cellPos = _cellPositionStash.Get(req.CellEntity);
+            var cellPos = stash_cellPosition.Get(req.CellEntity);
 
             Entity monster = _monsterBuilder
                 .AttachHead("mp_DammyHead")
@@ -61,13 +63,18 @@ namespace Gameplay.Common.Systems{
                 .AttachFarLeg("mp_DammyLeg")
                 .Build();
 
-            if (!_monsterTransformStash.Has(monster))
+            if (!stash_monsterTransform.Has(monster))
             {
                 throw new Exception("Monster entity does not have a transform component. Can't spawn monster without it!");
             }
-            ref var monsterTransform = ref _monsterTransformStash.Get(monster);
+            ref var monsterTransform = ref stash_monsterTransform.Get(monster);
             monsterTransform.TransformRef.position =
                 new UnityEngine.Vector3(cellPos.global_x, cellPos.global_y, cellPos.global_y * 0.01f);
+
+            stash_gridPosition.Add(monster, new GridPosition{
+                grid_x = cellPos.grid_x,
+                grid_y = cellPos.grid_y
+            });
 
             _cellOccupiedEvent.NextFrame(new CellOccupiedEvent
             {

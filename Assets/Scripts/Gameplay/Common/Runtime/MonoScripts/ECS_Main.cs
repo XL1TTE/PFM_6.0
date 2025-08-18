@@ -1,5 +1,6 @@
 using Core.Systems;
 using Gameplay.Common.Systems;
+using Gameplay.Features.Abilities;
 using Gameplay.Features.BattleField.Systems;
 using Gameplay.Features.DragAndDrop.Systems;
 using Persistence.DB;
@@ -39,18 +40,24 @@ namespace Gameplay.Common.Mono{
             StateMachineSystemGroup.AddSystem(new StateTransitionSystem());
 
             SystemsGroup BattlePlanningState = _defaultWorld.CreateSystemsGroup();
-            StateMachineSystemGroup.AddInitializer(new BattlePlanningStateInitializer());
-            StateMachineSystemGroup.AddSystem(new BattlePlanningStateEnterSystem());
-            StateMachineSystemGroup.AddSystem(new BattlePlanningStateExitSystem());
+            BattlePlanningState.AddInitializer(new BattlePlanningStateInitializer());
+            BattlePlanningState.AddSystem(new BattlePlanningStateEnterSystem());
+            BattlePlanningState.AddSystem(new BattlePlanningStateExitSystem());
             
             SystemsGroup BattleState = _defaultWorld.CreateSystemsGroup();
-            StateMachineSystemGroup.AddInitializer(new BattleStateInitializer());
-            StateMachineSystemGroup.AddSystem(new BattleStateEnterSystem());
+            BattleState.AddInitializer(new BattleStateInitializer());
+            BattleState.AddSystem(new BattleStateEnterSystem());
+            
+            SystemsGroup TurnSystem = _defaultWorld.CreateSystemsGroup();
+            TurnSystem.AddSystem(new TurnSystemInitializer());
  
             SystemsGroup MonsterSystems = _defaultWorld.CreateSystemsGroup();
             MonsterSystems.AddSystem(new MonstersSpawnRequestSystem());
             MonsterSystems.AddSystem(new MonsterSpawnSystem());
             MonsterSystems.AddSystem(new MonsterGhostSystem());
+            
+            SystemsGroup AbilitySystem = _defaultWorld.CreateSystemsGroup();
+            AbilitySystem.AddSystem(new MoveAbilitySystem());
 
             SystemsGroup DragAndDropSystemGroup = _defaultWorld.CreateSystemsGroup();
             DragAndDropSystemGroup.AddSystem(new CursorDetectionSystem());
@@ -63,10 +70,14 @@ namespace Gameplay.Common.Mono{
             DragAndDropEventsHandlers.AddSystem(new MonsterSpawnCellDropValidataionSystem());
             DragAndDropEventsHandlers.AddSystem(new NotHandledDropProcessSystem());
             DragAndDropEventsHandlers.AddSystem(new DragAndDropCleanupSystem());
+            
+            SystemsGroup TargetSelection = _defaultWorld.CreateSystemsGroup();
+            TargetSelection.AddSystem(new TargetSelectionSystem());
 
             SystemsGroup CellsSystemGroup = _defaultWorld.CreateSystemsGroup();
             CellsSystemGroup.AddSystem(new CellOccupySystem());
             CellsSystemGroup.AddSystem(new HighlightSpawnCellSystem());
+            CellsSystemGroup.AddSystem(new CellsViewSystem());
             
             SystemsGroup MarkSystems = _defaultWorld.CreateSystemsGroup();
             MarkSystems.AddSystem(new DropTargetMarkSystem());
@@ -80,13 +91,16 @@ namespace Gameplay.Common.Mono{
             _defaultWorld.AddSystemsGroup(1, StateMachineSystemGroup);
             _defaultWorld.AddSystemsGroup(2, BattlePlanningState);
             _defaultWorld.AddSystemsGroup(3, BattleState);
-            _defaultWorld.AddSystemsGroup(4, ButtonSystems);
-            _defaultWorld.AddSystemsGroup(5, UIElements);
-            _defaultWorld.AddSystemsGroup(6, DragAndDropSystemGroup);
-            _defaultWorld.AddSystemsGroup(7, MonsterSystems);
-            _defaultWorld.AddSystemsGroup(8, DragAndDropEventsHandlers);
-            _defaultWorld.AddSystemsGroup(9, CellsSystemGroup);
-            _defaultWorld.AddSystemsGroup(10, MarkSystems);
+            _defaultWorld.AddSystemsGroup(4, TurnSystem);
+            _defaultWorld.AddSystemsGroup(5, ButtonSystems);
+            _defaultWorld.AddSystemsGroup(6, UIElements);
+            _defaultWorld.AddSystemsGroup(7, DragAndDropSystemGroup);
+            _defaultWorld.AddSystemsGroup(8, MonsterSystems);
+            _defaultWorld.AddSystemsGroup(9, AbilitySystem);
+            _defaultWorld.AddSystemsGroup(10, TargetSelection);
+            _defaultWorld.AddSystemsGroup(11, DragAndDropEventsHandlers);
+            _defaultWorld.AddSystemsGroup(12, CellsSystemGroup);
+            _defaultWorld.AddSystemsGroup(13, MarkSystems);
         }
 
 

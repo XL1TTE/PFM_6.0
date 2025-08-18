@@ -127,6 +127,8 @@ GameObject:
   - component: {fileID: 3664214970771590107}
   - component: {fileID: 2962972306920068860}
   - component: {fileID: 3632924635799608148}
+  - component: {fileID: 4624931254053682537}
+  - component: {fileID: 6203487794515212186}
   m_Layer: 0
   m_Name: p_MonsterSpawn
   m_TagString: Untagged
@@ -239,3 +241,31 @@ MonoBehaviour:
     grid_y: 0
     global_x: 0
     global_y: 0
+--- !u!114 &4624931254053682537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5595998051278696528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172d21528d209e74fb78fcb212f56d80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6203487794515212186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5595998051278696528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cad399c3833054842a109f624ee02228, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    DetectionRadius: 1
+    DetectionPriority: 100
+  _hitBoxColor: {r: 0, g: 1, b: 0, a: 1}

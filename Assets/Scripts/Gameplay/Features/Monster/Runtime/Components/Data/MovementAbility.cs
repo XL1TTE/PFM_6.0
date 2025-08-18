@@ -1,16 +1,17 @@
 using Scellecs.Morpeh;
+using UnityEngine;
 using Unity.IL2CPP.CompilerServices;
+using System.Collections.Generic;
 
-
-namespace Core.Components{
+namespace Gameplay.Features.Monster.Components{
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct TagCursorDetector : IComponent
+    public struct MovementAbility : IComponent
     {
-        public float DetectionRadius;
-        public int DetectionPriority;
+        public List<Vector2Int> Movements;
     }
 }
+
 

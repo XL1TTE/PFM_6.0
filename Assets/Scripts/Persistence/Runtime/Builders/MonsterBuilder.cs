@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using Core.Components;
 using Core.Utilities.Extentions;
 using Gameplay.Features.Monster;
@@ -16,6 +17,7 @@ namespace Persistence.Buiders{
             _ecsWorld = ecsWorld;
 
             stash_tagMonster = _ecsWorld.GetStash<TagMonster>();
+            stash_moveAbility = _ecsWorld.GetStash<MovementAbility>();
             stash_transformRef = _ecsWorld.GetStash<TransformRefComponent>();
             stash_cursorDetector = _ecsWorld.GetStash<TagCursorDetector>();
             stash_monsterDammyRef = _ecsWorld.GetStash<MonsterDammyRefComponent>();
@@ -39,6 +41,7 @@ namespace Persistence.Buiders{
         private World _ecsWorld;
         
         Stash<TagMonster> stash_tagMonster;
+        Stash<MovementAbility> stash_moveAbility;
         Stash<TransformRefComponent> stash_transformRef;
         Stash<TagCursorDetector> stash_cursorDetector;
         Stash<MonsterDammyRefComponent> stash_monsterDammyRef;
@@ -82,6 +85,8 @@ namespace Persistence.Buiders{
                 throw new System.Exception($"Record with id: {id_nearLeg} was not found.");
             }
             
+            #region Sprite Attachment
+            
             if(DataBase.TryGetRecord<HeadSpritePath>(rec_head, out var spr_head)){
                 monsterDammy.AttachHead(spr_head.path.LoadResource<Sprite>());
             }
@@ -100,7 +105,25 @@ namespace Persistence.Buiders{
             if(DataBase.TryGetRecord<LegSpritePath>(rec_nearLeg, out var spr_nearLeg)){
                 monsterDammy.AttachNearLeg(spr_nearLeg.NearSprite.LoadResource<Sprite>());
             }
+
+            #endregion
+
+            ref var moveAbility = ref stash_moveAbility.Add(entity);     
+            var movementTemp = new HashSet<Vector2Int>();
+
+            if(DataBase.TryGetRecord<MovementData>(rec_nearLeg, out var moveData_nearLeg)){
+                foreach(var move in moveData_nearLeg.Movements){
+                    movementTemp.Add(move);
+                }
+            }
+            if(DataBase.TryGetRecord<MovementData>(rec_farLeg, out var moveData_farLeg)){
+                foreach (var move in moveData_farLeg.Movements){
+                    movementTemp.Add(move);
+                }
+            }
             
+            moveAbility.Movements = new(movementTemp);
+
             #endregion
 
             stash_tagMonster.Add(entity);
@@ -108,7 +131,7 @@ namespace Persistence.Buiders{
             ref TransformRefComponent c_Transform = ref stash_transformRef.Add(entity);
             c_Transform.TransformRef = monsterDammy.transform;
 
-            stash_cursorDetector.Add(entity, new TagCursorDetector{DetectionRadius = 1.0f});
+            stash_cursorDetector.Add(entity, new TagCursorDetector{DetectionRadius = 1.0f, DetectionPriority = 9999});
 
             stash_monsterDammyRef.Add(entity, new MonsterDammyRefComponent{MonsterDammy = monsterDammy });
 

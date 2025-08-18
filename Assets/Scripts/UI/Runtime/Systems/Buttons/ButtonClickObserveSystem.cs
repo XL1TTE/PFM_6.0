@@ -14,7 +14,7 @@ public sealed class ButtonClickObserveSystem : ISystem
     
     private Filter _buttonsUnderCursor;
     
-    private Request<ButtonClickedRequest> req_btnClicked;
+    private Event<ButtonClickedEvent> evt_btnClicked;
 
     public void OnAwake() 
     {
@@ -23,7 +23,7 @@ public sealed class ButtonClickObserveSystem : ISystem
             .With<UnderCursorComponent>()
             .Build();
 
-        req_btnClicked = World.GetRequest<ButtonClickedRequest>();
+        evt_btnClicked = World.GetEvent<ButtonClickedEvent>();
     }
 
     public void OnUpdate(float deltaTime) 
@@ -31,7 +31,7 @@ public sealed class ButtonClickObserveSystem : ISystem
         if(_buttonsUnderCursor.IsEmpty()){return;}
         
         if(Input.GetMouseButtonDown(0)){
-            req_btnClicked.Publish(new ButtonClickedRequest{
+            evt_btnClicked.NextFrame(new ButtonClickedEvent{
                ClickedButton = _buttonsUnderCursor.First() 
             });
         }

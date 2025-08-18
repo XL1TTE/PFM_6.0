@@ -15,7 +15,7 @@ namespace Core.Systems{
     {
         public World World { get; set; }
 
-        private Filter _draggables;
+        private Filter _detectors;
         private Entity _lastUnderCursor;
         private Entity _closestEntity;
 
@@ -25,7 +25,7 @@ namespace Core.Systems{
 
         public void OnAwake()
         {
-            _draggables = World.Filter
+            _detectors = World.Filter
                 .With<TagCursorDetector>()
                 .With<TransformRefComponent>()
                 .Build();
@@ -38,24 +38,34 @@ namespace Core.Systems{
         public void OnUpdate(float deltaTime)
         {
             var mousePos = Input.mousePosition;
-            var ray = Camera.main.ScreenPointToRay(mousePos);
+            var worldMousePos = Camera.main.ScreenToWorldPoint(mousePos);
+            worldMousePos.z = 0;
 
             float closestDist = float.MaxValue;
+            int highestPriority = int.MinValue;
 
             bool isAnyEntityInPickupRadius = false;
 
             // Find the nearest one if draggables pick radiuses is overlaped.
-            foreach (var entity in _draggables)
+            foreach (var entity in _detectors)
             {
                 ref var transform = ref stash_transformRef.Get(entity).TransformRef;
-                var distance = Vector3.Cross(ray.direction, transform.position - ray.origin).magnitude;
+                var entityPos = transform.position;
 
-                if (distance <= stash_detectors.Get(entity).DetectionRadius && distance < closestDist)
-                {
-                    closestDist = distance;
-                    _closestEntity = entity;
+                var distance = Vector2.Distance(new Vector2(worldMousePos.x, worldMousePos.y)
+                    ,new Vector2(entityPos.x, entityPos.y));
+                    
+                var detectionData = stash_detectors.Get(entity);
 
-                    isAnyEntityInPickupRadius = true;
+                if (distance <= detectionData.DetectionRadius){
+                    if (detectionData.DetectionPriority > highestPriority ||
+                       (detectionData.DetectionPriority == highestPriority && distance < closestDist))
+                    {
+                        closestDist = distance;
+                        highestPriority = detectionData.DetectionPriority;
+                        _closestEntity = entity;
+                        isAnyEntityInPickupRadius = true;
+                    }
                 }
             }
 
@@ -68,7 +78,7 @@ namespace Core.Systems{
             {
                 stash_underCursor.Set(_closestEntity, new UnderCursorComponent
                 {
-                    HitPoint = ray.origin + ray.direction * closestDist
+                    HitPoint = worldMousePos
                 });
                 _lastUnderCursor = _closestEntity;
             }

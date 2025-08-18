@@ -94,7 +94,7 @@ namespace Gameplay.Common.Systems{
 
             genMonsterReq.Publish(new GenerateMonstersRequest
             {
-                MosntersCount = 2
+                MosntersCount = 1
             }, true);
 
 

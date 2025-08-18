@@ -1,16 +1,16 @@
 using Scellecs.Morpeh;
+using UnityEngine;
 using Unity.IL2CPP.CompilerServices;
 
-
-namespace Core.Components{
+namespace UI.Requests{
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct TagCursorDetector : IComponent
+    public struct ButtonClickedEvent : IEventData
     {
-        public float DetectionRadius;
-        public int DetectionPriority;
+        public Entity ClickedButton;
     }
 }
+
 

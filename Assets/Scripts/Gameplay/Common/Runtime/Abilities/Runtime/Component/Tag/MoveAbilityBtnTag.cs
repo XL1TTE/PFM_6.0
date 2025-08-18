@@ -2,14 +2,14 @@ using Scellecs.Morpeh;
 using UnityEngine;
 using Unity.IL2CPP.CompilerServices;
 
-namespace UI.Requests{
+namespace Gameplay.Features.Abilities{
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct ButtonClickedRequest : IRequestData
+    public struct MoveAbilityBtnTag : IComponent
     {
-        public Entity ClickedButton;
+
     }
 }
 

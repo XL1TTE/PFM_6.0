@@ -17,7 +17,7 @@ namespace Gameplay.Common.Systems{
         public World World { get; set; }
 
 
-        public Request<ButtonClickedRequest> _request;
+        public Event<ButtonClickedEvent> _evt;
         public Request<ChangeStateRequest> req_changeState;
 
 
@@ -26,7 +26,7 @@ namespace Gameplay.Common.Systems{
 
         public void OnAwake()
         {
-            _request = World.GetRequest<ButtonClickedRequest>();
+            _evt = World.GetEvent<ButtonClickedEvent>();
             req_changeState = World.GetRequest<ChangeStateRequest>();
 
             stash_myBtn = World.GetStash<ExitPlanningStageButtonTag>();
@@ -34,9 +34,9 @@ namespace Gameplay.Common.Systems{
 
         public void OnUpdate(float deltaTime)
         {
-            foreach (var req in _request.Consume())
+            foreach (var evt in _evt.publishedChanges)
             {
-                if (Validate(req) == false) { return; }
+                if (Validate(evt) == false) { return; }
 
                 var state = World.Filter.With<BattleState>().Build().FirstOrDefault();
                 
@@ -54,7 +54,7 @@ namespace Gameplay.Common.Systems{
 
         }
 
-        private bool Validate(ButtonClickedRequest request)
+        private bool Validate(ButtonClickedEvent request)
         {
             if (stash_myBtn.Has(request.ClickedButton) == false) { return false; }
             return true;

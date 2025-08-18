@@ -1,16 +1,14 @@
-using Scellecs.Morpeh;
+using Scellecs.Morpeh.Providers;
 using Unity.IL2CPP.CompilerServices;
 
+namespace Gameplay.Features.Abilities{
 
-namespace Core.Components{
-    [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct TagCursorDetector : IComponent
+    public sealed class MoveAbilityBtnTagProvider : MonoProvider<MoveAbilityBtnTag> 
     {
-        public float DetectionRadius;
-        public int DetectionPriority;
+        
     }
-}
 
+}

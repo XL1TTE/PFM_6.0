@@ -1,4 +1,5 @@
 
+using Core.Components;
 using Gameplay.Features.BattleField.Components;
 using Gameplay.Features.BattleField.Events;
 using Scellecs.Morpeh;
@@ -16,6 +17,9 @@ namespace Gameplay.Features.BattleField.Systems{
 
         private Event<CellOccupiedEvent> _cellOccupiedEvent;
         private Stash<TagOccupiedCell> stash_occupiedCell;
+        private Stash<CellPositionComponent> stash_cellPosition;
+        private Stash<GridPosition> stash_gridPosition;
+        private Stash<TransformRefComponent> stash_transformRef;
 
         public void OnAwake()
         {
@@ -26,6 +30,9 @@ namespace Gameplay.Features.BattleField.Systems{
             _cellOccupiedEvent = World.GetEvent<CellOccupiedEvent>();
 
             stash_occupiedCell = World.GetStash<TagOccupiedCell>();
+            stash_gridPosition = World.GetStash<GridPosition>();
+            stash_cellPosition = World.GetStash<CellPositionComponent>();
+            stash_transformRef = World.GetStash<TransformRefComponent>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -61,10 +68,25 @@ namespace Gameplay.Features.BattleField.Systems{
     
         private void OccupyCell(CellOccupiedEvent evt)
         {
-            stash_occupiedCell.Set(evt.CellEntity, new TagOccupiedCell
+            var cell = evt.CellEntity;
+            
+            var occupier = evt.OccupiedBy;
+            
+            stash_occupiedCell.Set(cell, new TagOccupiedCell
             {
-                Occupier = evt.OccupiedBy
+                Occupier = occupier
             });
+            
+            var c_cellPos = stash_cellPosition.Get(cell);
+            if(stash_gridPosition.Has(occupier)){
+                ref var c_gridPos = ref stash_gridPosition.Get(occupier);
+                c_gridPos.grid_x = c_cellPos.grid_x;
+                c_gridPos.grid_y = c_cellPos.grid_y;
+            }
+
+            var cellPos = stash_transformRef.Get(cell).TransformRef.position;
+            ref var c_transform = ref stash_transformRef.Get(occupier);
+            c_transform.TransformRef.position = cellPos;
         }
     
     }
