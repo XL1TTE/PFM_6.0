@@ -47,7 +47,7 @@ namespace Gameplay.Features.Abilities{
                 .Build();
 
             _nonOccupiedCells = World.Filter
-                .With<TagBattleFieldCell>()
+                .With<CellTag>()
                 .With<CellPositionComponent>()
                 .Without<TagOccupiedCell>()
                 .Build();

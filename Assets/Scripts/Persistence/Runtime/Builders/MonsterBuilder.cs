@@ -131,7 +131,7 @@ namespace Persistence.Buiders{
             ref TransformRefComponent c_Transform = ref stash_transformRef.Add(entity);
             c_Transform.TransformRef = monsterDammy.transform;
 
-            stash_cursorDetector.Add(entity, new TagCursorDetector{DetectionRadius = 1.0f, DetectionPriority = 9999});
+            //stash_cursorDetector.Add(entity, new TagCursorDetector{DetectionRadius = 1.0f, DetectionPriority = 9999});
 
             stash_monsterDammyRef.Add(entity, new MonsterDammyRefComponent{MonsterDammy = monsterDammy });
 

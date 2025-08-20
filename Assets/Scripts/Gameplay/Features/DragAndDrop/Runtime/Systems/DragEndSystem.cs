@@ -27,7 +27,6 @@ namespace Gameplay.Features.DragAndDrop.Systems{
         {
             _draggingEntities = World.Filter
                 .With<DragStateComponent>()
-                .With<DraggableTag>()
                 .Build();
 
             req_endDrag = World.GetRequest<EndDragRequest>();

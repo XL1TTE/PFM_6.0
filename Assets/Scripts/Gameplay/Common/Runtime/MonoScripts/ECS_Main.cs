@@ -43,6 +43,8 @@ namespace Gameplay.Common.Mono{
             BattlePlanningState.AddInitializer(new BattlePlanningStateInitializer());
             BattlePlanningState.AddSystem(new BattlePlanningStateEnterSystem());
             BattlePlanningState.AddSystem(new BattlePlanningStateExitSystem());
+            // State handle systems
+            BattlePlanningState.AddSystem(new MonsterSpawnCellMonsterDragInPlanningState());
             
             SystemsGroup BattleState = _defaultWorld.CreateSystemsGroup();
             BattleState.AddInitializer(new BattleStateInitializer());
@@ -76,7 +78,7 @@ namespace Gameplay.Common.Mono{
 
             SystemsGroup CellsSystemGroup = _defaultWorld.CreateSystemsGroup();
             CellsSystemGroup.AddSystem(new CellOccupySystem());
-            CellsSystemGroup.AddSystem(new HighlightSpawnCellSystem());
+            CellsSystemGroup.AddSystem(new CellHoverSystem());
             CellsSystemGroup.AddSystem(new CellsViewSystem());
             
             SystemsGroup MarkSystems = _defaultWorld.CreateSystemsGroup();
@@ -104,7 +106,7 @@ namespace Gameplay.Common.Mono{
         }
 
 
-        void Update()
+    void Update()
         {
             _defaultWorld.Update(Time.deltaTime);
             _defaultWorld.CleanupUpdate(Time.deltaTime);

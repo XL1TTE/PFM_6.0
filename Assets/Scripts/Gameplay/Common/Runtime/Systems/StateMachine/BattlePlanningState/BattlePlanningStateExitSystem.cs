@@ -1,8 +1,10 @@
 using System.Collections;
 using Core.Utilities;
+using Core.Utilities.Extentions;
 using Gameplay.Common.Components;
 using Gameplay.Common.Events;
 using Gameplay.Common.Requests;
+using Gameplay.Features.BattleField.Components;
 using Gameplay.Features.BattleField.Requests;
 using Gameplay.Features.DragAndDrop.Components;
 using Gameplay.Features.Monster.Components;
@@ -64,22 +66,21 @@ namespace Gameplay.Common.Systems{
             PlateWithText.Instance.Hide();
 
 
-            /* ########################################## */
-            /*     Draggable monster behaviour disable    */
-            /* ########################################## */
-
-            req_monsterDrag.Publish(new ChangeMonsterDraggableStateRequest
-            {
-                state = ChangeMonsterDraggableStateRequest.State.Disabled
-            }, true);
 
             /* ############################################## */
             /*         Hightlight monster spawn cells         */
             /* ############################################## */
 
-            var highlightMonsterSpawnCellsReq = World.Default.GetRequest<DisableMonsterSpawnCellsHighlightRequest>();
+            Filter spawnCellsFilter = World.Filter.With<TagMonsterSpawnCell>().Build();
 
-            highlightMonsterSpawnCellsReq.Publish(new DisableMonsterSpawnCellsHighlightRequest { }, true);
+            var highlightMonsterSpawnCellsReq = World.Default.GetRequest<CellSpriteChangeRequest>();
+
+            highlightMonsterSpawnCellsReq.Publish(
+                    new CellSpriteChangeRequest
+                    {
+                        Cells = spawnCellsFilter.AsEnumerable(),
+                        Sprite = CellSpriteChangeRequest.SpriteType.Default
+                    }, true);
 
             var req_markMonsterSpawnCellsAsDropTargets =
                 World.Default.GetRequest<MarkMonsterSpawnCellsAsDropTargetRequest>();

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Core.Utilities;
 using Core.Utilities.Extentions;
 using Gameplay.Common.Components;
@@ -22,8 +23,6 @@ namespace Gameplay.Common.Systems{
     public sealed class BattlePlanningStateEnterSystem : ISystem
     {
         public World World { get; set; }
-        
-        private Filter _monsters;
 
         private Event<OnStateEnterEvent> evt_onStateEnter;
 
@@ -35,10 +34,6 @@ namespace Gameplay.Common.Systems{
 
         public void OnAwake()
         {
-            _monsters = World.Filter
-                .With<TagMonster>()
-                .Build();
-
             evt_onStateEnter = World.GetEvent<OnStateEnterEvent>();
 
             stash_battlePlanning = World.GetStash<BattlePlanningState>();
@@ -63,7 +58,20 @@ namespace Gameplay.Common.Systems{
         
         
         private IEnumerator EnterRoutine(Entity stateEntity){
-            
+
+            /* ############################################## */
+            /*           Pre-spawn monsters request           */
+            /* ############################################## */
+
+            var genMonsterReq = World.GetRequest<GenerateMonstersRequest>();
+
+            genMonsterReq.Publish(new GenerateMonstersRequest
+            {
+                MosntersCount = 1
+            }, true);
+
+
+
             World.GetRequest<FullScreenNotificationRequest>().Publish(
             new FullScreenNotificationRequest{
                 state = FullScreenNotificationRequest.State.Enable,
@@ -86,33 +94,20 @@ namespace Gameplay.Common.Systems{
                 state = FullScreenNotificationRequest.State.Disable,
             }, true);
 
-            /* ############################################## */
-            /*           Pre-spawn monsters request           */
-            /* ############################################## */
-
-            var genMonsterReq = World.GetRequest<GenerateMonstersRequest>();
-
-            genMonsterReq.Publish(new GenerateMonstersRequest
-            {
-                MosntersCount = 1
-            }, true);
 
 
-            /* ########################################## */
-            /*     Draggable monster behaviour enable     */
-            /* ########################################## */
-
-            req_monsterDrag.Publish(new ChangeMonsterDraggableStateRequest{
-               state = ChangeMonsterDraggableStateRequest.State.Enabled 
-            }, true);
 
             /* ############################################## */
             /*         Hightlight monster spawn cells         */
             /* ############################################## */
 
-            var highlightMonsterSpawnCellsReq = World.Default.GetRequest<EnableMonsterSpawnCellsHighlightRequest>();
+            Filter spawnCellsFilter = World.Filter.With<TagMonsterSpawnCell>().Build();
 
-            highlightMonsterSpawnCellsReq.Publish(new EnableMonsterSpawnCellsHighlightRequest { }, true);
+            var highlightMonsterSpawnCellsReq = World.Default.GetRequest<CellSpriteChangeRequest>();
+
+            highlightMonsterSpawnCellsReq.Publish(
+                    new CellSpriteChangeRequest{Cells = spawnCellsFilter.AsEnumerable(), 
+                    Sprite = CellSpriteChangeRequest.SpriteType.Highlighted}, true);
 
             var req_markMonsterSpawnCellsAsDropTargets =
                 World.Default.GetRequest<MarkMonsterSpawnCellsAsDropTargetRequest>();

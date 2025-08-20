@@ -37,6 +37,8 @@ namespace Gameplay.Features.DragAndDrop.Systems{
             foreach (var req in req_startDrag.Consume())
             {
                 Entity draggedEntity = req.DraggedEntity;
+                
+                if(stash_dragState.Has(draggedEntity)){return;}
 
                 if (stash_transformRef.Has(draggedEntity))
                 {

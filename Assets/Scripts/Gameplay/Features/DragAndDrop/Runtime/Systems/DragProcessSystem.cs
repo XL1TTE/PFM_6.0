@@ -26,7 +26,6 @@ namespace Gameplay.Features.DragAndDrop.Systems{
         public void OnAwake()
         {
             _draggingEntities = World.Filter
-                .With<DraggableTag>()
                 .With<DragStateComponent>()
                 .Build();
 

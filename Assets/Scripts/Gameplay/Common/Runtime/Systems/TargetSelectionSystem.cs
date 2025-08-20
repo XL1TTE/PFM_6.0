@@ -5,6 +5,7 @@ using Core.Components;
 using Core.Utilities.Extentions;
 using Gameplay.Common.Components;
 using Gameplay.Common.Requests;
+using Gameplay.Features.BattleField.Components;
 using Gameplay.Features.BattleField.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -23,7 +24,7 @@ namespace Gameplay.Common.Systems{
         private Filter _selectablesUnderCursor;
         
         private Request<TargetSelectionRequest> req_targetSelection;
-        private Request<CellColorChangeRequest> req_changeCellColor;
+        private Request<CellSpriteChangeRequest> req_changeCellSprite;
         private Event<TargetSelectionCompletedEvent> evt_selectionComplited;
         
         private Stash<TagAwaibleToSelect> stash_awaibleToSelect;
@@ -46,7 +47,7 @@ namespace Gameplay.Common.Systems{
                 .Build();
 
             req_targetSelection = World.GetRequest<TargetSelectionRequest>();
-            req_changeCellColor = World.GetRequest<CellColorChangeRequest>();
+            req_changeCellSprite = World.GetRequest<CellSpriteChangeRequest>();
             evt_selectionComplited = World.GetEvent<TargetSelectionCompletedEvent>();
 
             stash_awaibleToSelect = World.GetStash<TagAwaibleToSelect>();
@@ -109,7 +110,6 @@ namespace Gameplay.Common.Systems{
         }
         
         private void ExitSelection(){
-            CurrentState = SystemState.None;
             ReturnDefaultColors();
             Reset();
             Debug.Log("EXIT TARGET SELECTING");
@@ -119,7 +119,9 @@ namespace Gameplay.Common.Systems{
             foreach(var e in AwaibleTargets){
                 stash_awaibleToSelect.Remove(e);
             }
+            CurrentState = SystemState.None;
             SelectedTargets.Clear();
+            AwaibleTargets.Clear();
             MaxTargets = 0;
             ProcessingRequestID = -1;
         }
@@ -145,21 +147,22 @@ namespace Gameplay.Common.Systems{
                 stash_awaibleToSelect.Add(target);
                 AwaibleTargets.Add(target);
             }
-            HighlightCells("#fff314");
+            HighlightCells();
         }
         
-        private void HighlightCells(string colorHex){
-            req_changeCellColor.Publish(new CellColorChangeRequest{
-                Cells = AwaibleTargets, 
-                ColorHex = colorHex
+        private void HighlightCells(){
+                
+            req_changeCellSprite.Publish(new CellSpriteChangeRequest{
+                Cells = new List<Entity>(AwaibleTargets), 
+                Sprite = CellSpriteChangeRequest.SpriteType.Highlighted
             });
         }
         
         private void ReturnDefaultColors(){
-            req_changeCellColor.Publish(new CellColorChangeRequest
+            req_changeCellSprite.Publish(new CellSpriteChangeRequest
             {
-                Cells = AwaibleTargets,
-                ColorHex = "default"
+                Cells = new List<Entity>(AwaibleTargets),
+                Sprite = CellSpriteChangeRequest.SpriteType.Default
             });
         }
     }

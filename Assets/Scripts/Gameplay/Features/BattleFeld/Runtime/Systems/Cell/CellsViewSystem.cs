@@ -2,9 +2,11 @@ using System;
 using Core.Components;
 using Core.Utilities.Extentions;
 using Gameplay.Features.BattleField.Components;
+using Gameplay.Features.BattleField.Providers;
 using Gameplay.Features.BattleField.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
 namespace Gameplay.Features.BattleField.Systems{
     
@@ -16,16 +18,20 @@ namespace Gameplay.Features.BattleField.Systems{
         public World World { get; set; }
         
         private Request<CellColorChangeRequest> req_ChangeColor;
+        private Request<CellSpriteChangeRequest> req_ChangeSprite;
         
-        private Stash<TagBattleFieldCell> stash_cellTag;
+        private Stash<CellTag> stash_cellTag;
         private Stash<SpriteComponent> stash_spriteRef;
+        private Stash<CellSpritesComponent> stash_cellSprites;
 
         public void OnAwake()
         {
             req_ChangeColor = World.GetRequest<CellColorChangeRequest>();
+            req_ChangeSprite = World.GetRequest<CellSpriteChangeRequest>();
 
-            stash_cellTag = World.GetStash<TagBattleFieldCell>();
+            stash_cellTag = World.GetStash<CellTag>();
             stash_spriteRef = World.GetStash<SpriteComponent>();
+            stash_cellSprites = World.GetStash<CellSpritesComponent>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -33,17 +39,62 @@ namespace Gameplay.Features.BattleField.Systems{
             foreach(var req in req_ChangeColor.Consume()){
                 ChangeColor(req);
             }
+            foreach(var req in req_ChangeSprite.Consume()){
+                ChangeSprite(req);
+            }
         }
 
         public void Dispose()
         {
 
         }
-        
+
+        private Sprite GetSpriteForCell(CellSpriteChangeRequest.SpriteType spriteType, Entity cell){
+            Sprite sprite = null;
+                    
+            ref var cellSprites = ref stash_cellSprites.Get(cell);
+            var spriteController = stash_spriteRef.Get(cell).Sprite;
+            
+            switch (spriteType)
+            {
+                case CellSpriteChangeRequest.SpriteType.Default:
+                    cellSprites.SpriteState = CellSpritesComponent.SpriteStates.Default;
+                    sprite = cellSprites.EmptySprite;
+                    break;
+                case CellSpriteChangeRequest.SpriteType.Previous:
+                    cellSprites.SpriteState = cellSprites.PreviousSpriteState;
+                    sprite = spriteController.GetPreviousSprite();
+                    break;
+                case CellSpriteChangeRequest.SpriteType.Hover:
+                    cellSprites.SpriteState = CellSpritesComponent.SpriteStates.Hovered;
+                    sprite = cellSprites.HoverSprite;
+                    break;
+                case CellSpriteChangeRequest.SpriteType.Highlighted:
+                    cellSprites.SpriteState = CellSpritesComponent.SpriteStates.Highlighted;
+                    sprite = cellSprites.HighlightedSprite;
+                    break;
+            }
+            
+            return sprite;
+        }
+
+        private void ChangeSprite(CellSpriteChangeRequest req)
+        {
+            foreach(var cell in req.Cells){
+                if (stash_cellTag.Has(cell) == false) { continue; }
+                if (stash_spriteRef.Has(cell) == false) { continue; }
+                if (stash_cellSprites.Has(cell) == false) { continue; }
+
+                var sprite = GetSpriteForCell(req.Sprite, cell);
+
+                stash_spriteRef.Get(cell).Sprite.SetSprite(sprite);
+            }
+        }
+
         private void ChangeColor(CellColorChangeRequest req){
             foreach(var cell in req.Cells){
-                if(stash_cellTag.Has(cell) == false){continue;}
-                if(stash_spriteRef.Has(cell) == false){continue;}
+                if(stash_cellTag.Has(cell) == false){ continue; }
+                if(stash_spriteRef.Has(cell) == false){ continue; }
                 
                 if(req.ColorHex == "default")
                 {
@@ -59,6 +110,10 @@ namespace Gameplay.Features.BattleField.Systems{
         private void ReturnDefaultColor(CellColorChangeRequest req)
         {
             foreach(var cell in req.Cells){
+
+                if (stash_cellTag.Has(cell) == false) { continue; }
+                if (stash_spriteRef.Has(cell) == false) { continue; }
+
                 ref var sprite = ref stash_spriteRef.Get(cell).Sprite;
                 var defaultColor = sprite.GetDefaultColor();
                 sprite.SetColor(defaultColor);
