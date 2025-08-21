@@ -6,7 +6,6 @@ using Gameplay.Features.DragAndDrop.Components;
 using Gameplay.Features.DragAndDrop.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
 namespace Gameplay.Common.Systems{

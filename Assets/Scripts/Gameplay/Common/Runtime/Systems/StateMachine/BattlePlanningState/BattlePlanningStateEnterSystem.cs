@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Core.Utilities;
 using Core.Utilities.Extentions;
 using Gameplay.Common.Components;
@@ -8,10 +7,7 @@ using Gameplay.Common.Requests;
 using Gameplay.Features.BattleField.Components;
 using Gameplay.Features.BattleField.Requests;
 using Gameplay.Features.DragAndDrop.Components;
-using Gameplay.Features.Monster.Components;
 using Scellecs.Morpeh;
-using UI.Components;
-using UI.Components.Tags;
 using UI.Requests;
 using UI.Widgets;
 using Unity.IL2CPP.CompilerServices;
@@ -103,11 +99,14 @@ namespace Gameplay.Common.Systems{
 
             Filter spawnCellsFilter = World.Filter.With<TagMonsterSpawnCell>().Build();
 
-            var highlightMonsterSpawnCellsReq = World.Default.GetRequest<CellSpriteChangeRequest>();
+            var highlightMonsterSpawnCellsReq = World.Default.GetRequest<ChangeCellViewToSelectRequest>();
 
             highlightMonsterSpawnCellsReq.Publish(
-                    new CellSpriteChangeRequest{Cells = spawnCellsFilter.AsEnumerable(), 
-                    Sprite = CellSpriteChangeRequest.SpriteType.Highlighted}, true);
+                    new ChangeCellViewToSelectRequest
+                    {
+                        Cells = spawnCellsFilter.AsEnumerable(), 
+                        State = ChangeCellViewToSelectRequest.SelectState.Enabled}
+                    , true);
 
             var req_markMonsterSpawnCellsAsDropTargets =
                 World.Default.GetRequest<MarkMonsterSpawnCellsAsDropTargetRequest>();

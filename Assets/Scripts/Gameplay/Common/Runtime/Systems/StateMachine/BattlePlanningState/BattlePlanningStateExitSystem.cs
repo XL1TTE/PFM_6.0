@@ -73,13 +73,13 @@ namespace Gameplay.Common.Systems{
 
             Filter spawnCellsFilter = World.Filter.With<TagMonsterSpawnCell>().Build();
 
-            var highlightMonsterSpawnCellsReq = World.Default.GetRequest<CellSpriteChangeRequest>();
+            var highlightMonsterSpawnCellsReq = World.Default.GetRequest<ChangeCellViewToSelectRequest>();
 
             highlightMonsterSpawnCellsReq.Publish(
-                    new CellSpriteChangeRequest
+                    new ChangeCellViewToSelectRequest
                     {
                         Cells = spawnCellsFilter.AsEnumerable(),
-                        Sprite = CellSpriteChangeRequest.SpriteType.Default
+                        State = ChangeCellViewToSelectRequest.SelectState.Disabled
                     }, true);
 
             var req_markMonsterSpawnCellsAsDropTargets =

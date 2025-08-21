@@ -24,7 +24,7 @@ namespace Gameplay.Common.Systems{
         private Filter _selectablesUnderCursor;
         
         private Request<TargetSelectionRequest> req_targetSelection;
-        private Request<CellSpriteChangeRequest> req_changeCellSprite;
+        private Request<ChangeCellViewToSelectRequest> req_selectCellsView;
         private Event<TargetSelectionCompletedEvent> evt_selectionComplited;
         
         private Stash<TagAwaibleToSelect> stash_awaibleToSelect;
@@ -47,7 +47,9 @@ namespace Gameplay.Common.Systems{
                 .Build();
 
             req_targetSelection = World.GetRequest<TargetSelectionRequest>();
-            req_changeCellSprite = World.GetRequest<CellSpriteChangeRequest>();
+            
+            req_selectCellsView = World.GetRequest<ChangeCellViewToSelectRequest>();
+            
             evt_selectionComplited = World.GetEvent<TargetSelectionCompletedEvent>();
 
             stash_awaibleToSelect = World.GetStash<TagAwaibleToSelect>();
@@ -151,18 +153,18 @@ namespace Gameplay.Common.Systems{
         }
         
         private void HighlightCells(){
-                
-            req_changeCellSprite.Publish(new CellSpriteChangeRequest{
+
+            req_selectCellsView.Publish(new ChangeCellViewToSelectRequest{
                 Cells = new List<Entity>(AwaibleTargets), 
-                Sprite = CellSpriteChangeRequest.SpriteType.Highlighted
+                State = ChangeCellViewToSelectRequest.SelectState.Enabled
             });
         }
         
         private void ReturnDefaultColors(){
-            req_changeCellSprite.Publish(new CellSpriteChangeRequest
+            req_selectCellsView.Publish(new ChangeCellViewToSelectRequest
             {
                 Cells = new List<Entity>(AwaibleTargets),
-                Sprite = CellSpriteChangeRequest.SpriteType.Default
+                State = ChangeCellViewToSelectRequest.SelectState.Disabled
             });
         }
     }

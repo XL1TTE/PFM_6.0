@@ -15,42 +15,38 @@ public sealed class CellHoverSystem : ISystem
     
     private Filter _cellsUnderCursor; 
     
-    private Request<CellSpriteChangeRequest> req_cellSpriteChange;
-    private Stash<CellSpritesComponent> stash_cellSprites;
+    private Request<ChangeCellViewToHoverRequest> req_hoverCell;
     
-    private Entity CurrentHighlightedCell;
+    private Stash<CellSpriteLayersComponent> stash_cellSprites;
+    
+    private Entity CurrentHoveredCell;
+
 
     public void OnAwake() 
     {
         _cellsUnderCursor = World.Filter
             .With<UnderCursorComponent>()
-            .With<CellSpritesComponent>()
+            .With<CellSpriteLayersComponent>()
             .With<CellTag>()
             .Build();
 
-        req_cellSpriteChange = World.GetRequest<CellSpriteChangeRequest>();
+        req_hoverCell = World.GetRequest<ChangeCellViewToHoverRequest>();
 
-        stash_cellSprites = World.GetStash<CellSpritesComponent>();
+        stash_cellSprites = World.GetStash<CellSpriteLayersComponent>();
     }
 
     public void OnUpdate(float deltaTime) 
     {
-        if(_cellsUnderCursor.IsEmpty() && CurrentHighlightedCell.IsExist())
+        if(_cellsUnderCursor.IsEmpty())
         {
             DisableHighlight();
             return;
         }
         
-        var cell = _cellsUnderCursor.FirstOrDefault();
-        if(cell.IsExist()){
-              
-            var state = stash_cellSprites.Get(cell).SpriteState;
-            if (state != CellSpritesComponent.SpriteStates.Hovered){
-                if(CurrentHighlightedCell.Id != cell.Id){
-                    DisableHighlight();
-                }
-                EnableHighlight(cell);
-            }
+        var cell = _cellsUnderCursor.First();
+        if(CurrentHoveredCell.Id != cell.Id){
+            DisableHighlight();
+            EnableHighlight(cell);
         }
     }
 
@@ -60,25 +56,24 @@ public sealed class CellHoverSystem : ISystem
     }
     
     private void DisableHighlight(){
-        // Disable higlighting for previous cell.
-        if (CurrentHighlightedCell.IsExist())
-        {
-            req_cellSpriteChange.Publish(new CellSpriteChangeRequest
+        if(CurrentHoveredCell.IsExist()){
+            
+            req_hoverCell.Publish(new ChangeCellViewToHoverRequest
             {
-                Cells = new List<Entity> { CurrentHighlightedCell },
-                Sprite = CellSpriteChangeRequest.SpriteType.Previous
+                Cells = new List<Entity> { CurrentHoveredCell },
+                State = ChangeCellViewToHoverRequest.HoverState.Disabled
             });
 
-            CurrentHighlightedCell = default;
+            CurrentHoveredCell = default;
         }
     }
     
     private void EnableHighlight(Entity cell){
-        CurrentHighlightedCell = cell;
-        req_cellSpriteChange.Publish(new CellSpriteChangeRequest
-        {
-            Cells = new List<Entity> { cell },
-            Sprite = CellSpriteChangeRequest.SpriteType.Hover
+        CurrentHoveredCell = cell;
+        
+        req_hoverCell.Publish(new ChangeCellViewToHoverRequest{
+            Cells = new List<Entity>{cell},
+            State = ChangeCellViewToHoverRequest.HoverState.Enabled
         });
     }
 }

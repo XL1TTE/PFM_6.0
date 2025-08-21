@@ -18,20 +18,22 @@ namespace Gameplay.Features.BattleField.Systems{
         public World World { get; set; }
         
         private Request<CellColorChangeRequest> req_ChangeColor;
-        private Request<CellSpriteChangeRequest> req_ChangeSprite;
+        private Request<ChangeCellViewToHoverRequest> req_HoverCells;
+        private Request<ChangeCellViewToSelectRequest> req_SelectCells;
         
         private Stash<CellTag> stash_cellTag;
         private Stash<SpriteComponent> stash_spriteRef;
-        private Stash<CellSpritesComponent> stash_cellSprites;
+        private Stash<CellSpriteLayersComponent> stash_cellSprites;
 
         public void OnAwake()
         {
             req_ChangeColor = World.GetRequest<CellColorChangeRequest>();
-            req_ChangeSprite = World.GetRequest<CellSpriteChangeRequest>();
+            req_HoverCells = World.GetRequest<ChangeCellViewToHoverRequest>();
+            req_SelectCells = World.GetRequest<ChangeCellViewToSelectRequest>();
 
             stash_cellTag = World.GetStash<CellTag>();
             stash_spriteRef = World.GetStash<SpriteComponent>();
-            stash_cellSprites = World.GetStash<CellSpritesComponent>();
+            stash_cellSprites = World.GetStash<CellSpriteLayersComponent>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -39,8 +41,11 @@ namespace Gameplay.Features.BattleField.Systems{
             foreach(var req in req_ChangeColor.Consume()){
                 ChangeColor(req);
             }
-            foreach(var req in req_ChangeSprite.Consume()){
-                ChangeSprite(req);
+            foreach(var req in req_HoverCells.Consume()){
+                HoverCells(req);
+            }
+            foreach(var req in req_SelectCells.Consume()){
+                SelectCells(req);
             }
         }
 
@@ -49,45 +54,39 @@ namespace Gameplay.Features.BattleField.Systems{
 
         }
 
-        private Sprite GetSpriteForCell(CellSpriteChangeRequest.SpriteType spriteType, Entity cell){
-            Sprite sprite = null;
-                    
-            ref var cellSprites = ref stash_cellSprites.Get(cell);
-            var spriteController = stash_spriteRef.Get(cell).Sprite;
-            
-            switch (spriteType)
-            {
-                case CellSpriteChangeRequest.SpriteType.Default:
-                    cellSprites.SpriteState = CellSpritesComponent.SpriteStates.Default;
-                    sprite = cellSprites.EmptySprite;
-                    break;
-                case CellSpriteChangeRequest.SpriteType.Previous:
-                    cellSprites.SpriteState = cellSprites.PreviousSpriteState;
-                    sprite = spriteController.GetPreviousSprite();
-                    break;
-                case CellSpriteChangeRequest.SpriteType.Hover:
-                    cellSprites.SpriteState = CellSpritesComponent.SpriteStates.Hovered;
-                    sprite = cellSprites.HoverSprite;
-                    break;
-                case CellSpriteChangeRequest.SpriteType.Highlighted:
-                    cellSprites.SpriteState = CellSpritesComponent.SpriteStates.Highlighted;
-                    sprite = cellSprites.HighlightedSprite;
-                    break;
-            }
-            
-            return sprite;
-        }
-
-        private void ChangeSprite(CellSpriteChangeRequest req)
+        private void HoverCells(ChangeCellViewToHoverRequest req)
         {
             foreach(var cell in req.Cells){
                 if (stash_cellTag.Has(cell) == false) { continue; }
-                if (stash_spriteRef.Has(cell) == false) { continue; }
+                if (stash_cellSprites.Has(cell) == false) { continue; }
+                
+                ref var spriteRef = ref stash_cellSprites.Get(cell);
+
+                if (req.State == ChangeCellViewToHoverRequest.HoverState.Enabled){
+                    spriteRef.HoverLayer.gameObject.SetActive(true);
+                }
+                else if(req.State == ChangeCellViewToHoverRequest.HoverState.Disabled){
+                    spriteRef.HoverLayer.gameObject.SetActive(false);
+                }
+            }
+        }
+        
+        private void SelectCells(ChangeCellViewToSelectRequest req){
+            foreach (var cell in req.Cells)
+            {
+                if (stash_cellTag.Has(cell) == false) { continue; }
                 if (stash_cellSprites.Has(cell) == false) { continue; }
 
-                var sprite = GetSpriteForCell(req.Sprite, cell);
+                ref var spriteRef = ref stash_cellSprites.Get(cell);
 
-                stash_spriteRef.Get(cell).Sprite.SetSprite(sprite);
+                if (req.State == ChangeCellViewToSelectRequest.SelectState.Enabled)
+                {
+                    spriteRef.SelectedLayer.gameObject.SetActive(true);
+                }
+                else if (req.State == ChangeCellViewToSelectRequest.SelectState.Disabled)
+                {
+                    spriteRef.SelectedLayer.gameObject.SetActive(false);
+                }
             }
         }
 

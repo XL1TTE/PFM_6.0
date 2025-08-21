@@ -6,7 +6,7 @@ namespace Gameplay.Features.BattleField.Providers{
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class CellSpritesComponentProvider : MonoProvider<CellSpritesComponent>
+    public sealed class CellSpriteLayersComponentProvider : MonoProvider<CellSpriteLayersComponent>
     {
 
     }

@@ -20,6 +20,8 @@ namespace Gameplay.Features.BattleField
         private GameObject[,] _gridCache;
         private Transform _gridParent;
 
+#if UNITY_EDITOR
+
         public void GenerateGrid()
         {
             ClearGrid();
@@ -70,7 +72,7 @@ namespace Gameplay.Features.BattleField
             return cellGenRule;
         }
         
-        #if UNITY_EDITOR
+        
         public void ClearGrid()
         {
             if (_gridCache == null) return;
@@ -101,7 +103,7 @@ namespace Gameplay.Features.BattleField
             }
         }
 
-        #endif
+#endif
     }
 
 }
