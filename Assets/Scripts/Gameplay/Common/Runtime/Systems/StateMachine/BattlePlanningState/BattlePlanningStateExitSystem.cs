@@ -1,4 +1,5 @@
 using System.Collections;
+using Codice.CM.Client.Differences;
 using Core.Utilities;
 using Core.Utilities.Extentions;
 using Gameplay.Common.Components;
@@ -9,6 +10,7 @@ using Gameplay.Features.BattleField.Requests;
 using Gameplay.Features.DragAndDrop.Components;
 using Gameplay.Features.Monster.Components;
 using Scellecs.Morpeh;
+using UI.Components;
 using UI.Widgets;
 using Unity.IL2CPP.CompilerServices;
 
@@ -65,8 +67,6 @@ namespace Gameplay.Common.Systems{
 
             PlateWithText.Instance.Hide();
 
-
-
             /* ############################################## */
             /*         Hightlight monster spawn cells         */
             /* ############################################## */
@@ -88,6 +88,14 @@ namespace Gameplay.Common.Systems{
             req_markMonsterSpawnCellsAsDropTargets.Publish(
                 new MarkMonsterSpawnCellsAsDropTargetRequest { DropRadius = 1.0f, 
                 state = MarkMonsterSpawnCellsAsDropTargetRequest.State.Disable}, true);
+                
+            // Remove start battle button
+            var exitPlngStateBtn = World.Filter.With<ExitPlanningStageButtonTag>().Build().FirstOrDefault();
+            if (exitPlngStateBtn.IsExist()){
+                if(World.TryGetComponent<ExitPlanningStageButtonTag>(exitPlngStateBtn, out var exitPlngStateBtnView)){
+                    exitPlngStateBtnView.View.DestroySelf();
+                }
+            }
         }
 
 

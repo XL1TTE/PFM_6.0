@@ -1,15 +1,14 @@
 using Scellecs.Morpeh;
-using UI.Mono.View;
+using UnityEngine;
 using Unity.IL2CPP.CompilerServices;
 
-namespace UI.Components{
+namespace Gameplay.Common.Events{
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct ExitPlanningStageButtonTag : IComponent
+    public struct NextTurnStartedEvent : IEventData
     {
-        public ExitPlanningStageBtnView View; 
     }
 }
 

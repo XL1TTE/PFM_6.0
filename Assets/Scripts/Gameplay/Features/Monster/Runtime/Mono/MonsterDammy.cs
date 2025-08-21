@@ -11,6 +11,8 @@ namespace Gameplay.Features.Monster{
         [SerializeField] private SpriteRenderer NearArmAnchor;
         [SerializeField] private SpriteRenderer FarArmAnchor;
         
+        [HideInInspector] public Sprite MonsterAvatar;
+        
         #region Part attachment
         
         public void AttachNearLeg(Sprite sprite){
@@ -30,6 +32,7 @@ namespace Gameplay.Features.Monster{
         }
         public void AttachHead(Sprite sprite){
             HeadAnchor.sprite = sprite;
+            MonsterAvatar = sprite;
         }
         
         #endregion

@@ -69,7 +69,7 @@ namespace Core.Systems{
                 }
             }
 
-            if (_lastUnderCursor.IsExist())
+            if (_lastUnderCursor.IsExist() && !World.IsDisposed(_lastUnderCursor))
             {
                 stash_underCursor.Remove(_lastUnderCursor);
             }

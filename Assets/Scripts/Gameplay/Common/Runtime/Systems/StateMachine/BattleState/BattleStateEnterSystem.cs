@@ -3,6 +3,8 @@ using Core.Utilities;
 using Core.Utilities.Extentions;
 using Gameplay.Common.Components;
 using Gameplay.Common.Events;
+using Gameplay.Common.Requests;
+using Gameplay.Common.Systems;
 using Scellecs.Morpeh;
 using UI.Requests;
 using UI.Widgets;
@@ -75,6 +77,12 @@ namespace Core.Systems{
 
             PlateWithText.Instance.Show("Battle stage");
 
+            /* ########################################## */
+            /*           Initialize turn system           */
+            /* ########################################## */
+            
+            World.GetRequest<InitializeTurnSystemRequest>().Publish(
+                new InitializeTurnSystemRequest{}, true);
         }
 
 

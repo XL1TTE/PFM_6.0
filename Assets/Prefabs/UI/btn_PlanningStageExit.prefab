@@ -1,5 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2174534793460523281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5048982800296923309}
+  - component: {fileID: 8471407863747994044}
+  m_Layer: 0
+  m_Name: Mono
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5048982800296923309
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2174534793460523281}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8659591408310071751}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8471407863747994044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2174534793460523281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd6d0f02ef53b8340b9e6a8944c4e81a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RootButtonObject: {fileID: 3502223911818016269}
 --- !u!1 &2626860470937224989
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +336,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2013816508673364469}
+  - {fileID: 5048982800296923309}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3135224711905892508
@@ -321,6 +367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     DetectionRadius: 0.9
+    DetectionPriority: 0
   _hitBoxColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!114 &1608030409738656973
 MonoBehaviour:
@@ -334,6 +381,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 082dd22161abfd146ae5d74fceb74bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializedData:
+    View: {fileID: 8471407863747994044}
 --- !u!114 &8961293388690328081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,7 +456,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1740462501
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &4545500012127364739

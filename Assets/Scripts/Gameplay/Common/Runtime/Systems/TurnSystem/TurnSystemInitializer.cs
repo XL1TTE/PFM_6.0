@@ -1,8 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Core.Utilities.Extentions;
 using Gameplay.Common.Components;
 using Gameplay.Common.Events;
+using Gameplay.Common.Requests;
 using Gameplay.Features.Monster.Components;
 using Scellecs.Morpeh;
+using UI.Widgets;
 using Unity.IL2CPP.CompilerServices;
 
 
@@ -14,63 +19,73 @@ namespace Gameplay.Common.Systems{
     {
         public World World { get; set; }
         
-        private Event<OnStateEnterEvent> evt_onStateEnter;
-        private Event<OnStateExitEvent> evt_onStateExit;
+        private Filter filter_monsters;
         
-        private Stash<BattleState> stash_battleState;
+        private Request<InitializeTurnSystemRequest> req_initSystem;
+
+        private Request<ProcessTurnRequest> req_processTurn;
+
+
         private Stash<CurrentTurnTakerTag> stash_curTurnTaker;
+        private Stash<Speed> stash_Speed;
+        
+        private List<Entity> TurnQueue = new();
 
         public void OnAwake()
         {
-            evt_onStateEnter = World.GetEvent<OnStateEnterEvent>();
-            evt_onStateExit = World.GetEvent<OnStateExitEvent>();
+            filter_monsters = World.Filter
+                .With<TagMonster>()
+                .Build();
 
-            stash_battleState = World.GetStash<BattleState>();
+            req_initSystem = World.GetRequest<InitializeTurnSystemRequest>();
+            req_processTurn = World.GetRequest<ProcessTurnRequest>();
+
             stash_curTurnTaker = World.GetStash<CurrentTurnTakerTag>();
+            stash_Speed = World.GetStash<Speed>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach(var evt in evt_onStateEnter.publishedChanges){
-                if(IsStateValid(evt.StateEntity)){
-                    MarkFirstTurnTaker();
-                }
-            }
-            foreach(var evt in evt_onStateExit.publishedChanges){
-                if(IsStateValid(evt.StateEntity)){
-                    Cleanup();
-                }
+            foreach(var req in req_initSystem.Consume()){
+                InitializeSystem(req);
             }
         }
 
         public void Dispose()
         {
-
+            TurnQueue = null;
         }
         
-        private void MarkFirstTurnTaker(){
-            var monsters = World.Filter
-                .With<TagMonster>().Build();
-            var monster = monsters.FirstOrDefault();
-            if (monster.IsExist()){
-                stash_curTurnTaker.Add(monster);
-            }
-
+        private void InitializeSystem(InitializeTurnSystemRequest req)
+        {
+            CreateTurnQueue();
+            RequestTurnProcess();
         }
         
-        private void Cleanup(){
-            var turnTakers = World.Filter.With<CurrentTurnTakerTag>().Build();
-            foreach(var e in turnTakers){
-                stash_curTurnTaker.Remove(e);
+        private List<Entity> CreateTurnQueue(){
+            foreach (var monster in filter_monsters)
+            {
+                TurnQueue.Add(monster);
             }
+            TurnQueue.OrderByDescending(e =>
+            {
+                var speed = 0.0f;
+                if (stash_Speed.Has(e))
+                {
+                    speed = stash_Speed.Get(e).Value;
+                }
+                return speed;
+            });
+            
+            return TurnQueue;
         }
 
-
-
-        private bool IsStateValid(Entity state){
-            if(stash_battleState.Has(state) == false){return false;}
-            return true;
+        private void RequestTurnProcess(){
+            req_processTurn.Publish(new ProcessTurnRequest{
+                CurrentTurnQueue = TurnQueue
+            });
         }
+
     }
 }
 

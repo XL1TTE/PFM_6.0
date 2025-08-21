@@ -1,16 +1,16 @@
 using Scellecs.Morpeh;
-using UI.Mono.View;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
-namespace UI.Components{
+namespace Persistence.Components
+{
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct ExitPlanningStageButtonTag : IComponent
+    public struct PrefabComponent : IComponent
     {
-        public ExitPlanningStageBtnView View; 
+        public GameObject Value;
     }
+
 }
-
-
