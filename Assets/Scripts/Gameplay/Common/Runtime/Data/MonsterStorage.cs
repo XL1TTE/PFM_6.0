@@ -50,7 +50,7 @@ namespace Gameplay.Common
                 ref DraggableTag c_Draggable = ref DraggableStash.Add(entity);
                 
 
-                c_Transform.TransformRef = monster.transform;            
+                c_Transform.Value = monster.transform;            
 
                 
                 

@@ -3,7 +3,7 @@ using UI.Requests;
 using UI.Widgets;
 using UnityEngine;
 
-namespace UI
+namespace UI.Mono
 {
     public class UI_RefsProvider : MonoBehaviour
     {

@@ -68,7 +68,7 @@ namespace Gameplay.Common.Systems{
                 throw new Exception("Monster entity does not have a transform component. Can't spawn monster without it!");
             }
             ref var monsterTransform = ref stash_monsterTransform.Get(monster);
-            monsterTransform.TransformRef.position =
+            monsterTransform.Value.position =
                 new UnityEngine.Vector3(cellPos.global_x, cellPos.global_y, cellPos.global_y * 0.01f);
 
             stash_gridPosition.Add(monster, new GridPosition{

@@ -55,7 +55,7 @@ namespace Gameplay.Features.DragAndDrop.Systems{
                         {
                             DraggedEntity = entity,
                             ClickWorldPos = stash_underCursor.Get(entity).HitPoint,
-                            StartPosition = stash_transformRef.Get(entity).TransformRef.position
+                            StartPosition = stash_transformRef.Get(entity).Value.position
                         });
                         break;
                     }

@@ -9,7 +9,6 @@ namespace Gameplay.Common.Requests{
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct ProcessTurnRequest : IRequestData
     {
-        public List<Entity> CurrentTurnQueue;
     }
 }
 

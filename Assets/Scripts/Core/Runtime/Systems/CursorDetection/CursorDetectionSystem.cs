@@ -49,14 +49,17 @@ namespace Core.Systems{
             // Find the nearest one if draggables pick radiuses is overlaped.
             foreach (var entity in _detectors)
             {
-                ref var transform = ref stash_transformRef.Get(entity).TransformRef;
+                ref var transform = ref stash_transformRef.Get(entity).Value;
+                if(transform == null){
+                    throw new System.Exception($"Entity {entity.Id} have transform component but value is not assigned!");
+                }
                 var entityPos = transform.position;
 
                 var distance = Vector2.Distance(new Vector2(worldMousePos.x, worldMousePos.y)
                     ,new Vector2(entityPos.x, entityPos.y));
                     
                 var detectionData = stash_detectors.Get(entity);
-
+                
                 if (distance <= detectionData.DetectionRadius){
                     if (detectionData.DetectionPriority > highestPriority ||
                        (detectionData.DetectionPriority == highestPriority && distance < closestDist))

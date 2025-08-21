@@ -20,6 +20,7 @@ namespace Gameplay.Features.BattleField.Systems{
         private Request<CellColorChangeRequest> req_ChangeColor;
         private Request<ChangeCellViewToHoverRequest> req_HoverCells;
         private Request<ChangeCellViewToSelectRequest> req_SelectCells;
+        private Request<ChangeCellViewToPointerRequest> req_PointerCells;
         
         private Stash<CellTag> stash_cellTag;
         private Stash<SpriteComponent> stash_spriteRef;
@@ -30,6 +31,7 @@ namespace Gameplay.Features.BattleField.Systems{
             req_ChangeColor = World.GetRequest<CellColorChangeRequest>();
             req_HoverCells = World.GetRequest<ChangeCellViewToHoverRequest>();
             req_SelectCells = World.GetRequest<ChangeCellViewToSelectRequest>();
+            req_PointerCells = World.GetRequest<ChangeCellViewToPointerRequest>();
 
             stash_cellTag = World.GetStash<CellTag>();
             stash_spriteRef = World.GetStash<SpriteComponent>();
@@ -47,6 +49,9 @@ namespace Gameplay.Features.BattleField.Systems{
             foreach(var req in req_SelectCells.Consume()){
                 SelectCells(req);
             }
+            foreach(var req in req_PointerCells.Consume()){
+                PointerCell(req);
+            }
         }
 
         public void Dispose()
@@ -54,9 +59,32 @@ namespace Gameplay.Features.BattleField.Systems{
 
         }
 
+
+        private void PointerCell(ChangeCellViewToPointerRequest req)
+        {
+            foreach (var cell in req.Cells)
+            {
+                if(cell.IsExist() == false){continue;}
+                if (stash_cellTag.Has(cell) == false) { continue; }
+                if (stash_cellSprites.Has(cell) == false) { continue; }
+
+                ref var spriteRef = ref stash_cellSprites.Get(cell);
+
+                if (req.State == ChangeCellViewToPointerRequest.PointerState.Enabled)
+                {
+                    spriteRef.PointerLayer.gameObject.SetActive(true);
+                }
+                else if (req.State == ChangeCellViewToPointerRequest.PointerState.Disabled)
+                {
+                    spriteRef.PointerLayer.gameObject.SetActive(false);
+                }
+            }
+        }
+
         private void HoverCells(ChangeCellViewToHoverRequest req)
         {
             foreach(var cell in req.Cells){
+                if (cell.IsExist() == false) { continue; }
                 if (stash_cellTag.Has(cell) == false) { continue; }
                 if (stash_cellSprites.Has(cell) == false) { continue; }
                 
@@ -74,6 +102,7 @@ namespace Gameplay.Features.BattleField.Systems{
         private void SelectCells(ChangeCellViewToSelectRequest req){
             foreach (var cell in req.Cells)
             {
+                if (cell.IsExist() == false) { continue; }
                 if (stash_cellTag.Has(cell) == false) { continue; }
                 if (stash_cellSprites.Has(cell) == false) { continue; }
 

@@ -61,6 +61,7 @@ namespace Gameplay.Features.Abilities{
             stash_moveAbility = World.GetStash<MovementAbility>();
             stash_cellPosition = World.GetStash<CellPositionComponent>();
             stash_gridPosition = World.GetStash<GridPosition>();
+            stash_transformRef = World.GetStash<TransformRefComponent>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -99,6 +100,10 @@ namespace Gameplay.Features.Abilities{
                 OccupiedBy = CurrentExecuter,
                 CellEntity = cell 
             });
+            var cellPos = stash_cellPosition.Get(cell);
+            ref var transformRef = ref stash_transformRef.Get(CurrentExecuter);            
+            transformRef.Value.position = 
+                new Vector3(cellPos.global_x, cellPos.global_y, cellPos.global_y * 0.01f);
         }
 
         private void Execute(Entity executer)

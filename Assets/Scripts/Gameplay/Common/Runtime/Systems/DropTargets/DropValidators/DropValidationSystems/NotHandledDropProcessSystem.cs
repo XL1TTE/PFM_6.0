@@ -51,7 +51,7 @@ namespace Gameplay.Common.Systems{
         {
             Vector3 originPos = stash_dragState.Get(draggedEntity).StartWorldPos;
 
-            ref var transform = ref stash_transformRef.Get(draggedEntity).TransformRef;
+            ref var transform = ref stash_transformRef.Get(draggedEntity).Value;
 
             transform.position = originPos;
         }

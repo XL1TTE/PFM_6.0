@@ -1,5 +1,6 @@
 
 using Core.Components;
+using Core.Utilities.Extentions;
 using Gameplay.Features.BattleField.Components;
 using Gameplay.Features.BattleField.Events;
 using Scellecs.Morpeh;
@@ -16,6 +17,7 @@ namespace Gameplay.Features.BattleField.Systems{
         private Filter _occupiedCells;
 
         private Event<CellOccupiedEvent> _cellOccupiedEvent;
+        private Event<EntityCellPositionChangedEvent> evt_cellPostitionChanged;
         private Stash<TagOccupiedCell> stash_occupiedCell;
         private Stash<CellPositionComponent> stash_cellPosition;
         private Stash<GridPosition> stash_gridPosition;
@@ -28,6 +30,7 @@ namespace Gameplay.Features.BattleField.Systems{
                 .Build();
 
             _cellOccupiedEvent = World.GetEvent<CellOccupiedEvent>();
+            evt_cellPostitionChanged = World.GetEvent<EntityCellPositionChangedEvent>();
 
             stash_occupiedCell = World.GetStash<TagOccupiedCell>();
             stash_gridPosition = World.GetStash<GridPosition>();
@@ -39,10 +42,11 @@ namespace Gameplay.Features.BattleField.Systems{
         {
             foreach (var evt in _cellOccupiedEvent.publishedChanges)
             {
-                // Unoccupy previous cell
-                UnoccupyCell(evt);
+                SendNotificationCellPositionChanged(evt); // 1
 
-                OccupyCell(evt);
+                UnoccupyCell(evt); // 2
+
+                OccupyCell(evt); // 3
             }
 
         }
@@ -52,17 +56,36 @@ namespace Gameplay.Features.BattleField.Systems{
 
         }
         
-        private void UnoccupyCell(CellOccupiedEvent evt){
+        
+        private void SendNotificationCellPositionChanged(CellOccupiedEvent evt)
+        {
+            var previousCell = FindPreviousCell(evt.OccupiedBy);
+            evt_cellPostitionChanged.NextFrame(new EntityCellPositionChangedEvent
+            {
+                entity = evt.OccupiedBy,
+                oldCell = previousCell,
+                newCell = evt.CellEntity
+            });
+        }
+        
+        private Entity FindPreviousCell(Entity occupier){
             foreach (var cell in _occupiedCells)
             {
                 if (stash_occupiedCell.Has(cell))
                 {
-                    if (stash_occupiedCell.Get(cell).Occupier.Id == evt.OccupiedBy.Id)
+                    if (stash_occupiedCell.Get(cell).Occupier.Id == occupier.Id)
                     {
-                        stash_occupiedCell.Remove(cell);
+                        return cell;
                     }
                 }
-
+            }
+            return default;
+        }
+        
+        private void UnoccupyCell(CellOccupiedEvent evt){
+            var previousCell = FindPreviousCell(evt.OccupiedBy);
+            if(previousCell.IsExist()){
+                stash_occupiedCell.Remove(previousCell);
             }
         }
     
@@ -83,10 +106,6 @@ namespace Gameplay.Features.BattleField.Systems{
                 c_gridPos.grid_x = c_cellPos.grid_x;
                 c_gridPos.grid_y = c_cellPos.grid_y;
             }
-
-            var cellPos = stash_transformRef.Get(cell).TransformRef.position;
-            ref var c_transform = ref stash_transformRef.Get(occupier);
-            c_transform.TransformRef.position = cellPos;
         }
     
     }

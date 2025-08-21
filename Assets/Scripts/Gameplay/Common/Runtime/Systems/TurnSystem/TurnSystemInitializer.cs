@@ -28,9 +28,8 @@ namespace Gameplay.Common.Systems{
 
         private Stash<CurrentTurnTakerTag> stash_curTurnTaker;
         private Stash<Speed> stash_Speed;
+        private Stash<TurnQueueComponent> stash_turnQueue;
         
-        private List<Entity> TurnQueue = new();
-
         public void OnAwake()
         {
             filter_monsters = World.Filter
@@ -42,6 +41,7 @@ namespace Gameplay.Common.Systems{
 
             stash_curTurnTaker = World.GetStash<CurrentTurnTakerTag>();
             stash_Speed = World.GetStash<Speed>();
+            stash_turnQueue = World.GetStash<TurnQueueComponent>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -53,7 +53,6 @@ namespace Gameplay.Common.Systems{
 
         public void Dispose()
         {
-            TurnQueue = null;
         }
         
         private void InitializeSystem(InitializeTurnSystemRequest req)
@@ -62,12 +61,15 @@ namespace Gameplay.Common.Systems{
             RequestTurnProcess();
         }
         
-        private List<Entity> CreateTurnQueue(){
+        private Entity CreateTurnQueue(){
+            Queue<Entity> TurnQueue = new();
+            Entity queueEntity = World.CreateEntity();
+            
             foreach (var monster in filter_monsters)
             {
-                TurnQueue.Add(monster);
+                TurnQueue.Enqueue(monster);
             }
-            TurnQueue.OrderByDescending(e =>
+            TurnQueue.OrderBy(e =>
             {
                 var speed = 0.0f;
                 if (stash_Speed.Has(e))
@@ -76,14 +78,16 @@ namespace Gameplay.Common.Systems{
                 }
                 return speed;
             });
-            
-            return TurnQueue;
+
+            stash_turnQueue.Set(queueEntity, new TurnQueueComponent{
+                Value = TurnQueue
+            });
+
+            return queueEntity;
         }
 
         private void RequestTurnProcess(){
-            req_processTurn.Publish(new ProcessTurnRequest{
-                CurrentTurnQueue = TurnQueue
-            });
+            req_processTurn.Publish(new ProcessTurnRequest{});
         }
 
     }

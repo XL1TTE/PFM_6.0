@@ -52,7 +52,7 @@ namespace Gameplay.Features.DragAndDrop.Systems{
             foreach (var entity in _draggingEntities)
             {
                 ref var state = ref stash_dragState.Get(entity);
-                ref var transform = ref stash_transformRef.Get(entity).TransformRef;
+                ref var transform = ref stash_transformRef.Get(entity).Value;
 
                 transform.position = mouseWorldPos;
                 // adds offset for fix z-fighting
@@ -79,7 +79,7 @@ namespace Gameplay.Features.DragAndDrop.Systems{
 
             foreach (var entity in _dropTargetEntities)
             {
-                ref var transform = ref stash_transformRef.Get(entity).TransformRef;
+                ref var transform = ref stash_transformRef.Get(entity).Value;
                 float distance = Vector3.Distance(mouseWorldPos, transform.position);
                 float dropRadius = stash_dropTarget.Get(entity).DropRadius;
 
@@ -98,7 +98,7 @@ namespace Gameplay.Features.DragAndDrop.Systems{
             {
                 currentTarget.TargetEntity = _closestDropTargetEntity;
                 currentTarget.ValidDropPosition = stash_transformRef.Get(currentTarget.TargetEntity)
-                    .TransformRef.position;
+                    .Value.position;
 
                 currentTarget.IsValid = true;
             }

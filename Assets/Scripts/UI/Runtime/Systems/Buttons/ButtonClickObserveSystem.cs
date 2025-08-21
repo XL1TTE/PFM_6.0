@@ -15,6 +15,8 @@ public sealed class ButtonClickObserveSystem : ISystem
     private Filter _buttonsUnderCursor;
     
     private Event<ButtonClickedEvent> evt_btnClicked;
+    
+    private Stash<ButtonTag> stash_btnTag;
 
     public void OnAwake() 
     {
@@ -24,15 +26,19 @@ public sealed class ButtonClickObserveSystem : ISystem
             .Build();
 
         evt_btnClicked = World.GetEvent<ButtonClickedEvent>();
+        stash_btnTag = World.GetStash<ButtonTag>();
     }
 
     public void OnUpdate(float deltaTime) 
     {
         if(_buttonsUnderCursor.IsEmpty()){return;}
         
-        if(Input.GetMouseButtonDown(0)){
+        var clickedButton = _buttonsUnderCursor.First();
+        if(stash_btnTag.Get(clickedButton).state == ButtonTag.State.Disabled){return;}
+
+        if (Input.GetMouseButtonDown(0)){
             evt_btnClicked.NextFrame(new ButtonClickedEvent{
-               ClickedButton = _buttonsUnderCursor.First() 
+               ClickedButton = clickedButton
             });
         }
     }

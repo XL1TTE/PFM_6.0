@@ -107,10 +107,10 @@ namespace Gameplay.Features.DragAndDrop.Systems{
         }
         private void AlignInCellCenter(Entity draggedEntity, Entity cell)
         {
-            ref var transform = ref stash_transformRef.Get(draggedEntity).TransformRef;
-            var dropPosition =  stash_transformRef.Get(cell).TransformRef.position;
+            ref var transform = ref stash_transformRef.Get(draggedEntity).Value;
+            var dropPosition =  stash_transformRef.Get(cell).Value.position;
             transform.position = dropPosition;
-            transform.position += new Vector3(0, 0, transform.position.y * 0.01f);
+            transform.position += new Vector3(0, 0, dropPosition.y * 0.01f);
         }
 
         private void OccupyCell(Entity occupier, Entity cell)

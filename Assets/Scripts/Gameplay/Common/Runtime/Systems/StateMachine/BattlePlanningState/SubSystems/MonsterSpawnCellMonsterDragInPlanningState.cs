@@ -66,7 +66,7 @@ namespace Gameplay.Common.Systems{
                 }
 
                 var underCursorData = stash_underCursor.Get(cellUnderCursor);
-                var monsterTranform = stash_transformRef.Get(monster).TransformRef;
+                var monsterTranform = stash_transformRef.Get(monster).Value;
                 req_startDrag.Publish(new StartDragRequest{
                     DraggedEntity = monster,
                     ClickWorldPos = underCursorData.HitPoint,

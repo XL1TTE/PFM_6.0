@@ -12,5 +12,6 @@ namespace Gameplay.Features.BattleField.Components
     {
         public SpriteRenderer HoverLayer;
         public SpriteRenderer SelectedLayer;
+        public SpriteRenderer PointerLayer;
     }
 }

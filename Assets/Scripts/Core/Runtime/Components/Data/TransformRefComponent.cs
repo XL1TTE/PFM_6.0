@@ -10,7 +10,7 @@ namespace Core.Components{
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct TransformRefComponent : IComponent
     {
-        public Transform TransformRef;
+        public Transform Value;
     }
 }
 

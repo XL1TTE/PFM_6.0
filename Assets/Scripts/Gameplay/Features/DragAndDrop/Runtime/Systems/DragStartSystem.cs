@@ -42,7 +42,7 @@ namespace Gameplay.Features.DragAndDrop.Systems{
 
                 if (stash_transformRef.Has(draggedEntity))
                 {
-                    ref var transform = ref stash_transformRef.Get(draggedEntity).TransformRef;
+                    ref var transform = ref stash_transformRef.Get(draggedEntity).Value;
                     Vector3 offset = transform.position - req.ClickWorldPos;
 
                     stash_dragState.Add(draggedEntity, new DragStateComponent

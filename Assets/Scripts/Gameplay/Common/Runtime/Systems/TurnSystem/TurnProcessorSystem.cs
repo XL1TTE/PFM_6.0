@@ -6,6 +6,7 @@ using Gameplay.Common.Requests;
 using Gameplay.Features.Monster.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEditor.Search;
 
 
 namespace Gameplay.Common.Systems{
@@ -16,19 +17,26 @@ namespace Gameplay.Common.Systems{
     {
         public World World { get; set; }
         
+        private Filter filter_turnQueue;
         
         private Request<ProcessTurnRequest> req_processTurn;
         private Event<NextTurnStartedEvent> evt_nextTurnStart;
         
         private Stash<CurrentTurnTakerTag> stash_turnTakerTag;
+        private Stash<TurnQueueComponent> stash_turnQueue;
         
 
         public void OnAwake()
         {
+            filter_turnQueue = World.Filter
+                .With<TurnQueueComponent>()
+                .Build();
+
             req_processTurn = World.GetRequest<ProcessTurnRequest>();
             evt_nextTurnStart = World.GetEvent<NextTurnStartedEvent>();
             
             stash_turnTakerTag = World.GetStash<CurrentTurnTakerTag>();
+            stash_turnQueue = World.GetStash<TurnQueueComponent>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -50,19 +58,21 @@ namespace Gameplay.Common.Systems{
         
         private void ProcessTurn(ProcessTurnRequest req)
         {
-            Entity previusTurnTaker;
-            Entity nextTurnTaker;
-            if (req.CurrentTurnQueue.Count > 1){
-                previusTurnTaker = req.CurrentTurnQueue[0];
-                nextTurnTaker = req.CurrentTurnQueue[1];
+            if(filter_turnQueue.IsEmpty()){return;}
+            ref var queue = ref stash_turnQueue.Get(filter_turnQueue.First()).Value;
+            
+            Entity previousTurnTaker;
+            Entity currentTurnTaker;
+            
+            if(queue.Count < 1){return;}
 
-            }
-            else{
-                previusTurnTaker = req.CurrentTurnQueue[0];
-                nextTurnTaker = req.CurrentTurnQueue[0];
-            }
-            RemoveTurnTakerTag(previusTurnTaker);
-            AddTurnTakerTag(nextTurnTaker);
+            previousTurnTaker = queue.Dequeue();
+            currentTurnTaker = queue.Dequeue();
+            queue.Enqueue(currentTurnTaker);
+            queue.Enqueue(previousTurnTaker);
+
+            RemoveTurnTakerTag(previousTurnTaker);
+            AddTurnTakerTag(currentTurnTaker);
         }
         
         private void RemoveTurnTakerTag(Entity entity){
