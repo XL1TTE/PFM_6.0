@@ -1,11 +1,12 @@
 
-using Core.Components;
-using Gameplay.Features.DragAndDrop.Components;
+using Domain.Components;
+using Domain.DragAndDrop.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
-namespace Gameplay.Features.DragAndDrop.Systems{
+namespace Gameplay.DragAndDrop.Systems
+{
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
@@ -26,7 +27,6 @@ namespace Gameplay.Features.DragAndDrop.Systems{
         public void OnAwake()
         {
             _draggingEntities = World.Filter
-                .With<DraggableComponent>()
                 .With<DragStateComponent>()
                 .Build();
 
@@ -53,9 +53,9 @@ namespace Gameplay.Features.DragAndDrop.Systems{
             foreach (var entity in _draggingEntities)
             {
                 ref var state = ref stash_dragState.Get(entity);
-                ref var transform = ref stash_transformRef.Get(entity).TransformRef;
+                ref var transform = ref stash_transformRef.Get(entity).Value;
 
-                transform.position = mouseWorldPos + state.Offset;
+                transform.position = mouseWorldPos;
                 // adds offset for fix z-fighting
                 transform.position += new Vector3(0, 0, -5);
 
@@ -80,7 +80,7 @@ namespace Gameplay.Features.DragAndDrop.Systems{
 
             foreach (var entity in _dropTargetEntities)
             {
-                ref var transform = ref stash_transformRef.Get(entity).TransformRef;
+                ref var transform = ref stash_transformRef.Get(entity).Value;
                 float distance = Vector3.Distance(mouseWorldPos, transform.position);
                 float dropRadius = stash_dropTarget.Get(entity).DropRadius;
 
@@ -99,7 +99,7 @@ namespace Gameplay.Features.DragAndDrop.Systems{
             {
                 currentTarget.TargetEntity = _closestDropTargetEntity;
                 currentTarget.ValidDropPosition = stash_transformRef.Get(currentTarget.TargetEntity)
-                    .TransformRef.position;
+                    .Value.position;
 
                 currentTarget.IsValid = true;
             }

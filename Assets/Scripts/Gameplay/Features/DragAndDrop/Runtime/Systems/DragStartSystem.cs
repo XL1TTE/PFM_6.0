@@ -1,12 +1,14 @@
-using Core.Components;
-using Gameplay.Features.DragAndDrop.Components;
-using Gameplay.Features.DragAndDrop.Events;
-using Gameplay.Features.DragAndDrop.Requests;
+
+using Domain.Components;
+using Domain.DragAndDrop.Components;
+using Domain.DragAndDrop.Events;
+using Domain.DragAndDrop.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
-namespace Gameplay.Features.DragAndDrop.Systems{
+namespace Gameplay.DragAndDrop.Systems
+{
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
@@ -37,15 +39,17 @@ namespace Gameplay.Features.DragAndDrop.Systems{
             foreach (var req in req_startDrag.Consume())
             {
                 Entity draggedEntity = req.DraggedEntity;
+                
+                if(stash_dragState.Has(draggedEntity)){return;}
 
                 if (stash_transformRef.Has(draggedEntity))
                 {
-                    ref var transform = ref stash_transformRef.Get(draggedEntity).TransformRef;
+                    ref var transform = ref stash_transformRef.Get(draggedEntity).Value;
                     Vector3 offset = transform.position - req.ClickWorldPos;
 
                     stash_dragState.Add(draggedEntity, new DragStateComponent
                     {
-                        StartWorldPos = transform.position,
+                        StartWorldPos = req.StartPosition,
                         Offset = offset,
                         StartParent = transform.parent
                     });

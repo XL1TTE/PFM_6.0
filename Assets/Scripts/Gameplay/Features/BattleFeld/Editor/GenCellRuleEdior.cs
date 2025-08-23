@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Gameplay.Features.BattleField.Editor
+namespace Domain.BattleField.Mono
 {
     #if UNITY_EDITOR
     

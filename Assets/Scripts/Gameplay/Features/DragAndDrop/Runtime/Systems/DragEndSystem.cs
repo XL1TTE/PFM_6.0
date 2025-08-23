@@ -1,10 +1,12 @@
-using Gameplay.Features.DragAndDrop.Components;
-using Gameplay.Features.DragAndDrop.Events;
-using Gameplay.Features.DragAndDrop.Requests;
+
+using Domain.DragAndDrop.Components;
+using Domain.DragAndDrop.Events;
+using Domain.DragAndDrop.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Gameplay.Features.DragAndDrop.Systems{
+namespace Gameplay.DragAndDrop.Systems
+{
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
@@ -20,12 +22,12 @@ namespace Gameplay.Features.DragAndDrop.Systems{
 
         private Stash<DragStateComponent> stash_dragState;
         private Stash<CurrentDragTargetComponent> stash_currentDragTarget;
+        private Stash<DropStateComponent> stash_dropState;
 
         public void OnAwake()
         {
             _draggingEntities = World.Filter
                 .With<DragStateComponent>()
-                .With<DraggableComponent>()
                 .Build();
 
             req_endDrag = World.GetRequest<EndDragRequest>();
@@ -34,6 +36,7 @@ namespace Gameplay.Features.DragAndDrop.Systems{
 
             stash_dragState = World.GetStash<DragStateComponent>();
             stash_currentDragTarget = World.GetStash<CurrentDragTargetComponent>();
+            stash_dropState = World.GetStash<DropStateComponent>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -58,6 +61,8 @@ namespace Gameplay.Features.DragAndDrop.Systems{
                     {
                         endEvent.WasSuccessful = true;
                     }
+
+                    stash_dropState.Add(entity, new DropStateComponent{WasHandled = false});
 
                     evt_dragEnded.NextFrame(endEvent);
                 }
