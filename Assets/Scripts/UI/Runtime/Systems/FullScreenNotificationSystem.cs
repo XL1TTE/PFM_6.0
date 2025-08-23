@@ -1,8 +1,8 @@
-using Core.Utilities.Extentions;
+using Domain.Extentions;
+using Domain.UI.Components;
+using Domain.UI.Requests;
+using Domain.UI.Widgets;
 using Scellecs.Morpeh;
-using UI.Components;
-using UI.Requests;
-using UI.Widgets;
 using Unity.IL2CPP.CompilerServices;
 
 namespace UI.Systems{

@@ -1,9 +1,11 @@
 
 using System.Collections.Generic;
-using Core.Components;
-using Core.Utilities.Extentions;
-using Gameplay.Features.Monster;
-using Gameplay.Features.Monster.Components;
+using Domain.Components;
+using Domain.CursorDetection.Components;
+using Domain.Extentions;
+using Domain.Monster.Components;
+using Domain.Monster.Mono;
+using Domain.Monster.Tags;
 using Persistence.Components;
 using Persistence.DB;
 using Scellecs.Morpeh;

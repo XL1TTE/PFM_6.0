@@ -1,11 +1,12 @@
-using Gameplay.Features.DragAndDrop.Components;
-using Gameplay.Features.DragAndDrop.Events;
-using Gameplay.Features.DragAndDrop.Requests;
+
+using Domain.DragAndDrop.Components;
+using Domain.DragAndDrop.Events;
+using Domain.DragAndDrop.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
-using UnityEngine.Experimental.AI;
 
-namespace Gameplay.Features.DragAndDrop.Systems{
+namespace Gameplay.DragAndDrop.Systems
+{
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]

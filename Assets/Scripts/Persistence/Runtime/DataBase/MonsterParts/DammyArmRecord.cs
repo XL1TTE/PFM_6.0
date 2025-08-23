@@ -1,4 +1,4 @@
-using Core.Components;
+using Domain.Components;
 using Persistence.Components;
 
 namespace Persistence.DB{

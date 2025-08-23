@@ -1,8 +1,8 @@
-using Core.Utilities.Extentions;
+using Domain.Extentions;
+using Domain.UI.Components;
+using Domain.UI.Requests;
+using Domain.UI.Tags;
 using Scellecs.Morpeh;
-using UI.Components;
-using UI.Components.Tags;
-using UI.Requests;
 using Unity.IL2CPP.CompilerServices;
 
 [Il2CppSetOption(Option.NullChecks, false)]

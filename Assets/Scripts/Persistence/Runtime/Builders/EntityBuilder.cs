@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Core.Components;
 using Scellecs.Morpeh;
 
 namespace Persistence.Buiders{

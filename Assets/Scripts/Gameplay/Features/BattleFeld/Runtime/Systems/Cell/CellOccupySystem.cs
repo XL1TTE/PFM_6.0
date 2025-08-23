@@ -1,12 +1,14 @@
 
-using Core.Components;
-using Core.Utilities.Extentions;
-using Gameplay.Features.BattleField.Components;
-using Gameplay.Features.BattleField.Events;
+using Domain.BattleField.Components;
+using Domain.BattleField.Events;
+using Domain.BattleField.Tags;
+using Domain.Components;
+using Domain.Extentions;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Gameplay.Features.BattleField.Systems{
+namespace Gameplay.BattleField.Systems
+{
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]

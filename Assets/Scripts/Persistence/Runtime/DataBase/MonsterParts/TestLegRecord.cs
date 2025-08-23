@@ -1,6 +1,5 @@
-using System.Numerics;
-using Core.Components;
-using Core.Utilities.Extentions;
+
+using Domain.Components;
 using Persistence.Components;
 using UnityEngine;
 

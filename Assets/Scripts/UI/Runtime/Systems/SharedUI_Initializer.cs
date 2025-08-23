@@ -1,7 +1,7 @@
 using System;
+using Domain.UI.Components;
+using Domain.UI.Requests;
 using Scellecs.Morpeh;
-using UI.Components;
-using UI.Requests;
 using Unity.IL2CPP.CompilerServices;
 
 
@@ -31,6 +31,7 @@ namespace UI.Systems{
             ref var refs = ref stash_sharedUIrefs.Add(_sharedUIEntity);
             
             refs.FullScreenNotification = req.ref_FullScreenNotification;
+            refs.FpsCounter = req.ref_FpsCounter;
         }
 
         public void Dispose()

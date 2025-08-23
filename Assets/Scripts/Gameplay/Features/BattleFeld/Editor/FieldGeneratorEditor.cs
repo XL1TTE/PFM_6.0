@@ -1,7 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Gameplay.Features.BattleField.Editor{
+namespace Domain.BattleField.Mono
+{
 
     [CustomEditor(typeof(BattleGridGenerator))]
     public class BattleGridGeneratorEditor : UnityEditor.Editor

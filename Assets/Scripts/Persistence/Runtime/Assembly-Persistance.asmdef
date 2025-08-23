@@ -3,8 +3,8 @@
     "rootNamespace": "Persistence",
     "references": [
         "GUID:3377deebfb0acde45876d12c6e3d27cc",
-        "GUID:3906d60cf959a1242874884e5d39795a",
-        "GUID:a4f8ca2177fb8b448a1ad3ee9b7d5445"
+        "GUID:bbbc6672ec92b124cbaf4e117bf32234",
+        "GUID:2b5126278d5fa904a9973ae83a566b02"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
