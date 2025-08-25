@@ -62,6 +62,7 @@ namespace Gameplay.Common.Mono{
             TurnSystem.AddSystem(new TurnProcessorSystem());
 
             SystemsGroup TurnSystemReactors = _defaultWorld.CreateSystemsGroup();
+            TurnSystemReactors.AddSystem(new TurnQueueRenderSystem());
             TurnSystemReactors.AddSystem(new MonsterAvatarDrawSystem());
             TurnSystemReactors.AddSystem(new MonsterAbilitiesDrawSystem());
             TurnSystemReactors.AddSystem(new TurnTakerCellMarkSystem());

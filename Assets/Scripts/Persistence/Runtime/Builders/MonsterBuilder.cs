@@ -6,6 +6,7 @@ using Domain.Extentions;
 using Domain.Monster.Components;
 using Domain.Monster.Mono;
 using Domain.Monster.Tags;
+using Domain.TurnSystem.Components;
 using Persistence.Components;
 using Persistence.DB;
 using Scellecs.Morpeh;
@@ -21,8 +22,8 @@ namespace Persistence.Buiders{
             stash_tagMonster = _ecsWorld.GetStash<TagMonster>();
             stash_moveAbility = _ecsWorld.GetStash<MovementAbility>();
             stash_transformRef = _ecsWorld.GetStash<TransformRefComponent>();
-            stash_cursorDetector = _ecsWorld.GetStash<TagCursorDetector>();
             stash_monsterDammyRef = _ecsWorld.GetStash<MonsterDammyRefComponent>();
+            stash_turnQueueAvatar = _ecsWorld.GetStash<TurnQueueAvatar>();
 
             pfb_monsterDammy = _monsterDammyPath.LoadResource<MonsterDammy>();
 
@@ -45,8 +46,8 @@ namespace Persistence.Buiders{
         Stash<TagMonster> stash_tagMonster;
         Stash<MovementAbility> stash_moveAbility;
         Stash<TransformRefComponent> stash_transformRef;
-        Stash<TagCursorDetector> stash_cursorDetector;
         Stash<MonsterDammyRefComponent> stash_monsterDammyRef;
+        Stash<TurnQueueAvatar> stash_turnQueueAvatar;
         
         
         
@@ -126,8 +127,6 @@ namespace Persistence.Buiders{
             
             moveAbility.Movements = new(movementTemp);
 
-            #endregion
-
             stash_tagMonster.Add(entity);
             
             ref TransformRefComponent c_Transform = ref stash_transformRef.Add(entity);
@@ -137,9 +136,13 @@ namespace Persistence.Buiders{
 
             stash_monsterDammyRef.Add(entity, new MonsterDammyRefComponent{MonsterDammy = monsterDammy });
 
+            stash_turnQueueAvatar.Add(entity, new TurnQueueAvatar{Value = monsterDammy.MonsterAvatar});
+
             return entity;
+            
+            #endregion
         }
-        
+
         public MonsterBuilder AttachHead(string head_id) {
             id_head = head_id;
             return this;

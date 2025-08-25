@@ -21,6 +21,7 @@ namespace Gameplay.TurnSystem.Systems
         
         private Request<ProcessTurnRequest> req_processTurn;
         private Event<NextTurnStartedEvent> evt_nextTurnStart;
+        private Event<TurnSystemInitializedEvent> evt_turnSystemInitialized;
         
         private Stash<CurrentTurnTakerTag> stash_turnTakerTag;
         private Stash<TurnQueueComponent> stash_turnQueue;
@@ -34,6 +35,7 @@ namespace Gameplay.TurnSystem.Systems
 
             req_processTurn = World.GetRequest<ProcessTurnRequest>();
             evt_nextTurnStart = World.GetEvent<NextTurnStartedEvent>();
+            evt_turnSystemInitialized = World.GetEvent<TurnSystemInitializedEvent>();
             
             stash_turnTakerTag = World.GetStash<CurrentTurnTakerTag>();
             stash_turnQueue = World.GetStash<TurnQueueComponent>();
@@ -42,7 +44,12 @@ namespace Gameplay.TurnSystem.Systems
         public void OnUpdate(float deltaTime)
         {
             foreach(var req in req_processTurn.Consume()){
-                ProcessTurn(req);
+                ProcessTurn();
+                SendNotifications();
+            }
+            
+            foreach(var evt in evt_turnSystemInitialized.publishedChanges){
+                ProcessTurn();
                 SendNotifications();
             }
         }
@@ -56,7 +63,7 @@ namespace Gameplay.TurnSystem.Systems
             evt_nextTurnStart.NextFrame(new NextTurnStartedEvent{});
         }
         
-        private void ProcessTurn(ProcessTurnRequest req)
+        private void ProcessTurn()
         {
             if(filter_turnQueue.IsEmpty()){return;}
             ref var queue = ref stash_turnQueue.Get(filter_turnQueue.First()).Value;

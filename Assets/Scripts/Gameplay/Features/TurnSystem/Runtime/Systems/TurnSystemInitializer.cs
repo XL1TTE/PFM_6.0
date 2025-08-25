@@ -4,6 +4,7 @@ using System.Linq;
 using Domain.Monster.Components;
 using Domain.Monster.Tags;
 using Domain.TurnSystem.Components;
+using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Requests;
 using Domain.TurnSystem.Tags;
 using Scellecs.Morpeh;
@@ -24,9 +25,8 @@ namespace Gameplay.TurnSystem.Systems
         private Request<InitializeTurnSystemRequest> req_initSystem;
 
         private Request<ProcessTurnRequest> req_processTurn;
+        private Event<TurnSystemInitializedEvent> evt_turnSystemInitialized;
 
-
-        private Stash<CurrentTurnTakerTag> stash_curTurnTaker;
         private Stash<Speed> stash_Speed;
         private Stash<TurnQueueComponent> stash_turnQueue;
         
@@ -38,8 +38,8 @@ namespace Gameplay.TurnSystem.Systems
 
             req_initSystem = World.GetRequest<InitializeTurnSystemRequest>();
             req_processTurn = World.GetRequest<ProcessTurnRequest>();
+            evt_turnSystemInitialized = World.GetEvent<TurnSystemInitializedEvent>();
 
-            stash_curTurnTaker = World.GetStash<CurrentTurnTakerTag>();
             stash_Speed = World.GetStash<Speed>();
             stash_turnQueue = World.GetStash<TurnQueueComponent>();
         }
@@ -58,7 +58,7 @@ namespace Gameplay.TurnSystem.Systems
         private void InitializeSystem(InitializeTurnSystemRequest req)
         {
             CreateTurnQueue();
-            RequestTurnProcess();
+            SendNotification();
         }
         
         private Entity CreateTurnQueue(){
@@ -86,8 +86,8 @@ namespace Gameplay.TurnSystem.Systems
             return queueEntity;
         }
 
-        private void RequestTurnProcess(){
-            req_processTurn.Publish(new ProcessTurnRequest{});
+        private void SendNotification(){
+            evt_turnSystemInitialized.NextFrame(new TurnSystemInitializedEvent{});
         }
 
     }
