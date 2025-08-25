@@ -367,7 +367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     DetectionRadius: 0.9
-    DetectionPriority: 0
+    DetectionPriority: 1
   _hitBoxColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!114 &1608030409738656973
 MonoBehaviour:
