@@ -12,7 +12,8 @@ using Persistence.DB;
 using Scellecs.Morpeh;
 using UnityEngine;
 
-namespace Persistence.Buiders{
+namespace Persistence.Buiders
+{
 
     public class MonsterBuilder: EntityBuilder
     {
@@ -50,8 +51,6 @@ namespace Persistence.Buiders{
         Stash<TurnQueueAvatar> stash_turnQueueAvatar;
         
         
-        
-        
         #region Part_Ids
         private string id_head;
         private string id_body;
@@ -87,26 +86,30 @@ namespace Persistence.Buiders{
             if(!DataBase.TryFindRecordByID(id_nearLeg, out var rec_nearLeg)){
                 throw new System.Exception($"Record with id: {id_nearLeg} was not found.");
             }
-            
-            #region Sprite Attachment
-            
-            if(DataBase.TryGetRecord<HeadSpritePath>(rec_head, out var spr_head)){
-                monsterDammy.AttachHead(spr_head.path.LoadResource<Sprite>());
+
+            if(DataBase.TryGetRecord<PartsOffsets>(rec_body, out var bodyOffsets) == false){
+                throw new System.Exception($"Body part Record {rec_body.Id} have not offsets!");
             }
-            if(DataBase.TryGetRecord<BodySpritePath>(rec_body, out var spr_torso)){
-                monsterDammy.AttachBody(spr_torso.path.LoadResource<Sprite>());
+
+            #region Sprite Attachment
+            if (DataBase.TryGetRecord<BodySpritePath>(rec_body, out var spr_torso))
+            {
+                monsterDammy.AttachBody(spr_torso.path.LoadResource<Sprite>(), bodyOffsets.BodyOffset);
+            }
+            if (DataBase.TryGetRecord<HeadSpritePath>(rec_head, out var spr_head)){
+                monsterDammy.AttachHead(spr_head.path.LoadResource<Sprite>(), bodyOffsets.HeadOffset);
             }
             if(DataBase.TryGetRecord<ArmSpritePath>(rec_farArm, out var spr_farArm)){
-                monsterDammy.AttachFarArm(spr_farArm.FarSprite.LoadResource<Sprite>());
+                monsterDammy.AttachFarArm(spr_farArm.FarSprite.LoadResource<Sprite>(), bodyOffsets.FarArmOffset);
             }
             if(DataBase.TryGetRecord<ArmSpritePath>(rec_nearArm, out var spr_nearArm)){
-                monsterDammy.AttachNearArm(spr_nearArm.NearSprite.LoadResource<Sprite>());
+                monsterDammy.AttachNearArm(spr_nearArm.NearSprite.LoadResource<Sprite>(), bodyOffsets.NearArmOffset);
             }
             if(DataBase.TryGetRecord<LegSpritePath>(rec_farLeg, out var spr_farLeg)){
-                monsterDammy.AttachFarLeg(spr_farLeg.FarSprite.LoadResource<Sprite>());
+                monsterDammy.AttachFarLeg(spr_farLeg.FarSprite.LoadResource<Sprite>(), bodyOffsets.FarLegOffset);
             }
             if(DataBase.TryGetRecord<LegSpritePath>(rec_nearLeg, out var spr_nearLeg)){
-                monsterDammy.AttachNearLeg(spr_nearLeg.NearSprite.LoadResource<Sprite>());
+                monsterDammy.AttachNearLeg(spr_nearLeg.NearSprite.LoadResource<Sprite>(), bodyOffsets.NearLegOffset);
             }
 
             #endregion

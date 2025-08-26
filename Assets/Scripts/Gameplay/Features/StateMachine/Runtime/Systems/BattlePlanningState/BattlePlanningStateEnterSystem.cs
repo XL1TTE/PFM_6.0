@@ -1,10 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
 using Core.Utilities;
 using Domain.BattleField.Requests;
 using Domain.BattleField.Tags;
 using Domain.DragAndDrop.Components;
 using Domain.DragAndDrop.Requests;
 using Domain.Extentions;
+using Domain.Monster.Mono;
 using Domain.Monster.Requests;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Events;
@@ -60,14 +62,29 @@ namespace Gameplay.StateMachine.Systems
             /*           Pre-spawn monsters request           */
             /* ############################################## */
 
-            var genMonsterReq = World.GetRequest<GenerateMonstersRequest>();
+            var genMonsterReq = World.GetRequest<SpawnMonstersRequest>();
 
-            genMonsterReq.Publish(new GenerateMonstersRequest
+
+            genMonsterReq.Publish(new SpawnMonstersRequest
             {
-                MosntersCount = 2
+                Monsters = new List<MosnterData>{
+                    new MosnterData(
+                        "mp_DinHead",
+                        "mp_DinArm",
+                        "mp_DinArm",
+                        "mp_DinTorso",
+                        "mp_DinLeg",
+                        "mp_DinLeg"),
+                    new MosnterData(
+                        "mp_DammyHead",
+                        "mp_DammyArm",
+                        "mp_DammyArm",
+                        "mp_DammyTorso",
+                        "mp_DinLeg",
+                        "mp_DinLeg"
+                    )
+                }
             }, true);
-
-
 
             World.GetRequest<FullScreenNotificationRequest>().Publish(
             new FullScreenNotificationRequest{

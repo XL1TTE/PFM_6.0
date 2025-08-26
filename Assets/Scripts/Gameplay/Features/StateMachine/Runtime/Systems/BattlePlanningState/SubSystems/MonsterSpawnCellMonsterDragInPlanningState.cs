@@ -66,6 +66,7 @@ namespace Gameplay.StateMachine.Systems
                 if(monster.Id == _currentDrag.FirstOrDefault().Id){
                     return;
                 }
+                if(_currentDrag.IsEmpty() == false){return;}
 
                 var underCursorData = stash_underCursor.Get(cellUnderCursor);
                 var monsterTranform = stash_transformRef.Get(monster).Value;
