@@ -10,6 +10,7 @@ using Domain.Monster.Mono;
 using Domain.Monster.Requests;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Events;
+using Domain.StateMachine.Mono;
 using Domain.UI.Requests;
 using Domain.UI.Widgets;
 using Scellecs.Morpeh;
@@ -19,13 +20,15 @@ namespace Gameplay.StateMachine.Systems
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class BattlePlanningStateEnterSystem : ISystem
+    public sealed class BattlePlanningStateInitializeEnterSystem : ISystem
     {
         public World World { get; set; }
+        
+        private Filter f_state;
 
         private Event<OnStateEnterEvent> evt_onStateEnter;
 
-        private Stash<BattlePlanningState> stash_battlePlanning;
+        private Stash<BattlePlanningInitializeState> stash_state;
         private Stash<DropTargetComponent> stash_dropTarget;
         
         private Request<ChangeMonsterDraggableStateRequest> req_monsterDrag;
@@ -33,9 +36,9 @@ namespace Gameplay.StateMachine.Systems
 
         public void OnAwake()
         {
-            evt_onStateEnter = World.GetEvent<OnStateEnterEvent>();
+            evt_onStateEnter = StateMachineWorld.Value.GetEvent<OnStateEnterEvent>();
 
-            stash_battlePlanning = World.GetStash<BattlePlanningState>();
+            stash_state = StateMachineWorld.Value.GetStash<BattlePlanningInitializeState>();
             stash_dropTarget = World.GetStash<DropTargetComponent>();
 
             req_monsterDrag = World.GetRequest<ChangeMonsterDraggableStateRequest>();
@@ -44,7 +47,7 @@ namespace Gameplay.StateMachine.Systems
         public void OnUpdate(float deltaTime)
         {
             foreach(var evt in evt_onStateEnter.publishedChanges){
-                if(isStateValid(evt.StateEntity)){
+                if(IsValid(evt.StateEntity)){
                     Enter(evt.StateEntity);
                 }
             }
@@ -54,7 +57,6 @@ namespace Gameplay.StateMachine.Systems
         {
 
         }
-        
         
         private IEnumerator EnterRoutine(Entity stateEntity){
 
@@ -108,9 +110,6 @@ namespace Gameplay.StateMachine.Systems
                 state = FullScreenNotificationRequest.State.Disable,
             }, true);
 
-
-
-
             /* ############################################## */
             /*         Hightlight monster spawn cells         */
             /* ############################################## */
@@ -132,15 +131,20 @@ namespace Gameplay.StateMachine.Systems
             req_markMonsterSpawnCellsAsDropTargets.Publish(
                 new MarkMonsterSpawnCellsAsDropTargetRequest { DropRadius = 1.0f, 
                 state = MarkMonsterSpawnCellsAsDropTargetRequest.State.Enable }, true);
+
+            StateMachineWorld.ExitState<BattlePlanningInitializeState>();
+            StateMachineWorld.EnterState<BattlePlanningState>();
         }
-        
+
         private void Enter(Entity stateEntity){
             RellayCoroutiner.Run(EnterRoutine(stateEntity));
         }
         
-        private bool isStateValid(Entity stateEntity){
-            if(!stash_battlePlanning.Has(stateEntity)){return false;}
-            else{return true;}
+        private bool IsValid(Entity stateEntity){
+            if(stash_state.Has(stateEntity)){
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -25,6 +25,7 @@ namespace Persistence.Buiders
             stash_transformRef = _ecsWorld.GetStash<TransformRefComponent>();
             stash_monsterDammyRef = _ecsWorld.GetStash<MonsterDammyRefComponent>();
             stash_turnQueueAvatar = _ecsWorld.GetStash<TurnQueueAvatar>();
+            stash_speed = _ecsWorld.GetStash<Speed>();
 
             pfb_monsterDammy = _monsterDammyPath.LoadResource<MonsterDammy>();
 
@@ -49,6 +50,7 @@ namespace Persistence.Buiders
         Stash<TransformRefComponent> stash_transformRef;
         Stash<MonsterDammyRefComponent> stash_monsterDammyRef;
         Stash<TurnQueueAvatar> stash_turnQueueAvatar;
+        Stash<Speed> stash_speed;
         
         
         #region Part_Ids
@@ -114,24 +116,44 @@ namespace Persistence.Buiders
 
             #endregion
 
-            ref var moveAbility = ref stash_moveAbility.Add(entity);     
+            #region Movement
+            ref var moveAbility = ref stash_moveAbility.Add(entity);
             var movementTemp = new HashSet<Vector2Int>();
 
-            if(DataBase.TryGetRecord<MovementData>(rec_nearLeg, out var moveData_nearLeg)){
-                foreach(var move in moveData_nearLeg.Movements){
+            if (DataBase.TryGetRecord<MovementData>(rec_nearLeg, out var moveData_nearLeg))
+            {
+                foreach (var move in moveData_nearLeg.Movements)
+                {
                     movementTemp.Add(move);
                 }
             }
-            if(DataBase.TryGetRecord<MovementData>(rec_farLeg, out var moveData_farLeg)){
-                foreach (var move in moveData_farLeg.Movements){
+            if (DataBase.TryGetRecord<MovementData>(rec_farLeg, out var moveData_farLeg))
+            {
+                foreach (var move in moveData_farLeg.Movements)
+                {
                     movementTemp.Add(move);
                 }
             }
-            
+
             moveAbility.Movements = new(movementTemp);
 
             stash_tagMonster.Add(entity);
+
+            #endregion
+
+            #region Speed
             
+            float total_speed = 0.0f;
+            
+            if(DataBase.TryGetRecord<Speed>(rec_head, out var head_spead)){
+                total_speed += head_spead.Value;
+            }
+            
+            stash_speed.Add(entity, new Speed{Value = total_speed});
+            
+            #endregion
+
+
             ref TransformRefComponent c_Transform = ref stash_transformRef.Add(entity);
             c_Transform.Value = monsterDammy.transform;
 

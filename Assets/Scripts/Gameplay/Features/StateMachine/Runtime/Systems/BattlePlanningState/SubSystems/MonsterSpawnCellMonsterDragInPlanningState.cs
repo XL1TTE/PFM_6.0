@@ -5,6 +5,7 @@ using Domain.DragAndDrop.Components;
 using Domain.DragAndDrop.Requests;
 using Domain.Extentions;
 using Domain.StateMachine.Components;
+using Domain.StateMachine.Mono;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -18,10 +19,9 @@ namespace Gameplay.StateMachine.Systems
     {
         public World World { get; set; }
         
-        private Filter _currentStateFilter;
-        private Stash<CurrentStateComponent> stash_currentState;
-        private Stash<BattlePlanningState> stash_planningState;
+        private Filter f_state;
         
+        private Stash<BattlePlanningState> stash_planningState;
         
         private Filter _cellsWithMonsterUnderCursor;
         private Stash<TagOccupiedCell> stash_occupiedCell;
@@ -33,11 +33,9 @@ namespace Gameplay.StateMachine.Systems
 
         public void OnAwake()
         {
-            _currentStateFilter = World.Filter
-                .With<CurrentStateComponent>()
-                .Build();
-            stash_currentState = World.GetStash<CurrentStateComponent>();
-            stash_planningState = World.GetStash<BattlePlanningState>();
+            f_state = StateMachineWorld.Value.Filter.With<BattlePlanningState>().Build();
+
+            stash_planningState = StateMachineWorld.Value.GetStash<BattlePlanningState>();
 
             _cellsWithMonsterUnderCursor = World.Filter
                 .With<UnderCursorComponent>()
@@ -57,7 +55,7 @@ namespace Gameplay.StateMachine.Systems
         public void OnUpdate(float deltaTime)
         {
             if (_cellsWithMonsterUnderCursor.IsEmpty()) { return; }
-            if (isStateValid() == false){return;}
+            if (IsValid() == false){return;}
 
             if(Input.GetMouseButtonDown(0)){        
                 var cellUnderCursor = _cellsWithMonsterUnderCursor.First();
@@ -83,13 +81,9 @@ namespace Gameplay.StateMachine.Systems
             
         }
         
-        private bool isStateValid(){
-            var currentState = _currentStateFilter.FirstOrDefault();
-            if(currentState.IsExist()){
-                var state = stash_currentState.Get(currentState);
-                if(stash_planningState.Has(state.Value)){
-                    return true;
-                }
+        private bool IsValid(){
+            if(StateMachineWorld.IsStateActiveOptimized(f_state, stash_planningState, out var state)){
+                return true;
             }
             return false;
         }

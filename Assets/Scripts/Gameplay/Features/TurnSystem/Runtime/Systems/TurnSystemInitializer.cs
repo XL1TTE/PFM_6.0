@@ -62,14 +62,14 @@ namespace Gameplay.TurnSystem.Systems
         }
         
         private Entity CreateTurnQueue(){
-            Queue<Entity> TurnQueue = new();
+            List<Entity> OrderedBySpeed = new();
             Entity queueEntity = World.CreateEntity();
             
             foreach (var monster in filter_monsters)
             {
-                TurnQueue.Enqueue(monster);
+                OrderedBySpeed.Add(monster);
             }
-            TurnQueue.OrderBy(e =>
+            OrderedBySpeed = OrderedBySpeed.OrderBy(e =>
             {
                 var speed = 0.0f;
                 if (stash_Speed.Has(e))
@@ -77,7 +77,9 @@ namespace Gameplay.TurnSystem.Systems
                     speed = stash_Speed.Get(e).Value;
                 }
                 return speed;
-            });
+            }).ToList();
+
+            Queue<Entity> TurnQueue = new Queue<Entity>(OrderedBySpeed);
 
             stash_turnQueue.Set(queueEntity, new TurnQueueComponent{
                 Value = TurnQueue

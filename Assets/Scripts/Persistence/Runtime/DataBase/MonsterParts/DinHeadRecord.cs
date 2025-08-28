@@ -1,4 +1,5 @@
 using Domain.Components;
+using Domain.Monster.Components;
 using Persistence.Components;
 
 namespace Persistence.DB{
@@ -10,6 +11,7 @@ namespace Persistence.DB{
             });
             With<TagMonsterPart>();
             With<TagMonsterHead>();
+            With<Speed>(new Speed{Value = 2.0f});
         }
     }
 }

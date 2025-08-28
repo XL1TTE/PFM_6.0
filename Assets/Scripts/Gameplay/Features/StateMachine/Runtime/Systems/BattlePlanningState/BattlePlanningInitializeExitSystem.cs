@@ -7,6 +7,7 @@ using Domain.Extentions;
 using Domain.Monster.Tags;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Events;
+using Domain.StateMachine.Mono;
 using Domain.UI.Tags;
 using Domain.UI.Widgets;
 using Scellecs.Morpeh;
@@ -17,39 +18,31 @@ namespace Gameplay.StateMachine.Systems
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class BattlePlanningStateExitSystem : ISystem
+    public sealed class BattlePlanningInitializeExitSystem : ISystem
     {
         public World World { get; set; }
         
-        private Filter _monsters;
+        private Filter f_state;
 
         private Event<OnStateExitEvent> evt_onStateExit;
-
-        private Stash<BattlePlanningState> stash_battlePlanningState;
-        private Stash<DropTargetComponent> stash_dropTarget;
-
-        private Request<ChangeMonsterDraggableStateRequest> req_monsterDrag;
-
+        
+        private Stash<BattlePlanningInitializeState> stash_state;
 
         public void OnAwake()
         {
-            _monsters = World.Filter
-                .With<TagMonster>()
-                .Build();
+            f_state = StateMachineWorld.Value.Filter.With<BattlePlanningInitializeState>().Build();
 
-            evt_onStateExit = World.GetEvent<OnStateExitEvent>();
+            evt_onStateExit = StateMachineWorld.Value.GetEvent<OnStateExitEvent>();
 
-            stash_battlePlanningState = World.GetStash<BattlePlanningState>();
-            stash_dropTarget = World.GetStash<DropTargetComponent>();
+            stash_state = StateMachineWorld.Value.GetStash<BattlePlanningInitializeState>();
 
-            req_monsterDrag = World.GetRequest<ChangeMonsterDraggableStateRequest>();
         }
 
         public void OnUpdate(float deltaTime)
         {
             foreach (var evt in evt_onStateExit.publishedChanges)
             {
-                if (isStateValid(evt.StateEntity))
+                if (IsValid(evt.StateEntity))
                 {
                     Exit(evt.StateEntity);
                 }
@@ -102,10 +95,13 @@ namespace Gameplay.StateMachine.Systems
         {
         }
 
-        private bool isStateValid(Entity stateEntity)
+        private bool IsValid(Entity entityState)
         {
-            if (!stash_battlePlanningState.Has(stateEntity)) { return false; }
-            else { return true; }
+            if (stash_state.Has(entityState))
+            {
+                return false;
+            }
+            return true;
         }
     }
 

@@ -86,10 +86,10 @@ namespace Persistence.DB{
         public static bool TryGetRecord<T>(Entity entity, out T record) where T : struct, IComponent{
             var stash = _dbWorld.GetStash<T>();
             
-            if(stash == null){throw new Exception("Record not found.");}
+            if(stash == null){record = default; return false;}
             
             if(!stash.Has(entity)){
-                throw new Exception("Record not found.");
+                record = default; return false;
             }
             
             record = stash.Get(entity);

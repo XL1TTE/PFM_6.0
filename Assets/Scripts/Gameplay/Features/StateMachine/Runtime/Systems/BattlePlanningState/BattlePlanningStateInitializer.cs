@@ -1,5 +1,6 @@
 
 using Domain.StateMachine.Components;
+using Domain.StateMachine.Mono;
 using Domain.StateMachine.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -15,17 +16,7 @@ namespace Gameplay.StateMachine.Systems
 
         public void OnAwake()
         {
-            var stash_battlePlanningState = World.GetStash<BattlePlanningState>();
-            
-            Entity stateEntity = World.CreateEntity();
-            stash_battlePlanningState.Add(stateEntity);
-
-            var req = World.Default.GetRequest<ChangeStateRequest>();
-
-            req.Publish(new ChangeStateRequest
-            {
-                NextState = stateEntity
-            });
+            StateMachineWorld.EnterState<BattlePlanningInitializeState>();
         }
 
         public void Dispose()

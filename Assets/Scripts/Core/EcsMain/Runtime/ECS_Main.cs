@@ -1,5 +1,7 @@
 
+using Codice.CM.WorkspaceServer.DataStore.WkTree;
 using CursorDetection.Systems;
+using Domain.StateMachine.Mono;
 using Gameplay.Abilities.Systems;
 using Gameplay.BattleField.Systems;
 using Gameplay.DragAndDrop.Systems;
@@ -42,20 +44,20 @@ namespace Gameplay.Common.Mono{
             UIElements.AddSystem(new FpsShowSystem());
 
             SystemsGroup StateMachineSystemGroup = _defaultWorld.CreateSystemsGroup();
-            StateMachineSystemGroup.AddInitializer(new StateMachineInitializer());
-            StateMachineSystemGroup.AddSystem(new StateMachineSystem());
-            StateMachineSystemGroup.AddSystem(new StateTransitionSystem());
+            //StateMachineSystemGroup.AddInitializer(new StateMachineInitializer());
+            //StateMachineSystemGroup.AddSystem(new StateMachineSystem());
+            //StateMachineSystemGroup.AddSystem(new StateTransitionSystem());
 
             SystemsGroup BattlePlanningState = _defaultWorld.CreateSystemsGroup();
             BattlePlanningState.AddInitializer(new BattlePlanningStateInitializer());
-            BattlePlanningState.AddSystem(new BattlePlanningStateEnterSystem());
-            BattlePlanningState.AddSystem(new BattlePlanningStateExitSystem());
+            BattlePlanningState.AddSystem(new BattlePlanningStateInitializeEnterSystem());
+            BattlePlanningState.AddSystem(new BattlePlanningInitializeExitSystem());
             // State handle systems
             BattlePlanningState.AddSystem(new MonsterSpawnCellMonsterDragInPlanningState());
             
             SystemsGroup BattleState = _defaultWorld.CreateSystemsGroup();
             BattleState.AddInitializer(new BattleStateInitializer());
-            BattleState.AddSystem(new BattleStateEnterSystem());
+            BattleState.AddSystem(new BattleInitializeEnterSystem());
             
             SystemsGroup TurnSystem = _defaultWorld.CreateSystemsGroup();
             TurnSystem.AddSystem(new TurnSystemInitializer());
@@ -103,6 +105,10 @@ namespace Gameplay.Common.Mono{
             ButtonSystems.AddSystem(new ExitPlanningStageButtonSystem());
             ButtonSystems.AddSystem(new NextTurnButtonSystem());
 
+            SystemsGroup CleanupSystems = _defaultWorld.CreateSystemsGroup();
+            CleanupSystems.AddSystem(new StateExitCleanupSystem());
+
+
             _defaultWorld.AddSystemsGroup(0, SharedUISystemGroup);
             _defaultWorld.AddSystemsGroup(1, StateMachineSystemGroup);
             _defaultWorld.AddSystemsGroup(2, BattlePlanningState);
@@ -118,6 +124,7 @@ namespace Gameplay.Common.Mono{
             _defaultWorld.AddSystemsGroup(12, DragAndDropEventsHandlers);
             _defaultWorld.AddSystemsGroup(13, CellsSystemGroup);
             _defaultWorld.AddSystemsGroup(14, MarkSystems);
+            _defaultWorld.AddSystemsGroup(15, CleanupSystems);
         }
 
 
@@ -126,6 +133,8 @@ namespace Gameplay.Common.Mono{
             _defaultWorld.Update(Time.deltaTime);
             _defaultWorld.CleanupUpdate(Time.deltaTime);
             _defaultWorld.Commit();
+            
+            StateMachineWorld.Update();
         }
 
     }
