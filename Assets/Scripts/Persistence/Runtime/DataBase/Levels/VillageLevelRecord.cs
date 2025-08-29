@@ -13,7 +13,7 @@ namespace Persistence.DB{
                 Value = "Levels/lvl_Village".LoadResource<GameObject>()});
             With<EnemiesPool>(new EnemiesPool{
                 Value = new string[1]{
-                    "Resources/Enemies/p_Village_RatEnemy"
+                    "e_VillageRat"
                 }
             });
         }

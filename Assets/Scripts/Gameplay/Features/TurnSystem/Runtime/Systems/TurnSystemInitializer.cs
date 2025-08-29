@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Domain.Enemies.Tags;
 using Domain.Monster.Tags;
 using Domain.Stats.Components;
 using Domain.TurnSystem.Components;
@@ -20,6 +21,7 @@ namespace Gameplay.TurnSystem.Systems
         public World World { get; set; }
         
         private Filter filter_monsters;
+        private Filter filter_enemies;
         
         private Request<InitializeTurnSystemRequest> req_initSystem;
 
@@ -33,6 +35,10 @@ namespace Gameplay.TurnSystem.Systems
         {
             filter_monsters = World.Filter
                 .With<TagMonster>()
+                .Build();
+                
+            filter_enemies = World.Filter
+                .With<TagEnemy>()
                 .Build();
 
             req_initSystem = World.GetRequest<InitializeTurnSystemRequest>();
@@ -67,6 +73,10 @@ namespace Gameplay.TurnSystem.Systems
             foreach (var monster in filter_monsters)
             {
                 OrderedBySpeed.Add(monster);
+            }
+            foreach (var enemy in filter_enemies)
+            {
+                OrderedBySpeed.Add(enemy);
             }
             OrderedBySpeed = OrderedBySpeed.OrderBy(e =>
             {

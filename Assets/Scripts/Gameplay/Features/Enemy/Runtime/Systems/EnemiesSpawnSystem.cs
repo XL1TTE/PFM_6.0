@@ -58,7 +58,6 @@ namespace Gameplay.Enemies{
             stash_transformRef = World.GetStash<TransformRefComponent>();
 
             EnemiesContainer = new GameObject("ENEMIES").transform;
-            UnityEngine.Object.Instantiate(EnemiesContainer);
         }
 
         public void OnUpdate(float deltaTime)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Core.Utilities;
 using Domain.BattleField.Requests;
 using Domain.BattleField.Tags;
@@ -38,15 +39,12 @@ namespace Gameplay.StateMachine.Systems
         
         private Request<ChangeMonsterDraggableStateRequest> req_monsterDrag;
 
-
         public void OnAwake()
         {
             evt_onStateEnter = StateMachineWorld.Value.GetEvent<OnStateEnterEvent>();
 
             stash_state = StateMachineWorld.Value.GetStash<BattlePlanningInitializeState>();
             stash_dropTarget = World.GetStash<DropTargetComponent>();
-
-            req_monsterDrag = World.GetRequest<ChangeMonsterDraggableStateRequest>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -83,11 +81,13 @@ namespace Gameplay.StateMachine.Systems
                     if (DataBase.TryGetRecord<EnemiesPool>(lvl_record, out var ep))
                     {
                         var enemiesToSpawn = ep.Value;
+                        var spawnEnemiesReq = World.GetRequest<EnemySpawnRequest>();
+                        spawnEnemiesReq.Publish(new EnemySpawnRequest{
+                            EnemiesIDs = enemiesToSpawn.ToList()
+                        }, true);
                     }
                 }
             }
-            
-            yield return new WaitForEndOfFrame();
             
             /* ############################################## */
             /*           Pre-spawn monsters request           */

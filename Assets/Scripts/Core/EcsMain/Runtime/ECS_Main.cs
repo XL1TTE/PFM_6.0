@@ -54,8 +54,10 @@ namespace Gameplay.Common.Mono{
             BattlePlanningState.AddInitializer(new BattlePlanningStateInitializer());
             BattlePlanningState.AddSystem(new BattlePlanningStateInitializeEnterSystem());
             BattlePlanningState.AddSystem(new BattlePlanningInitializeExitSystem());
+            
             // State handle systems
-            BattlePlanningState.AddSystem(new MonsterSpawnCellMonsterDragInPlanningState());
+            SystemsGroup InBattlePlanningStateSystems = _defaultWorld.CreateSystemsGroup();
+            InBattlePlanningStateSystems.AddSystem(new MonsterSpawnCellMonsterDragInPlanningState());
             
             SystemsGroup BattleState = _defaultWorld.CreateSystemsGroup();
             BattleState.AddInitializer(new BattleStateInitializer());
@@ -120,8 +122,7 @@ namespace Gameplay.Common.Mono{
 
             _defaultWorld.AddSystemsGroup(0, SharedUISystemGroup);
             _defaultWorld.AddSystemsGroup(1, StateMachineSystemGroup);
-            _defaultWorld.AddSystemsGroup(2, BattlePlanningState);
-            _defaultWorld.AddSystemsGroup(3, BattleState);
+            _defaultWorld.AddSystemsGroup(2, InBattlePlanningStateSystems);
             _defaultWorld.AddSystemsGroup(4, ButtonSystems);
             _defaultWorld.AddSystemsGroup(5, UIElements);
             _defaultWorld.AddSystemsGroup(6, DragAndDropSystemGroup);
@@ -135,7 +136,9 @@ namespace Gameplay.Common.Mono{
             _defaultWorld.AddSystemsGroup(14, CellsSystemGroup);
             _defaultWorld.AddSystemsGroup(15, MarkSystems);
             _defaultWorld.AddSystemsGroup(16, UtilitySystems);
-            _defaultWorld.AddSystemsGroup(17, CleanupSystems);
+            _defaultWorld.AddSystemsGroup(17, BattleState);
+            _defaultWorld.AddSystemsGroup(18, BattlePlanningState);
+            _defaultWorld.AddSystemsGroup(19, CleanupSystems);
         }
 
 
