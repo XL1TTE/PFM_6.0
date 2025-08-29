@@ -72,12 +72,19 @@ namespace Gameplay.TurnSystem.Systems
             Entity currentTurnTaker;
             
             if(queue.Count < 1){return;}
-
-            previousTurnTaker = queue.Dequeue();
-            currentTurnTaker = queue.Dequeue();
-            queue.Enqueue(currentTurnTaker);
-            queue.Enqueue(previousTurnTaker);
-
+            
+            if(queue.Count == 1){
+                previousTurnTaker = queue.Dequeue();
+                currentTurnTaker = previousTurnTaker;
+                queue.Enqueue(currentTurnTaker);
+            }
+            
+            else{
+                previousTurnTaker = queue.Dequeue();
+                currentTurnTaker = queue.Dequeue();
+                queue.Enqueue(currentTurnTaker);
+                queue.Enqueue(previousTurnTaker);
+            }
             RemoveTurnTakerTag(previousTurnTaker);
             AddTurnTakerTag(currentTurnTaker);
         }

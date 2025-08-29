@@ -14,12 +14,12 @@ namespace Persistence.DB{
             With<TagMonsterPart>();
             With<TagMonsterTorso>();
             With<PartsOffsets>(new PartsOffsets{
-               NearLegOffset = new Vector2(-0.08f, -0.11f),
-               FarLegOffset = new Vector2(0.04f, -0.11f),
-               NearArmOffset = new Vector2(0.02f, 0.03f),
-               FarArmOffset = new Vector2(0.2f, 0.03f),
-               HeadOffset = new Vector2(0.15f, 0.14f),
-               BodyOffset = new Vector2(0f, 0.20f)
+               NearLegOffset = new Vector2(-7f, -13f),
+               FarLegOffset = new Vector2(4, -11f),
+               NearArmOffset = new Vector2(0f, 1f),
+               FarArmOffset = new Vector2(20f, 0f),
+               HeadOffset = new Vector2(15f, 12f),
+               BodyOffset = new Vector2(0f, 21f)
             });
         }
     }

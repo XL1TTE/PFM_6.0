@@ -46,5 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridSize: {x: 10, y: 10}
   CellsGap: 1
-  CellGenRulePrefab: {fileID: 0}
+  CellGenRulePrefab: {fileID: 146103944067426870, guid: 7f6b7f816b366a64ab47b7972af5b086, type: 3}
   EditMode: 0

@@ -77,14 +77,6 @@ namespace Gameplay.StateMachine.Systems
                         "mp_DinTorso",
                         "mp_DinLeg",
                         "mp_DinLeg"),
-                    new MosnterData(
-                        "mp_DammyHead",
-                        "mp_DammyArm",
-                        "mp_DammyArm",
-                        "mp_DammyTorso",
-                        "mp_DinLeg",
-                        "mp_DinLeg"
-                    )
                 }
             }, true);
 
@@ -129,7 +121,7 @@ namespace Gameplay.StateMachine.Systems
                 World.Default.GetRequest<MarkMonsterSpawnCellsAsDropTargetRequest>();
 
             req_markMonsterSpawnCellsAsDropTargets.Publish(
-                new MarkMonsterSpawnCellsAsDropTargetRequest { DropRadius = 1.0f, 
+                new MarkMonsterSpawnCellsAsDropTargetRequest { DropRadius = 30.0f, 
                 state = MarkMonsterSpawnCellsAsDropTargetRequest.State.Enable }, true);
 
             StateMachineWorld.ExitState<BattlePlanningInitializeState>();

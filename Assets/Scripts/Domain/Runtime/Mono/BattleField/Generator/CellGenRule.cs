@@ -61,7 +61,7 @@ namespace Domain.BattleField.Mono
             Gizmos.color = Color.green;
 
             Vector3 center = transform.position;
-            Vector3 size = Vector3.one;
+            Vector3 size = new Vector3(60f, 60f, 0f);
 
             Gizmos.DrawWireCube(center, size);
 
