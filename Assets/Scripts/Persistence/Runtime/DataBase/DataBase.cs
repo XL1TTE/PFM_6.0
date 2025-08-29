@@ -57,7 +57,7 @@ namespace Persistence.DB{
 
         public static bool TryFindRecordByID(string id, out Entity record){
             foreach(var r in _allRecords){
-                if(stash_ids.Get(r).id == id){record = r; return true;}
+                if(stash_ids.Get(r).Value == id){record = r; return true;}
             }
             record = default;
             return false;

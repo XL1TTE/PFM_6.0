@@ -4,7 +4,7 @@ using Persistence.Components;
 namespace Persistence.DB{
     public class DinArmRecord: MonsterPartRecord{
         public DinArmRecord(){
-            With<ID>(new ID { id = "mp_DinArm" });
+            With<ID>(new ID { Value = "mp_DinArm" });
             With<ArmSpritePath>(new ArmSpritePath
             {
                 FarSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Further_Test_1",

@@ -1,5 +1,6 @@
 
 using Codice.CM.WorkspaceServer.DataStore.WkTree;
+using Core.Utilities.Systems;
 using CursorDetection.Systems;
 using Domain.StateMachine.Mono;
 using Gameplay.Abilities.Systems;
@@ -7,6 +8,7 @@ using Gameplay.BattleField.Systems;
 using Gameplay.DragAndDrop.Systems;
 using Gameplay.DragAndDrop.Validators;
 using Gameplay.EcsButtons.Systems;
+using Gameplay.Enemies;
 using Gameplay.Monster.Systems;
 using Gameplay.StateMachine.Systems;
 using Gameplay.TargetSelection.Systems;
@@ -105,6 +107,13 @@ namespace Gameplay.Common.Mono{
             ButtonSystems.AddSystem(new ExitPlanningStageButtonSystem());
             ButtonSystems.AddSystem(new NextTurnButtonSystem());
 
+            SystemsGroup EnemiesSystems = _defaultWorld.CreateSystemsGroup();
+            EnemiesSystems.AddSystem(new EnemiesSpawnSystem());
+            
+            
+            SystemsGroup UtilitySystems = _defaultWorld.CreateSystemsGroup();
+            UtilitySystems.AddSystem(new EntityPrefabInstantiateSystem());
+
             SystemsGroup CleanupSystems = _defaultWorld.CreateSystemsGroup();
             CleanupSystems.AddSystem(new StateExitCleanupSystem());
 
@@ -117,14 +126,16 @@ namespace Gameplay.Common.Mono{
             _defaultWorld.AddSystemsGroup(5, UIElements);
             _defaultWorld.AddSystemsGroup(6, DragAndDropSystemGroup);
             _defaultWorld.AddSystemsGroup(7, MonsterSystems);
-            _defaultWorld.AddSystemsGroup(8, AbilitySystem);
-            _defaultWorld.AddSystemsGroup(9, TurnSystem);
-            _defaultWorld.AddSystemsGroup(10, TurnSystemReactors);
-            _defaultWorld.AddSystemsGroup(11, TargetSelection);
-            _defaultWorld.AddSystemsGroup(12, DragAndDropEventsHandlers);
-            _defaultWorld.AddSystemsGroup(13, CellsSystemGroup);
-            _defaultWorld.AddSystemsGroup(14, MarkSystems);
-            _defaultWorld.AddSystemsGroup(15, CleanupSystems);
+            _defaultWorld.AddSystemsGroup(8, EnemiesSystems);
+            _defaultWorld.AddSystemsGroup(9, AbilitySystem);
+            _defaultWorld.AddSystemsGroup(10, TurnSystem);
+            _defaultWorld.AddSystemsGroup(11, TurnSystemReactors);
+            _defaultWorld.AddSystemsGroup(12, TargetSelection);
+            _defaultWorld.AddSystemsGroup(13, DragAndDropEventsHandlers);
+            _defaultWorld.AddSystemsGroup(14, CellsSystemGroup);
+            _defaultWorld.AddSystemsGroup(15, MarkSystems);
+            _defaultWorld.AddSystemsGroup(16, UtilitySystems);
+            _defaultWorld.AddSystemsGroup(17, CleanupSystems);
         }
 
 

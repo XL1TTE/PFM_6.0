@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Domain.Monster.Components
+namespace Domain.Stats.Components
 {
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]

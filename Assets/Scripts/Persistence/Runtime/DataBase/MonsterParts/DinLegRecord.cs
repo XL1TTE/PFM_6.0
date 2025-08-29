@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Persistence.DB{
     public class DinLegRecord: MonsterPartRecord{
         public DinLegRecord(){
-            With<ID>(new ID { id = "mp_DinLeg" });
+            With<ID>(new ID { Value = "mp_DinLeg" });
             With<LegSpritePath>(new LegSpritePath{
                     FarSprite = "Monsters/Sprites/test/Spr_Bodypart_Leg_Further_Test_1",
                     NearSprite = "Monsters/Sprites/test/Spr_Bodypart_Leg_Closer_Test_1"

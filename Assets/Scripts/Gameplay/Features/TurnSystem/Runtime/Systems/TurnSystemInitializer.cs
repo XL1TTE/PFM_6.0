@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Domain.Monster.Components;
 using Domain.Monster.Tags;
+using Domain.Stats.Components;
 using Domain.TurnSystem.Components;
 using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Requests;
-using Domain.TurnSystem.Tags;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 

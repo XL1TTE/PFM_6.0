@@ -1,11 +1,11 @@
 
 using System.Collections.Generic;
 using Domain.Components;
-using Domain.CursorDetection.Components;
 using Domain.Extentions;
 using Domain.Monster.Components;
 using Domain.Monster.Mono;
 using Domain.Monster.Tags;
+using Domain.Stats.Components;
 using Domain.TurnSystem.Components;
 using Persistence.Components;
 using Persistence.DB;

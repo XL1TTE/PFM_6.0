@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Persistence.DB{
     public class DinTorsoRecord: MonsterPartRecord{
         public DinTorsoRecord(){
-            With<ID>(new ID{id = "mp_DinTorso"});
+            With<ID>(new ID{Value = "mp_DinTorso"});
             With<BodySpritePath>(new BodySpritePath{
                     path = "Monsters/Sprites/test/Spr_Bodypart_Torso_Test_1"
             });

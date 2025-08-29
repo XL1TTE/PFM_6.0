@@ -6,6 +6,8 @@ using Domain.BattleField.Tags;
 using Domain.DragAndDrop.Components;
 using Domain.DragAndDrop.Requests;
 using Domain.Extentions;
+using Domain.Levels.Components;
+using Domain.Levels.Mono;
 using Domain.Monster.Mono;
 using Domain.Monster.Requests;
 using Domain.StateMachine.Components;
@@ -13,8 +15,11 @@ using Domain.StateMachine.Events;
 using Domain.StateMachine.Mono;
 using Domain.UI.Requests;
 using Domain.UI.Widgets;
+using Persistence.Components;
+using Persistence.DB;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 namespace Gameplay.StateMachine.Systems
 {
     [Il2CppSetOption(Option.NullChecks, false)]
@@ -59,13 +64,36 @@ namespace Gameplay.StateMachine.Systems
         }
         
         private IEnumerator EnterRoutine(Entity stateEntity){
+            
+            /* ########################################## */
+            /*                 Load level                 */
+            /* ########################################## */
+            if(LevelConfig.StartLevelID != null){
+                if (DataBase.TryFindRecordByID(LevelConfig.StartLevelID, out var lvl_record))
+                {
+                    if (DataBase.TryGetRecord<PrefabComponent>(lvl_record, out var lvl_prefab))
+                    {
+                        if (lvl_prefab.Value == null)
+                        {
+                            throw new System.Exception($"Level prefab: {LevelConfig.StartLevelID} was not found.");
+                        }
+                        Object.Instantiate(lvl_prefab.Value); // instantiate level prefab
+                    }
 
+                    if (DataBase.TryGetRecord<EnemiesPool>(lvl_record, out var ep))
+                    {
+                        var enemiesToSpawn = ep.Value;
+                    }
+                }
+            }
+            
+            yield return new WaitForEndOfFrame();
+            
             /* ############################################## */
             /*           Pre-spawn monsters request           */
             /* ############################################## */
 
             var genMonsterReq = World.GetRequest<SpawnMonstersRequest>();
-
 
             genMonsterReq.Publish(new SpawnMonstersRequest
             {
