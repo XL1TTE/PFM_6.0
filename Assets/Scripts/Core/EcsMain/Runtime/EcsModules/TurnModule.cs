@@ -5,7 +5,7 @@ using Scellecs.Morpeh;
 namespace Core.ECS.Modules{
     public sealed class TurnModule : IWorldModule
     {
-        public int Priority => -700;
+        public int Priority => -600;
 
         public void Initialize(World world)
         {

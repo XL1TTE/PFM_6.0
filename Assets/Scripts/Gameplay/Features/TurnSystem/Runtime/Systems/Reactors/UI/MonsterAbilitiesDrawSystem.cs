@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Domain.Monster.Tags;
 using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Tags;
@@ -22,7 +23,10 @@ namespace Gameplay.TurnSystem.Systems
         private Event<NextTurnStartedEvent> evt_nextTurnStarted;
 
         private const string _moveAbilityRecordID = "abt_moveAbility";
+        private const string _attackAbilityRecordID = "abt_attackAbility";
 
+
+        private List<GameObject> _abilityBtnsCache = new();
 
         public void OnAwake()
         {
@@ -38,9 +42,14 @@ namespace Gameplay.TurnSystem.Systems
         {
             foreach (var evt in evt_nextTurnStarted.publishedChanges)
             {
-                if (filter_monsterTurnTaker.IsEmpty()) { return; }
-
-                DrawMoveAbility();
+                if (filter_monsterTurnTaker.IsEmpty() == false) { // means that now is monster turn
+                    ClearAbilityViews();
+                    DrawMoveAbility();
+                    DrawAttackAbility();
+                }
+                else{
+                    ClearAbilityViews();
+                }
             }
         }
 
@@ -56,9 +65,31 @@ namespace Gameplay.TurnSystem.Systems
                 var slot = BattleFieldUIRefs.Instance.BookWidget.MoveAbilitySlot;
                 if (DataBase.TryGetRecord<PrefabComponent>(record, out var prefab))
                 {
-                    Object.Instantiate(prefab.Value, slot);
+                    GameObject ability_btn = Object.Instantiate(prefab.Value, slot);
+                    _abilityBtnsCache.Add(ability_btn);
                 }
             }
+        }
+        private void DrawAttackAbility()
+        {
+            if (DataBase.TryFindRecordByID(_attackAbilityRecordID, out var record))
+            {
+                var slot = BattleFieldUIRefs.Instance.BookWidget.AttackAbilitySlot;
+                if (DataBase.TryGetRecord<PrefabComponent>(record, out var prefab))
+                {
+                    GameObject ability_btn = Object.Instantiate(prefab.Value, slot);
+                    _abilityBtnsCache.Add(ability_btn);
+                }
+            }
+        }
+
+        private void ClearAbilityViews()
+        {
+            foreach (var item in _abilityBtnsCache)
+            {
+                Object.Destroy(item);
+            }
+            _abilityBtnsCache.Clear();
         }
     }
 }

@@ -6,7 +6,7 @@ using UI.Systems;
 namespace Core.ECS.Modules{
     public sealed class UILogicModule : IWorldModule
     {
-        public int Priority => 0;
+        public int Priority => -700;
 
         public void Initialize(World world)
         {

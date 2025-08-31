@@ -5,7 +5,7 @@ using Scellecs.Morpeh;
 namespace Core.ECS.Modules{
     public sealed class GridLogicModule : IWorldModule
     {
-        public int Priority => -400;
+        public int Priority => -300;
 
         public void Initialize(World world)
         {

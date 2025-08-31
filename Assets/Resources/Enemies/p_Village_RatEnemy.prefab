@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 7243786364389428705}
   - component: {fileID: 6008101877288347293}
   - component: {fileID: 2375435949646462250}
+  - component: {fileID: 193305733492827179}
   m_Layer: 0
   m_Name: p_Village_RatEnemy
   m_TagString: Untagged
@@ -122,6 +123,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     Value: {fileID: -4481749515038321221, guid: c4f7dc41fba50104ca9b1253006f6b59, type: 3}
+--- !u!114 &193305733492827179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702015493862502221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a117253a6622ac748b93d01213e9bb4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    Value: 100
 --- !u!1 &7370415000329741317
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ using Scellecs.Morpeh;
 namespace Core.ECS.Modules{
     public sealed class DragAndDropLogicModule : IWorldModule
     {
-        public int Priority => -500;
+        public int Priority => -400;
 
         public void Initialize(World world)
         {

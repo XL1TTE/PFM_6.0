@@ -1,13 +1,13 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Domain.Abilities.Components;
 using Domain.Abilities.Tags;
 using Domain.BattleField.Components;
 using Domain.BattleField.Events;
 using Domain.BattleField.Tags;
 using Domain.Components;
 using Domain.Extentions;
-using Domain.Monster.Components;
 using Domain.Monster.Tags;
 using Domain.TargetSelection.Events;
 using Domain.TargetSelection.Requests;
@@ -30,7 +30,7 @@ namespace Gameplay.Abilities.Systems{
         private Filter _currentTurnTaker;
         private Filter _nonOccupiedCells;
         
-        private Request<TargetSelectionRequest> req_targetSelectionReq;
+        private Request<TargetSelectionRequest> req_targetSelection;
         private Event<CellOccupiedEvent> evt_cellOccupied;
         private Event<ButtonClickedEvent> evt_btnClicked;
         private Event<TargetSelectionCompletedEvent> evt_selectionCompleted;
@@ -56,7 +56,7 @@ namespace Gameplay.Abilities.Systems{
                 .Without<TagOccupiedCell>()
                 .Build();
 
-            req_targetSelectionReq = World.GetRequest<TargetSelectionRequest>();
+            req_targetSelection = World.GetRequest<TargetSelectionRequest>();
             evt_btnClicked = World.GetEvent<ButtonClickedEvent>();
             evt_selectionCompleted = World.GetEvent<TargetSelectionCompletedEvent>();
             evt_cellOccupied = World.GetEvent<CellOccupiedEvent>();
@@ -117,7 +117,7 @@ namespace Gameplay.Abilities.Systems{
                 var allowedCells = FindAllowedToMoveCells(executer);
                 if(allowedCells.Count > 0){
                     Debug.Log("SEND TARGET SELECTION REQUEST");
-                    req_targetSelectionReq.Publish(new TargetSelectionRequest{
+                    req_targetSelection.Publish(new TargetSelectionRequest{
                         RequestID = SystemID,
                         AllowedTargets = allowedCells,
                         TargetCount = 1,

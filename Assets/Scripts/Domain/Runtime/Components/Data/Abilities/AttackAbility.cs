@@ -3,15 +3,15 @@ using UnityEngine;
 using Unity.IL2CPP.CompilerServices;
 using System.Collections.Generic;
 
-namespace Domain.Monster.Components
+namespace Domain.Abilities.Components
 {
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct MovementAbility : IComponent
+    public struct AttackAbility : IComponent
     {
-        public List<Vector2Int> Movements;
+        public List<Vector2Int> Attacks;
     }
 }
 

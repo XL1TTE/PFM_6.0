@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using Domain.Abilities.Components;
 using Domain.Components;
 using Domain.Extentions;
 using Domain.Monster.Components;
@@ -22,6 +23,7 @@ namespace Persistence.Buiders
 
             stash_tagMonster = _ecsWorld.GetStash<TagMonster>();
             stash_moveAbility = _ecsWorld.GetStash<MovementAbility>();
+            stash_attackAbility = _ecsWorld.GetStash<AttackAbility>();
             stash_transformRef = _ecsWorld.GetStash<TransformRefComponent>();
             stash_monsterDammyRef = _ecsWorld.GetStash<MonsterDammyRefComponent>();
             stash_turnQueueAvatar = _ecsWorld.GetStash<TurnQueueAvatar>();
@@ -47,6 +49,7 @@ namespace Persistence.Buiders
         
         Stash<TagMonster> stash_tagMonster;
         Stash<MovementAbility> stash_moveAbility;
+        Stash<AttackAbility> stash_attackAbility;
         Stash<TransformRefComponent> stash_transformRef;
         Stash<MonsterDammyRefComponent> stash_monsterDammyRef;
         Stash<TurnQueueAvatar> stash_turnQueueAvatar;
@@ -64,7 +67,7 @@ namespace Persistence.Buiders
 
         public override Entity Build()
         {
-            Entity entity = _ecsWorld.CreateEntity();
+            Entity monster_entity = _ecsWorld.CreateEntity();
             
             MonsterDammy monsterDammy = UnityEngine.Object.Instantiate(pfb_monsterDammy);
             
@@ -117,7 +120,7 @@ namespace Persistence.Buiders
             #endregion
 
             #region Movement
-            ref var moveAbility = ref stash_moveAbility.Add(entity);
+            ref var moveAbility = ref stash_moveAbility.Add(monster_entity);
             var movementTemp = new HashSet<Vector2Int>();
 
             if (DataBase.TryGetRecord<MovementData>(rec_nearLeg, out var moveData_nearLeg))
@@ -137,33 +140,55 @@ namespace Persistence.Buiders
 
             moveAbility.Movements = new(movementTemp);
 
-            stash_tagMonster.Add(entity);
+            stash_tagMonster.Add(monster_entity);
 
             #endregion
 
-            #region Speed
+            #region  AttackAbility
             
+            var attacks_temp = new HashSet<Vector2Int>();
+            
+            if(DataBase.TryGetRecord<AttackData>(rec_farArm, out var fArm_Attack)){
+                foreach (var attack in fArm_Attack.Attacks){
+                    attacks_temp.Add(attack);
+                }
+            }
+            if(DataBase.TryGetRecord<AttackData>(rec_nearArm, out var nArm_Attack)){
+                foreach (var attack in nArm_Attack.Attacks){
+                    attacks_temp.Add(attack);
+                }
+            }
+
+            stash_attackAbility.Add(monster_entity, new AttackAbility{
+                Attacks = new(attacks_temp)
+            });
+
+            #endregion
+
+
+            #region Speed
+
             float total_speed = 0.0f;
             
             if(DataBase.TryGetRecord<Speed>(rec_head, out var head_spead)){
                 total_speed += head_spead.Value;
             }
             
-            stash_speed.Add(entity, new Speed{Value = total_speed});
+            stash_speed.Add(monster_entity, new Speed{Value = total_speed});
             
             #endregion
 
 
-            ref TransformRefComponent c_Transform = ref stash_transformRef.Add(entity);
+            ref TransformRefComponent c_Transform = ref stash_transformRef.Add(monster_entity);
             c_Transform.Value = monsterDammy.transform;
 
             //stash_cursorDetector.Add(entity, new TagCursorDetector{DetectionRadius = 1.0f, DetectionPriority = 9999});
 
-            stash_monsterDammyRef.Add(entity, new MonsterDammyRefComponent{MonsterDammy = monsterDammy });
+            stash_monsterDammyRef.Add(monster_entity, new MonsterDammyRefComponent{MonsterDammy = monsterDammy });
 
-            stash_turnQueueAvatar.Add(entity, new TurnQueueAvatar{Value = monsterDammy.MonsterAvatar});
+            stash_turnQueueAvatar.Add(monster_entity, new TurnQueueAvatar{Value = monsterDammy.MonsterAvatar});
 
-            return entity;
+            return monster_entity;
             
             #endregion
         }

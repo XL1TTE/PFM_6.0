@@ -14,7 +14,8 @@ namespace Persistence.DB{
             With<TagMonsterPart>();
             With<TagMonsterLeg>();
             With<MovementData>(new MovementData{
-                Movements = new Vector2Int[2]{new Vector2Int(1, 1), new Vector2Int(-1, -1)}
+                Movements = new Vector2Int[3]{new Vector2Int(1, 1), 
+                new Vector2Int(-1, -1), new Vector2Int(1, 0)}
             });
         }
     }
