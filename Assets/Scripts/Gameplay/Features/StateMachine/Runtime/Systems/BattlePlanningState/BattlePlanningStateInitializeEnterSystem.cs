@@ -77,6 +77,8 @@ namespace Gameplay.StateMachine.Systems
                         }
                         Object.Instantiate(lvl_prefab.Value); // instantiate level prefab
                     }
+                    
+                    yield return new WaitForEndOfFrame(); // Wait while prefab instantiated;
 
                     if (DataBase.TryGetRecord<EnemiesPool>(lvl_record, out var ep))
                     {

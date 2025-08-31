@@ -72,7 +72,7 @@ namespace Gameplay.StateMachine.Systems
                     DraggedEntity = monster,
                     ClickWorldPos = underCursorData.HitPoint,
                     StartPosition = monsterTranform.position
-                });
+                }, true);
             }
         }
 

@@ -58,8 +58,8 @@ namespace Gameplay.TurnSystem.Systems
             foreach(var evt in evt_cellPosChanged.publishedChanges){
                 if (filter_currentTurnTaker.IsEmpty()){return;}
                 if (evt.entity.Id == filter_currentTurnTaker.First().Id){
-                    SendCellHighlightRequest(evt.oldCell, ChangeCellViewToPointerRequest.PointerState.Disabled);
                     SendCellHighlightRequest(evt.newCell, ChangeCellViewToPointerRequest.PointerState.Enabled);
+                    SendCellHighlightRequest(evt.oldCell, ChangeCellViewToPointerRequest.PointerState.Disabled);
                 }
             }
         }

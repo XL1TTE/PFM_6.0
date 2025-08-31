@@ -1,3 +1,4 @@
+using Domain.ECS;
 using Scellecs.Morpeh;
 
 namespace Domain.Extentions
@@ -9,6 +10,11 @@ namespace Domain.Extentions
             if(stash.Has(entity) == false){component = default; return false;}
             component = stash.Get(entity);
             return true;
+        }
+        
+        
+        public static void AddModule(this World world, IWorldModule module){
+            module.Initialize(world);
         }
     }
     
