@@ -9,7 +9,7 @@ namespace Core.Bootstrap
         [SerializeField] private string SharedUISceneName;
         public override void Execute()
         {
-            SceneManager.LoadScene(SharedUISceneName, LoadSceneMode.Single);
+            SceneManager.LoadScene(SharedUISceneName, LoadSceneMode.Additive);
         }
     }
 }

@@ -3,7 +3,6 @@ using Scellecs.Morpeh;
 
 namespace Persistence.DB{
     public abstract class IDbRecord{
-        
         protected Entity _record;
         
         protected IDbRecord(){
@@ -14,8 +13,7 @@ namespace Persistence.DB{
         {
             DataBase.SetRecord(_record, new T());
         }
-
-
+        
         protected void With<T>(T value) where T: struct, IComponent{ 
             DataBase.SetRecord(_record, value);
         }
