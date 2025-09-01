@@ -1,6 +1,8 @@
 using System;
 using Domain.Extentions;
 using Domain.Monster.Tags;
+using Domain.StateMachine.Components;
+using Domain.StateMachine.Mono;
 using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Requests;
 using Domain.TurnSystem.Tags;
@@ -8,6 +10,7 @@ using Domain.UI.Requests;
 using Domain.UI.Tags;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEditorInternal;
 
 namespace Gameplay.EcsButtons.Systems
 {
@@ -113,6 +116,8 @@ namespace Gameplay.EcsButtons.Systems
         private void Execute(ButtonClickedEvent evt)
         {
             req_processTurn.Publish(new ProcessTurnRequest{});
+            
+            StateMachineWorld.ExitState<TargetSelectionState>();
         }
 
         private bool Validate(ButtonClickedEvent evt)

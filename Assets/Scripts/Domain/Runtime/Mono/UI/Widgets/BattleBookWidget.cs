@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,5 +8,6 @@ namespace Domain.UI.Widgets
     {
         [SerializeField] public Image TurnTakerAvatar;
         [SerializeField] public Transform MoveAbilitySlot;
+        [SerializeField] public Transform AttackAbilitySlot;
     }
 }

@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Domain.Monster.Components;
+using Domain.Enemies.Tags;
 using Domain.Monster.Tags;
+using Domain.Stats.Components;
 using Domain.TurnSystem.Components;
+using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Requests;
-using Domain.TurnSystem.Tags;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -20,13 +21,13 @@ namespace Gameplay.TurnSystem.Systems
         public World World { get; set; }
         
         private Filter filter_monsters;
+        private Filter filter_enemies;
         
         private Request<InitializeTurnSystemRequest> req_initSystem;
 
         private Request<ProcessTurnRequest> req_processTurn;
+        private Event<TurnSystemInitializedEvent> evt_turnSystemInitialized;
 
-
-        private Stash<CurrentTurnTakerTag> stash_curTurnTaker;
         private Stash<Speed> stash_Speed;
         private Stash<TurnQueueComponent> stash_turnQueue;
         
@@ -35,11 +36,15 @@ namespace Gameplay.TurnSystem.Systems
             filter_monsters = World.Filter
                 .With<TagMonster>()
                 .Build();
+                
+            filter_enemies = World.Filter
+                .With<TagEnemy>()
+                .Build();
 
             req_initSystem = World.GetRequest<InitializeTurnSystemRequest>();
             req_processTurn = World.GetRequest<ProcessTurnRequest>();
+            evt_turnSystemInitialized = World.GetEvent<TurnSystemInitializedEvent>();
 
-            stash_curTurnTaker = World.GetStash<CurrentTurnTakerTag>();
             stash_Speed = World.GetStash<Speed>();
             stash_turnQueue = World.GetStash<TurnQueueComponent>();
         }
@@ -58,18 +63,22 @@ namespace Gameplay.TurnSystem.Systems
         private void InitializeSystem(InitializeTurnSystemRequest req)
         {
             CreateTurnQueue();
-            RequestTurnProcess();
+            SendNotification();
         }
         
         private Entity CreateTurnQueue(){
-            Queue<Entity> TurnQueue = new();
+            List<Entity> OrderedBySpeed = new();
             Entity queueEntity = World.CreateEntity();
             
             foreach (var monster in filter_monsters)
             {
-                TurnQueue.Enqueue(monster);
+                OrderedBySpeed.Add(monster);
             }
-            TurnQueue.OrderBy(e =>
+            foreach (var enemy in filter_enemies)
+            {
+                OrderedBySpeed.Add(enemy);
+            }
+            OrderedBySpeed = OrderedBySpeed.OrderBy(e =>
             {
                 var speed = 0.0f;
                 if (stash_Speed.Has(e))
@@ -77,7 +86,9 @@ namespace Gameplay.TurnSystem.Systems
                     speed = stash_Speed.Get(e).Value;
                 }
                 return speed;
-            });
+            }).ToList();
+
+            Queue<Entity> TurnQueue = new Queue<Entity>(OrderedBySpeed);
 
             stash_turnQueue.Set(queueEntity, new TurnQueueComponent{
                 Value = TurnQueue
@@ -86,8 +97,8 @@ namespace Gameplay.TurnSystem.Systems
             return queueEntity;
         }
 
-        private void RequestTurnProcess(){
-            req_processTurn.Publish(new ProcessTurnRequest{});
+        private void SendNotification(){
+            evt_turnSystemInitialized.NextFrame(new TurnSystemInitializedEvent{});
         }
 
     }

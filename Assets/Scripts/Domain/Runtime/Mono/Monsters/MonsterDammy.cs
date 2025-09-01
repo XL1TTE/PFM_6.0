@@ -14,26 +14,37 @@ namespace Domain.Monster.Mono
         
         [HideInInspector] public Sprite MonsterAvatar;
         
+        
         #region Part attachment
         
-        public void AttachNearLeg(Sprite sprite){
+        public void AttachNearLeg(Sprite sprite, Vector2 offset){
             NearLegAnchor.sprite = sprite;
+            NearLegAnchor.transform.localPosition = new Vector3(offset.x, offset.y, 0);
         }
-        public void AttachFarLeg(Sprite sprite){
+        public void AttachFarLeg(Sprite sprite, Vector2 offset)
+        {
             FarLegAnchor.sprite = sprite;
+            FarLegAnchor.transform.localPosition = new Vector3(offset.x, offset.y, 0);
+
         }
-        public void AttachNearArm(Sprite sprite){
+        public void AttachNearArm(Sprite sprite, Vector2 offset){
             NearArmAnchor.sprite = sprite;
+            NearArmAnchor.transform.localPosition = new Vector3(offset.x, offset.y, 0);
         }
-        public void AttachFarArm(Sprite sprite){
+        public void AttachFarArm(Sprite sprite, Vector2 offset){
             FarArmAnchor.sprite = sprite;
+            FarArmAnchor.transform.localPosition = new Vector3(offset.x, offset.y, 0);
+
         }
-        public void AttachBody(Sprite sprite){
+        public void AttachBody(Sprite sprite, Vector2 offset)
+        {
             BodyAnchor.sprite = sprite;
+            BodyAnchor.transform.localPosition = new Vector3(offset.x, offset.y, 0);
         }
-        public void AttachHead(Sprite sprite){
+        public void AttachHead(Sprite sprite, Vector2 offset){
             HeadAnchor.sprite = sprite;
             MonsterAvatar = sprite;
+            HeadAnchor.transform.localPosition = new Vector3(offset.x, offset.y, 0);
         }
         
         #endregion

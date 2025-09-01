@@ -3,6 +3,7 @@ using Core.Utilities;
 using Domain.Extentions;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Events;
+using Domain.StateMachine.Mono;
 using Domain.TurnSystem.Requests;
 using Domain.UI.Requests;
 using Domain.UI.Widgets;
@@ -14,28 +15,28 @@ namespace Gameplay.StateMachine.Systems
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class BattleStateEnterSystem : ISystem
+    public sealed class BattleInitializeEnterSystem : ISystem
     {
         public World World { get; set; }
 
         private Event<OnStateEnterEvent> evt_onStateEnter;
 
-        private Stash<BattleState> stash_battleState;
+        private Stash<BattleIntializeState> stash_state;
 
 
 
         public void OnAwake()
         {
-            evt_onStateEnter = World.GetEvent<OnStateEnterEvent>();
+            evt_onStateEnter = StateMachineWorld.Value.GetEvent<OnStateEnterEvent>();
 
-            stash_battleState = World.GetStash<BattleState>();
+            stash_state = StateMachineWorld.Value.GetStash<BattleIntializeState>();
         }
 
         public void OnUpdate(float deltaTime)
         {
             foreach (var evt in evt_onStateEnter.publishedChanges)
             {
-                if (isStateValid(evt.StateEntity))
+                if (IsValid(evt.StateEntity))
                 {
                     Enter(evt.StateEntity);
                 }
@@ -83,12 +84,15 @@ namespace Gameplay.StateMachine.Systems
             
             World.GetRequest<InitializeTurnSystemRequest>().Publish(
                 new InitializeTurnSystemRequest{}, true);
+                
+            StateMachineWorld.ExitState<BattleIntializeState>();
+            StateMachineWorld.EnterState<BattleState>();
         }
 
 
-        private bool isStateValid(Entity stateEntity)
+        private bool IsValid(Entity stateEntity)
         {
-            if (!stash_battleState.Has(stateEntity)) { return false; }
+            if (!stash_state.Has(stateEntity)) { return false; }
             else { return true; }
         }
 

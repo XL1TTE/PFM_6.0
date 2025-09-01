@@ -1,11 +1,15 @@
 
+using Domain.DragAndDrop.Components;
 using Domain.Extentions;
+using Domain.Monster.Tags;
 using Domain.StateMachine.Components;
+using Domain.StateMachine.Mono;
 using Domain.StateMachine.Requests;
 using Domain.UI.Requests;
 using Domain.UI.Tags;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEditorInternal;
 
 namespace Gameplay.EcsButtons.Systems{
     [Il2CppSetOption(Option.NullChecks, false)]
@@ -15,6 +19,7 @@ namespace Gameplay.EcsButtons.Systems{
     {
         public World World { get; set; }
 
+        private Filter f_dragedMonsters;
 
         public Event<ButtonClickedEvent> _evt;
         public Request<ChangeStateRequest> req_changeState;
@@ -25,6 +30,8 @@ namespace Gameplay.EcsButtons.Systems{
 
         public void OnAwake()
         {
+            f_dragedMonsters = World.Filter.With<DragStateComponent>().With<TagMonster>().Build();
+
             _evt = World.GetEvent<ButtonClickedEvent>();
             req_changeState = World.GetRequest<ChangeStateRequest>();
 
@@ -36,15 +43,8 @@ namespace Gameplay.EcsButtons.Systems{
             foreach (var evt in _evt.publishedChanges)
             {
                 if (Validate(evt) == false) { return; }
-
-                var state = World.Filter.With<BattleState>().Build().FirstOrDefault();
-                
-                if(state.IsExist()){
-                    req_changeState.Publish(new ChangeStateRequest
-                    {
-                        NextState = state
-                    }, true);
-                }
+                StateMachineWorld.ExitState<BattlePlanningState>();
+                StateMachineWorld.EnterState<BattleIntializeState>();
             }
         }
 
@@ -56,6 +56,8 @@ namespace Gameplay.EcsButtons.Systems{
         private bool Validate(ButtonClickedEvent request)
         {
             if (stash_myBtn.Has(request.ClickedButton) == false) { return false; }
+            
+            if(f_dragedMonsters.IsEmpty() == false){return false;}
             return true;
         }
     }

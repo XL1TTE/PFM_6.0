@@ -15,5 +15,6 @@ namespace Domain.UI.Mono
         public static BattleFieldUIRefs Instance{get => _instance;}
 
         [SerializeField] public BattleBookWidget BookWidget;
+        [SerializeField] public TurnQueueWidget TurnQueueWidget;
     }
 }

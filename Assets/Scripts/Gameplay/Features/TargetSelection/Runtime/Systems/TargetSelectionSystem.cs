@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using Domain.BattleField.Requests;
 using Domain.CursorDetection.Components;
 using Domain.Extentions;
+using Domain.StateMachine.Components;
+using Domain.StateMachine.Events;
+using Domain.StateMachine.Mono;
 using Domain.TargetSelection.Events;
 using Domain.TargetSelection.Requests;
 using Domain.TargetSelection.Tags;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Gameplay.TargetSelection.Systems
@@ -23,11 +27,14 @@ namespace Gameplay.TargetSelection.Systems
         
         private Filter _selectablesUnderCursor;
         
+        private Filter f_state;
+        
         private Request<TargetSelectionRequest> req_targetSelection;
         private Request<ChangeCellViewToSelectRequest> req_selectCellsView;
         private Event<TargetSelectionCompletedEvent> evt_selectionComplited;
-        
+                
         private Stash<TagAwaibleToSelect> stash_awaibleToSelect;
+        private Stash<TargetSelectionState> stash_state;
         
         private SystemState CurrentState = SystemState.None;
         
@@ -46,11 +53,15 @@ namespace Gameplay.TargetSelection.Systems
                 .With<UnderCursorComponent>()
                 .Build();
 
+            f_state = StateMachineWorld.Value.Filter.With<TargetSelectionState>().Build();
+
             req_targetSelection = World.GetRequest<TargetSelectionRequest>();
             
             req_selectCellsView = World.GetRequest<ChangeCellViewToSelectRequest>();
             
             evt_selectionComplited = World.GetEvent<TargetSelectionCompletedEvent>();
+            
+            stash_state = StateMachineWorld.Value.GetStash<TargetSelectionState>();
 
             stash_awaibleToSelect = World.GetStash<TagAwaibleToSelect>();
         }
@@ -85,6 +96,10 @@ namespace Gameplay.TargetSelection.Systems
                 }
             }
             if(Input.GetMouseButtonDown(1)){
+                ExitSelection();
+            }
+            
+            if(!StateMachineWorld.IsStateActiveOptimized(f_state, stash_state, out var state)){
                 ExitSelection();
             }
         }
@@ -126,8 +141,11 @@ namespace Gameplay.TargetSelection.Systems
             AwaibleTargets.Clear();
             MaxTargets = 0;
             ProcessingRequestID = -1;
+            
+            
+            StateMachineWorld.ExitState<TargetSelectionState>();
         }
-        
+
         private void SetSystemState(TargetSelectionRequest req)
         {
             MaxTargets = req.TargetCount;
@@ -142,6 +160,7 @@ namespace Gameplay.TargetSelection.Systems
                     CurrentState = SystemState.SelectingEnemies;
                     break;
             }
+            StateMachineWorld.EnterState<TargetSelectionState>();
         }
     
         private void PrepareAwaibleTargets(TargetSelectionRequest req){
