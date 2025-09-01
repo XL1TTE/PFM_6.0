@@ -15,7 +15,7 @@ namespace Core.Bootstrap
                 Scene scene = SceneManager.GetSceneAt(i);
                 if (scene.name == BOOTSTRAP_SCENE_NAME && scene.isLoaded) { return; }
             }
-            SceneManager.LoadScene(BOOTSTRAP_SCENE_NAME, LoadSceneMode.Single);
+            SceneManager.LoadScene(BOOTSTRAP_SCENE_NAME, LoadSceneMode.Additive);
         }
     }
 }

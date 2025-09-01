@@ -35,7 +35,6 @@ namespace Core.ECS{
         void Start()
         {
             ConfigureSystems();
-            DataBase.Initialize();
         }
 
         private void ConfigureSystems()
