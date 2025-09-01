@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      UI_Map_Village_Decor_0_0: 8212646560411043711
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
