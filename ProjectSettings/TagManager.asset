@@ -50,6 +50,9 @@ TagManager:
   - name: Cells
     uniqueID: 2729521365
     locked: 0
+  - name: DetailsLevel
+    uniqueID: 33987603
+    locked: 0
   - name: UI
     uniqueID: 2554504795
     locked: 0

@@ -5,6 +5,7 @@ using Domain.StateMachine.Components;
 using Domain.StateMachine.Events;
 using Domain.StateMachine.Mono;
 using Domain.TurnSystem.Requests;
+using Domain.UI.Mono;
 using Domain.UI.Requests;
 using Domain.UI.Widgets;
 using Scellecs.Morpeh;
@@ -76,7 +77,7 @@ namespace Gameplay.StateMachine.Systems
             /*              Change plate text             */
             /* ########################################## */
 
-            PlateWithText.Instance.Show("Battle stage");
+            BattleFieldUIRefs.Instance.InformationBoardWidget.ChangeText("Battle");
 
             /* ########################################## */
             /*           Initialize turn system           */
