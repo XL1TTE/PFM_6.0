@@ -16,6 +16,7 @@ namespace Core.ECS.Modules{
             var sg_Visuals = world.CreateSystemsGroup();
             sg_Visuals.AddSystem(new FullScreenNotificationSystem());
             sg_Visuals.AddSystem(new TurnTakerCellMarkSystem());
+            sg_Visuals.AddSystem(new InformationBoardViewSystem());
             sg_Visuals.AddSystem(new TurnQueueRenderSystem());
             sg_Visuals.AddSystem(new MonsterAvatarDrawSystem());
             sg_Visuals.AddSystem(new MonsterAbilitiesDrawSystem());

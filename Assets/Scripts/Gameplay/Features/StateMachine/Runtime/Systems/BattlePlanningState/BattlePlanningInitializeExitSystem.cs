@@ -57,8 +57,6 @@ namespace Gameplay.StateMachine.Systems
         private void ExitRoutine(Entity stateEntity)
         {
 
-            PlateWithText.Instance.Hide();
-
             /* ############################################## */
             /*         Hightlight monster spawn cells         */
             /* ############################################## */

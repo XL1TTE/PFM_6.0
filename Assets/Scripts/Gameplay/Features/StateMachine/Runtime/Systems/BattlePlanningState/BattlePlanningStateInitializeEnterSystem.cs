@@ -15,6 +15,7 @@ using Domain.Monster.Requests;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Events;
 using Domain.StateMachine.Mono;
+using Domain.UI.Mono;
 using Domain.UI.Requests;
 using Domain.UI.Widgets;
 using Persistence.Components;
@@ -126,7 +127,7 @@ namespace Gameplay.StateMachine.Systems
             /*              Change plate text             */
             /* ########################################## */
             
-            PlateWithText.Instance.Show("Planning stage");
+            BattleFieldUIRefs.Instance.InformationBoardWidget.ChangeText("Preparation");
             
 
             World.GetRequest<FullScreenNotificationRequest>().Publish(

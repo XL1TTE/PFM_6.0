@@ -21,7 +21,7 @@ namespace Gameplay.EcsButtons.Systems
     {
         public World World { get; set; }
 
-        private Filter filter_currentTurnTaker;
+        private Filter filter_currentMonsterTurnTaker;
         private Filter filter_myBtn;
 
         private Event<ButtonClickedEvent> evt_btnClicked;
@@ -41,8 +41,9 @@ namespace Gameplay.EcsButtons.Systems
                 .With<NextTurnButtonTag>()
                 .Build();
 
-            filter_currentTurnTaker = World.Filter
+            filter_currentMonsterTurnTaker = World.Filter
                 .With<CurrentTurnTakerTag>()
+                .With<TagMonster>()
                 .Build();
 
             evt_btnClicked = World.GetEvent<ButtonClickedEvent>();
@@ -57,6 +58,7 @@ namespace Gameplay.EcsButtons.Systems
 
         public void OnUpdate(float deltaTime)
         {
+            
             foreach (var evt in evt_btnClicked.publishedChanges)
             {
                 if(Validate(evt)){
@@ -67,7 +69,7 @@ namespace Gameplay.EcsButtons.Systems
             
             foreach(var evt in evt_nextTurnStarted.publishedChanges)
             {
-                var turnTaker = filter_currentTurnTaker.FirstOrDefault();
+                var turnTaker = filter_currentMonsterTurnTaker.FirstOrDefault();
                 if(turnTaker.IsExist() == false){
                     HideNextTurnButton();
                     return;
@@ -78,6 +80,11 @@ namespace Gameplay.EcsButtons.Systems
                     //UnblockNextTurnButton();
                 }
             }
+        }
+
+        private bool ValidToShow()
+        {
+            throw new NotImplementedException();
         }
 
         private void BlockNextTurnButton()

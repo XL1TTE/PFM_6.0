@@ -62,7 +62,7 @@ namespace Gameplay.TurnSystem.Systems
         {
             if (DataBase.TryFindRecordByID(_moveAbilityRecordID, out var record))
             {
-                var slot = BattleFieldUIRefs.Instance.BookWidget.MoveAbilitySlot;
+                var slot = BattleFieldUIRefs.Instance.BookWidget.MoveButtonSlot;
                 if (DataBase.TryGetRecord<PrefabComponent>(record, out var prefab))
                 {
                     GameObject ability_btn = Object.Instantiate(prefab.Value, slot);
@@ -74,7 +74,7 @@ namespace Gameplay.TurnSystem.Systems
         {
             if (DataBase.TryFindRecordByID(_attackAbilityRecordID, out var record))
             {
-                var slot = BattleFieldUIRefs.Instance.BookWidget.AttackAbilitySlot;
+                var slot = BattleFieldUIRefs.Instance.BookWidget.AttackButtonSlot;
                 if (DataBase.TryGetRecord<PrefabComponent>(record, out var prefab))
                 {
                     GameObject ability_btn = Object.Instantiate(prefab.Value, slot);
