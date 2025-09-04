@@ -4,7 +4,6 @@ using System.Linq;
 using Core.Utilities;
 using Domain.BattleField.Requests;
 using Domain.BattleField.Tags;
-using Domain.Components;
 using Domain.DragAndDrop.Components;
 using Domain.DragAndDrop.Requests;
 using Domain.Extentions;
@@ -17,7 +16,6 @@ using Domain.StateMachine.Events;
 using Domain.StateMachine.Mono;
 using Domain.UI.Mono;
 using Domain.UI.Requests;
-using Domain.UI.Widgets;
 using Persistence.Components;
 using Persistence.DB;
 using Scellecs.Morpeh;
@@ -104,6 +102,20 @@ namespace Gameplay.StateMachine.Systems
             genMonsterReq.Publish(new SpawnMonstersRequest
             {
                 Monsters = new List<MosnterData>{
+                    new MosnterData(
+                        "mp_DinHead",
+                        "mp_DinArm",
+                        "mp_DinArm",
+                        "mp_DinTorso",
+                        "mp_DinLeg",
+                        "mp_DinLeg"),
+                    new MosnterData(
+                        "mp_DinHead",
+                        "mp_DinArm",
+                        "mp_DinArm",
+                        "mp_DinTorso",
+                        "mp_DinLeg",
+                        "mp_DinLeg"),
                     new MosnterData(
                         "mp_DinHead",
                         "mp_DinArm",
