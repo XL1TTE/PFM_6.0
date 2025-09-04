@@ -134,6 +134,8 @@ namespace Gameplay.Abilities.Systems{
             var originalPosition = attackerTransform.position;
             var targetPos = targetTransform.position;
 
+            attackerTransform.position += new Vector3(0, 0, -1.0f);
+
             seq.Append(attackerTransform.DOMoveY(originalPosition.y 
                 + raiseHeight, 0.5f).SetEase(Ease.OutQuad));
 
@@ -141,7 +143,7 @@ namespace Gameplay.Abilities.Systems{
                 .SetEase(Ease.InExpo));
 
             var attackPos = new Vector3(originalPosition.x, 
-                originalPosition.y + raiseHeight, originalPosition.z);
+                originalPosition.y + raiseHeight, originalPosition.z - 1.0f);
                 
             seq.Append(attackerTransform.DOMove(attackPos, 0.25f)
                 .SetEase(Ease.OutQuad));

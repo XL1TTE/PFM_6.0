@@ -1,4 +1,6 @@
 
+using System.Linq;
+using Domain.Extentions;
 using Domain.TurnSystem.Components;
 using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Requests;
@@ -49,7 +51,7 @@ namespace Gameplay.TurnSystem.Systems
             }
             
             foreach(var evt in evt_turnSystemInitialized.publishedChanges){
-                ProcessTurn();
+                ProcessVeryFirstTurn();
                 SendNotifications();
             }
         }
@@ -63,13 +65,20 @@ namespace Gameplay.TurnSystem.Systems
             evt_nextTurnStart.NextFrame(new NextTurnStartedEvent{});
         }
         
+        private void ProcessVeryFirstTurn(){
+            if (filter_turnQueue.IsEmpty()) { return; }
+            ref var queue = ref stash_turnQueue.Get(filter_turnQueue.First()).Value;
+            var currentTurnTaker = queue.First();
+            AddTurnTakerTag(currentTurnTaker);
+        }
+        
         private void ProcessTurn()
         {
             if(filter_turnQueue.IsEmpty()){return;}
             ref var queue = ref stash_turnQueue.Get(filter_turnQueue.First()).Value;
             
-            Entity previousTurnTaker;
-            Entity currentTurnTaker;
+            Entity previousTurnTaker = default;
+            Entity currentTurnTaker = default;
             
             if(queue.Count < 1){return;}
             
@@ -81,11 +90,12 @@ namespace Gameplay.TurnSystem.Systems
             
             else{
                 previousTurnTaker = queue.Dequeue();
-                currentTurnTaker = queue.Dequeue();
+                currentTurnTaker = queue.First();
                 queue.Enqueue(currentTurnTaker);
-                queue.Enqueue(previousTurnTaker);
             }
-            RemoveTurnTakerTag(previousTurnTaker);
+            if(previousTurnTaker.IsExist()){
+                RemoveTurnTakerTag(previousTurnTaker);
+            }
             AddTurnTakerTag(currentTurnTaker);
         }
         

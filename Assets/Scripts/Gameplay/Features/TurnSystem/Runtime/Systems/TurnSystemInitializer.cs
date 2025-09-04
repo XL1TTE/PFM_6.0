@@ -78,7 +78,7 @@ namespace Gameplay.TurnSystem.Systems
             {
                 OrderedBySpeed.Add(enemy);
             }
-            OrderedBySpeed = OrderedBySpeed.OrderBy(e =>
+            OrderedBySpeed = OrderedBySpeed.OrderByDescending(e =>
             {
                 var speed = 0.0f;
                 if (stash_Speed.Has(e))
