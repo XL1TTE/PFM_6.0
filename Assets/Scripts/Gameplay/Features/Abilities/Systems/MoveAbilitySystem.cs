@@ -44,7 +44,7 @@ namespace Gameplay.Abilities.Systems{
         
         private Entity CurrentExecuter;
         
-        private Dictionary<int, Tween> ActiveMoveTweensMap = new();
+        private Dictionary<int, Sequence> ActiveMoveTweensMap = new();
 
         public void OnAwake()
         {
@@ -108,17 +108,42 @@ namespace Gameplay.Abilities.Systems{
                 CellEntity = cell 
             });
             var cellPos = stash_cellPosition.Get(cell);
-            ref var transformRef = ref stash_transformRef.Get(CurrentExecuter);
+            ref var executerTransformRef = ref stash_transformRef.Get(CurrentExecuter).Value;
             var targetPos = new Vector3(cellPos.global_x, cellPos.global_y, cellPos.global_y * 0.01f);
 
-            Tween tween = transformRef.Value.DOMove(targetPos, 0.5f);
             
             if(ActiveMoveTweensMap.ContainsKey(CurrentExecuter.Id)){
                 ActiveMoveTweensMap[CurrentExecuter.Id].Kill(true);
                 ActiveMoveTweensMap.Remove(CurrentExecuter.Id);
             }
+            MoveSequence(CurrentExecuter, executerTransformRef, targetPos);
+        }
+
+        private void MoveSequence(Entity executer, Transform executerTransform,
+        Vector3 targetPosition)
+        {
+
+            var raiseHeight = 20;
             
-            ActiveMoveTweensMap.Add(CurrentExecuter.Id, tween);
+            var targetPosWithHeight = 
+                new Vector3(targetPosition.x, targetPosition.y + raiseHeight, targetPosition.z);
+
+            var originalPosition = executerTransform.position;
+
+            Sequence seq = DOTween.Sequence();
+            
+
+            seq.Append(executerTransform.DOMoveY(originalPosition.y
+                + raiseHeight, 0.25f).SetEase(Ease.OutQuad));
+
+            seq.Append(executerTransform.DOMove(targetPosWithHeight, 0.5f)
+                .SetEase(Ease.OutQuad));
+
+            seq.Append(executerTransform.DOMoveY(targetPosition.y, 0.25f)
+                .SetEase(Ease.InQuad));
+
+            ActiveMoveTweensMap.Add(executer.Id, seq);
+            seq.Play();
         }
 
         private void Execute(Entity executer)
