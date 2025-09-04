@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using Domain.Abilities.Components;
 using Domain.Abilities.Tags;
 using Domain.BattleField.Components;
@@ -42,6 +43,8 @@ namespace Gameplay.Abilities.Systems{
         private Stash<TransformRefComponent> stash_transformRef;
         
         private Entity CurrentExecuter;
+        
+        private Dictionary<int, Tween> ActiveMoveTweensMap = new();
 
         public void OnAwake()
         {
@@ -105,9 +108,17 @@ namespace Gameplay.Abilities.Systems{
                 CellEntity = cell 
             });
             var cellPos = stash_cellPosition.Get(cell);
-            ref var transformRef = ref stash_transformRef.Get(CurrentExecuter);            
-            transformRef.Value.position = 
-                new Vector3(cellPos.global_x, cellPos.global_y, cellPos.global_y * 0.01f);
+            ref var transformRef = ref stash_transformRef.Get(CurrentExecuter);
+            var targetPos = new Vector3(cellPos.global_x, cellPos.global_y, cellPos.global_y * 0.01f);
+
+            Tween tween = transformRef.Value.DOMove(targetPos, 0.5f);
+            
+            if(ActiveMoveTweensMap.ContainsKey(CurrentExecuter.Id)){
+                ActiveMoveTweensMap[CurrentExecuter.Id].Kill(true);
+                ActiveMoveTweensMap.Remove(CurrentExecuter.Id);
+            }
+            
+            ActiveMoveTweensMap.Add(CurrentExecuter.Id, tween);
         }
 
         private void Execute(Entity executer)

@@ -4,14 +4,12 @@ using Domain.BattleField.Requests;
 using Domain.CursorDetection.Components;
 using Domain.Extentions;
 using Domain.StateMachine.Components;
-using Domain.StateMachine.Events;
 using Domain.StateMachine.Mono;
 using Domain.TargetSelection.Events;
 using Domain.TargetSelection.Requests;
 using Domain.TargetSelection.Tags;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace Gameplay.TargetSelection.Systems
@@ -127,13 +125,13 @@ namespace Gameplay.TargetSelection.Systems
         }
         
         private void ExitSelection(){
-            ReturnDefaultColors();
             Reset();
             Debug.Log("EXIT TARGET SELECTING");
         }
         
         private void Reset(){
-            foreach(var e in AwaibleTargets){
+            ReturnDefaultColors();
+            foreach (var e in AwaibleTargets){
                 stash_awaibleToSelect.Remove(e);
             }
             CurrentState = SystemState.None;

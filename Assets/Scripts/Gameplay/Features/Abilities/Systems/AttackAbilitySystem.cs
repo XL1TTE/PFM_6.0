@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using Domain.Abilities.Components;
 using Domain.Abilities.Tags;
 using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
+using Domain.Components;
 using Domain.Enemies.Tags;
 using Domain.Extentions;
 using Domain.Monster.Tags;
@@ -43,10 +45,13 @@ namespace Gameplay.Abilities.Systems{
         private Stash<TagOccupiedCell> stash_occupiedCells;
         private Stash<Health> stash_health;
         private Stash<TagEnemy> stash_enemyTag;
+        private Stash<TransformRefComponent> stash_transformRef;
 
 
         private Entity CurrentExecuter;
 
+
+        private Dictionary<int, Sequence> AttackSequenceMap = new();
 
         public void OnAwake()
         {
@@ -74,6 +79,7 @@ namespace Gameplay.Abilities.Systems{
             stash_occupiedCells = World.GetStash<TagOccupiedCell>();
             stash_health = World.GetStash<Health>();
             stash_enemyTag = World.GetStash<TagEnemy>();
+            stash_transformRef = World.GetStash<TransformRefComponent>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -94,14 +100,59 @@ namespace Gameplay.Abilities.Systems{
                     var target = stash_occupiedCells.Get(t).Occupier;
 
                     // Attack logic (now just health--)
-                    if(stash_health.Has(target)){
-                        ref var c_health = ref stash_health.Get(target);
-                        c_health.Value--;
-                        Debug.Log($"Target {t.Id} now have {c_health.Value} hp.");
-                    }
+                    Attack(target);
                 }
             }
         }
+        
+        private void Attack(Entity target){
+            if(AttackSequenceMap.ContainsKey(CurrentExecuter.Id)){
+                AttackSequenceMap[CurrentExecuter.Id].Kill(true);
+                AttackSequenceMap.Remove(CurrentExecuter.Id);
+            }
+            
+            ref var executerTransform = ref stash_transformRef.Get(CurrentExecuter).Value;
+            ref var targetTransform = ref stash_transformRef.Get(target).Value;
+            
+            AttackSequence(CurrentExecuter, executerTransform, targetTransform);
+
+            if (stash_health.Has(target))
+            {
+                ref var c_health = ref stash_health.Get(target);
+                c_health.Value--;
+                Debug.Log($"Target {target.Id} now have {c_health.Value} hp.");
+            }
+        }
+        
+        private void AttackSequence(Entity attacker, Transform attackerTransform, 
+        Transform targetTransform){
+            
+            var raiseHeight = 20;
+            
+            Sequence seq = DOTween.Sequence();
+            
+            var originalPosition = attackerTransform.position;
+            var targetPos = targetTransform.position;
+
+            seq.Append(attackerTransform.DOMoveY(originalPosition.y 
+                + raiseHeight, 0.5f).SetEase(Ease.OutQuad));
+
+            seq.Append(attackerTransform.DOMove(targetPos, 0.25f)
+                .SetEase(Ease.InExpo));
+
+            var attackPos = new Vector3(originalPosition.x, 
+                originalPosition.y + raiseHeight, originalPosition.z);
+                
+            seq.Append(attackerTransform.DOMove(attackPos, 0.25f)
+                .SetEase(Ease.OutQuad));
+
+            seq.Append(attackerTransform.DOMoveY(originalPosition.y, 0.5f)
+                .SetEase(Ease.InQuad));
+
+            AttackSequenceMap.Add(attacker.Id, seq);
+            seq.Play();
+        }
+        
 
         public void Dispose()
         {
