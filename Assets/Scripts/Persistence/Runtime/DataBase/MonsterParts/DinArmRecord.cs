@@ -13,7 +13,7 @@ namespace Persistence.DB{
             With<TagMonsterPart>();
             With<TagMonsterArm>();
             With<AttackData>(new AttackData{Attacks = new UnityEngine.Vector2Int[2]{
-                new UnityEngine.Vector2Int(1,0), new UnityEngine.Vector2Int(1,1)
+                new UnityEngine.Vector2Int(5,0), new UnityEngine.Vector2Int(1,1)
             }});
         }
     }
