@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b689e3ce1b70e5943ad7ce6ac4f5801f
+guid: 8261fd460042f194ca3e41a2862b6906
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5171980525532464415
-    second: Spr_Battle_UI_Icon_Monster_0
+      213: 4996798859468326222
+    second: Spr_Battle_UI_Icon_Monster 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spr_Battle_UI_Icon_Monster_0
+      name: Spr_Battle_UI_Icon_Monster 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 39
-        height: 39
+        width: 38
+        height: 38
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1ea36664d1f6938b0800000000000000
-      internalID: -5171980525532464415
+      spriteID: e45cfa8a612385540800000000000000
+      internalID: 4996798859468326222
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Spr_Battle_UI_Icon_Monster_0: -5171980525532464415
+      Spr_Battle_UI_Icon_Monster 1_0: 4996798859468326222
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -44,7 +44,7 @@ namespace Gameplay.EcsButtons.Systems{
             {
                 if (Validate(evt) == false) { return; }
                 StateMachineWorld.ExitState<BattlePlanningState>();
-                StateMachineWorld.EnterState<BattleIntializeState>();
+                StateMachineWorld.EnterState<PreBattleNotificationState>();
             }
         }
 

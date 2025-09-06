@@ -17,6 +17,7 @@ namespace Domain.TargetSelection.Requests
         
         public int RequestID;
         public UInt16 TargetCount;
+        public List<Entity> ForbiddenTargets;
         public List<Entity> AllowedTargets;
         public SelectionType Type;
     }

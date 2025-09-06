@@ -71,13 +71,13 @@ namespace Gameplay.BattleField.Systems
 
                 ref var spriteRef = ref stash_cellSprites.Get(cell);
 
-                if (req.State == ChangeCellViewToPointerRequest.PointerState.Enabled)
-                {
-                    spriteRef.PointerLayer.gameObject.SetActive(true);
-                }
-                else if (req.State == ChangeCellViewToPointerRequest.PointerState.Disabled)
+                if (req.State == ChangeCellViewToPointerRequest.PointerState.Disabled)
                 {
                     spriteRef.PointerLayer.gameObject.SetActive(false);
+                }
+                else if (req.State == ChangeCellViewToPointerRequest.PointerState.Enabled)
+                {
+                    spriteRef.PointerLayer.gameObject.SetActive(true);
                 }
             }
         }
@@ -91,11 +91,11 @@ namespace Gameplay.BattleField.Systems
                 
                 ref var spriteRef = ref stash_cellSprites.Get(cell);
 
-                if (req.State == ChangeCellViewToHoverRequest.HoverState.Enabled){
-                    spriteRef.HoverLayer.gameObject.SetActive(true);
-                }
-                else if(req.State == ChangeCellViewToHoverRequest.HoverState.Disabled){
+                if(req.State == ChangeCellViewToHoverRequest.HoverState.Disabled){
                     spriteRef.HoverLayer.gameObject.SetActive(false);
+                }
+                else if (req.State == ChangeCellViewToHoverRequest.HoverState.Enabled){
+                    spriteRef.HoverLayer.gameObject.SetActive(true);
                 }
             }
         }
@@ -109,13 +109,13 @@ namespace Gameplay.BattleField.Systems
 
                 ref var spriteRef = ref stash_cellSprites.Get(cell);
 
-                if (req.State == ChangeCellViewToSelectRequest.SelectState.Enabled)
-                {
-                    spriteRef.SelectedLayer.gameObject.SetActive(true);
-                }
-                else if (req.State == ChangeCellViewToSelectRequest.SelectState.Disabled)
+                if (req.State == ChangeCellViewToSelectRequest.SelectState.Disabled)
                 {
                     spriteRef.SelectedLayer.gameObject.SetActive(false);
+                }
+                else if (req.State == ChangeCellViewToSelectRequest.SelectState.Enabled)
+                {
+                    spriteRef.SelectedLayer.gameObject.SetActive(true);
                 }
             }
         }
