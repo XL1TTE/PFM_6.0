@@ -13,6 +13,7 @@ namespace Domain.BattleField.Requests
         public enum SelectState : byte { Enabled, Disabled }
         public IEnumerable<Entity> Cells;
         public SelectState State;
+        public string test;
     }
 }
 

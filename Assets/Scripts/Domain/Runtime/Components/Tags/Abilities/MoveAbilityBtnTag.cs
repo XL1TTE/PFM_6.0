@@ -1,3 +1,4 @@
+using Domain.Abilities.Mono;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -9,7 +10,7 @@ namespace Domain.Abilities.Tags
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct MoveAbilityBtnTag : IComponent
     {
-
+        public MoveAbilityButtonView View;
     }
 }
 

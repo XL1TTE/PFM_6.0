@@ -30,6 +30,7 @@ namespace Gameplay.TargetSelection.Systems
         private Request<TargetSelectionRequest> req_targetSelection;
         private Request<ChangeCellViewToSelectRequest> req_selectCellsView;
         private Event<TargetSelectionCompletedEvent> evt_selectionComplited;
+        private Event<TargetSelectionCanceledEvent> evt_selectionCanceled;
                 
         private Stash<TagAwaibleToSelect> stash_awaibleToSelect;
         private Stash<TargetSelectionState> stash_state;
@@ -37,6 +38,7 @@ namespace Gameplay.TargetSelection.Systems
         private SystemState CurrentState = SystemState.None;
         
         private List<Entity> AwaibleTargets = new();
+        private List<Entity> ForbiddenTargets = new();
         
         private List<Entity> SelectedTargets = new();
         
@@ -58,6 +60,7 @@ namespace Gameplay.TargetSelection.Systems
             req_selectCellsView = World.GetRequest<ChangeCellViewToSelectRequest>();
             
             evt_selectionComplited = World.GetEvent<TargetSelectionCompletedEvent>();
+            evt_selectionCanceled = World.GetEvent<TargetSelectionCanceledEvent>();
             
             stash_state = StateMachineWorld.Value.GetStash<TargetSelectionState>();
 
@@ -67,9 +70,14 @@ namespace Gameplay.TargetSelection.Systems
         public void OnUpdate(float deltaTime)
         {
             foreach(var req in req_targetSelection.Consume()){
+                if(req.RequestID != this.ProcessingRequestID)
+                {
+                    NotifySelectionCanceled();
+                }
                 Reset();
                 SetSystemState(req);
                 PrepareAwaibleTargets(req);
+                PrepareForbiddenTargets(req);
             }
             if(CurrentState != SystemState.None){
                 ProcessSelection();
@@ -86,19 +94,15 @@ namespace Gameplay.TargetSelection.Systems
                 Debug.Log("SELECT CELL");
                 SelectTarget(_selectablesUnderCursor.FirstOrDefault());
                 if(IsSelectionOver()){
-                    evt_selectionComplited.NextFrame(new TargetSelectionCompletedEvent{
-                       CompletedRequestID = ProcessingRequestID,
-                       SelectedTargets = new List<Entity>(this.SelectedTargets) 
-                    });
-                    ExitSelection();
+                    CompleteSelection();
                 }
             }
             if(Input.GetMouseButtonDown(1)){
-                ExitSelection();
+                CancelSelection();
             }
             
             if(!StateMachineWorld.IsStateActiveOptimized(f_state, stash_state, out var state)){
-                ExitSelection();
+                CancelSelection();
             }
         }
         
@@ -124,9 +128,30 @@ namespace Gameplay.TargetSelection.Systems
             return false;
         }
         
-        private void ExitSelection(){
+        private void NotifySelectionCanceled(){
+            // notify selection canceled 
+            evt_selectionCanceled.NextFrame(new TargetSelectionCanceledEvent
+            {
+                CanceledRequestID = this.ProcessingRequestID
+            });
+        }
+        private void NotifySelectionCompleted(){
+            // notify selection canceled 
+            evt_selectionComplited.NextFrame(new TargetSelectionCompletedEvent
+            {
+                CompletedRequestID = ProcessingRequestID,
+                SelectedTargets = new List<Entity>(this.SelectedTargets)
+            });
+        }
+        
+        private void CancelSelection(){
+            NotifySelectionCanceled();
             Reset();
-            Debug.Log("EXIT TARGET SELECTING");
+        }
+        
+        private void CompleteSelection(){
+            NotifySelectionCompleted();
+            Reset();
         }
         
         private void Reset(){
@@ -137,6 +162,7 @@ namespace Gameplay.TargetSelection.Systems
             CurrentState = SystemState.None;
             SelectedTargets.Clear();
             AwaibleTargets.Clear();
+            ForbiddenTargets.Clear();
             MaxTargets = 0;
             ProcessingRequestID = -1;
             
@@ -161,15 +187,34 @@ namespace Gameplay.TargetSelection.Systems
             StateMachineWorld.EnterState<TargetSelectionState>();
         }
     
+        private void PrepareForbiddenTargets(TargetSelectionRequest req)
+        {
+            if(req.ForbiddenTargets == null){return;}
+            foreach(var target in req.ForbiddenTargets){
+                ForbiddenTargets.Add(target);
+            }
+            HighlightForbiddenCells();
+        }
+    
         private void PrepareAwaibleTargets(TargetSelectionRequest req){
             foreach(var target in req.AllowedTargets){
                 stash_awaibleToSelect.Add(target);
                 AwaibleTargets.Add(target);
             }
-            HighlightCells();
+            HighlightAwaibleCells();
         }
-        
-        private void HighlightCells(){
+
+
+        private void HighlightForbiddenCells()
+        {
+            req_selectCellsView.Publish(new ChangeCellViewToSelectRequest
+            {
+                Cells = new List<Entity>(ForbiddenTargets),
+                State = ChangeCellViewToSelectRequest.SelectState.Enabled
+            });
+        }
+
+        private void HighlightAwaibleCells(){
 
             req_selectCellsView.Publish(new ChangeCellViewToSelectRequest{
                 Cells = new List<Entity>(AwaibleTargets), 
@@ -181,7 +226,14 @@ namespace Gameplay.TargetSelection.Systems
             req_selectCellsView.Publish(new ChangeCellViewToSelectRequest
             {
                 Cells = new List<Entity>(AwaibleTargets),
-                State = ChangeCellViewToSelectRequest.SelectState.Disabled
+                State = ChangeCellViewToSelectRequest.SelectState.Disabled,
+                test = "cursor selection"
+            });
+            req_selectCellsView.Publish(new ChangeCellViewToSelectRequest
+            {
+                Cells = new List<Entity>(ForbiddenTargets),
+                State = ChangeCellViewToSelectRequest.SelectState.Disabled,
+                test = "cursor selection"
             });
         }
     }

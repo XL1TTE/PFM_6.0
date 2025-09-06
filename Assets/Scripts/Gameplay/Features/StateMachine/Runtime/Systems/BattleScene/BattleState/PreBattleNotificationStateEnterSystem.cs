@@ -16,13 +16,13 @@ namespace Gameplay.StateMachine.Systems
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class BattleInitializeEnterSystem : ISystem
+    public sealed class PreBattleNotificationStateEnterSystem : ISystem
     {
         public World World { get; set; }
 
         private Event<OnStateEnterEvent> evt_onStateEnter;
 
-        private Stash<BattleIntializeState> stash_state;
+        private Stash<PreBattleNotificationState> stash_state;
 
 
 
@@ -30,7 +30,7 @@ namespace Gameplay.StateMachine.Systems
         {
             evt_onStateEnter = StateMachineWorld.Value.GetEvent<OnStateEnterEvent>();
 
-            stash_state = StateMachineWorld.Value.GetStash<BattleIntializeState>();
+            stash_state = StateMachineWorld.Value.GetStash<PreBattleNotificationState>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -72,21 +72,8 @@ namespace Gameplay.StateMachine.Systems
             {
                 state = FullScreenNotificationRequest.State.Disable,
             }, true);
-
-            /* ########################################## */
-            /*              Change plate text             */
-            /* ########################################## */
-
-            BattleFieldUIRefs.Instance.InformationBoardWidget.ChangeText("Battle");
-
-            /* ########################################## */
-            /*           Initialize turn system           */
-            /* ########################################## */
-            
-            World.GetRequest<InitializeTurnSystemRequest>().Publish(
-                new InitializeTurnSystemRequest{}, true);
                 
-            StateMachineWorld.ExitState<BattleIntializeState>();
+            StateMachineWorld.ExitState<PreBattleNotificationState>();
             StateMachineWorld.EnterState<BattleState>();
         }
 

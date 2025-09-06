@@ -28,44 +28,48 @@ namespace Gameplay.Abilities.Systems{
         
         public World World { get; set; }
         
-        private Filter _currentTurnTaker;
-        private Filter _nonOccupiedCells;
+        private Filter f_currentTurnTaker;
+        private Filter f_Cells;
         
         private Request<TargetSelectionRequest> req_targetSelection;
         private Event<CellOccupiedEvent> evt_cellOccupied;
         private Event<ButtonClickedEvent> evt_btnClicked;
         private Event<TargetSelectionCompletedEvent> evt_selectionCompleted;
+        private Event<TargetSelectionCanceledEvent> evt_selectionCanceled;
         
         private Stash<MoveAbilityBtnTag> stash_moveAbilityBtn;
         private Stash<MovementAbility> stash_moveAbility;
         private Stash<CellPositionComponent> stash_cellPosition;
+        private Stash<TagOccupiedCell> stash_cellOccupied;
         private Stash<GridPosition> stash_gridPosition;
         private Stash<TransformRefComponent> stash_transformRef;
         
         private Entity CurrentExecuter;
+        private Entity CurrentMoveButton;
         
         private Dictionary<int, Sequence> ActiveMoveTweensMap = new();
 
         public void OnAwake()
         {
-            _currentTurnTaker = World.Filter
+            f_currentTurnTaker = World.Filter
                 .With<TagMonster>()
                 .With<CurrentTurnTakerTag>()
                 .Build();
 
-            _nonOccupiedCells = World.Filter
+            f_Cells = World.Filter
                 .With<CellTag>()
                 .With<CellPositionComponent>()
-                .Without<TagOccupiedCell>()
                 .Build();
 
             req_targetSelection = World.GetRequest<TargetSelectionRequest>();
             evt_btnClicked = World.GetEvent<ButtonClickedEvent>();
             evt_selectionCompleted = World.GetEvent<TargetSelectionCompletedEvent>();
+            evt_selectionCanceled = World.GetEvent<TargetSelectionCanceledEvent>();
             evt_cellOccupied = World.GetEvent<CellOccupiedEvent>();
 
             stash_moveAbilityBtn = World.GetStash<MoveAbilityBtnTag>();
             stash_moveAbility = World.GetStash<MovementAbility>();
+            stash_cellOccupied = World.GetStash<TagOccupiedCell>();
             stash_cellPosition = World.GetStash<CellPositionComponent>();
             stash_gridPosition = World.GetStash<GridPosition>();
             stash_transformRef = World.GetStash<TransformRefComponent>();
@@ -73,12 +77,17 @@ namespace Gameplay.Abilities.Systems{
 
         public void OnUpdate(float deltaTime)
         {
-
             // Start executing and request cell selecting
             foreach (var evt in evt_btnClicked.publishedChanges){
-                if(Validate(evt.ClickedButton)){
-                    CurrentExecuter = _currentTurnTaker.FirstOrDefault();
-                    Execute(CurrentExecuter);
+                if(ValidateButton(evt.ClickedButton)){
+                    if(ValidateSkillUser()){
+                        CurrentExecuter = f_currentTurnTaker.FirstOrDefault();
+                        CurrentMoveButton = evt.ClickedButton;
+                        var cellOptions = GetMoveOptions(CurrentExecuter);
+                        if (ValidateSkillUsability(cellOptions)){
+                            UseSkill(cellOptions);
+                        }
+                    }
                 }
             }
             
@@ -91,14 +100,60 @@ namespace Gameplay.Abilities.Systems{
                 Debug.Log($"Cell with id ({cell.Id}) was selected.");
                 
                 MoveToSelectedCell(cell);
-                Cleanup();
+                Reset();
             }
             
+            foreach(var evt in evt_selectionCanceled.publishedChanges){
+                if (evt.CanceledRequestID != SystemID) { return; }
+                Reset();
+            }
         }
 
-        private void Cleanup()
+
+        public void Dispose()
         {
+
+        }
+
+
+        private void UseSkill(List<Entity> cellOptions){
+            var allowedCells = FilterAllowedOptions(cellOptions);
+            var forbiddenCells = FilterForbiddenOptions(cellOptions);
+
+            SendTargetSelectionRequest(allowedCells, forbiddenCells);
+            EnableButtonSelectedView(CurrentMoveButton);
+        }
+
+        private void Reset(){
+            if(CurrentMoveButton.IsExist()){
+                DisableButtonSelectedView(CurrentMoveButton);
+            }
             CurrentExecuter = default;
+            CurrentMoveButton = default;
+        }
+
+        private void EnableButtonSelectedView(Entity button){
+            if(stash_moveAbilityBtn.Has(button)==false){return;}
+            
+            stash_moveAbilityBtn.Get(button).View.EnableSelectedView();
+        }
+        private void DisableButtonSelectedView(Entity button){
+            if(stash_moveAbilityBtn.Has(button)==false){return;}
+            
+            stash_moveAbilityBtn.Get(button).View.DisableSelectiedView();
+        }
+
+
+        private void SendTargetSelectionRequest(List<Entity> allowedCells, List<Entity> forbiddenCells)
+        {
+            req_targetSelection.Publish(new TargetSelectionRequest
+            {
+                RequestID = SystemID,
+                AllowedTargets = allowedCells,
+                ForbiddenTargets = forbiddenCells,
+                TargetCount = 1,
+                Type = TargetSelectionRequest.SelectionType.Cell
+            });
         }
 
         private void MoveToSelectedCell(Entity cell)
@@ -146,57 +201,83 @@ namespace Gameplay.Abilities.Systems{
             seq.Play();
         }
 
-        private void Execute(Entity executer)
+        #region MoveOptionsFilters
+        private List<Entity> GetMoveOptions(Entity monsterEntity)
         {
-            Debug.Log("MOVE ABILITY");
-            if (executer.IsExist()){
-                var allowedCells = FindAllowedToMoveCells(executer);
-                if(allowedCells.Count > 0){
-                    Debug.Log("SEND TARGET SELECTION REQUEST");
-                    req_targetSelection.Publish(new TargetSelectionRequest{
-                        RequestID = SystemID,
-                        AllowedTargets = allowedCells,
-                        TargetCount = 1,
-                        Type = TargetSelectionRequest.SelectionType.Cell
-                    });
-                }
-            }
-        }
-
-        public void Dispose()
-        {
-
-        }
-        
-        private List<Entity> FindAllowedToMoveCells(Entity monsterEntity){
             List<Entity> allowedCells = new();
             List<Vector2Int> cellPositions = new();
-            
+
             var c_gridPos = stash_gridPosition.Get(monsterEntity);
             var moves = stash_moveAbility.Get(monsterEntity).Movements;
-            
+
             var gridPos = new Vector2Int(c_gridPos.grid_x, c_gridPos.grid_y);
-            
-            foreach(var move in moves){
+
+            foreach (var move in moves)
+            {
                 cellPositions.Add(gridPos + move);
             }
-            
+
             // pick cells with allowed positions
-            foreach(var cell in _nonOccupiedCells){
+            foreach (var cell in f_Cells)
+            {
                 var c_cellPos = stash_cellPosition.Get(cell);
                 var cellPos = new Vector2Int(c_cellPos.grid_x, c_cellPos.grid_y);
-                if(cellPositions.Contains(cellPos)){
+                if (cellPositions.Contains(cellPos))
+                {
                     allowedCells.Add(cell);
                 }
             }
-        
+
             return allowedCells;
         }
-        
-        private bool Validate(Entity clickedBtn){
-            if(stash_moveAbilityBtn.Has(clickedBtn) == false){return false;}
+        private List<Entity> FilterAllowedOptions(List<Entity> options)
+        {
+            List<Entity> filter = new();
+            foreach (var opt in options)
+            {
+                if (stash_cellOccupied.Has(opt) == false)
+                {
+                    filter.Add(opt);
+                }
+            }
+            return filter;
+        }
+        private List<Entity> FilterForbiddenOptions(List<Entity> options)
+        {
+            List<Entity> filter = new();
+            foreach (var opt in options)
+            {
+                if (stash_cellOccupied.Has(opt))
+                {
+                    filter.Add(opt);
+                }
+            }
+            return filter;
+        }
+        #endregion
+
+
+
+        #region Validations
+        private bool ValidateSkillUsability(List<Entity> options)
+        {
+            if (options.Count < 1) { return false; }
             return true;
         }
+
+        private bool ValidateSkillUser()
+        {
+            if (f_currentTurnTaker.IsEmpty()) { return false; }
+            return true;
+        }
+
+        private bool ValidateButton(Entity clickedBtn)
+        {
+            if (stash_moveAbilityBtn.Has(clickedBtn) == false) { return false; }
+            return true;
+        }
+        #endregion
+
     }
 }
 

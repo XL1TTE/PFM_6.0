@@ -9,21 +9,27 @@ namespace Core.ECS.Modules{
 
         public void Initialize(World world)
         {
+            var sq_BattleSceneInitialize = world.CreateSystemsGroup();
+            sq_BattleSceneInitialize.AddInitializer(new BattleSceneStatesEntrypoint());
+            sq_BattleSceneInitialize.AddSystem(new BattleSceneInitializeEnterSystem());
+            sq_BattleSceneInitialize.AddSystem(new BattleSceneInitializeExitSystem());
+
             var sg_BattlePlanningState = world.CreateSystemsGroup();
-            sg_BattlePlanningState.AddInitializer(new BattlePlanningStateInitializer());
-            sg_BattlePlanningState.AddSystem(new BattlePlanningStateInitializeEnterSystem());
-            sg_BattlePlanningState.AddSystem(new BattlePlanningInitializeExitSystem());
+            sg_BattlePlanningState.AddSystem(new PreBattlePlanningNotificationStateEnterSystem());
+            sg_BattlePlanningState.AddSystem(new BattlePlanningStateEnterSystem());
+            sg_BattlePlanningState.AddSystem(new BattlePlanningStateExitSystem());
 
             var sg_BattleState = world.CreateSystemsGroup();
-            sg_BattleState.AddInitializer(new BattleStateInitializer());
-            sg_BattleState.AddSystem(new BattleInitializeEnterSystem());
+            sg_BattleState.AddSystem(new PreBattleNotificationStateEnterSystem());
+            sg_BattleState.AddSystem(new BattleStateEnterSystem());
 
             var sg_StateHandlers = world.CreateSystemsGroup();
             sg_StateHandlers.AddSystem(new MonsterSpawnCellMonsterDragInPlanningState());
 
-            world.AddSystemsGroup(Priority, sg_BattlePlanningState);
-            world.AddSystemsGroup(Priority + 1, sg_BattleState);
-            world.AddSystemsGroup(Priority + 2, sg_StateHandlers);
+            world.AddSystemsGroup(Priority, sq_BattleSceneInitialize);
+            world.AddSystemsGroup(Priority + 1, sg_BattlePlanningState);
+            world.AddSystemsGroup(Priority + 2, sg_BattleState);
+            world.AddSystemsGroup(Priority + 3, sg_StateHandlers);
         }
     }
 }

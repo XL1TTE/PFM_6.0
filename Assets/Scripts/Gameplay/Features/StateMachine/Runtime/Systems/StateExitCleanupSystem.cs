@@ -3,6 +3,7 @@ using Domain.StateMachine.Events;
 using Domain.StateMachine.Mono;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
 namespace Gameplay.StateMachine.Systems
 {
@@ -23,7 +24,7 @@ namespace Gameplay.StateMachine.Systems
         public void OnUpdate(float deltaTime)
         {
             foreach(var e in evt_StateExit.publishedChanges){
-                StateMachineWorld.ExitState(e.StateEntity);
+                StateMachineWorld.RemoveState(e.StateEntity);
             }
         }
         public void Dispose()

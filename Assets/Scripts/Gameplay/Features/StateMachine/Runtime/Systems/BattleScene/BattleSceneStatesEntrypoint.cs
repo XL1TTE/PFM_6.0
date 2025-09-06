@@ -10,13 +10,13 @@ namespace Gameplay.StateMachine.Systems
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class BattlePlanningStateInitializer : IInitializer
+    public sealed class BattleSceneStatesEntrypoint : IInitializer
     {
         public World World { get; set; }
 
         public void OnAwake()
         {
-            StateMachineWorld.EnterState<BattlePlanningInitializeState>();
+            StateMachineWorld.EnterState<BattleSceneInitializeState>();
         }
 
         public void Dispose()

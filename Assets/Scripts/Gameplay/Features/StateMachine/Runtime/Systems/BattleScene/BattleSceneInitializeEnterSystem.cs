@@ -26,25 +26,19 @@ namespace Gameplay.StateMachine.Systems
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class BattlePlanningStateInitializeEnterSystem : ISystem
+    public sealed class BattleSceneInitializeEnterSystem : ISystem
     {
         public World World { get; set; }
-        
-        private Filter f_state;
 
         private Event<OnStateEnterEvent> evt_onStateEnter;
 
-        private Stash<BattlePlanningInitializeState> stash_state;
-        private Stash<DropTargetComponent> stash_dropTarget;
-        
-        private Request<ChangeMonsterDraggableStateRequest> req_monsterDrag;
+        private Stash<BattleSceneInitializeState> stash_state;
 
         public void OnAwake()
         {
             evt_onStateEnter = StateMachineWorld.Value.GetEvent<OnStateEnterEvent>();
 
-            stash_state = StateMachineWorld.Value.GetStash<BattlePlanningInitializeState>();
-            stash_dropTarget = World.GetStash<DropTargetComponent>();
+            stash_state = StateMachineWorld.Value.GetStash<BattleSceneInitializeState>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -91,8 +85,6 @@ namespace Gameplay.StateMachine.Systems
                 }
             }
             
-            
-            
             /* ############################################## */
             /*           Pre-spawn monsters request           */
             /* ############################################## */
@@ -109,69 +101,11 @@ namespace Gameplay.StateMachine.Systems
                         "mp_DinTorso",
                         "mp_DinLeg",
                         "mp_DinLeg"),
-                    new MosnterData(
-                        "mp_DinHead",
-                        "mp_DinArm",
-                        "mp_DinArm",
-                        "mp_DinTorso",
-                        "mp_DinLeg",
-                        "mp_DinLeg"),
-                    new MosnterData(
-                        "mp_DinHead",
-                        "mp_DinArm",
-                        "mp_DinArm",
-                        "mp_DinTorso",
-                        "mp_DinLeg",
-                        "mp_DinLeg"),
                 }
             }, true);
-
-            World.GetRequest<FullScreenNotificationRequest>().Publish(
-            new FullScreenNotificationRequest{
-                state = FullScreenNotificationRequest.State.Enable,
-                Message = "Planning stage",
-                Tip = "Press LMB to continue..."
-            }, true);
-                            
-            yield return new WaitForMouseDown(0);
             
-            /* ########################################## */
-            /*              Change plate text             */
-            /* ########################################## */
-            
-            BattleFieldUIRefs.Instance.InformationBoardWidget.ChangeText("Preparation");
-            
-
-            World.GetRequest<FullScreenNotificationRequest>().Publish(
-            new FullScreenNotificationRequest
-            {
-                state = FullScreenNotificationRequest.State.Disable,
-            }, true);
-
-            /* ############################################## */
-            /*         Hightlight monster spawn cells         */
-            /* ############################################## */
-
-            Filter spawnCellsFilter = World.Filter.With<TagMonsterSpawnCell>().Build();
-
-            var highlightMonsterSpawnCellsReq = World.Default.GetRequest<ChangeCellViewToSelectRequest>();
-
-            highlightMonsterSpawnCellsReq.Publish(
-                    new ChangeCellViewToSelectRequest
-                    {
-                        Cells = spawnCellsFilter.AsEnumerable(), 
-                        State = ChangeCellViewToSelectRequest.SelectState.Enabled}
-                    , true);
-
-            var req_markMonsterSpawnCellsAsDropTargets =
-                World.Default.GetRequest<MarkMonsterSpawnCellsAsDropTargetRequest>();
-
-            req_markMonsterSpawnCellsAsDropTargets.Publish(
-                new MarkMonsterSpawnCellsAsDropTargetRequest { DropRadius = 30.0f, 
-                state = MarkMonsterSpawnCellsAsDropTargetRequest.State.Enable }, true);
-
-            StateMachineWorld.ExitState<BattlePlanningInitializeState>();
-            StateMachineWorld.EnterState<BattlePlanningState>();
+            StateMachineWorld.ExitState<BattleSceneInitializeState>();
+            StateMachineWorld.EnterState<PreBattlePlanningNotificationState>();
         }
 
         private void Enter(Entity stateEntity){
