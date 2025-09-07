@@ -294,6 +294,7 @@ GameObject:
   - component: {fileID: 1502925542995184286}
   - component: {fileID: 7399632778761705721}
   - component: {fileID: 4801251426190407981}
+  - component: {fileID: 6059660625314343599}
   m_Layer: 0
   m_Name: EntityLink
   m_TagString: Untagged
@@ -347,9 +348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    DetectionRadius: 13
     DetectionPriority: 1
-  _hitBoxColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!114 &7399632778761705721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,6 +377,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     Value: {fileID: 4027622553625252875}
+--- !u!114 &6059660625314343599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3893020043431352812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e50801e5e07daed4ca3daa8765650209, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    Offset: {x: 0, y: 0}
+    Size: {x: 26, y: 26}
 --- !u!1 &6010774960590971064
 GameObject:
   m_ObjectHideFlags: 0

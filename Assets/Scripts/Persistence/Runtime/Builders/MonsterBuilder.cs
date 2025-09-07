@@ -25,6 +25,7 @@ namespace Persistence.Buiders
             stash_moveAbility = _ecsWorld.GetStash<MovementAbility>();
             stash_attackAbility = _ecsWorld.GetStash<AttackAbility>();
             stash_transformRef = _ecsWorld.GetStash<TransformRefComponent>();
+            stash_hitBox = _ecsWorld.GetStash<HitBoxComponent>();
             stash_monsterDammyRef = _ecsWorld.GetStash<MonsterDammyRefComponent>();
             stash_turnQueueAvatar = _ecsWorld.GetStash<TurnQueueAvatar>();
             stash_speed = _ecsWorld.GetStash<Speed>();
@@ -51,6 +52,7 @@ namespace Persistence.Buiders
         Stash<MovementAbility> stash_moveAbility;
         Stash<AttackAbility> stash_attackAbility;
         Stash<TransformRefComponent> stash_transformRef;
+        Stash<HitBoxComponent> stash_hitBox;
         Stash<MonsterDammyRefComponent> stash_monsterDammyRef;
         Stash<TurnQueueAvatar> stash_turnQueueAvatar;
         Stash<Speed> stash_speed;
@@ -183,6 +185,11 @@ namespace Persistence.Buiders
             c_Transform.Value = monsterDammy.transform;
 
             //stash_cursorDetector.Add(entity, new TagCursorDetector{DetectionRadius = 1.0f, DetectionPriority = 9999});
+
+            stash_hitBox.Add(monster_entity, new HitBoxComponent{
+                Offset = new Vector2(0, 20),
+                Size = new Vector2(40, 60)
+            });
 
             stash_monsterDammyRef.Add(monster_entity, new MonsterDammyRefComponent{MonsterDammy = monsterDammy });
 

@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Spr_Battle_UI_EndTurn_0: -9033005235553336797
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

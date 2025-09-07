@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Spr_Battle_UI_Icon_MoveAbility_Turn_0: 5404534557007079977
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

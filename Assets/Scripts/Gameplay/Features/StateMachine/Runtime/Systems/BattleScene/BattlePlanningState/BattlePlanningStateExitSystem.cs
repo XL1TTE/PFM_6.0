@@ -60,7 +60,7 @@ namespace Gameplay.StateMachine.Systems
                 World.Default.GetRequest<MarkMonsterSpawnCellsAsDropTargetRequest>();
 
             req_markMonsterSpawnCellsAsDropTargets.Publish(
-                new MarkMonsterSpawnCellsAsDropTargetRequest { DropRadius = 30.0f, 
+                new MarkMonsterSpawnCellsAsDropTargetRequest {
                 state = MarkMonsterSpawnCellsAsDropTargetRequest.State.Disable }, true);
 
             var exitPlngStateBtn = World.Filter.With<ExitPlanningStageButtonTag>().Build().FirstOrDefault();

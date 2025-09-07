@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 6008101877288347293}
   - component: {fileID: 2375435949646462250}
   - component: {fileID: 193305733492827179}
+  - component: {fileID: 1031712963108783947}
   m_Layer: 0
   m_Name: p_Village_RatEnemy
   m_TagString: Untagged
@@ -137,6 +138,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     Value: 100
+--- !u!114 &1031712963108783947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702015493862502221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e50801e5e07daed4ca3daa8765650209, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    Offset: {x: 0, y: 0}
+    Size: {x: 45, y: 35}
 --- !u!1 &7370415000329741317
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,7 +227,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 156326315
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: -4481749515038321221, guid: c4f7dc41fba50104ca9b1253006f6b59, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

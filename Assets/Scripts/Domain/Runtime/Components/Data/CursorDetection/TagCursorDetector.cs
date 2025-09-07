@@ -10,7 +10,6 @@ namespace Domain.CursorDetection.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct TagCursorDetector : IComponent
     {
-        public float DetectionRadius;
         public int DetectionPriority;
     }
 }
