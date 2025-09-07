@@ -94,8 +94,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5459219503758565731}
   - {fileID: 6698662154891946261}
+  - {fileID: 2599319726645481455}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3963476648899246128
@@ -298,7 +298,7 @@ SortingGroup:
   m_SortingLayer: 1
   m_SortingOrder: 1
   m_SortAtRoot: 0
---- !u!1001 &378313712013855440
+--- !u!1001 &7679097935451759708
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -308,7 +308,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4650318034115816508, guid: 85a39794910739146978564bb5e4068d, type: 3}
       propertyPath: m_Name
-      value: p_VillageGrid
+      value: p_Village
       objectReference: {fileID: 0}
     - target: {fileID: 5657367103000751027, guid: 85a39794910739146978564bb5e4068d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -328,15 +328,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5657367103000751027, guid: 85a39794910739146978564bb5e4068d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5657367103000751027, guid: 85a39794910739146978564bb5e4068d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5657367103000751027, guid: 85a39794910739146978564bb5e4068d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5657367103000751027, guid: 85a39794910739146978564bb5e4068d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -355,8 +355,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85a39794910739146978564bb5e4068d, type: 3}
---- !u!4 &5459219503758565731 stripped
+--- !u!4 &2599319726645481455 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5657367103000751027, guid: 85a39794910739146978564bb5e4068d, type: 3}
-  m_PrefabInstance: {fileID: 378313712013855440}
+  m_PrefabInstance: {fileID: 7679097935451759708}
   m_PrefabAsset: {fileID: 0}

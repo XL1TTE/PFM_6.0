@@ -34,7 +34,7 @@ namespace Gameplay.DragAndDrop.Systems
         {
             foreach(var req in req_markSpawnCells.Consume()){
                 if(req.state == MarkMonsterSpawnCellsAsDropTargetRequest.State.Enable){
-                    MarkAllMonsterSpawnCellsAsDropTargets(req.DropRadius);
+                    MarkAllMonsterSpawnCellsAsDropTargets();
                 }
                 else if(req.state == MarkMonsterSpawnCellsAsDropTargetRequest.State.Disable){
                     UnmarkAllMonsterSpawnCellsAsDropTargets();
@@ -48,11 +48,10 @@ namespace Gameplay.DragAndDrop.Systems
         }
         
         
-        private void MarkAllMonsterSpawnCellsAsDropTargets(float dropRadius){
+        private void MarkAllMonsterSpawnCellsAsDropTargets(){
             foreach(var e in _monsterSpawnCells){
                 if(!stash_dropTarget.Has(e)){
                     ref var c = ref stash_dropTarget.Add(e);
-                    c.DropRadius = dropRadius;
                 }
             }
         }

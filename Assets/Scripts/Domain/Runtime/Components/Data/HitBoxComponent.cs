@@ -1,18 +1,17 @@
 using Scellecs.Morpeh;
-using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
+using Unity.IL2CPP.CompilerServices;
 
-
-namespace Domain.CursorDetection.Components
+namespace Domain.Components
 {
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct ColliderComponent : IComponent
+    public struct HitBoxComponent : IComponent
     {
-        public Vector2 size;
-        public Vector2 offset; 
+        public Vector2 Offset;
+        public Vector2 Size;
     }
 }
 

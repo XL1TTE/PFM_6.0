@@ -10,7 +10,6 @@ namespace Domain.DragAndDrop.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct DropTargetComponent : IComponent
     {
-        public float DropRadius;
     }
 }
 

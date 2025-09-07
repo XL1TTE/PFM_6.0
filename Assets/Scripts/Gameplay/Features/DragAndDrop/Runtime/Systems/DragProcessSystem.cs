@@ -21,6 +21,7 @@ namespace Gameplay.DragAndDrop.Systems
 
         private Stash<DragStateComponent> stash_dragState;
         private Stash<TransformRefComponent> stash_transformRef;
+        private Stash<HitBoxComponent> stash_hitBox;
         private Stash<DropTargetComponent> stash_dropTarget;
         private Stash<CurrentDragTargetComponent> stash_currentDragTarget;
 
@@ -37,6 +38,7 @@ namespace Gameplay.DragAndDrop.Systems
 
             stash_dragState = World.GetStash<DragStateComponent>();
             stash_transformRef = World.GetStash<TransformRefComponent>();
+            stash_hitBox = World.GetStash<HitBoxComponent>();
             stash_dropTarget = World.GetStash<DropTargetComponent>();
             stash_currentDragTarget = World.GetStash<CurrentDragTargetComponent>();
         }
@@ -81,16 +83,22 @@ namespace Gameplay.DragAndDrop.Systems
             foreach (var entity in _dropTargetEntities)
             {
                 ref var transform = ref stash_transformRef.Get(entity).Value;
-                float distance = Vector3.Distance(mouseWorldPos, transform.position);
-                float dropRadius = stash_dropTarget.Get(entity).DropRadius;
+                var hitBox = stash_hitBox.Get(entity);
 
-                if (distance > dropRadius) continue;
+                bool isInsideBox = IsPointInsideBox(
+                    mouseWorldPos,
+                    (Vector2)transform.position + hitBox.Offset,
+                    hitBox.Size
+                );
+
+                if (!isInsideBox) continue;
+
+                float distance = Vector3.Distance(mouseWorldPos, transform.position);
 
                 if (distance < closestDist)
                 {
                     closestDist = distance;
                     _closestDropTargetEntity = entity;
-
                     isDropTargetFound = true;
                 }
             }
@@ -108,6 +116,17 @@ namespace Gameplay.DragAndDrop.Systems
                 currentTarget.ValidDropPosition = Vector3.zero;
                 currentTarget.IsValid = false;
             }
+        }
+
+        private bool IsPointInsideBox(Vector3 point, Vector3 boxCenter, Vector2 boxSize)
+        {
+            float halfWidth = boxSize.x * 0.5f;
+            float halfHeight = boxSize.y * 0.5f;
+
+            return point.x >= boxCenter.x - halfWidth &&
+                   point.x <= boxCenter.x + halfWidth &&
+                   point.y >= boxCenter.y - halfHeight &&
+                   point.y <= boxCenter.y + halfHeight;
         }
     }
 
