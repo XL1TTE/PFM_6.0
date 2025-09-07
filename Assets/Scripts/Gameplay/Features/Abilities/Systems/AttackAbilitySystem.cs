@@ -6,6 +6,7 @@ using Domain.Abilities.Tags;
 using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
 using Domain.Components;
+using Domain.CursorDetection.Components;
 using Domain.Enemies.Tags;
 using Domain.Extentions;
 using Domain.Monster.Tags;
@@ -29,7 +30,8 @@ namespace Gameplay.Abilities.Systems{
         private int SystemID = "ATTACK_ABILITY".GetHashCode();
 
         public World World { get; set; }
-
+        
+        private Filter f_attackAbiltiyBtnsUnderCursor;
         private Filter f_currentTurnTaker;
         private Filter f_Cells;
         
@@ -47,8 +49,7 @@ namespace Gameplay.Abilities.Systems{
         private Stash<Health> stash_health;
         private Stash<TagEnemy> stash_enemyTag;
         private Stash<TransformRefComponent> stash_transformRef;
-
-
+        private Stash<UnderCursorComponent> stash_underCursor;
         private Entity CurrentExecuter;
         private Entity CurrentAttackButton;
 
@@ -57,6 +58,9 @@ namespace Gameplay.Abilities.Systems{
 
         public void OnAwake()
         {
+            f_attackAbiltiyBtnsUnderCursor = World.Filter
+                .With<AttackAbilityBtnTag>()
+                .Build();
             f_currentTurnTaker = World.Filter
                 .With<TagMonster>()
                 .With<CurrentTurnTakerTag>()
@@ -82,13 +86,18 @@ namespace Gameplay.Abilities.Systems{
             stash_health = World.GetStash<Health>();
             stash_enemyTag = World.GetStash<TagEnemy>();
             stash_transformRef = World.GetStash<TransformRefComponent>();
+            stash_underCursor = World.GetStash<UnderCursorComponent>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach(var evt in evt_ButtonClicked.publishedChanges){
-                if(ValidateButton(evt)){
-                    if(ValidateSkillUser()){
+            #region Ability Logic
+            foreach (var evt in evt_ButtonClicked.publishedChanges)
+            {
+                if (ValidateButton(evt))
+                {
+                    if (ValidateSkillUser())
+                    {
                         CurrentExecuter = f_currentTurnTaker.FirstOrDefault();
                         CurrentAttackButton = evt.ClickedButton;
                         var cellOptions = GetAttackOptions(CurrentExecuter);
@@ -99,13 +108,15 @@ namespace Gameplay.Abilities.Systems{
                     }
                 }
             }
-            
-            foreach(var evt in evt_selectionCompleted.publishedChanges){
+
+            foreach (var evt in evt_selectionCompleted.publishedChanges)
+            {
                 if (evt.CompletedRequestID != SystemID) { return; }
-                if(evt.SelectedTargets.Count < 1){return; }
-                
-                foreach(var t in evt.SelectedTargets){
-                    if(stash_occupiedCells.Has(t) == false){continue;}
+                if (evt.SelectedTargets.Count < 1) { return; }
+
+                foreach (var t in evt.SelectedTargets)
+                {
+                    if (stash_occupiedCells.Has(t) == false) { continue; }
                     var target = stash_occupiedCells.Get(t).Occupier;
 
                     // Attack logic (now just health--)
@@ -113,12 +124,33 @@ namespace Gameplay.Abilities.Systems{
                     Reset();
                 }
             }
-            
-            foreach(var evt in evt_selectionCanceled.publishedChanges){
+
+            foreach (var evt in evt_selectionCanceled.publishedChanges)
+            {
                 if (evt.CanceledRequestID != SystemID) { return; }
-                
+
                 Reset();
             }
+
+            #endregion
+
+
+
+            #region Visuals
+
+            foreach (var e in f_attackAbiltiyBtnsUnderCursor)
+            {
+                ref var btn = ref stash_attackAbilityBtn.Get(e);
+                if (stash_underCursor.Has(e))
+                {
+                    btn.View.EnableHoverView();
+                }
+                else
+                {
+                    btn.View.DisableHoverView();
+                }
+            }
+            #endregion
         }
 
         public void Dispose()

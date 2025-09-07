@@ -57,6 +57,13 @@ namespace Gameplay.StateMachine.Systems
 
         private IEnumerator EnterRoutine(Entity stateEntity)
         {
+
+            /* ########################################## */
+            /*              Change plate text             */
+            /* ########################################## */
+
+            BattleFieldUIRefs.Instance.InformationBoardWidget.ChangeText("Battle");
+
             World.GetRequest<FullScreenNotificationRequest>().Publish(
             new FullScreenNotificationRequest
             {

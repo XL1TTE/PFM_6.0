@@ -51,12 +51,6 @@ namespace Gameplay.StateMachine.Systems
         {
 
             /* ########################################## */
-            /*              Change plate text             */
-            /* ########################################## */
-
-            BattleFieldUIRefs.Instance.InformationBoardWidget.ChangeText("Battle");
-
-            /* ########################################## */
             /*           Initialize turn system           */
             /* ########################################## */
             
