@@ -8,6 +8,7 @@ using Domain.BattleField.Components;
 using Domain.BattleField.Events;
 using Domain.BattleField.Tags;
 using Domain.Components;
+using Domain.CursorDetection.Components;
 using Domain.Extentions;
 using Domain.Monster.Tags;
 using Domain.TargetSelection.Events;
@@ -28,6 +29,8 @@ namespace Gameplay.Abilities.Systems{
         
         public World World { get; set; }
         
+        
+        private Filter f_moveAbiltiyBtnsUnderCursor;
         private Filter f_currentTurnTaker;
         private Filter f_Cells;
         
@@ -43,6 +46,7 @@ namespace Gameplay.Abilities.Systems{
         private Stash<TagOccupiedCell> stash_cellOccupied;
         private Stash<GridPosition> stash_gridPosition;
         private Stash<TransformRefComponent> stash_transformRef;
+        private Stash<UnderCursorComponent> stash_underCursor;
         
         private Entity CurrentExecuter;
         private Entity CurrentMoveButton;
@@ -51,6 +55,10 @@ namespace Gameplay.Abilities.Systems{
 
         public void OnAwake()
         {
+            f_moveAbiltiyBtnsUnderCursor = World.Filter
+                .With<MoveAbilityBtnTag>()
+                .Build();
+
             f_currentTurnTaker = World.Filter
                 .With<TagMonster>()
                 .With<CurrentTurnTakerTag>()
@@ -73,40 +81,63 @@ namespace Gameplay.Abilities.Systems{
             stash_cellPosition = World.GetStash<CellPositionComponent>();
             stash_gridPosition = World.GetStash<GridPosition>();
             stash_transformRef = World.GetStash<TransformRefComponent>();
+            stash_underCursor = World.GetStash<UnderCursorComponent>();
         }
 
         public void OnUpdate(float deltaTime)
         {
+            #region Abiltiy Logic
             // Start executing and request cell selecting
-            foreach (var evt in evt_btnClicked.publishedChanges){
-                if(ValidateButton(evt.ClickedButton)){
-                    if(ValidateSkillUser()){
+            foreach (var evt in evt_btnClicked.publishedChanges)
+            {
+                if (ValidateButton(evt.ClickedButton))
+                {
+                    if (ValidateSkillUser())
+                    {
                         CurrentExecuter = f_currentTurnTaker.FirstOrDefault();
                         CurrentMoveButton = evt.ClickedButton;
                         var cellOptions = GetMoveOptions(CurrentExecuter);
-                        if (ValidateSkillUsability(cellOptions)){
+                        if (ValidateSkillUsability(cellOptions))
+                        {
                             UseSkill(cellOptions);
                         }
                     }
                 }
             }
-            
+
             // Waiting for response from target selection system
-            foreach(var evt in evt_selectionCompleted.publishedChanges){
-                if(evt.CompletedRequestID != SystemID){return;}
-                
+            foreach (var evt in evt_selectionCompleted.publishedChanges)
+            {
+                if (evt.CompletedRequestID != SystemID) { return; }
+
                 var cell = evt.SelectedTargets.FirstOrDefault();
-                
+
                 Debug.Log($"Cell with id ({cell.Id}) was selected.");
-                
+
                 MoveToSelectedCell(cell);
                 Reset();
             }
-            
-            foreach(var evt in evt_selectionCanceled.publishedChanges){
+
+            foreach (var evt in evt_selectionCanceled.publishedChanges)
+            {
                 if (evt.CanceledRequestID != SystemID) { return; }
                 Reset();
             }
+            #endregion
+
+            #region Visuals
+            
+            foreach(var e in f_moveAbiltiyBtnsUnderCursor){
+                ref var btn = ref stash_moveAbilityBtn.Get(e);
+                if (stash_underCursor.Has(e)){
+                    btn.View.EnableHoverView();
+                }
+                else{
+                    btn.View.DisableHoverView();
+                }
+            }
+            #endregion
+
         }
 
 
