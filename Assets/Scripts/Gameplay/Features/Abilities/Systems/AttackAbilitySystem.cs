@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using Domain.Abilities.Components;
 using Domain.Abilities.Tags;
@@ -31,7 +32,7 @@ namespace Gameplay.Abilities.Systems{
 
         public World World { get; set; }
         
-        private Filter f_attackAbiltiyBtnsUnderCursor;
+        private Filter f_attackAbiltiyBtns;
         private Filter f_currentTurnTaker;
         private Filter f_Cells;
         
@@ -43,6 +44,8 @@ namespace Gameplay.Abilities.Systems{
 
         private Stash<AttackAbilityBtnTag> stash_attackAbilityBtn;
         private Stash<AttackAbility> stash_attackAbility;
+        private Stash<Attacking> stash_attackingTag;
+        private Stash<PerfomingActionTag> stash_performingAction;
         private Stash<CellPositionComponent> stash_cellPosition;
         private Stash<GridPosition> stash_gridPosition;
         private Stash<TagOccupiedCell> stash_occupiedCells;
@@ -50,15 +53,18 @@ namespace Gameplay.Abilities.Systems{
         private Stash<TagEnemy> stash_enemyTag;
         private Stash<TransformRefComponent> stash_transformRef;
         private Stash<UnderCursorComponent> stash_underCursor;
-        private Entity CurrentExecuter;
+        private Stash<TagCursorDetector> stash_cursorDetector;
+        private Entity CurrentCaster;
         private Entity CurrentAttackButton;
 
 
         private Dictionary<int, Sequence> AttackSequenceMap = new();
 
+        private bool IsAbilityAwaible = false;
+
         public void OnAwake()
         {
-            f_attackAbiltiyBtnsUnderCursor = World.Filter
+            f_attackAbiltiyBtns = World.Filter
                 .With<AttackAbilityBtnTag>()
                 .Build();
             f_currentTurnTaker = World.Filter
@@ -80,6 +86,8 @@ namespace Gameplay.Abilities.Systems{
 
             stash_attackAbilityBtn = World.GetStash<AttackAbilityBtnTag>();
             stash_attackAbility = World.GetStash<AttackAbility>();
+            stash_performingAction = World.GetStash<PerfomingActionTag>();
+            stash_attackingTag = World.GetStash<Attacking>();
             stash_cellPosition = World.GetStash<CellPositionComponent>();
             stash_gridPosition = World.GetStash<GridPosition>();
             stash_occupiedCells = World.GetStash<TagOccupiedCell>();
@@ -87,58 +95,67 @@ namespace Gameplay.Abilities.Systems{
             stash_enemyTag = World.GetStash<TagEnemy>();
             stash_transformRef = World.GetStash<TransformRefComponent>();
             stash_underCursor = World.GetStash<UnderCursorComponent>();
+            stash_cursorDetector = World.GetStash<TagCursorDetector>();
         }
 
         public void OnUpdate(float deltaTime)
         {
+
+            var _currentUsability = ValidateSkillUsability();
+            if (_currentUsability != IsAbilityAwaible)
+            {
+                IsAbilityAwaible = _currentUsability;
+                UpdateSkillView(_currentUsability);
+            }
+
             #region Ability Logic
+            // Attack ability use entry point
             foreach (var evt in evt_ButtonClicked.publishedChanges)
             {
-                if (ValidateButton(evt))
+                if (IsAttackAbilityButtonClicked(evt) == false){continue; }
                 {
-                    if (ValidateSkillUser())
-                    {
-                        CurrentExecuter = f_currentTurnTaker.FirstOrDefault();
-                        CurrentAttackButton = evt.ClickedButton;
-                        var cellOptions = GetAttackOptions(CurrentExecuter);
-                        if (ValidateSkillUsability(cellOptions))
-                        {
-                            UseSkill(cellOptions);
-                        }
-                    }
+                    CurrentCaster = f_currentTurnTaker.FirstOrDefault();
+                    CurrentAttackButton = evt.ClickedButton;
+                    var AttackOptions = GetAttackOptions(CurrentCaster);
+                    
+                    if(ValidateAttackOptions(AttackOptions) == false){continue;}
+
+                    StartAttackOptionSelection(AttackOptions);
+                    EnableAbilityButtonSelectedView(evt.ClickedButton);
                 }
             }
-
+            // When player succsefuly selected targets
             foreach (var evt in evt_selectionCompleted.publishedChanges)
             {
-                if (evt.CompletedRequestID != SystemID) { return; }
-                if (evt.SelectedTargets.Count < 1) { return; }
+                if (evt.CompletedRequestID != SystemID) { continue; }
 
-                foreach (var t in evt.SelectedTargets)
-                {
-                    if (stash_occupiedCells.Has(t) == false) { continue; }
-                    var target = stash_occupiedCells.Get(t).Occupier;
+                var SelectedCell = evt.SelectedTargets.FirstOrDefault();
 
-                    // Attack logic (now just health--)
-                    Attack(target);
-                    Reset();
-                }
+                DisableAbilityButtonSelectedView(CurrentAttackButton); // We do this here, because we want to remove skill highlight before skill starts executing.
+                AttackTargetOnCell(SelectedCell);
             }
 
+            // When player cancels target selection
             foreach (var evt in evt_selectionCanceled.publishedChanges)
             {
-                if (evt.CanceledRequestID != SystemID) { return; }
-
-                Reset();
+                if (evt.CanceledRequestID != SystemID) { continue; }
+                OnSkillUseCanceled();
             }
 
             #endregion
 
+            ProcessSkillButtonHover();
 
+        }
 
-            #region Visuals
+        public void Dispose()
+        {
 
-            foreach (var e in f_attackAbiltiyBtnsUnderCursor)
+        }
+
+        private void ProcessSkillButtonHover()
+        {
+            foreach (var e in f_attackAbiltiyBtns)
             {
                 ref var btn = ref stash_attackAbilityBtn.Get(e);
                 if (stash_underCursor.Has(e))
@@ -150,31 +167,89 @@ namespace Gameplay.Abilities.Systems{
                     btn.View.DisableHoverView();
                 }
             }
-            #endregion
+        }
+        
+        private void AddAttackingTagToCaster(Entity user)
+        {
+            stash_attackingTag.Add(user);
         }
 
-        public void Dispose()
+        private void RemoveAttackingTagFromCaster(Entity user)
         {
-
-        }
-
-        private void Reset()
-        {
-            if (CurrentAttackButton.IsExist())
+            if (stash_attackingTag.Has(user))
             {
-                DisableButtonSelectedView(CurrentAttackButton);
+                stash_attackingTag.Remove(user);
             }
-            CurrentExecuter = default;
+        }
+
+        private void ResetSkillState()
+        {
+            CurrentCaster = default;
             CurrentAttackButton = default;
         }
 
-        private void UseSkill(List<Entity> cellOptions)
+        private void OnSkillUseCanceled()
         {
-            var allowedCells = FilterAwaibleAttackOprions(cellOptions);
-            var forbiddenCells = FilterForbiddenAttackOprions(cellOptions);
+            DisableAbilityButtonSelectedView(CurrentAttackButton);
+            ResetSkillState();
+        }
+
+        private void OnSkillUseCompleted()
+        {
+            RemoveAttackingTagFromCaster(CurrentCaster);
+            ResetSkillState();
+        }
+
+        private void StartAttackOptionSelection(List<Entity> cellOptions)
+        {
+            var allowedCells = FilterAlowedOptions(cellOptions);
+            var forbiddenCells = FilterForbiddenOptions(cellOptions);
 
             SendTargetSelectionRequest(allowedCells, forbiddenCells);
-            EnableButtonSelectedView(CurrentAttackButton);
+        }
+
+        private void UpdateSkillView(bool isUsable)
+        {
+            if (isUsable)
+            {
+                EnableSkillViewUsability();
+            }
+            else { DisableSkillViewUsability(); }
+        }
+
+
+        private void EnableSkillViewUsability()
+        {
+            foreach (var btn in f_attackAbiltiyBtns)
+            {
+                stash_attackAbilityBtn.Get(btn).View.DisableUnavaibleView();
+
+                if (stash_cursorDetector.Has(btn) == false)
+                {
+                    stash_cursorDetector.Add(btn);
+                }
+            }
+        }
+        private void DisableSkillViewUsability()
+        {
+            foreach (var btn in f_attackAbiltiyBtns)
+            {
+                stash_attackAbilityBtn.Get(btn).View.EnableUnavaibleView();
+                stash_cursorDetector.Remove(btn);
+            }
+        }
+
+        private void EnableAbilityButtonSelectedView(Entity button)
+        {
+            if (stash_attackAbilityBtn.Has(button) == false) { return; }
+
+            stash_attackAbilityBtn.Get(button).View.EnableSelectedView();
+        }
+        private void DisableAbilityButtonSelectedView(Entity button)
+        {
+            if (stash_attackAbilityBtn.Has(button) == false) { return; }
+
+            stash_attackAbilityBtn.Get(button).View.DisableSelectiedView();
         }
 
         private void SendTargetSelectionRequest(List<Entity> allowedCells, List<Entity> forbiddenCells)
@@ -189,40 +264,31 @@ namespace Gameplay.Abilities.Systems{
             });
         }
 
-        private void EnableButtonSelectedView(Entity button)
-        {
-            if (stash_attackAbilityBtn.Has(button) == false) { return; }
+        private void AttackTargetOnCell(Entity cell){
 
-            stash_attackAbilityBtn.Get(button).View.EnableSelectedView();
-        }
-        private void DisableButtonSelectedView(Entity button)
-        {
-            if (stash_attackAbilityBtn.Has(button) == false) { return; }
+            var target = stash_occupiedCells.Get(cell).Occupier;
 
-            stash_attackAbilityBtn.Get(button).View.DisableSelectiedView();
-        }
-
-        private void Attack(Entity target){
-            if(AttackSequenceMap.ContainsKey(CurrentExecuter.Id)){
-                AttackSequenceMap[CurrentExecuter.Id].Kill(true);
-                AttackSequenceMap.Remove(CurrentExecuter.Id);
-            }
-            
-            ref var executerTransform = ref stash_transformRef.Get(CurrentExecuter).Value;
+            ref var executerTransform = ref stash_transformRef.Get(CurrentCaster).Value;
             ref var targetTransform = ref stash_transformRef.Get(target).Value;
-            
-            AttackSequence(CurrentExecuter, executerTransform, targetTransform);
 
-            if (stash_health.Has(target))
+            if (AttackSequenceMap.ContainsKey(CurrentCaster.Id))
             {
-                ref var c_health = ref stash_health.Get(target);
-                c_health.Value--;
-                Debug.Log($"Target {target.Id} now have {c_health.Value} hp.");
+                AttackSequenceMap[CurrentCaster.Id].Kill(true);
+                AttackSequenceMap.Remove(CurrentCaster.Id);
             }
+
+            var attackSequence = GetAttackSequence(target, executerTransform, targetTransform);
+            
+            AddAttackingTagToCaster(CurrentCaster);
+
+            AttackSequenceMap.Add(CurrentCaster.Id, attackSequence);
+            
+            attackSequence.OnComplete(
+                () => OnSkillUseCompleted()
+            );
         }
         
-        private void AttackSequence(Entity attacker, Transform attackerTransform, 
-        Transform targetTransform){
+        private Sequence GetAttackSequence(Entity target, Transform attackerTransform, Transform targetTransform){
             
             var raiseHeight = 20;
             
@@ -231,13 +297,16 @@ namespace Gameplay.Abilities.Systems{
             var originalPosition = attackerTransform.position;
             var targetPos = targetTransform.position;
 
-            attackerTransform.position += new Vector3(0, 0, -1.0f);
+            seq.Append(attackerTransform.DOMoveZ(originalPosition.z - 1.0f, 0.1f));
 
             seq.Append(attackerTransform.DOMoveY(originalPosition.y 
                 + raiseHeight, 0.5f).SetEase(Ease.OutQuad));
 
             seq.Append(attackerTransform.DOMove(targetPos, 0.25f)
-                .SetEase(Ease.InExpo));
+                .SetEase(Ease.InExpo).OnComplete(
+                    () => DoDamageToTarget(target) // Do damage
+                ));
+                
 
             var attackPos = new Vector3(originalPosition.x, 
                 originalPosition.y + raiseHeight, originalPosition.z - 1.0f);
@@ -245,15 +314,24 @@ namespace Gameplay.Abilities.Systems{
             seq.Append(attackerTransform.DOMove(attackPos, 0.25f)
                 .SetEase(Ease.OutQuad));
 
-            seq.Append(attackerTransform.DOMoveY(originalPosition.y, 0.5f)
+            seq.Append(attackerTransform.DOMove(originalPosition, 0.5f)
                 .SetEase(Ease.InQuad));
+                
 
-            AttackSequenceMap.Add(attacker.Id, seq);
-            seq.Play();
+            return seq;
         }
         
+        private void DoDamageToTarget(Entity target){
+            if (stash_health.Has(target))
+            {
+                ref var c_health = ref stash_health.Get(target);
+                c_health.Value--;
+                Debug.Log($"Target {target.Id} now have {c_health.Value} hp.");
+            }
+        }
 
-        private List<Entity> FilterAwaibleAttackOprions(List<Entity> options){
+
+        private List<Entity> FilterAlowedOptions(List<Entity> options){
             List<Entity> filter = new();
             foreach(var opt in options){
                 if(stash_occupiedCells.Has(opt)){
@@ -265,7 +343,7 @@ namespace Gameplay.Abilities.Systems{
             return filter;
         }
 
-        private List<Entity> FilterForbiddenAttackOprions(List<Entity> options){
+        private List<Entity> FilterForbiddenOptions(List<Entity> options){
             List<Entity> filter = new();
             foreach (var opt in options)
             {
@@ -282,8 +360,6 @@ namespace Gameplay.Abilities.Systems{
             }
             return filter;
         }
-
-
         private List<Entity> GetAttackOptions(Entity executer)
         {
             if(stash_attackAbility.Has(executer) == false){return new();}
@@ -308,19 +384,23 @@ namespace Gameplay.Abilities.Systems{
             return result;
         }
 
-        private bool ValidateSkillUsability(List<Entity> options)
+        private bool ValidateSkillUsability()
+        {
+            if (f_currentTurnTaker.IsEmpty()) { return false; }
+
+            var user = f_currentTurnTaker.FirstOrDefault();
+            if (user.IsExist() == false) { return false; }
+
+            if (stash_performingAction.Has(user)) { return false; }
+
+            return true;
+        }
+        private bool ValidateAttackOptions(List<Entity> options)
         {
             if (options.Count < 1) { return false; }
             return true;
         }
-
-        private bool ValidateSkillUser()
-        {
-            if (f_currentTurnTaker.IsEmpty()) { return false; }
-            return true;
-        }
-
-        private bool ValidateButton(ButtonClickedEvent evt)
+        private bool IsAttackAbilityButtonClicked(ButtonClickedEvent evt)
         {
             if(stash_attackAbilityBtn.Has(evt.ClickedButton)){return true;}
             return false;

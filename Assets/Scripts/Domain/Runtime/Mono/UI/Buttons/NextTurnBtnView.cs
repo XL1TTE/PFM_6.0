@@ -31,7 +31,7 @@ namespace Domain.UI.Mono
             }
             if (ViewObject == null){return;}
             _animation = ViewObject.transform
-                .DOMoveY(ViewObject.transform.position.y + 7.0f, AnimationDuration)
+                .DOMoveY(OriginalPosition.y + 7.0f, AnimationDuration)
                 .SetEase(AnimationEase);
         }
 

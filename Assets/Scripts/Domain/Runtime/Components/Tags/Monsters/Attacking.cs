@@ -1,16 +1,18 @@
-using Domain.UI.Mono;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Domain.UI.Tags{
+namespace Domain.Monster.Tags
+{
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct ExitPlanningStageButtonTag : IComponent
+    public struct Attacking : IComponent
     {
-        public ExitPlanningStageBtnView View; 
+
     }
+
 }
+
 
 

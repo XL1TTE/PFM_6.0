@@ -1,6 +1,5 @@
 
 using Domain.DragAndDrop.Components;
-using Domain.Extentions;
 using Domain.Monster.Tags;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Mono;
@@ -9,7 +8,6 @@ using Domain.UI.Requests;
 using Domain.UI.Tags;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
-using UnityEditorInternal;
 
 namespace Gameplay.EcsButtons.Systems{
     [Il2CppSetOption(Option.NullChecks, false)]
@@ -25,7 +23,7 @@ namespace Gameplay.EcsButtons.Systems{
         public Request<ChangeStateRequest> req_changeState;
 
 
-        public Stash<ExitPlanningStageButtonTag> stash_myBtn;
+        public Stash<StartBattleButtonTag> stash_myBtn;
 
 
         public void OnAwake()
@@ -35,7 +33,7 @@ namespace Gameplay.EcsButtons.Systems{
             _evt = World.GetEvent<ButtonClickedEvent>();
             req_changeState = World.GetRequest<ChangeStateRequest>();
 
-            stash_myBtn = World.GetStash<ExitPlanningStageButtonTag>();
+            stash_myBtn = World.GetStash<StartBattleButtonTag>();
         }
 
         public void OnUpdate(float deltaTime)

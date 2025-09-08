@@ -1,10 +1,12 @@
 using System.Linq;
 using Domain.BattleField.Requests;
 using Domain.BattleField.Tags;
+using Domain.CursorDetection.Components;
 using Domain.Extentions;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Events;
 using Domain.StateMachine.Mono;
+using Domain.UI.Mono;
 using Domain.UI.Tags;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -63,12 +65,13 @@ namespace Gameplay.StateMachine.Systems
                 new MarkMonsterSpawnCellsAsDropTargetRequest {
                 state = MarkMonsterSpawnCellsAsDropTargetRequest.State.Disable }, true);
 
-            var exitPlngStateBtn = World.Filter.With<ExitPlanningStageButtonTag>().Build().FirstOrDefault();
-            if (exitPlngStateBtn.IsExist())
-            {
-                if (World.TryGetComponent<ExitPlanningStageButtonTag>(exitPlngStateBtn, out var exitPlngStateBtnView))
-                {
-                    exitPlngStateBtnView.View.DestroySelf();
+            /* ########################################## */
+            /*          Remove start battle button         */
+            /* ########################################## */
+            foreach(var btn in World.Filter.With<StartBattleButtonTag>().Build()){
+                if(World.TryGetComponent<StartBattleButtonTag>(btn, out var t_btn)){
+                    World.GetStash<TagCursorDetector>().Remove(btn); // Disable ability to click
+                    t_btn.View.DestroySelf();
                 }
             }
         }
