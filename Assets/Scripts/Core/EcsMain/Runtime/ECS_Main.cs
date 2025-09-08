@@ -1,23 +1,7 @@
-
-using Codice.CM.WorkspaceServer.DataStore.WkTree;
 using Core.ECS.Modules;
-using Core.Utilities.Systems;
-using CursorDetection.Systems;
 using Domain.Extentions;
 using Domain.StateMachine.Mono;
-using Gameplay.Abilities.Systems;
-using Gameplay.BattleField.Systems;
-using Gameplay.DragAndDrop.Systems;
-using Gameplay.DragAndDrop.Validators;
-using Gameplay.EcsButtons.Systems;
-using Gameplay.Enemies;
-using Gameplay.Monster.Systems;
-using Gameplay.StateMachine.Systems;
-using Gameplay.TargetSelection.Systems;
-using Gameplay.TurnSystem.Systems;
-using Persistence.DB;
 using Scellecs.Morpeh;
-using UI.Systems;
 using UnityEngine;
 
 namespace Core.ECS{

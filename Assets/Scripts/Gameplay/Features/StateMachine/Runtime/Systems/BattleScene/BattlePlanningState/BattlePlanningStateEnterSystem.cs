@@ -8,6 +8,7 @@ using Domain.StateMachine.Mono;
 using Domain.UI.Mono;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 namespace Gameplay.StateMachine.Systems
 {
     [Il2CppSetOption(Option.NullChecks, false)]
@@ -17,7 +18,6 @@ namespace Gameplay.StateMachine.Systems
     {
         public World World { get; set; }
         
-
         private Event<OnStateEnterEvent> evt_onStateEnter;
 
         private Stash<BattlePlanningState> stash_state;
@@ -50,6 +50,13 @@ namespace Gameplay.StateMachine.Systems
             /* ########################################## */
             
             BattleFieldUIRefs.Instance.InformationBoardWidget.ChangeText("Preparation");
+
+
+            /* ########################################## */
+            /*          Spawn start battle button         */
+            /* ########################################## */
+            
+            BattleFieldUIRefs.Instance.BookWidget.SpawnStartBattleButton();
 
             /* ############################################## */
             /*         Hightlight monster spawn cells         */

@@ -12,6 +12,7 @@ namespace Core.ECS.Modules{
             var sg_MonsterLogic = world.CreateSystemsGroup();
             sg_MonsterLogic.AddSystem(new MonsterSpawnSystem());
             sg_MonsterLogic.AddSystem(new MonsterGhostSystem());
+            sg_MonsterLogic.AddSystem(new MonsterActionsControlSystem());
 
             world.AddSystemsGroup(Priority, sg_MonsterLogic);
         }
