@@ -1,6 +1,8 @@
 
+using System;
 using System.Linq;
 using Domain.Extentions;
+using Domain.Stats.Components;
 using Domain.TurnSystem.Components;
 using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Requests;
@@ -24,7 +26,7 @@ namespace Gameplay.TurnSystem.Systems
         private Request<ProcessTurnRequest> req_processTurn;
         private Event<NextTurnStartedEvent> evt_nextTurnStart;
         private Event<TurnSystemInitializedEvent> evt_turnSystemInitialized;
-        
+        private Stash<Actions> stash_actions;
         private Stash<CurrentTurnTakerTag> stash_turnTakerTag;
         private Stash<TurnQueueComponent> stash_turnQueue;
         
@@ -38,6 +40,8 @@ namespace Gameplay.TurnSystem.Systems
             req_processTurn = World.GetRequest<ProcessTurnRequest>();
             evt_nextTurnStart = World.GetEvent<NextTurnStartedEvent>();
             evt_turnSystemInitialized = World.GetEvent<TurnSystemInitializedEvent>();
+            
+            stash_actions = World.GetStash<Actions>();
             
             stash_turnTakerTag = World.GetStash<CurrentTurnTakerTag>();
             stash_turnQueue = World.GetStash<TurnQueueComponent>();
@@ -91,14 +95,21 @@ namespace Gameplay.TurnSystem.Systems
             else{
                 previousTurnTaker = queue.Dequeue();
                 currentTurnTaker = queue.First();
-                queue.Enqueue(currentTurnTaker);
+                queue.Enqueue(previousTurnTaker);
             }
             if(previousTurnTaker.IsExist()){
                 RemoveTurnTakerTag(previousTurnTaker);
+                ResetActions(previousTurnTaker);
             }
             AddTurnTakerTag(currentTurnTaker);
         }
-        
+
+        private void ResetActions(Entity previousTurnTaker)
+        {
+            if(stash_actions.Has(previousTurnTaker) == false){return;}
+            stash_actions.Get(previousTurnTaker).ResetActions();
+        }
+
         private void RemoveTurnTakerTag(Entity entity){
             if(stash_turnTakerTag.Has(entity)){
                 stash_turnTakerTag.Remove(entity);

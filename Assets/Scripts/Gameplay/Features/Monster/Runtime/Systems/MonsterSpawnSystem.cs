@@ -123,8 +123,7 @@ namespace Gameplay.Monster.Systems
 
             stash_gridPosition.Add(monster, new GridPosition
             {
-                grid_x = cellPos.grid_x,
-                grid_y = cellPos.grid_y
+                Value = new UnityEngine.Vector2Int(cellPos.grid_x, cellPos.grid_y)
             });
 
             _cellOccupiedEvent.NextFrame(new CellOccupiedEvent

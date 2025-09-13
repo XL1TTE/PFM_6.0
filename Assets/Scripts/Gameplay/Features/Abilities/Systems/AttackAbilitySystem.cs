@@ -241,12 +241,14 @@ namespace Gameplay.Abilities.Systems{
 
         private void EnableAbilityButtonSelectedView(Entity button)
         {
+            if (button.isNullOrDisposed(World)) { return; }
             if (stash_attackAbilityBtn.Has(button) == false) { return; }
 
             stash_attackAbilityBtn.Get(button).View.EnableSelectedView();
         }
         private void DisableAbilityButtonSelectedView(Entity button)
         {
+            if (button.isNullOrDisposed(World)) { return; }
             if (stash_attackAbilityBtn.Has(button) == false) { return; }
 
             stash_attackAbilityBtn.Get(button).View.DisableSelectiedView();
@@ -368,7 +370,7 @@ namespace Gameplay.Abilities.Systems{
             var cellPositions = new List<Vector2Int>();
             var attacks = stash_attackAbility.Get(executer).Attacks;
             var c_gridPos = stash_gridPosition.Get(executer);
-            var gridPosVector2 = new Vector2Int(c_gridPos.grid_x, c_gridPos.grid_y);
+            var gridPosVector2 = c_gridPos.Value;
 
             foreach(var attack in attacks){
                 cellPositions.Add(gridPosVector2 + attack);
