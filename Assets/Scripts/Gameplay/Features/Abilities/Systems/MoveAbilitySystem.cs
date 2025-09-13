@@ -237,12 +237,14 @@ namespace Gameplay.Abilities.Systems{
         }
 
         private void EnableAbilityButtonSelectedView(Entity button){
-            if(stash_moveAbilityBtn.Has(button)==false){return;}
+            if (button.isNullOrDisposed(World)) { return; }
+            if (stash_moveAbilityBtn.Has(button)==false){return;}
             
             stash_moveAbilityBtn.Get(button).View.EnableSelectedView();
         }
         private void DisableAbilityButtonSelectedView(Entity button){
-            if(stash_moveAbilityBtn.Has(button)==false){return;}
+            if (button.isNullOrDisposed(World)) { return; }
+            if (stash_moveAbilityBtn.Has(button)==false){return;}
             
             stash_moveAbilityBtn.Get(button).View.DisableSelectiedView();
         }
@@ -317,7 +319,7 @@ namespace Gameplay.Abilities.Systems{
             var c_gridPos = stash_gridPosition.Get(monsterEntity);
             var moves = stash_moveAbility.Get(monsterEntity).Movements;
 
-            var gridPos = new Vector2Int(c_gridPos.grid_x, c_gridPos.grid_y);
+            var gridPos = c_gridPos.Value;
 
             foreach (var move in moves)
             {

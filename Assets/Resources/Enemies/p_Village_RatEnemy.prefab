@@ -47,6 +47,10 @@ GameObject:
   - component: {fileID: 2375435949646462250}
   - component: {fileID: 193305733492827179}
   - component: {fileID: 1031712963108783947}
+  - component: {fileID: 3005537359383611930}
+  - component: {fileID: 8128589708087628102}
+  - component: {fileID: 8453176143293812164}
+  - component: {fileID: 7767710113392478308}
   m_Layer: 0
   m_Name: p_Village_RatEnemy
   m_TagString: Untagged
@@ -153,6 +157,67 @@ MonoBehaviour:
   serializedData:
     Offset: {x: 0, y: 0}
     Size: {x: 45, y: 35}
+--- !u!114 &3005537359383611930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702015493862502221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1edaab8833157014abfbcdddc23c7552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    Value: 0
+--- !u!114 &8128589708087628102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702015493862502221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39472b6e31c378e4c9654fab0b447ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    MaxMoveActions: 1
+    AvaibleMoveActions: 1
+    MaxInteractionActions: 1
+    AvaibleInteractionActions: 1
+--- !u!114 &8453176143293812164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702015493862502221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a60e280037e89204a8efa951ebe943af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    Movements:
+    - {x: -1, y: 0}
+--- !u!114 &7767710113392478308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702015493862502221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27a59957f0cd0340ad707074556b9a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    Attacks:
+    - {x: -1, y: 0}
 --- !u!1 &7370415000329741317
 GameObject:
   m_ObjectHideFlags: 0

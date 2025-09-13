@@ -23,7 +23,6 @@ namespace Gameplay.BattleField.Systems
         private Stash<TagOccupiedCell> stash_occupiedCell;
         private Stash<CellPositionComponent> stash_cellPosition;
         private Stash<GridPosition> stash_gridPosition;
-        private Stash<TransformRefComponent> stash_transformRef;
 
         public void OnAwake()
         {
@@ -37,7 +36,6 @@ namespace Gameplay.BattleField.Systems
             stash_occupiedCell = World.GetStash<TagOccupiedCell>();
             stash_gridPosition = World.GetStash<GridPosition>();
             stash_cellPosition = World.GetStash<CellPositionComponent>();
-            stash_transformRef = World.GetStash<TransformRefComponent>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -103,11 +101,10 @@ namespace Gameplay.BattleField.Systems
             });
             
             var c_cellPos = stash_cellPosition.Get(cell);
-            if(stash_gridPosition.Has(occupier)){
-                ref var c_gridPos = ref stash_gridPosition.Get(occupier);
-                c_gridPos.grid_x = c_cellPos.grid_x;
-                c_gridPos.grid_y = c_cellPos.grid_y;
-            }
+           
+            stash_gridPosition.Set(occupier, new GridPosition{
+                Value = new UnityEngine.Vector2Int(c_cellPos.grid_x, c_cellPos.grid_y)
+            });
         }
     
     }
