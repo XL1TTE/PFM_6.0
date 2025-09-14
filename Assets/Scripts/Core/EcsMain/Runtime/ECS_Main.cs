@@ -35,6 +35,7 @@ namespace Core.ECS{
             _defaultWorld.AddModule(new MonstersLogicModule());
             _defaultWorld.AddModule(new EnemiesLogicModule());
             _defaultWorld.AddModule(new AbilitiesLogicModule());
+            _defaultWorld.AddModule(new NewAbilitiesModule());
             _defaultWorld.AddModule(new CommandsModule());
             _defaultWorld.AddModule(new VisualsModule());
             _defaultWorld.AddModule(new PrefabInstantiationModule());

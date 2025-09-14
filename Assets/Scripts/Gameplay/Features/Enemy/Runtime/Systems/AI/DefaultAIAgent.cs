@@ -4,6 +4,7 @@ using System.Linq;
 using Core.Utilities;
 using DG.Tweening;
 using Domain.Abilities.Components;
+using Domain.AbilityGraph;
 using Domain.AI.Components;
 using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
@@ -16,6 +17,7 @@ using Domain.Stats.Components;
 using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Requests;
 using Domain.TurnSystem.Tags;
+using Persistence.DB;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -32,7 +34,7 @@ namespace Gameplay.Enemies
         private Filter f_aiTurnTaker;
         private Request<MoveToCellRequest> req_moveToCell;
         private Request<ProcessTurnRequest> req_processTurn;
-        
+        private Request<AbilityUseRequest> req_abilityUse;
         private Stash<TagMonster> stash_monster;
         private Stash<AIAgentType> stash_aiType;
         private Stash<Actions> stash_actions;
@@ -51,6 +53,7 @@ namespace Gameplay.Enemies
 
             req_moveToCell = World.GetRequest<MoveToCellRequest>();
             req_processTurn = World.GetRequest<ProcessTurnRequest>();
+            req_abilityUse = World.GetRequest<AbilityUseRequest>();
 
             stash_monster = World.GetStash<TagMonster>();
             stash_aiType = World.GetStash<AIAgentType>();
@@ -123,7 +126,22 @@ namespace Gameplay.Enemies
 
         private void MakeAttack(Entity agent, IEnumerable<Entity> attackOptions)
         {
-            Debug.Log("Attacking");
+            if (DataBase.TryFindRecordByID("abt_TestRat", out var abilityTemplate) == false) { return; }
+            
+            var targets = new List<Entity>();
+
+            if (DataBase.TryGetRecord<AbilityTargetsComponent>(abilityTemplate, out var targetsRec)){
+                targets = attackOptions.ToList().GetRange(0, targetsRec.TargetCount);
+            }
+            else{
+                targets = attackOptions.ToList();
+            }
+            
+            req_abilityUse.Publish(new AbilityUseRequest{
+                Caster = agent,
+                AbilityTemplate = abilityTemplate,
+                Targets = targets
+            });
         }
 
         private void MakeRandomMove(Entity agent, List<Entity> moveOptions)
