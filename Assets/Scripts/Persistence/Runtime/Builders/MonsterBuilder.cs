@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Domain.Abilities.Components;
 using Domain.Components;
 using Domain.Extentions;
+using Domain.GameEffects;
 using Domain.Monster.Components;
 using Domain.Monster.Mono;
 using Domain.Monster.Tags;
@@ -28,7 +29,9 @@ namespace Persistence.Buiders
             stash_hitBox = _ecsWorld.GetStash<HitBoxComponent>();
             stash_monsterDammyRef = _ecsWorld.GetStash<MonsterDammyRefComponent>();
             stash_turnQueueAvatar = _ecsWorld.GetStash<TurnQueueAvatar>();
-            stash_speed = _ecsWorld.GetStash<Speed>();
+            stash_baseStats = _ecsWorld.GetStash<BaseStatsComponent>();
+            stash_currentStats = _ecsWorld.GetStash<CurrentStatsComponent>();
+            stash_effectsPool = _ecsWorld.GetStash<EffectsPoolComponent>();
 
             pfb_monsterDammy = _monsterDammyPath.LoadResource<MonsterDammy>();
 
@@ -55,9 +58,11 @@ namespace Persistence.Buiders
         Stash<HitBoxComponent> stash_hitBox;
         Stash<MonsterDammyRefComponent> stash_monsterDammyRef;
         Stash<TurnQueueAvatar> stash_turnQueueAvatar;
-        Stash<Speed> stash_speed;
-        
-        
+        Stash<BaseStatsComponent> stash_baseStats;
+        Stash<CurrentStatsComponent> stash_currentStats;
+        Stash<EffectsPoolComponent> stash_effectsPool;
+
+
         #region Part_Ids
         private string id_head;
         private string id_body;
@@ -167,16 +172,27 @@ namespace Persistence.Buiders
 
             #endregion
 
+            stash_effectsPool.Set(monster_entity, new EffectsPoolComponent{
+                StatusEffects = new(),
+                PermanentEffects = new()
+            });
 
-            #region Speed
+            #region Stats
 
-            float total_speed = 0.0f;
+
+            int total_speed = 0;
             
             if(DataBase.TryGetRecord<Speed>(rec_head, out var head_spead)){
                 total_speed += head_spead.Value;
             }
             
-            stash_speed.Add(monster_entity, new Speed{Value = total_speed});
+            stash_baseStats.Set(monster_entity, new BaseStatsComponent{
+                Speed = total_speed,
+                MaxSpeed = total_speed,
+                Health = 1,
+                MaxHealth = 1
+            });
+            stash_currentStats.Set(monster_entity, new CurrentStatsComponent{});
             
             #endregion
 
