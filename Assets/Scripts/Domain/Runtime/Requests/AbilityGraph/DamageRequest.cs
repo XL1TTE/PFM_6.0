@@ -7,13 +7,13 @@ namespace Domain.AbilityGraph
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct DamageRequest : IRequestData
+    public struct DealDamageRequest : IRequestData
     {
         public Entity Source;
         public Entity Target;
         public Entity SourceAbility;
-        public float MinBaseDamage;
-        public float MaxBaseDamage;
+        public short MinBaseDamage;
+        public short MaxBaseDamage;
         public DamageType DamageType;
     }
 }

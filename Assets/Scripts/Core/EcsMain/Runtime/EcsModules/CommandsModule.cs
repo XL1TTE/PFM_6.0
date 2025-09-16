@@ -11,6 +11,7 @@ namespace Core.ECS.Modules{
         {
             var sg_Commands= world.CreateSystemsGroup();
             sg_Commands.AddSystem(new MoveCommandSystem());
+            sg_Commands.AddSystem(new DamageSystem());
 
             world.AddSystemsGroup(Priority, sg_Commands);
         }

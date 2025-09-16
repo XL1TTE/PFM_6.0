@@ -36,6 +36,7 @@ namespace Gameplay.Enemies
         private Request<ProcessTurnRequest> req_processTurn;
         private Request<AbilityUseRequest> req_abilityUse;
         private Stash<TagMonster> stash_monster;
+        private Stash<TagOccupiedCell> stash_occupiedCell;
         private Stash<AIAgentType> stash_aiType;
         private Stash<Actions> stash_actions;
         private Stash<Health> stash_health;
@@ -56,9 +57,9 @@ namespace Gameplay.Enemies
             req_abilityUse = World.GetRequest<AbilityUseRequest>();
 
             stash_monster = World.GetStash<TagMonster>();
+            stash_occupiedCell = World.GetStash<TagOccupiedCell>();
             stash_aiType = World.GetStash<AIAgentType>();
             stash_actions = World.GetStash<Actions>();
-            stash_health = World.GetStash<Health>();
             stash_transformRef = World.GetStash<TransformRefComponent>();
         }
 
@@ -92,7 +93,7 @@ namespace Gameplay.Enemies
 
         private void TryMakeMove(Entity agent)
         {
-            var options = GameLogicUtility.FindMoveOptionsFor(agent, World);
+            var options = GameLogicUtility.FindMoveOptionsCellsFor(agent, World);
 
             if (options.Count > 0) {
                 MakeRandomMove(agent, options);
@@ -124,17 +125,17 @@ namespace Gameplay.Enemies
             stash_actions.Get(agent).AvaibleMoveActions--;
         }
 
-        private void MakeAttack(Entity agent, IEnumerable<Entity> attackOptions)
+        private void MakeAttack(Entity agent, List<Entity> attackOptions)
         {
             if (DataBase.TryFindRecordByID("abt_TestRat", out var abilityTemplate) == false) { return; }
             
             var targets = new List<Entity>();
 
             if (DataBase.TryGetRecord<AbilityTargetsComponent>(abilityTemplate, out var targetsRec)){
-                targets = attackOptions.ToList().GetRange(0, targetsRec.TargetCount);
+                targets = attackOptions.GetRange(0, targetsRec.TargetCount);
             }
             else{
-                targets = attackOptions.ToList();
+                targets = attackOptions;
             }
             
             req_abilityUse.Publish(new AbilityUseRequest{
@@ -225,17 +226,21 @@ namespace Gameplay.Enemies
 
             return seq;
         }
-        private IEnumerable<Entity> ScanForAttack(Entity attacker){
-            var options = GameLogicUtility.FindAttackOptionsFor(attacker, World);
+        private List<Entity> ScanForAttack(Entity attacker){
+            var options = GameLogicUtility.FindAttackOptionsCellsFor(attacker, World);
             List<Entity> validatedOptions = new();
             
             foreach(var opt in options){
-                if(stash_monster.Has(opt) == false){continue;}
+                if(stash_occupiedCell.Has(opt) == false){continue;}
 
-                validatedOptions.Add(opt);
+                var occupier = stash_occupiedCell.Get(opt).Occupier;
+                
+                if(stash_monster.Has(occupier)){
+                    validatedOptions.Add(occupier);
+                }
             }
             
-            return options;
+            return validatedOptions;
         }
         
         private bool ValidateAIAgentType(){

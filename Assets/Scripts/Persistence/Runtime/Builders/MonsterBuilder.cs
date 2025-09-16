@@ -181,6 +181,7 @@ namespace Persistence.Buiders
 
 
             int total_speed = 0;
+            int total_health = 1;
             
             if(DataBase.TryGetRecord<Speed>(rec_head, out var head_spead)){
                 total_speed += head_spead.Value;
@@ -189,10 +190,13 @@ namespace Persistence.Buiders
             stash_baseStats.Set(monster_entity, new BaseStatsComponent{
                 Speed = total_speed,
                 MaxSpeed = total_speed,
-                Health = 1,
-                MaxHealth = 1
+                Health = total_health,
+                MaxHealth = total_health
             });
-            stash_currentStats.Set(monster_entity, new CurrentStatsComponent{});
+            stash_currentStats.Set(monster_entity, new CurrentStatsComponent{
+                CurrentHealth = total_health,
+                CurrentSpeed = total_speed
+            });
             
             #endregion
 

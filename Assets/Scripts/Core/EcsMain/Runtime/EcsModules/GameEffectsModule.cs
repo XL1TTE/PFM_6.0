@@ -6,7 +6,7 @@ using Scellecs.Morpeh;
 namespace Core.ECS.Modules{
     public sealed class GameEffectsModule : IWorldModule
     {
-        public int Priority => -75;
+        public int Priority => -50;
 
         public void Initialize(World world)
         {

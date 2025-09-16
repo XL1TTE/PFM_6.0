@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Domain.AbilityGraph;
+using Domain.GameEffects;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine.AI;
 
 namespace Gameplay.AbilityGraph{
     [Il2CppSetOption(Option.NullChecks, false)]
@@ -14,9 +17,9 @@ namespace Gameplay.AbilityGraph{
         public World World { get; set; }
 
         private Filter f_activeAbilities;
-        private Request<DamageRequest> req_dealDamage;
+        private Request<DealDamageRequest> req_dealDamage;
         private Event<DamageDealtEvent> evt_dmgDealt;
-        
+        private Request<ApplyEffectRequest> req_applyEffect;
         private Stash<AbilityExecutionGraph> stash_abilityGraph;
         private Stash<AbilityExecutionState> stash_abilityState;
         private Stash<AbilityIsExecutingTag> stash_abilityExecutingTag;
@@ -33,8 +36,10 @@ namespace Gameplay.AbilityGraph{
                 .With<AbilityIsExecutingTag>()
                 .Build();
             
-            req_dealDamage = World.GetRequest<DamageRequest>();
+            req_dealDamage = World.GetRequest<DealDamageRequest>();
             evt_dmgDealt = World.GetEvent<DamageDealtEvent>();
+            
+            req_applyEffect = World.GetRequest<ApplyEffectRequest>();
             
             stash_abilityGraph = World.GetStash<AbilityExecutionGraph>();
             stash_abilityState = World.GetStash<AbilityExecutionState>();
@@ -49,27 +54,6 @@ namespace Gameplay.AbilityGraph{
             foreach(var abilityEntity in f_activeAbilities){
                 ProcessAbilityExecution(abilityEntity, deltaTime);
             }
-            
-            foreach(var req in req_dealDamage.Consume()){
-                TestDamgeDeal(req);
-            }
-        }
-
-        private void TestDamgeDeal(DamageRequest req)
-        {
-            var BaseDamage = UnityEngine.Random.Range(req.MinBaseDamage, req.MaxBaseDamage);
-            var FinalDamage = BaseDamage * 0.7f;
-
-            UnityEngine.Debug.Log($"Damage dealt: {FinalDamage}");
-            
-            evt_dmgDealt.NextFrame(new DamageDealtEvent{
-                Source = req.Source,
-                Target = req.Target,
-                SourceAbility = req.SourceAbility,
-                BaseDamage = BaseDamage,
-                FinalDamage = FinalDamage,
-                DamageType = req.DamageType
-            });
         }
 
         public void Dispose(){}
@@ -110,6 +94,9 @@ namespace Gameplay.AbilityGraph{
                     EvaluateEffectAppliedConditions(abilityEntity, ref state, currentNode);
                     EvaluateExecutionComplete(abilityEntity, ref state, currentNode);
                     break;
+                case NodeType.End:
+                    CompleteExecution(abilityEntity, ref state);
+                    break;
             }
         }
 
@@ -131,6 +118,7 @@ namespace Gameplay.AbilityGraph{
                         TriggerDealDamageAction(caster, targets, action, abilityEntity);
                         break;
                     case ActionType.ApplyEffect:
+                        TriggerApplyEffectAction(caster, targets, action, abilityEntity);
                         break;
                     case ActionType.PlaySfx:
                         break;
@@ -140,18 +128,74 @@ namespace Gameplay.AbilityGraph{
             }
         }
 
+        private void TriggerApplyEffectAction(Entity caster, Entity[] targets, ActionData action, Entity abilityEntity)
+        {
+            var target_index = action.TargetIndex;
+            if(action.OnSelf){
+                req_applyEffect.Publish(new ApplyEffectRequest
+                {
+                    Target = caster,
+                    Source = caster,
+                    AbilitySource = abilityEntity,
+                    EffectId = action.EffectID,
+                    DurationInTurns = action.EffectDurationInTurns
+                });
+            }
+            else{
+                if(target_index == -1){
+                    foreach (var target in targets)
+                    {
+                        req_applyEffect.Publish(new ApplyEffectRequest
+                        {
+                            Target = target,
+                            Source = caster,
+                            AbilitySource = abilityEntity,
+                            EffectId = action.EffectID,
+                            DurationInTurns = action.EffectDurationInTurns
+                        });
+                    }
+                }
+                else if(target_index < targets.Count() && target_index >= 0){
+                    req_applyEffect.Publish(new ApplyEffectRequest
+                    {
+                        Target = targets[target_index],
+                        Source = caster,
+                        AbilitySource = abilityEntity,
+                        EffectId = action.EffectID,
+                        DurationInTurns = action.EffectDurationInTurns
+                    });
+                }
+            }
+
+        }
+
         private void TriggerDealDamageAction(Entity caster, Entity[] targets, ActionData action, Entity abilityEntity)
         {
-            foreach(var target in targets){
-                req_dealDamage.Publish(new DamageRequest
+            int target_index = action.TargetIndex;
+            if(target_index == -1){
+                foreach (var target in targets)
+                {
+                    req_dealDamage.Publish(new DealDamageRequest
+                    {
+                        Source = caster,
+                        SourceAbility = abilityEntity,
+                        Target = target,
+                        MinBaseDamage = action.MinDamageValue,
+                        MaxBaseDamage = action.MaxDamageValue,
+                        DamageType = action.DamageType
+                    });
+                }
+            }
+            else if(target_index < targets.Count() && target_index >= 0){
+                req_dealDamage.Publish(new DealDamageRequest
                 {
                     Source = caster,
                     SourceAbility = abilityEntity,
-                    Target = target,
+                    Target = targets[target_index],
                     MinBaseDamage = action.MinDamageValue,
                     MaxBaseDamage = action.MaxDamageValue,
                     DamageType = action.DamageType
-                }, true);
+                });
             }
         }
 

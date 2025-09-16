@@ -80,10 +80,8 @@ namespace Gameplay.GameEffects
             var base_stats = stash_BaseStats.Get(subject);
             ref var cur_stats = ref stash_CurrentStats.Get(subject);
 
-            cur_stats.CurrentHealth = base_stats.Health;
             cur_stats.MaxHealth = base_stats.MaxHealth;
             
-            cur_stats.CurrentSpeed = base_stats.Speed;
             cur_stats.MaxSpeed= base_stats.MaxSpeed;
         }
     }
