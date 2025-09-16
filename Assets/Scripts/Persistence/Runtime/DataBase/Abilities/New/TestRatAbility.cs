@@ -47,21 +47,36 @@ namespace Persistence.DB
                                     FloatValue = 0,
                                     Operator = ComparisonOperator.GreaterThen
                                 }
+                            },
+                            new NodeTransition{
+                                TargetNodeId = 3,
+                                Condition = new TransitionCondition{
+                                    Type = ConditionType.DamageDealt,
+                                    FloatValue = 0,
+                                    Operator = ComparisonOperator.LesserOrEqual
+                                }
                             }
                         }
                     },
+                    // Node 2. Apply effect if any damage dealt
                     new ExecutionNode{
                         NodeId = 2,
                         Type = NodeType.Immediate,
                         Actions = new List<ActionData>{
                             new ActionData{
-                                Type = ActionType.DealDamage,
-                                MinDamageValue = 1,
-                                MaxDamageValue = 1,
-                                DamageType = DamageType.Poison
+                                Type = ActionType.ApplyEffect,
+                                OnSelf = false,
+                                EffectID = "effect_Empower",
+                                EffectDurationInTurns = -1,
+                                TargetIndex = 0
                             }
                         },
-                        Transitions = new List<NodeTransition>()
+                        Transitions = new List<NodeTransition>{new NodeTransition{TargetNodeId = 3}}
+                    },
+                    // End
+                    new ExecutionNode{
+                        NodeId = 3,
+                        Type = NodeType.End
                     }
                 } 
             });

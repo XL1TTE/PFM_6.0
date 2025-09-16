@@ -11,8 +11,8 @@ namespace Domain.AbilityGraph
         public Entity Source;
         public Entity Target;
         public Entity SourceAbility;
-        public float BaseDamage;
-        public float FinalDamage;
+        public short BaseDamage;
+        public short FinalDamage;
         public DamageType DamageType;
     }
 }

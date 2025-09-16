@@ -10,7 +10,7 @@ namespace Core.Utilities
 {
     public static class GameLogicUtility
     {
-        public static List<Entity> FindMoveOptionsFor(Entity entity, World world){
+        public static List<Entity> FindMoveOptionsCellsFor(Entity entity, World world){
             var gridPos = world.GetStash<GridPosition>();
             var cellPos = world.GetStash<CellPositionComponent>();
             var moveAbility = world.GetStash<MovementAbility>();
@@ -45,7 +45,7 @@ namespace Core.Utilities
             return result;
         }
 
-        public static List<Entity> FindAttackOptionsFor(Entity attacker, World world)
+        public static List<Entity> FindAttackOptionsCellsFor(Entity attacker, World world)
         {
             var gridPos = world.GetStash<GridPosition>();
             var cellPos = world.GetStash<CellPositionComponent>();

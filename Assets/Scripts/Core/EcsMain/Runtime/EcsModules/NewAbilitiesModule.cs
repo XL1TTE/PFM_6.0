@@ -5,7 +5,7 @@ using Scellecs.Morpeh;
 namespace Core.ECS.Modules{
     public sealed class NewAbilitiesModule : IWorldModule
     {
-        public int Priority => -50;
+        public int Priority => -75;
 
         public void Initialize(World world)
         {
