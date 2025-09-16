@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Domain.AbilityGraph;
 using Domain.Extentions;
+using Domain.GameEffects;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -54,7 +55,7 @@ namespace Gameplay.AbilityGraph{
                     stash_abilityExecutionState.Has(evt.SourceAbility))
                 {
                     ref var state = ref stash_abilityExecutionState.Get(evt.SourceAbility);
-                    state.LastAppliedEffectId = evt.EffectTemplateId;
+                    state.LastAppliedEffectId = evt.EffectId;
                     state.EffectApplied = true;
                 }
             }

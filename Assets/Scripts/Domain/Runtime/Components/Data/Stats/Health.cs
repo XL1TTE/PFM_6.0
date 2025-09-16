@@ -9,7 +9,7 @@ namespace Domain.Stats.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct Health : IComponent
     {
-        public float Value;
+        public int Value;
     }
 }
 

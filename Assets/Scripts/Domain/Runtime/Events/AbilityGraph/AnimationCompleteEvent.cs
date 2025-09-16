@@ -1,17 +1,16 @@
-using System.Collections.Generic;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Domain.Stats.Components
+namespace Domain.AbilityGraph
 {
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct Speed : IComponent
+    public struct AnimationCompleteEvent : IComponent
     {
-        public int Value;
+        public Entity AnimationTarget;
+        public string AnimationName;
     }
 }
-
 
