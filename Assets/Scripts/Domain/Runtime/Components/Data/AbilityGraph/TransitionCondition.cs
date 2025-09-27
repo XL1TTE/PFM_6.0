@@ -1,3 +1,4 @@
+using Domain.Extentions;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -10,7 +11,7 @@ namespace Domain.AbilityGraph
     public struct TransitionCondition : IComponent
     {
         public ConditionType Type;
-        public int IntValue;  
+        public int IntValue;
         public float FloatValue;
         public string StringValue;
         public ComparisonOperator Operator;

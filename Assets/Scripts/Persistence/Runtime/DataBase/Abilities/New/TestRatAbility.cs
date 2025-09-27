@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Domain.AbilityGraph;
 using Domain.Components;
+using Domain.Extentions;
 using Scellecs.Morpeh;
 
 namespace Persistence.DB
@@ -11,10 +12,12 @@ namespace Persistence.DB
         {
             With<ID>(new ID { Value = "abt_TestRat" });
             With<AbilityComponent>();
-            With<AbilityTargetsComponent>(new AbilityTargetsComponent{
+            With<AbilityTargetsComponent>(new AbilityTargetsComponent
+            {
                 TargetCount = 1
             });
-            With<AbilityExecutionGraph>(new AbilityExecutionGraph{
+            With<AbilityExecutionGraph>(new AbilityExecutionGraph
+            {
                 StartNodeId = 0,
                 Nodes = new List<ExecutionNode>{
                     // Node 0. First attack
@@ -78,7 +81,7 @@ namespace Persistence.DB
                         NodeId = 3,
                         Type = NodeType.End
                     }
-                } 
+                }
             });
         }
     }

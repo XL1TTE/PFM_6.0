@@ -3,34 +3,40 @@ using Core.Utilities;
 using Domain.Components;
 using Scellecs.Morpeh;
 
- 
-namespace Persistence.DB{
+
+namespace Persistence.DB
+{
     public static class DataBase
     {
         private static readonly World _dbWorld;
-        
+
         private static bool _isInitialized = false;
-        
-        
+
+
         //private static Stash<EmptyRecord> stash_emptyRecords;
-        
-        static DataBase(){
-            if(_dbWorld == null){_dbWorld = World.Create();}
+
+        static DataBase()
+        {
+            if (_dbWorld == null) { _dbWorld = World.Create(); }
             //stash_emptyRecords = _dbWorld.GetStash<EmptyRecord>();
         }
-        
-        public static void Initialize(){
-            if(_isInitialized == false){
+
+        public static void Initialize()
+        {
+            if (_isInitialized == false)
+            {
                 Init();
                 _isInitialized = true;
             }
-            else{return;}
+            else { return; }
         }
-        
-        private static void Init(){
+
+        private static void Init()
+        {
             var records = ReflectionUtility.FindAllSubclasses<IDbRecord>("Assembly-Persistance");
-            
-            foreach(var rec in records){
+
+            foreach (var rec in records)
+            {
                 Activator.CreateInstance(rec); // Just need to call contructor
             }
 
@@ -39,8 +45,9 @@ namespace Persistence.DB{
 
             Commit();
         }
-        
-        public static void Commit(){
+
+        public static void Commit()
+        {
             _dbWorld.Commit();
         }
 
@@ -55,45 +62,51 @@ namespace Persistence.DB{
             }
         }
 
-        public static bool TryFindRecordByID(string id, out Entity record){
-            foreach(var r in _allRecords){
-                if(stash_ids.Get(r).Value == id){record = r; return true;}
+        public static bool TryFindRecordByID(string id, out Entity record)
+        {
+            foreach (var r in _allRecords)
+            {
+                if (stash_ids.Get(r).Value == id) { record = r; return true; }
             }
             record = default;
             return false;
         }
 
-        public static Entity CreateRecord(){
+        public static Entity CreateRecord()
+        {
             return _dbWorld.CreateEntity();
         }
-        
-        public static void SetRecord<T>(Entity entity, T component) where T: struct, IComponent
+
+        public static void SetRecord<T>(Entity entity, T component) where T : struct, IComponent
         {
             var stash = _dbWorld.GetStash<T>();
-            
-            if(stash == null){return;}
-            
+
+            if (stash == null) { return; }
+
             _dbWorld.GetStash<T>().Set(entity, component);
         }
-        
-        public static  T GetRecord<T>(Entity entity) where T : struct, IComponent{
+
+        public static T GetRecord<T>(Entity entity) where T : struct, IComponent
+        {
             var stash = _dbWorld.GetStash<T>();
-            
-            if(stash == null){throw new Exception("Record not found.");}
-            
-            return  stash.Get(entity);  
+
+            if (stash == null) { throw new Exception("Record not found."); }
+
+            return stash.Get(entity);
         }
-        public static bool TryGetRecord<T>(Entity entity, out T record) where T : struct, IComponent{
+        public static bool TryGetRecord<T>(Entity entity, out T record) where T : struct, IComponent
+        {
             var stash = _dbWorld.GetStash<T>();
-            
-            if(stash == null){record = default; return false;}
-            
-            if(!stash.Has(entity)){
+
+            if (stash == null) { record = default; return false; }
+
+            if (!stash.Has(entity))
+            {
                 record = default; return false;
             }
-            
+
             record = stash.Get(entity);
-            return true;  
+            return true;
         }
     }
 }

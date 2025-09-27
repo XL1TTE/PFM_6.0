@@ -47,10 +47,10 @@ GameObject:
   - component: {fileID: 2375435949646462250}
   - component: {fileID: 193305733492827179}
   - component: {fileID: 1031712963108783947}
-  - component: {fileID: 3005537359383611930}
   - component: {fileID: 8128589708087628102}
   - component: {fileID: 8453176143293812164}
   - component: {fileID: 7767710113392478308}
+  - component: {fileID: 3380081643142453472}
   m_Layer: 0
   m_Name: p_Village_RatEnemy
   m_TagString: Untagged
@@ -157,20 +157,6 @@ MonoBehaviour:
   serializedData:
     Offset: {x: 0, y: 0}
     Size: {x: 45, y: 35}
---- !u!114 &3005537359383611930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1702015493862502221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1edaab8833157014abfbcdddc23c7552, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializedData:
-    Value: 0
 --- !u!114 &8128589708087628102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +204,21 @@ MonoBehaviour:
   serializedData:
     Attacks:
     - {x: -1, y: 0}
+--- !u!114 &3380081643142453472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702015493862502221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db5ff5fe1a955742b17ee066ee51bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    AiGraphID: ai_RatEnemy
+    Tags: 
 --- !u!1 &7370415000329741317
 GameObject:
   m_ObjectHideFlags: 0
