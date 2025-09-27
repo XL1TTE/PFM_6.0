@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DottedLine_Material
+  m_Shader: {fileID: -6465566751694194690, guid: efb3959fdafc5c14fb64c4404a2a6d1b, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: _PixelationAmount
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _LineTexture:
+        m_Texture: {fileID: 2800000, guid: 74b4aaed3c2809a46848cce3fe82bec7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_dfadf465dd1b42bba70ece1e1110348d_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: e1e7c713d6e828d4cadb244ed530d6e7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_f5011727d6dc441b85ec1f9b69852b80_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: e1e7c713d6e828d4cadb244ed530d6e7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StrokeTexture:
+        m_Texture: {fileID: 2800000, guid: 74b4aaed3c2809a46848cce3fe82bec7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AnimatedOffset: 0
+    - _ColorNoiseScale: 10
+    - _ColorPixelationAmount: 0
+    - _ConstScaleAreaWidth: 0.5
+    - _LineLength: 2.35
+    - _LinesPadding: 0.25
+    - _NoiseAmount: 0.15
+    - _OscillationAmplitude: 0.05
+    - _OscillationFrequency: 1
+    - _OscillationsAmplitude: 0.395
+    - _PixelSnapping: 0
+    - _PixelationAmount: 1
+    - _PixelationFactor: 20
+    - _PosterizationColorsNumber: 8
+    - _PosterizationStepsNumber: 6
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Scale: 3
+    - _ShapePixelationAmount: 1
+    - _StrokeHeightPadding: 0
+    - _StrokeLength: 2.35
+    - _StrokeWidthPadding: 0.1
+    - _StrokesPadding: 0.25
+    - _TexturePixelation: 0
+    - _TexturePixelationAmount: 0
+    - _Transparency: 1
+    m_Colors:
+    - _AnimatedOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0.38823533, g: 0.31764707, b: 0.1254902, a: 1}
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _PrimaryColor: {r: 0.38823533, g: 0.31764707, b: 0.1254902, a: 1}
+    - _SecondaryColor: {r: 0.52, g: 0.42545456, b: 0.16808082, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &8695418080456939977
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9

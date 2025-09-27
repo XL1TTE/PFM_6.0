@@ -1,25 +1,39 @@
+using Domain.Components;
 using Domain.Map.Components;
+using Domain.Monster.Mono;
 using Gameplay.Map.Systems;
+using Persistence.DB;
 using Scellecs.Morpeh;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 using Random = UnityEngine.Random;
 
 namespace Domain.Map.Mono
 {
     public sealed class Scr_MapController : MonoBehaviour
     {
+        public STAGES current_stage = STAGES.VILLAGE;
+
+        public float event_battle_chance = 0.5f;
 
         public World nodeWorld;
         private Filter filterPos;
+
+        private Filter all_events_text;
+        private Filter all_events_battle;
 
         public SystemsGroup systemsGroup;
 
         public Stash<MapNodeIdComponent> nodeIdStash;
         public Stash<MapNodePositionComponent> nodePosStash;
         public Stash<MapNodeNeighboursComponent> nodeNeighbStash;
+
+        public Stash<MapNodeEventId> nodeEventIdStash;
+        public Stash<MapNodeEventType> nodeEventTypeStash;
+
 
         public Stash<MapBGComponent> bgStash;
 
@@ -89,6 +103,10 @@ namespace Domain.Map.Mono
 
 
 
+            all_events_text = DataBase.Filter.With<MapEvTextTag>().Build();
+            all_events_battle = DataBase.Filter.With<MapEvBattleTag>().Build();
+
+
             //var newEntity = newWorld.CreateEntity();
             //newWorld.RemoveEntity(newEntity);
 
@@ -120,6 +138,9 @@ namespace Domain.Map.Mono
             nodeIdStash = nodeWorld.GetStash<MapNodeIdComponent>();
             nodePosStash = nodeWorld.GetStash<MapNodePositionComponent>();
             nodeNeighbStash = nodeWorld.GetStash<MapNodeNeighboursComponent>();
+
+            nodeEventIdStash = nodeWorld.GetStash<MapNodeEventId>();
+            nodeEventTypeStash = nodeWorld.GetStash<MapNodeEventType>();
 
             List<Entity> prev_collumn_entities = new List<Entity>();
             List<Entity> current_collumn_entities = new List<Entity>();
@@ -897,6 +918,60 @@ namespace Domain.Map.Mono
 
             #region
 
+            // do a collumns + 1 to include the final end node
+            for (byte i = 1; i <= collumns + 1; i++)
+            {
+                prev_collumn_entities = current_collumn_entities;
+
+                // need to fill current_collumn_entities list with entities of current collumn
+                current_collumn_entities = SearchForEntitiesOfCollumn(i);
+
+                // if this is the first collumn then all of the nodes are battle type and first node is lab type
+                if (i == 1)
+                {
+                    Entity start_collumn_node_entity = SearchForEntitiesOfCollumn(0).First();
+
+                    nodeEventTypeStash.Set(start_collumn_node_entity, new MapNodeEventType { event_type = EVENT_TYPE.LAB });
+                    nodeEventIdStash.Set(start_collumn_node_entity, new MapNodeEventId { event_id = "ev_TextTest2" });
+
+
+                    foreach (var entity in current_collumn_entities)
+                    {
+                        var tmp_rand_battle = ChooseRandomEventFromList(all_events_battle, i);
+
+                        nodeEventTypeStash.Set(entity, new MapNodeEventType { event_type = EVENT_TYPE.BATTLE });
+                        nodeEventIdStash.Set(entity, new MapNodeEventId { event_id = tmp_rand_battle });
+                    }
+                    continue;
+                }
+
+                // if this is the last collumn then it is a boss battle
+                if (i == collumns + 1)
+                {
+                    foreach (var entity in current_collumn_entities)
+                    {
+                        nodeEventTypeStash.Set(entity, new MapNodeEventType { event_type = EVENT_TYPE.BOSS });
+                        nodeEventIdStash.Set(entity, new MapNodeEventId { event_id = "ev_TextTest2" });
+                    }
+                    continue;
+                }
+
+                foreach (var entity in current_collumn_entities)
+                {
+                    // this is reserved for functional of reading neighbours and giving higher chance to repeat the previous event type
+
+                    //var temp_ev_text_count = 0;
+                    //var temp_ev_battle_count = 0;
+
+                    //foreach (var prev_entity in prev_collumn_entities)
+                    //{
+                    //
+                    //}
+
+                    DecideAnEventForNode(entity, i);
+
+                }
+            }
 
 
             nodeWorld.Commit();
@@ -1150,6 +1225,173 @@ namespace Domain.Map.Mono
 
             return flag;
         }
+
+
+        // This function is for searching and returning the specific event by ID
+        private MapEventData GetEventRecord(string id_for_search, bool IsBattle)
+        {
+            var result = new MapEventData();
+            if (!IsBattle)
+            {
+                if (DataBase.TryFindRecordByID(id_for_search, out var found_record))
+                {
+                    if (found_record == null)
+                    {
+                        throw new System.Exception($"Event in DB: {id_for_search} was not found.");
+                    }
+
+                    // Get BG path
+                    if (DataBase.TryGetRecord<MapEvTextBGComponent>(found_record, out var res_bg))
+                    {
+                        result.bg_sprite_path = res_bg.bg_sprite_path;
+                    }
+
+                    // Get main base text message
+                    if (DataBase.TryGetRecord<MapEvTextMessageComponent>(found_record, out var res_main_text))
+                    {
+                        result.string_message = res_main_text.string_message;
+                    }
+
+                    // Get all of the choices available
+                    if (DataBase.TryGetRecord<MapEvTextChoicesComponent>(found_record, out var res_choices))
+                    {
+                        result.choices = res_choices.choices;
+                    }
+                }
+
+            }
+            else
+            {
+
+            }
+
+            return result;
+        }
+
+
+        // this function is used to get a random event based on several inputs
+        private string ChooseRandomEventFromList(Filter events, byte curr_coll)
+        {
+            string result = "";
+            int ev_count = events.ArchetypesCount;
+            var failsafe_count = 0;
+
+            while (result == "")
+            {
+                if (failsafe_count >= ev_count)
+                {
+                    result = "ev_TextTest1";
+                    break;
+                }
+
+                int tmp_rand_id = Random.Range(0, ev_count);
+                var tmp_potential_event = events.GetEntity(tmp_rand_id);
+
+                // Check if has Unavailable tag
+                if (DataBase.TryGetRecord<MapEvUnavailableTag>(tmp_potential_event, out var unav_tag))
+                {
+                    continue;
+                }
+
+                // Check stage component
+                if (DataBase.TryGetRecord<MapEvStageRequirComponent>(tmp_potential_event, out var stage_req))
+                {
+                    if (!stage_req.acceptable_stages.Contains(current_stage))
+                    {
+                        continue;
+                    }
+                }
+
+                // Check collumn component
+                if (DataBase.TryGetRecord<MapEvCollumnRequirComponent>(tmp_potential_event, out var coll_req))
+                {
+                    if (coll_req.count_offset_percentile < 1.0f)
+                    {
+                        var tmp_offset = (collumn_count * coll_req.count_offset_percentile + coll_req.count_offset);
+                        if (!((coll_req.count_start_from_zero && // we start from zero
+                            curr_coll <= tmp_offset)           // curr coll should be before offset
+                        || (!coll_req.count_start_from_zero && // we start from end
+                            curr_coll >= collumn_count - tmp_offset))) // curr coll should be after offset
+                        {
+                            // all of the above failed |=> check next record
+                            continue;
+                        }
+                    }
+                }
+
+                // Get event id
+                if (DataBase.TryGetRecord<ID>(tmp_potential_event, out var id))
+                {
+                    result = id.Value;
+                }
+
+                failsafe_count ++;
+            }
+
+            return result;
+        }
+
+        void DecideAnEventForNode(Entity entity, byte collumn)
+        {
+
+            string tmp_random_event_id = "";
+            EVENT_TYPE tmp_random_event_type;
+
+            var tmp_rand_ev_type_roll = Random.value;
+            // this is a battle
+            if (tmp_rand_ev_type_roll <= event_battle_chance)
+            {
+                tmp_random_event_type = EVENT_TYPE.BATTLE;
+                tmp_random_event_id = ChooseRandomEventFromList(all_events_battle, collumn);
+            }
+            // this is not a battle
+            else
+            {
+                tmp_random_event_type = EVENT_TYPE.TEXT;
+                tmp_random_event_id = ChooseRandomEventFromList(all_events_text, collumn);
+            }
+
+            Debug.Log($"----------- gave event of type {tmp_random_event_type}  with id :  {tmp_random_event_id}");
+
+            nodeEventTypeStash.Set(entity, new MapNodeEventType { event_type = tmp_random_event_type });
+            nodeEventIdStash.Set(entity, new MapNodeEventId { event_id = tmp_random_event_id });
+
+        }
+
+        // This function is used to get an Array of all id`s from DB with some tag
+        // for now this is a dud
+        private List<string> GetEventsByTag(string tag)
+        {
+            var result = new List<string>();
+            return result;
+        }
+
+
+        //private MapEventBuilder MonsterDataToBuilder(MapEventData mosnterData)
+        //{
+        //    var builder = new MapEventBuilder(nodeWorld)
+        //        .AttachBG(mosnterData.Head_id);
+        //        //.AttachBody(mosnterData.Body_id)
+        //        //.AttachFarArm(mosnterData.FarArm_id)
+        //        //.AttachNearArm(mosnterData.NearArm_id)
+        //        //.AttachNearLeg(mosnterData.NearLeg_id)
+        //        //.AttachFarLeg(mosnterData.FarLeg_id);
+        //    return builder;
+        //}
+        //private void SpawnNewMonster(SpawnMonstersRequest req)
+        //{
+        //    var free_cells = PickRandomFreeCells(req.Monsters.Count);
+
+        //    for (int i = 0; i < free_cells.Count; i++)
+        //    {
+        //        var cell = free_cells[i];
+        //        var monsterData = req.Monsters[i];
+
+        //        var monster = MonsterDataToBuilder(monsterData);
+
+        //        SetupMonster(monster.Build(), cell);
+        //    }
+        //}
 
 
         public void MapUpdate()

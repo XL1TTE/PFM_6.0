@@ -674,6 +674,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f162a5918a972da488eb5de0a7277ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  current_stage: 0
+  event_battle_chance: 0.5
   whole_map_middle_y_point: 180
   bg_segment_lenght: 120
   bg_startend_lenght: 98
@@ -689,10 +691,10 @@ MonoBehaviour:
   - {fileID: -7996409744317778161, guid: 5089a971760e38e4c8f88f258d7b5a67, type: 3}
   bgPrefab: {fileID: 7808573964402850767, guid: bb58f84f413942248898ef78e44b1fe4, type: 3}
   nodePrefab: {fileID: 5171554781867580557, guid: d6f2520057d9ae24e91956dbdb724d60, type: 3}
-  collumn_count: 6
+  collumn_count: 19
   row_count: 3
   icon_bounding_box_width: 30
-  lineMaterial: {fileID: 2100000, guid: f538adf1663bb0741b05bef0bba42775, type: 2}
+  lineMaterial: {fileID: 2100000, guid: dd8dd83345611d341809987faef413d5, type: 2}
   map_hor_offset: 130
   map_hor_start: 0
   map_hor_dist: 110

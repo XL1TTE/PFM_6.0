@@ -18,6 +18,9 @@ namespace Gameplay.Map.Systems
         private Stash<MapNodeIdComponent> nodeIdStash;
         private Stash<MapNodeNeighboursComponent> nodeNeighbStash;
 
+        public Stash<MapNodeEventType> nodeEventTypeStash;
+        public Stash<MapNodeEventId> nodeEventIdStash;
+
         private Stash<MapBGComponent> bgStash;
 
         private Transform Lines;
@@ -28,6 +31,11 @@ namespace Gameplay.Map.Systems
         public Material lineMaterial;
         private LineRenderer lineRenderer;
 
+
+        private Sprite icon_lab;
+        private Sprite icon_battle;
+        private Sprite icon_text;
+        private Sprite icon_boss;
 
         public void OnAwake()
         {
@@ -42,12 +50,20 @@ namespace Gameplay.Map.Systems
             this.nodeIdStash = this.World.GetStash<MapNodeIdComponent>();
             this.nodeNeighbStash = this.World.GetStash<MapNodeNeighboursComponent>();
 
+            this.nodeEventTypeStash = this.World.GetStash<MapNodeEventType>();
+            this.nodeEventIdStash = this.World.GetStash<MapNodeEventId>();
+
 
             this.filterBG = this.World.Filter.With<MapBGComponent>().Build();
             this.bgStash = this.World.GetStash<MapBGComponent>();
 
             Lines = new GameObject("LinesContainer").transform;
             Nodes = new GameObject("NodesContainer").transform;
+
+            icon_lab = Resources.Load<Sprite>(   "Map/EventIcons/UI_Map_Lab");
+            icon_battle = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Battle");
+            icon_text = Resources.Load<Sprite>(  "Map/EventIcons/UI_Map_Random");
+            icon_boss = Resources.Load<Sprite>(  "Map/EventIcons/UI_Map_Boss");
         }
 
         public void OnUpdate(float deltaTime)
@@ -59,6 +75,11 @@ namespace Gameplay.Map.Systems
                 ref var nodeIdComponent = ref nodeIdStash.Get(entity);
                 ref var nodeNeighbComponent = ref nodeNeighbStash.Get(entity);
 
+                ref var nodeEventType = ref nodeEventTypeStash.Get(entity);
+                ref var nodeEventId = ref nodeEventIdStash.Get(entity);
+
+
+
                 //Debug.Log(nodePosComponent.node_x);
                 //Debug.Log(nodePosComponent.node_y); 
 
@@ -69,28 +90,67 @@ namespace Gameplay.Map.Systems
                         0),
                     Quaternion.identity);
 
-                prefabedNode.GetComponent<TextMeshPro>().text = nodeIdComponent.node_id.ToString();
+                prefabedNode.GetComponent<TextMeshPro>().text = nodeIdComponent.node_id.ToString() + "\n" + nodeEventId.event_id.ToString();
 
-                var max_count = nodeNeighbComponent.node_neighbours.Count;
-                for (int i = 0; i < max_count; i++)
+                var chosen_spr = icon_lab;
+                
+                switch (nodeEventType.event_type)
                 {
+                    case EVENT_TYPE.LAB:
+                        chosen_spr = icon_lab;
+                        break;
+                    case EVENT_TYPE.TEXT:
+                        chosen_spr = icon_text;
+                        break;
+                    case EVENT_TYPE.BATTLE:
+                        chosen_spr = icon_battle;
+                        break;
+                    case EVENT_TYPE.BOSS:
+                        chosen_spr = icon_boss;
+                        break;
+                }
+
+                prefabedNode.GetComponentInChildren<SpriteRenderer>().sprite = chosen_spr;
+
+                //var max_count = nodeNeighbComponent.node_neighbours.Count;
+                //for (int i = 0; i < max_count; i++)
+                //{
                     foreach (var neighbour in this.filterId)
                     {
                         ref var nodeNeighbPosComponent = ref nodePosStash.Get(neighbour);
                         ref var nodeNeighbIdComponent = ref nodeIdStash.Get(neighbour);
 
-                        if (nodeNeighbComponent.node_neighbours.Contains(nodeNeighbIdComponent.node_id))
+                        if (nodeNeighbComponent.node_neighbours.Contains(nodeNeighbIdComponent.node_id)
+                        &&  (nodeNeighbPosComponent.node_collumn < nodePosComponent.node_collumn))
                         {
                             //For creating line renderer object
                             lineRenderer = new GameObject("Line").AddComponent<LineRenderer>();
-                            lineRenderer.startColor = Color.black;
-                            lineRenderer.endColor = Color.black;
-                            lineRenderer.startWidth = 3.0f;
-                            lineRenderer.endWidth = 3.0f;
-                            lineRenderer.positionCount = 2;
-                            lineRenderer.useWorldSpace = true;
-                            lineRenderer.material = lineMaterial;
+
+                            // for previous iteration of line material
+                            //lineRenderer.startColor = Color.black;
+                            //lineRenderer.endColor = Color.black;
+                            //lineRenderer.startWidth = 3.0f;
+                            //lineRenderer.endWidth = 3.0f;
+                            //lineRenderer.positionCount = 2;
+                            //lineRenderer.useWorldSpace = true;
+                            //lineRenderer.material = lineMaterial;
                             //lineMaterial.SetColor("_Color", Color.yellow);
+
+                            // current iteration - All thanks to Max! So go and thank him for this amazing shader graph work
+                            lineRenderer.sortingLayerName = "MapLineLayer";
+                            lineRenderer.sortingOrder = 0;
+
+                            lineRenderer.material = lineMaterial;
+                            
+                            //lineRenderer.widthMultiplier = 3;
+
+                            lineRenderer.startWidth = 20.0f;
+                            lineRenderer.endWidth = 20.0f;
+
+                            lineRenderer.textureScale = new Vector2 { x = 0.3f, y = 6 };
+                            lineRenderer.textureMode = LineTextureMode.Tile;
+
+                            lineRenderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
 
                             //For drawing line in the world space, provide the x,y,z values
                             lineRenderer.SetPosition(0, new Vector3(
@@ -106,7 +166,7 @@ namespace Gameplay.Map.Systems
                         }
                     }
 
-                }
+                //}
 
                 prefabedNode.transform.SetParent(Nodes, true);
             }
