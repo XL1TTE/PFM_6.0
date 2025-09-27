@@ -10,38 +10,42 @@ namespace Core.Utilities
 {
     public static class GameLogicUtility
     {
-        public static List<Entity> FindMoveOptionsCellsFor(Entity entity, World world){
+        public static List<Entity> FindMoveOptionsCellsFor(Entity entity, World world)
+        {
             var gridPos = world.GetStash<GridPosition>();
             var cellPos = world.GetStash<CellPositionComponent>();
             var moveAbility = world.GetStash<MovementAbility>();
-            
+
             var f_cellsNotOccupied = world.Filter
                 .With<CellTag>()
                 .With<CellPositionComponent>()
                 .Without<TagOccupiedCell>()
                 .Build();
-            
-            if(moveAbility.Has(entity) == false){return new();}
-            if(gridPos.Has(entity) == false){return new();}
+
+            if (moveAbility.Has(entity) == false) { return new(); }
+            if (gridPos.Has(entity) == false) { return new(); }
 
             List<Entity> result = new();
             List<Vector2Int> shiftedMoves = new();
-            
+
 
             var entityMoves = moveAbility.Get(entity).Movements;
             var entityGridPos = gridPos.Get(entity);
 
-            foreach(var move in entityMoves){
+            foreach (var move in entityMoves)
+            {
                 shiftedMoves.Add(move + entityGridPos.Value);
             }
 
-            foreach (var cell in f_cellsNotOccupied){
+            foreach (var cell in f_cellsNotOccupied)
+            {
                 var c_cellPos = cellPos.Get(cell);
-                if(shiftedMoves.Contains(new Vector2Int(c_cellPos.grid_x, c_cellPos.grid_y))){
+                if (shiftedMoves.Contains(new Vector2Int(c_cellPos.grid_x, c_cellPos.grid_y)))
+                {
                     result.Add(cell);
                 }
             }
-            
+
             return result;
         }
 
@@ -62,7 +66,7 @@ namespace Core.Utilities
 
             List<Entity> result = new();
             List<Vector2Int> shiftedAttacks = new();
-            
+
             var attackerPos = gridPos.Get(attacker);
             var entityAttacks = attackAbility.Get(attacker);
 
