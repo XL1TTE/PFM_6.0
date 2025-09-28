@@ -14,20 +14,20 @@ namespace Domain.AIGraph
     public struct AIExecutionState : IComponent
     {
         public enum MoveStatus : byte { None, Completed, Animating, Failed, NoTargets }
+        public enum TargetSelectStatus : byte { None, Successful, NoTargets }
+        public enum AbilityExecuteStatus : byte { None, InProcess, Failed, Completed }
 
         public int CurrentNodeId;
 
-        // Condition flags
 
         public MoveStatus MovementStatus;
+        public TargetSelectStatus TargetSelectionStatus;
+        public AbilityExecuteStatus AbilityExecutionStatus;
 
-        public bool AbilityTargetSelected;
-        public bool AbilityCompleted;
-        public bool CustomConditionMet;
 
         // Data for actions
         public Entity SelectedMoveTarget;
-        public List<Entity> SelectedAbilityTargets;
+        public List<Entity> SelectedTargets;
         public string SelectedAbilityID;
 
         // Timers and counters

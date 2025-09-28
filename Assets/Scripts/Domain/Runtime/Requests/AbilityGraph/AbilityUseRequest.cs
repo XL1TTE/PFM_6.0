@@ -11,7 +11,7 @@ namespace Domain.AbilityGraph
     public struct AbilityUseRequest : IRequestData
     {
         public Entity Caster;
-        public Entity AbilityTemplate;
+        public string AbilityTemplateID;
         public List<Entity> Targets;
     }
 }

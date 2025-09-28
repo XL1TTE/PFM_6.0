@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Core.Utilities;
+using Domain.AbilityGraph;
 using Domain.AIGraph;
 using Domain.Commands.Requests;
 using Domain.Extentions;
@@ -24,6 +25,8 @@ namespace Gameplay.AIGraph
         private Stash<AIExecutionGraph> stash_aiGraph;
         private Stash<AIExecutionState> stash_aiState;
         private Request<AgentMoveRequest> req_agentMove;
+        private Request<AbilityUseRequest> req_abilityUse;
+        private Request<AgentTargetSelectionRequest> req_agentTargetSelection;
 
         public void OnAwake()
         {
@@ -46,6 +49,8 @@ namespace Gameplay.AIGraph
             stash_aiState = World.GetStash<AIExecutionState>();
 
             req_agentMove = World.GetRequest<AgentMoveRequest>();
+            req_abilityUse = World.GetRequest<AbilityUseRequest>();
+            req_agentTargetSelection = World.GetRequest<AgentTargetSelectionRequest>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -88,12 +93,12 @@ namespace Gameplay.AIGraph
                     EvaluateMovementConditions(agent, ref state, currentNode);
                     break;
 
-                case AINodeType.WaitForAbilityCompletion:
-                    //EvaluateAbilityConditions(aiTemplate, ref state, currentNode);
+                case AINodeType.WaitForTargetSelection:
+                    EvaluateTargetSelectConditions(agent, ref state, currentNode);
                     break;
 
-                case AINodeType.WaitForCustomCondition:
-                    //EvaluateCustomConditions(aiTemplate, ref state, currentNode);
+                case AINodeType.WaitForAbilityExecutionCompleted:
+                    EvaluateAbilityStatusConditions(agent, ref state, currentNode);
                     break;
 
                 case AINodeType.End:
@@ -114,11 +119,94 @@ namespace Gameplay.AIGraph
                         ProcessAgentMovement(agent, action, ref state);
                         break;
 
-                    case AIActionType.SelectAbilityTarget:
+                    case AIActionType.SelectTarget:
+                        ProcessAgentTargetSelection(agent, action, ref state);
                         break;
 
                     case AIActionType.UseAbility:
+                        ProcessAbilityUse(agent, action, ref state);
                         break;
+                }
+            }
+        }
+
+        private void ProcessAbilityUse(Entity agent, AIAction actionInfo, ref AIExecutionState state)
+        {
+            req_abilityUse.Publish(new AbilityUseRequest
+            {
+                Caster = agent,
+                AbilityTemplateID = actionInfo.AbilityId,
+                Targets = state.SelectedTargets
+            });
+        }
+
+        private void EvaluateAbilityStatusConditions(Entity agent, ref AIExecutionState state, AINode currentNode)
+        {
+            foreach (var transition in currentNode.Transitions)
+            {
+                if (transition.Condition.Type == AIConditionType.AbiltiyUseCompleted)
+                {
+                    bool isConditionMet = false;
+
+                    isConditionMet = state.AbilityExecutionStatus == AIExecutionState.AbilityExecuteStatus.Completed;
+
+                    if (isConditionMet)
+                    {
+                        TransitionToNextNode(agent, ref state, transition.TargetNodeId);
+                        return;
+                    }
+                }
+                if (transition.Condition.Type == AIConditionType.AbiltiyCastFailed)
+                {
+                    bool isConditionMet = false;
+
+                    isConditionMet = state.AbilityExecutionStatus == AIExecutionState.AbilityExecuteStatus.Failed;
+
+                    if (isConditionMet)
+                    {
+                        TransitionToNextNode(agent, ref state, transition.TargetNodeId);
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void ProcessAgentTargetSelection(Entity agent, AIAction actionInfo, ref AIExecutionState state)
+        {
+            req_agentTargetSelection.Publish(new AgentTargetSelectionRequest
+            {
+                AgentEntity = agent,
+                MaxTargets = actionInfo.MaxTargets
+            });
+        }
+
+        private void EvaluateTargetSelectConditions(Entity agent, ref AIExecutionState state, AINode currentNode)
+        {
+            foreach (var transition in currentNode.Transitions)
+            {
+                if (transition.Condition.Type == AIConditionType.TargetsSelected)
+                {
+                    bool isConditionMet = false;
+
+                    isConditionMet = state.TargetSelectionStatus == AIExecutionState.TargetSelectStatus.Successful;
+
+                    if (isConditionMet)
+                    {
+                        TransitionToNextNode(agent, ref state, transition.TargetNodeId);
+                        return;
+                    }
+                }
+                if (transition.Condition.Type == AIConditionType.NoAvaibleTargets)
+                {
+                    bool isConditionMet = false;
+
+                    isConditionMet = state.TargetSelectionStatus == AIExecutionState.TargetSelectStatus.NoTargets;
+
+                    if (isConditionMet)
+                    {
+                        TransitionToNextNode(agent, ref state, transition.TargetNodeId);
+                        return;
+                    }
                 }
             }
         }
@@ -164,12 +252,13 @@ namespace Gameplay.AIGraph
         }
 
 
+
         private void TransitionToNextNode(Entity agent, ref AIExecutionState state, int targetNodeId)
         {
             state.CurrentNodeId = targetNodeId;
             state.MovementStatus = AIExecutionState.MoveStatus.None;
-            state.AbilityCompleted = false;
-            state.CustomConditionMet = false;
+            state.TargetSelectionStatus = AIExecutionState.TargetSelectStatus.None;
+            state.AbilityExecutionStatus = AIExecutionState.AbilityExecuteStatus.None;
         }
 
         private void CompleteExecution()

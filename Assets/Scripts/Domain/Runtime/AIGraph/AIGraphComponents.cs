@@ -5,12 +5,12 @@ namespace Domain.AIGraph
 
     public enum AIType : byte { Default, Melee, Ranged, Healer, Tank, Support }
 
-    public enum AINodeType : byte { Immediate, WaitForMovement, WaitForAbilityCompletion, WaitForCustomCondition, End }
+    public enum AINodeType : byte { Immediate, WaitForMovement, WaitForTargetSelection, WaitForAbilityExecutionCompleted, End }
 
     public enum AIActionType : byte
     {
         TryToMove,
-        SelectAbilityTarget,
+        SelectTarget,
         UseAbility,
     }
 

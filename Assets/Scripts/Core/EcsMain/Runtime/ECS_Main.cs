@@ -4,11 +4,12 @@ using Domain.StateMachine.Mono;
 using Scellecs.Morpeh;
 using UnityEngine;
 
-namespace Core.ECS{
+namespace Core.ECS
+{
     public class ECS_Main : MonoBehaviour
     {
         public static World _defaultWorld;
-                
+
         void Awake()
         {
             _defaultWorld = World.Default;
@@ -35,7 +36,7 @@ namespace Core.ECS{
             _defaultWorld.AddModule(new MonstersLogicModule());
             _defaultWorld.AddModule(new EnemiesLogicModule());
             _defaultWorld.AddModule(new AbilitiesLogicModule());
-            _defaultWorld.AddModule(new NewAbilitiesModule());
+            _defaultWorld.AddModule(new AbilityGraphModule());
             _defaultWorld.AddModule(new GameEffectsModule());
             _defaultWorld.AddModule(new CommandsModule());
             _defaultWorld.AddModule(new VisualsModule());
@@ -44,12 +45,12 @@ namespace Core.ECS{
         }
 
 
-    void Update()
+        void Update()
         {
             _defaultWorld.Update(Time.deltaTime);
             _defaultWorld.CleanupUpdate(Time.deltaTime);
             _defaultWorld.Commit();
-            
+
             StateMachineWorld.Update();
         }
 
