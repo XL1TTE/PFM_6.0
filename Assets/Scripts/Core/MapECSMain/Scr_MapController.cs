@@ -103,10 +103,6 @@ namespace Domain.Map.Mono
 
 
 
-            all_events_text = DataBase.Filter.With<MapEvTextTag>().Build();
-            all_events_battle = DataBase.Filter.With<MapEvBattleTag>().Build();
-
-
             //var newEntity = newWorld.CreateEntity();
             //newWorld.RemoveEntity(newEntity);
 
@@ -134,6 +130,11 @@ namespace Domain.Map.Mono
         public void GenerateMap(byte collumns, byte rows)
         {
             //Debug.Log("MapController is GeneratingMap");
+
+
+            all_events_text = DataBase.Filter.With<MapEvTextTag>().Build();
+            all_events_battle = DataBase.Filter.With<MapEvBattleTag>().Build();
+
 
             nodeIdStash = nodeWorld.GetStash<MapNodeIdComponent>();
             nodePosStash = nodeWorld.GetStash<MapNodePositionComponent>();
@@ -1273,19 +1274,37 @@ namespace Domain.Map.Mono
         private string ChooseRandomEventFromList(Filter events, byte curr_coll)
         {
             string result = "";
+            //int ev_count = events.GetLengthSlow();
             int ev_count = events.ArchetypesCount;
             var failsafe_count = 0;
+
+            //List<Entity> temp_list = new List<Entity>();
+            Entity[] temp_arr = new Entity[ev_count];
+            int i = 0;
+
+            foreach (var item in events)
+            {
+                //temp_list.Add(item);
+                temp_arr[i] = item;
+
+                i++;
+            }
+
 
             while (result == "")
             {
                 if (failsafe_count >= ev_count)
                 {
-                    result = "ev_TextTest1";
+                    //result = "ev_TextTest1";
+                    result = "ev_FAILSAFE";
                     break;
                 }
 
                 int tmp_rand_id = Random.Range(0, ev_count);
+                //tmp_rand_id = Math.Clamp(tmp_rand_id, 0, 1);
+                //var tmp_potential_event = temp_arr[tmp_rand_id];
                 var tmp_potential_event = events.GetEntity(tmp_rand_id);
+
 
                 // Check if has Unavailable tag
                 if (DataBase.TryGetRecord<MapEvUnavailableTag>(tmp_potential_event, out var unav_tag))
@@ -1314,6 +1333,7 @@ namespace Domain.Map.Mono
                             curr_coll >= collumn_count - tmp_offset))) // curr coll should be after offset
                         {
                             // all of the above failed |=> check next record
+
                             continue;
                         }
                     }

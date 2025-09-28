@@ -47,6 +47,8 @@ namespace Persistence.DB{
         public ev_BattleTest2()
         {
             With<ID>(new ID { Value = "ev_BattleTest2" });
+            With<MapEvBattleTag>(new MapEvBattleTag { });
+
             With<MapEvCollumnRequirComponent>(new MapEvCollumnRequirComponent
             {
                 count_start_from_zero = true,

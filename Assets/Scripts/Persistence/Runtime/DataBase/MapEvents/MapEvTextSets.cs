@@ -34,20 +34,20 @@ namespace Persistence.DB{
             {
                 string_message = "I FUCKING HATE YOU I FUCKING HATE YOU I FUCKING HATE YOU I FUCKING HATE YOU I FUCKING HATE YOU I FUCKING HATE YOU I FUCKING HATE YOU I FUCKING HATE YOU"
             });
-            With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
-            {
-                choices = {
-
-                    { "SCHEISSE!",
-                        "Map/MapTextEventResultScripts/Scr_MapEvResult_Test1" },
-
-                    {"NO CHOICE!",
-                        "Map/MapTextEventResultScripts/Scr_MapEvResult_Test1" },
-
-                    {"Люби себя ^_^",
-                        "Map/MapTextEventResultScripts/Scr_MapEvResult_Test1" }
-                }
-            });
+            //With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent /// BUG HERE
+            //{
+            //    choices = {
+            //
+            //        { "SCHEISSE!",
+            //            "Map/MapTextEventResultScripts/Scr_MapEvResult_Test1" },
+            //        
+            //        {"NO CHOICE!",
+            //            "Map/MapTextEventResultScripts/Scr_MapEvResult_Test1" },
+            //        
+            //        {"Люби себя ^_^",
+            //            "Map/MapTextEventResultScripts/Scr_MapEvResult_Test1" },
+            //    }
+            //});
         }
     }
     public sealed class ev_TextTest2 : IDbRecord
@@ -55,6 +55,8 @@ namespace Persistence.DB{
         public ev_TextTest2()
         {
             With<ID>(new ID { Value = "ev_TextTest2" });
+            With<MapEvTextTag>(new MapEvTextTag { });
+
             With<MapEvCollumnRequirComponent>(new MapEvCollumnRequirComponent
             {
                 count_start_from_zero = true,
