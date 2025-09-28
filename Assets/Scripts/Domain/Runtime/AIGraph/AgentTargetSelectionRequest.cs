@@ -1,3 +1,4 @@
+using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using System;
 
@@ -7,20 +8,10 @@ namespace Domain.AIGraph
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public class AIAction
+    public struct AgentTargetSelectionRequest : IRequestData
     {
-        public AIActionType Type;
-
-        public MoveAnimationType MoveAnimation;
-
-        public TargetType AbilityTargetType;
+        public Entity AgentEntity;
         public int MaxTargets;
-
-        public string AbilityId;
-
-        public float FloatParam;
-        public int IntParam;
-        public string StringParam;
     }
 
 }

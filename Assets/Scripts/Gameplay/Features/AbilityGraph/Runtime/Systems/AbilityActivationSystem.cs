@@ -3,7 +3,8 @@ using Persistence.DB;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Gameplay.AbilityGraph{
+namespace Gameplay.AbilityGraph
+{
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
@@ -17,12 +18,12 @@ namespace Gameplay.AbilityGraph{
         private Stash<AbilityExecutionGraph> stash_abilityExecutionGraph;
         private Stash<AbilityIsExecutingTag> stash_abilityIsExecutingTag;
 
-        public World World { get; set ; }
+        public World World { get; set; }
 
         public void OnAwake()
         {
             req_activateAbility = World.GetRequest<AbilityUseRequest>();
-            
+
             stash_abilityTargets = World.GetStash<AbilityTargetsComponent>();
             stash_abilityCaster = World.GetStash<AbilityCasterComponent>();
             stash_ability = World.GetStash<AbilityComponent>();
@@ -33,9 +34,15 @@ namespace Gameplay.AbilityGraph{
 
         public void OnUpdate(float deltaTime)
         {
-            foreach(var req in req_activateAbility.Consume())
+            foreach (var req in req_activateAbility.Consume())
             {
-                var abilityCopy = CreateAbilityCopy(req.AbilityTemplate);
+
+                if (DataBase.TryFindRecordByID(req.AbilityTemplateID, out var AbilityTemplate) == false)
+                {
+                    throw new System.Exception($"Ability with id: {req.AbilityTemplateID} was not found!");
+                }
+
+                var abilityCopy = CreateAbilityCopy(AbilityTemplate);
 
                 stash_abilityCaster.Set(abilityCopy, new AbilityCasterComponent
                 {
@@ -48,25 +55,26 @@ namespace Gameplay.AbilityGraph{
                 stash_abilityIsExecutingTag.Set(abilityCopy, new AbilityIsExecutingTag());
             }
         }
-        
+
         public void Dispose()
         {
         }
-        
-        
-        private Entity CreateAbilityCopy(Entity abilityTemplate){
+
+
+        private Entity CreateAbilityCopy(Entity abilityTemplate)
+        {
             var abilityCopy = World.CreateEntity();
-            
+
             DataBase.TryGetRecord<AbilityComponent>(abilityTemplate, out var ability);
             DataBase.TryGetRecord<AbilityExecutionGraph>(abilityTemplate, out var graph);
             DataBase.TryGetRecord<AbilityExecutionState>(abilityTemplate, out var state);
             DataBase.TryGetRecord<AbilityTargetsComponent>(abilityTemplate, out var targets);
-            
+
             stash_ability.Set(abilityCopy, ability);
             stash_abilityExecutionState.Set(abilityCopy, state);
             stash_abilityExecutionGraph.Set(abilityCopy, graph);
             stash_abilityTargets.Set(abilityCopy, targets);
-            
+
             return abilityCopy;
         }
     }

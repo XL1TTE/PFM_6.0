@@ -22,6 +22,10 @@ namespace Domain.AIGraph
         MoveCompleted,
         MoveAnimating,
         NoAvaibleMoves,
+        TargetsSelected,
+        NoAvaibleTargets,
+        AbiltiyUseCompleted,
+        AbiltiyCastFailed,
     }
 
 }
