@@ -27,24 +27,27 @@ namespace Gameplay.GameEffects
                 .With<BaseStatsComponent>()
                 .With<CurrentStatsComponent>()
                 .Build();
-                
+
             stash_EffectsPool = World.GetStash<EffectsPoolComponent>();
-            
+
             stash_BaseStats = World.GetStash<BaseStatsComponent>();
             stash_CurrentStats = World.GetStash<CurrentStatsComponent>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach(var entity in f_entitiesToProcess){
-                
+            foreach (var entity in f_entitiesToProcess)
+            {
+
                 ResetToBaseStats(entity);
 
                 ref var effects_pool = ref stash_EffectsPool.Get(entity);
-                foreach (var permanent_effect in effects_pool.PermanentEffects){
+                foreach (var permanent_effect in effects_pool.PermanentEffects)
+                {
                     CalculateEffectContribution(entity, permanent_effect.EffectId);
                 }
-                foreach(var status_effect in effects_pool.StatusEffects){
+                foreach (var status_effect in effects_pool.StatusEffects)
+                {
                     CalculateEffectContribution(entity, status_effect.EffectId);
                 }
             }
@@ -54,35 +57,39 @@ namespace Gameplay.GameEffects
         {
 
         }
-        
-        
-        private void CalculateEffectContribution(Entity subject, string effect_id){
 
-            if(DataBase.TryFindRecordByID(effect_id, out var effect_record) == false){return;}
-            
+
+        private void CalculateEffectContribution(Entity subject, string effect_id)
+        {
+
+            if (DataBase.TryFindRecordByID(effect_id, out var effect_record) == false) { return; }
+
             var base_subject_stats = stash_BaseStats.Get(subject);
             ref var cur_subject_stats = ref stash_CurrentStats.Get(subject);
 
-            if (DataBase.TryGetRecord<MaxHealthModifier>(effect_record, out var max_health_modifier)){
+            if (DataBase.TryGetRecord<MaxHealthModifier>(effect_record, out var max_health_modifier))
+            {
                 cur_subject_stats.MaxHealth += max_health_modifier.AdditiveValue;
-                cur_subject_stats.MaxHealth = 
+                cur_subject_stats.MaxHealth =
                     (int)Math.Floor(cur_subject_stats.MaxHealth * 1 + max_health_modifier.MultiplierValue);
             }
-            if(DataBase.TryGetRecord<MaxSpeedModifier>(effect_record, out var max_speed_modifier)){
+            if (DataBase.TryGetRecord<MaxSpeedModifier>(effect_record, out var max_speed_modifier))
+            {
                 cur_subject_stats.MaxSpeed += max_speed_modifier.AdditiveValue;
-                cur_subject_stats.MaxSpeed = 
+                cur_subject_stats.MaxSpeed =
                     (int)Math.Floor(cur_subject_stats.MaxSpeed * 1 + max_speed_modifier.MultiplierValue);
             }
-        
+
         }
-        
-        private void ResetToBaseStats(Entity subject){
+
+        private void ResetToBaseStats(Entity subject)
+        {
             var base_stats = stash_BaseStats.Get(subject);
             ref var cur_stats = ref stash_CurrentStats.Get(subject);
 
             cur_stats.MaxHealth = base_stats.MaxHealth;
-            
-            cur_stats.MaxSpeed= base_stats.MaxSpeed;
+
+            cur_stats.MaxSpeed = base_stats.MaxSpeed;
         }
     }
 }

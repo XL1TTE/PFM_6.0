@@ -4,6 +4,7 @@ using System.Linq;
 using DG.Tweening;
 using Domain.Abilities.Components;
 using Domain.Abilities.Tags;
+using Domain.AbilityGraph;
 using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
 using Domain.Components;
@@ -22,7 +23,8 @@ using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Gameplay.Abilities.Systems{
+namespace Gameplay.Abilities.Systems
+{
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
@@ -31,12 +33,13 @@ namespace Gameplay.Abilities.Systems{
         private int SystemID = "ATTACK_ABILITY".GetHashCode();
 
         public World World { get; set; }
-        
+
         private Filter f_attackAbiltiyBtns;
         private Filter f_currentTurnTaker;
         private Filter f_Cells;
-        
+
         private Request<TargetSelectionRequest> req_targetSelection;
+        private Request<DealDamageRequest> req_dealDamage;
 
         private Event<ButtonClickedEvent> evt_ButtonClicked;
         private Event<TargetSelectionCompletedEvent> evt_selectionCompleted;
@@ -49,7 +52,6 @@ namespace Gameplay.Abilities.Systems{
         private Stash<CellPositionComponent> stash_cellPosition;
         private Stash<GridPosition> stash_gridPosition;
         private Stash<TagOccupiedCell> stash_occupiedCells;
-        private Stash<Health> stash_health;
         private Stash<TagEnemy> stash_enemyTag;
         private Stash<TransformRefComponent> stash_transformRef;
         private Stash<UnderCursorComponent> stash_underCursor;
@@ -72,13 +74,13 @@ namespace Gameplay.Abilities.Systems{
                 .With<CurrentTurnTakerTag>()
                 .Build();
 
-            f_Cells = World.Filter 
+            f_Cells = World.Filter
                 .With<CellTag>()
                 .With<CellPositionComponent>()
                 .Build();
 
             req_targetSelection = World.GetRequest<TargetSelectionRequest>();
-
+            req_dealDamage = World.GetRequest<DealDamageRequest>();
 
             evt_ButtonClicked = World.GetEvent<ButtonClickedEvent>();
             evt_selectionCompleted = World.GetEvent<TargetSelectionCompletedEvent>();
@@ -91,7 +93,6 @@ namespace Gameplay.Abilities.Systems{
             stash_cellPosition = World.GetStash<CellPositionComponent>();
             stash_gridPosition = World.GetStash<GridPosition>();
             stash_occupiedCells = World.GetStash<TagOccupiedCell>();
-            stash_health = World.GetStash<Health>();
             stash_enemyTag = World.GetStash<TagEnemy>();
             stash_transformRef = World.GetStash<TransformRefComponent>();
             stash_underCursor = World.GetStash<UnderCursorComponent>();
@@ -112,13 +113,13 @@ namespace Gameplay.Abilities.Systems{
             // Attack ability use entry point
             foreach (var evt in evt_ButtonClicked.publishedChanges)
             {
-                if (IsAttackAbilityButtonClicked(evt) == false){continue; }
+                if (IsAttackAbilityButtonClicked(evt) == false) { continue; }
                 {
                     CurrentCaster = f_currentTurnTaker.FirstOrDefault();
                     CurrentAttackButton = evt.ClickedButton;
                     var AttackOptions = GetAttackOptions(CurrentCaster);
-                    
-                    if(ValidateAttackOptions(AttackOptions) == false){continue;}
+
+                    if (ValidateAttackOptions(AttackOptions) == false) { continue; }
 
                     StartAttackOptionSelection(AttackOptions);
                     EnableAbilityButtonSelectedView(evt.ClickedButton);
@@ -168,7 +169,7 @@ namespace Gameplay.Abilities.Systems{
                 }
             }
         }
-        
+
         private void AddAttackingTagToCaster(Entity user)
         {
             stash_attackingTag.Add(user);
@@ -266,7 +267,8 @@ namespace Gameplay.Abilities.Systems{
             });
         }
 
-        private void AttackTargetOnCell(Entity cell){
+        private void AttackTargetOnCell(Entity cell)
+        {
 
             var target = stash_occupiedCells.Get(cell).Occupier;
 
@@ -280,64 +282,72 @@ namespace Gameplay.Abilities.Systems{
             }
 
             var attackSequence = GetAttackSequence(target, executerTransform, targetTransform);
-            
+
             AddAttackingTagToCaster(CurrentCaster);
 
             AttackSequenceMap.Add(CurrentCaster.Id, attackSequence);
-            
+
             attackSequence.OnComplete(
                 () => OnSkillUseCompleted()
             );
         }
-        
-        private Sequence GetAttackSequence(Entity target, Transform attackerTransform, Transform targetTransform){
-            
+
+        private Sequence GetAttackSequence(Entity target, Transform attackerTransform, Transform targetTransform)
+        {
+
             var raiseHeight = 20;
-            
+
             Sequence seq = DOTween.Sequence();
-            
+
             var originalPosition = attackerTransform.position;
             var targetPos = targetTransform.position;
 
             seq.Append(attackerTransform.DOMoveZ(originalPosition.z - 1.0f, 0.1f));
 
-            seq.Append(attackerTransform.DOMoveY(originalPosition.y 
+            seq.Append(attackerTransform.DOMoveY(originalPosition.y
                 + raiseHeight, 0.5f).SetEase(Ease.OutQuad));
 
             seq.Append(attackerTransform.DOMove(targetPos, 0.25f)
                 .SetEase(Ease.InExpo).OnComplete(
                     () => DoDamageToTarget(target) // Do damage
                 ));
-                
 
-            var attackPos = new Vector3(originalPosition.x, 
+
+            var attackPos = new Vector3(originalPosition.x,
                 originalPosition.y + raiseHeight, originalPosition.z - 1.0f);
-                
+
             seq.Append(attackerTransform.DOMove(attackPos, 0.25f)
                 .SetEase(Ease.OutQuad));
 
             seq.Append(attackerTransform.DOMove(originalPosition, 0.5f)
                 .SetEase(Ease.InQuad));
-                
+
 
             return seq;
         }
-        
-        private void DoDamageToTarget(Entity target){
-            if (stash_health.Has(target))
+
+        private void DoDamageToTarget(Entity target)
+        {
+            req_dealDamage.Publish(new DealDamageRequest
             {
-                ref var c_health = ref stash_health.Get(target);
-                c_health.Value--;
-                Debug.Log($"Target {target.Id} now have {c_health.Value} hp.");
-            }
+                Source = CurrentCaster,
+                Target = target,
+                MinBaseDamage = 1,
+                MaxBaseDamage = 5,
+                DamageType = DamageType.Physical
+            }, true);
         }
 
 
-        private List<Entity> FilterAlowedOptions(List<Entity> options){
+        private List<Entity> FilterAlowedOptions(List<Entity> options)
+        {
             List<Entity> filter = new();
-            foreach(var opt in options){
-                if(stash_occupiedCells.Has(opt)){
-                    if(stash_enemyTag.Has(stash_occupiedCells.Get(opt).Occupier)){
+            foreach (var opt in options)
+            {
+                if (stash_occupiedCells.Has(opt))
+                {
+                    if (stash_enemyTag.Has(stash_occupiedCells.Get(opt).Occupier))
+                    {
                         filter.Add(opt);
                     }
                 }
@@ -345,7 +355,8 @@ namespace Gameplay.Abilities.Systems{
             return filter;
         }
 
-        private List<Entity> FilterForbiddenOptions(List<Entity> options){
+        private List<Entity> FilterForbiddenOptions(List<Entity> options)
+        {
             List<Entity> filter = new();
             foreach (var opt in options)
             {
@@ -353,29 +364,32 @@ namespace Gameplay.Abilities.Systems{
                 {
                     filter.Add(opt);
                 }
-                else{
+                else
+                {
                     if (stash_enemyTag.Has(stash_occupiedCells.Get(opt).Occupier) == false)
                     {
                         filter.Add(opt);
                     }
-                }  
+                }
             }
             return filter;
         }
         private List<Entity> GetAttackOptions(Entity executer)
         {
-            if(stash_attackAbility.Has(executer) == false){return new();}
-            
+            if (stash_attackAbility.Has(executer) == false) { return new(); }
+
             var result = new List<Entity>();
             var cellPositions = new List<Vector2Int>();
             var attacks = stash_attackAbility.Get(executer).Attacks;
             var c_gridPos = stash_gridPosition.Get(executer);
             var gridPosVector2 = c_gridPos.Value;
 
-            foreach(var attack in attacks){
+            foreach (var attack in attacks)
+            {
                 cellPositions.Add(gridPosVector2 + attack);
             }
-            foreach (var cell in f_Cells){
+            foreach (var cell in f_Cells)
+            {
                 var c_cellPos = stash_cellPosition.Get(cell);
                 var cellPos = new Vector2Int(c_cellPos.grid_x, c_cellPos.grid_y);
                 if (cellPositions.Contains(cellPos))
@@ -404,7 +418,7 @@ namespace Gameplay.Abilities.Systems{
         }
         private bool IsAttackAbilityButtonClicked(ButtonClickedEvent evt)
         {
-            if(stash_attackAbilityBtn.Has(evt.ClickedButton)){return true;}
+            if (stash_attackAbilityBtn.Has(evt.ClickedButton)) { return true; }
             return false;
         }
     }

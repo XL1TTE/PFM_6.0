@@ -6,7 +6,8 @@ using Gameplay.TurnSystem.Systems;
 using Scellecs.Morpeh;
 using UI.Systems;
 
-namespace Core.ECS.Modules{
+namespace Core.ECS.Modules
+{
     public sealed class VisualsModule : IWorldModule
     {
         public int Priority => 100;

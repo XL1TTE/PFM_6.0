@@ -3,7 +3,8 @@ using Gameplay.AbilityGraph;
 using Gameplay.GameEffects;
 using Scellecs.Morpeh;
 
-namespace Core.ECS.Modules{
+namespace Core.ECS.Modules
+{
     public sealed class GameEffectsModule : IWorldModule
     {
         public int Priority => -50;

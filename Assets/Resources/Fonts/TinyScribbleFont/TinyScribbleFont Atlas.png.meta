@@ -1,0 +1,1833 @@
+fileFormatVersion: 2
+guid: f688a14dd253c0d4e91bdf6967bd189b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3369775959052377319
+    second: TinyScribbleFont Atlas_0
+  - first:
+      213: -8925626428153249902
+    second: TinyScribbleFont Atlas_1
+  - first:
+      213: 1282026715605243593
+    second: TinyScribbleFont Atlas_2
+  - first:
+      213: -6603560218533296002
+    second: TinyScribbleFont Atlas_3
+  - first:
+      213: -1459530196904771221
+    second: TinyScribbleFont Atlas_4
+  - first:
+      213: -5142015210383178679
+    second: TinyScribbleFont Atlas_5
+  - first:
+      213: -1103278825071472006
+    second: TinyScribbleFont Atlas_6
+  - first:
+      213: -8695777037063245567
+    second: TinyScribbleFont Atlas_7
+  - first:
+      213: -6779815490521226950
+    second: TinyScribbleFont Atlas_8
+  - first:
+      213: -8170765460262474864
+    second: TinyScribbleFont Atlas_9
+  - first:
+      213: -7804132850857136618
+    second: TinyScribbleFont Atlas_10
+  - first:
+      213: 7755946538361049849
+    second: TinyScribbleFont Atlas_11
+  - first:
+      213: -3185112536858200339
+    second: TinyScribbleFont Atlas_12
+  - first:
+      213: 2314253185315329941
+    second: TinyScribbleFont Atlas_13
+  - first:
+      213: -1248323317409516377
+    second: TinyScribbleFont Atlas_14
+  - first:
+      213: 4062066926736234417
+    second: TinyScribbleFont Atlas_15
+  - first:
+      213: 3979455118527796723
+    second: TinyScribbleFont Atlas_16
+  - first:
+      213: 7043967655185533685
+    second: TinyScribbleFont Atlas_17
+  - first:
+      213: 5955587784410216086
+    second: TinyScribbleFont Atlas_18
+  - first:
+      213: 906151524074812744
+    second: TinyScribbleFont Atlas_19
+  - first:
+      213: -2801513348409011893
+    second: TinyScribbleFont Atlas_20
+  - first:
+      213: -4712866035018515973
+    second: TinyScribbleFont Atlas_21
+  - first:
+      213: 5655615851960768883
+    second: TinyScribbleFont Atlas_22
+  - first:
+      213: -8706590779182778078
+    second: TinyScribbleFont Atlas_23
+  - first:
+      213: 4050878329503828726
+    second: TinyScribbleFont Atlas_24
+  - first:
+      213: 6291484219376650386
+    second: TinyScribbleFont Atlas_25
+  - first:
+      213: -255962321040609999
+    second: TinyScribbleFont Atlas_26
+  - first:
+      213: -4145587384386559763
+    second: TinyScribbleFont Atlas_27
+  - first:
+      213: 1075198063894154432
+    second: TinyScribbleFont Atlas_28
+  - first:
+      213: -4272536646375342057
+    second: TinyScribbleFont Atlas_29
+  - first:
+      213: 7021704604690064110
+    second: TinyScribbleFont Atlas_30
+  - first:
+      213: -1336000350797575788
+    second: TinyScribbleFont Atlas_31
+  - first:
+      213: -1552525175076762939
+    second: TinyScribbleFont Atlas_32
+  - first:
+      213: -5750289728984319036
+    second: TinyScribbleFont Atlas_33
+  - first:
+      213: 4936212398755171152
+    second: TinyScribbleFont Atlas_34
+  - first:
+      213: 1564176546301256632
+    second: TinyScribbleFont Atlas_35
+  - first:
+      213: 5398280880115573050
+    second: TinyScribbleFont Atlas_36
+  - first:
+      213: -6090530940167962080
+    second: TinyScribbleFont Atlas_37
+  - first:
+      213: -9050614594218103097
+    second: TinyScribbleFont Atlas_38
+  - first:
+      213: 6217166245002490382
+    second: TinyScribbleFont Atlas_39
+  - first:
+      213: -8702007712544248235
+    second: TinyScribbleFont Atlas_40
+  - first:
+      213: -8703719133795145332
+    second: TinyScribbleFont Atlas_41
+  - first:
+      213: 2457543808216468018
+    second: TinyScribbleFont Atlas_42
+  - first:
+      213: 8684454723951081501
+    second: TinyScribbleFont Atlas_43
+  - first:
+      213: -3370877138708207015
+    second: TinyScribbleFont Atlas_44
+  - first:
+      213: 8788798190886667341
+    second: TinyScribbleFont Atlas_45
+  - first:
+      213: -3802203296328062437
+    second: TinyScribbleFont Atlas_46
+  - first:
+      213: -3007187988803681035
+    second: TinyScribbleFont Atlas_47
+  - first:
+      213: -7838147401652325697
+    second: TinyScribbleFont Atlas_48
+  - first:
+      213: -6015336928318228184
+    second: TinyScribbleFont Atlas_49
+  - first:
+      213: 1183507307375894415
+    second: TinyScribbleFont Atlas_50
+  - first:
+      213: -8149154301489213554
+    second: TinyScribbleFont Atlas_51
+  - first:
+      213: 2517989876790559677
+    second: TinyScribbleFont Atlas_52
+  - first:
+      213: 8917621525220399326
+    second: TinyScribbleFont Atlas_53
+  - first:
+      213: 8481745953216048600
+    second: TinyScribbleFont Atlas_54
+  - first:
+      213: 1850121815730814381
+    second: TinyScribbleFont Atlas_55
+  - first:
+      213: 5861893605541511285
+    second: TinyScribbleFont Atlas_56
+  - first:
+      213: 6506273646311010032
+    second: TinyScribbleFont Atlas_57
+  - first:
+      213: 1610842716615052587
+    second: TinyScribbleFont Atlas_58
+  - first:
+      213: -8577563969827740859
+    second: TinyScribbleFont Atlas_59
+  - first:
+      213: 7140906088684648238
+    second: TinyScribbleFont Atlas_60
+  - first:
+      213: -1414538794758555893
+    second: TinyScribbleFont Atlas_61
+  - first:
+      213: -8742763583647675429
+    second: TinyScribbleFont Atlas_62
+  - first:
+      213: 1476592423906414254
+    second: TinyScribbleFont Atlas_63
+  - first:
+      213: -2782092999775893270
+    second: TinyScribbleFont Atlas_64
+  - first:
+      213: 5647624522738653715
+    second: TinyScribbleFont Atlas_65
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 1
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 57
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ecd7f38169d3ce20800000000000000
+      internalID: 3369775959052377319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29f3618bd0ec12480800000000000000
+      internalID: -8925626428153249902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_2
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 54
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c61630618caac110800000000000000
+      internalID: 1282026715605243593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_3
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 54
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e780c69e7f07b54a0800000000000000
+      internalID: -6603560218533296002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_4
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 54
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b610982d405bebbe0800000000000000
+      internalID: -1459530196904771221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_5
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 45
+        width: 6
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9448473e864e3a8b0800000000000000
+      internalID: -5142015210383178679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_6
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 45
+        width: 11
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a72976701cd50b0f0800000000000000
+      internalID: -1103278825071472006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 39
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 101b8d36bd4625780800000000000000
+      internalID: -8695777037063245567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_8
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 45
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a31aacc7bb149e1a0800000000000000
+      internalID: -6779815490521226950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_9
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 36
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09b260eba1c9b9e80800000000000000
+      internalID: -8170765460262474864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_10
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 45
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61e24bc258622b390800000000000000
+      internalID: -7804132850857136618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_11
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 36
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f25eeba848a2ab60800000000000000
+      internalID: 7755946538361049849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_12
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 45
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de67ceee5053cc3d0800000000000000
+      internalID: -3185112536858200339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_13
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 36
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5975907b201ed1020800000000000000
+      internalID: 2314253185315329941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_14
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 36
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a4f7f48e801daee0800000000000000
+      internalID: -1248323317409516377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_15
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 36
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b7d9fd195c5f5830800000000000000
+      internalID: 4062066926736234417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_16
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 27
+        width: 12
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f59573a85dd93730800000000000000
+      internalID: 3979455118527796723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_17
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 30
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5facca8034331c160800000000000000
+      internalID: 7043967655185533685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_18
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 27
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6963d6e298f76a250800000000000000
+      internalID: 5955587784410216086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_19
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 27
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8457829920c439c00800000000000000
+      internalID: 906151524074812744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_20
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 27
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b41d092e3760f19d0800000000000000
+      internalID: -2801513348409011893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_21
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 27
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf9b7bc9f49889eb0800000000000000
+      internalID: -4712866035018515973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_22
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 27
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 379903217a8cc7e40800000000000000
+      internalID: 5655615851960768883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_23
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 27
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2297e1ad0d9fb2780800000000000000
+      internalID: -8706590779182778078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_24
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 35
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fa4762d06c973830800000000000000
+      internalID: 4050878329503828726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_25
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 27
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 298cbe55097df4750800000000000000
+      internalID: 6291484219376650386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_26
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 20
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13d6d7a00a3a27cf0800000000000000
+      internalID: -255962321040609999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_27
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 9
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de06c48fc3ae776c0800000000000000
+      internalID: -4145587384386559763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_28
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 18
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cc499541fedbee00800000000000000
+      internalID: 1075198063894154432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_29
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 18
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71085f69e86e4b4c0800000000000000
+      internalID: -4272536646375342057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_30
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 18
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee2a648a22b127160800000000000000
+      internalID: 7021704604690064110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_31
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 18
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 499c9e662c2957de0800000000000000
+      internalID: -1336000350797575788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_32
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 18
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5cac2b23492547ae0800000000000000
+      internalID: -1552525175076762939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_33
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 18
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cbff4435fdd230b0800000000000000
+      internalID: -5750289728984319036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_34
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 18
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05b4ea30603f08440800000000000000
+      internalID: 4936212398755171152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_35
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 9
+        width: 7
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b3a840184215b510800000000000000
+      internalID: 1564176546301256632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_36
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 18
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a316211fbdb8aea40800000000000000
+      internalID: 5398280880115573050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_37
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 0
+        width: 17
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02243c101661a7ba0800000000000000
+      internalID: -6090530940167962080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_38
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cee9a09af1c56280800000000000000
+      internalID: -9050614594218103097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_39
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 0
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e023ce682cfc74650800000000000000
+      internalID: 6217166245002490382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_40
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 9
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55e271537124c3780800000000000000
+      internalID: -8702007712544248235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_41
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 0
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c89ae55ef8d263780800000000000000
+      internalID: -8703719133795145332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_42
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 9
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23a04bca213fa1220800000000000000
+      internalID: 2457543808216468018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_43
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 0
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1831192f81658870800000000000000
+      internalID: 8684454723951081501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_44
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 9
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95aefcd1a1d3831d0800000000000000
+      internalID: -3370877138708207015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_45
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 0
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d44456ab36518f970800000000000000
+      internalID: 8788798190886667341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_46
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 9
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1aeb863f3cdb3bc0800000000000000
+      internalID: -3802203296328062437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_47
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 0
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f4098af4725446d0800000000000000
+      internalID: -3007187988803681035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_48
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 9
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb2bc5b677e493390800000000000000
+      internalID: -7838147401652325697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_49
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 0
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8297d4f2fea358ca0800000000000000
+      internalID: -6015336928318228184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_50
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 9
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8f183520a9ac6010800000000000000
+      internalID: 1183507307375894415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_51
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 0
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8f83efb65368ee80800000000000000
+      internalID: -8149154301489213554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_52
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 0
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db3812ab372b1f220800000000000000
+      internalID: 2517989876790559677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_53
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 9
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed893249781c1cb70800000000000000
+      internalID: 8917621525220399326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_54
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 0
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ddac88910735b570800000000000000
+      internalID: 8481745953216048600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_55
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 0
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dadf5d13df3fca910800000000000000
+      internalID: 1850121815730814381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_56
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 6
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5708f653d21a95150800000000000000
+      internalID: 5861893605541511285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_57
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 6
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fe6adbd86dea4a50800000000000000
+      internalID: 6506273646311010032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_58
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 0
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2d8dd88aecda5610800000000000000
+      internalID: 1610842716615052587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_59
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 0
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5436a3ce30f56f880800000000000000
+      internalID: -8577563969827740859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_60
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 0
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e27f876e048991360800000000000000
+      internalID: 7140906088684648238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_61
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 0
+        width: 10
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b073861f57c8e5ce0800000000000000
+      internalID: -1414538794758555893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_62
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 0
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdb857187d67ba680800000000000000
+      internalID: -8742763583647675429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_63
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 0
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eae89f87cf8ed7410800000000000000
+      internalID: 1476592423906414254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_64
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 0
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae8c14828250469d0800000000000000
+      internalID: -2782092999775893270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TinyScribbleFont Atlas_65
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 0
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31a5f9eb494606e40800000000000000
+      internalID: 5647624522738653715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      TinyScribbleFont Atlas_0: 3369775959052377319
+      TinyScribbleFont Atlas_1: -8925626428153249902
+      TinyScribbleFont Atlas_10: -7804132850857136618
+      TinyScribbleFont Atlas_11: 7755946538361049849
+      TinyScribbleFont Atlas_12: -3185112536858200339
+      TinyScribbleFont Atlas_13: 2314253185315329941
+      TinyScribbleFont Atlas_14: -1248323317409516377
+      TinyScribbleFont Atlas_15: 4062066926736234417
+      TinyScribbleFont Atlas_16: 3979455118527796723
+      TinyScribbleFont Atlas_17: 7043967655185533685
+      TinyScribbleFont Atlas_18: 5955587784410216086
+      TinyScribbleFont Atlas_19: 906151524074812744
+      TinyScribbleFont Atlas_2: 1282026715605243593
+      TinyScribbleFont Atlas_20: -2801513348409011893
+      TinyScribbleFont Atlas_21: -4712866035018515973
+      TinyScribbleFont Atlas_22: 5655615851960768883
+      TinyScribbleFont Atlas_23: -8706590779182778078
+      TinyScribbleFont Atlas_24: 4050878329503828726
+      TinyScribbleFont Atlas_25: 6291484219376650386
+      TinyScribbleFont Atlas_26: -255962321040609999
+      TinyScribbleFont Atlas_27: -4145587384386559763
+      TinyScribbleFont Atlas_28: 1075198063894154432
+      TinyScribbleFont Atlas_29: -4272536646375342057
+      TinyScribbleFont Atlas_3: -6603560218533296002
+      TinyScribbleFont Atlas_30: 7021704604690064110
+      TinyScribbleFont Atlas_31: -1336000350797575788
+      TinyScribbleFont Atlas_32: -1552525175076762939
+      TinyScribbleFont Atlas_33: -5750289728984319036
+      TinyScribbleFont Atlas_34: 4936212398755171152
+      TinyScribbleFont Atlas_35: 1564176546301256632
+      TinyScribbleFont Atlas_36: 5398280880115573050
+      TinyScribbleFont Atlas_37: -6090530940167962080
+      TinyScribbleFont Atlas_38: -9050614594218103097
+      TinyScribbleFont Atlas_39: 6217166245002490382
+      TinyScribbleFont Atlas_4: -1459530196904771221
+      TinyScribbleFont Atlas_40: -8702007712544248235
+      TinyScribbleFont Atlas_41: -8703719133795145332
+      TinyScribbleFont Atlas_42: 2457543808216468018
+      TinyScribbleFont Atlas_43: 8684454723951081501
+      TinyScribbleFont Atlas_44: -3370877138708207015
+      TinyScribbleFont Atlas_45: 8788798190886667341
+      TinyScribbleFont Atlas_46: -3802203296328062437
+      TinyScribbleFont Atlas_47: -3007187988803681035
+      TinyScribbleFont Atlas_48: -7838147401652325697
+      TinyScribbleFont Atlas_49: -6015336928318228184
+      TinyScribbleFont Atlas_5: -5142015210383178679
+      TinyScribbleFont Atlas_50: 1183507307375894415
+      TinyScribbleFont Atlas_51: -8149154301489213554
+      TinyScribbleFont Atlas_52: 2517989876790559677
+      TinyScribbleFont Atlas_53: 8917621525220399326
+      TinyScribbleFont Atlas_54: 8481745953216048600
+      TinyScribbleFont Atlas_55: 1850121815730814381
+      TinyScribbleFont Atlas_56: 5861893605541511285
+      TinyScribbleFont Atlas_57: 6506273646311010032
+      TinyScribbleFont Atlas_58: 1610842716615052587
+      TinyScribbleFont Atlas_59: -8577563969827740859
+      TinyScribbleFont Atlas_6: -1103278825071472006
+      TinyScribbleFont Atlas_60: 7140906088684648238
+      TinyScribbleFont Atlas_61: -1414538794758555893
+      TinyScribbleFont Atlas_62: -8742763583647675429
+      TinyScribbleFont Atlas_63: 1476592423906414254
+      TinyScribbleFont Atlas_64: -2782092999775893270
+      TinyScribbleFont Atlas_65: 5647624522738653715
+      TinyScribbleFont Atlas_7: -8695777037063245567
+      TinyScribbleFont Atlas_8: -6779815490521226950
+      TinyScribbleFont Atlas_9: -8170765460262474864
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
