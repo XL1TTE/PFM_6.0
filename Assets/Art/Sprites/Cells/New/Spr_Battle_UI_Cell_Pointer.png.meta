@@ -5,6 +5,15 @@ TextureImporter:
   - first:
       213: -691700776027584773
     second: Spr_Battle_UI_Cell_Pointer_0
+  - first:
+      213: -761437571213734377
+    second: Spr_Battle_UI_Cell_Pointer_1
+  - first:
+      213: 2328176570827533794
+    second: Spr_Battle_UI_Cell_Pointer_2
+  - first:
+      213: -1493979085624310827
+    second: Spr_Battle_UI_Cell_Pointer_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -104,9 +113,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 56
-        height: 56
+        y: 36
+        width: 20
+        height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -117,6 +126,72 @@ TextureImporter:
       bones: []
       spriteID: bf6830a1fc59666f0800000000000000
       internalID: -691700776027584773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Cell_Pointer_1
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 36
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71e4b213094de65f0800000000000000
+      internalID: -761437571213734377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Cell_Pointer_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2edef8681485f4020800000000000000
+      internalID: 2328176570827533794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Cell_Pointer_3
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 6
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d30083efe1544be0800000000000000
+      internalID: -1493979085624310827
       vertices: []
       indices: 
       edges: []
@@ -136,6 +211,9 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       Spr_Battle_UI_Cell_Pointer_0: -691700776027584773
+      Spr_Battle_UI_Cell_Pointer_1: -761437571213734377
+      Spr_Battle_UI_Cell_Pointer_2: 2328176570827533794
+      Spr_Battle_UI_Cell_Pointer_3: -1493979085624310827
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

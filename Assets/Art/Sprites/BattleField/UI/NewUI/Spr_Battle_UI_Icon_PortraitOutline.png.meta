@@ -1,0 +1,429 @@
+fileFormatVersion: 2
+guid: 4682fab03c84b9841919b16635553c91
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4950969216385229253
+    second: Spr_Battle_UI_Icon_PortraitOutline_0
+  - first:
+      213: -1196310591785741992
+    second: Spr_Battle_UI_Icon_PortraitOutline_1
+  - first:
+      213: 7143301967658362515
+    second: Spr_Battle_UI_Icon_PortraitOutline_2
+  - first:
+      213: -7411659682055461694
+    second: Spr_Battle_UI_Icon_PortraitOutline_3
+  - first:
+      213: -4804073919587535417
+    second: Spr_Battle_UI_Icon_PortraitOutline_4
+  - first:
+      213: -9026304081927386924
+    second: Spr_Battle_UI_Icon_PortraitOutline_5
+  - first:
+      213: -1907347608753094200
+    second: Spr_Battle_UI_Icon_PortraitOutline_6
+  - first:
+      213: 7024601132044153452
+    second: Spr_Battle_UI_Icon_PortraitOutline_7
+  - first:
+      213: 7365709655079693838
+    second: Spr_Battle_UI_Icon_PortraitOutline_8
+  - first:
+      213: 1982559140983439947
+    second: Spr_Battle_UI_Icon_PortraitOutline_9
+  - first:
+      213: -2391038292246593462
+    second: Spr_Battle_UI_Icon_PortraitOutline_10
+  - first:
+      213: 5631373337364298614
+    second: Spr_Battle_UI_Icon_PortraitOutline_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 1
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Icon_PortraitOutline_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 25
+        width: 5
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3ed673aabf9a4bb0800000000000000
+      internalID: -4950969216385229253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Icon_PortraitOutline_1
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 31
+        width: 7
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 851d297ead9d56fe0800000000000000
+      internalID: -1196310591785741992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Icon_PortraitOutline_2
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 28
+        width: 24
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39620a1fa4b122360800000000000000
+      internalID: 7143301967658362515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Icon_PortraitOutline_3
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 31
+        width: 7
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c4effea9ce742990800000000000000
+      internalID: -7411659682055461694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Icon_PortraitOutline_4
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 25
+        width: 5
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c534442930845db0800000000000000
+      internalID: -4804073919587535417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Icon_PortraitOutline_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6
+        width: 8
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d84f0ac2402cb280800000000000000
+      internalID: -9026304081927386924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Icon_PortraitOutline_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c1c415947db785e0800000000000000
+      internalID: -1907347608753094200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Icon_PortraitOutline_7
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 0
+        width: 24
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c627c4cf2856c7160800000000000000
+      internalID: 7024601132044153452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Icon_PortraitOutline_8
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 6
+        width: 8
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0ea0b5f7e1483660800000000000000
+      internalID: 7365709655079693838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Icon_PortraitOutline_9
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 4
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b428580e807738b10800000000000000
+      internalID: 1982559140983439947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Icon_PortraitOutline_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a40094a675351ded0800000000000000
+      internalID: -2391038292246593462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Icon_PortraitOutline_11
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 0
+        width: 11
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67b743bc638a62e40800000000000000
+      internalID: 5631373337364298614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Spr_Battle_UI_Icon_PortraitOutline_0: -4950969216385229253
+      Spr_Battle_UI_Icon_PortraitOutline_1: -1196310591785741992
+      Spr_Battle_UI_Icon_PortraitOutline_10: -2391038292246593462
+      Spr_Battle_UI_Icon_PortraitOutline_11: 5631373337364298614
+      Spr_Battle_UI_Icon_PortraitOutline_2: 7143301967658362515
+      Spr_Battle_UI_Icon_PortraitOutline_3: -7411659682055461694
+      Spr_Battle_UI_Icon_PortraitOutline_4: -4804073919587535417
+      Spr_Battle_UI_Icon_PortraitOutline_5: -9026304081927386924
+      Spr_Battle_UI_Icon_PortraitOutline_6: -1907347608753094200
+      Spr_Battle_UI_Icon_PortraitOutline_7: 7024601132044153452
+      Spr_Battle_UI_Icon_PortraitOutline_8: 7365709655079693838
+      Spr_Battle_UI_Icon_PortraitOutline_9: 1982559140983439947
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
