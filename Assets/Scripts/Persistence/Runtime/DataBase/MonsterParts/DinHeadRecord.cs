@@ -11,8 +11,8 @@ namespace Persistence.DB{
             });
             With<TagMonsterPart>();
             With<TagMonsterHead>();
-            With<Speed>(new Speed{Value = 2.0f});
-            With<Health>(new Health { Value = 10.0f});
+            With<Speed>(new Speed{Value = 2});
+            With<Health>(new Health { Value = 10});
         }
     }
 }

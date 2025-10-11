@@ -1,0 +1,559 @@
+fileFormatVersion: 2
+guid: c684d99c5178c5943a3a923a78bbcaf0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 219036876486328841
+    second: Spr_Battle_UI_Book_Decor_0
+  - first:
+      213: 4230827741918008040
+    second: Spr_Battle_UI_Book_Decor_1
+  - first:
+      213: -477193734255711879
+    second: Spr_Battle_UI_Book_Decor_2
+  - first:
+      213: -7355803740275337213
+    second: Spr_Battle_UI_Book_Decor_3
+  - first:
+      213: 1626224856472178305
+    second: Spr_Battle_UI_Book_Decor_4
+  - first:
+      213: 1925095130421174021
+    second: Spr_Battle_UI_Book_Decor_5
+  - first:
+      213: 4644574236129600685
+    second: Spr_Battle_UI_Book_Decor_6
+  - first:
+      213: -5257631869448697398
+    second: Spr_Battle_UI_Book_Decor_7
+  - first:
+      213: 6225748330266022867
+    second: Spr_Battle_UI_Book_Decor_8
+  - first:
+      213: -8259023021611810935
+    second: Spr_Battle_UI_Book_Decor_9
+  - first:
+      213: 5182181250142977568
+    second: Spr_Battle_UI_Book_Decor_10
+  - first:
+      213: -7938775536625082437
+    second: Spr_Battle_UI_Book_Decor_11
+  - first:
+      213: -2498895162906101599
+    second: Spr_Battle_UI_Book_Decor_12
+  - first:
+      213: 8496169470717140077
+    second: Spr_Battle_UI_Book_Decor_13
+  - first:
+      213: -2455976140203189835
+    second: Spr_Battle_UI_Book_Decor_14
+  - first:
+      213: -8100291364818549039
+    second: Spr_Battle_UI_Book_Decor_15
+  - first:
+      213: 5198484029991992396
+    second: Spr_Battle_UI_Book_Decor_16
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 1
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 84
+        width: 135
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 902cdafe0ec2a0300800000000000000
+      internalID: 219036876486328841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_1
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 0
+        width: 22
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e214e65a6be6ba30800000000000000
+      internalID: 4230827741918008040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_2
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 38
+        width: 13
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97965a4b3daa069f0800000000000000
+      internalID: -477193734255711879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_3
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 54
+        width: 113
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 308166f887feae990800000000000000
+      internalID: -7355803740275337213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_4
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 51
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18e4fee04e2819610800000000000000
+      internalID: 1626224856472178305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_5
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 3
+        width: 62
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50f969f42df47ba10800000000000000
+      internalID: 1925095130421174021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_6
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 0
+        width: 37
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da4af65e8a7d47040800000000000000
+      internalID: 4644574236129600685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_7
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 46
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac9ccbdbba32907b0800000000000000
+      internalID: -5257631869448697398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_8
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 23
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d3dc76fe1d466650800000000000000
+      internalID: 6225748330266022867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_9
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 21
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98ffd0de15e026d80800000000000000
+      internalID: -8259023021611810935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_10
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 26
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02e3670046ecae740800000000000000
+      internalID: 5182181250142977568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_11
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 26
+        width: 14
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbf96ebf5bdc3d190800000000000000
+      internalID: -7938775536625082437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_12
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 28
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a83a0cc614225dd0800000000000000
+      internalID: -2498895162906101599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_13
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 14
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6c1d957e1578e570800000000000000
+      internalID: 8496169470717140077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_14
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 16
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b99a5a76be9aedd0800000000000000
+      internalID: -2455976140203189835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_15
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 10
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d683debbebf59f80800000000000000
+      internalID: -8100291364818549039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Battle_UI_Book_Decor_16
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 3
+        width: 11
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4cb63abea9b42840800000000000000
+      internalID: 5198484029991992396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Spr_Battle_UI_Book_Decor_0: 219036876486328841
+      Spr_Battle_UI_Book_Decor_1: 4230827741918008040
+      Spr_Battle_UI_Book_Decor_10: 5182181250142977568
+      Spr_Battle_UI_Book_Decor_11: -7938775536625082437
+      Spr_Battle_UI_Book_Decor_12: -2498895162906101599
+      Spr_Battle_UI_Book_Decor_13: 8496169470717140077
+      Spr_Battle_UI_Book_Decor_14: -2455976140203189835
+      Spr_Battle_UI_Book_Decor_15: -8100291364818549039
+      Spr_Battle_UI_Book_Decor_16: 5198484029991992396
+      Spr_Battle_UI_Book_Decor_2: -477193734255711879
+      Spr_Battle_UI_Book_Decor_3: -7355803740275337213
+      Spr_Battle_UI_Book_Decor_4: 1626224856472178305
+      Spr_Battle_UI_Book_Decor_5: 1925095130421174021
+      Spr_Battle_UI_Book_Decor_6: 4644574236129600685
+      Spr_Battle_UI_Book_Decor_7: -5257631869448697398
+      Spr_Battle_UI_Book_Decor_8: 6225748330266022867
+      Spr_Battle_UI_Book_Decor_9: -8259023021611810935
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

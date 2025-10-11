@@ -8,7 +8,7 @@ namespace Domain.UI.Providers
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class ExtiPlanningStageBtnTagProvider : MonoProvider<ExitPlanningStageButtonTag> 
+    public sealed class ExtiPlanningStageBtnTagProvider : MonoProvider<StartBattleButtonTag> 
     {
         
     }

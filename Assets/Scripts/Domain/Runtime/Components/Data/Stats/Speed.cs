@@ -10,7 +10,7 @@ namespace Domain.Stats.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct Speed : IComponent
     {
-        public float Value;
+        public int Value;
     }
 }
 

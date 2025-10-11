@@ -10,6 +10,5 @@ namespace Domain.BattleField.Requests
             Disable
         }
         public State state;
-        public float DropRadius;
     }
 }

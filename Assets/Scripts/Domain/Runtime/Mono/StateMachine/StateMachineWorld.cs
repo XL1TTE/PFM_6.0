@@ -66,11 +66,9 @@ namespace Domain.StateMachine.Mono{
             var state = states.First();
             
             evt_onStateExit.NextFrame(new OnStateExitEvent { StateEntity = state });
-
-            CommitChanges();
         }
         
-        public static void ExitState(Entity stateEntity){
+        public static void RemoveState(Entity stateEntity){
             if(Value.Has(stateEntity)){
                 Value.RemoveEntity(stateEntity);
             }
