@@ -2,8 +2,10 @@ using CursorDetection.Systems;
 using Domain.ECS;
 using Gameplay.DragAndDrop.Systems;
 using Scellecs.Morpeh;
+using UI.Buttons;
 
-namespace Core.ECS.Modules{
+namespace Core.ECS.Modules
+{
     public sealed class InputModule : IWorldModule
     {
         public int Priority => -500;
