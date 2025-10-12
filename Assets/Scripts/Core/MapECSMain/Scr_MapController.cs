@@ -1,14 +1,16 @@
+using CursorDetection.Systems;
 using Domain.Components;
 using Domain.Map.Components;
+using Domain.Map.Requests;
 using Domain.Monster.Mono;
 using Gameplay.Map.Systems;
+using Gameplay.MapEvents.Systems;
 using Persistence.DB;
 using Scellecs.Morpeh;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 using Random = UnityEngine.Random;
 
 namespace Domain.Map.Mono
@@ -27,12 +29,19 @@ namespace Domain.Map.Mono
 
         public SystemsGroup systemsGroup;
 
+        private Request<MapDrawVisualsRequest> req_draw;
+        public SystemsGroup systemsMapGroup;
+
+
         public Stash<MapNodeIdComponent> nodeIdStash;
         public Stash<MapNodePositionComponent> nodePosStash;
         public Stash<MapNodeNeighboursComponent> nodeNeighbStash;
 
         public Stash<MapNodeEventId> nodeEventIdStash;
         public Stash<MapNodeEventType> nodeEventTypeStash;
+
+
+
 
 
         public Stash<MapBGComponent> bgStash;
@@ -48,10 +57,7 @@ namespace Domain.Map.Mono
         public Sprite bg_end_sprite;
         public List<Sprite> bg_segment_sprites;
 
-        //public GameObject UIBGPrefab;
-        //public GameObject UIMapSegmentPrefab;
-        //public GameObject UIMapStartPrefab;
-        //public GameObject UIMapEndPrefab;
+
 
         public GameObject bgPrefab;
         public GameObject nodePrefab;
@@ -94,42 +100,8 @@ namespace Domain.Map.Mono
 
         public void Start()
         {
-            Debug.Log("MapController is Starting");
 
-            //nodeWorld = World.Default;
-            nodeWorld = World.Create();
-
-            nodeWorld.UpdateByUnity = false;
-
-
-
-            //var newEntity = newWorld.CreateEntity();
-            //newWorld.RemoveEntity(newEntity);
-
-            var newSystem = new MapDrawSystem();
-
-            newSystem.nodePrefab = nodePrefab;
-            newSystem.bgPrefab = bgPrefab;
-            newSystem.lineMaterial = lineMaterial;
-
-            //Debug.Log("made system");
-            //newSystem.World = nodeWorld;
-            //Debug.Log("changed world");
-
-            systemsGroup = nodeWorld.CreateSystemsGroup();
-            systemsGroup.AddSystem(newSystem);
-
-            nodeWorld.AddSystemsGroup(order: 0, systemsGroup);
-            //nodeWorld.RemoveSystemsGroup(systemsGroup);
-
-            this.filterPos = this.nodeWorld.Filter.With<MapNodePositionComponent>().Build();
-
-            GenerateMap(collumn_count, row_count);
-        }
-
-        public void GenerateMap(byte collumns, byte rows)
-        {
-            //Debug.Log("MapController is GeneratingMap");
+            nodeWorld = World.Default;
 
 
             all_events_text = DataBase.Filter.With<MapEvTextTag>().Build();
@@ -142,6 +114,50 @@ namespace Domain.Map.Mono
 
             nodeEventIdStash = nodeWorld.GetStash<MapNodeEventId>();
             nodeEventTypeStash = nodeWorld.GetStash<MapNodeEventType>();
+
+
+
+            var cursorDetectionSystem = new CursorDetectionSystem();
+            var mapClickObserveSystem = new MapClickObserveSystem();
+            var mapTextEventHandlerSystem = new MapTextEventHandlerSystem();
+
+            var mapEvReqSystemGiveGold = new MapEvReqSystemGiveGold();
+            var mapEvReqSystemTakeGold = new MapEvReqSystemTakeGold();
+
+
+            var nodeDrawSystem = new MapDrawSystem();
+
+            nodeDrawSystem.nodePrefab = nodePrefab;
+            nodeDrawSystem.bgPrefab = bgPrefab;
+            nodeDrawSystem.lineMaterial = lineMaterial;
+
+
+
+
+            req_draw = nodeWorld.GetRequest<MapDrawVisualsRequest>();
+            systemsMapGroup = nodeWorld.CreateSystemsGroup();
+
+            systemsMapGroup.AddSystem(cursorDetectionSystem);
+            systemsMapGroup.AddSystem(mapClickObserveSystem);
+            systemsMapGroup.AddSystem(mapTextEventHandlerSystem);
+
+            systemsMapGroup.AddSystem(mapEvReqSystemGiveGold);
+            systemsMapGroup.AddSystem(mapEvReqSystemTakeGold);
+
+            systemsMapGroup.AddSystem(nodeDrawSystem);
+
+            nodeWorld.AddSystemsGroup(order: 0, systemsMapGroup);
+            //nodeWorld.RemoveSystemsGroup(systemsGroup);
+
+
+
+            this.filterPos = this.nodeWorld.Filter.With<MapNodePositionComponent>().Build();
+
+            GenerateMap(collumn_count, row_count);
+        }
+
+        public void GenerateMap(byte collumns, byte rows)
+        {
 
             List<Entity> prev_collumn_entities = new List<Entity>();
             List<Entity> current_collumn_entities = new List<Entity>();
@@ -938,7 +954,7 @@ namespace Domain.Map.Mono
 
                     foreach (var entity in current_collumn_entities)
                     {
-                        var tmp_rand_battle = ChooseRandomEventFromList(all_events_battle, i);
+                        var tmp_rand_battle = ChooseRandomEventFromList(all_events_battle, i, true);
 
                         nodeEventTypeStash.Set(entity, new MapNodeEventType { event_type = EVENT_TYPE.BATTLE });
                         nodeEventIdStash.Set(entity, new MapNodeEventId { event_id = tmp_rand_battle });
@@ -982,6 +998,9 @@ namespace Domain.Map.Mono
             MapUpdate();
             return;
         }
+
+
+        #region GenerateMapHelperFunctions
 
         private void AddNeighbour(MapNodeIdComponent id_to_add, MapNodeNeighboursComponent NeighbComponent)
         {
@@ -1256,7 +1275,7 @@ namespace Domain.Map.Mono
                     // Get all of the choices available
                     if (DataBase.TryGetRecord<MapEvTextChoicesComponent>(found_record, out var res_choices))
                     {
-                        result.choices = res_choices.choices;
+                        //result.choices = res_choices.choices;
                     }
                 }
 
@@ -1271,38 +1290,30 @@ namespace Domain.Map.Mono
 
 
         // this function is used to get a random event based on several inputs
-        private string ChooseRandomEventFromList(Filter events, byte curr_coll)
+        private string ChooseRandomEventFromList(Filter events, byte curr_coll, bool is_battle)
         {
             string result = "";
-            //int ev_count = events.GetLengthSlow();
             int ev_count = events.ArchetypesCount;
-            var failsafe_count = 0;
-
-            //List<Entity> temp_list = new List<Entity>();
-            Entity[] temp_arr = new Entity[ev_count];
-            int i = 0;
-
-            foreach (var item in events)
-            {
-                //temp_list.Add(item);
-                temp_arr[i] = item;
-
-                i++;
-            }
+            int failsafe_count = -1;
 
 
             while (result == "")
             {
-                if (failsafe_count >= ev_count)
+                failsafe_count++;
+                if (failsafe_count >= ev_count * 2)
                 {
-                    //result = "ev_TextTest1";
-                    result = "ev_FAILSAFE";
+                    if (is_battle)
+                    {
+                        result = "ev_BattleDefault";
+                    }
+                    else
+                    {
+                        result = "ev_TextDefault";
+                    }
                     break;
                 }
 
                 int tmp_rand_id = Random.Range(0, ev_count);
-                //tmp_rand_id = Math.Clamp(tmp_rand_id, 0, 1);
-                //var tmp_potential_event = temp_arr[tmp_rand_id];
                 var tmp_potential_event = events.GetEntity(tmp_rand_id);
 
 
@@ -1345,7 +1356,6 @@ namespace Domain.Map.Mono
                     result = id.Value;
                 }
 
-                failsafe_count ++;
             }
 
             return result;
@@ -1362,13 +1372,13 @@ namespace Domain.Map.Mono
             if (tmp_rand_ev_type_roll <= event_battle_chance)
             {
                 tmp_random_event_type = EVENT_TYPE.BATTLE;
-                tmp_random_event_id = ChooseRandomEventFromList(all_events_battle, collumn);
+                tmp_random_event_id = ChooseRandomEventFromList(all_events_battle, collumn, true);
             }
             // this is not a battle
             else
             {
                 tmp_random_event_type = EVENT_TYPE.TEXT;
-                tmp_random_event_id = ChooseRandomEventFromList(all_events_text, collumn);
+                tmp_random_event_id = ChooseRandomEventFromList(all_events_text, collumn, false);
             }
 
             Debug.Log($"----------- gave event of type {tmp_random_event_type}  with id :  {tmp_random_event_id}");
@@ -1386,45 +1396,24 @@ namespace Domain.Map.Mono
             return result;
         }
 
-
-        //private MapEventBuilder MonsterDataToBuilder(MapEventData mosnterData)
-        //{
-        //    var builder = new MapEventBuilder(nodeWorld)
-        //        .AttachBG(mosnterData.Head_id);
-        //        //.AttachBody(mosnterData.Body_id)
-        //        //.AttachFarArm(mosnterData.FarArm_id)
-        //        //.AttachNearArm(mosnterData.NearArm_id)
-        //        //.AttachNearLeg(mosnterData.NearLeg_id)
-        //        //.AttachFarLeg(mosnterData.FarLeg_id);
-        //    return builder;
-        //}
-        //private void SpawnNewMonster(SpawnMonstersRequest req)
-        //{
-        //    var free_cells = PickRandomFreeCells(req.Monsters.Count);
-
-        //    for (int i = 0; i < free_cells.Count; i++)
-        //    {
-        //        var cell = free_cells[i];
-        //        var monsterData = req.Monsters[i];
-
-        //        var monster = MonsterDataToBuilder(monsterData);
-
-        //        SetupMonster(monster.Build(), cell);
-        //    }
-        //}
+        #endregion
 
 
         public void MapUpdate()
         {
-            Debug.Log("MapController is Updating");
+            Debug.Log("sent visuals request update");
+            req_draw.Publish(new MapDrawVisualsRequest
+            {
+
+            });
+            //Debug.Log("MapController is Updating");
 
             //manually world updates
-            nodeWorld.Update(Time.deltaTime);
+            //nodeWorld.Update(Time.deltaTime);
 
             //apply all entity changes, filters will be updated.
             //automatically invoked between systems
-            nodeWorld.Commit();
-
+            //nodeWorld.Commit();
         }
 
     }

@@ -1,4 +1,5 @@
 using Domain.Map.Components;
+using Domain.Map.Requests;
 using Scellecs.Morpeh;
 using TMPro;
 using UnityEngine;
@@ -9,10 +10,14 @@ namespace Gameplay.Map.Systems
     {
         public World World { get; set; }
 
+        public Request<MapDrawVisualsRequest> req_draw;
+
         private Filter filterPos;
         private Filter filterId;
 
         private Filter filterBG;
+
+        private Stash<TagMapNodeBinder> nodeBinderStash;
 
         private Stash<MapNodePositionComponent> nodePosStash;
         private Stash<MapNodeIdComponent> nodeIdStash;
@@ -23,8 +28,8 @@ namespace Gameplay.Map.Systems
 
         private Stash<MapBGComponent> bgStash;
 
-        private Transform Lines;
-        private Transform Nodes;
+        private Transform LinesContainer;
+        private Transform NodesContainer;
 
         public GameObject bgPrefab;
         public GameObject nodePrefab;
@@ -40,7 +45,10 @@ namespace Gameplay.Map.Systems
         public void OnAwake()
         {
 
-            Debug.Log("NodeDrawSys is Awake");
+            //Debug.Log("NodeDrawSys is Awake");
+            req_draw = World.GetRequest<MapDrawVisualsRequest>();
+
+            this.nodeBinderStash = this.World.GetStash<TagMapNodeBinder>();
 
             this.filterPos = this.World.Filter.With<MapNodePositionComponent>().Build();
             this.filterId = this.World.Filter.With<MapNodeIdComponent>().Build();
@@ -53,105 +61,100 @@ namespace Gameplay.Map.Systems
             this.nodeEventTypeStash = this.World.GetStash<MapNodeEventType>();
             this.nodeEventIdStash = this.World.GetStash<MapNodeEventId>();
 
-
             this.filterBG = this.World.Filter.With<MapBGComponent>().Build();
             this.bgStash = this.World.GetStash<MapBGComponent>();
 
-            Lines = new GameObject("LinesContainer").transform;
-            Nodes = new GameObject("NodesContainer").transform;
+            LinesContainer = new GameObject("LinesContainer").transform;
+            NodesContainer = new GameObject("NodesContainer").transform;
 
-            icon_lab = Resources.Load<Sprite>(   "Map/EventIcons/UI_Map_Lab");
+            icon_lab = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Lab");
             icon_battle = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Battle");
-            icon_text = Resources.Load<Sprite>(  "Map/EventIcons/UI_Map_Random");
-            icon_boss = Resources.Load<Sprite>(  "Map/EventIcons/UI_Map_Boss");
+            icon_text = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Random");
+            icon_boss = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Boss");
         }
 
         public void OnUpdate(float deltaTime)
         {
-            Debug.Log("NodeDrawSys is Updating");
-            foreach (var entity in this.filterPos)
+            foreach (var req in req_draw.Consume())
             {
-                ref var nodePosComponent = ref nodePosStash.Get(entity);
-                ref var nodeIdComponent = ref nodeIdStash.Get(entity);
-                ref var nodeNeighbComponent = ref nodeNeighbStash.Get(entity);
 
-                ref var nodeEventType = ref nodeEventTypeStash.Get(entity);
-                ref var nodeEventId = ref nodeEventIdStash.Get(entity);
-
-
-
-                //Debug.Log(nodePosComponent.node_x);
-                //Debug.Log(nodePosComponent.node_y); 
-
-                var prefabedNode = Instantiate(nodePrefab,
-                    new Vector3(
-                        nodePosComponent.node_x + nodePosComponent.node_x_offset,
-                        nodePosComponent.node_y + nodePosComponent.node_y_offset,
-                        0),
-                    Quaternion.identity);
-
-                prefabedNode.GetComponent<TextMeshPro>().text = nodeIdComponent.node_id.ToString() + "\n" + nodeEventId.event_id.ToString();
-
-                var chosen_spr = icon_lab;
-                
-                switch (nodeEventType.event_type)
+                foreach (var entity in this.filterPos)
                 {
-                    case EVENT_TYPE.LAB:
-                        chosen_spr = icon_lab;
-                        break;
-                    case EVENT_TYPE.TEXT:
-                        chosen_spr = icon_text;
-                        break;
-                    case EVENT_TYPE.BATTLE:
-                        chosen_spr = icon_battle;
-                        break;
-                    case EVENT_TYPE.BOSS:
-                        chosen_spr = icon_boss;
-                        break;
-                }
+                    ref var nodePosComponent = ref nodePosStash.Get(entity);
+                    ref var nodeIdComponent = ref nodeIdStash.Get(entity);
+                    ref var nodeNeighbComponent = ref nodeNeighbStash.Get(entity);
 
-                prefabedNode.GetComponentInChildren<SpriteRenderer>().sprite = chosen_spr;
+                    ref var nodeEventType = ref nodeEventTypeStash.Get(entity);
+                    ref var nodeEventId = ref nodeEventIdStash.Get(entity);
 
-                //var max_count = nodeNeighbComponent.node_neighbours.Count;
-                //for (int i = 0; i < max_count; i++)
-                //{
+
+
+                    var prefabedNode = Instantiate(nodePrefab,
+                        new Vector3(
+                            nodePosComponent.node_x + nodePosComponent.node_x_offset,
+                            nodePosComponent.node_y + nodePosComponent.node_y_offset,
+                            0),
+                        Quaternion.identity);
+
+                    prefabedNode.GetComponentInChildren<TextMeshPro>().text = nodeIdComponent.node_id.ToString() + "\n" + nodeEventId.event_id.ToString();
+
+                    var pref_ent = prefabedNode.GetComponent<MapNodeBinderProvider>().Entity;
+
+                    if (nodeBinderStash.Has(pref_ent))
+                    {
+                        ref var nodeBinderComponent = ref nodeBinderStash.Get(pref_ent);
+                        nodeBinderComponent.node_id = nodeIdComponent.node_id;
+                    }
+
+                    var chosen_spr = icon_lab;
+
+                    switch (nodeEventType.event_type)
+                    {
+                        case EVENT_TYPE.LAB:
+                            chosen_spr = icon_lab;
+                            break;
+                        case EVENT_TYPE.TEXT:
+                            chosen_spr = icon_text;
+                            break;
+                        case EVENT_TYPE.BATTLE:
+                            chosen_spr = icon_battle;
+                            break;
+                        case EVENT_TYPE.BOSS:
+                            chosen_spr = icon_boss;
+                            break;
+                    }
+
+                    prefabedNode.GetComponentInChildren<SpriteRenderer>().sprite = chosen_spr;
+
+
                     foreach (var neighbour in this.filterId)
                     {
                         ref var nodeNeighbPosComponent = ref nodePosStash.Get(neighbour);
                         ref var nodeNeighbIdComponent = ref nodeIdStash.Get(neighbour);
 
+
                         if (nodeNeighbComponent.node_neighbours.Contains(nodeNeighbIdComponent.node_id)
-                        &&  (nodeNeighbPosComponent.node_collumn < nodePosComponent.node_collumn))
+                        && (nodeNeighbPosComponent.node_collumn < nodePosComponent.node_collumn))
                         {
                             //For creating line renderer object
                             lineRenderer = new GameObject("Line").AddComponent<LineRenderer>();
 
-                            // for previous iteration of line material
-                            //lineRenderer.startColor = Color.black;
-                            //lineRenderer.endColor = Color.black;
-                            //lineRenderer.startWidth = 3.0f;
-                            //lineRenderer.endWidth = 3.0f;
-                            //lineRenderer.positionCount = 2;
-                            //lineRenderer.useWorldSpace = true;
-                            //lineRenderer.material = lineMaterial;
-                            //lineMaterial.SetColor("_Color", Color.yellow);
-
                             // current iteration - All thanks to Max! So go and thank him for this amazing shader graph work
                             lineRenderer.sortingLayerName = "MapLineLayer";
                             lineRenderer.sortingOrder = 0;
-
+                            
                             lineRenderer.material = lineMaterial;
                             
                             //lineRenderer.widthMultiplier = 3;
-
+                            
                             lineRenderer.startWidth = 20.0f;
                             lineRenderer.endWidth = 20.0f;
-
+                            
                             lineRenderer.textureScale = new Vector2 { x = 0.3f, y = 6 };
                             lineRenderer.textureMode = LineTextureMode.Tile;
-
+                            
                             lineRenderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
-
+                            
                             //For drawing line in the world space, provide the x,y,z values
                             lineRenderer.SetPosition(0, new Vector3(
                                 nodePosComponent.node_x + nodePosComponent.node_x_offset,
@@ -161,24 +164,26 @@ namespace Gameplay.Map.Systems
                                 nodeNeighbPosComponent.node_x + nodeNeighbPosComponent.node_x_offset,
                                 nodeNeighbPosComponent.node_y + nodeNeighbPosComponent.node_y_offset, 0)
                                 ); //x,y and z position of the end point of the line
-
-                            lineRenderer.transform.SetParent(Lines, true);
+                            
+                            lineRenderer.transform.SetParent(LinesContainer, true);
                         }
+
                     }
+                    
 
-                //}
+                    prefabedNode.transform.SetParent(NodesContainer, true);
+                }
 
-                prefabedNode.transform.SetParent(Nodes, true);
-            }
-
-            foreach (var bg in filterBG)
-            {
-                ref var bgComponent = ref bgStash.Get(bg);
-                var scaleChange = new Vector3((bgComponent.scale_x), 1f, 1f);
-                var bg_instance = Instantiate(bgPrefab, new Vector3(bgComponent.pos_x, bgComponent.pos_y, 0), Quaternion.identity);
-                bg_instance.transform.localScale = scaleChange;
-                bg_instance.GetComponent<SpriteRenderer>().sprite = bgComponent.sprite;
-                bg_instance.GetComponent<SpriteRenderer>().sortingOrder = bgComponent.layer;
+                foreach (var bg in filterBG)
+                {
+                    ref var bgComponent = ref bgStash.Get(bg);
+                    var scaleChange = new Vector3((bgComponent.scale_x), 1f, 1f);
+                    var bg_instance = Instantiate(bgPrefab, new Vector3(bgComponent.pos_x, bgComponent.pos_y, 0), Quaternion.identity);
+                    bg_instance.transform.localScale = scaleChange;
+                    bg_instance.GetComponent<SpriteRenderer>().sprite = bgComponent.sprite;
+                    bg_instance.GetComponent<SpriteRenderer>().sortingOrder = bgComponent.layer;
+                }
+            
             }
 
         }

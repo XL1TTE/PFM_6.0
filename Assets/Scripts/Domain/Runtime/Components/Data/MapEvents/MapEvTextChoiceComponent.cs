@@ -1,5 +1,4 @@
 using Scellecs.Morpeh;
-using UnityEngine;
 using Unity.IL2CPP.CompilerServices;
 using System.Collections.Generic;
 
@@ -17,5 +16,5 @@ public struct MapEvTextChoicesComponent : IComponent
     /// key is the text,
     /// value is the path to result script
     /// </summary>
-    public Dictionary<string, string> choices;
+    public Dictionary<string, IRequestData> choices;
 }

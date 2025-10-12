@@ -1,22 +1,43 @@
 using Domain.Components;
 using Domain.Extentions;
-using Domain.Levels.Components;
 using Persistence.Components;
 using UnityEngine;
 
 namespace Persistence.DB{
 
-    public sealed class ev_BattleTest1 : IDbRecord{
-        public ev_BattleTest1()
+    public sealed class ev_BattleDefault : IDbRecord
+    {
+        public ev_BattleDefault()
         {
-            // -------------------------------------------------- ID and TAG
-            With<ID>(new ID{Value = "ev_BattleTest1" }); 
+            With<ID>(new ID { Value = "ev_BattleDefault" });
             With<MapEvBattleTag>(new MapEvBattleTag { });
 
+            With<PrefabComponent>(new PrefabComponent
+            {
+                Value = "Levels/lvl_Village".LoadResource<GameObject>()
+            });
+            //With<RewardsPool>(new RewardsPool
+            //{
+            //    Value = new string[1]{
+            //        //"e_VillageRat", 2, 1, chance, [1,2], 0.3f
+            //        "e_VillageRat"
+            //    }
+            //});
+            //With<EnemiesCount>(new EnemiesCount
+            //{
+            //    Value = 99
+            //});
+        }
+    }
+    public sealed class ev_BattleTest1 : IDbRecord
+    {
+        public ev_BattleTest1()
+        {
+            With<ID>(new ID { Value = "ev_BattleTest1" });
+            With<MapEvBattleTag>(new MapEvBattleTag { });
 
-            // -------------------------------------------------- Required components
-            With<MapEvStageRequirComponent>(new MapEvStageRequirComponent 
-            { 
+            With<MapEvStageRequirComponent>(new MapEvStageRequirComponent
+            {
                 acceptable_stages = new System.Collections.Generic.List<STAGES> {
                     STAGES.VILLAGE
                 }
@@ -28,18 +49,21 @@ namespace Persistence.DB{
                 count_offset_percentile = 0.2f,
             });
 
-
-            // -------------------------------------------------- Main information
             With<PrefabComponent>(new PrefabComponent
             {
                 Value = "Levels/lvl_Village".LoadResource<GameObject>()
             });
-            With<EnemiesPool>(new EnemiesPool
-            {
-                Value = new string[1]{
-                    "e_VillageRat"
-                }
-            });
+            //With<RewardsPool>(new RewardsPool
+            //{
+            //    Value = new string[1]{
+            //        //"e_VillageRat", 2, 1, chance, [1,2], 0.3f
+            //        "e_VillageRat"
+            //    }
+            //});
+            //With<EnemiesCount>(new EnemiesCount
+            //{
+            //    Value = 99
+            //});
         }
     }
     public sealed class ev_BattleTest2 : IDbRecord
@@ -47,6 +71,7 @@ namespace Persistence.DB{
         public ev_BattleTest2()
         {
             With<ID>(new ID { Value = "ev_BattleTest2" });
+
             With<MapEvBattleTag>(new MapEvBattleTag { });
 
             With<MapEvCollumnRequirComponent>(new MapEvCollumnRequirComponent
