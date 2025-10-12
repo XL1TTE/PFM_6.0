@@ -62,5 +62,8 @@ TagManager:
   - name: Monsters
     uniqueID: 3291743293
     locked: 0
+  - name: MapLineLayer
+    uniqueID: 956614297
+    locked: 0
   m_RenderingLayers:
   - Default

@@ -1,0 +1,21 @@
+{
+    "name": "MapECSMain",
+    "rootNamespace": "",
+    "references": [
+        "GUID:7e38942071a4e3a43ad5025a3d0988ff",
+        "GUID:bbbc6672ec92b124cbaf4e117bf32234",
+        "GUID:3377deebfb0acde45876d12c6e3d27cc",
+        "GUID:c391b3e389c85bf4496bb539b70873eb",
+        "GUID:d17501955f92c0a44aee8fe4532f1491",
+        "GUID:49d3326957208aa438874eda3af3177e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
