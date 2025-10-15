@@ -1,17 +1,18 @@
+using Domain.Abilities.Mono;
 using Scellecs.Morpeh;
-using UnityEngine;
 using Unity.IL2CPP.CompilerServices;
-using System.Collections.Generic;
 
-namespace Domain.TargetSelection.Events{
+namespace Domain.Abilities.Tags
+{
+
+
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct TargetSelectionCompletedEvent : IEventData
+    public struct MoveAbilityButtonTag : IComponent
     {
-        public int CompletedRequestID;
-        public List<Entity> SelectedTargets;
+        public MoveAbilityButtonView View;
     }
 }
 

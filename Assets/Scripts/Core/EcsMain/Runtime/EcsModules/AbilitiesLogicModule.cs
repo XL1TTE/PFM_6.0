@@ -3,7 +3,8 @@ using Gameplay.Abilities.Systems;
 using Gameplay.TargetSelection.Systems;
 using Scellecs.Morpeh;
 
-namespace Core.ECS.Modules{
+namespace Core.ECS.Modules
+{
     public sealed class AbilitiesLogicModule : IWorldModule
     {
         public int Priority => -90;

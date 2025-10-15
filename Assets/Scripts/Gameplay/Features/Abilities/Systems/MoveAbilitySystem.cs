@@ -13,34 +13,37 @@ using Domain.Extentions;
 using Domain.Monster.Tags;
 using Domain.TargetSelection.Events;
 using Domain.TargetSelection.Requests;
+using Domain.TargetSelection.Tags;
 using Domain.TurnSystem.Tags;
 using Domain.UI.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
-namespace Gameplay.Abilities.Systems{
+namespace Gameplay.Abilities.Systems
+{
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class MoveAbilitySystem : ISystem
     {
         private int SystemID = "MOVE_ABILITY".GetHashCode();
-        
+
         public World World { get; set; }
-        
-        
+
+
         private Filter f_moveAbiltiyBtns;
+        private Filter f_targetSelectionResults;
         private Filter f_currentTurnTaker;
         private Filter f_cells;
-        
+
         private Request<TargetSelectionRequest> req_targetSelection;
         private Event<CellOccupiedEvent> evt_cellOccupied;
         private Event<ButtonClickedEvent> evt_btnClicked;
-        private Event<TargetSelectionCompletedEvent> evt_selectionCompleted;
-        private Event<TargetSelectionCanceledEvent> evt_selectionCanceled;
-        
-        private Stash<MoveAbilityBtnTag> stash_moveAbilityBtn;
+
+        private Stash<TargetSelectionResult> stash_selectionResult;
+        private Stash<TargetSelectionSession> stash_targetSelectionSession;
+        private Stash<MoveAbilityButtonTag> stash_moveAbilityBtn;
         private Stash<MovementAbility> stash_moveAbility;
         private Stash<Moving> stash_movingTag;
         private Stash<TagCursorDetector> stash_cursorDetector;
@@ -50,18 +53,23 @@ namespace Gameplay.Abilities.Systems{
         private Stash<GridPosition> stash_gridPosition;
         private Stash<TransformRefComponent> stash_transformRef;
         private Stash<UnderCursorComponent> stash_underCursor;
-        
+
         private Entity CurrentCaster;
         private Entity CurrentMoveButton;
-        
+
         private Dictionary<int, Sequence> ActiveMoveTweensMap = new();
-        
+
         private bool IsAbilityAwaible = false;
 
         public void OnAwake()
         {
             f_moveAbiltiyBtns = World.Filter
-                .With<MoveAbilityBtnTag>()
+                .With<MoveAbilityButtonTag>()
+                .Build();
+
+            f_targetSelectionResults = World.Filter
+                .With<MoveAbilityButtonTag>()
+                .With<TargetSelectionResult>()
                 .Build();
 
             f_currentTurnTaker = World.Filter
@@ -76,11 +84,12 @@ namespace Gameplay.Abilities.Systems{
 
             req_targetSelection = World.GetRequest<TargetSelectionRequest>();
             evt_btnClicked = World.GetEvent<ButtonClickedEvent>();
-            evt_selectionCompleted = World.GetEvent<TargetSelectionCompletedEvent>();
-            evt_selectionCanceled = World.GetEvent<TargetSelectionCanceledEvent>();
             evt_cellOccupied = World.GetEvent<CellOccupiedEvent>();
 
-            stash_moveAbilityBtn = World.GetStash<MoveAbilityBtnTag>();
+            stash_selectionResult = World.GetStash<TargetSelectionResult>();
+            stash_targetSelectionSession = World.GetStash<TargetSelectionSession>();
+
+            stash_moveAbilityBtn = World.GetStash<MoveAbilityButtonTag>();
             stash_moveAbility = World.GetStash<MovementAbility>();
             stash_movingTag = World.GetStash<Moving>();
             stash_cursorDetector = World.GetStash<TagCursorDetector>();
@@ -101,41 +110,43 @@ namespace Gameplay.Abilities.Systems{
                 IsAbilityAwaible = _currentUsability;
                 UpdateSkillView(_currentUsability);
             }
-            
+
             #region Abiltiy Logic
-            
+
             // Move ability use entry point
             foreach (var evt in evt_btnClicked.publishedChanges)
             {
-                if (IsMoveAbilityButtonClicked(evt.ClickedButton) == false){continue;}
-                
+                if (IsMoveAbilityButtonClicked(evt.ClickedButton) == false) { continue; }
+
                 CurrentCaster = f_currentTurnTaker.FirstOrDefault();
                 CurrentMoveButton = evt.ClickedButton;
-                
+
                 var MoveOptions = GetMoveOptions(CurrentCaster);
-                if (ValidateMoveOptions(MoveOptions) == false){continue;}
-                
-                StartMoveOptionSelection(MoveOptions);
+                if (ValidateMoveOptions(MoveOptions) == false) { continue; }
+
+                StartMoveOptionSelection(evt.ClickedButton, MoveOptions);
                 EnableAbilityButtonSelectedView(evt.ClickedButton);
             }
 
-            // When player succsefuly selected targets
-            foreach (var evt in evt_selectionCompleted.publishedChanges)
+            foreach (var e in f_targetSelectionResults)
             {
-                if (evt.CompletedRequestID != SystemID) { continue; }
+                ref var selectionResult = ref stash_selectionResult.Get(e);
 
-                var SelectedCell = evt.SelectedTargets.FirstOrDefault();
+                // When player cancels target selection
+                if (selectionResult.m_Status == TargetSelectionStatus.Failed)
+                {
+                    OnSkillUseCanceled();
+                    selectionResult.m_IsProcessed = true;
+                    return;
+                }
+
+                var SelectedCell = selectionResult.m_SelectedTargets.FirstOrDefault();
 
                 DisableAbilityButtonSelectedView(CurrentMoveButton); // We do this here, because we want to remove skill highlight before skill starts executing.
                 MoveCasterToSelectedCell(SelectedCell);
+                selectionResult.m_IsProcessed = true;
             }
-            
-            // When player cancels target selection
-            foreach (var evt in evt_selectionCanceled.publishedChanges)
-            {
-                if (evt.CanceledRequestID != SystemID) { continue; }
-                OnSkillUseCanceled();
-            }
+
             #endregion
 
             #region Visuals
@@ -152,8 +163,10 @@ namespace Gameplay.Abilities.Systems{
 
         }
 
-        private void ProcessSkillButtonHover(){
-            foreach (var e in f_moveAbiltiyBtns){
+        private void ProcessSkillButtonHover()
+        {
+            foreach (var e in f_moveAbiltiyBtns)
+            {
                 ref var btn = ref stash_moveAbilityBtn.Get(e);
                 if (stash_underCursor.Has(e))
                 {
@@ -166,14 +179,17 @@ namespace Gameplay.Abilities.Systems{
             }
         }
 
-        private void UpdateSkillView(bool isUsable){            
-            if(isUsable){
+        private void UpdateSkillView(bool isUsable)
+        {
+            if (isUsable)
+            {
                 EnableSkillViewUsability();
             }
-            else{ DisableSkillViewUsability(); }
+            else { DisableSkillViewUsability(); }
         }
 
-        private void EnableSkillViewUsability(){
+        private void EnableSkillViewUsability()
+        {
             foreach (var btn in f_moveAbiltiyBtns)
             {
                 stash_moveAbilityBtn.Get(btn).View.DisableUnavaibleView();
@@ -184,7 +200,8 @@ namespace Gameplay.Abilities.Systems{
                 }
             }
         }
-        private void DisableSkillViewUsability(){
+        private void DisableSkillViewUsability()
+        {
             foreach (var btn in f_moveAbiltiyBtns)
             {
                 stash_moveAbilityBtn.Get(btn).View.EnableUnavaibleView();
@@ -192,94 +209,105 @@ namespace Gameplay.Abilities.Systems{
             }
         }
 
-        private bool ValidateSkillUsability(){
-            if (f_currentTurnTaker.IsEmpty()) {return false;}
-            
+        private bool ValidateSkillUsability()
+        {
+            if (f_currentTurnTaker.IsEmpty()) { return false; }
+
             var user = f_currentTurnTaker.FirstOrDefault();
             if (user.IsExist() == false) { return false; }
 
-            if (stash_performingAction.Has(user)){return false;}
-                
+            if (stash_performingAction.Has(user)) { return false; }
+
             return true;
         }
 
-        private void AddMovingTagToCaster(Entity user){
+        private void AddMovingTagToCaster(Entity user)
+        {
             stash_movingTag.Add(user);
         }
-        
-        private void RemoveMovingTagFromCaster(Entity user){
-            if(stash_movingTag.Has(user)){
+
+        private void RemoveMovingTagFromCaster(Entity user)
+        {
+            if (stash_movingTag.Has(user))
+            {
                 stash_movingTag.Remove(user);
             }
         }
 
 
-        private void StartMoveOptionSelection(List<Entity> cellOptions){
+        private void StartMoveOptionSelection(Entity sender, List<Entity> cellOptions)
+        {
             var allowedCells = FilterAllowedOptions(cellOptions);
             var forbiddenCells = FilterForbiddenOptions(cellOptions);
 
-            SendTargetSelectionRequest(allowedCells, forbiddenCells);
+            SendTargetSelectionRequest(sender, allowedCells, forbiddenCells);
         }
 
-        private void ResetSkillState(){
+        private void ResetSkillState()
+        {
             CurrentCaster = default;
             CurrentMoveButton = default;
         }
-        
-        private void OnSkillUseCanceled(){
+
+        private void OnSkillUseCanceled()
+        {
             DisableAbilityButtonSelectedView(CurrentMoveButton);
             ResetSkillState();
         }
-        
-        private void OnSkillUseCompleted(){
+
+        private void OnSkillUseCompleted()
+        {
             RemoveMovingTagFromCaster(CurrentCaster);
             ResetSkillState();
         }
 
-        private void EnableAbilityButtonSelectedView(Entity button){
+        private void EnableAbilityButtonSelectedView(Entity button)
+        {
             if (button.isNullOrDisposed(World)) { return; }
-            if (stash_moveAbilityBtn.Has(button)==false){return;}
-            
+            if (stash_moveAbilityBtn.Has(button) == false) { return; }
+
             stash_moveAbilityBtn.Get(button).View.EnableSelectedView();
         }
-        private void DisableAbilityButtonSelectedView(Entity button){
+        private void DisableAbilityButtonSelectedView(Entity button)
+        {
             if (button.isNullOrDisposed(World)) { return; }
-            if (stash_moveAbilityBtn.Has(button)==false){return;}
-            
+            if (stash_moveAbilityBtn.Has(button) == false) { return; }
+
             stash_moveAbilityBtn.Get(button).View.DisableSelectiedView();
         }
 
-        private void SendTargetSelectionRequest(List<Entity> allowedCells, List<Entity> forbiddenCells)
+        private void SendTargetSelectionRequest(Entity sender, List<Entity> allowedCells, List<Entity> forbiddenCells)
         {
             req_targetSelection.Publish(new TargetSelectionRequest
             {
-                RequestID = SystemID,
-                AllowedTargets = allowedCells,
-                ForbiddenTargets = forbiddenCells,
-                TargetCount = 1,
-                Type = TargetSelectionRequest.SelectionType.Cell
+                m_Sender = sender,
+                m_AwaibleOptions = allowedCells,
+                m_UnavaibleOptions = forbiddenCells,
+                m_TargetsAmount = 1,
             });
         }
 
         private void MoveCasterToSelectedCell(Entity cell)
         {
-            evt_cellOccupied.NextFrame(new CellOccupiedEvent{
+            evt_cellOccupied.NextFrame(new CellOccupiedEvent
+            {
                 OccupiedBy = CurrentCaster,
-                CellEntity = cell 
+                CellEntity = cell
             });
             var cellPos = stash_cellPosition.Get(cell);
             ref var executerTransformRef = ref stash_transformRef.Get(CurrentCaster).Value;
             var targetPos = new Vector3(cellPos.global_x, cellPos.global_y, cellPos.global_y * 0.01f);
 
-            
-            if(ActiveMoveTweensMap.ContainsKey(CurrentCaster.Id)){
+
+            if (ActiveMoveTweensMap.ContainsKey(CurrentCaster.Id))
+            {
                 ActiveMoveTweensMap[CurrentCaster.Id].Kill(true);
                 ActiveMoveTweensMap.Remove(CurrentCaster.Id);
             }
             var moveSequence = GetMoveSequence(executerTransformRef, targetPos);
-            
+
             AddMovingTagToCaster(CurrentCaster);
-            
+
             ActiveMoveTweensMap.Add(CurrentCaster.Id, moveSequence);
             moveSequence.OnComplete(
                 () => OnSkillUseCompleted()
@@ -290,14 +318,14 @@ namespace Gameplay.Abilities.Systems{
         {
 
             var raiseHeight = 20;
-            
-            var targetPosWithHeight = 
+
+            var targetPosWithHeight =
                 new Vector3(targetPosition.x, targetPosition.y + raiseHeight, targetPosition.z);
 
             var originalPosition = executerTransform.position;
-            
+
             Sequence seq = DOTween.Sequence();
-            
+
             seq.Append(executerTransform.DOMoveY(originalPosition.y
                 + raiseHeight, 0.25f).SetEase(Ease.OutQuad));
 
@@ -306,7 +334,7 @@ namespace Gameplay.Abilities.Systems{
 
             seq.Append(executerTransform.DOMoveY(targetPosition.y, 0.25f)
                 .SetEase(Ease.InQuad));
-            
+
             return seq;
         }
 

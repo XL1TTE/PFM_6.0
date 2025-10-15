@@ -1,16 +1,19 @@
+using Domain.Abilities.Mono;
 using Scellecs.Morpeh;
-using UnityEngine;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Domain.TargetSelection.Tags
+namespace Domain.Abilities.Tags
 {
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct TagAwaibleToSelect : IComponent
+    public struct ApplyEffectAbilityButtonTag : IComponent
     {
-        public bool IsSelected;
+        public ApplyEffectAbilityButtonView View;
     }
+
 }
+
+
 

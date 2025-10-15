@@ -66,7 +66,7 @@ namespace Gameplay.AIGraph
 
         private Entity PickMoveTarget(Entity agentEntity)
         {
-            var moveOpts = GameLogicUtility.FindMoveOptionsCellsFor(agentEntity, World);
+            var moveOpts = GU.FindMoveOptionsCellsFor(agentEntity, World);
             if (moveOpts.Count > 0)
             {
                 return moveOpts[0];

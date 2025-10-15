@@ -4,11 +4,10 @@ using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
 using Scellecs.Morpeh;
 using UnityEngine;
-using UnityEngine.TextCore.LowLevel;
 
 namespace Core.Utilities
 {
-    public static class GameLogicUtility
+    public static class GU
     {
         public static List<Entity> FindMoveOptionsCellsFor(Entity entity, World world)
         {

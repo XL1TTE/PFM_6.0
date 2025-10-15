@@ -17,7 +17,7 @@ namespace Gameplay.StateMachine.Systems
     public sealed class BattlePlanningStateEnterSystem : ISystem
     {
         public World World { get; set; }
-        
+
         private Event<OnStateEnterEvent> evt_onStateEnter;
 
         private Stash<BattlePlanningState> stash_state;
@@ -31,8 +31,10 @@ namespace Gameplay.StateMachine.Systems
 
         public void OnUpdate(float deltaTime)
         {
-            foreach(var evt in evt_onStateEnter.publishedChanges){
-                if(IsValid(evt.StateEntity)){
+            foreach (var evt in evt_onStateEnter.publishedChanges)
+            {
+                if (IsValid(evt.StateEntity))
+                {
                     Enter(evt.StateEntity);
                 }
             }
@@ -42,20 +44,21 @@ namespace Gameplay.StateMachine.Systems
         {
 
         }
-        
-        private void Enter(Entity stateEntity){
-            
+
+        private void Enter(Entity stateEntity)
+        {
+
             /* ########################################## */
             /*              Change plate text             */
             /* ########################################## */
-            
+
             BattleFieldUIRefs.Instance.InformationBoardWidget.ChangeText("Preparation");
 
 
             /* ########################################## */
             /*          Spawn start battle button         */
             /* ########################################## */
-            
+
             BattleFieldUIRefs.Instance.BookWidget.SpawnStartBattleButton();
 
             /* ############################################## */
@@ -64,25 +67,30 @@ namespace Gameplay.StateMachine.Systems
 
             Filter spawnCellsFilter = World.Filter.With<TagMonsterSpawnCell>().Build();
 
-            var highlightMonsterSpawnCellsReq = World.Default.GetRequest<ChangeCellViewToSelectRequest>();
+            var highlightMonsterSpawnCellsReq = World.Default.GetRequest<ChangeCellViewToSelectedRequest>();
 
             highlightMonsterSpawnCellsReq.Publish(
-                    new ChangeCellViewToSelectRequest
+                    new ChangeCellViewToSelectedRequest
                     {
-                        Cells = spawnCellsFilter.AsEnumerable(), 
-                        State = ChangeCellViewToSelectRequest.SelectState.Enabled}
+                        Cells = spawnCellsFilter.AsEnumerable(),
+                        State = ChangeCellViewToSelectedRequest.SelectState.Enabled
+                    }
                     , true);
 
             var req_markMonsterSpawnCellsAsDropTargets =
                 World.Default.GetRequest<MarkMonsterSpawnCellsAsDropTargetRequest>();
 
             req_markMonsterSpawnCellsAsDropTargets.Publish(
-                new MarkMonsterSpawnCellsAsDropTargetRequest {
-                state = MarkMonsterSpawnCellsAsDropTargetRequest.State.Enable }, true);
+                new MarkMonsterSpawnCellsAsDropTargetRequest
+                {
+                    state = MarkMonsterSpawnCellsAsDropTargetRequest.State.Enable
+                }, true);
         }
-        
-        private bool IsValid(Entity stateEntity){
-            if(stash_state.Has(stateEntity)){
+
+        private bool IsValid(Entity stateEntity)
+        {
+            if (stash_state.Has(stateEntity))
+            {
                 return true;
             }
             return false;

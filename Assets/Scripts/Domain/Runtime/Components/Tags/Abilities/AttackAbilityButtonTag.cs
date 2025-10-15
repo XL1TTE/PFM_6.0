@@ -8,10 +8,12 @@ namespace Domain.Abilities.Tags
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct MoveAbilityBtnTag : IComponent
+    public struct AttackAbilityButtonTag : IComponent
     {
-        public MoveAbilityButtonView View;
+        public AttackAbilityButtonView View;
     }
+
 }
+
 
 

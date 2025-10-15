@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Utilities;
 using DG.Tweening;
 using Domain.Abilities.Components;
 using Domain.Abilities.Tags;
@@ -12,16 +12,14 @@ using Domain.CursorDetection.Components;
 using Domain.Enemies.Tags;
 using Domain.Extentions;
 using Domain.Monster.Tags;
-using Domain.Stats.Components;
 using Domain.TargetSelection.Events;
 using Domain.TargetSelection.Requests;
+using Domain.TargetSelection.Tags;
 using Domain.TurnSystem.Tags;
 using Domain.UI.Requests;
-using NUnit.Framework;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Gameplay.Abilities.Systems
 {
@@ -30,11 +28,11 @@ namespace Gameplay.Abilities.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class AttackAbilitySystem : ISystem
     {
-        private int SystemID = "ATTACK_ABILITY".GetHashCode();
-
         public World World { get; set; }
 
+        private Filter f_targetSelectionResults;
         private Filter f_attackAbiltiyBtns;
+
         private Filter f_currentTurnTaker;
         private Filter f_Cells;
 
@@ -42,15 +40,11 @@ namespace Gameplay.Abilities.Systems
         private Request<DealDamageRequest> req_dealDamage;
 
         private Event<ButtonClickedEvent> evt_ButtonClicked;
-        private Event<TargetSelectionCompletedEvent> evt_selectionCompleted;
-        private Event<TargetSelectionCanceledEvent> evt_selectionCanceled;
-
-        private Stash<AttackAbilityBtnTag> stash_attackAbilityBtn;
-        private Stash<AttackAbility> stash_attackAbility;
+        private Stash<TargetSelectionResult> stash_selectionResult;
+        private Stash<TargetSelectionSession> stash_targetSelectionSession;
+        private Stash<AttackAbilityButtonTag> stash_attackAbilityBtn;
         private Stash<Attacking> stash_attackingTag;
         private Stash<PerfomingActionTag> stash_performingAction;
-        private Stash<CellPositionComponent> stash_cellPosition;
-        private Stash<GridPosition> stash_gridPosition;
         private Stash<TagOccupiedCell> stash_occupiedCells;
         private Stash<TagEnemy> stash_enemyTag;
         private Stash<TransformRefComponent> stash_transformRef;
@@ -66,8 +60,13 @@ namespace Gameplay.Abilities.Systems
 
         public void OnAwake()
         {
+            f_targetSelectionResults = World.Filter
+                .With<AttackAbilityButtonTag>()
+                .With<TargetSelectionResult>()
+                .Build();
+
             f_attackAbiltiyBtns = World.Filter
-                .With<AttackAbilityBtnTag>()
+                .With<AttackAbilityButtonTag>()
                 .Build();
             f_currentTurnTaker = World.Filter
                 .With<TagMonster>()
@@ -83,15 +82,13 @@ namespace Gameplay.Abilities.Systems
             req_dealDamage = World.GetRequest<DealDamageRequest>();
 
             evt_ButtonClicked = World.GetEvent<ButtonClickedEvent>();
-            evt_selectionCompleted = World.GetEvent<TargetSelectionCompletedEvent>();
-            evt_selectionCanceled = World.GetEvent<TargetSelectionCanceledEvent>();
 
-            stash_attackAbilityBtn = World.GetStash<AttackAbilityBtnTag>();
-            stash_attackAbility = World.GetStash<AttackAbility>();
+            stash_selectionResult = World.GetStash<TargetSelectionResult>();
+            stash_targetSelectionSession = World.GetStash<TargetSelectionSession>();
+
+            stash_attackAbilityBtn = World.GetStash<AttackAbilityButtonTag>();
             stash_performingAction = World.GetStash<PerfomingActionTag>();
             stash_attackingTag = World.GetStash<Attacking>();
-            stash_cellPosition = World.GetStash<CellPositionComponent>();
-            stash_gridPosition = World.GetStash<GridPosition>();
             stash_occupiedCells = World.GetStash<TagOccupiedCell>();
             stash_enemyTag = World.GetStash<TagEnemy>();
             stash_transformRef = World.GetStash<TransformRefComponent>();
@@ -117,30 +114,35 @@ namespace Gameplay.Abilities.Systems
                 {
                     CurrentCaster = f_currentTurnTaker.FirstOrDefault();
                     CurrentAttackButton = evt.ClickedButton;
-                    var AttackOptions = GetAttackOptions(CurrentCaster);
+
+                    var AttackOptions = GU.FindAttackOptionsCellsFor(CurrentCaster, World);
 
                     if (ValidateAttackOptions(AttackOptions) == false) { continue; }
 
-                    StartAttackOptionSelection(AttackOptions);
+                    StartAttackOptionSelection(evt.ClickedButton, AttackOptions);
                     EnableAbilityButtonSelectedView(evt.ClickedButton);
                 }
             }
-            // When player succsefuly selected targets
-            foreach (var evt in evt_selectionCompleted.publishedChanges)
-            {
-                if (evt.CompletedRequestID != SystemID) { continue; }
 
-                var SelectedCell = evt.SelectedTargets.FirstOrDefault();
+            // When player succsefuly selected targets
+            foreach (var e in f_targetSelectionResults)
+            {
+                ref var selectionResult = ref stash_selectionResult.Get(e);
+                var session = stash_targetSelectionSession.Get(e);
+
+                // When player cancels target selection
+                if (selectionResult.m_Status == TargetSelectionStatus.Failed)
+                {
+                    OnSkillUseCanceled();
+                    selectionResult.m_IsProcessed = true;
+                    return;
+                }
+
+                var SelectedCell = session.m_SelectedOptions.FirstOrDefault();
 
                 DisableAbilityButtonSelectedView(CurrentAttackButton); // We do this here, because we want to remove skill highlight before skill starts executing.
                 AttackTargetOnCell(SelectedCell);
-            }
-
-            // When player cancels target selection
-            foreach (var evt in evt_selectionCanceled.publishedChanges)
-            {
-                if (evt.CanceledRequestID != SystemID) { continue; }
-                OnSkillUseCanceled();
+                selectionResult.m_IsProcessed = true;
             }
 
             #endregion
@@ -201,12 +203,12 @@ namespace Gameplay.Abilities.Systems
             ResetSkillState();
         }
 
-        private void StartAttackOptionSelection(List<Entity> cellOptions)
+        private void StartAttackOptionSelection(Entity sender, List<Entity> cellOptions)
         {
             var allowedCells = FilterAlowedOptions(cellOptions);
             var forbiddenCells = FilterForbiddenOptions(cellOptions);
 
-            SendTargetSelectionRequest(allowedCells, forbiddenCells);
+            SendTargetSelectionRequest(sender, allowedCells, forbiddenCells);
         }
 
         private void UpdateSkillView(bool isUsable)
@@ -255,15 +257,14 @@ namespace Gameplay.Abilities.Systems
             stash_attackAbilityBtn.Get(button).View.DisableSelectiedView();
         }
 
-        private void SendTargetSelectionRequest(List<Entity> allowedCells, List<Entity> forbiddenCells)
+        private void SendTargetSelectionRequest(Entity sender, List<Entity> allowedCells, List<Entity> forbiddenCells)
         {
             req_targetSelection.Publish(new TargetSelectionRequest
             {
-                RequestID = SystemID,
-                AllowedTargets = allowedCells,
-                ForbiddenTargets = forbiddenCells,
-                TargetCount = 1,
-                Type = TargetSelectionRequest.SelectionType.Cell
+                m_Sender = sender,
+                m_AwaibleOptions = allowedCells,
+                m_UnavaibleOptions = forbiddenCells,
+                m_TargetsAmount = 1,
             });
         }
 
@@ -312,7 +313,6 @@ namespace Gameplay.Abilities.Systems
                     () => DoDamageToTarget(target) // Do damage
                 ));
 
-
             var attackPos = new Vector3(originalPosition.x,
                 originalPosition.y + raiseHeight, originalPosition.z - 1.0f);
 
@@ -355,6 +355,9 @@ namespace Gameplay.Abilities.Systems
             return filter;
         }
 
+
+        // Need to move methods like this in centralized place,
+        // and give them a name in "GetAllWithEnemies", "GetEmpty" e.t.c style. 
         private List<Entity> FilterForbiddenOptions(List<Entity> options)
         {
             List<Entity> filter = new();
@@ -374,32 +377,6 @@ namespace Gameplay.Abilities.Systems
             }
             return filter;
         }
-        private List<Entity> GetAttackOptions(Entity executer)
-        {
-            if (stash_attackAbility.Has(executer) == false) { return new(); }
-
-            var result = new List<Entity>();
-            var cellPositions = new List<Vector2Int>();
-            var attacks = stash_attackAbility.Get(executer).Attacks;
-            var c_gridPos = stash_gridPosition.Get(executer);
-            var gridPosVector2 = c_gridPos.Value;
-
-            foreach (var attack in attacks)
-            {
-                cellPositions.Add(gridPosVector2 + attack);
-            }
-            foreach (var cell in f_Cells)
-            {
-                var c_cellPos = stash_cellPosition.Get(cell);
-                var cellPos = new Vector2Int(c_cellPos.grid_x, c_cellPos.grid_y);
-                if (cellPositions.Contains(cellPos))
-                {
-                    result.Add(cell);
-                }
-            }
-            return result;
-        }
-
         private bool ValidateSkillUsability()
         {
             if (f_currentTurnTaker.IsEmpty()) { return false; }

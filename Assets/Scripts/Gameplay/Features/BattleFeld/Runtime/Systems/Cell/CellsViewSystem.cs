@@ -19,7 +19,7 @@ namespace Gameplay.BattleField.Systems
         public World World { get; set; }
 
         private Request<ChangeCellViewToHoverRequest> req_HoverCells;
-        private Request<ChangeCellViewToSelectRequest> req_SelectCells;
+        private Request<ChangeCellViewToSelectedRequest> req_SelectCells;
         private Request<ChangeCellViewToPointerRequest> req_PointerCells;
 
         private Stash<CellTag> stash_cellTag;
@@ -28,7 +28,7 @@ namespace Gameplay.BattleField.Systems
         public void OnAwake()
         {
             req_HoverCells = World.GetRequest<ChangeCellViewToHoverRequest>();
-            req_SelectCells = World.GetRequest<ChangeCellViewToSelectRequest>();
+            req_SelectCells = World.GetRequest<ChangeCellViewToSelectedRequest>();
             req_PointerCells = World.GetRequest<ChangeCellViewToPointerRequest>();
 
             stash_cellTag = World.GetStash<CellTag>();
@@ -99,7 +99,7 @@ namespace Gameplay.BattleField.Systems
             }
         }
 
-        private void SelectCells(ChangeCellViewToSelectRequest req)
+        private void SelectCells(ChangeCellViewToSelectedRequest req)
         {
             foreach (var cell in req.Cells)
             {
@@ -109,11 +109,11 @@ namespace Gameplay.BattleField.Systems
 
                 ref var spriteRef = ref stash_cellSprites.Get(cell);
 
-                if (req.State == ChangeCellViewToSelectRequest.SelectState.Disabled)
+                if (req.State == ChangeCellViewToSelectedRequest.SelectState.Disabled)
                 {
                     spriteRef.SelectedLayer.gameObject.SetActive(false);
                 }
-                else if (req.State == ChangeCellViewToSelectRequest.SelectState.Enabled)
+                else if (req.State == ChangeCellViewToSelectedRequest.SelectState.Enabled)
                 {
                     spriteRef.SelectedLayer.gameObject.SetActive(true);
                 }
