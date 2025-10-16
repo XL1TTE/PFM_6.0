@@ -13,7 +13,7 @@ namespace Core.ECS.Modules
         {
             var sg_AbilitiesLogic = world.CreateSystemsGroup();
             sg_AbilitiesLogic.AddSystem(new MoveAbilitySystem());
-            sg_AbilitiesLogic.AddSystem(new AttackAbilitySystem());
+            sg_AbilitiesLogic.AddSystem(new AbilityButtonSystem());
             sg_AbilitiesLogic.AddSystem(new TargetSelectionSystem());
 
             world.AddSystemsGroup(Priority, sg_AbilitiesLogic);

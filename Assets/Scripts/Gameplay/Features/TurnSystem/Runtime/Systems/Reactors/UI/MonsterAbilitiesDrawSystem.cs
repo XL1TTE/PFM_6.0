@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Domain.Abilities.Providers;
+using Domain.Extentions;
 using Domain.Monster.Tags;
 using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Tags;
@@ -42,12 +44,17 @@ namespace Gameplay.TurnSystem.Systems
         {
             foreach (var evt in evt_nextTurnStarted.publishedChanges)
             {
-                if (filter_monsterTurnTaker.IsEmpty() == false) { // means that now is monster turn
+                if (filter_monsterTurnTaker.IsEmpty() == false)
+                { // means that now is monster turn
+
+                    var abilityOwner = filter_monsterTurnTaker.First();
+
                     ClearAbilityViews();
-                    DrawMoveAbility();
-                    DrawAttackAbility();
+                    DrawMoveAbility(abilityOwner);
+                    DrawAttackAbility(abilityOwner);
                 }
-                else{
+                else
+                {
                     ClearAbilityViews();
                 }
             }
@@ -58,7 +65,7 @@ namespace Gameplay.TurnSystem.Systems
 
         }
 
-        private void DrawMoveAbility()
+        private void DrawMoveAbility(Entity abilityOwner)
         {
             if (DataBase.TryFindRecordByID(_moveAbilityRecordID, out var record))
             {
@@ -66,11 +73,15 @@ namespace Gameplay.TurnSystem.Systems
                 if (DataBase.TryGetRecord<PrefabComponent>(record, out var prefab))
                 {
                     GameObject ability_btn = Object.Instantiate(prefab.Value, slot);
+                    if (ability_btn.TryFindComponent<AbilityButtonTagProvider>(out var ability))
+                    {
+                        ability.GetData().m_ButtonOwner = abilityOwner;
+                    }
                     _abilityBtnsCache.Add(ability_btn);
                 }
             }
         }
-        private void DrawAttackAbility()
+        private void DrawAttackAbility(Entity abilityOwner)
         {
             if (DataBase.TryFindRecordByID(_attackAbilityRecordID, out var record))
             {
@@ -78,6 +89,10 @@ namespace Gameplay.TurnSystem.Systems
                 if (DataBase.TryGetRecord<PrefabComponent>(record, out var prefab))
                 {
                     GameObject ability_btn = Object.Instantiate(prefab.Value, slot);
+                    if (ability_btn.TryFindComponent<AbilityButtonTagProvider>(out var ability))
+                    {
+                        ability.GetData().m_ButtonOwner = abilityOwner;
+                    }
                     _abilityBtnsCache.Add(ability_btn);
                 }
             }

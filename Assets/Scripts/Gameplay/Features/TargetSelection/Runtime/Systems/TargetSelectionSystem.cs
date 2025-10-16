@@ -74,7 +74,10 @@ namespace Gameplay.TargetSelection.Systems
 
             f_selOpt = World.Filter.With<SelectionOptionTag>().Build();
 
-            f_ActiveSelections = World.Filter.With<TargetSelectionSession>().Build();
+            f_ActiveSelections = World.Filter
+                .With<TargetSelectionSession>()
+                .Without<TargetSelectionResult>()
+                .Build();
 
             req_TargetSelection = World.GetRequest<TargetSelectionRequest>();
             req_SelectCellsView = World.GetRequest<ChangeCellViewToSelectedRequest>();
@@ -88,18 +91,24 @@ namespace Gameplay.TargetSelection.Systems
         {
             foreach (var req in req_TargetSelection.Consume()) // Initiating target selections
             {
-                if (f_ActiveSelections.IsNotEmpty()) // Closing all active sections if any.
+                foreach (var owner in f_ActiveSelections)
                 {
-                    foreach (var owner in f_ActiveSelections)
+                    if (owner.Id == req.m_Sender.Id) // If sender the same as it was, just ignore.
                     {
-                        if (owner.Id == req.m_Sender.Id) // If sender the same as it was, just ignore.
-                        {
-                            //CompleteSelection(owner, TargetSelectionStatus.Failed);
-                            return;
-                        }
-                        CompleteSelection(owner, TargetSelectionStatus.Failed);
+                        //CompleteSelection(owner, TargetSelectionStatus.Failed);
+                        return;
+                    }
+                    CompleteSelection(owner, TargetSelectionStatus.Failed);
+                }
+
+                foreach (var owner in f_CompletedSessions)
+                {
+                    if (owner.Id == req.m_Sender.Id) // If sender try to send request again but not handled previous result -> exception.
+                    {
+                        throw new Exception($"You are trying to send target selection request from Entity:{owner.Id} multiple times, without handling previous results. Filter for Target Selection Result component on your sender and set m_Processed flag to true.");
                     }
                 }
+
                 OpenTargetSelectionSession(req.m_Sender, req);
                 EnterTargetSelectionState();
                 return; // Only one request should be processed in one frame. Delay processing until next frame.
@@ -128,7 +137,7 @@ namespace Gameplay.TargetSelection.Systems
                 throw new Exception("You trying to request target selection, but request sender was null.");
             }
 
-            stash_TargetSelectionSession.Add(owner, new TargetSelectionSession
+            stash_TargetSelectionSession.Set(owner, new TargetSelectionSession
             {
                 m_TargetsAmount = req.m_TargetsAmount,
                 m_AwaibleOptions = req.m_AwaibleOptions,

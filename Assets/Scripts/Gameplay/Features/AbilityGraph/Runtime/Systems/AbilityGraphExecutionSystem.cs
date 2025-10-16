@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Domain.AbilityGraph;
+using Domain.Commands;
 using Domain.Extentions;
 using Domain.GameEffects;
 using Scellecs.Morpeh;
@@ -28,6 +29,9 @@ namespace Gameplay.AbilityGraph
         private Stash<AbilityExecutionCompletedTag> stash_abilityExecutionCompletedTag;
         private Stash<AbilityCasterComponent> stash_abilityCaster;
         private Stash<AbilityTargetsComponent> stash_abilityTarget;
+        private Event<AbilityActivated> evt_AbilityActivated;
+        private Event<AbilityExecutionStarted> evt_AbilityExecutionStarted;
+        private Event<AbilityExecutionEnded> evt_AbilityExecutionEnded;
 
         public void OnAwake()
         {
@@ -49,10 +53,21 @@ namespace Gameplay.AbilityGraph
             stash_abilityExecutionCompletedTag = World.GetStash<AbilityExecutionCompletedTag>();
             stash_abilityCaster = World.GetStash<AbilityCasterComponent>();
             stash_abilityTarget = World.GetStash<AbilityTargetsComponent>();
+
+
+            evt_AbilityActivated = World.GetEvent<AbilityActivated>();
+            evt_AbilityExecutionStarted = World.GetEvent<AbilityExecutionStarted>();
+            evt_AbilityExecutionEnded = World.GetEvent<AbilityExecutionEnded>();
         }
 
         public void OnUpdate(float deltaTime)
         {
+            // Notify that ability execution started.
+            foreach (var evt in evt_AbilityActivated.publishedChanges)
+            {
+                NotifyAbilityExecutionStarted(evt.m_Ability);
+            }
+
             foreach (var abilityEntity in f_activeAbilities)
             {
                 ProcessAbilityExecution(abilityEntity, deltaTime);
@@ -224,6 +239,29 @@ namespace Gameplay.AbilityGraph
         {
             stash_abilityExecutingTag.Remove(abilityEntity);
             stash_abilityExecutionCompletedTag.Add(abilityEntity);
+
+            NotifyAbilityExecutionEnded(abilityEntity);
+        }
+
+        private void NotifyAbilityExecutionStarted(Entity ability)
+        {
+            // Notify that ability execution ended.
+            var caster = stash_abilityCaster.Get(ability).caster;
+            evt_AbilityExecutionStarted.NextFrame(new AbilityExecutionStarted
+            {
+                m_Caster = caster,
+                m_Ability = ability
+            });
+        }
+        private void NotifyAbilityExecutionEnded(Entity ability)
+        {
+            // Notify that ability execution ended.
+            var caster = stash_abilityCaster.Get(ability).caster;
+            evt_AbilityExecutionEnded.NextFrame(new AbilityExecutionEnded
+            {
+                m_Caster = caster,
+                m_Ability = ability
+            });
         }
 
         private void TransitionToNextNode(Entity abilityEntity, ref AbilityExecutionState state, int targetNodeId)

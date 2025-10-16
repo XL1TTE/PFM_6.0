@@ -1,16 +1,16 @@
-using DG.Tweening;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Domain.Commands.Requests
+namespace Domain.Commands.Components
 {
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct AttackTargetRequest : IRequestData
+    public struct IsMovingTag : IComponent
     {
-        public Sequence AttackSequence;
-        public Entity Attacker;
+
     }
+
 }
+

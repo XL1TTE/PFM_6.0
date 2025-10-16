@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Domain.Abilities.Components;
 using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
+using Domain.TargetSelection.Events;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -54,10 +55,9 @@ namespace Core.Utilities
             var cellPos = world.GetStash<CellPositionComponent>();
             var attackAbility = world.GetStash<AttackAbility>();
 
-            var f_cellsOccupied = world.Filter
+            var f_cells = world.Filter
                 .With<CellTag>()
                 .With<CellPositionComponent>()
-                .With<TagOccupiedCell>()
                 .Build();
 
             if (gridPos.Has(attacker) == false) { return new(); }
@@ -74,7 +74,7 @@ namespace Core.Utilities
                 shiftedAttacks.Add(attack + attackerPos.Value);
             }
 
-            foreach (var cell in f_cellsOccupied)
+            foreach (var cell in f_cells)
             {
                 var c_cellPos = cellPos.Get(cell);
                 var cellPosGrid = new Vector2Int(c_cellPos.grid_x, c_cellPos.grid_y);
@@ -86,5 +86,20 @@ namespace Core.Utilities
             }
             return result;
         }
+
+
+        public static ref TargetSelectionResult GetTargetSelectionResult(Entity owner, World world)
+        {
+            var results = world.GetStash<TargetSelectionResult>();
+            if (results.Has(owner))
+            {
+                return ref results.Get(owner);
+            }
+            throw new System.Exception($"Target selection result was not found on Entity: {owner.Id}.");
+        }
+
     }
+
 }
+
+

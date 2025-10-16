@@ -1,4 +1,5 @@
 using Domain.AbilityGraph;
+using Domain.Commands;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -10,7 +11,7 @@ namespace Gameplay.AbilityGraph
     public sealed class AbilityGraphExecutionCleanup : ICleanupSystem
     {
         private Filter f_abilitiesToCleanup;
-        private Event<AbiltiyExecutionCompletedEvent> evt_abtExecutionCompleted;
+        private Event<AbilityExecutionEnded> evt_AbilityExecutionEnded;
         private Stash<AbilityCasterComponent> stash_caster;
 
         public World World { get; set; }
@@ -18,32 +19,17 @@ namespace Gameplay.AbilityGraph
 
         public void OnAwake()
         {
-            f_abilitiesToCleanup = World.Filter
-                .With<AbilityExecutionGraph>()
-                .With<AbilityExecutionState>()
-                .With<AbilityExecutionCompletedTag>()
-                .Build();
-
-            evt_abtExecutionCompleted = World.GetEvent<AbiltiyExecutionCompletedEvent>();
+            evt_AbilityExecutionEnded = World.GetEvent<AbilityExecutionEnded>();
 
             stash_caster = World.GetStash<AbilityCasterComponent>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach (var ability in f_abilitiesToCleanup)
+            foreach (var evt in evt_AbilityExecutionEnded.publishedChanges)
             {
-                NotifyAbilityExecutionCompleted(ability);
-                World.RemoveEntity(ability);
+                World.RemoveEntity(evt.m_Ability);
             }
-        }
-
-        private void NotifyAbilityExecutionCompleted(Entity ability)
-        {
-            evt_abtExecutionCompleted.NextFrame(new AbiltiyExecutionCompletedEvent
-            {
-                Caster = stash_caster.Get(ability).caster
-            });
         }
 
         public void Dispose()

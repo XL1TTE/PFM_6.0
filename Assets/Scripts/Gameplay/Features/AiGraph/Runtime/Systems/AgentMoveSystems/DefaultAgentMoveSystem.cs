@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Core.Utilities;
 using DG.Tweening;
 using Domain.AIGraph;
-using Domain.Commands.Requests;
+using Domain.Commands;
 using Domain.Extentions;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -85,9 +83,9 @@ namespace Gameplay.AIGraph
 
             req_moveToCellCommand.Publish(new MoveToCellRequest
             {
-                MoveSequence = sequence,
-                Subject = agentEntity,
-                TargetCell = target
+                m_MoveSequence = sequence,
+                m_Subject = agentEntity,
+                m_TargetCell = target
             });
         }
 

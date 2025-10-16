@@ -7,6 +7,7 @@ using Domain.Abilities.Tags;
 using Domain.BattleField.Components;
 using Domain.BattleField.Events;
 using Domain.BattleField.Tags;
+using Domain.Commands;
 using Domain.Components;
 using Domain.CursorDetection.Components;
 using Domain.Extentions;
@@ -38,11 +39,10 @@ namespace Gameplay.Abilities.Systems
         private Filter f_cells;
 
         private Request<TargetSelectionRequest> req_targetSelection;
-        private Event<CellOccupiedEvent> evt_cellOccupied;
+        private Request<MoveToCellRequest> req_MoveRequest;
         private Event<ButtonClickedEvent> evt_btnClicked;
 
         private Stash<TargetSelectionResult> stash_selectionResult;
-        private Stash<TargetSelectionSession> stash_targetSelectionSession;
         private Stash<MoveAbilityButtonTag> stash_moveAbilityBtn;
         private Stash<MovementAbility> stash_moveAbility;
         private Stash<Moving> stash_movingTag;
@@ -83,11 +83,13 @@ namespace Gameplay.Abilities.Systems
                 .Build();
 
             req_targetSelection = World.GetRequest<TargetSelectionRequest>();
+
+            req_MoveRequest = World.GetRequest<MoveToCellRequest>();
+
+
             evt_btnClicked = World.GetEvent<ButtonClickedEvent>();
-            evt_cellOccupied = World.GetEvent<CellOccupiedEvent>();
 
             stash_selectionResult = World.GetStash<TargetSelectionResult>();
-            stash_targetSelectionSession = World.GetStash<TargetSelectionSession>();
 
             stash_moveAbilityBtn = World.GetStash<MoveAbilityButtonTag>();
             stash_moveAbility = World.GetStash<MovementAbility>();
@@ -258,7 +260,7 @@ namespace Gameplay.Abilities.Systems
         private void OnSkillUseCompleted()
         {
             RemoveMovingTagFromCaster(CurrentCaster);
-            ResetSkillState();
+            //ResetSkillState();
         }
 
         private void EnableAbilityButtonSelectedView(Entity button)
@@ -289,34 +291,25 @@ namespace Gameplay.Abilities.Systems
 
         private void MoveCasterToSelectedCell(Entity cell)
         {
-            evt_cellOccupied.NextFrame(new CellOccupiedEvent
-            {
-                OccupiedBy = CurrentCaster,
-                CellEntity = cell
-            });
             var cellPos = stash_cellPosition.Get(cell);
             ref var executerTransformRef = ref stash_transformRef.Get(CurrentCaster).Value;
             var targetPos = new Vector3(cellPos.global_x, cellPos.global_y, cellPos.global_y * 0.01f);
 
-
-            if (ActiveMoveTweensMap.ContainsKey(CurrentCaster.Id))
-            {
-                ActiveMoveTweensMap[CurrentCaster.Id].Kill(true);
-                ActiveMoveTweensMap.Remove(CurrentCaster.Id);
-            }
             var moveSequence = GetMoveSequence(executerTransformRef, targetPos);
-
-            AddMovingTagToCaster(CurrentCaster);
-
-            ActiveMoveTweensMap.Add(CurrentCaster.Id, moveSequence);
             moveSequence.OnComplete(
                 () => OnSkillUseCompleted()
             );
+
+            req_MoveRequest.Publish(new MoveToCellRequest
+            {
+                m_MoveSequence = moveSequence,
+                m_Subject = CurrentCaster,
+                m_TargetCell = cell
+            });
         }
 
         private Sequence GetMoveSequence(Transform executerTransform, Vector3 targetPosition)
         {
-
             var raiseHeight = 20;
 
             var targetPosWithHeight =

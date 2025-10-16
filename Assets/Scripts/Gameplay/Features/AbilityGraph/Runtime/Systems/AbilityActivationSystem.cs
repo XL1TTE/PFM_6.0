@@ -1,4 +1,5 @@
 using Domain.AbilityGraph;
+using Domain.Commands;
 using Persistence.DB;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -10,19 +11,20 @@ namespace Gameplay.AbilityGraph
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class AbilityActivationSystem : ISystem
     {
-        private Request<AbilityUseRequest> req_activateAbility;
+        private Request<AbilityActivateRequest> req_activateAbility;
         private Stash<AbilityTargetsComponent> stash_abilityTargets;
         private Stash<AbilityCasterComponent> stash_abilityCaster;
         private Stash<AbilityComponent> stash_ability;
         private Stash<AbilityExecutionState> stash_abilityExecutionState;
         private Stash<AbilityExecutionGraph> stash_abilityExecutionGraph;
         private Stash<AbilityIsExecutingTag> stash_abilityIsExecutingTag;
+        private Event<AbilityActivated> evt_AbilityActivated;
 
         public World World { get; set; }
 
         public void OnAwake()
         {
-            req_activateAbility = World.GetRequest<AbilityUseRequest>();
+            req_activateAbility = World.GetRequest<AbilityActivateRequest>();
 
             stash_abilityTargets = World.GetStash<AbilityTargetsComponent>();
             stash_abilityCaster = World.GetStash<AbilityCasterComponent>();
@@ -30,13 +32,14 @@ namespace Gameplay.AbilityGraph
             stash_abilityExecutionState = World.GetStash<AbilityExecutionState>();
             stash_abilityExecutionGraph = World.GetStash<AbilityExecutionGraph>();
             stash_abilityIsExecutingTag = World.GetStash<AbilityIsExecutingTag>();
+
+            evt_AbilityActivated = World.GetEvent<AbilityActivated>();
         }
 
         public void OnUpdate(float deltaTime)
         {
             foreach (var req in req_activateAbility.Consume())
             {
-
                 if (DataBase.TryFindRecordByID(req.AbilityTemplateID, out var AbilityTemplate) == false)
                 {
                     throw new System.Exception($"Ability with id: {req.AbilityTemplateID} was not found!");
@@ -44,15 +47,10 @@ namespace Gameplay.AbilityGraph
 
                 var abilityCopy = CreateAbilityCopy(AbilityTemplate);
 
-                stash_abilityCaster.Set(abilityCopy, new AbilityCasterComponent
-                {
-                    caster = req.Caster
-                });
+                SetupAbilityMeta(abilityCopy, req);
 
-                ref var targetsComponent = ref stash_abilityTargets.Get(abilityCopy);
-                targetsComponent.targets = req.Targets.ToArray();
+                ActivateAbility(abilityCopy);
 
-                stash_abilityIsExecutingTag.Set(abilityCopy, new AbilityIsExecutingTag());
             }
         }
 
@@ -60,6 +58,25 @@ namespace Gameplay.AbilityGraph
         {
         }
 
+        private void SetupAbilityMeta(Entity ability, AbilityActivateRequest req)
+        {
+            stash_abilityCaster.Set(ability, new AbilityCasterComponent
+            {
+                caster = req.Caster
+            });
+
+            ref var targetsComponent = ref stash_abilityTargets.Get(ability);
+            targetsComponent.targets = req.Targets.ToArray();
+        }
+
+        private void ActivateAbility(Entity ability)
+        {
+            stash_abilityIsExecutingTag.Set(ability, new AbilityIsExecutingTag());
+            evt_AbilityActivated.NextFrame(new AbilityActivated
+            {
+                m_Ability = ability
+            });
+        }
 
         private Entity CreateAbilityCopy(Entity abilityTemplate)
         {
