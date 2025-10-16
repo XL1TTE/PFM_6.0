@@ -1,7 +1,7 @@
 using Core.Utilities;
 using DG.Tweening;
 using Domain.AIGraph;
-using Domain.Commands;
+using Domain.Services;
 using Domain.Extentions;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -80,6 +80,8 @@ namespace Gameplay.AIGraph
             {
                 CompleteMovement(agentEntity);
             });
+
+            sequence.Play();
 
             req_moveToCellCommand.Publish(new MoveToCellRequest
             {

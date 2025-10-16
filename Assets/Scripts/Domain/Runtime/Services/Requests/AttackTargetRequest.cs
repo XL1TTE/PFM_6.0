@@ -2,7 +2,7 @@ using DG.Tweening;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Domain.Commands
+namespace Domain.Services
 {
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]

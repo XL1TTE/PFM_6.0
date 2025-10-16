@@ -55,7 +55,7 @@ namespace Persistence.DB
                         Actions = new List<AIAction>{
                             new AIAction{
                                 Type = AIActionType.UseAbility,
-                                AbilityId = "abt_TestRat"
+                                AbilityId = "abt_PhysicalAttack"
                             }
                         },
                         Transitions = new List<AITransition>{

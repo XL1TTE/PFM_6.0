@@ -1,6 +1,6 @@
 using DG.Tweening;
 using Domain.BattleField.Events;
-using Domain.Commands;
+using Domain.Services;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace Gameplay.Commands
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class MoveCommandSystem : ISystem
+    public sealed class MoveToCellServiceSystem : ISystem
     {
         public World World { get; set; }
 

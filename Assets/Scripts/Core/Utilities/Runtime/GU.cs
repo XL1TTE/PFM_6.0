@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Domain.Abilities.Components;
 using Domain.BattleField.Components;
@@ -96,6 +97,38 @@ namespace Core.Utilities
                 return ref results.Get(owner);
             }
             throw new System.Exception($"Target selection result was not found on Entity: {owner.Id}.");
+        }
+
+        public static Entity GetCellOccupier(Entity cell, World world)
+        {
+            var occupiedCell = world.GetStash<TagOccupiedCell>();
+            if (occupiedCell.Has(cell))
+            {
+                return occupiedCell.Get(cell).Occupier;
+            }
+            else
+            {
+                throw new System.Exception("You trying to get cell occupier from not occupied cell.");
+            }
+        }
+
+        public static IEnumerable<Entity> GetCellOccupiers(IEnumerable<Entity> cells, World world)
+        {
+            var occupiedCell = world.GetStash<TagOccupiedCell>();
+            var result = new List<Entity>();
+
+            foreach (var cell in cells)
+            {
+                if (occupiedCell.Has(cell))
+                {
+                    result.Add(occupiedCell.Get(cell).Occupier);
+                }
+                else
+                {
+                    throw new System.Exception("You trying to get cell occupier from not occupied cell.");
+                }
+            }
+            return result;
         }
 
     }

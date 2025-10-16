@@ -2,7 +2,7 @@ using DG.Tweening;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Domain.Commands
+namespace Domain.Services
 {
     /// <summary>
     /// Request which should lead to Subject be moved to Target Cell with provided animation.

@@ -8,11 +8,11 @@ namespace Domain.AbilityGraph
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct AbilityActivateRequest : IRequestData
+    public struct ActivateAbilityRequest : IRequestData
     {
-        public Entity Caster;
-        public string AbilityTemplateID;
-        public List<Entity> Targets;
+        public Entity m_Caster;
+        public string m_AbilityTemplateID;
+        public List<Entity> m_Targets;
     }
 }
 

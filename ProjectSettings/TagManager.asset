@@ -56,11 +56,8 @@ TagManager:
   - name: UI
     uniqueID: 2554504795
     locked: 0
-  - name: Enemies
-    uniqueID: 156326315
-    locked: 0
-  - name: Monsters
-    uniqueID: 3291743293
+  - name: Actors
+    uniqueID: 257000035
     locked: 0
   - name: MapLineLayer
     uniqueID: 956614297

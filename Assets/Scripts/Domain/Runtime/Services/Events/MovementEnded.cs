@@ -1,21 +1,20 @@
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Domain.Commands
+namespace Domain.Services
 {
     /// <summary>
-    /// Event which notify that entity started executing ability. 
+    /// Event which notify that entity ended processing movement action. 
     /// </summary>
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct AbilityExecutionStarted : IEventData
+    public struct MovementEnded : IEventData
     {
         /// <summary>
-        /// Entity that executing the ability.
+        /// Entity to which movement aplied.
         /// </summary>
-        public Entity m_Caster;
-        public Entity m_Ability;
+        public Entity m_Subject;
     }
 }

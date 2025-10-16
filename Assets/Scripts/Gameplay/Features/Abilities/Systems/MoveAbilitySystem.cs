@@ -7,7 +7,7 @@ using Domain.Abilities.Tags;
 using Domain.BattleField.Components;
 using Domain.BattleField.Events;
 using Domain.BattleField.Tags;
-using Domain.Commands;
+using Domain.Services;
 using Domain.Components;
 using Domain.CursorDetection.Components;
 using Domain.Extentions;
@@ -142,7 +142,7 @@ namespace Gameplay.Abilities.Systems
                     return;
                 }
 
-                var SelectedCell = selectionResult.m_SelectedTargets.FirstOrDefault();
+                var SelectedCell = selectionResult.m_SelectedCells.FirstOrDefault();
 
                 DisableAbilityButtonSelectedView(CurrentMoveButton); // We do this here, because we want to remove skill highlight before skill starts executing.
                 MoveCasterToSelectedCell(SelectedCell);
@@ -299,6 +299,8 @@ namespace Gameplay.Abilities.Systems
             moveSequence.OnComplete(
                 () => OnSkillUseCompleted()
             );
+
+            moveSequence.Play();
 
             req_MoveRequest.Publish(new MoveToCellRequest
             {

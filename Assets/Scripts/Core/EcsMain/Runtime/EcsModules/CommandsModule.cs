@@ -4,7 +4,7 @@ using Scellecs.Morpeh;
 
 namespace Core.ECS.Modules
 {
-    public sealed class CommandsModule : IWorldModule
+    public sealed class ServicesModule : IWorldModule
     {
         public int Priority => 50;
 
@@ -12,8 +12,9 @@ namespace Core.ECS.Modules
         {
             var sg_Commands = world.CreateSystemsGroup();
             sg_Commands.AddSystem(new ActorsActionStateInitializer());
-            sg_Commands.AddSystem(new MoveCommandSystem());
-            sg_Commands.AddSystem(new DamageSystem());
+            sg_Commands.AddSystem(new AnimationSeviceSystem());
+            sg_Commands.AddSystem(new MoveToCellServiceSystem());
+            sg_Commands.AddSystem(new DamageSeviceSystem());
             sg_Commands.AddSystem(new MovementObserver());
 
             world.AddSystemsGroup(Priority, sg_Commands);

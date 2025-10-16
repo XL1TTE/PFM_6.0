@@ -1,5 +1,5 @@
-using Domain.Commands.Components;
-using Domain.Commands;
+using Domain.Services.Components;
+using Domain.Services;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using Domain.Notificator;

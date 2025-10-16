@@ -1,6 +1,6 @@
 using Domain.AbilityGraph;
 using Domain.AIGraph;
-using Domain.Commands;
+using Domain.Services;
 using Domain.TurnSystem.Tags;
 using Persistence.DB;
 using Scellecs.Morpeh;
@@ -30,6 +30,7 @@ namespace Gameplay.AIGraph
         {
             foreach (var evt in evt_AbilityExecutionEnded.publishedChanges)
             {
+                if (stash_aiState.Has(evt.m_Caster) == false) { return; }
                 SetAgentAbilityExectuionStatusToCompleted(evt.m_Caster);
             }
         }

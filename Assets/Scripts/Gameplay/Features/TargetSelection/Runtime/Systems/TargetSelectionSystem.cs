@@ -184,7 +184,7 @@ namespace Gameplay.TargetSelection.Systems
             stash_selectionResult.Set(sessionOwner, new TargetSelectionResult
             {
                 m_Status = status,
-                m_SelectedTargets = session.m_SelectedOptions,
+                m_SelectedCells = session.m_SelectedOptions,
                 m_IsProcessed = false,
                 m_ExpireIn = 1
             });

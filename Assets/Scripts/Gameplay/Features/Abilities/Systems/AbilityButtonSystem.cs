@@ -1,23 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Core.Utilities;
-using DG.Tweening;
-using Domain.Abilities.Components;
-using Domain.Abilities.Mono;
 using Domain.Abilities.Tags;
 using Domain.AbilityGraph;
-using Domain.BattleField.Components;
-using Domain.BattleField.Tags;
-using Domain.Components;
-using Domain.CursorDetection.Components;
-using Domain.Enemies.Tags;
 using Domain.Extentions;
 using Domain.Monster.Tags;
 using Domain.Notificator;
 using Domain.TargetSelection.Events;
 using Domain.TargetSelection.Requests;
-using Domain.TargetSelection.Tags;
 using Domain.TurnSystem.Tags;
 using Domain.UI.Requests;
 using Domain.UI.Tags;
@@ -35,6 +25,7 @@ namespace Gameplay.Abilities.Systems
         private FilterBuilder f_turnTaker;
         private Filter f_targetSelectionResults;
         private Request<TargetSelectionRequest> req_TargetSelection;
+        private Request<ActivateAbilityRequest> req_AbiltiyActivation;
         private Event<ButtonClickedEvent> evt_ButtonClicked;
 
         private Event<ActorActionStatesChanged> evt_ActorStatesChanged;
@@ -55,6 +46,8 @@ namespace Gameplay.Abilities.Systems
                 .Build();
 
             req_TargetSelection = World.GetRequest<TargetSelectionRequest>();
+
+            req_AbiltiyActivation = World.GetRequest<ActivateAbilityRequest>();
 
             evt_ButtonClicked = World.GetEvent<ButtonClickedEvent>();
 
@@ -91,14 +84,36 @@ namespace Gameplay.Abilities.Systems
             }
 
 
-            foreach (var r in f_targetSelectionResults)
+            foreach (var button in f_targetSelectionResults)
             {
-                ref var result = ref GU.GetTargetSelectionResult(r, World);
-                result.m_IsProcessed = true;
+                var abiltiyOwner = stash_AbilityButtonTag.Get(button).m_ButtonOwner;
 
-                Debug.Log($"Target -> Entity: {result.m_SelectedTargets[0]}");
+                ref var result = ref GU.GetTargetSelectionResult(button, World);
+
+                if (result.m_Status == TargetSelectionStatus.Success)
+                {
+                    UseAbility(abiltiyOwner, result);
+                    result.m_IsProcessed = true;
+                }
+                else if (result.m_Status == TargetSelectionStatus.Failed)
+                {
+                    result.m_IsProcessed = true;
+                    continue;
+                }
             }
 
+        }
+
+        private void UseAbility(Entity abiltiyOwner, TargetSelectionResult result)
+        {
+            var targets = GU.GetCellOccupiers(result.m_SelectedCells, World);
+
+            req_AbiltiyActivation.Publish(new ActivateAbilityRequest
+            {
+                m_AbilityTemplateID = "abt_PhysicalAttack",
+                m_Caster = abiltiyOwner,
+                m_Targets = targets.ToList()
+            });
         }
 
         private void EnableButton(Entity abilityButton)
@@ -113,6 +128,11 @@ namespace Gameplay.Abilities.Systems
             stash_AbilityButtonTag.Get(abilityButton).m_View.EnableUnavaibleView();
         }
 
+
+        /// <summary>
+        /// Sends target selection request
+        /// </summary>
+        /// <param name="abiltiyButton"></param>
         private void ProcessClick(Entity abiltiyButton)
         {
             var owner = stash_AbilityButtonTag.Get(abiltiyButton).m_ButtonOwner;

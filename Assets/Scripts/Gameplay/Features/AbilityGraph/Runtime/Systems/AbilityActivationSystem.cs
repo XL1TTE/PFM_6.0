@@ -1,5 +1,5 @@
 using Domain.AbilityGraph;
-using Domain.Commands;
+using Domain.Services;
 using Persistence.DB;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -11,7 +11,7 @@ namespace Gameplay.AbilityGraph
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class AbilityActivationSystem : ISystem
     {
-        private Request<AbilityActivateRequest> req_activateAbility;
+        private Request<ActivateAbilityRequest> req_activateAbility;
         private Stash<AbilityTargetsComponent> stash_abilityTargets;
         private Stash<AbilityCasterComponent> stash_abilityCaster;
         private Stash<AbilityComponent> stash_ability;
@@ -24,7 +24,7 @@ namespace Gameplay.AbilityGraph
 
         public void OnAwake()
         {
-            req_activateAbility = World.GetRequest<AbilityActivateRequest>();
+            req_activateAbility = World.GetRequest<ActivateAbilityRequest>();
 
             stash_abilityTargets = World.GetStash<AbilityTargetsComponent>();
             stash_abilityCaster = World.GetStash<AbilityCasterComponent>();
@@ -40,9 +40,9 @@ namespace Gameplay.AbilityGraph
         {
             foreach (var req in req_activateAbility.Consume())
             {
-                if (DataBase.TryFindRecordByID(req.AbilityTemplateID, out var AbilityTemplate) == false)
+                if (DataBase.TryFindRecordByID(req.m_AbilityTemplateID, out var AbilityTemplate) == false)
                 {
-                    throw new System.Exception($"Ability with id: {req.AbilityTemplateID} was not found!");
+                    throw new System.Exception($"Ability with id: {req.m_AbilityTemplateID} was not found!");
                 }
 
                 var abilityCopy = CreateAbilityCopy(AbilityTemplate);
@@ -58,15 +58,15 @@ namespace Gameplay.AbilityGraph
         {
         }
 
-        private void SetupAbilityMeta(Entity ability, AbilityActivateRequest req)
+        private void SetupAbilityMeta(Entity ability, ActivateAbilityRequest req)
         {
             stash_abilityCaster.Set(ability, new AbilityCasterComponent
             {
-                caster = req.Caster
+                caster = req.m_Caster
             });
 
             ref var targetsComponent = ref stash_abilityTargets.Get(ability);
-            targetsComponent.targets = req.Targets.ToArray();
+            targetsComponent.m_Targets = req.m_Targets.ToArray();
         }
 
         private void ActivateAbility(Entity ability)

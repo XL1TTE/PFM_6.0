@@ -39,7 +39,7 @@ namespace Core.ECS
             _defaultWorld.AddModule(new AbilityGraphModule());
             _defaultWorld.AddModule(new GameEffectsModule());
             _defaultWorld.AddModule(new GameStatsModule());
-            _defaultWorld.AddModule(new CommandsModule());
+            _defaultWorld.AddModule(new ServicesModule());
             _defaultWorld.AddModule(new VisualsModule());
             _defaultWorld.AddModule(new HealthBarsModule());
             _defaultWorld.AddModule(new PrefabInstantiationModule());

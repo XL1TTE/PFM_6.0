@@ -6,7 +6,7 @@ namespace Core.Utilities
 {
     public static class AbilityAnimations
     {
-        public static Sequence StandartAttack(Transform attackerTransform, Transform targetTransform, Action onDamageFrame = default)
+        public static Sequence GetStandartAttack(Transform attackerTransform, Transform targetTransform, Action onDamageFrame = default)
         {
             var raiseHeight = 20;
 
@@ -21,7 +21,9 @@ namespace Core.Utilities
                 + raiseHeight, 0.5f).SetEase(Ease.OutQuad));
 
             seq.Append(attackerTransform.DOMove(targetPos, 0.25f)
-                .SetEase(Ease.InExpo)).onComplete += () => { onDamageFrame(); };
+                .SetEase(Ease.InExpo));
+
+            seq.AppendCallback(() => onDamageFrame?.Invoke());
 
             var attackPos = new Vector3(originalPosition.x,
                 originalPosition.y + raiseHeight, originalPosition.z - 1.0f);

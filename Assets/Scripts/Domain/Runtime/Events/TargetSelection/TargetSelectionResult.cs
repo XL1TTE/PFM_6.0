@@ -22,7 +22,7 @@ namespace Domain.TargetSelection.Events
         /// <summary>
         /// Targets selected by player.
         /// </summary>
-        public List<Entity> m_SelectedTargets;
+        public List<Entity> m_SelectedCells;
 
         /// <summary>
         /// Flag that shows if result was processed.

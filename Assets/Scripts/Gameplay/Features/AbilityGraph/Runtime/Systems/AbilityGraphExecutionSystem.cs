@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Domain.AbilityGraph;
-using Domain.Commands;
+using Domain.Services;
 using Domain.Extentions;
 using Domain.GameEffects;
 using Scellecs.Morpeh;
@@ -23,6 +23,8 @@ namespace Gameplay.AbilityGraph
         private Request<DealDamageRequest> req_dealDamage;
         private Event<DamageDealtEvent> evt_dmgDealt;
         private Request<ApplyEffectRequest> req_applyEffect;
+        private Request<AnimatingRequest> req_Animating;
+        private Request<AnimateWithTweenRequest> req_AnimateWithTween;
         private Stash<AbilityExecutionGraph> stash_abilityGraph;
         private Stash<AbilityExecutionState> stash_abilityState;
         private Stash<AbilityIsExecutingTag> stash_abilityExecutingTag;
@@ -46,6 +48,9 @@ namespace Gameplay.AbilityGraph
             evt_dmgDealt = World.GetEvent<DamageDealtEvent>();
 
             req_applyEffect = World.GetRequest<ApplyEffectRequest>();
+
+            req_Animating = World.GetRequest<AnimatingRequest>();
+            req_AnimateWithTween = World.GetRequest<AnimateWithTweenRequest>();
 
             stash_abilityGraph = World.GetStash<AbilityExecutionGraph>();
             stash_abilityState = World.GetStash<AbilityExecutionState>();
@@ -81,7 +86,7 @@ namespace Gameplay.AbilityGraph
             ref var graph = ref stash_abilityGraph.Get(abilityEntity);
             ref var state = ref stash_abilityState.Get(abilityEntity);
 
-            var currentNodeId = state.CurrentNodeId;
+            var currentNodeId = state.m_CurrentNodeId;
 
             var currentNode = graph.Nodes.Find(n => n.NodeId == currentNodeId);
             if (currentNode.NodeId == -1)
@@ -108,6 +113,14 @@ namespace Gameplay.AbilityGraph
                     EvaluateAnimationFrameConditions(abilityEntity, ref state, currentNode);
                     EvaluateExecutionComplete(abilityEntity, ref state, currentNode);
                     break;
+                case NodeType.WaitForAnimation:
+                    EvaluateAnimationState(abilityEntity, ref state, currentNode);
+                    EvaluateExecutionComplete(abilityEntity, ref state, currentNode);
+                    break;
+                case NodeType.WaitForTweenInteractionFrame:
+                    EvaluateTweenInteractionFrame(abilityEntity, ref state, currentNode);
+                    EvaluateExecutionComplete(abilityEntity, ref state, currentNode);
+                    break;
                 case NodeType.WaitForDamage:
                     EvaluateDamageDealtConditions(abilityEntity, ref state, currentNode);
                     EvaluateExecutionComplete(abilityEntity, ref state, currentNode);
@@ -126,15 +139,18 @@ namespace Gameplay.AbilityGraph
         {
             ref var state = ref stash_abilityState.Get(abilityEntity);
             var caster = stash_abilityCaster.Get(abilityEntity).caster;
-            var targets = stash_abilityTarget.Get(abilityEntity).targets;
+            var targets = stash_abilityTarget.Get(abilityEntity).m_Targets;
 
 
             foreach (var action in node.Actions)
             {
-
-                switch (action.Type)
+                switch (action.m_Type)
                 {
                     case ActionType.PlayAnimation:
+                        TriggerAnimationPlay(caster, targets, action, abilityEntity);
+                        break;
+                    case ActionType.PlayTween:
+                        TriggerTweenAnimation(caster, targets, action, abilityEntity);
                         break;
                     case ActionType.DealDamage:
                         TriggerDealDamageAction(caster, targets, action, abilityEntity);
@@ -150,18 +166,31 @@ namespace Gameplay.AbilityGraph
             }
         }
 
+        private void TriggerAnimationPlay(Entity caster, Entity[] targets, ActionData action, Entity abilityEntity)
+        {
+        }
+        private void TriggerTweenAnimation(Entity caster, Entity[] targets, ActionData action, Entity abilityEntity)
+        {
+            req_AnimateWithTween.Publish(new AnimateWithTweenRequest
+            {
+                m_Target = targets[action.m_TargetIndex],
+                m_TweenAnimationCode = action.m_TweenAnimationCode,
+                m_Subject = caster
+            });
+        }
+
         private void TriggerApplyEffectAction(Entity caster, Entity[] targets, ActionData action, Entity abilityEntity)
         {
-            var target_index = action.TargetIndex;
-            if (action.OnSelf)
+            var target_index = action.m_TargetIndex;
+            if (action.m_OnSelf)
             {
                 req_applyEffect.Publish(new ApplyEffectRequest
                 {
                     Target = caster,
                     Source = caster,
                     AbilitySource = abilityEntity,
-                    EffectId = action.EffectID,
-                    DurationInTurns = action.EffectDurationInTurns
+                    EffectId = action.m_EffectID,
+                    DurationInTurns = action.m_EffectDurationInTurns
                 });
             }
             else
@@ -175,8 +204,8 @@ namespace Gameplay.AbilityGraph
                             Target = target,
                             Source = caster,
                             AbilitySource = abilityEntity,
-                            EffectId = action.EffectID,
-                            DurationInTurns = action.EffectDurationInTurns
+                            EffectId = action.m_EffectID,
+                            DurationInTurns = action.m_EffectDurationInTurns
                         });
                     }
                 }
@@ -187,8 +216,8 @@ namespace Gameplay.AbilityGraph
                         Target = targets[target_index],
                         Source = caster,
                         AbilitySource = abilityEntity,
-                        EffectId = action.EffectID,
-                        DurationInTurns = action.EffectDurationInTurns
+                        EffectId = action.m_EffectID,
+                        DurationInTurns = action.m_EffectDurationInTurns
                     });
                 }
             }
@@ -197,7 +226,7 @@ namespace Gameplay.AbilityGraph
 
         private void TriggerDealDamageAction(Entity caster, Entity[] targets, ActionData action, Entity abilityEntity)
         {
-            int target_index = action.TargetIndex;
+            int target_index = action.m_TargetIndex;
             if (target_index == -1)
             {
                 foreach (var target in targets)
@@ -207,9 +236,9 @@ namespace Gameplay.AbilityGraph
                         Source = caster,
                         SourceAbility = abilityEntity,
                         Target = target,
-                        MinBaseDamage = action.MinDamageValue,
-                        MaxBaseDamage = action.MaxDamageValue,
-                        DamageType = action.DamageType
+                        MinBaseDamage = action.m_MinDamageValue,
+                        MaxBaseDamage = action.m_MaxDamageValue,
+                        DamageType = action.m_DamageType
                     });
                 }
             }
@@ -220,9 +249,9 @@ namespace Gameplay.AbilityGraph
                     Source = caster,
                     SourceAbility = abilityEntity,
                     Target = targets[target_index],
-                    MinBaseDamage = action.MinDamageValue,
-                    MaxBaseDamage = action.MaxDamageValue,
-                    DamageType = action.DamageType
+                    MinBaseDamage = action.m_MinDamageValue,
+                    MaxBaseDamage = action.m_MaxDamageValue,
+                    DamageType = action.m_DamageType
                 });
             }
         }
@@ -266,33 +295,68 @@ namespace Gameplay.AbilityGraph
 
         private void TransitionToNextNode(Entity abilityEntity, ref AbilityExecutionState state, int targetNodeId)
         {
-            state.CurrentNodeId = targetNodeId;
+            state.m_CurrentNodeId = targetNodeId;
 
-            state.AnimationFrameReached = false;
-            state.DamageDealt = false;
-            state.EffectApplied = false;
-            state.CustomConditionMet = false;
-            state.AnimationNotExist = false;
-            state.ExecutionTimer = 0f;
+            state.m_DamageDealt = false;
+            state.m_EffectApplied = false;
+            state.m_CustomConditionMet = false;
+            state.m_AnimatingStatus = AnimatingStatus.NONE;
+            state.m_IsTweenInteractionFrame = false;
+            state.m_ExecutionTimer = 0f;
         }
 
-        private void EvaluateAnimationFrameConditions(Entity abilityEntity, ref AbilityExecutionState state, ExecutionNode currentNode)
-        {
-            if (state.AnimationNotExist)
-            {
-                TransitionToNextNode(abilityEntity, ref state, currentNode.Transitions[0].TargetNodeId);
-                return;
-            }
 
+
+        private void EvaluateTweenInteractionFrame(Entity abilityEntity, ref AbilityExecutionState state, ExecutionNode currentNode)
+        {
             foreach (var transition in currentNode.Transitions)
             {
-                if (transition.Condition.Type == ConditionType.AnimationFrame)
+                if (transition.Condition.m_Type == ConditionType.TweenInteractionFrame)
+                {
+                    if (state.m_IsTweenInteractionFrame)
+                    {
+                        TransitionToNextNode(abilityEntity, ref state, transition.TargetNodeId);
+                        return;
+                    }
+                }
+
+            }
+        }
+
+        private void EvaluateAnimationState(Entity abilityEntity, ref AbilityExecutionState state, ExecutionNode currentNode)
+        {
+            foreach (var transition in currentNode.Transitions)
+            {
+                if (transition.Condition.m_Type == ConditionType.AnimationSuccsesed)
+                {
+                    if (state.m_AnimatingStatus == AnimatingStatus.SUCCSESSED)
+                    {
+                        TransitionToNextNode(abilityEntity, ref state, transition.TargetNodeId);
+                        return;
+                    }
+                }
+                if (transition.Condition.m_Type == ConditionType.AnimationFailed)
+                {
+                    if (state.m_AnimatingStatus == AnimatingStatus.FAILED)
+                    {
+                        TransitionToNextNode(abilityEntity, ref state, transition.TargetNodeId);
+                        return;
+                    }
+                }
+
+            }
+        }
+        private void EvaluateAnimationFrameConditions(Entity abilityEntity, ref AbilityExecutionState state, ExecutionNode currentNode)
+        {
+            foreach (var transition in currentNode.Transitions)
+            {
+                if (transition.Condition.m_Type == ConditionType.AnimationFrame)
                 {
 
                     bool isConditionMet = false;
 
-                    isConditionMet = IsCompared(transition.Condition.IntValue,
-                        state.CurrentAnimationFrame, transition.Condition.Operator);
+                    isConditionMet = IsCompared(transition.Condition.m_IntValue,
+                        state.m_CurrentAnimationFrame, transition.Condition.m_Operator);
 
                     if (isConditionMet)
                     {
@@ -305,17 +369,17 @@ namespace Gameplay.AbilityGraph
 
         private void EvaluateDamageDealtConditions(Entity abilityEntity, ref AbilityExecutionState state, ExecutionNode currentNode)
         {
-            if (state.DamageDealt == false) { return; }
+            if (state.m_DamageDealt == false) { return; }
 
             foreach (var transition in currentNode.Transitions)
             {
-                if (transition.Condition.Type == ConditionType.DamageDealt)
+                if (transition.Condition.m_Type == ConditionType.DamageDealt)
                 {
 
                     bool isConditionMet = false;
 
-                    isConditionMet = IsCompared(state.LastDamageAmount, transition.Condition.FloatValue
-                        , transition.Condition.Operator);
+                    isConditionMet = IsCompared(state.m_LastDamageAmount, transition.Condition.m_FloatValue
+                        , transition.Condition.m_Operator);
 
                     if (isConditionMet)
                     {
@@ -328,13 +392,13 @@ namespace Gameplay.AbilityGraph
 
         private void EvaluateEffectAppliedConditions(Entity abilityEntity, ref AbilityExecutionState state, ExecutionNode currentNode)
         {
-            if (state.EffectApplied == false) { return; }
+            if (state.m_EffectApplied == false) { return; }
 
             foreach (var transition in currentNode.Transitions)
             {
-                if (transition.Condition.Type == ConditionType.EffectApplied)
+                if (transition.Condition.m_Type == ConditionType.EffectApplied)
                 {
-                    if (transition.Condition.StringValue == state.LastAppliedEffectId)
+                    if (transition.Condition.m_StringValue == state.m_LastAppliedEffectId)
                     {
                         TransitionToNextNode(abilityEntity, ref state, transition.TargetNodeId);
                         return;

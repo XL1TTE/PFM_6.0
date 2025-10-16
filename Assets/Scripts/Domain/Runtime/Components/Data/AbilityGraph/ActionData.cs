@@ -1,38 +1,45 @@
-using System.Collections.Generic;
+using Domain.Services;
 using Scellecs.Morpeh;
-using UnityEngine;
 
 namespace Domain.AbilityGraph
 {
     public struct ActionData : IComponent
     {
-        public ActionType Type;
+        public ActionType m_Type;
 
         // Data
-        public bool OnSelf;
-        
+        public bool m_OnSelf;
+
         /// <summary>
         /// Provide -1 if you wanna use all tagets at once.
         /// </summary>
-        public int TargetIndex;
-        public short MinDamageValue;
-        public short MaxDamageValue;
-        public DamageType DamageType;
-        public string EffectID;
+        public int m_TargetIndex;
+        public short m_MinDamageValue;
+        public short m_MaxDamageValue;
+        public DamageType m_DamageType;
+        public string m_EffectID;
         /// <summary>
         /// Provide -1 for permanent effects;
         /// </summary>
-        public short EffectDurationInTurns;
-        public string VfxRecordId;
-        public string SfxClipPath;
-        public string AnimationName;
-    }
-    
-    public enum DamageType:byte{Physical, Poison}
+        public short m_EffectDurationInTurns;
 
-    public enum ActionType:byte
+
+        public string m_VfxRecordId;
+        public string m_SfxClipPath;
+
+
+        public string m_AnimationName;
+        public AbilityTweenAnimation m_TweenAnimationCode;
+    }
+
+
+
+    public enum DamageType : byte { Physical, Poison }
+
+    public enum ActionType : byte
     {
         PlayAnimation,
+        PlayTween,
         DealDamage,
         ApplyEffect,
         SpawnVfx,
