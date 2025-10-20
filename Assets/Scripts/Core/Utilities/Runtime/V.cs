@@ -11,7 +11,8 @@ namespace Core.Utilities
             var actorStates = world.GetStash<ActorActionStatesComponent>();
             return actorStates.Get(actor).m_Values.Any(s =>
             s == ActorActionStates.Moving |
-            s == ActorActionStates.ExecutingAbility);
+            s == ActorActionStates.ExecutingAbility |
+            s == ActorActionStates.Animating);
         }
     }
 

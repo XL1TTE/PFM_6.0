@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Domain.Abilities.Components;
 using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
@@ -16,6 +17,7 @@ namespace Core.Utilities
             var gridPos = world.GetStash<GridPosition>();
             var cellPos = world.GetStash<CellPositionComponent>();
             var moveAbility = world.GetStash<MovementAbility>();
+            var lookDir = world.GetStash<LookDirection>();
 
             var f_cellsNotOccupied = world.Filter
                 .With<CellTag>()
@@ -32,6 +34,19 @@ namespace Core.Utilities
 
             var entityMoves = moveAbility.Get(entity).Movements;
             var entityGridPos = gridPos.Get(entity);
+
+            if (lookDir.Has(entity))
+            {
+                switch (lookDir.Get(entity).m_Value)
+                {
+                    case Directions.LEFT:
+                        entityMoves = entityMoves.Select((m) => m *= new Vector2Int(-1, 1)).ToList();
+                        break;
+                    case Directions.RIGHT:
+                        // Movements setuped for right direction by default;
+                        break;
+                }
+            }
 
             foreach (var move in entityMoves)
             {
@@ -55,6 +70,7 @@ namespace Core.Utilities
             var gridPos = world.GetStash<GridPosition>();
             var cellPos = world.GetStash<CellPositionComponent>();
             var attackAbility = world.GetStash<AttackAbility>();
+            var lookDir = world.GetStash<LookDirection>();
 
             var f_cells = world.Filter
                 .With<CellTag>()
@@ -68,9 +84,23 @@ namespace Core.Utilities
             List<Vector2Int> shiftedAttacks = new();
 
             var attackerPos = gridPos.Get(attacker);
-            var entityAttacks = attackAbility.Get(attacker);
+            var entityAttacks = attackAbility.Get(attacker).Attacks;
 
-            foreach (var attack in entityAttacks.Attacks)
+            if (lookDir.Has(attacker))
+            {
+                switch (lookDir.Get(attacker).m_Value)
+                {
+                    case Directions.LEFT:
+                        entityAttacks = entityAttacks.Select((m) => m *= new Vector2Int(-1, 1)).ToList();
+                        break;
+                    case Directions.RIGHT:
+                        // Movements setuped for right direction by default;
+                        break;
+                }
+            }
+
+
+            foreach (var attack in entityAttacks)
             {
                 shiftedAttacks.Add(attack + attackerPos.Value);
             }

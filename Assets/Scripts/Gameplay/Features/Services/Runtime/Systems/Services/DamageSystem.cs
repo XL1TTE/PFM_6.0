@@ -70,7 +70,7 @@ namespace Gameplay.Commands
 
 
             ref var target_stats = ref stash_currentStats.Get(target);
-            target_stats.CurrentHealth -= finalDamage;
+            target_stats.m_CurrentHealth -= finalDamage;
 
             return finalDamage;
         }

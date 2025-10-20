@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Core.Utilities;
 using Domain.AbilityGraph;
 using Domain.Components;
 using Domain.Extentions;
@@ -30,8 +31,8 @@ namespace Persistence.DB.Abilities
                         Actions = new List<ActionData>{
                             new ActionData{
                                 m_Type = ActionType.PlayTween,
-                                m_TweenAnimationCode = AbilityTweenAnimation.ATTACK,
-                                m_TargetIndex = 0
+                                m_TweenAnimationCode = TweenAnimations.ATTACK,
+                                m_TargetIndex = 0,
                             }
                         },
                         Transitions = new List<NodeTransition>{
@@ -68,9 +69,22 @@ namespace Persistence.DB.Abilities
                             new NodeTransition{TargetNodeId = 3}
                         }
                     },
-                    // End
+                    // Consume interaction action.    
                     new ExecutionNode{
                         NodeId = 3,
+                        Type = NodeType.Immediate,
+                        Actions = new List<ActionData>{
+                            new ActionData{
+                                m_Type = ActionType.ConsumeInteractionAction
+                            }
+                        },
+                        Transitions = new List<NodeTransition>{
+                            new NodeTransition{TargetNodeId = 4}
+                        }
+                    },         
+                    // End
+                    new ExecutionNode{
+                        NodeId = 4,
                         Type = NodeType.End
                     }
                 }

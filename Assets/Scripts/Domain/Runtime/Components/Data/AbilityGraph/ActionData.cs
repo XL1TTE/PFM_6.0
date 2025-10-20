@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Domain.Services;
 using Scellecs.Morpeh;
 
@@ -29,7 +30,7 @@ namespace Domain.AbilityGraph
 
 
         public string m_AnimationName;
-        public AbilityTweenAnimation m_TweenAnimationCode;
+        public TweenAnimations m_TweenAnimationCode;
     }
 
 
@@ -42,6 +43,9 @@ namespace Domain.AbilityGraph
         PlayTween,
         DealDamage,
         ApplyEffect,
+        TurnAround,
+        ConsumeMovementAction,
+        ConsumeInteractionAction,
         SpawnVfx,
         PlaySfx,
     }

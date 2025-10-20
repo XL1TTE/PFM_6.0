@@ -69,15 +69,15 @@ namespace Gameplay.GameEffects
 
             if (DataBase.TryGetRecord<MaxHealthModifier>(effect_record, out var max_health_modifier))
             {
-                cur_subject_stats.MaxHealth += max_health_modifier.AdditiveValue;
-                cur_subject_stats.MaxHealth =
-                    (int)Math.Floor(cur_subject_stats.MaxHealth * 1 + max_health_modifier.MultiplierValue);
+                cur_subject_stats.m_MaxHealth += max_health_modifier.AdditiveValue;
+                cur_subject_stats.m_MaxHealth =
+                    (int)Math.Floor(cur_subject_stats.m_MaxHealth * 1 + max_health_modifier.MultiplierValue);
             }
             if (DataBase.TryGetRecord<MaxSpeedModifier>(effect_record, out var max_speed_modifier))
             {
-                cur_subject_stats.MaxSpeed += max_speed_modifier.AdditiveValue;
-                cur_subject_stats.MaxSpeed =
-                    (int)Math.Floor(cur_subject_stats.MaxSpeed * 1 + max_speed_modifier.MultiplierValue);
+                cur_subject_stats.m_MaxSpeed += max_speed_modifier.AdditiveValue;
+                cur_subject_stats.m_MaxSpeed =
+                    (int)Math.Floor(cur_subject_stats.m_MaxSpeed * 1 + max_speed_modifier.MultiplierValue);
             }
 
         }
@@ -87,9 +87,9 @@ namespace Gameplay.GameEffects
             var base_stats = stash_BaseStats.Get(subject);
             ref var cur_stats = ref stash_CurrentStats.Get(subject);
 
-            cur_stats.MaxHealth = base_stats.MaxHealth;
+            cur_stats.m_MaxHealth = base_stats.MaxHealth;
 
-            cur_stats.MaxSpeed = base_stats.MaxSpeed;
+            cur_stats.m_MaxSpeed = base_stats.MaxSpeed;
         }
     }
 }

@@ -37,5 +37,14 @@ namespace Core.Utilities
 
             return seq;
         }
+
+
+        public static Sequence GetTurnAround(Transform subjectTransform)
+        {
+            Sequence seq = DOTween.Sequence();
+            seq.Append(subjectTransform.DORotate(new Vector3(0, 180, 0), 0.25f, RotateMode.LocalAxisAdd));
+
+            return seq;
+        }
     }
 }

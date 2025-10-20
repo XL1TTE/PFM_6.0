@@ -50,20 +50,48 @@ namespace Gameplay.Commands
                 if (stash_TransformRef.Has(req.m_Subject) == false) { OnAnimationFailed(req.m_Subject); }
                 if (stash_TransformRef.Has(req.m_Target) == false) { OnAnimationFailed(req.m_Subject); }
 
-                var subjectTransform = stash_TransformRef.Get(req.m_Subject).Value;
-                var targetTransform = stash_TransformRef.Get(req.m_Target).Value;
-
-                var animation = AbilityAnimations.GetStandartAttack(subjectTransform, targetTransform,
-                     () => OnTweenInteractionFrame(req.m_Subject));
-
-                animation.AppendCallback(() => OnAnimationSuccses(req.m_Subject));
-
-                evt_AnimatingStarted.NextFrame(new AnimatingStarted
+                switch (req.m_TweenAnimationCode)
                 {
-                    m_Subject = req.m_Subject
-                });
-                animation.Play();
+                    case TweenAnimations.ATTACK:
+                        PlayAttackAnimation(req);
+                        break;
+                    case TweenAnimations.TURN_AROUND:
+                        PlayTurnAroundAnimation(req);
+                        break;
+                }
             }
+        }
+
+        private void PlayTurnAroundAnimation(AnimateWithTweenRequest req)
+        {
+            var subjectTransform = stash_TransformRef.Get(req.m_Subject).Value;
+
+            var animation = AbilityAnimations.GetTurnAround(subjectTransform);
+
+            animation.AppendCallback(() => OnAnimationSuccses(req.m_Subject));
+
+            evt_AnimatingStarted.NextFrame(new AnimatingStarted
+            {
+                m_Subject = req.m_Subject
+            });
+            animation.Play();
+        }
+
+        private void PlayAttackAnimation(AnimateWithTweenRequest req)
+        {
+            var subjectTransform = stash_TransformRef.Get(req.m_Subject).Value;
+            var targetTransform = stash_TransformRef.Get(req.m_Target).Value;
+
+            var animation = AbilityAnimations.GetStandartAttack(subjectTransform, targetTransform,
+                 () => OnTweenInteractionFrame(req.m_Subject));
+
+            animation.AppendCallback(() => OnAnimationSuccses(req.m_Subject));
+
+            evt_AnimatingStarted.NextFrame(new AnimatingStarted
+            {
+                m_Subject = req.m_Subject
+            });
+            animation.Play();
         }
 
         private void OnTweenInteractionFrame(Entity subject)

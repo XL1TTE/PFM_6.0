@@ -54,7 +54,7 @@ namespace Gameplay.HealthBars.Systems
             }
 
             var stats = stash_curStats.Get(owner);
-            healthBarView.SetValue((float)stats.CurrentHealth / stats.MaxHealth);
+            healthBarView.SetValue((float)stats.m_CurrentHealth / stats.m_MaxHealth);
         }
 
         public void Dispose()

@@ -81,8 +81,6 @@ namespace Gameplay.AIGraph
                 CompleteMovement(agentEntity);
             });
 
-            sequence.Play();
-
             req_moveToCellCommand.Publish(new MoveToCellRequest
             {
                 m_MoveSequence = sequence,

@@ -1,12 +1,15 @@
-using Domain.Stats.Components;
-using Scellecs.Morpeh.Providers;
+using DG.Tweening;
+using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Domain.Stats.Providers
+namespace Domain.Services
 {
+    [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class ActionsProvider : MonoProvider<Actions>{}
+    public struct TurnAroundRequest : IRequestData
+    {
+        public Entity m_Subject;
+    }
 }
-

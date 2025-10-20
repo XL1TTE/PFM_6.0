@@ -12,6 +12,7 @@ namespace Core.ECS.Modules
         {
             var sg_GameStats = world.CreateSystemsGroup();
             sg_GameStats.AddSystem(new CurrentStatsFromBaseSystem());
+            sg_GameStats.AddSystem(new StatsServiceSystem());
 
             world.AddSystemsGroup(Priority, sg_GameStats);
         }

@@ -37,6 +37,6 @@ namespace Domain.Services
         /// <summary>
         /// Let you to select concrete type of tween animation. 
         /// </summary>
-        public AbilityTweenAnimation m_TweenAnimationCode;
+        public TweenAnimations m_TweenAnimationCode;
     }
 }

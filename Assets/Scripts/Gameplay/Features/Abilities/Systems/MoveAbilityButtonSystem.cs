@@ -20,44 +20,38 @@ using Domain.UI.Requests;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
+using Core.Utilities;
 
 namespace Gameplay.Abilities.Systems
 {
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class MoveAbilitySystem : ISystem
+    public sealed class MoveAbilityButtonSystem : ISystem
     {
-        private int SystemID = "MOVE_ABILITY".GetHashCode();
-
         public World World { get; set; }
 
 
         private Filter f_moveAbiltiyBtns;
         private Filter f_targetSelectionResults;
         private Filter f_currentTurnTaker;
-        private Filter f_cells;
-
         private Request<TargetSelectionRequest> req_targetSelection;
         private Request<MoveToCellRequest> req_MoveRequest;
         private Event<ButtonClickedEvent> evt_btnClicked;
 
         private Stash<TargetSelectionResult> stash_selectionResult;
         private Stash<MoveAbilityButtonTag> stash_moveAbilityBtn;
-        private Stash<MovementAbility> stash_moveAbility;
         private Stash<Moving> stash_movingTag;
         private Stash<TagCursorDetector> stash_cursorDetector;
         private Stash<PerfomingActionTag> stash_performingAction;
         private Stash<CellPositionComponent> stash_cellPosition;
         private Stash<TagOccupiedCell> stash_cellOccupied;
-        private Stash<GridPosition> stash_gridPosition;
         private Stash<TransformRefComponent> stash_transformRef;
         private Stash<UnderCursorComponent> stash_underCursor;
 
         private Entity CurrentCaster;
         private Entity CurrentMoveButton;
 
-        private Dictionary<int, Sequence> ActiveMoveTweensMap = new();
 
         private bool IsAbilityAwaible = false;
 
@@ -77,10 +71,6 @@ namespace Gameplay.Abilities.Systems
                 .With<CurrentTurnTakerTag>()
                 .Build();
 
-            f_cells = World.Filter
-                .With<CellTag>()
-                .With<CellPositionComponent>()
-                .Build();
 
             req_targetSelection = World.GetRequest<TargetSelectionRequest>();
 
@@ -92,13 +82,11 @@ namespace Gameplay.Abilities.Systems
             stash_selectionResult = World.GetStash<TargetSelectionResult>();
 
             stash_moveAbilityBtn = World.GetStash<MoveAbilityButtonTag>();
-            stash_moveAbility = World.GetStash<MovementAbility>();
             stash_movingTag = World.GetStash<Moving>();
             stash_cursorDetector = World.GetStash<TagCursorDetector>();
             stash_performingAction = World.GetStash<PerfomingActionTag>();
             stash_cellOccupied = World.GetStash<TagOccupiedCell>();
             stash_cellPosition = World.GetStash<CellPositionComponent>();
-            stash_gridPosition = World.GetStash<GridPosition>();
             stash_transformRef = World.GetStash<TransformRefComponent>();
             stash_underCursor = World.GetStash<UnderCursorComponent>();
         }
@@ -123,7 +111,7 @@ namespace Gameplay.Abilities.Systems
                 CurrentCaster = f_currentTurnTaker.FirstOrDefault();
                 CurrentMoveButton = evt.ClickedButton;
 
-                var MoveOptions = GetMoveOptions(CurrentCaster);
+                var MoveOptions = GU.FindMoveOptionsCellsFor(CurrentCaster, World);
                 if (ValidateMoveOptions(MoveOptions) == false) { continue; }
 
                 StartMoveOptionSelection(evt.ClickedButton, MoveOptions);
@@ -223,19 +211,6 @@ namespace Gameplay.Abilities.Systems
             return true;
         }
 
-        private void AddMovingTagToCaster(Entity user)
-        {
-            stash_movingTag.Add(user);
-        }
-
-        private void RemoveMovingTagFromCaster(Entity user)
-        {
-            if (stash_movingTag.Has(user))
-            {
-                stash_movingTag.Remove(user);
-            }
-        }
-
 
         private void StartMoveOptionSelection(Entity sender, List<Entity> cellOptions)
         {
@@ -255,12 +230,6 @@ namespace Gameplay.Abilities.Systems
         {
             DisableAbilityButtonSelectedView(CurrentMoveButton);
             ResetSkillState();
-        }
-
-        private void OnSkillUseCompleted()
-        {
-            RemoveMovingTagFromCaster(CurrentCaster);
-            //ResetSkillState();
         }
 
         private void EnableAbilityButtonSelectedView(Entity button)
@@ -291,16 +260,7 @@ namespace Gameplay.Abilities.Systems
 
         private void MoveCasterToSelectedCell(Entity cell)
         {
-            var cellPos = stash_cellPosition.Get(cell);
-            ref var executerTransformRef = ref stash_transformRef.Get(CurrentCaster).Value;
-            var targetPos = new Vector3(cellPos.global_x, cellPos.global_y, cellPos.global_y * 0.01f);
-
-            var moveSequence = GetMoveSequence(executerTransformRef, targetPos);
-            moveSequence.OnComplete(
-                () => OnSkillUseCompleted()
-            );
-
-            moveSequence.Play();
+            var moveSequence = MovementAnimations.ChessMovement(CurrentCaster, cell, World);
 
             req_MoveRequest.Publish(new MoveToCellRequest
             {
@@ -310,58 +270,8 @@ namespace Gameplay.Abilities.Systems
             });
         }
 
-        private Sequence GetMoveSequence(Transform executerTransform, Vector3 targetPosition)
-        {
-            var raiseHeight = 20;
-
-            var targetPosWithHeight =
-                new Vector3(targetPosition.x, targetPosition.y + raiseHeight, targetPosition.z);
-
-            var originalPosition = executerTransform.position;
-
-            Sequence seq = DOTween.Sequence();
-
-            seq.Append(executerTransform.DOMoveY(originalPosition.y
-                + raiseHeight, 0.25f).SetEase(Ease.OutQuad));
-
-            seq.Append(executerTransform.DOMove(targetPosWithHeight, 0.5f)
-                .SetEase(Ease.OutQuad));
-
-            seq.Append(executerTransform.DOMoveY(targetPosition.y, 0.25f)
-                .SetEase(Ease.InQuad));
-
-            return seq;
-        }
-
         #region MoveOptionsFilters
-        private List<Entity> GetMoveOptions(Entity monsterEntity)
-        {
-            List<Entity> allowedCells = new();
-            List<Vector2Int> cellPositions = new();
 
-            var c_gridPos = stash_gridPosition.Get(monsterEntity);
-            var moves = stash_moveAbility.Get(monsterEntity).Movements;
-
-            var gridPos = c_gridPos.Value;
-
-            foreach (var move in moves)
-            {
-                cellPositions.Add(gridPos + move);
-            }
-
-            // pick cells with allowed positions
-            foreach (var cell in f_cells)
-            {
-                var c_cellPos = stash_cellPosition.Get(cell);
-                var cellPos = new Vector2Int(c_cellPos.grid_x, c_cellPos.grid_y);
-                if (cellPositions.Contains(cellPos))
-                {
-                    allowedCells.Add(cell);
-                }
-            }
-
-            return allowedCells;
-        }
         private List<Entity> FilterAllowedOptions(List<Entity> options)
         {
             List<Entity> filter = new();

@@ -7,6 +7,7 @@ namespace Domain.Notificator
 {
     public enum ActorActionStates : byte
     {
+        Animating,
         ExecutingAbility,
         Moving,
         Idle,

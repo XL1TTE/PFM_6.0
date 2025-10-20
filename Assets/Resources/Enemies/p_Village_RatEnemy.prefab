@@ -58,7 +58,6 @@ GameObject:
   - component: {fileID: 7243786364389428705}
   - component: {fileID: 2375435949646462250}
   - component: {fileID: 1031712963108783947}
-  - component: {fileID: 8128589708087628102}
   - component: {fileID: 8453176143293812164}
   - component: {fileID: 7767710113392478308}
   - component: {fileID: 3380081643142453472}
@@ -143,23 +142,6 @@ MonoBehaviour:
   serializedData:
     Offset: {x: 0, y: 0}
     Size: {x: 45, y: 35}
---- !u!114 &8128589708087628102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1702015493862502221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39472b6e31c378e4c9654fab0b447ed6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializedData:
-    MaxMoveActions: 1
-    AvaibleMoveActions: 1
-    MaxInteractionActions: 1
-    AvaibleInteractionActions: 1
 --- !u!114 &8453176143293812164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +218,10 @@ MonoBehaviour:
     MaxHealth: 12
     Speed: 2
     MaxSpeed: 2
+    m_MovementActions: 0
+    m_MaxMovementActions: 0
+    m_InteractionActions: 0
+    m_MaxInteractionActions: 0
 --- !u!114 &4743355827015876891
 MonoBehaviour:
   m_ObjectHideFlags: 0

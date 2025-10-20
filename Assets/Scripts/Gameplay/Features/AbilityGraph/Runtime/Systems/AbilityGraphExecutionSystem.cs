@@ -9,6 +9,7 @@ using Domain.GameEffects;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine.AI;
+using Domain.Stats.Requests;
 
 namespace Gameplay.AbilityGraph
 {
@@ -25,6 +26,9 @@ namespace Gameplay.AbilityGraph
         private Request<ApplyEffectRequest> req_applyEffect;
         private Request<AnimatingRequest> req_Animating;
         private Request<AnimateWithTweenRequest> req_AnimateWithTween;
+        private Request<TurnAroundRequest> req_TurnAround;
+        private Request<ConsumeMovementRequest> req_ConsumeMovement;
+        private Request<ConsumeInteractionRequest> req_ConsumeInteraction;
         private Stash<AbilityExecutionGraph> stash_abilityGraph;
         private Stash<AbilityExecutionState> stash_abilityState;
         private Stash<AbilityIsExecutingTag> stash_abilityExecutingTag;
@@ -51,6 +55,11 @@ namespace Gameplay.AbilityGraph
 
             req_Animating = World.GetRequest<AnimatingRequest>();
             req_AnimateWithTween = World.GetRequest<AnimateWithTweenRequest>();
+
+            req_TurnAround = World.GetRequest<TurnAroundRequest>();
+
+            req_ConsumeMovement = World.GetRequest<ConsumeMovementRequest>();
+            req_ConsumeInteraction = World.GetRequest<ConsumeInteractionRequest>();
 
             stash_abilityGraph = World.GetStash<AbilityExecutionGraph>();
             stash_abilityState = World.GetStash<AbilityExecutionState>();
@@ -158,6 +167,15 @@ namespace Gameplay.AbilityGraph
                     case ActionType.ApplyEffect:
                         TriggerApplyEffectAction(caster, targets, action, abilityEntity);
                         break;
+                    case ActionType.TurnAround:
+                        TriggerTurnAroundAction(caster, targets, action, abilityEntity);
+                        break;
+                    case ActionType.ConsumeInteractionAction:
+                        ConsumeInteractionAction(caster, targets, action, abilityEntity);
+                        break;
+                    case ActionType.ConsumeMovementAction:
+                        ConsumeMovementAction(caster, targets, action, abilityEntity);
+                        break;
                     case ActionType.PlaySfx:
                         break;
                     case ActionType.SpawnVfx:
@@ -166,8 +184,36 @@ namespace Gameplay.AbilityGraph
             }
         }
 
+        private void ConsumeMovementAction(Entity caster, Entity[] targets, ActionData action, Entity abilityEntity)
+        {
+            req_ConsumeMovement.Publish(new ConsumeMovementRequest
+            {
+                m_Subject = caster
+            });
+        }
+
+        private void ConsumeInteractionAction(Entity caster, Entity[] targets, ActionData action, Entity abilityEntity)
+        {
+            req_ConsumeInteraction.Publish(new ConsumeInteractionRequest
+            {
+                m_Subject = caster
+            });
+        }
+
+        private void TriggerTurnAroundAction(Entity caster, Entity[] targets, ActionData action, Entity abilityEntity)
+        {
+            req_TurnAround.Publish(new TurnAroundRequest
+            {
+                m_Subject = caster
+            });
+        }
+
         private void TriggerAnimationPlay(Entity caster, Entity[] targets, ActionData action, Entity abilityEntity)
         {
+            req_TurnAround.Publish(new TurnAroundRequest
+            {
+                m_Subject = caster,
+            });
         }
         private void TriggerTweenAnimation(Entity caster, Entity[] targets, ActionData action, Entity abilityEntity)
         {
@@ -343,7 +389,6 @@ namespace Gameplay.AbilityGraph
                         return;
                     }
                 }
-
             }
         }
         private void EvaluateAnimationFrameConditions(Entity abilityEntity, ref AbilityExecutionState state, ExecutionNode currentNode)

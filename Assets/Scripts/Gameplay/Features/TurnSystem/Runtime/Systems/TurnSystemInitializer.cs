@@ -85,7 +85,7 @@ namespace Gameplay.TurnSystem.Systems
                 var speed = 0.0f;
                 if (stash_Stats.Has(e))
                 {
-                    speed = stash_Stats.Get(e).CurrentSpeed;
+                    speed = stash_Stats.Get(e).m_CurrentSpeed;
                 }
                 return speed;
             }).ToList();
