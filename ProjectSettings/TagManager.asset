@@ -62,5 +62,8 @@ TagManager:
   - name: MapLineLayer
     uniqueID: 956614297
     locked: 0
+  - name: FloatingUI
+    uniqueID: 3613051449
+    locked: 0
   m_RenderingLayers:
   - Default

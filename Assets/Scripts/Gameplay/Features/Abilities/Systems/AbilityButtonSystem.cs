@@ -3,6 +3,7 @@ using System.Linq;
 using Core.Utilities;
 using Domain.Abilities.Tags;
 using Domain.AbilityGraph;
+using Domain.CursorDetection.Components;
 using Domain.Extentions;
 using Domain.Monster.Tags;
 using Domain.Notificator;
@@ -22,13 +23,14 @@ namespace Gameplay.Abilities.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class AbilityButtonSystem : ISystem
     {
-        private FilterBuilder f_turnTaker;
         private Filter f_targetSelectionResults;
         private Request<TargetSelectionRequest> req_TargetSelection;
         private Request<ActivateAbilityRequest> req_AbiltiyActivation;
         private Event<ButtonClickedEvent> evt_ButtonClicked;
 
         private Event<ActorActionStatesChanged> evt_ActorStatesChanged;
+        private Event<OnCursorEnterEvent> evt_OnCursorEnter;
+        private Event<OnCursorExitEvent> evt_OnCursorExit;
         private Stash<AbiltiyButtonTag> stash_AbilityButtonTag;
         private Stash<ButtonTag> stash_ButtonTag;
 
@@ -36,10 +38,6 @@ namespace Gameplay.Abilities.Systems
 
         public void OnAwake()
         {
-            f_turnTaker = World.Filter
-                .With<TagMonster>()
-                .With<CurrentTurnTakerTag>();
-
             f_targetSelectionResults = World.Filter
                 .With<AbiltiyButtonTag>()
                 .With<TargetSelectionResult>()
@@ -53,19 +51,27 @@ namespace Gameplay.Abilities.Systems
 
             evt_ActorStatesChanged = World.GetEvent<ActorActionStatesChanged>();
 
+            evt_OnCursorEnter = World.GetEvent<OnCursorEnterEvent>();
+            evt_OnCursorExit = World.GetEvent<OnCursorExitEvent>();
+
             stash_AbilityButtonTag = World.GetStash<AbiltiyButtonTag>();
             stash_ButtonTag = World.GetStash<ButtonTag>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach (var evt in evt_ButtonClicked.publishedChanges)
-            {
-                if (!IsAbilityButtonClicked(evt)) { return; } // Ignore if not abiltiy button was clicked.
+            ProcessClick();
 
-                ProcessClick(evt.ClickedButton);
-            }
+            ProcessOwnerBusyState();
 
+            ProcessTargetSelection();
+
+            ProcessHoverEffect();
+
+        }
+
+        private void ProcessOwnerBusyState()
+        {
             // For actors which have active ability buttons
             // check if actor is busy. Busy -> Disable button. Otherwise -> Enable button. 
             foreach (var evt in evt_ActorStatesChanged.publishedChanges)
@@ -82,8 +88,10 @@ namespace Gameplay.Abilities.Systems
                     EnableButton(abilityButton);
                 }
             }
+        }
 
-
+        private void ProcessTargetSelection()
+        {
             foreach (var button in f_targetSelectionResults)
             {
                 var abiltiyOwner = stash_AbilityButtonTag.Get(button).m_ButtonOwner;
@@ -92,16 +100,60 @@ namespace Gameplay.Abilities.Systems
 
                 if (result.m_Status == TargetSelectionStatus.Success)
                 {
+                    SetSelectedEffect(button, false);
                     UseAbility(abiltiyOwner, result);
                     result.m_IsProcessed = true;
                 }
                 else if (result.m_Status == TargetSelectionStatus.Failed)
                 {
+                    SetSelectedEffect(button, false);
                     result.m_IsProcessed = true;
-                    continue;
                 }
             }
+        }
 
+        private void ProcessHoverEffect()
+        {
+            foreach (var evt in evt_OnCursorEnter.publishedChanges)
+            {
+                if (IsAbilityButton(evt.m_Entity))
+                {
+                    SetHoverEffect(evt.m_Entity, true);
+                }
+            }
+            foreach (var evt in evt_OnCursorExit.publishedChanges)
+            {
+                if (IsAbilityButton(evt.m_Entity))
+                {
+                    SetHoverEffect(evt.m_Entity, false);
+                }
+            }
+        }
+
+        private void SetHoverEffect(Entity abilityButton, bool isActive)
+        {
+            ref var view = ref stash_AbilityButtonTag.Get(abilityButton).m_View;
+            if (isActive)
+            {
+                view.EnableHoverView();
+            }
+            else
+            {
+                view.DisableHoverView();
+            }
+        }
+
+        private void SetSelectedEffect(Entity abilityButton, bool isActive)
+        {
+            ref var view = ref stash_AbilityButtonTag.Get(abilityButton).m_View;
+            if (isActive)
+            {
+                view.EnableSelectedView();
+            }
+            else
+            {
+                view.DisableSelectiedView();
+            }
         }
 
         private void UseAbility(Entity abiltiyOwner, TargetSelectionResult result)
@@ -133,25 +185,42 @@ namespace Gameplay.Abilities.Systems
         /// Sends target selection request
         /// </summary>
         /// <param name="abiltiyButton"></param>
-        private void ProcessClick(Entity abiltiyButton)
+        private void ProcessClick()
         {
-            var owner = stash_AbilityButtonTag.Get(abiltiyButton).m_ButtonOwner;
-
-            var allOptions = GU.FindAttackOptionsCellsFor(owner, World);
-            var avaibleOptions = F.FilterCellsWithEnemies(allOptions, World);
-
-            req_TargetSelection.Publish(new TargetSelectionRequest
+            foreach (var evt in evt_ButtonClicked.publishedChanges)
             {
-                m_Sender = abiltiyButton,
-                m_TargetsAmount = 1,
-                m_AwaibleOptions = avaibleOptions.ToList(),
-                m_UnavaibleOptions = allOptions.Except(avaibleOptions).ToList()
+                if (!IsAbilityButtonClicked(evt)) { return; } // Ignore if not abiltiy button was clicked.
 
-            });
+                SetSelectedEffect(evt.ClickedButton, true);
+
+                var owner = stash_AbilityButtonTag.Get(evt.ClickedButton).m_ButtonOwner;
+
+                var allOptions = GU.FindAttackOptionsCellsFor(owner, World);
+                var avaibleOptions = F.FilterCellsWithEnemies(allOptions, World);
+
+                req_TargetSelection.Publish(new TargetSelectionRequest
+                {
+                    m_Sender = evt.ClickedButton,
+                    m_TargetsAmount = 1,
+                    m_AwaibleOptions = avaibleOptions.ToList(),
+                    m_UnavaibleOptions = allOptions.Except(avaibleOptions).ToList()
+
+                });
+            }
+
+
         }
 
         private bool IsAbilityButtonClicked(ButtonClickedEvent @event)
         => stash_AbilityButtonTag.Has(@event.ClickedButton) ? true : false;
+
+        private bool IsAbilityButton(Entity entity)
+        {
+            if (entity.isNullOrDisposed(World)) { return false; }
+            if (stash_AbilityButtonTag.Has(entity) == false) { return false; }
+
+            return true;
+        }
 
         public void Dispose()
         {
