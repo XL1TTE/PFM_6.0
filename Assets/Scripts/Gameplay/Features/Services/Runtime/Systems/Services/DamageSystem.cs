@@ -14,7 +14,7 @@ namespace Gameplay.Commands
     {
         private Request<DealDamageRequest> req_dealDamageRequest;
         private Event<DamageDealtEvent> evt_damageDealt;
-        private Stash<CurrentStatsComponent> stash_currentStats;
+        private Stash<Health> stash_Health;
 
         public World World { get; set; }
 
@@ -24,7 +24,7 @@ namespace Gameplay.Commands
 
             evt_damageDealt = World.GetEvent<DamageDealtEvent>();
 
-            stash_currentStats = World.GetStash<CurrentStatsComponent>();
+            stash_Health = World.GetStash<Health>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -64,13 +64,13 @@ namespace Gameplay.Commands
             var target = req.Target;
             var source = req.Source;
 
-            if (stash_currentStats.Has(target) == false) { return 0; }
+            if (stash_Health.Has(target) == false) { return 0; }
 
             var finalDamage = baseDamage; // Calculate final damage from source damage modifiers and target deffence modifiers;
 
 
-            ref var target_stats = ref stash_currentStats.Get(target);
-            target_stats.m_CurrentHealth -= finalDamage;
+            ref var target_health = ref stash_Health.Get(target);
+            target_health.m_Value -= finalDamage;
 
             return finalDamage;
         }

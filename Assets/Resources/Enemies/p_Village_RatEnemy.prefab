@@ -62,7 +62,6 @@ GameObject:
   - component: {fileID: 7767710113392478308}
   - component: {fileID: 3380081643142453472}
   - component: {fileID: 4810814904431708377}
-  - component: {fileID: 4675400270515170225}
   - component: {fileID: 4743355827015876891}
   m_Layer: 0
   m_Name: p_Village_RatEnemy
@@ -201,27 +200,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     HealthBarPrefab: {fileID: 3316543534114295942, guid: 3c207768c0edcda46b43143b0208c50a, type: 3}
---- !u!114 &4675400270515170225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1702015493862502221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c04307412cf7d1478b11130387a4eaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializedData:
-    Health: 10
-    MaxHealth: 12
-    Speed: 2
-    MaxSpeed: 2
-    m_MovementActions: 0
-    m_MaxMovementActions: 0
-    m_InteractionActions: 0
-    m_MaxInteractionActions: 0
 --- !u!114 &4743355827015876891
 MonoBehaviour:
   m_ObjectHideFlags: 0

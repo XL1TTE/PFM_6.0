@@ -28,8 +28,8 @@ namespace Gameplay.TurnSystem.Systems
         private Request<ProcessTurnRequest> req_processTurn;
         private Event<TurnSystemInitializedEvent> evt_turnSystemInitialized;
 
-        private Stash<CurrentStatsComponent> stash_Stats;
         private Stash<TurnQueueComponent> stash_turnQueue;
+        private Stash<Speed> stash_Speed;
 
         public void OnAwake()
         {
@@ -45,8 +45,9 @@ namespace Gameplay.TurnSystem.Systems
             req_processTurn = World.GetRequest<ProcessTurnRequest>();
             evt_turnSystemInitialized = World.GetEvent<TurnSystemInitializedEvent>();
 
-            stash_Stats = World.GetStash<CurrentStatsComponent>();
             stash_turnQueue = World.GetStash<TurnQueueComponent>();
+
+            stash_Speed = World.GetStash<Speed>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -83,9 +84,9 @@ namespace Gameplay.TurnSystem.Systems
             OrderedBySpeed = OrderedBySpeed.OrderByDescending(e =>
             {
                 var speed = 0.0f;
-                if (stash_Stats.Has(e))
+                if (stash_Speed.Has(e))
                 {
-                    speed = stash_Stats.Get(e).m_CurrentSpeed;
+                    speed = stash_Speed.Get(e).m_Value;
                 }
                 return speed;
             }).ToList();

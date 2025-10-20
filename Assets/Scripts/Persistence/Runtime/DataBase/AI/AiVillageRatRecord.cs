@@ -9,6 +9,8 @@ namespace Persistence.DB
     {
         public AiVillageRatRecord()
         {
+            ID("ai_RatEnemy");
+
             With<ID>(new ID { Value = "ai_RatEnemy" });
             With<AIExecutionGraph>(new AIExecutionGraph
             {

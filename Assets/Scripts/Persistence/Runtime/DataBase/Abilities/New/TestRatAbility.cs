@@ -10,6 +10,8 @@ namespace Persistence.DB.Abilities
     {
         public TestRatAbilityRecord()
         {
+            ID("abt_TestRat");
+
             With<ID>(new ID { Value = "abt_TestRat" });
             With<AbilityComponent>();
             With<AbilityTargetsComponent>(new AbilityTargetsComponent

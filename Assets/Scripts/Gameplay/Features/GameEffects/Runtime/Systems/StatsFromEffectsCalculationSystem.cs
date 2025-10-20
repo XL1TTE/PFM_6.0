@@ -1,6 +1,5 @@
 using System;
 using Domain.GameEffects;
-using Domain.GameEffects.Modifiers;
 using Domain.Stats.Components;
 using Persistence.DB;
 using Scellecs.Morpeh;
@@ -69,15 +68,15 @@ namespace Gameplay.GameEffects
 
             if (DataBase.TryGetRecord<MaxHealthModifier>(effect_record, out var max_health_modifier))
             {
-                cur_subject_stats.m_MaxHealth += max_health_modifier.AdditiveValue;
+                cur_subject_stats.m_MaxHealth += max_health_modifier.m_Flat;
                 cur_subject_stats.m_MaxHealth =
-                    (int)Math.Floor(cur_subject_stats.m_MaxHealth * 1 + max_health_modifier.MultiplierValue);
+                    (int)Math.Floor(cur_subject_stats.m_MaxHealth * 1 + max_health_modifier.m_Multiplier);
             }
-            if (DataBase.TryGetRecord<MaxSpeedModifier>(effect_record, out var max_speed_modifier))
+            if (DataBase.TryGetRecord<SpeedModifier>(effect_record, out var max_speed_modifier))
             {
-                cur_subject_stats.m_MaxSpeed += max_speed_modifier.AdditiveValue;
+                cur_subject_stats.m_MaxSpeed += max_speed_modifier.m_Flat;
                 cur_subject_stats.m_MaxSpeed =
-                    (int)Math.Floor(cur_subject_stats.m_MaxSpeed * 1 + max_speed_modifier.MultiplierValue);
+                    (int)Math.Floor(cur_subject_stats.m_MaxSpeed * 1 + max_speed_modifier.m_Multiplier);
             }
 
         }

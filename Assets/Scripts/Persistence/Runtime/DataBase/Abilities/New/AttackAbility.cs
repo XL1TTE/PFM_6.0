@@ -11,6 +11,8 @@ namespace Persistence.DB.Abilities
     {
         public AttackAbility()
         {
+            ID("abt_PhysicalAttack");
+
             With<ID>(new ID { Value = "abt_PhysicalAttack" });
             With<AbilityComponent>();
             With<AbilityTargetsComponent>(new AbilityTargetsComponent

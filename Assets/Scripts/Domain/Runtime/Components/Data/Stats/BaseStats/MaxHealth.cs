@@ -1,4 +1,4 @@
-using Scellecs.Morpeh;
+using TriInspector;
 using Unity.IL2CPP.CompilerServices;
 
 namespace Domain.Stats.Components
@@ -7,9 +7,10 @@ namespace Domain.Stats.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct Health : IComponent
+    public struct MaxHealth : IStatComponent
     {
-        public int Value;
+        [ShowInInspector]
+        public int m_Value { get; set; }
     }
 }
 

@@ -3,12 +3,15 @@ using Domain.Extentions;
 using Persistence.Components;
 using UnityEngine;
 
-namespace Persistence.DB{
+namespace Persistence.DB
+{
 
     public sealed class ev_BattleDefault : IDbRecord
     {
         public ev_BattleDefault()
         {
+            ID("ev_BattleDefault");
+
             With<ID>(new ID { Value = "ev_BattleDefault" });
             With<MapEvBattleTag>(new MapEvBattleTag { });
 
@@ -33,6 +36,8 @@ namespace Persistence.DB{
     {
         public ev_BattleTest1()
         {
+            ID("ev_BattleTest1");
+
             With<ID>(new ID { Value = "ev_BattleTest1" });
             With<MapEvBattleTag>(new MapEvBattleTag { });
 
@@ -70,6 +75,8 @@ namespace Persistence.DB{
     {
         public ev_BattleTest2()
         {
+            ID("ev_BattleTest2");
+
             With<ID>(new ID { Value = "ev_BattleTest2" });
 
             With<MapEvBattleTag>(new MapEvBattleTag { });

@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using Domain.Abilities.Components;
 using Domain.Components;
 using Domain.Extentions;
@@ -32,9 +33,12 @@ namespace Persistence.Buiders
             stash_hitBox = _ecsWorld.GetStash<HitBoxComponent>();
             stash_monsterDammyRef = _ecsWorld.GetStash<MonsterDammyRefComponent>();
             stash_turnQueueAvatar = _ecsWorld.GetStash<TurnQueueAvatar>();
-            stash_baseStats = _ecsWorld.GetStash<BaseStatsComponent>();
             stash_effectsPool = _ecsWorld.GetStash<EffectsPoolComponent>();
             stash_iHaveHealthBar = _ecsWorld.GetStash<IHaveHealthBar>();
+
+            stash_Speed = _ecsWorld.GetStash<Speed>();
+            stash_Health = _ecsWorld.GetStash<Health>();
+            stash_MaxHealt = _ecsWorld.GetStash<MaxHealth>();
 
             pfb_monsterDammy = _monsterDammyPath.LoadResource<MonsterDammy>();
 
@@ -62,9 +66,10 @@ namespace Persistence.Buiders
         Stash<HitBoxComponent> stash_hitBox;
         Stash<MonsterDammyRefComponent> stash_monsterDammyRef;
         Stash<TurnQueueAvatar> stash_turnQueueAvatar;
-        Stash<BaseStatsComponent> stash_baseStats;
+
         Stash<EffectsPoolComponent> stash_effectsPool;
         private readonly Stash<IHaveHealthBar> stash_iHaveHealthBar;
+        private readonly Stash<Speed> stash_Speed;
 
 
         #region Part_Ids
@@ -74,6 +79,8 @@ namespace Persistence.Buiders
         private string id_farArm;
         private string id_nearLeg;
         private string id_farLeg;
+        private Stash<Health> stash_Health;
+        private readonly Stash<MaxHealth> stash_MaxHealt;
         #endregion
 
         public override Entity Build()
@@ -195,35 +202,26 @@ namespace Persistence.Buiders
 
             #endregion
 
-            stash_effectsPool.Set(monster_entity, new EffectsPoolComponent
+
+            #region Effects
+
+            var all_effects = new List<string>();
+
+            if (DataBase.TryGetRecord<Effects>(rec_head, out var head_effects))
             {
-                StatusEffects = new(),
-                PermanentEffects = new()
-            });
-
-            #region Stats
-
-
-            int total_speed = 0;
-            int total_health = 1;
-
-            if (DataBase.TryGetRecord<Speed>(rec_head, out var head_spead))
-            {
-                total_speed += head_spead.Value;
+                all_effects.AddRange(head_effects.m_Effects);
             }
-
-            stash_baseStats.Set(monster_entity, new BaseStatsComponent
-            {
-                Speed = total_speed,
-                MaxSpeed = total_speed,
-                Health = total_health,
-                MaxHealth = total_health
-            });
-
 
             stash_iHaveHealthBar.Set(monster_entity, new IHaveHealthBar
             {
                 HealthBarPrefab = GameResources.p_MonsterHealthBar
+            });
+
+
+            stash_effectsPool.Set(monster_entity, new EffectsPoolComponent
+            {
+                StatusEffects = new(),
+                PermanentEffects = all_effects.Select((e_id) => new PermanentEffect { EffectId = e_id }).ToList()
             });
 
             #endregion
@@ -232,7 +230,6 @@ namespace Persistence.Buiders
             ref TransformRefComponent c_Transform = ref stash_transformRef.Add(monster_entity);
             c_Transform.Value = monsterDammy.transform;
 
-            //stash_cursorDetector.Add(entity, new TagCursorDetector{DetectionRadius = 1.0f, DetectionPriority = 9999});
 
             stash_hitBox.Add(monster_entity, new HitBoxComponent
             {
