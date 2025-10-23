@@ -1,10 +1,10 @@
 {
-    "name": "Assembly-Domain",
-    "rootNamespace": "Domain",
+    "name": "Assembly-Interactor",
+    "rootNamespace": "Interactions",
     "references": [
+        "GUID:bbbc6672ec92b124cbaf4e117bf32234",
         "GUID:3377deebfb0acde45876d12c6e3d27cc",
-        "GUID:6055be8ebefd69e48b49212b09b47b2f",
-        "GUID:324caed91501a9c47a04ebfd87b68794",
+        "GUID:2b5126278d5fa904a9973ae83a566b02",
         "GUID:f51ebe6a0ceec4240a699833d6309b23"
     ],
     "includePlatforms": [],
