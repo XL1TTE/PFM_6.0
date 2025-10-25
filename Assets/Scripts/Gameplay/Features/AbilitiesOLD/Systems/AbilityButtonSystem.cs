@@ -66,8 +66,6 @@ namespace Gameplay.Abilities.Systems
 
             ProcessOwnerBusyState();
 
-            ProcessTargetSelection();
-
             ProcessHoverEffect();
 
         }
@@ -193,8 +191,6 @@ namespace Gameplay.Abilities.Systems
             {
                 if (!IsAbilityButtonClicked(evt)) { return; } // Ignore if not abiltiy button was clicked.
 
-                SetSelectedEffect(evt.ClickedButton, true);
-
                 var owner = stash_AbilityButtonTag.Get(evt.ClickedButton).m_ButtonOwner;
 
                 // var allOptions = GU.FindAttackOptionsCellsFor(owner, World);
@@ -216,22 +212,30 @@ namespace Gameplay.Abilities.Systems
 
                 var t_options = GU.GetCellsFromShifts(ownerPos, abilityData.m_Shifts, World);
 
-                ExecuteAbilityAsync(t_options, TargetSelectionTypes.CELL_WITH_ENEMY, 1).Forget(); // Run execution in async
+                ExecuteAbilityAsync(evt.ClickedButton, t_options, TargetSelectionTypes.CELL_WITH_ENEMY, 1).Forget(); // Run execution in async
             }
         }
 
         private async UniTask ExecuteAbilityAsync(
+            Entity abilityView,
             IEnumerable<Entity> a_cellOptions,
             TargetSelectionTypes a_type,
             uint a_maxTargets
         )
         {
+            SetSelectedEffect(abilityView, true);
+
             Result t_result = new Result();
             foreach (var i in Interactor.GetAll<IOnTargetSelection>())
             {
                 await i.Execute(a_cellOptions, a_type, a_maxTargets, World, t_result);
             }
+            if (t_result.m_Value.Count() == 0)
+            {
+
+            }
             Debug.Log(t_result.m_Value.FirstOrDefault());
+            SetSelectedEffect(abilityView, false);
         }
 
         private bool IsAbilityButtonClicked(ButtonClickedEvent @event)

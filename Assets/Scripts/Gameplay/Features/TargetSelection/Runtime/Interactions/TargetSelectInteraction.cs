@@ -35,6 +35,10 @@ namespace Gameplay.TargetSelection
             // Cancel previous session.
             CancelSession();
 
+            await UniTask.Yield();
+
+            m_CurrentSelectionCancellation?.Dispose();
+
             // Create new token for this session.
             m_CurrentSelectionCancellation =
                 CancellationTokenSource.CreateLinkedTokenSource(m_LifetimeCancellation.Token);
@@ -54,6 +58,8 @@ namespace Gameplay.TargetSelection
                 while (t_result.Count != Math.Min(a_cellOptions.Count(), a_maxTargets))
                 {
                     await UniTask.Yield();
+                    // Exit if cancelation requested.
+                    m_CurrentSelectionCancellation.Token.ThrowIfCancellationRequested();
 
                     Entity t_clickedCell = default;
                     if (IsPlayerClickedOnCell(f_cells, out t_clickedCell))
@@ -75,9 +81,6 @@ namespace Gameplay.TargetSelection
                         t_result.Clear();
                         CancelSession();
                     }
-
-                    // Exit if cancelation requested.
-                    m_CurrentSelectionCancellation.Token.ThrowIfCancellationRequested();
                 }
 
             }
@@ -87,9 +90,6 @@ namespace Gameplay.TargetSelection
             }
             finally
             {
-                m_CurrentSelectionCancellation?.Dispose();
-                m_CurrentSelectionCancellation = null;
-
                 HighlighSelectOptions(a_cellOptions, a_world, false);
                 a_result.m_Value = t_result;
             }
