@@ -1,6 +1,7 @@
 using Core.ECS.Modules;
 using Domain.Extentions;
 using Domain.StateMachine.Mono;
+using Interactions;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -19,6 +20,7 @@ namespace Core.ECS
 
         void Start()
         {
+            Interactor.Init();
             ConfigureSystems();
         }
 

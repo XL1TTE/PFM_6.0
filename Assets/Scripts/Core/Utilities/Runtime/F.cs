@@ -50,6 +50,18 @@ namespace Core.Utilities
             }
             return default;
         }
+
+
+
+        public static bool IsMonster(Entity entity, World world)
+            => world.GetStash<TagMonster>().Has(entity);
+        public static bool IsEnemy(Entity entity, World world)
+            => world.GetStash<TagEnemy>().Has(entity);
+        public static bool IsOccupiedCell(Entity entity, World world)
+            => world.GetStash<TagOccupiedCell>().Has(entity);
+
+
+
     }
 
 }

@@ -19,12 +19,17 @@ namespace Interactions
 
     public static class Interactor
     {
-        private readonly static IEnumerable<BaseInteraction> m_All;
+        private static IEnumerable<BaseInteraction> m_All;
         static Interactor()
         {
             var t_all = ReflectionUtility.FindAllSubclasses<BaseInteraction>();
             m_All = t_all.Select(
                 t => Activator.CreateInstance(t) as BaseInteraction);
+        }
+
+        public static void Init()
+        {
+            // Just for trigger static constructor.
         }
 
         public static IEnumerable<T> GetAll<T>()

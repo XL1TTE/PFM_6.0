@@ -7,7 +7,12 @@ namespace Domain.Ability
 {
     public sealed class Ability
     {
-        private List<IAbilityEffect> m_Effects = new();
+        public Ability(List<IAbilityEffect> effects)
+        {
+            m_Effects = effects;
+        }
+
+        private List<IAbilityEffect> m_Effects;
 
         public async UniTask Execute(Entity a_caster, Entity a_target, World a_world)
         {

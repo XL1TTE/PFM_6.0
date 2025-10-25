@@ -5,6 +5,7 @@ using Domain.Abilities.Components;
 using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
 using Domain.TargetSelection.Events;
+using GluonGui.Dialog;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -118,6 +119,35 @@ namespace Core.Utilities
             return result;
         }
 
+        public static Vector2Int GetEntityPositionOnCell(Entity entity, World world)
+        {
+            var stash_gridPos = world.GetStash<GridPosition>();
+            if (stash_gridPos.Has(entity) == false) { return Vector2Int.zero; }
+
+            return stash_gridPos.Get(entity).Value;
+        }
+        public static IEnumerable<Entity> GetCellsFromShifts(Vector2Int a_basis, IEnumerable<Vector2Int> a_shifts, World a_world)
+        {
+            var f_cells = a_world.Filter
+                .With<CellTag>()
+                .With<CellPositionComponent>()
+                .Build();
+            var stash_pos = a_world.GetStash<CellPositionComponent>();
+
+            IEnumerable<Vector2Int> t_calcPos = a_shifts.Select(x => x + a_basis);
+
+            List<Entity> t_result = new(f_cells.GetLengthSlow());
+            foreach (var cell in f_cells)
+            {
+                var cellPos = stash_pos.Get(cell);
+                var cellPosVector = new Vector2Int(cellPos.grid_x, cellPos.grid_y);
+                if (t_calcPos.Contains(cellPosVector))
+                {
+                    t_result.Add(cell);
+                }
+            }
+            return t_result;
+        }
 
         public static ref TargetSelectionResult GetTargetSelectionResult(Entity owner, World world)
         {

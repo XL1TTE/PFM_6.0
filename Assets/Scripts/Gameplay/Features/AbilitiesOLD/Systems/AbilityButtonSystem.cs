@@ -1,17 +1,19 @@
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using Core.Utilities;
+using Cysharp.Threading.Tasks;
 using Domain.Abilities.Tags;
 using Domain.AbilityGraph;
 using Domain.CursorDetection.Components;
 using Domain.Extentions;
-using Domain.Monster.Tags;
 using Domain.Notificator;
 using Domain.TargetSelection.Events;
 using Domain.TargetSelection.Requests;
-using Domain.TurnSystem.Tags;
 using Domain.UI.Requests;
 using Domain.UI.Tags;
+using Gameplay.TargetSelection;
+using Interactions;
+using Persistence.DB;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -160,12 +162,12 @@ namespace Gameplay.Abilities.Systems
         {
             var targets = GU.GetCellOccupiers(result.m_SelectedCells, World);
 
-            req_AbiltiyActivation.Publish(new ActivateAbilityRequest
+            if (DataBase.TryFindRecordByID("AttackAbility", out var abt_record))
             {
-                m_AbilityTemplateID = "abt_PhysicalAttack",
-                m_Caster = abiltiyOwner,
-                m_Targets = targets.ToList()
-            });
+                if (DataBase.TryGetRecord<AbilityData>(abt_record, out var abilityData))
+                {
+                }
+            }
         }
 
         private void EnableButton(Entity abilityButton)
@@ -195,20 +197,41 @@ namespace Gameplay.Abilities.Systems
 
                 var owner = stash_AbilityButtonTag.Get(evt.ClickedButton).m_ButtonOwner;
 
-                var allOptions = GU.FindAttackOptionsCellsFor(owner, World);
-                var avaibleOptions = F.FilterCellsWithEnemies(allOptions, World);
+                // var allOptions = GU.FindAttackOptionsCellsFor(owner, World);
+                // var avaibleOptions = F.FilterCellsWithEnemies(allOptions, World);
 
-                req_TargetSelection.Publish(new TargetSelectionRequest
-                {
-                    m_Sender = evt.ClickedButton,
-                    m_TargetsAmount = 1,
-                    m_AwaibleOptions = avaibleOptions.ToList(),
-                    m_UnavaibleOptions = allOptions.Except(avaibleOptions).ToList()
+                // req_TargetSelection.Publish(new TargetSelectionRequest
+                // {
+                //     m_Sender = evt.ClickedButton,
+                //     m_TargetsAmount = 1,
+                //     m_AwaibleOptions = avaibleOptions.ToList(),
+                //     m_UnavaibleOptions = allOptions.Except(avaibleOptions).ToList()
 
-                });
+                // });
+
+                var ownerPos = GU.GetEntityPositionOnCell(owner, World);
+
+                DataBase.TryFindRecordByID("AttackAbility", out var abilityRecord);
+                DataBase.TryGetRecord<AbilityData>(abilityRecord, out var abilityData);
+
+                var t_options = GU.GetCellsFromShifts(ownerPos, abilityData.m_Shifts, World);
+
+                ExecuteAbilityAsync(t_options, TargetSelectionTypes.CELL_WITH_ENEMY, 1).Forget(); // Run execution in async
             }
+        }
 
-
+        private async UniTask ExecuteAbilityAsync(
+            IEnumerable<Entity> a_cellOptions,
+            TargetSelectionTypes a_type,
+            uint a_maxTargets
+        )
+        {
+            Result t_result = new Result();
+            foreach (var i in Interactor.GetAll<IOnTargetSelection>())
+            {
+                await i.Execute(a_cellOptions, a_type, a_maxTargets, World, t_result);
+            }
+            Debug.Log(t_result.m_Value.FirstOrDefault());
         }
 
         private bool IsAbilityButtonClicked(ButtonClickedEvent @event)
