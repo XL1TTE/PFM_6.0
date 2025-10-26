@@ -24,7 +24,7 @@ namespace Gameplay.Map.Systems
         private Stash<MapNodeEventId> nodeEvIDsStash;
         private Stash<MapNodeEventType> nodeTypesStash;
 
-        private Request<MapTextEventDrawVisualsRequest> req_draw_text_ui;
+        private Request<MapTextEventEnterRequest> req_draw_text_ui;
         //private Event<ButtonClickedEvent> evt_btnClicked;
 
         //private Stash<ButtonTag> stash_btnTag;
@@ -46,7 +46,7 @@ namespace Gameplay.Map.Systems
             nodeEvIDsStash = World.GetStash<MapNodeEventId>();
             nodeTypesStash = World.GetStash<MapNodeEventType>();
 
-            req_draw_text_ui = World.GetRequest<MapTextEventDrawVisualsRequest>();
+            req_draw_text_ui = World.GetRequest<MapTextEventEnterRequest>();
 
             //evt_btnClicked = World.GetEvent<ButtonClickedEvent>();
             //stash_btnTag = World.GetStash<ButtonTag>();
@@ -83,7 +83,7 @@ namespace Gameplay.Map.Systems
                         switch (mapNodeEvTypeComponent.event_type)
                         {
                             case EVENT_TYPE.TEXT:
-                                req_draw_text_ui.Publish(new MapTextEventDrawVisualsRequest
+                                req_draw_text_ui.Publish(new MapTextEventEnterRequest
                                 {
                                     event_id = mapNodeEvIDComponent.event_id,
                                 });
@@ -101,6 +101,8 @@ namespace Gameplay.Map.Systems
                         return;
                     }
                 }
+
+
 
             }
         }

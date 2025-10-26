@@ -1,4 +1,6 @@
 using Domain.MapEvents.Requests;
+using Domain.StateMachine.Components;
+using Domain.StateMachine.Mono;
 using Persistence.DB;
 using Scellecs.Morpeh;
 using System.Collections.Generic;
@@ -14,7 +16,7 @@ namespace Gameplay.MapEvents.Systems
 
         private bool flag_ui_is_shown = false;
 
-        private Request<MapTextEventDrawVisualsRequest> req_draw_text_ui;
+        private Request<MapTextEventEnterRequest> req_draw_text_ui;
 
         private Request<GiveGoldRequest> req_give_gold;
         private Request<TakeGoldRequest> req_take_gold;
@@ -35,7 +37,7 @@ namespace Gameplay.MapEvents.Systems
         {
             all_events_text = DataBase.Filter.With<MapEvTextTag>().Build();
 
-            req_draw_text_ui = World.GetRequest<MapTextEventDrawVisualsRequest>();
+            req_draw_text_ui = World.GetRequest<MapTextEventEnterRequest>();
 
             //nodeIdStash = World.GetStash<MapNodeIdComponent>();
             //nodeEventIdStash = World.GetStash<MapNodeEventId>();
@@ -52,6 +54,17 @@ namespace Gameplay.MapEvents.Systems
                     DrawTextUI(req.event_id);
                 }
             }
+
+
+            //StateMachineWorld.EnterState<MapDefaultState>();
+            StateMachineWorld.ExitState<MapDefaultState>();
+
+            if (StateMachineWorld.TryGetState<MapDefaultState>(out var state))
+            {
+                // CAN do something with "state"
+            }
+
+
             //req_give_gold.Publish(new GiveGoldRequest
             //{
             //    

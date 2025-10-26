@@ -3,6 +3,8 @@ using Domain.Components;
 using Domain.Map.Components;
 using Domain.Map.Requests;
 using Domain.Monster.Mono;
+using Domain.StateMachine.Components;
+using Domain.StateMachine.Mono;
 using Gameplay.Map.Systems;
 using Gameplay.MapEvents.Systems;
 using Persistence.DB;
@@ -11,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+
 using Random = UnityEngine.Random;
 
 namespace Domain.Map.Mono
@@ -117,15 +120,26 @@ namespace Domain.Map.Mono
 
 
 
+            StateMachineWorld.EnterState<MapDefaultState>();
+
+            if (StateMachineWorld.TryGetState<MapDefaultState>(out var state))
+            {
+                // CAN do something with "state"
+            }
+
+
+            // add to module
             var cursorDetectionSystem = new CursorDetectionSystem();
             var mapClickObserveSystem = new MapClickObserveSystem();
             var mapTextEventHandlerSystem = new MapTextEventHandlerSystem();
+            var nodeDrawSystem = new MapDrawSystem();
 
+
+            // add to module
             var mapEvReqSystemGiveGold = new MapEvReqSystemGiveGold();
             var mapEvReqSystemTakeGold = new MapEvReqSystemTakeGold();
 
 
-            var nodeDrawSystem = new MapDrawSystem();
 
             nodeDrawSystem.nodePrefab = nodePrefab;
             nodeDrawSystem.bgPrefab = bgPrefab;
