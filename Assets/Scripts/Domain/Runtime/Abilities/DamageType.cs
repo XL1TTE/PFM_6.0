@@ -1,4 +1,4 @@
-namespace Domain.Ability
+namespace Domain.Abilities
 {
     public enum DamageType : byte
     {

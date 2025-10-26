@@ -1,5 +1,6 @@
 using Domain.FloatingDamage;
 using Domain.UI.Widgets;
+using UnityEngine;
 
 namespace Domain.Extentions
 {
@@ -11,5 +12,8 @@ namespace Domain.Extentions
 
 
         public readonly static FloatingDamageView p_FloatingDamage = "UI/FloatingDamage".LoadResource<FloatingDamageView>();
+
+
+        public readonly static GameObject p_AbilityButton = "Abilities/AbilityButton".LoadResource<GameObject>();
     }
 }

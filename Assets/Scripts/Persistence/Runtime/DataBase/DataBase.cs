@@ -35,7 +35,7 @@ namespace Persistence.DB
 
         private static void Init()
         {
-            var records = ReflectionUtility.FindAllSubclasses<IDbRecord>("Assembly-Persistance");
+            var records = ReflectionUtility.FindAllSubclasses<IDbRecord>();
 
             foreach (var rec in records)
             {

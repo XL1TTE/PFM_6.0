@@ -11,7 +11,7 @@ namespace Persistence.DB
         {
             ID("e_VillageRat");
 
-            With<ID>(new ID { Value = "e_VillageRat" });
+            With<ID>(new ID { m_Value = "e_VillageRat" });
             With<PrefabComponent>(new PrefabComponent
             {
                 Value = "Enemies/p_Village_RatEnemy".LoadResource<GameObject>()

@@ -1,7 +1,9 @@
-using System.Collections;
 using Cysharp.Threading.Tasks;
-using Domain.Ability;
+using Domain.Abilities;
+using Domain.Requests;
+using Game;
 using Interactions;
+using Persistence.DB;
 using UnityEngine;
 
 namespace Gameplay.Abilities
@@ -37,13 +39,7 @@ namespace Gameplay.Abilities
                     t_caster, t_target, t_world, m_DamageType, t_damageCounter);
             }
 
-            Debug.Log($"Deal {t_damageCounter} damage to Entity: {t_target.Id}.");
-
-            // On damage dealt event
-            foreach (var i in Interactor.GetAll<IOnDamageDealtInteraction>())
-            {
-                await i.Execute(t_caster, t_target, t_world, t_damageCounter);
-            }
+            G.DealDamage(t_caster, t_target, t_damageCounter, m_DamageType, t_world);
         }
     }
 }

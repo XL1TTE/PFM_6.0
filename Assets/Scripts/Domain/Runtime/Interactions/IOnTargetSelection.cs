@@ -27,7 +27,6 @@ namespace Gameplay.TargetSelection
             World a_world,
             Result a_result);
     }
-
 }
 
 

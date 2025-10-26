@@ -62,7 +62,7 @@ GameObject:
   - component: {fileID: 7767710113392478308}
   - component: {fileID: 3380081643142453472}
   - component: {fileID: 4810814904431708377}
-  - component: {fileID: 4743355827015876891}
+  - component: {fileID: 8975911737775275494}
   m_Layer: 0
   m_Name: p_Village_RatEnemy
   m_TagString: Untagged
@@ -169,8 +169,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    Attacks:
-    - {x: -1, y: 0}
+    m_LeftHandAbility:
+      m_AbilityTemplateID: 
+    m_RightHandAbility:
+      m_AbilityTemplateID: 
+    m_HeadAbility:
+      m_AbilityTemplateID: 
 --- !u!114 &3380081643142453472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,7 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     HealthBarPrefab: {fileID: 3316543534114295942, guid: 3c207768c0edcda46b43143b0208c50a, type: 3}
---- !u!114 &4743355827015876891
+--- !u!114 &8975911737775275494
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -213,8 +217,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    StatusEffects: []
-    PermanentEffects: []
+    m_StatusEffects: []
+    m_PermanentEffects:
+    - m_EffectId: effect_RatEnemy
 --- !u!1 &7370415000329741317
 GameObject:
   m_ObjectHideFlags: 0

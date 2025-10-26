@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3388154845902770123}
   m_Layer: 0
-  m_Name: HealAbilityButtonContainer
+  m_Name: fHandAbilityButtonContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,7 +80,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6972205138126218346}
   m_Layer: 0
-  m_Name: AttackAbilityContainer
+  m_Name: HeadAbilityContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,7 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8552457560716094143}
   m_Layer: 0
-  m_Name: EffectAbilityContainer
+  m_Name: sHandAbilityContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -188,11 +188,11 @@ MonoBehaviour:
   EndTurnButtonSlot: {fileID: 7588662853729532059}
   StartBattleButtonSlot: {fileID: 1608918651509935866}
   BattleStartButtonPrefab: {fileID: 3502223911818016269, guid: 8a07046d90344ae47adcf30d226f4676, type: 3}
-  HealButtonSlot: {fileID: 3388154845902770123}
-  AttackButtonSlot: {fileID: 6972205138126218346}
-  EffectButtonSlot: {fileID: 8552457560716094143}
-  MoveButtonSlot: {fileID: 1442732172412852296}
-  TurnAroundButtonSlot: {fileID: 9009044231766199704}
+  m_FirstHandAbilitySlot: {fileID: 3388154845902770123}
+  m_SecondHandAbilitySlot: {fileID: 8552457560716094143}
+  m_HeadAbilitySlot: {fileID: 6972205138126218346}
+  m_MoveButtonSlot: {fileID: 1442732172412852296}
+  m_TurnAroundButtonSlot: {fileID: 9009044231766199704}
   MonsterNameTMP: {fileID: 4014708569219782643}
   TurnTakerAvatar: {fileID: 4505987710049236586}
 --- !u!1 &1956898201077235650

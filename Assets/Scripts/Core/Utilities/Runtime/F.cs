@@ -4,7 +4,9 @@ using Domain.Abilities.Tags;
 using Domain.BattleField.Tags;
 using Domain.Enemies.Tags;
 using Domain.Extentions;
+using Domain.HealthBars.Components;
 using Domain.Monster.Tags;
+using Domain.UI.Widgets;
 using Scellecs.Morpeh;
 
 namespace Core.Utilities
@@ -37,21 +39,42 @@ namespace Core.Utilities
         }
 
 
-        public static Entity FindAbilityButtonByOwner(Entity owner, World world)
+        public static IEnumerable<Entity> FindAbilityButtonsByOwner(Entity owner, World world)
         {
             var f_abilityButtons = world.Filter.With<AbiltiyButtonTag>().Build();
             var stash_abilityButtons = world.GetStash<AbiltiyButtonTag>();
+
+            List<Entity> t_result = new(8);
             foreach (var e in f_abilityButtons)
             {
                 if (stash_abilityButtons.Get(e).m_ButtonOwner.Id == owner.Id)
                 {
-                    return e;
+                    t_result.Add(e);
                 }
             }
-            return default;
+            return t_result;
         }
 
 
+        public static HealthBarView GetActiveHealthBarFor(Entity owner, World world)
+        {
+            var f_healthBars = world.Filter
+                    .With<HealthBarTag>()
+                    .With<HealthBarOwner>()
+                    .With<HealthBarViewLink>()
+                    .Build();
+
+            var stash_healthBarOwner = world.GetStash<HealthBarOwner>();
+            var stash_healthBarView = world.GetStash<HealthBarViewLink>();
+            foreach (var bar in f_healthBars)
+            {
+                if (stash_healthBarOwner.Get(bar).Value.Id == owner.Id)
+                {
+                    return stash_healthBarView.Get(bar).Value;
+                }
+            }
+            return null;
+        }
 
         public static bool IsMonster(Entity entity, World world)
             => world.GetStash<TagMonster>().Has(entity);

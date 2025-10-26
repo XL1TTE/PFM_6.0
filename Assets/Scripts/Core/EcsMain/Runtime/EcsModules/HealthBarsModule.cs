@@ -16,7 +16,7 @@ namespace Core.ECS.Modules
             var sg_HealthBarsManage = world.CreateSystemsGroup();
 
             sg_HealthBarsRenders.AddSystem(new CellsHealthBarsSystem());
-            sg_HealthBarsRenders.AddSystem(new HealthBarsUpdateValueSystem());
+            //sg_HealthBarsRenders.AddSystem(new HealthBarsUpdateValueSystem());
 
             sg_HealthBarsRenders.AddSystem(new FloatingDamageSystem());
 

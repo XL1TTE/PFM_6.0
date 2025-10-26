@@ -1,6 +1,6 @@
 using System.Collections;
 using Cysharp.Threading.Tasks;
-using Domain.Ability;
+using Domain.Abilities;
 using Scellecs.Morpeh;
 
 namespace Interactions
@@ -8,7 +8,7 @@ namespace Interactions
     public interface ICalculateDamageInteraction
     {
         UniTask<int> Execute(
-            Entity a_Attacker,
+            Entity a_Source,
             Entity a_Target,
             World a_world,
             DamageType a_damageType,

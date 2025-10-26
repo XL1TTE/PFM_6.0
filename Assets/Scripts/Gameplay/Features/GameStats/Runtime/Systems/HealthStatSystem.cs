@@ -31,7 +31,7 @@ namespace Gameplay.GameStats.Systems
         {
             foreach (var e in f_InitHealth)
             {
-                stash_Health.Set(e, new Health { m_Value = stash_MaxHealth.Get(e).m_Value });
+                stash_Health.Set(e, new Health(stash_MaxHealth.Get(e).m_Value));
             }
         }
 

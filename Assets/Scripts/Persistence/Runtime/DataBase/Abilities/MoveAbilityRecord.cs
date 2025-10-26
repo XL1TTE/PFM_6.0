@@ -13,7 +13,7 @@ namespace Persistence.DB
 
             ID("abt_moveAbility");
 
-            With<ID>(new ID { Value = "abt_moveAbility" });
+            With<ID>(new ID { m_Value = "abt_moveAbility" });
             With<PrefabComponent>(
                 new PrefabComponent { Value = "Abilities/MoveAbilityButton".LoadResource<GameObject>() });
         }

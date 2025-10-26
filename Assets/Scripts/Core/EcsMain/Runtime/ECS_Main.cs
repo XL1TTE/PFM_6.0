@@ -38,7 +38,7 @@ namespace Core.ECS
             _defaultWorld.AddModule(new MonstersLogicModule());
             _defaultWorld.AddModule(new EnemiesLogicModule());
             _defaultWorld.AddModule(new AbilitiesLogicModule());
-            _defaultWorld.AddModule(new AbilityGraphModule());
+            //_defaultWorld.AddModule(new AbilityGraphModule());
             _defaultWorld.AddModule(new GameEffectsModule());
             _defaultWorld.AddModule(new GameStatsModule());
             _defaultWorld.AddModule(new ServicesModule());

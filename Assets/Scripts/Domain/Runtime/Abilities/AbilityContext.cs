@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Scellecs.Morpeh;
 
-namespace Domain.Ability
+namespace Domain.Abilities
 {
     public struct AbilityContext
     {

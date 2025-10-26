@@ -1,7 +1,7 @@
 using System.Collections;
 using Cysharp.Threading.Tasks;
 
-namespace Domain.Ability
+namespace Domain.Abilities
 {
     public interface IAbilityEffect
     {

@@ -10,7 +10,7 @@ namespace Persistence.DB
 
             ID("mp_DinArm");
 
-            With<ID>(new ID { Value = "mp_DinArm" });
+            With<ID>(new ID { m_Value = "mp_DinArm" });
             With<ArmSpritePath>(new ArmSpritePath
             {
                 FarSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Further_Test_1",
@@ -18,11 +18,9 @@ namespace Persistence.DB
             });
             With<TagMonsterPart>();
             With<TagMonsterArm>();
-            With<AttackData>(new AttackData
+            With<AbilityProvider>(new AbilityProvider
             {
-                Attacks = new UnityEngine.Vector2Int[2]{
-                new UnityEngine.Vector2Int(5,0), new UnityEngine.Vector2Int(1,1)
-            }
+                m_AbilityTemplateID = "AttackAbility"
             });
         }
     }

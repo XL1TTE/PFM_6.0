@@ -3,7 +3,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using Scellecs.Morpeh;
 
-namespace Domain.Ability
+namespace Domain.Abilities
 {
     public sealed class Ability
     {
@@ -30,6 +30,6 @@ namespace Domain.Ability
         public void ClearEffects() => m_Effects.Clear();
 
         public T GetEffect<T>() where T : IAbilityEffect => m_Effects.OfType<T>().FirstOrDefault();
-        public IEnumerable<T> GetEffects<T>() where T : IAbilityEffect => m_Effects.OfType<T>();
+        public T[] GetEffects<T>() where T : IAbilityEffect => m_Effects.OfType<T>().ToArray();
     }
 }

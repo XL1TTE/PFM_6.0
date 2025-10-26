@@ -4,9 +4,10 @@ using System.Linq;
 using Domain.Abilities.Components;
 using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
+using Domain.Stats.Components;
 using Domain.TargetSelection.Events;
-using GluonGui.Dialog;
 using Scellecs.Morpeh;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace Core.Utilities
@@ -63,59 +64,6 @@ namespace Core.Utilities
                 }
             }
 
-            return result;
-        }
-
-        public static List<Entity> FindAttackOptionsCellsFor(Entity attacker, World world)
-        {
-            var gridPos = world.GetStash<GridPosition>();
-            var cellPos = world.GetStash<CellPositionComponent>();
-            var attackAbility = world.GetStash<AttackAbility>();
-            var lookDir = world.GetStash<LookDirection>();
-
-            var f_cells = world.Filter
-                .With<CellTag>()
-                .With<CellPositionComponent>()
-                .Build();
-
-            if (gridPos.Has(attacker) == false) { return new(); }
-            if (attackAbility.Has(attacker) == false) { return new(); }
-
-            List<Entity> result = new();
-            List<Vector2Int> shiftedAttacks = new();
-
-            var attackerPos = gridPos.Get(attacker);
-            var entityAttacks = attackAbility.Get(attacker).Attacks;
-
-            if (lookDir.Has(attacker))
-            {
-                switch (lookDir.Get(attacker).m_Value)
-                {
-                    case Directions.LEFT:
-                        entityAttacks = entityAttacks.Select((m) => m *= new Vector2Int(-1, 1)).ToList();
-                        break;
-                    case Directions.RIGHT:
-                        // Movements setuped for right direction by default;
-                        break;
-                }
-            }
-
-
-            foreach (var attack in entityAttacks)
-            {
-                shiftedAttacks.Add(attack + attackerPos.Value);
-            }
-
-            foreach (var cell in f_cells)
-            {
-                var c_cellPos = cellPos.Get(cell);
-                var cellPosGrid = new Vector2Int(c_cellPos.grid_x, c_cellPos.grid_y);
-
-                if (shiftedAttacks.Contains(cellPosGrid))
-                {
-                    result.Add(cell);
-                }
-            }
             return result;
         }
 
@@ -189,6 +137,34 @@ namespace Core.Utilities
                 }
             }
             return result;
+        }
+
+        public static float GetHealthPercentFor(Entity a_subject, World a_world)
+        {
+            try
+            {
+                var stash_health = a_world.GetStash<Health>();
+                var stash_maxHealth = a_world.GetStash<MaxHealth>();
+
+                return (float)stash_health.Get(a_subject).GetHealth() / stash_maxHealth.Get(a_subject).m_Value;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+
+        /// <summary>
+        /// Automaticly updates health bar value for entity, if it has one.
+        /// </summary>
+        /// <param name="a_owner">Entity with active health bar.</param>
+        /// <param name="a_world">ECS world in which entities leaves.</param>
+        public static void UpdateHealthBarValueFor(Entity a_owner, World a_world)
+        {
+            var healthBar = F.GetActiveHealthBarFor(a_owner, a_world);
+            var t_value = GetHealthPercentFor(a_owner, a_world);
+            healthBar?.SetValue(t_value);
         }
 
     }

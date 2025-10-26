@@ -9,8 +9,7 @@ namespace Domain.Stats.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct MaxHealth : IStatComponent
     {
-        [ShowInInspector]
-        public int m_Value { get; set; }
+        [ShowInInspector] public int m_Value { get; set; }
     }
 }
 

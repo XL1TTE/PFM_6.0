@@ -14,7 +14,7 @@ namespace Core.ECS.Modules
             sg_Commands.AddSystem(new ActorsActionStateInitializer());
             sg_Commands.AddSystem(new AnimationSeviceSystem());
             sg_Commands.AddSystem(new MovementServiceSystem());
-            sg_Commands.AddSystem(new DamageSeviceSystem());
+            //sg_Commands.AddSystem(new DamageSeviceSystem());
 
             sg_Commands.AddSystem(new MovementObserver());
             sg_Commands.AddSystem(new AnimationsObserver());

@@ -76,16 +76,19 @@ namespace Gameplay.Abilities.Systems
             // check if actor is busy. Busy -> Disable button. Otherwise -> Enable button. 
             foreach (var evt in evt_ActorStatesChanged.publishedChanges)
             {
-                var abilityButton = F.FindAbilityButtonByOwner(evt.m_Actor, World);
-                if (abilityButton.isNullOrDisposed(World)) { return; }
+                var abilityButtons = F.FindAbilityButtonsByOwner(evt.m_Actor, World);
 
-                if (V.IsActorBusy(evt.m_Actor, World))
+                foreach (var btn in abilityButtons)
                 {
-                    DisableButton(abilityButton);
-                }
-                else
-                {
-                    EnableButton(abilityButton);
+                    if (V.IsActorBusy(evt.m_Actor, World))
+                    {
+                        DisableButton(btn);
+                    }
+                    else
+                    {
+                        EnableButton(btn);
+                    }
+
                 }
             }
         }
@@ -162,7 +165,7 @@ namespace Gameplay.Abilities.Systems
 
             if (DataBase.TryFindRecordByID("AttackAbility", out var abt_record))
             {
-                if (DataBase.TryGetRecord<AbilityData>(abt_record, out var abilityData))
+                if (DataBase.TryGetRecord<AbilityDefenition>(abt_record, out var abilityData))
                 {
                 }
             }
@@ -208,16 +211,17 @@ namespace Gameplay.Abilities.Systems
                 var ownerPos = GU.GetEntityPositionOnCell(owner, World);
 
                 DataBase.TryFindRecordByID("AttackAbility", out var abilityRecord);
-                DataBase.TryGetRecord<AbilityData>(abilityRecord, out var abilityData);
+                DataBase.TryGetRecord<AbilityDefenition>(abilityRecord, out var abilityData);
 
                 var t_options = GU.GetCellsFromShifts(ownerPos, abilityData.m_Shifts, World);
 
-                ExecuteAbilityAsync(evt.ClickedButton, t_options, TargetSelectionTypes.CELL_WITH_ENEMY, 1).Forget(); // Run execution in async
+                ExecuteAbilityAsync(evt.ClickedButton, owner, t_options, TargetSelectionTypes.CELL_WITH_ENEMY, 1).Forget(); // Run execution in async
             }
         }
 
         private async UniTask ExecuteAbilityAsync(
             Entity abilityView,
+            Entity caster,
             IEnumerable<Entity> a_cellOptions,
             TargetSelectionTypes a_type,
             uint a_maxTargets
@@ -230,9 +234,15 @@ namespace Gameplay.Abilities.Systems
             {
                 await i.Execute(a_cellOptions, a_type, a_maxTargets, World, t_result);
             }
-            if (t_result.m_Value.Count() == 0)
+            if (t_result.m_Value.Count() != 0)
             {
+                var ability = stash_AbilityButtonTag.Get(abilityView).m_Ability.m_Value;
 
+                foreach (var target_cell in t_result.m_Value)
+                {
+                    var target = GU.GetCellOccupier(target_cell, World);
+                    await ability.Execute(caster, target, World);
+                }
             }
             Debug.Log(t_result.m_Value.FirstOrDefault());
             SetSelectedEffect(abilityView, false);

@@ -1,8 +1,6 @@
 
-
-
 using System.Collections.Generic;
-using Domain.Ability;
+using Domain.Abilities;
 using Gameplay.Abilities;
 using UnityEngine;
 
@@ -15,12 +13,14 @@ namespace Persistence.DB
         {
             ID("AttackAbility");
 
-            With<AbilityData>(new AbilityData
+            With<AbilityDefenition>(new AbilityDefenition
             {
                 m_Shifts = new Vector2Int[2] { new Vector2Int(1, 0), new Vector2Int(2, 0) },
                 m_Ability = new Ability(new List<IAbilityEffect>
                 {
-                    new DealDamage(5, DamageType.PHYSICAL_DAMAGE)
+                    new DealDamage(5, DamageType.PHYSICAL_DAMAGE),
+                    new ApplyEffect(-1, "effect_Empower", true),
+                    new RemoveEffect("effect_DinHead", true)
                 }),
             });
         }

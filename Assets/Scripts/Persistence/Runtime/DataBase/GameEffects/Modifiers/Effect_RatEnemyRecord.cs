@@ -9,7 +9,7 @@ namespace Persistence.DB
         {
             ID("effect_RatEnemy");
 
-            With<ID>(new ID { Value = "effect_RatEnemy" });
+            With<ID>(new ID { m_Value = "effect_RatEnemy" });
             With<MaxHealthModifier>(
                 new MaxHealthModifier
                 {

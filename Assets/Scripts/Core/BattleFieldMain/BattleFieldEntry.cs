@@ -1,4 +1,4 @@
-using Domain.Ability;
+using Domain.Abilities;
 using Domain.Stats.Components;
 using Gameplay.Abilities;
 using Scellecs.Morpeh;

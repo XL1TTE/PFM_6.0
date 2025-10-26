@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Domain.AbilityGraph;
 using Domain.Components;
+using Domain.Events;
 using Domain.Extentions;
 using Domain.FloatingDamage;
 using Scellecs.Morpeh;
@@ -49,9 +50,9 @@ namespace Gameplay.FloatingDamage.Systems
         {
             foreach (var evt in evt_OnDamageDealt.publishedChanges)
             {
-                if (stash_TransformRef.Has(evt.Target) == false) { continue; }
+                if (stash_TransformRef.Has(evt.m_Target) == false) { continue; }
 
-                ref var spawnPoint = ref stash_TransformRef.Get(evt.Target).Value;
+                ref var spawnPoint = ref stash_TransformRef.Get(evt.m_Target).Value;
 
                 FloatingDamageView floatingDamage;
 
@@ -64,7 +65,7 @@ namespace Gameplay.FloatingDamage.Systems
                     floatingDamage = m_Pool.Dequeue();
                 }
 
-                floatingDamage.Value.text = evt.FinalDamage.ToString();
+                floatingDamage.Value.text = evt.m_FinalDamage.ToString();
                 var anim = GetFloatingDamageAnim(spawnPoint, floatingDamage);
 
                 anim.onComplete += () => ReturnToPool(floatingDamage);

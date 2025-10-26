@@ -12,7 +12,7 @@ namespace Persistence.DB
         {
             ID("mp_DinTorso");
 
-            With<ID>(new ID { Value = "mp_DinTorso" });
+            With<ID>(new ID { m_Value = "mp_DinTorso" });
             With<BodySpritePath>(new BodySpritePath
             {
                 path = "Monsters/Sprites/test/Spr_Bodypart_Torso_Test_1"
