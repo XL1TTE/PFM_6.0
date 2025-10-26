@@ -10,11 +10,11 @@ namespace Domain.AbilityGraph
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct TransitionCondition : IComponent
     {
-        public ConditionType Type;
-        public int IntValue;
-        public float FloatValue;
-        public string StringValue;
-        public ComparisonOperator Operator;
+        public ConditionType m_Type;
+        public int m_IntValue;
+        public float m_FloatValue;
+        public string m_StringValue;
+        public ComparisonOperator m_Operator;
     }
 }
 

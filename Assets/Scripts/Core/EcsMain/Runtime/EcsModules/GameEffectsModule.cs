@@ -13,7 +13,8 @@ namespace Core.ECS.Modules
         {
             var sg_GameEffects = world.CreateSystemsGroup();
             sg_GameEffects.AddSystem(new EffectApplySystem());
-            sg_GameEffects.AddSystem(new StatsFromEffectsCalculationSystem());
+
+            //sg_GameEffects.AddSystem(new StatsFromEffectsCalculationSystem());
 
 
             world.AddSystemsGroup(Priority, sg_GameEffects);

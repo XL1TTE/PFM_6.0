@@ -437,7 +437,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    View: {fileID: 5677179551388305830}
+    m_View: {fileID: 5677179551388305830}
+    m_AbilityID: 
 --- !u!114 &4453980996374814283
 MonoBehaviour:
   m_ObjectHideFlags: 0

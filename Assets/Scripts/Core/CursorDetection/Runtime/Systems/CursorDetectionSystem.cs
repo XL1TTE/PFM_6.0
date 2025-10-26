@@ -5,9 +5,8 @@ using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
-namespace CursorDetection.Systems{
-    // System will find all entities with draggable component which also under cursor 
-    // and will mark them with UnderCursorComponent  
+namespace CursorDetection.Systems
+{
 
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
@@ -18,12 +17,13 @@ namespace CursorDetection.Systems{
 
         private Filter _detectors;
         private Entity _lastUnderCursor;
-        private Entity _closestEntity;
 
         private Stash<UnderCursorComponent> stash_underCursor;
         private Stash<TagCursorDetector> stash_detectors;
         private Stash<HitBoxComponent> stash_hitBox;
         private Stash<TransformRefComponent> stash_transformRef;
+        private Event<OnCursorEnterEvent> evt_OnPointerEnter;
+        private Event<OnCursorExitEvent> evt_OnPointerExit;
 
         public void OnAwake()
         {
@@ -36,6 +36,9 @@ namespace CursorDetection.Systems{
             stash_detectors = World.GetStash<TagCursorDetector>();
             stash_hitBox = World.GetStash<HitBoxComponent>();
             stash_transformRef = World.GetStash<TransformRefComponent>();
+
+            evt_OnPointerEnter = World.GetEvent<OnCursorEnterEvent>();
+            evt_OnPointerExit = World.GetEvent<OnCursorExitEvent>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -44,21 +47,22 @@ namespace CursorDetection.Systems{
             var worldMousePos = Camera.main.ScreenToWorldPoint(mousePos);
             worldMousePos.z = 0;
 
+
+            Entity _closestEntity = default;
             float closestDist = float.MaxValue;
             int highestPriority = int.MinValue;
 
-            bool isAnyEntityInPickupArea = false;
-
-            // Find the nearest one if draggables pick radiuses is overlaped.
             foreach (var entity in _detectors)
             {
                 ref var transform = ref stash_transformRef.Get(entity).Value;
-                if(transform == null){
+                if (transform == null)
+                {
                     throw new System.Exception($"Entity {entity.Id} have transform component but value is not assigned!");
                 }
                 Vector2 entityPos = transform.position;
-                
-                if(stash_hitBox.Has(entity) == false){
+
+                if (stash_hitBox.Has(entity) == false)
+                {
                     throw new System.Exception($"Entity {entity.Id} does not have hit box component, which is needed for cursor detection!");
                 }
                 var c_hitBox = stash_hitBox.Get(entity);
@@ -83,23 +87,43 @@ namespace CursorDetection.Systems{
                         closestDist = distance;
                         highestPriority = detectionData.DetectionPriority;
                         _closestEntity = entity;
-                        isAnyEntityInPickupArea = true;
                     }
                 }
             }
 
             if (_lastUnderCursor.IsExist() && !World.IsDisposed(_lastUnderCursor))
             {
-                stash_underCursor.Remove(_lastUnderCursor);
+                if (!_closestEntity.IsExist() || _closestEntity != _lastUnderCursor)
+                {
+
+                    evt_OnPointerExit.NextFrame(new OnCursorExitEvent
+                    {
+                        m_Entity = _lastUnderCursor
+                    });
+
+                    stash_underCursor.Remove(_lastUnderCursor);
+                }
             }
 
-            if (_closestEntity.IsExist() && isAnyEntityInPickupArea)
+            if (_closestEntity.IsExist() && !World.IsDisposed(_closestEntity))
             {
+                if (!_lastUnderCursor.IsExist() || _closestEntity != _lastUnderCursor)
+                {
+                    evt_OnPointerEnter.NextFrame(new OnCursorEnterEvent
+                    {
+                        m_Entity = _closestEntity,
+                    });
+                }
+
                 stash_underCursor.Set(_closestEntity, new UnderCursorComponent
                 {
                     HitPoint = worldMousePos
                 });
                 _lastUnderCursor = _closestEntity;
+            }
+            else if (_lastUnderCursor.IsExist())
+            {
+                _lastUnderCursor = default;
             }
         }
 

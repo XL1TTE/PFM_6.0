@@ -1,5 +1,6 @@
 using Domain.AbilityGraph;
 using Domain.AIGraph;
+using Domain.Services;
 using Domain.TurnSystem.Tags;
 using Persistence.DB;
 using Scellecs.Morpeh;
@@ -15,21 +16,22 @@ namespace Gameplay.AIGraph
     {
         public World World { get; set; }
 
-        private Event<AbiltiyExecutionCompletedEvent> evt_abtExecutionCompleted;
+        private Event<AbilityExecutionEnded> evt_AbilityExecutionEnded;
         private Stash<AIExecutionState> stash_aiState;
 
         public void OnAwake()
         {
-            evt_abtExecutionCompleted = World.GetEvent<AbiltiyExecutionCompletedEvent>();
+            evt_AbilityExecutionEnded = World.GetEvent<AbilityExecutionEnded>();
 
             stash_aiState = World.GetStash<AIExecutionState>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach (var evt in evt_abtExecutionCompleted.publishedChanges)
+            foreach (var evt in evt_AbilityExecutionEnded.publishedChanges)
             {
-                SetAgentAbilityExectuionStatusToCompleted(evt.Caster);
+                if (stash_aiState.Has(evt.m_Caster) == false) { return; }
+                SetAgentAbilityExectuionStatusToCompleted(evt.m_Caster);
             }
         }
 

@@ -1,4 +1,5 @@
 using Domain.ECS;
+using Gameplay.FloatingDamage.Systems;
 using Gameplay.HealthBars.Systems;
 using Scellecs.Morpeh;
 using UI.Systems;
@@ -16,6 +17,8 @@ namespace Core.ECS.Modules
 
             sg_HealthBarsRenders.AddSystem(new CellsHealthBarsSystem());
             sg_HealthBarsRenders.AddSystem(new HealthBarsUpdateValueSystem());
+
+            sg_HealthBarsRenders.AddSystem(new FloatingDamageSystem());
 
             sg_HealthBarsManage.AddSystem(new HealthBarManageSystem());
 

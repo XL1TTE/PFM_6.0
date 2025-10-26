@@ -19,68 +19,104 @@ namespace Gameplay.TargetSelection.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class TargetSelectionSystem : ISystem
     {
-        private enum SystemState:byte{None, SelectingEnemies, SelectingCells}
-        
         public World World { get; set; }
-        
-        private Filter _selectablesUnderCursor;
-        
-        private Filter f_state;
-        
-        private Request<TargetSelectionRequest> req_targetSelection;
-        private Request<ChangeCellViewToSelectRequest> req_selectCellsView;
-        private Event<TargetSelectionCompletedEvent> evt_selectionComplited;
-        private Event<TargetSelectionCanceledEvent> evt_selectionCanceled;
-                
-        private Stash<TagAwaibleToSelect> stash_awaibleToSelect;
-        private Stash<TargetSelectionState> stash_state;
-        
-        private SystemState CurrentState = SystemState.None;
-        
-        private List<Entity> AwaibleTargets = new();
-        private List<Entity> ForbiddenTargets = new();
-        
-        private List<Entity> SelectedTargets = new();
-        
-        private UInt16 MaxTargets = 0;
-        
-        private int ProcessingRequestID = -1;
+
+        /// <summary>
+        /// Filter of entities with special tag, which let system know that this entity
+        /// can be selected by player.
+        /// </summary>
+        private Filter f_SelectOptionsUnderCursor;
+        private Filter f_CompletedSessions;
+        private Filter f_selOpt;
+
+        /// <summary>
+        /// All currently active target selections. 
+        /// Should always be one active selection at the moment.
+        /// </summary>
+        private Filter f_ActiveSelections;
+
+        /// <summary>
+        /// Request for target selection. 
+        /// Can be send by any system when player should pick the targets.
+        /// </summary>
+        private Request<TargetSelectionRequest> req_TargetSelection;
+
+        /// <summary>
+        /// Request to cells render system for change cell view to selected. 
+        /// </summary>
+        private Request<ChangeCellViewToSelectedRequest> req_SelectCellsView;
+
+        /// <summary>
+        /// Event that will be send when target selection completed. 
+        /// </summary>
+        private Stash<TargetSelectionResult> stash_selectionResult;
+
+        /// <summary>
+        /// Stash with selection option tags, which system will use to mark targets. 
+        /// </summary>
+        private Stash<SelectionOptionTag> stash_SelectionOptionTag;
+        /// <summary>
+        /// Target selection process state. Will be added to request sender entity.
+        /// </summary>
+        private Stash<TargetSelectionSession> stash_TargetSelectionSession;
 
         public void OnAwake()
         {
-            _selectablesUnderCursor = World.Filter
-                .With<TagAwaibleToSelect>()
+            f_SelectOptionsUnderCursor = World.Filter
+                .With<SelectionOptionTag>()
                 .With<UnderCursorComponent>()
                 .Build();
 
-            f_state = StateMachineWorld.Value.Filter.With<TargetSelectionState>().Build();
+            f_CompletedSessions = World.Filter
+                .With<TargetSelectionSession>()
+                .With<TargetSelectionResult>()
+                .Build();
 
-            req_targetSelection = World.GetRequest<TargetSelectionRequest>();
-            
-            req_selectCellsView = World.GetRequest<ChangeCellViewToSelectRequest>();
-            
-            evt_selectionComplited = World.GetEvent<TargetSelectionCompletedEvent>();
-            evt_selectionCanceled = World.GetEvent<TargetSelectionCanceledEvent>();
-            
-            stash_state = StateMachineWorld.Value.GetStash<TargetSelectionState>();
+            f_selOpt = World.Filter.With<SelectionOptionTag>().Build();
 
-            stash_awaibleToSelect = World.GetStash<TagAwaibleToSelect>();
+            f_ActiveSelections = World.Filter
+                .With<TargetSelectionSession>()
+                .Without<TargetSelectionResult>()
+                .Build();
+
+            req_TargetSelection = World.GetRequest<TargetSelectionRequest>();
+            req_SelectCellsView = World.GetRequest<ChangeCellViewToSelectedRequest>();
+
+            stash_selectionResult = World.GetStash<TargetSelectionResult>();
+            stash_SelectionOptionTag = World.GetStash<SelectionOptionTag>();
+            stash_TargetSelectionSession = World.GetStash<TargetSelectionSession>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach(var req in req_targetSelection.Consume()){
-                if(req.RequestID != this.ProcessingRequestID)
+            foreach (var req in req_TargetSelection.Consume()) // Initiating target selections
+            {
+                foreach (var owner in f_ActiveSelections)
                 {
-                    NotifySelectionCanceled();
+                    if (owner.Id == req.m_Sender.Id) // If sender the same as it was, just ignore.
+                    {
+                        //CompleteSelection(owner, TargetSelectionStatus.Failed);
+                        return;
+                    }
+                    CompleteSelection(owner, TargetSelectionStatus.Failed);
                 }
-                Reset();
-                SetSystemState(req);
-                PrepareAwaibleTargets(req);
-                PrepareForbiddenTargets(req);
+
+                foreach (var owner in f_CompletedSessions)
+                {
+                    if (owner.Id == req.m_Sender.Id) // If sender try to send request again but not handled previous result -> exception.
+                    {
+                        throw new Exception($"You are trying to send target selection request from Entity:{owner.Id} multiple times, without handling previous results. Filter for Target Selection Result component on your sender and set m_Processed flag to true.");
+                    }
+                }
+
+                OpenTargetSelectionSession(req.m_Sender, req);
+                EnterTargetSelectionState();
+                return; // Only one request should be processed in one frame. Delay processing until next frame.
             }
-            if(CurrentState != SystemState.None){
-                ProcessSelection();
+
+            foreach (var session in f_ActiveSelections)
+            {
+                ProcessSelection(session);
             }
         }
 
@@ -88,153 +124,203 @@ namespace Gameplay.TargetSelection.Systems
         {
 
         }
-        
-        private void ProcessSelection(){
-            if(Input.GetMouseButtonDown(0) && !_selectablesUnderCursor.IsEmpty()){
-                Debug.Log("SELECT CELL");
-                SelectTarget(_selectablesUnderCursor.FirstOrDefault());
-                if(IsSelectionOver()){
-                    CompleteSelection();
+
+        /// <summary>
+        /// Open new target selection session by attaching state component to request sender.
+        /// </summary>
+        /// <param name="owner">Request sender entity.</param>
+        /// <param name="req">Request data.</param>
+        private void OpenTargetSelectionSession(Entity owner, TargetSelectionRequest req)
+        {
+            if (owner.isNullOrDisposed(World))
+            {
+                throw new Exception("You trying to request target selection, but request sender was null.");
+            }
+
+            stash_TargetSelectionSession.Set(owner, new TargetSelectionSession
+            {
+                m_TargetsAmount = req.m_TargetsAmount,
+                m_AwaibleOptions = req.m_AwaibleOptions,
+                m_UnavaibleOptions = req.m_UnavaibleOptions,
+                m_SelectedOptions = new List<Entity>()
+            });
+            HandleAwaibleTargets(req.m_AwaibleOptions);
+            HandleUnawaibleTargets(req.m_UnavaibleOptions);
+        }
+
+        /// <summary>
+        /// Removes selection option tag from all entities.
+        /// </summary>
+        private void CleanupSelectionOptionsTags()
+        {
+            foreach (var selOpt in f_selOpt) // Remove all selection option marks.
+            {
+                stash_SelectionOptionTag.Remove(selOpt);
+            }
+        }
+
+        /// <summary>
+        /// Complete selection with cell states recovery.
+        /// </summary>
+        /// <param name="status">Completion status code.</param>
+        /// <param name="selectedTargets">Selected targets. Empty by default.</param>
+        private void CompleteSelection(Entity sessionOwner, TargetSelectionStatus status)
+        {
+            var session = stash_TargetSelectionSession.Get(sessionOwner);
+            SendTargetSelectionResult(sessionOwner, status);
+            CleanupSelectionOptionsTags();
+            RecoverTargetsViews(session);
+            ExitTargetSelectionState();
+        }
+
+        /// <summary>
+        /// Sends target selection completed event.
+        /// </summary>
+        /// <param name="status">Completion status code.</param>
+        /// <param name="selectedTargets">Selected targets. Empty by default.</param>
+        private void SendTargetSelectionResult(Entity sessionOwner, TargetSelectionStatus status)
+        {
+            var session = stash_TargetSelectionSession.Get(sessionOwner);
+            stash_selectionResult.Set(sessionOwner, new TargetSelectionResult
+            {
+                m_Status = status,
+                m_SelectedCells = session.m_SelectedOptions,
+                m_IsProcessed = false,
+                m_ExpireIn = 1
+            });
+        }
+
+        /// <summary>
+        /// Process target selection by handling player input.
+        /// </summary>
+        private void ProcessSelection(Entity sessionOwner)
+        {
+            if (sessionOwner.isNullOrDisposed(World)) // if session is not valid any more.
+            {
+                CompleteSelection(sessionOwner, TargetSelectionStatus.Failed);
+                return;
+            }
+
+            ref var session = ref stash_TargetSelectionSession.Get(sessionOwner);
+
+            if (Input.GetMouseButtonDown(0) && !f_SelectOptionsUnderCursor.IsEmpty()) // if player try to select target.
+            {
+                SelectTarget(f_SelectOptionsUnderCursor.FirstOrDefault(), ref session);
+                if (IsSelectionCompleted(session))
+                {
+                    CompleteSelection(sessionOwner, TargetSelectionStatus.Success);
                 }
             }
-            if(Input.GetMouseButtonDown(1)){
-                CancelSelection();
+            if (Input.GetMouseButtonDown(1))
+            {
+                CompleteSelection(sessionOwner, TargetSelectionStatus.Failed);
+                return;
             }
-            
-            if(!StateMachineWorld.IsStateActiveOptimized(f_state, stash_state, out var state)){
-                CancelSelection();
-            }
-        }
-        
-        private void SelectTarget(Entity target){
-            if(target.IsExist() == false){return;}
-            
-            ref var TargetState = ref stash_awaibleToSelect.Get(target);
 
-            if (TargetState.IsSelected){
-                SelectedTargets.Remove(target);
-                TargetState.IsSelected = false;
-            }
-            else{
-                SelectedTargets.Add(target);
-                TargetState.IsSelected = true;
+            // if target selection state was force removed, we shoud exit target selection.
+            if (StateMachineWorld.IsStateActive<TargetSelectionState>(out var state) == false)
+            {
+                CompleteSelection(sessionOwner, TargetSelectionStatus.Failed);
+                return;
             }
         }
-        
-        private bool IsSelectionOver(){
-            if(SelectedTargets.Count == Math.Min(MaxTargets, AwaibleTargets.Count)){
+
+        private void SelectTarget(Entity target, ref TargetSelectionSession session)
+        {
+            if (target.IsExist() == false) { return; }
+
+            ref var TargetState = ref stash_SelectionOptionTag.Get(target);
+
+            if (TargetState.m_IsSelected) // if try to select already selected unit -> remove from selected.
+            {
+                session.m_SelectedOptions.Remove(target);
+                TargetState.m_IsSelected = false;
+            }
+            else
+            {
+                session.m_SelectedOptions.Add(target);
+                TargetState.m_IsSelected = true;
+            }
+        }
+
+
+        /// <summary>
+        /// Evaluates if target amount condition is met.
+        /// </summary>
+        /// <returns></returns>
+        private bool IsSelectionCompleted(TargetSelectionSession session)
+        {
+            if (session.m_SelectedOptions.Count == Math.Min(session.m_TargetsAmount, session.m_AwaibleOptions.Count))
+            {
                 return true;
             }
             return false;
         }
-        
-        private void NotifySelectionCanceled(){
-            // notify selection canceled 
-            evt_selectionCanceled.NextFrame(new TargetSelectionCanceledEvent
-            {
-                CanceledRequestID = this.ProcessingRequestID
-            });
-        }
-        private void NotifySelectionCompleted(){
-            // notify selection canceled 
-            evt_selectionComplited.NextFrame(new TargetSelectionCompletedEvent
-            {
-                CompletedRequestID = ProcessingRequestID,
-                SelectedTargets = new List<Entity>(this.SelectedTargets)
-            });
-        }
-        
-        private void CancelSelection(){
-            NotifySelectionCanceled();
-            Reset();
-        }
-        
-        private void CompleteSelection(){
-            NotifySelectionCompleted();
-            Reset();
-        }
-        
-        private void Reset(){
-            ReturnDefaultColors();
-            foreach (var e in AwaibleTargets){
-                stash_awaibleToSelect.Remove(e);
-            }
-            CurrentState = SystemState.None;
-            SelectedTargets.Clear();
-            AwaibleTargets.Clear();
-            ForbiddenTargets.Clear();
-            MaxTargets = 0;
-            ProcessingRequestID = -1;
-            
-            
-            StateMachineWorld.ExitState<TargetSelectionState>();
-        }
 
-        private void SetSystemState(TargetSelectionRequest req)
+
+        /// <summary>
+        /// Adds target selection state to game state machine.
+        /// </summary>
+        private void EnterTargetSelectionState()
         {
-            MaxTargets = req.TargetCount;
-            ProcessingRequestID = req.RequestID;
-            
-            switch (req.Type)
-            {
-                case TargetSelectionRequest.SelectionType.Cell:
-                    CurrentState = SystemState.SelectingCells;
-                    break;
-                case TargetSelectionRequest.SelectionType.Enemy:
-                    CurrentState = SystemState.SelectingEnemies;
-                    break;
-            }
             StateMachineWorld.EnterState<TargetSelectionState>();
         }
-    
-        private void PrepareForbiddenTargets(TargetSelectionRequest req)
+        /// <summary>
+        /// Removes target selection state from game state machine.
+        /// </summary>
+        private void ExitTargetSelectionState()
         {
-            if(req.ForbiddenTargets == null){return;}
-            foreach(var target in req.ForbiddenTargets){
-                ForbiddenTargets.Add(target);
-            }
-            HighlightForbiddenCells();
+            StateMachineWorld.ExitState<TargetSelectionState>();
         }
-    
-        private void PrepareAwaibleTargets(TargetSelectionRequest req){
-            foreach(var target in req.AllowedTargets){
-                stash_awaibleToSelect.Add(target);
-                AwaibleTargets.Add(target);
-            }
-            HighlightAwaibleCells();
-        }
-
-
-        private void HighlightForbiddenCells()
+        /// <summary>
+        /// Request unawaible target highlight. 
+        /// </summary>
+        /// <param name="targets">Unawaible to selection targets.</param>
+        private void HandleUnawaibleTargets(List<Entity> targets)
         {
-            req_selectCellsView.Publish(new ChangeCellViewToSelectRequest
+            req_SelectCellsView.Publish(new ChangeCellViewToSelectedRequest
             {
-                Cells = new List<Entity>(ForbiddenTargets),
-                State = ChangeCellViewToSelectRequest.SelectState.Enabled
+                Cells = new List<Entity>(targets),
+                State = ChangeCellViewToSelectedRequest.SelectState.Enabled
             });
         }
 
-        private void HighlightAwaibleCells(){
+        /// <summary>
+        /// Request awaible target highlight. 
+        /// Mark awaible target entities with special component.
+        /// </summary>
+        /// <param name="targets">Awaible to selection targets.</param>
+        private void HandleAwaibleTargets(List<Entity> targets)
+        {
+            req_SelectCellsView.Publish(new ChangeCellViewToSelectedRequest
+            {
+                Cells = new List<Entity>(targets),
+                State = ChangeCellViewToSelectedRequest.SelectState.Enabled
+            });
 
-            req_selectCellsView.Publish(new ChangeCellViewToSelectRequest{
-                Cells = new List<Entity>(AwaibleTargets), 
-                State = ChangeCellViewToSelectRequest.SelectState.Enabled
+            foreach (var e in targets)// Mark all awaible targets.
+            {
+                stash_SelectionOptionTag.Add(e);
+            }
+        }
+
+        /// <summary>
+        /// Sends requests for cells view system to restore cell view state.
+        /// </summary>
+        /// <param name="session"></param>
+        private void RecoverTargetsViews(TargetSelectionSession session)
+        {
+            req_SelectCellsView.Publish(new ChangeCellViewToSelectedRequest
+            {
+                Cells = new List<Entity>(session.m_AwaibleOptions),
+                State = ChangeCellViewToSelectedRequest.SelectState.Disabled,
+            });
+            req_SelectCellsView.Publish(new ChangeCellViewToSelectedRequest
+            {
+                Cells = new List<Entity>(session.m_UnavaibleOptions),
+                State = ChangeCellViewToSelectedRequest.SelectState.Disabled,
             });
         }
-        
-        private void ReturnDefaultColors(){
-            req_selectCellsView.Publish(new ChangeCellViewToSelectRequest
-            {
-                Cells = new List<Entity>(AwaibleTargets),
-                State = ChangeCellViewToSelectRequest.SelectState.Disabled,
-                test = "cursor selection"
-            });
-            req_selectCellsView.Publish(new ChangeCellViewToSelectRequest
-            {
-                Cells = new List<Entity>(ForbiddenTargets),
-                State = ChangeCellViewToSelectRequest.SelectState.Disabled,
-                test = "cursor selection"
-            });
-        }
+
     }
 }

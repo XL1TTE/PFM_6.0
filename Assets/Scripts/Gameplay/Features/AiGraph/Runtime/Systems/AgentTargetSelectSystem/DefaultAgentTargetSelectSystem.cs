@@ -2,11 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Utilities;
-using DG.Tweening;
 using Domain.AIGraph;
 using Domain.BattleField.Tags;
-using Domain.Commands.Requests;
-using Domain.Extentions;
 using Domain.Monster.Tags;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -70,7 +67,7 @@ namespace Gameplay.AIGraph
 
         private List<Entity> PickTargets(Entity agentEntity, int MaxTargets)
         {
-            var options = GameLogicUtility.FindAttackOptionsCellsFor(agentEntity, World);
+            var options = GU.FindAttackOptionsCellsFor(agentEntity, World);
 
             return options.GetRange(0, Math.Min(MaxTargets, options.Count))
                 .Where(cell => isCellValidByOccupier(cell)).Select(

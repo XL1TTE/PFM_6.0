@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Core.Utilities;
 using Domain.AbilityGraph;
 using Domain.AIGraph;
-using Domain.Commands.Requests;
 using Domain.Extentions;
 using Domain.TurnSystem.Requests;
 using Domain.TurnSystem.Tags;
@@ -25,7 +24,7 @@ namespace Gameplay.AIGraph
         private Stash<AIExecutionGraph> stash_aiGraph;
         private Stash<AIExecutionState> stash_aiState;
         private Request<AgentMoveRequest> req_agentMove;
-        private Request<AbilityUseRequest> req_abilityUse;
+        private Request<ActivateAbilityRequest> req_abilityUse;
         private Request<AgentTargetSelectionRequest> req_agentTargetSelection;
 
         public void OnAwake()
@@ -49,7 +48,7 @@ namespace Gameplay.AIGraph
             stash_aiState = World.GetStash<AIExecutionState>();
 
             req_agentMove = World.GetRequest<AgentMoveRequest>();
-            req_abilityUse = World.GetRequest<AbilityUseRequest>();
+            req_abilityUse = World.GetRequest<ActivateAbilityRequest>();
             req_agentTargetSelection = World.GetRequest<AgentTargetSelectionRequest>();
         }
 
@@ -132,11 +131,11 @@ namespace Gameplay.AIGraph
 
         private void ProcessAbilityUse(Entity agent, AIAction actionInfo, ref AIExecutionState state)
         {
-            req_abilityUse.Publish(new AbilityUseRequest
+            req_abilityUse.Publish(new ActivateAbilityRequest
             {
-                Caster = agent,
-                AbilityTemplateID = actionInfo.AbilityId,
-                Targets = state.SelectedTargets
+                m_Caster = agent,
+                m_AbilityTemplateID = actionInfo.AbilityId,
+                m_Targets = state.SelectedTargets
             });
         }
 

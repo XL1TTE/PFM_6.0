@@ -1,27 +1,29 @@
+using Domain.Services;
 using Scellecs.Morpeh;
 
 namespace Domain.AbilityGraph
 {
     public struct AbilityExecutionState : IComponent
     {
-        public int CurrentNodeId;
+        public int m_CurrentNodeId;
 
         // Condition flags
-        public bool AnimationNotExist;
-        public bool AnimationFrameReached;
-        public bool DamageDealt;
-        public bool EffectApplied;
-        public bool CustomConditionMet;
+        public bool m_DamageDealt;
+        public bool m_EffectApplied;
+        public bool m_CustomConditionMet;
 
         // Data for conditions
-        public int CurrentAnimationFrame;
-        public float LastDamageAmount;
-        public string LastAppliedEffectId;
-        public string LastAnimationEvent;
+        public int m_CurrentAnimationFrame;
+        public float m_LastDamageAmount;
+        public string m_LastAppliedEffectId;
+
+        public AnimatingStatus m_AnimatingStatus;
+        public bool m_IsTweenInteractionFrame;
 
         // Timers and counters
-        public float ExecutionTimer;
-        public int TurnCount;
+        public float m_ExecutionTimer;
+        public int m_TurnCount;
     }
 }
+
 

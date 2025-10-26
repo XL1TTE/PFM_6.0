@@ -33,8 +33,10 @@ namespace Gameplay.StateMachine.Systems
 
         public void OnUpdate(float deltaTime)
         {
-            foreach(var evt in evt_onStateExit.publishedChanges){
-                if(IsValid(evt.StateEntity)){
+            foreach (var evt in evt_onStateExit.publishedChanges)
+            {
+                if (IsValid(evt.StateEntity))
+                {
                     Exit(evt.StateEntity);
                 }
             }
@@ -44,40 +46,48 @@ namespace Gameplay.StateMachine.Systems
         {
 
         }
-        
-        private void Exit(Entity stateEntity){
-            
+
+        private void Exit(Entity stateEntity)
+        {
+
             Filter spawnCellsFilter = World.Filter.With<TagMonsterSpawnCell>().Build();
 
-            var highlightMonsterSpawnCellsReq = World.Default.GetRequest<ChangeCellViewToSelectRequest>();
+            var highlightMonsterSpawnCellsReq = World.Default.GetRequest<ChangeCellViewToSelectedRequest>();
 
             highlightMonsterSpawnCellsReq.Publish(
-                    new ChangeCellViewToSelectRequest
+                    new ChangeCellViewToSelectedRequest
                     {
-                        Cells = spawnCellsFilter.AsEnumerable(), 
-                        State = ChangeCellViewToSelectRequest.SelectState.Disabled}
+                        Cells = spawnCellsFilter.AsEnumerable(),
+                        State = ChangeCellViewToSelectedRequest.SelectState.Disabled
+                    }
                     , true);
 
             var req_markMonsterSpawnCellsAsDropTargets =
                 World.Default.GetRequest<MarkMonsterSpawnCellsAsDropTargetRequest>();
 
             req_markMonsterSpawnCellsAsDropTargets.Publish(
-                new MarkMonsterSpawnCellsAsDropTargetRequest {
-                state = MarkMonsterSpawnCellsAsDropTargetRequest.State.Disable }, true);
+                new MarkMonsterSpawnCellsAsDropTargetRequest
+                {
+                    state = MarkMonsterSpawnCellsAsDropTargetRequest.State.Disable
+                }, true);
 
             /* ########################################## */
             /*          Remove start battle button         */
             /* ########################################## */
-            foreach(var btn in World.Filter.With<StartBattleButtonTag>().Build()){
-                if(World.TryGetComponent<StartBattleButtonTag>(btn, out var t_btn)){
+            foreach (var btn in World.Filter.With<StartBattleButtonTag>().Build())
+            {
+                if (World.TryGetComponent<StartBattleButtonTag>(btn, out var t_btn))
+                {
                     World.GetStash<TagCursorDetector>().Remove(btn); // Disable ability to click
                     t_btn.View.DestroySelf();
                 }
             }
         }
-        
-        private bool IsValid(Entity stateEntity){
-            if (stash_state.Has(stateEntity)){
+
+        private bool IsValid(Entity stateEntity)
+        {
+            if (stash_state.Has(stateEntity))
+            {
                 return true;
             }
             return false;
