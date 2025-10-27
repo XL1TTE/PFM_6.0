@@ -53,7 +53,7 @@ namespace Game
                     a_source, a_target, a_world, a_damageType, t_damageCounter);
             }
 
-            a_world.GetStash<Health>().Get(a_target).ChangeHealth(t_damageCounter);
+            a_world.GetStash<Health>().Get(a_target).ChangeHealth(-t_damageCounter);
 
             // On damage dealt notification
             foreach (var i in Interactor.GetAll<IOnDamageDealtInteraction>())

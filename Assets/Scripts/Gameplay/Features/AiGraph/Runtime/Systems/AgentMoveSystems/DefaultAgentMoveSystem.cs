@@ -75,7 +75,7 @@ namespace Gameplay.AIGraph
 
         private void ProcessChessMove(Entity agentEntity, Entity target)
         {
-            var sequence = MovementAnimations.ChessMovement(agentEntity, target, World);
+            var sequence = A.ChessMovement(agentEntity, target, World);
             sequence.OnComplete(() =>
             {
                 CompleteMovement(agentEntity);

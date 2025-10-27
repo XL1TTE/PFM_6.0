@@ -24,6 +24,15 @@ namespace Domain.Abilities
             }
         }
 
+        public Ability Clone()
+        {
+            var clonedEffects = new List<IAbilityEffect>();
+            foreach (var effect in m_Effects)
+            {
+                clonedEffects.Add(effect.Clone());
+            }
+            return new Ability(clonedEffects);
+        }
         public void AddEffect(IAbilityEffect effect) => m_Effects.Add(effect);
         public void RemoveEffect(IAbilityEffect effect) => m_Effects.Remove(effect);
         public void InsertEffect(int index, IAbilityEffect effect) => m_Effects.Insert(index, effect);

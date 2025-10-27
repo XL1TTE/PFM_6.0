@@ -20,6 +20,8 @@ namespace Gameplay.Abilities
             this.m_RemoveFromSelf = a_removeFromSelf;
         }
 
+        public IAbilityEffect Clone() => new RemoveEffect(m_EffectID, m_RemoveFromSelf);
+
         public async UniTask Execute(AbilityContext context)
         {
             var t_target = context.m_Target;

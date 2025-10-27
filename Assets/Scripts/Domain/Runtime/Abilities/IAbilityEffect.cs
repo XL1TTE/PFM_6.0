@@ -6,5 +6,7 @@ namespace Domain.Abilities
     public interface IAbilityEffect
     {
         UniTask Execute(AbilityContext context);
+
+        IAbilityEffect Clone();
     }
 }

@@ -260,7 +260,7 @@ namespace Gameplay.Abilities.Systems
 
         private void MoveCasterToSelectedCell(Entity cell)
         {
-            var moveSequence = MovementAnimations.ChessMovement(CurrentCaster, cell, World);
+            var moveSequence = A.ChessMovement(CurrentCaster, cell, World);
 
             req_MoveRequest.Publish(new MoveToCellRequest
             {

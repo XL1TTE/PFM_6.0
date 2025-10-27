@@ -20,7 +20,7 @@ namespace Persistence.Utilities
             {
                 return new AbilityData
                 {
-                    m_Value = defenition.m_Ability,
+                    m_Value = defenition.m_Ability.Clone(),
                     m_AbilityTemplateID = a_RecordID
                 };
             }
