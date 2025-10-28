@@ -3,7 +3,7 @@ using Domain.Stats.Components;
 
 namespace Persistence.DB
 {
-    public class Effect_EmpowerRecord : MonsterPartRecord
+    public partial class Effect_EmpowerRecord : MonsterPartRecord
     {
         public Effect_EmpowerRecord()
         {
@@ -17,5 +17,6 @@ namespace Persistence.DB
                     m_Multiplier = 0.25f
                 });
         }
+
     }
 }

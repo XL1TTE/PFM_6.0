@@ -16,7 +16,7 @@ namespace Gameplay.StateMachine.Systems
 
         public void OnAwake()
         {
-            StateMachineWorld.EnterState<BattleSceneInitializeState>();
+            SM.EnterState<BattleSceneInitializeState>();
         }
 
         public void Dispose()

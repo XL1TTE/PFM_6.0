@@ -55,7 +55,7 @@ namespace Core.ECS
             _defaultWorld.CleanupUpdate(Time.deltaTime);
             _defaultWorld.Commit();
 
-            StateMachineWorld.Update();
+            SM.Update();
         }
 
     }

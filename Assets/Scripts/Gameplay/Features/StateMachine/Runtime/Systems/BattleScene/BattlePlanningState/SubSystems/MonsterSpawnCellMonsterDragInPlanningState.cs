@@ -33,9 +33,9 @@ namespace Gameplay.StateMachine.Systems
 
         public void OnAwake()
         {
-            f_state = StateMachineWorld.Value.Filter.With<BattlePlanningState>().Build();
+            f_state = SM.Value.Filter.With<BattlePlanningState>().Build();
 
-            stash_planningState = StateMachineWorld.Value.GetStash<BattlePlanningState>();
+            stash_planningState = SM.Value.GetStash<BattlePlanningState>();
 
             _cellsWithMonsterUnderCursor = World.Filter
                 .With<UnderCursorComponent>()
@@ -86,7 +86,7 @@ namespace Gameplay.StateMachine.Systems
 
         private bool IsValid()
         {
-            if (StateMachineWorld.IsStateActiveOptimized(f_state, stash_planningState, out var state))
+            if (SM.IsStateActiveOptimized(f_state, stash_planningState, out var state))
             {
                 return true;
             }

@@ -1,20 +1,23 @@
 
 using System.Collections.Generic;
 using Domain.Abilities;
+using Domain.Extentions;
 using Domain.Services;
 using Gameplay.Abilities;
 using Gameplay.TargetSelection;
+using Persistence.Components;
 using UnityEngine;
 
 namespace Persistence.DB
 {
 
-    public sealed class AttackAbility : IDbRecord
+    public sealed class DinArmAbility : IDbRecord
     {
-        public AttackAbility()
+        public DinArmAbility()
         {
-            ID("AttackAbility");
+            ID("abt_din_arm");
 
+            With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
             With<AbilityDefenition>(new AbilityDefenition
             {
                 m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,

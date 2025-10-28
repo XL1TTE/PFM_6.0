@@ -82,7 +82,7 @@ namespace Gameplay.FloatingDamage.Systems
         private FloatingDamageView CreateFloatingDamage()
         {
             var floatingDamage = UnityEngine.Object.
-                Instantiate(GameResources.p_FloatingDamage, m_PoolContainer);
+                Instantiate(GR.p_FloatingDamage, m_PoolContainer);
 
             floatingDamage.gameObject.SetActive(false);
             return floatingDamage;

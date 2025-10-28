@@ -1,18 +1,21 @@
 
 using System.Collections.Generic;
 using Domain.Abilities;
+using Domain.Extentions;
 using Gameplay.Abilities;
 using Gameplay.TargetSelection;
+using Persistence.Components;
 using UnityEngine;
 
 namespace Persistence.DB
 {
-    public sealed class MoveAbility : IDbRecord
+    public sealed class DinLegAbility : IDbRecord
     {
-        public MoveAbility()
+        public DinLegAbility()
         {
-            ID("MoveAbility");
+            ID("abt_din_leg");
 
+            With<IconUI>(new IconUI(GR.SPR_MOVE_ABILITY_ICON));
             With<AbilityDefenition>(new AbilityDefenition
             {
                 m_TargetType = TargetSelectionTypes.CELL_EMPTY,

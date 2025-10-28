@@ -11,7 +11,7 @@ namespace Domain.Abilities.Tags
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct AbiltiyButtonTag : IComponent
     {
-        public AbiltiyButtonView m_View;
+        public AbilityButtonView m_View;
 
         /// <summary>
         /// Related ability.

@@ -20,7 +20,7 @@ namespace Persistence.DB
             With<TagMonsterArm>();
             With<AbilityProvider>(new AbilityProvider
             {
-                m_AbilityTemplateID = "AttackAbility"
+                m_AbilityTemplateID = "abt_din_arm"
             });
         }
     }

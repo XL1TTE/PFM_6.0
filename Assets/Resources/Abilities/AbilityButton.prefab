@@ -162,7 +162,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4027622553625252875}
-  - component: {fileID: 5677179551388305830}
+  - component: {fileID: 565774332662068049}
   m_Layer: 0
   m_Name: AbilityButton
   m_TagString: Untagged
@@ -191,7 +191,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5677179551388305830
+--- !u!114 &565774332662068049
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,12 +200,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 801764995017554425}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e477e8d7d77e4e34ab465b785d3d6c57, type: 3}
+  m_Script: {fileID: 11500000, guid: c18d730b1dda45241b51570eaa333eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   HoverLayer: {fileID: 529030507706877003}
   SelectedLayer: {fileID: 3842570137393878338}
   UnavaibleLayer: {fileID: 3105925416401170936}
+  m_Icon: {fileID: 5227119687723825406}
 --- !u!1 &3105925416401170936
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,8 +438,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    m_View: {fileID: 5677179551388305830}
-    m_AbilityID: 
+    m_View: {fileID: 565774332662068049}
+    m_Ability:
+      m_AbilityTemplateID: 
+      m_TargetType: 0
+      m_Icon: {fileID: 0}
 --- !u!114 &4453980996374814283
 MonoBehaviour:
   m_ObjectHideFlags: 0

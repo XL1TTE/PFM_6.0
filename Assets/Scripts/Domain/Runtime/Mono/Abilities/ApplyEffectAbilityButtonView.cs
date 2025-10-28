@@ -1,6 +1,6 @@
 namespace Domain.Abilities.Mono
 {
-    public class ApplyEffectAbilityButtonView : AbiltiyButtonView
+    public class ApplyEffectAbilityButtonView : AbilityButtonView
     {
 
     }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Domain.Abilities.Components;
+using Domain.Abilities.Mono;
 using Domain.Abilities.Providers;
 using Domain.Extentions;
 using Domain.Monster.Tags;
@@ -25,11 +26,10 @@ namespace Gameplay.TurnSystem.Systems
 
         private Event<NextTurnStartedEvent> evt_nextTurnStarted;
         private Stash<AbilitiesComponent> stash_Abilities;
-        private const string _moveAbilityRecordID = "abt_moveAbility";
-        private readonly GameObject m_AbilityButtonPrefab = GameResources.p_AbilityButton;
+        private readonly AbilityButtonView m_AbilityButtonPrefab = GR.p_AbilityButton;
 
 
-        private List<GameObject> _abilityBtnsCache = new();
+        private List<AbilityButtonView> m_abilityBtnsCache = new();
 
         public void OnAwake()
         {
@@ -53,7 +53,6 @@ namespace Gameplay.TurnSystem.Systems
                     var abilityOwner = filter_monsterTurnTaker.First();
 
                     ClearAbilityViews();
-                    DrawMoveAbility(abilityOwner);
                     DrawAbilities(abilityOwner);
                 }
                 else
@@ -68,22 +67,6 @@ namespace Gameplay.TurnSystem.Systems
 
         }
 
-        private void DrawMoveAbility(Entity abilityOwner)
-        {
-            if (DataBase.TryFindRecordByID(_moveAbilityRecordID, out var record))
-            {
-                var slot = BattleFieldUIRefs.Instance.BookWidget.m_MoveButtonSlot;
-                if (DataBase.TryGetRecord<PrefabComponent>(record, out var prefab))
-                {
-                    GameObject ability_btn = Object.Instantiate(prefab.Value, slot);
-                    if (ability_btn.TryFindComponent<AbilityButtonTagProvider>(out var ability))
-                    {
-                        ability.GetData().m_ButtonOwner = abilityOwner;
-                    }
-                    _abilityBtnsCache.Add(ability_btn);
-                }
-            }
-        }
         private void DrawAbilities(Entity abilityOwner)
         {
             if (stash_Abilities.Has(abilityOwner) == false) { return; }
@@ -92,39 +75,59 @@ namespace Gameplay.TurnSystem.Systems
             if (t_abilities.m_LeftHandAbility?.m_Value != null)
             {
                 var slot = BattleFieldUIRefs.Instance.BookWidget.m_FirstHandAbilitySlot;
-                GameObject ability_btn = Object.Instantiate(m_AbilityButtonPrefab, slot);
+                var ability_btn = Object.Instantiate(m_AbilityButtonPrefab, slot);
+                SetAbilityIcon(ability_btn, t_abilities.m_LeftHandAbility);
                 AttachAbilityOwnerToView(ability_btn, abilityOwner);
                 AttachAbilityToView(ability_btn, t_abilities.m_LeftHandAbility);
-                _abilityBtnsCache.Add(ability_btn);
+                m_abilityBtnsCache.Add(ability_btn);
             }
             if (t_abilities.m_RightHandAbility?.m_Value != null)
             {
                 var slot = BattleFieldUIRefs.Instance.BookWidget.m_SecondHandAbilitySlot;
-                GameObject ability_btn = Object.Instantiate(m_AbilityButtonPrefab, slot);
+                var ability_btn = Object.Instantiate(m_AbilityButtonPrefab, slot);
+                SetAbilityIcon(ability_btn, t_abilities.m_RightHandAbility);
+
                 AttachAbilityOwnerToView(ability_btn, abilityOwner);
                 AttachAbilityToView(ability_btn, t_abilities.m_RightHandAbility);
-                _abilityBtnsCache.Add(ability_btn);
+                m_abilityBtnsCache.Add(ability_btn);
             }
             if (t_abilities.m_HeadAbility?.m_Value != null)
             {
                 var slot = BattleFieldUIRefs.Instance.BookWidget.m_HeadAbilitySlot;
-                GameObject ability_btn = Object.Instantiate(m_AbilityButtonPrefab, slot);
+                var ability_btn = Object.Instantiate(m_AbilityButtonPrefab, slot);
+                SetAbilityIcon(ability_btn, t_abilities.m_HeadAbility);
+
                 AttachAbilityOwnerToView(ability_btn, abilityOwner);
                 AttachAbilityToView(ability_btn, t_abilities.m_HeadAbility);
-                _abilityBtnsCache.Add(ability_btn);
+                m_abilityBtnsCache.Add(ability_btn);
+            }
+            if (t_abilities.m_LegAbility?.m_Value != null)
+            {
+                var slot = BattleFieldUIRefs.Instance.BookWidget.m_MoveButtonSlot;
+                var ability_btn = Object.Instantiate(m_AbilityButtonPrefab, slot);
+                SetAbilityIcon(ability_btn, t_abilities.m_LegAbility);
+
+                AttachAbilityOwnerToView(ability_btn, abilityOwner);
+                AttachAbilityToView(ability_btn, t_abilities.m_LegAbility);
+                m_abilityBtnsCache.Add(ability_btn);
             }
         }
 
-        private void AttachAbilityOwnerToView(GameObject view, Entity owner)
+        private void SetAbilityIcon(AbilityButtonView a_AbilityBtn, AbilityData a_AbilityData)
         {
-            if (view.TryFindComponent<AbilityButtonTagProvider>(out var ability))
+            a_AbilityBtn.SetIcon(a_AbilityData.m_Icon);
+        }
+
+        private void AttachAbilityOwnerToView(AbilityButtonView view, Entity owner)
+        {
+            if (view.gameObject.TryFindComponent<AbilityButtonTagProvider>(out var ability))
             {
                 ability.GetData().m_ButtonOwner = owner;
             }
         }
-        private void AttachAbilityToView(GameObject view, AbilityData ability)
+        private void AttachAbilityToView(AbilityButtonView view, AbilityData ability)
         {
-            if (view.TryFindComponent<AbilityButtonTagProvider>(out var abilityTag))
+            if (view.gameObject.TryFindComponent<AbilityButtonTagProvider>(out var abilityTag))
             {
                 abilityTag.GetData().m_Ability = ability;
             }
@@ -132,11 +135,11 @@ namespace Gameplay.TurnSystem.Systems
 
         private void ClearAbilityViews()
         {
-            foreach (var item in _abilityBtnsCache)
+            foreach (var item in m_abilityBtnsCache)
             {
-                Object.Destroy(item);
+                Object.Destroy(item.gameObject);
             }
-            _abilityBtnsCache.Clear();
+            m_abilityBtnsCache.Clear();
         }
     }
 }

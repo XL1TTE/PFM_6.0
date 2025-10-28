@@ -7,9 +7,9 @@ namespace Domain.StateMachine.Mono
 {
 
 
-    public static class StateMachineWorld
+    public static class SM
     {
-        static StateMachineWorld()
+        static SM()
         {
             Value = World.Create();
 

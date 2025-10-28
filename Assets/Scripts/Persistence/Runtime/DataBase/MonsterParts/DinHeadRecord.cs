@@ -24,7 +24,7 @@ namespace Persistence.DB
             });
             With<AbilityProvider>(new AbilityProvider
             {
-                m_AbilityTemplateID = "MoveAbility"
+                m_AbilityTemplateID = "abt_din_head"
             });
         }
     }

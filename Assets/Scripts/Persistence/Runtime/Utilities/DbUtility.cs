@@ -1,11 +1,15 @@
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Domain.Abilities;
 using Domain.Abilities.Components;
 using Gameplay.Abilities;
+using Persistence.Components;
 using Persistence.DB;
 using Scellecs.Morpeh;
+using Unity.VisualScripting;
+using UnityEngine;
 
 namespace Persistence.Utilities
 {
@@ -16,12 +20,16 @@ namespace Persistence.Utilities
         public static AbilityData GetAbilityDataFromAbilityRecord(string a_RecordID)
         {
             if (DataBase.TryFindRecordByID(a_RecordID, out var record) == false) { return null; }
+            DataBase.TryGetRecord<IconUI>(record, out var icon);
             if (DataBase.TryGetRecord<AbilityDefenition>(record, out var defenition))
             {
                 return new AbilityData
                 {
                     m_Value = defenition.m_Ability.Clone(),
-                    m_AbilityTemplateID = a_RecordID
+                    m_AbilityTemplateID = a_RecordID,
+                    m_Shifts = defenition.m_Shifts,
+                    m_TargetType = defenition.m_TargetType,
+                    m_Icon = icon.m_Value
                 };
             }
             return null;
@@ -38,6 +46,11 @@ namespace Persistence.Utilities
             }
         }
 
+        public static IEnumerable<Vector2Int> CombineShifts(IEnumerable<Vector2Int> first, IEnumerable<Vector2Int> second)
+        {
+            HashSet<Vector2Int> result = new HashSet<Vector2Int>(first.Concat(second));
+            return result;
+        }
     }
 
 }

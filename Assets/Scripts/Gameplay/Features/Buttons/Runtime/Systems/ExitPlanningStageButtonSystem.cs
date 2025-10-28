@@ -9,7 +9,8 @@ using Domain.UI.Tags;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Gameplay.EcsButtons.Systems{
+namespace Gameplay.EcsButtons.Systems
+{
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
@@ -41,8 +42,8 @@ namespace Gameplay.EcsButtons.Systems{
             foreach (var evt in _evt.publishedChanges)
             {
                 if (Validate(evt) == false) { return; }
-                StateMachineWorld.ExitState<BattlePlanningState>();
-                StateMachineWorld.EnterState<PreBattleNotificationState>();
+                SM.ExitState<BattlePlanningState>();
+                SM.EnterState<PreBattleNotificationState>();
             }
         }
 
@@ -54,8 +55,8 @@ namespace Gameplay.EcsButtons.Systems{
         private bool Validate(ButtonClickedEvent request)
         {
             if (stash_myBtn.Has(request.ClickedButton) == false) { return false; }
-            
-            if(f_dragedMonsters.IsEmpty() == false){return false;}
+
+            if (f_dragedMonsters.IsEmpty() == false) { return false; }
             return true;
         }
     }

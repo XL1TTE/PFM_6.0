@@ -12,6 +12,7 @@ namespace Persistence.DB
 
             ID("mp_DinLeg");
 
+
             With<ID>(new ID { m_Value = "mp_DinLeg" });
             With<LegSpritePath>(new LegSpritePath
             {
@@ -22,7 +23,7 @@ namespace Persistence.DB
             With<TagMonsterLeg>();
             With<AbilityProvider>(new AbilityProvider
             {
-                m_AbilityTemplateID = "MoveAbility"
+                m_AbilityTemplateID = "abt_din_leg"
             });
         }
     }

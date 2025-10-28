@@ -154,40 +154,18 @@ namespace Persistence.Buiders
 
             #endregion
 
-            #region Movement
-            ref var moveAbility = ref stash_moveAbility.Add(monster_entity);
-            var movementTemp = new HashSet<Vector2Int>();
-
-            if (DataBase.TryGetRecord<MovementData>(rec_nearLeg, out var moveData_nearLeg))
-            {
-                foreach (var move in moveData_nearLeg.Movements)
-                {
-                    movementTemp.Add(move);
-                }
-            }
-            if (DataBase.TryGetRecord<MovementData>(rec_farLeg, out var moveData_farLeg))
-            {
-                foreach (var move in moveData_farLeg.Movements)
-                {
-                    movementTemp.Add(move);
-                }
-            }
-
-            moveAbility.Movements = new(movementTemp);
 
             stash_tagMonster.Add(monster_entity);
 
             stash_lookDir.Set(monster_entity, new LookDirection { m_Value = Directions.RIGHT });
-
-            #endregion
-
-            #region  AttackAbility
 
             AbilitiesComponent t_abilities = new AbilitiesComponent();
             AbilityData headAbtData = null;
             AbilityData rArmAbtData = null;
             AbilityData lArmAbtData = null;
             AbilityData lLegAbtData = null;
+            AbilityData rLegAbtData = null;
+            AbilityData LegAbtData = null;
             if (DataBase.TryGetRecord<AbilityProvider>(rec_head, out var head_Ability))
             {
                 headAbtData = DbUtility.GetAbilityDataFromAbilityRecord(head_Ability.m_AbilityTemplateID);
@@ -211,11 +189,22 @@ namespace Persistence.Buiders
             {
                 lLegAbtData = DbUtility.GetAbilityDataFromAbilityRecord(nleg_Ability.m_AbilityTemplateID);
             }
+            if (DataBase.TryGetRecord<AbilityProvider>(rec_farLeg, out var fleg_Ability))
+            {
+                rLegAbtData = DbUtility.GetAbilityDataFromAbilityRecord(fleg_Ability.m_AbilityTemplateID);
+            }
+
+            if (rLegAbtData != null && rLegAbtData != null && nleg_Ability.m_AbilityTemplateID == fleg_Ability.m_AbilityTemplateID)
+            {
+                var movements = DbUtility.CombineShifts(lLegAbtData.m_Shifts, rLegAbtData.m_Shifts);
+                LegAbtData = lLegAbtData;
+                LegAbtData.m_Shifts = movements;
+            }
 
             t_abilities.m_HeadAbility = headAbtData;
             t_abilities.m_LeftHandAbility = lArmAbtData;
             t_abilities.m_RightHandAbility = rArmAbtData;
-            t_abilities.m_LeftLegAbility = lLegAbtData;
+            t_abilities.m_LegAbility = LegAbtData;
 
             stash_abilities.Set(monster_entity, t_abilities);
 
@@ -239,7 +228,7 @@ namespace Persistence.Buiders
 
             stash_iHaveHealthBar.Set(monster_entity, new IHaveHealthBar
             {
-                HealthBarPrefab = GameResources.p_MonsterHealthBar
+                HealthBarPrefab = GR.p_MonsterHealthBar
             });
 
             #endregion
@@ -261,7 +250,6 @@ namespace Persistence.Buiders
 
             return monster_entity;
 
-            #endregion
         }
 
         public MonsterBuilder AttachHead(string head_id)

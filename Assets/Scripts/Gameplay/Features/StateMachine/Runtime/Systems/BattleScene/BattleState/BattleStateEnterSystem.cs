@@ -25,9 +25,9 @@ namespace Gameplay.StateMachine.Systems
 
         public void OnAwake()
         {
-            evt_onStateEnter = StateMachineWorld.Value.GetEvent<OnStateEnterEvent>();
+            evt_onStateEnter = SM.Value.GetEvent<OnStateEnterEvent>();
 
-            stash_state = StateMachineWorld.Value.GetStash<BattleState>();
+            stash_state = SM.Value.GetStash<BattleState>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -53,9 +53,9 @@ namespace Gameplay.StateMachine.Systems
             /* ########################################## */
             /*           Initialize turn system           */
             /* ########################################## */
-            
+
             World.GetRequest<InitializeTurnSystemRequest>().Publish(
-                new InitializeTurnSystemRequest{}, true);
+                new InitializeTurnSystemRequest { }, true);
         }
 
 

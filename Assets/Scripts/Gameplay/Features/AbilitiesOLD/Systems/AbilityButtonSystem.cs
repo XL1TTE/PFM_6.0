@@ -95,28 +95,6 @@ namespace Gameplay.Abilities.Systems
             }
         }
 
-        private void ProcessTargetSelection()
-        {
-            foreach (var button in f_targetSelectionResults)
-            {
-                var abiltiyOwner = stash_AbilityButtonTag.Get(button).m_ButtonOwner;
-
-                ref var result = ref GU.GetTargetSelectionResult(button, World);
-
-                if (result.m_Status == TargetSelectionStatus.Success)
-                {
-                    SetSelectedEffect(button, false);
-                    UseAbility(abiltiyOwner, result);
-                    result.m_IsProcessed = true;
-                }
-                else if (result.m_Status == TargetSelectionStatus.Failed)
-                {
-                    SetSelectedEffect(button, false);
-                    result.m_IsProcessed = true;
-                }
-            }
-        }
-
         private void ProcessHoverEffect()
         {
             foreach (var evt in evt_OnCursorEnter.publishedChanges)
@@ -150,6 +128,8 @@ namespace Gameplay.Abilities.Systems
 
         private void SetSelectedEffect(Entity abilityButton, bool isActive)
         {
+            if (abilityButton.isNullOrDisposed(World)) { return; }
+
             ref var view = ref stash_AbilityButtonTag.Get(abilityButton).m_View;
             if (isActive)
             {
@@ -161,17 +141,6 @@ namespace Gameplay.Abilities.Systems
             }
         }
 
-        private void UseAbility(Entity abiltiyOwner, TargetSelectionResult result)
-        {
-            var targets = GU.GetCellOccupiers(result.m_SelectedCells, World);
-
-            if (DataBase.TryFindRecordByID("AttackAbility", out var abt_record))
-            {
-                if (DataBase.TryGetRecord<AbilityDefenition>(abt_record, out var abilityData))
-                {
-                }
-            }
-        }
 
         private void EnableButton(Entity abilityButton)
         {
@@ -198,28 +167,13 @@ namespace Gameplay.Abilities.Systems
 
                 var owner = stash_AbilityButtonTag.Get(evt.ClickedButton).m_ButtonOwner;
 
-                // var allOptions = GU.FindAttackOptionsCellsFor(owner, World);
-                // var avaibleOptions = F.FilterCellsWithEnemies(allOptions, World);
-
-                // req_TargetSelection.Publish(new TargetSelectionRequest
-                // {
-                //     m_Sender = evt.ClickedButton,
-                //     m_TargetsAmount = 1,
-                //     m_AwaibleOptions = avaibleOptions.ToList(),
-                //     m_UnavaibleOptions = allOptions.Except(avaibleOptions).ToList()
-
-                // });
-
                 var ownerPos = GU.GetEntityPositionOnCell(owner, World);
 
                 var abilityData = stash_AbilityButtonTag.Get(evt.ClickedButton).m_Ability;
 
-                DataBase.TryFindRecordByID(abilityData.m_AbilityTemplateID, out var abilityRecord);
-                DataBase.TryGetRecord<AbilityDefenition>(abilityRecord, out var abilityDef);
+                var t_options = GU.GetCellsFromShifts(ownerPos, abilityData.m_Shifts, World);
 
-                var t_options = GU.GetCellsFromShifts(ownerPos, abilityDef.m_Shifts, World);
-
-                ExecuteAbilityAsync(abilityData.m_Value, evt.ClickedButton, owner, t_options, abilityDef.m_TargetType, 1).Forget(); // Run execution in async
+                ExecuteAbilityAsync(abilityData.m_Value, evt.ClickedButton, owner, t_options, abilityData.m_TargetType, 1).Forget(); // Run execution in async
             }
         }
 

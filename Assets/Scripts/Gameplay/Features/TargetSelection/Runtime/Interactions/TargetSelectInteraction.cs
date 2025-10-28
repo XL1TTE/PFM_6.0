@@ -8,8 +8,11 @@ using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
 using Domain.CursorDetection.Components;
 using Domain.Extentions;
+using Domain.StateMachine.Components;
+using Domain.StateMachine.Mono;
 using Interactions;
 using Scellecs.Morpeh;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
 namespace Gameplay.TargetSelection
@@ -42,6 +45,7 @@ namespace Gameplay.TargetSelection
             // Create new token for this session.
             m_CurrentSelectionCancellation =
                 CancellationTokenSource.CreateLinkedTokenSource(m_LifetimeCancellation.Token);
+            SM.EnterState<TargetSelectionState>();
 
 
             var f_cells = a_world.Filter
@@ -78,7 +82,10 @@ namespace Gameplay.TargetSelection
                     }
                     else if (Input.GetMouseButtonDown(1))
                     {
-                        t_result.Clear();
+                        CancelSession();
+                    }
+                    else if (!SM.IsStateActive<TargetSelectionState>(out var state))
+                    {
                         CancelSession();
                     }
                 }
@@ -92,6 +99,7 @@ namespace Gameplay.TargetSelection
             {
                 HighlighSelectOptions(a_cellOptions, a_world, false);
                 a_result.m_Value = t_result;
+                SM.ExitState<TargetSelectionState>();
             }
         }
 
