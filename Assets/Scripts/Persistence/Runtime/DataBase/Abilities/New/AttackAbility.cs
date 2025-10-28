@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Domain.Abilities;
 using Domain.Services;
 using Gameplay.Abilities;
+using Gameplay.TargetSelection;
 using UnityEngine;
 
 namespace Persistence.DB
@@ -16,6 +17,7 @@ namespace Persistence.DB
 
             With<AbilityDefenition>(new AbilityDefenition
             {
+                m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
                 m_Shifts = new Vector2Int[2] { new Vector2Int(5, 0), new Vector2Int(2, 0) },
                 m_Ability = new Ability(new List<IAbilityEffect>
                 {

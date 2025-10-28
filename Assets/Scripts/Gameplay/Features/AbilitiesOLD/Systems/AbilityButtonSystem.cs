@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
+using Domain.Abilities;
 using Domain.Abilities.Tags;
 using Domain.AbilityGraph;
 using Domain.CursorDetection.Components;
@@ -16,6 +17,7 @@ using Interactions;
 using Persistence.DB;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Gameplay.Abilities.Systems
@@ -210,16 +212,19 @@ namespace Gameplay.Abilities.Systems
 
                 var ownerPos = GU.GetEntityPositionOnCell(owner, World);
 
-                DataBase.TryFindRecordByID("AttackAbility", out var abilityRecord);
-                DataBase.TryGetRecord<AbilityDefenition>(abilityRecord, out var abilityData);
+                var abilityData = stash_AbilityButtonTag.Get(evt.ClickedButton).m_Ability;
 
-                var t_options = GU.GetCellsFromShifts(ownerPos, abilityData.m_Shifts, World);
+                DataBase.TryFindRecordByID(abilityData.m_AbilityTemplateID, out var abilityRecord);
+                DataBase.TryGetRecord<AbilityDefenition>(abilityRecord, out var abilityDef);
 
-                ExecuteAbilityAsync(evt.ClickedButton, owner, t_options, TargetSelectionTypes.CELL_WITH_ENEMY, 1).Forget(); // Run execution in async
+                var t_options = GU.GetCellsFromShifts(ownerPos, abilityDef.m_Shifts, World);
+
+                ExecuteAbilityAsync(abilityData.m_Value, evt.ClickedButton, owner, t_options, abilityDef.m_TargetType, 1).Forget(); // Run execution in async
             }
         }
 
         private async UniTask ExecuteAbilityAsync(
+            Ability ability,
             Entity abilityView,
             Entity caster,
             IEnumerable<Entity> a_cellOptions,
@@ -236,12 +241,25 @@ namespace Gameplay.Abilities.Systems
             }
             if (t_result.m_Value.Count() != 0)
             {
-                var ability = stash_AbilityButtonTag.Get(abilityView).m_Ability.m_Value;
+                Entity target = default;
 
                 foreach (var target_cell in t_result.m_Value)
                 {
-                    var target = GU.GetCellOccupier(target_cell, World);
-                    await ability.Execute(caster, target, World);
+                    switch (a_type)
+                    {
+                        case TargetSelectionTypes.CELL_WITH_ENEMY:
+                            target = GU.GetCellOccupier(target_cell, World);
+                            await ability.Execute(caster, target, World);
+                            break;
+                        case TargetSelectionTypes.CELL_WITH_MONSTER:
+                            target = GU.GetCellOccupier(target_cell, World);
+                            await ability.Execute(caster, target, World);
+                            break;
+                        case TargetSelectionTypes.CELL_EMPTY:
+                            target = target_cell;
+                            await ability.Execute(caster, target, World);
+                            break;
+                    }
                 }
             }
             Debug.Log(t_result.m_Value.FirstOrDefault());

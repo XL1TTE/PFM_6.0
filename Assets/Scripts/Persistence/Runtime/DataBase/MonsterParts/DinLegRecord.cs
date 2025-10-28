@@ -20,15 +20,9 @@ namespace Persistence.DB
             });
             With<TagMonsterPart>();
             With<TagMonsterLeg>();
-            With<MovementData>(new MovementData
+            With<AbilityProvider>(new AbilityProvider
             {
-                Movements = new Vector2Int[5]{
-                    new Vector2Int(1, 1),
-                    new Vector2Int(-1, -1),
-                    new Vector2Int(1, 0),
-                    new Vector2Int(1, -1),
-                    new Vector2Int(-1, 1),
-                    }
+                m_AbilityTemplateID = "MoveAbility"
             });
         }
     }

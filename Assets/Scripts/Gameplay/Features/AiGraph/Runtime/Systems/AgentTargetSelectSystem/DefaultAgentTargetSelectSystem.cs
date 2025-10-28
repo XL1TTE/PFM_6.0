@@ -70,7 +70,7 @@ namespace Gameplay.AIGraph
         private bool isCellValidByOccupier(Entity cell)
         {
             if (stash_occupiedCell.Has(cell) == false) { return false; }
-            var occupier = stash_occupiedCell.Get(cell).Occupier;
+            var occupier = stash_occupiedCell.Get(cell).m_Occupier;
 
             if (stash_monster.Has(occupier) == false) { return false; }
 

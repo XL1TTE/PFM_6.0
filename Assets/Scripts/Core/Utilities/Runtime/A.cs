@@ -3,12 +3,47 @@ using DG.Tweening;
 using Domain.Components;
 using Domain.Extentions;
 using Scellecs.Morpeh;
+using Scellecs.Morpeh.Collections;
 using UnityEngine;
 
 namespace Core.Utilities
 {
     public static class A
     {
+        private static IntHashMap<Sequence> m_SequencesCacheMap = new IntHashMap<Sequence>();
+
+        /// <summary>
+        /// Caches DOtween sequnce animation for entity.
+        /// Can only store one sequnce at the time, so 
+        /// if any animation already exist for entity, it will be killed and replaced.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="sequence"></param>
+        public static void CacheSequenceFor(Entity entity, Sequence sequence)
+        {
+            if (m_SequencesCacheMap.Has(entity.Id))
+            {
+                m_SequencesCacheMap.Remove(entity.Id, out var lastValue);
+                lastValue?.Kill();
+                lastValue = null;
+            }
+            m_SequencesCacheMap.Add(entity.Id, sequence, out var slotIndex);
+        }
+
+        /// <summary>
+        /// Kills sequence on entity if it exists.
+        /// </summary>
+        /// <param name="entity"></param>
+        public static void KillSequenceFor(Entity entity)
+        {
+            if (m_SequencesCacheMap.Has(entity.Id))
+            {
+                m_SequencesCacheMap.Remove(entity.Id, out var lastValue);
+                lastValue?.Kill();
+                lastValue = null;
+            }
+        }
+
         public static Sequence StandartAttack(Entity a_attacker, Entity t_target, World a_world, Action onDamageFrame = default)
         {
             var isAttackerWithTransform

@@ -16,16 +16,16 @@ namespace Gameplay.TurnSystem.Systems
     public sealed class TurnTakerCellMarkSystem : ISystem
     {
         public World World { get; set; }
-        
+
         private Filter filter_currentTurnTaker;
         private Filter filter_occupiedCells;
-        
+
         private Request<ChangeCellViewToPointerRequest> req_CellColorChange;
-        
+
         private Event<NextTurnStartedEvent> evt_turnStarted;
         private Event<EntityCellPositionChangedEvent> evt_cellPosChanged;
         private Stash<TagOccupiedCell> stash_occupiedCells;
-        
+
         private Entity PreviousTurnTaker;
 
         public void OnAwake()
@@ -43,8 +43,10 @@ namespace Gameplay.TurnSystem.Systems
 
         public void OnUpdate(float deltaTime)
         {
-            foreach(var evt in evt_turnStarted.publishedChanges){
-                if(filter_currentTurnTaker.IsEmpty()){
+            foreach (var evt in evt_turnStarted.publishedChanges)
+            {
+                if (filter_currentTurnTaker.IsEmpty())
+                {
                     DisableHighlightUnder(PreviousTurnTaker);
                     return;
                 }
@@ -53,25 +55,30 @@ namespace Gameplay.TurnSystem.Systems
                 DisableHighlightUnder(PreviousTurnTaker);
                 PreviousTurnTaker = turnTaker;
             }
-            
-            foreach(var evt in evt_cellPosChanged.publishedChanges){
-                if (filter_currentTurnTaker.IsEmpty()){return;}
-                if (evt.entity.Id == filter_currentTurnTaker.First().Id){
-                    SendCellHighlightRequest(evt.newCell, ChangeCellViewToPointerRequest.PointerState.Enabled);
-                    SendCellHighlightRequest(evt.oldCell, ChangeCellViewToPointerRequest.PointerState.Disabled);
+
+            foreach (var evt in evt_cellPosChanged.publishedChanges)
+            {
+                if (filter_currentTurnTaker.IsEmpty()) { return; }
+                if (evt.m_Subject.Id == filter_currentTurnTaker.First().Id)
+                {
+                    SendCellHighlightRequest(evt.m_nCell, ChangeCellViewToPointerRequest.PointerState.Enabled);
+                    SendCellHighlightRequest(evt.m_pCell, ChangeCellViewToPointerRequest.PointerState.Disabled);
                 }
             }
         }
 
-        private Entity FindOccupiedCell(Entity occupier){
-            foreach(var cell in filter_occupiedCells){
-                if(stash_occupiedCells.Get(cell).Occupier.Id == occupier.Id){
+        private Entity FindOccupiedCell(Entity occupier)
+        {
+            foreach (var cell in filter_occupiedCells)
+            {
+                if (stash_occupiedCells.Get(cell).m_Occupier.Id == occupier.Id)
+                {
                     return cell;
                 }
             }
             return default;
         }
-        
+
         private void SendCellHighlightRequest(Entity cell, ChangeCellViewToPointerRequest.PointerState state)
         {
             req_CellColorChange.Publish(new ChangeCellViewToPointerRequest
@@ -80,11 +87,12 @@ namespace Gameplay.TurnSystem.Systems
                 State = state
             });
         }
-        
+
         private void HighlighCellUnder(Entity entity)
         {
             var cell = FindOccupiedCell(entity);
-            if(cell.IsExist()){
+            if (cell.IsExist())
+            {
                 SendCellHighlightRequest(cell, ChangeCellViewToPointerRequest.PointerState.Enabled);
             }
         }

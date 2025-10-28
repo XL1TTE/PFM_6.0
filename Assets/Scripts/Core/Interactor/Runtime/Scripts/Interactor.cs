@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Utilities;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 
@@ -34,6 +35,15 @@ namespace Interactions
 
         public static IEnumerable<T> GetAll<T>()
             => InteractorCache<T>.GetFromCache(m_All);
+
+
+        public static async UniTask CallAll<T>(Func<T, UniTask> action)
+        {
+            foreach (var handler in GetAll<T>())
+            {
+                await action(handler);
+            }
+        }
     }
 
     internal static class InteractorCache<T>

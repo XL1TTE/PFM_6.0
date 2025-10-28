@@ -33,12 +33,12 @@ namespace Gameplay.HealthBars.Systems
         {
             foreach (var evt in evt_cellPosChanged.publishedChanges)
             {
-                if (stash_healthBarLink.Has(evt.entity) == false)
+                if (stash_healthBarLink.Has(evt.m_Subject) == false)
                 {
-                    RequestHealthBarCreation(evt.entity, evt.newCell);
+                    RequestHealthBarCreation(evt.m_Subject, evt.m_nCell);
                     return;
                 }
-                RequestUpdateHealthBarPosition(evt.entity, evt.newCell);
+                RequestUpdateHealthBarPosition(evt.m_Subject, evt.m_nCell);
             }
         }
 

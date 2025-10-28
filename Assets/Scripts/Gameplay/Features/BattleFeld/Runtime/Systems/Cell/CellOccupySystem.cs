@@ -21,8 +21,7 @@ namespace Gameplay.BattleField.Systems
         private Event<CellOccupiedEvent> _cellOccupiedEvent;
         private Event<EntityCellPositionChangedEvent> evt_cellPostitionChanged;
         private Stash<TagOccupiedCell> stash_occupiedCell;
-        private Stash<CellPositionComponent> stash_cellPosition;
-        private Stash<GridPosition> stash_gridPosition;
+        private Stash<PositionComponent> stash_Position;
 
         public void OnAwake()
         {
@@ -34,8 +33,7 @@ namespace Gameplay.BattleField.Systems
             evt_cellPostitionChanged = World.GetEvent<EntityCellPositionChangedEvent>();
 
             stash_occupiedCell = World.GetStash<TagOccupiedCell>();
-            stash_gridPosition = World.GetStash<GridPosition>();
-            stash_cellPosition = World.GetStash<CellPositionComponent>();
+            stash_Position = World.GetStash<PositionComponent>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -55,25 +53,26 @@ namespace Gameplay.BattleField.Systems
         {
 
         }
-        
-        
+
+
         private void SendNotificationCellPositionChanged(CellOccupiedEvent evt)
         {
             var previousCell = FindPreviousCell(evt.OccupiedBy);
             evt_cellPostitionChanged.NextFrame(new EntityCellPositionChangedEvent
             {
-                entity = evt.OccupiedBy,
-                oldCell = previousCell,
-                newCell = evt.CellEntity
+                m_Subject = evt.OccupiedBy,
+                m_pCell = previousCell,
+                m_nCell = evt.CellEntity
             });
         }
-        
-        private Entity FindPreviousCell(Entity occupier){
+
+        private Entity FindPreviousCell(Entity occupier)
+        {
             foreach (var cell in _occupiedCells)
             {
                 if (stash_occupiedCell.Has(cell))
                 {
-                    if (stash_occupiedCell.Get(cell).Occupier.Id == occupier.Id)
+                    if (stash_occupiedCell.Get(cell).m_Occupier.Id == occupier.Id)
                     {
                         return cell;
                     }
@@ -81,32 +80,36 @@ namespace Gameplay.BattleField.Systems
             }
             return default;
         }
-        
-        private void UnoccupyCell(CellOccupiedEvent evt){
+
+        private void UnoccupyCell(CellOccupiedEvent evt)
+        {
             var previousCell = FindPreviousCell(evt.OccupiedBy);
-            if(previousCell.IsExist()){
+            if (previousCell.IsExist())
+            {
                 stash_occupiedCell.Remove(previousCell);
             }
         }
-    
+
         private void OccupyCell(CellOccupiedEvent evt)
         {
             var cell = evt.CellEntity;
-            
+
             var occupier = evt.OccupiedBy;
-            
+
             stash_occupiedCell.Set(cell, new TagOccupiedCell
             {
-                Occupier = occupier
+                m_Occupier = occupier
             });
-            
-            var c_cellPos = stash_cellPosition.Get(cell);
-           
-            stash_gridPosition.Set(occupier, new GridPosition{
-                Value = new UnityEngine.Vector2Int(c_cellPos.grid_x, c_cellPos.grid_y)
+
+            var c_cellPos = stash_Position.Get(cell);
+
+            stash_Position.Set(occupier, new PositionComponent
+            {
+                m_GridPosition = c_cellPos.m_GridPosition,
+                m_GlobalPosition = c_cellPos.m_GlobalPosition
             });
         }
-    
+
     }
 }
 

@@ -24,6 +24,8 @@ namespace Domain.Abilities.Components
         public AbilityData m_LeftHandAbility;
         public AbilityData m_RightHandAbility;
         public AbilityData m_HeadAbility;
+        public AbilityData m_LeftLegAbility;
+        public AbilityData m_RightLegAbility;
     }
 }
 

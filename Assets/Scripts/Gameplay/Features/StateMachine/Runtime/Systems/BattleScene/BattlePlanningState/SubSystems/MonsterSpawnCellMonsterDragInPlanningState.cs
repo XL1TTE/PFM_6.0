@@ -18,17 +18,17 @@ namespace Gameplay.StateMachine.Systems
     public sealed class MonsterSpawnCellMonsterDragInPlanningState : ISystem
     {
         public World World { get; set; }
-        
+
         private Filter f_state;
-        
+
         private Stash<BattlePlanningState> stash_planningState;
-        
+
         private Filter _cellsWithMonsterUnderCursor;
         private Stash<TagOccupiedCell> stash_occupiedCell;
         private Stash<UnderCursorComponent> stash_underCursor;
         private Stash<TransformRefComponent> stash_transformRef;
         private Request<StartDragRequest> req_startDrag;
-        
+
         private Filter _currentDrag;
 
         public void OnAwake()
@@ -55,20 +55,23 @@ namespace Gameplay.StateMachine.Systems
         public void OnUpdate(float deltaTime)
         {
             if (_cellsWithMonsterUnderCursor.IsEmpty()) { return; }
-            if (IsValid() == false){return;}
+            if (IsValid() == false) { return; }
 
-            if(Input.GetMouseButtonDown(0)){        
+            if (Input.GetMouseButtonDown(0))
+            {
                 var cellUnderCursor = _cellsWithMonsterUnderCursor.First();
-                var monster = stash_occupiedCell.Get(cellUnderCursor).Occupier;
+                var monster = stash_occupiedCell.Get(cellUnderCursor).m_Occupier;
 
-                if(monster.Id == _currentDrag.FirstOrDefault().Id){
+                if (monster.Id == _currentDrag.FirstOrDefault().Id)
+                {
                     return;
                 }
-                if(_currentDrag.IsEmpty() == false){return;}
+                if (_currentDrag.IsEmpty() == false) { return; }
 
                 var underCursorData = stash_underCursor.Get(cellUnderCursor);
                 var monsterTranform = stash_transformRef.Get(monster).Value;
-                req_startDrag.Publish(new StartDragRequest{
+                req_startDrag.Publish(new StartDragRequest
+                {
                     DraggedEntity = monster,
                     ClickWorldPos = underCursorData.HitPoint,
                     StartPosition = monsterTranform.position
@@ -78,11 +81,13 @@ namespace Gameplay.StateMachine.Systems
 
         public void Dispose()
         {
-            
+
         }
-        
-        private bool IsValid(){
-            if(StateMachineWorld.IsStateActiveOptimized(f_state, stash_planningState, out var state)){
+
+        private bool IsValid()
+        {
+            if (StateMachineWorld.IsStateActiveOptimized(f_state, stash_planningState, out var state))
+            {
                 return true;
             }
             return false;

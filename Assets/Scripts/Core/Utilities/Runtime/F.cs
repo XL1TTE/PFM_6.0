@@ -25,7 +25,7 @@ namespace Core.Utilities
             var enemies = world.GetStash<TagEnemy>();
 
             return cells.Where((e) =>
-                occupiedCells.Has(e) && enemies.Has(occupiedCells.Get(e).Occupier)
+                occupiedCells.Has(e) && enemies.Has(occupiedCells.Get(e).m_Occupier)
             );
         }
         public static IEnumerable<Entity> FilterCellsWithMonsters(IEnumerable<Entity> cells, World world)
@@ -34,7 +34,7 @@ namespace Core.Utilities
             var monsters = world.GetStash<TagMonster>();
 
             return cells.Where((e) =>
-                occupiedCells.Has(e) && monsters.Has(occupiedCells.Get(e).Occupier)
+                occupiedCells.Has(e) && monsters.Has(occupiedCells.Get(e).m_Occupier)
             );
         }
 
@@ -82,9 +82,6 @@ namespace Core.Utilities
             => world.GetStash<TagEnemy>().Has(entity);
         public static bool IsOccupiedCell(Entity entity, World world)
             => world.GetStash<TagOccupiedCell>().Has(entity);
-
-
-
     }
 
 }

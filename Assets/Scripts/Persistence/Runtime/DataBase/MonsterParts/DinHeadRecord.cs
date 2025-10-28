@@ -22,6 +22,10 @@ namespace Persistence.DB
             {
                 m_Effects = Enumerable.Repeat("effect_DinHead", 1).ToArray()
             });
+            With<AbilityProvider>(new AbilityProvider
+            {
+                m_AbilityTemplateID = "MoveAbility"
+            });
         }
     }
 }

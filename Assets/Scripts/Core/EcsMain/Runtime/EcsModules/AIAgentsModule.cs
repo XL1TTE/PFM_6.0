@@ -19,7 +19,7 @@ namespace Core.ECS.Modules
             sg_AiAgents.AddSystem(new AiGraphExecutionSystem());
             sg_AiAgents.AddSystem(new AiAgentStateUpdateSystem());
 
-            sg_AgentsMove.AddSystem(new DefaultAgentMoveSystem());
+            //sg_AgentsMove.AddSystem(new DefaultAgentMoveSystem());
 
             sg_AgentsTargetSelection.AddSystem(new DefaultAgentTargetSelectSystem());
 

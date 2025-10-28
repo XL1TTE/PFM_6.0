@@ -184,8 +184,14 @@ namespace Persistence.Buiders
             #region  AttackAbility
 
             AbilitiesComponent t_abilities = new AbilitiesComponent();
+            AbilityData headAbtData = null;
             AbilityData rArmAbtData = null;
             AbilityData lArmAbtData = null;
+            AbilityData lLegAbtData = null;
+            if (DataBase.TryGetRecord<AbilityProvider>(rec_head, out var head_Ability))
+            {
+                headAbtData = DbUtility.GetAbilityDataFromAbilityRecord(head_Ability.m_AbilityTemplateID);
+            }
             if (DataBase.TryGetRecord<AbilityProvider>(rec_farArm, out var fArm_Ability))
             {
                 lArmAbtData = DbUtility.GetAbilityDataFromAbilityRecord(fArm_Ability.m_AbilityTemplateID);
@@ -201,8 +207,15 @@ namespace Persistence.Buiders
                 DbUtility.DoubleAbilityStats(ref lArmAbtData.m_Value);
             }
 
+            if (DataBase.TryGetRecord<AbilityProvider>(rec_nearLeg, out var nleg_Ability))
+            {
+                lLegAbtData = DbUtility.GetAbilityDataFromAbilityRecord(nleg_Ability.m_AbilityTemplateID);
+            }
+
+            t_abilities.m_HeadAbility = headAbtData;
             t_abilities.m_LeftHandAbility = lArmAbtData;
             t_abilities.m_RightHandAbility = rArmAbtData;
+            t_abilities.m_LeftLegAbility = lLegAbtData;
 
             stash_abilities.Set(monster_entity, t_abilities);
 

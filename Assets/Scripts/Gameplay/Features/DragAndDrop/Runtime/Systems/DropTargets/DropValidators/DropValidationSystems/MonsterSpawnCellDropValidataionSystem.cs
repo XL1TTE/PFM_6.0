@@ -19,7 +19,7 @@ namespace Gameplay.DragAndDrop.Validators
     public sealed class MonsterSpawnCellDropValidataionSystem : ISystem
     {
         public World World { get; set; }
-        
+
         private Filter _occupiedMonsterSpawnCells;
 
         private Request<StartDragRequest> req_startDrag;
@@ -61,25 +61,28 @@ namespace Gameplay.DragAndDrop.Validators
         {
             foreach (var evt in evt_dragEnded.publishedChanges)
             {
-                if(Validate(evt) == false){return;} // if monster droped on monster spawn cell
-                
+                if (Validate(evt) == false) { return; } // if monster droped on monster spawn cell
+
                 var cellToDrop = evt.DropTargetEntity;
                 var draggedMonster = evt.DraggedEntity;
 
-                if (IsCellOccupied(cellToDrop) == true){
-                    Entity occupierOfCellToDrop = stash_occupiedCell.Get(cellToDrop).Occupier;
-                    
-                    if(occupierOfCellToDrop.Id == draggedMonster.Id) {return;} // if try to drop on the same cell
-                    
-                    req_startDrag.Publish(new StartDragRequest{ // starts dragging for cell occupier
+                if (IsCellOccupied(cellToDrop) == true)
+                {
+                    Entity occupierOfCellToDrop = stash_occupiedCell.Get(cellToDrop).m_Occupier;
+
+                    if (occupierOfCellToDrop.Id == draggedMonster.Id) { return; } // if try to drop on the same cell
+
+                    req_startDrag.Publish(new StartDragRequest
+                    { // starts dragging for cell occupier
                         ClickWorldPos = Input.mousePosition,
                         DraggedEntity = occupierOfCellToDrop,
                         StartPosition = stash_dragState.Get(draggedMonster).StartWorldPos
                     }, true);
 
                     var draggedMonsterCell = FindOccupiedCell(draggedMonster);
-                    
-                    if(draggedMonsterCell.IsExist()){
+
+                    if (draggedMonsterCell.IsExist())
+                    {
                         OccupyCell(occupierOfCellToDrop, draggedMonsterCell);
                     }
 
@@ -94,14 +97,16 @@ namespace Gameplay.DragAndDrop.Validators
         {
 
         }
-        
-        private Entity FindOccupiedCell(Entity occupier){
-            foreach(var e in _occupiedMonsterSpawnCells){
-                if(stash_occupiedCell.Get(e).Occupier.Id == occupier.Id){return e;}
+
+        private Entity FindOccupiedCell(Entity occupier)
+        {
+            foreach (var e in _occupiedMonsterSpawnCells)
+            {
+                if (stash_occupiedCell.Get(e).m_Occupier.Id == occupier.Id) { return e; }
             }
             return default;
         }
-        
+
         private void MarkDropAsHandled(Entity draggedEntity)
         {
             ref var dropState = ref stash_dropState.Get(draggedEntity);
@@ -110,7 +115,7 @@ namespace Gameplay.DragAndDrop.Validators
         private void AlignInCellCenter(Entity draggedEntity, Entity cell)
         {
             ref var transform = ref stash_transformRef.Get(draggedEntity).Value;
-            var dropPosition =  stash_transformRef.Get(cell).Value.position;
+            var dropPosition = stash_transformRef.Get(cell).Value.position;
             transform.position = dropPosition;
             transform.position += new Vector3(0, 0, dropPosition.y * 0.01f);
         }
@@ -136,13 +141,14 @@ namespace Gameplay.DragAndDrop.Validators
 
             return false;
         }
-    
-    
-        private bool Validate(DragEndedEvent evt){
-            if(stash_monsterTag.Has(evt.DraggedEntity) == false ){return false;}
+
+
+        private bool Validate(DragEndedEvent evt)
+        {
+            if (stash_monsterTag.Has(evt.DraggedEntity) == false) { return false; }
             if (evt.WasSuccessful == false) { return false; }
             if (IsDropTargetMonsterSpawnCell(evt.DropTargetEntity) == false) { return false; }
-            
+
             return true;
         }
     }

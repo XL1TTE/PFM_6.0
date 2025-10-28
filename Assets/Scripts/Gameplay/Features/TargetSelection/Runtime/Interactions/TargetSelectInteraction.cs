@@ -66,7 +66,7 @@ namespace Gameplay.TargetSelection
                     {
                         if (t_clickedCell.isNullOrDisposed(a_world)) { continue; }
 
-                        if (IsCellMeetType(t_clickedCell, a_type, a_world))
+                        if (IsCellMeetType(t_clickedCell, a_cellOptions, a_type, a_world))
                         {
                             t_result.Add(t_clickedCell);
                         }
@@ -100,8 +100,9 @@ namespace Gameplay.TargetSelection
             m_CurrentSelectionCancellation?.Cancel();
         }
 
-        private bool IsCellMeetType(Entity a_cell, TargetSelectionTypes a_type, World a_world)
+        private bool IsCellMeetType(Entity a_cell, IEnumerable<Entity> a_cellOptions, TargetSelectionTypes a_type, World a_world)
         {
+            if (a_cellOptions.Contains(a_cell) == false) { return false; }
             switch (a_type)
             {
                 case TargetSelectionTypes.CELL_WITH_ENEMY:

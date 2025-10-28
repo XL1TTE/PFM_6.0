@@ -1,6 +1,10 @@
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Domain.Abilities;
+using Domain.BattleField.Components;
+using Domain.BattleField.Tags;
+using Domain.Extentions;
 using Domain.Stats.Components;
 using Interactions;
 using Scellecs.Morpeh;
@@ -59,6 +63,86 @@ namespace Game
             foreach (var i in Interactor.GetAll<IOnDamageDealtInteraction>())
             {
                 await i.Execute(a_source, a_target, a_world, t_damageCounter);
+            }
+        }
+
+
+
+
+        public static void MoveToCell(Entity a_subject, Entity a_cell, World a_world)
+        {
+            MoveToCellAsync(a_subject, a_cell, a_world).Forget();
+        }
+
+        public async static UniTask MoveToCellAsync(Entity a_subject, Entity a_cell, World a_world)
+        {
+            var t_pCell = GU.GetOccupiedCell(a_subject, a_world);
+
+            UnoccupyCell(t_pCell, a_world);
+            OccupyCell(a_subject, a_cell, a_world);
+
+            // Notify about entity's position changes.
+            Interactor.CallAll<IOnEntityCellPositionChanged>(async handler =>
+            {
+                await handler.OnPositionChanged(t_pCell, a_cell, a_subject, a_world);
+            }).Forget();
+
+
+            A.KillSequenceFor(a_subject);
+
+            // Default animation for any entity.
+            var t_animation = A.ChessMovement(a_subject, a_cell, a_world);
+            A.CacheSequenceFor(a_subject, t_animation);
+
+            Interactor.CallAll<IOnAnimationStart>(async handler =>
+            {
+                await handler.OnAnimationStart(a_subject, a_world);
+            }).Forget();
+
+            t_animation.Play();
+
+            await UniTask.WaitWhile(() => t_animation.IsActive());
+
+            Interactor.CallAll<IOnAnimationEnd>(async handler =>
+            {
+                await handler.OnAnimationEnd(a_subject, a_world);
+            }).Forget();
+        }
+
+
+        /// <summary>
+        /// Occupy cell by changing OccupiedCell tag's value.
+        /// Set's subject position component to occupied cell values as well.
+        /// Do not affect object render -> object will not be moved on the screen.
+        /// </summary>
+        public static void OccupyCell(Entity a_subject, Entity a_cell, World a_world)
+        {
+            var stash_occupiedCell = a_world.GetStash<TagOccupiedCell>();
+            var stash_Position = a_world.GetStash<PositionComponent>();
+
+            var cellPos = stash_Position.Get(a_cell);
+
+            stash_occupiedCell.Set(a_cell, new TagOccupiedCell
+            {
+                m_Occupier = a_subject
+            });
+
+            stash_Position.Set(a_subject, new PositionComponent
+            {
+                m_GridPosition = cellPos.m_GridPosition,
+                m_GlobalPosition = cellPos.m_GlobalPosition
+            });
+        }
+
+        /// <summary>
+        /// Frees cell -> OccupiedCell tag will be removed.
+        /// </summary>
+        public static void UnoccupyCell(Entity a_cell, World a_world)
+        {
+            var stash_occupiedCell = a_world.GetStash<TagOccupiedCell>();
+            if (a_cell.isNullOrDisposed(a_world) == false)
+            {
+                stash_occupiedCell.Remove(a_cell);
             }
         }
 

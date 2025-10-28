@@ -14,73 +14,20 @@ namespace Core.Utilities
 {
     public static class GU
     {
-        public static List<Entity> FindMoveOptionsCellsFor(Entity entity, World world)
-        {
-            var gridPos = world.GetStash<GridPosition>();
-            var cellPos = world.GetStash<CellPositionComponent>();
-            var moveAbility = world.GetStash<MovementAbility>();
-            var lookDir = world.GetStash<LookDirection>();
-
-            var f_cellsNotOccupied = world.Filter
-                .With<CellTag>()
-                .With<CellPositionComponent>()
-                .Without<TagOccupiedCell>()
-                .Build();
-
-            if (moveAbility.Has(entity) == false) { return new(); }
-            if (gridPos.Has(entity) == false) { return new(); }
-
-            List<Entity> result = new();
-            List<Vector2Int> shiftedMoves = new();
-
-
-            var entityMoves = moveAbility.Get(entity).Movements;
-            var entityGridPos = gridPos.Get(entity);
-
-            if (lookDir.Has(entity))
-            {
-                switch (lookDir.Get(entity).m_Value)
-                {
-                    case Directions.LEFT:
-                        entityMoves = entityMoves.Select((m) => m *= new Vector2Int(-1, 1)).ToList();
-                        break;
-                    case Directions.RIGHT:
-                        // Movements setuped for right direction by default;
-                        break;
-                }
-            }
-
-            foreach (var move in entityMoves)
-            {
-                shiftedMoves.Add(move + entityGridPos.Value);
-            }
-
-            foreach (var cell in f_cellsNotOccupied)
-            {
-                var c_cellPos = cellPos.Get(cell);
-                if (shiftedMoves.Contains(new Vector2Int(c_cellPos.grid_x, c_cellPos.grid_y)))
-                {
-                    result.Add(cell);
-                }
-            }
-
-            return result;
-        }
-
         public static Vector2Int GetEntityPositionOnCell(Entity entity, World world)
         {
-            var stash_gridPos = world.GetStash<GridPosition>();
-            if (stash_gridPos.Has(entity) == false) { return Vector2Int.zero; }
+            var stash_Pos = world.GetStash<PositionComponent>();
+            if (stash_Pos.Has(entity) == false) { return Vector2Int.zero; }
 
-            return stash_gridPos.Get(entity).Value;
+            return stash_Pos.Get(entity).m_GridPosition;
         }
         public static IEnumerable<Entity> GetCellsFromShifts(Vector2Int a_basis, IEnumerable<Vector2Int> a_shifts, World a_world)
         {
             var f_cells = a_world.Filter
                 .With<CellTag>()
-                .With<CellPositionComponent>()
+                .With<PositionComponent>()
                 .Build();
-            var stash_pos = a_world.GetStash<CellPositionComponent>();
+            var stash_pos = a_world.GetStash<PositionComponent>();
 
             IEnumerable<Vector2Int> t_calcPos = a_shifts.Select(x => x + a_basis);
 
@@ -88,8 +35,7 @@ namespace Core.Utilities
             foreach (var cell in f_cells)
             {
                 var cellPos = stash_pos.Get(cell);
-                var cellPosVector = new Vector2Int(cellPos.grid_x, cellPos.grid_y);
-                if (t_calcPos.Contains(cellPosVector))
+                if (t_calcPos.Contains(cellPos.m_GridPosition))
                 {
                     t_result.Add(cell);
                 }
@@ -112,7 +58,7 @@ namespace Core.Utilities
             var occupiedCell = world.GetStash<TagOccupiedCell>();
             if (occupiedCell.Has(cell))
             {
-                return occupiedCell.Get(cell).Occupier;
+                return occupiedCell.Get(cell).m_Occupier;
             }
             else
             {
@@ -129,7 +75,7 @@ namespace Core.Utilities
             {
                 if (occupiedCell.Has(cell))
                 {
-                    result.Add(occupiedCell.Get(cell).Occupier);
+                    result.Add(occupiedCell.Get(cell).m_Occupier);
                 }
                 else
                 {
@@ -167,6 +113,30 @@ namespace Core.Utilities
             healthBar?.SetValue(t_value);
         }
 
+
+        /// <summary>
+        /// Find cell entity, which is occupied by other entity.
+        /// </summary>
+        /// <param name="a_occupier"></param>
+        /// <param name="a_world"></param>
+        /// <returns></returns>
+        public static Entity GetOccupiedCell(Entity a_occupier, World a_world)
+        {
+            var t_filter = a_world.Filter
+                .With<CellTag>()
+                .With<TagOccupiedCell>()
+                .Build();
+
+            var stash_occupiedCells = a_world.GetStash<TagOccupiedCell>();
+            foreach (var cell in t_filter)
+            {
+                if (stash_occupiedCells.Get(cell).m_Occupier.Id == a_occupier.Id)
+                {
+                    return cell;
+                }
+            }
+            return default;
+        }
     }
 
 }
