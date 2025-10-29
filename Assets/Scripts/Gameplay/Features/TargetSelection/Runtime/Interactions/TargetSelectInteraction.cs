@@ -12,7 +12,6 @@ using Domain.StateMachine.Components;
 using Domain.StateMachine.Mono;
 using Interactions;
 using Scellecs.Morpeh;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
 namespace Gameplay.TargetSelection
