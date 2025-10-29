@@ -24,7 +24,7 @@ namespace Gameplay.EcsButtons.Systems
         private Filter filter_myBtn;
 
         private Event<ButtonClickedEvent> evt_btnClicked;
-        private Request<ProcessTurnRequest> req_processTurn;
+        private Request<EndTurnRequest> req_processTurn;
 
         private Event<NextTurnStartedEvent> evt_nextTurnStarted;
 
@@ -48,7 +48,7 @@ namespace Gameplay.EcsButtons.Systems
             evt_btnClicked = World.GetEvent<ButtonClickedEvent>();
             evt_nextTurnStarted = World.GetEvent<NextTurnStartedEvent>();
 
-            req_processTurn = World.GetRequest<ProcessTurnRequest>();
+            req_processTurn = World.GetRequest<EndTurnRequest>();
 
             stash_myBtn = World.GetStash<NextTurnButtonTag>();
             stash_monsterTag = World.GetStash<TagMonster>();
@@ -124,7 +124,7 @@ namespace Gameplay.EcsButtons.Systems
 
         private void Execute(ButtonClickedEvent evt)
         {
-            req_processTurn.Publish(new ProcessTurnRequest { });
+            req_processTurn.Publish(new EndTurnRequest { });
 
             SM.ExitState<TargetSelectionState>();
         }

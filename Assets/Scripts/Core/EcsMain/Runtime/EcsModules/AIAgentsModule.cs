@@ -16,8 +16,8 @@ namespace Core.ECS.Modules
             var sg_AgentsTargetSelection = world.CreateSystemsGroup();
 
             sg_AiAgents.AddSystem(new AiActivationSystem());
-            sg_AiAgents.AddSystem(new AiGraphExecutionSystem());
-            sg_AiAgents.AddSystem(new AiAgentStateUpdateSystem());
+            //sg_AiAgents.AddSystem(new AiGraphExecutionSystem());
+            //sg_AiAgents.AddSystem(new AiAgentStateUpdateSystem());
 
             //sg_AgentsMove.AddSystem(new DefaultAgentMoveSystem());
 

@@ -23,7 +23,7 @@ namespace Gameplay.TurnSystem.Systems
 
         private Filter filter_turnQueue;
 
-        private Request<ProcessTurnRequest> req_processTurn;
+        private Request<EndTurnRequest> req_processTurn;
         private Event<NextTurnStartedEvent> evt_nextTurnStart;
         private Event<TurnSystemInitializedEvent> evt_turnSystemInitialized;
         private Stash<CurrentTurnTakerTag> stash_turnTakerTag;
@@ -36,7 +36,7 @@ namespace Gameplay.TurnSystem.Systems
                 .With<TurnQueueComponent>()
                 .Build();
 
-            req_processTurn = World.GetRequest<ProcessTurnRequest>();
+            req_processTurn = World.GetRequest<EndTurnRequest>();
 
             evt_nextTurnStart = World.GetEvent<NextTurnStartedEvent>();
             evt_turnSystemInitialized = World.GetEvent<TurnSystemInitializedEvent>();

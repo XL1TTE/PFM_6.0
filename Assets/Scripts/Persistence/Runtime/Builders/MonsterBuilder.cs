@@ -204,7 +204,7 @@ namespace Persistence.Buiders
             t_abilities.m_HeadAbility = headAbtData;
             t_abilities.m_LeftHandAbility = lArmAbtData;
             t_abilities.m_RightHandAbility = rArmAbtData;
-            t_abilities.m_LegAbility = LegAbtData;
+            t_abilities.m_LegsAbility = LegAbtData;
 
             stash_abilities.Set(monster_entity, t_abilities);
 

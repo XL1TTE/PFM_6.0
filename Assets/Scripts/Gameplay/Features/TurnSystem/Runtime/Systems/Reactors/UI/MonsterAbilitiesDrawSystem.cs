@@ -101,14 +101,14 @@ namespace Gameplay.TurnSystem.Systems
                 AttachAbilityToView(ability_btn, t_abilities.m_HeadAbility);
                 m_abilityBtnsCache.Add(ability_btn);
             }
-            if (t_abilities.m_LegAbility?.m_Value != null)
+            if (t_abilities.m_LegsAbility?.m_Value != null)
             {
                 var slot = BattleFieldUIRefs.Instance.BookWidget.m_MoveButtonSlot;
                 var ability_btn = Object.Instantiate(m_AbilityButtonPrefab, slot);
-                SetAbilityIcon(ability_btn, t_abilities.m_LegAbility);
+                SetAbilityIcon(ability_btn, t_abilities.m_LegsAbility);
 
                 AttachAbilityOwnerToView(ability_btn, abilityOwner);
-                AttachAbilityToView(ability_btn, t_abilities.m_LegAbility);
+                AttachAbilityToView(ability_btn, t_abilities.m_LegsAbility);
                 m_abilityBtnsCache.Add(ability_btn);
             }
         }

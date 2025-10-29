@@ -1,20 +1,18 @@
-using System.Collections;
+using Project.AI;
 using Scellecs.Morpeh;
+using TriInspector;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
 namespace Domain.Abilities.Components
 {
-
     [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct AbilitiesComponent : IComponent
+    public struct AgentAIComponent : IComponent
     {
-        public AbilityData m_LeftHandAbility;
-        public AbilityData m_RightHandAbility;
-        public AbilityData m_HeadAbility;
-        public AbilityData m_LegsAbility;
+        [SerializeReference] public IAIModel m_AIModel;
     }
 }
 
