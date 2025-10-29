@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -105,7 +106,7 @@ namespace Gameplay.Commands
             var animation = A.StandartAttack(subjectTransform, targetTransform,
                  () => OnTweenInteractionFrame(req.m_Subject));
 
-            animation.AppendCallback(() => OnAnimationCompleted(req.m_Subject));
+            animation.OnComplete(() => OnAnimationCompleted(req.m_Subject));
 
             state.m_Status = AnimatingStatus.IN_PROCESS;
             evt_AnimatingStarted.NextFrame(new AnimatingStarted

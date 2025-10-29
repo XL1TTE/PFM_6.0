@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -15,6 +16,17 @@ namespace Domain.Abilities.Components
         public AbilityData m_RightHandAbility;
         public AbilityData m_HeadAbility;
         public AbilityData m_LegsAbility;
+
+
+        public IEnumerable<AbilityData> GetAllAbilities()
+        {
+            return new List<AbilityData>{
+                m_HeadAbility,
+                m_RightHandAbility,
+                m_LeftHandAbility,
+                m_LegsAbility
+            };
+        }
     }
 }
 

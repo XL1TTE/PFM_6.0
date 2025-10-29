@@ -3,10 +3,10 @@ using Cysharp.Threading.Tasks;
 
 namespace Domain.Abilities
 {
-    public interface IAbilityEffect
+    public interface IAbilityNode
     {
         UniTask Execute(AbilityContext context);
 
-        IAbilityEffect Clone();
+        IAbilityNode Clone();
     }
 }

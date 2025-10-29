@@ -29,7 +29,9 @@ namespace Persistence.Utilities
                     m_AbilityTemplateID = a_RecordID,
                     m_Shifts = defenition.m_Shifts,
                     m_TargetType = defenition.m_TargetType,
-                    m_Icon = icon.m_Value
+                    m_Icon = icon.m_Value,
+                    m_Tags = defenition.m_Tags,
+                    m_AbilityType = defenition.m_AbilityType
                 };
             }
             return null;

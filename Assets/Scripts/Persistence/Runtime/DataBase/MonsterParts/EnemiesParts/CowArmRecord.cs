@@ -20,7 +20,7 @@ namespace Persistence.DB
 
             With<AbilityProvider>(new AbilityProvider
             {
-                m_AbilityTemplateID = "abt_cow-arm"
+                m_AbilityTemplateID = "abt_cow_arm"
             });
         }
     }

@@ -95,15 +95,16 @@ namespace Gameplay.AIGraph
             foreach (var evt in evt_nextTurnStarted.publishedChanges)
             {
                 var stash_agentAI = World.GetStash<AgentAIComponent>();
-                if (!F.IsEnemy(evt.m_CurrentTurnTaker, World)) { continue; }
+
                 if (stash_agentAI.Has(evt.m_CurrentTurnTaker) == false) { continue; }
 
                 var ai = stash_agentAI.Get(evt.m_CurrentTurnTaker);
+                Debug.Log("Start AI.");
                 StartAI(ai.m_AIModel, evt.m_CurrentTurnTaker).Forget();
             }
         }
 
-        private async UniTask StartAI(IAIModel ai, Entity agent)
+        private async UniTask StartAI(AIProcessor ai, Entity agent)
         {
             await ai.Process(agent, World);
         }

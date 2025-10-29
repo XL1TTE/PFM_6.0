@@ -9,7 +9,7 @@ namespace Gameplay.Abilities
     /// <summary>
     /// Removes permanent effect from entity.
     /// </summary>
-    public struct RemoveEffect : IAbilityEffect
+    public struct RemoveEffect : IAbilityNode
     {
         public string m_EffectID { get; set; }
         public bool m_RemoveFromSelf;
@@ -20,7 +20,7 @@ namespace Gameplay.Abilities
             this.m_RemoveFromSelf = a_removeFromSelf;
         }
 
-        public IAbilityEffect Clone() => new RemoveEffect(m_EffectID, m_RemoveFromSelf);
+        public IAbilityNode Clone() => new RemoveEffect(m_EffectID, m_RemoveFromSelf);
 
         public async UniTask Execute(AbilityContext context)
         {

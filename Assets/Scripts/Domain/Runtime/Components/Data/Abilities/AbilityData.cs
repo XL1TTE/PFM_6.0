@@ -5,6 +5,22 @@ using UnityEngine;
 
 namespace Domain.Abilities.Components
 {
+
+    public enum AbilityTags : short
+    {
+        DAMAGE,
+        HEAL,
+        MOVEMENT,
+        EFFECT,
+        ROTATE
+    }
+
+    public enum AbilityType : byte
+    {
+        MOVEMENT,
+        INTERACTION
+    }
+
     [Serializable]
     public sealed class AbilityData
     {
@@ -16,6 +32,8 @@ namespace Domain.Abilities.Components
         public TargetSelectionTypes m_TargetType;
         public IEnumerable<Vector2Int> m_Shifts;
         public Sprite m_Icon;
+        public List<AbilityTags> m_Tags;
+        public AbilityType m_AbilityType;
     }
 }
 

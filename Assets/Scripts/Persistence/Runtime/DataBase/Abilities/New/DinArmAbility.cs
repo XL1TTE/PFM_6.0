@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using Domain.Abilities;
+using Domain.Abilities.Components;
 using Domain.Extentions;
 using Domain.Services;
 using Gameplay.Abilities;
@@ -20,13 +21,18 @@ namespace Persistence.DB
             With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
             With<AbilityDefenition>(new AbilityDefenition
             {
+                m_Tags = new List<AbilityTags>{
+                    AbilityTags.DAMAGE
+                },
+                m_AbilityType = AbilityType.INTERACTION,
                 m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
                 m_Shifts = new Vector2Int[2] { new Vector2Int(5, 0), new Vector2Int(2, 0) },
-                m_Ability = new Ability(new List<IAbilityEffect>
+                m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
                     new WaitForTweenActionFrame(),
                     new DealDamage(5, DamageType.PHYSICAL_DAMAGE),
+                    new WaitForLastAnimationEnd()
                 }),
             });
         }

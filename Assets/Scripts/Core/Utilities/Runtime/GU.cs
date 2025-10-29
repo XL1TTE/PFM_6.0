@@ -4,6 +4,9 @@ using System.Linq;
 using Domain.Abilities.Components;
 using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
+using Domain.Enemies.Tags;
+using Domain.Extentions;
+using Domain.Monster.Tags;
 using Domain.Stats.Components;
 using Domain.TargetSelection.Events;
 using Scellecs.Morpeh;
@@ -64,6 +67,12 @@ namespace Core.Utilities
             {
                 throw new System.Exception("You trying to get cell occupier from not occupied cell.");
             }
+        }
+
+        public static Vector2Int GetCellGridPosition(Entity a_cell, World a_world)
+        {
+            var stash_Position = a_world.GetStash<PositionComponent>();
+            return stash_Position.Get(a_cell).m_GridPosition;
         }
 
         public static IEnumerable<Entity> GetCellOccupiers(IEnumerable<Entity> cells, World world)
@@ -136,6 +145,16 @@ namespace Core.Utilities
                 }
             }
             return default;
+        }
+
+
+        public static IEnumerable<Entity> GetAllMonstersOnField(World a_world)
+        {
+            return a_world.Filter.With<TagMonster>().With<PositionComponent>().Build().AsEnumerable();
+        }
+        public static IEnumerable<Entity> GetAllEnemiesOnField(World a_world)
+        {
+            return a_world.Filter.With<TagEnemy>().With<PositionComponent>().Build().AsEnumerable();
         }
     }
 

@@ -205,7 +205,7 @@ namespace Gameplay.Abilities.Systems
                             target = GU.GetCellOccupier(target_cell, World);
                             await ability.Execute(caster, target, World);
                             break;
-                        case TargetSelectionTypes.CELL_WITH_MONSTER:
+                        case TargetSelectionTypes.CELL_WITH_ALLY:
                             target = GU.GetCellOccupier(target_cell, World);
                             await ability.Execute(caster, target, World);
                             break;

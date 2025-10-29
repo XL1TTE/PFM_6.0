@@ -12,7 +12,7 @@ namespace Domain.Abilities.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct AgentAIComponent : IComponent
     {
-        [SerializeReference] public IAIModel m_AIModel;
+        [SerializeReference] public AIProcessor m_AIModel;
     }
 }
 

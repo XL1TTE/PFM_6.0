@@ -174,18 +174,26 @@ MonoBehaviour:
       m_AbilityTemplateID: 
       m_TargetType: 0
       m_Icon: {fileID: 0}
+      m_Tags: 
+      m_AbilityType: 0
     m_RightHandAbility:
       m_AbilityTemplateID: 
       m_TargetType: 0
       m_Icon: {fileID: 0}
+      m_Tags: 
+      m_AbilityType: 0
     m_HeadAbility:
       m_AbilityTemplateID: 
       m_TargetType: 0
       m_Icon: {fileID: 0}
+      m_Tags: 
+      m_AbilityType: 0
     m_LegsAbility:
       m_AbilityTemplateID: 
       m_TargetType: 0
       m_Icon: {fileID: 0}
+      m_Tags: 
+      m_AbilityType: 0
 --- !u!114 &4810814904431708377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,13 +256,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     m_AIModel:
-      rid: 4408555204749033750
+      rid: 4408555207749795923
   references:
     version: 2
     RefIds:
-    - rid: 4408555204749033750
-      type: {class: RandomAIModel, ns: Project.AI, asm: Assembly-CSharp}
-      data: 
+    - rid: 4408555207749795923
+      type: {class: AIProcessor, ns: Project.AI, asm: Assembly-CSharp}
+      data:
+        m_Config:
+          m_RewardPerDistanceFromEnemies: 1
+          m_RewardPerPointOfDamage: 1
+          m_RewardPerPointOfHeal: 1
+          m_DiscountFactor: 1
 --- !u!1 &7370415000329741317
 GameObject:
   m_ObjectHideFlags: 0

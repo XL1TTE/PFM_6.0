@@ -8,9 +8,9 @@ using Interactions;
 
 namespace Gameplay.Abilities
 {
-    public struct WaitForTweenActionFrame : IAbilityEffect
+    public struct WaitForTweenActionFrame : IAbilityNode
     {
-        public IAbilityEffect Clone() => new WaitForTweenActionFrame();
+        public IAbilityNode Clone() => new WaitForTweenActionFrame();
 
         public async UniTask Execute(AbilityContext context)
         {

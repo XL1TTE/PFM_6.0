@@ -119,7 +119,7 @@ namespace Gameplay.TargetSelection
                         return F.IsEnemy(GU.GetCellOccupier(a_cell, a_world), a_world);
                     }
                     break;
-                case TargetSelectionTypes.CELL_WITH_MONSTER:
+                case TargetSelectionTypes.CELL_WITH_ALLY:
                     if (F.IsOccupiedCell(a_cell, a_world))
                     {
                         return F.IsMonster(GU.GetCellOccupier(a_cell, a_world), a_world);

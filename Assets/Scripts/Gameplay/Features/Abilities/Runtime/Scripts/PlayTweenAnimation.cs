@@ -9,7 +9,7 @@ using Unity.VisualScripting;
 namespace Gameplay.Abilities
 {
 
-    public class PlayTweenAnimation : IAbilityEffect
+    public class PlayTweenAnimation : IAbilityNode
     {
         private readonly TweenAnimations m_Animation;
 
@@ -18,7 +18,7 @@ namespace Gameplay.Abilities
             m_Animation = a_animation;
         }
 
-        public IAbilityEffect Clone() => new PlayTweenAnimation(m_Animation);
+        public IAbilityNode Clone() => new PlayTweenAnimation(m_Animation);
 
         public async UniTask Execute(AbilityContext context)
         {

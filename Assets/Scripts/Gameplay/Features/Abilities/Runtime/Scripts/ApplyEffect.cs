@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 
 namespace Gameplay.Abilities
 {
-    public struct ApplyEffect : IAbilityEffect
+    public struct ApplyEffect : IAbilityNode
     {
         /// <summary>
         /// -1 if permanent.
@@ -25,7 +25,7 @@ namespace Gameplay.Abilities
             this.m_IsSelfCast = m_isSelfCast;
         }
 
-        public IAbilityEffect Clone() => new ApplyEffect(m_Duration, m_EffectID, m_IsSelfCast);
+        public IAbilityNode Clone() => new ApplyEffect(m_Duration, m_EffectID, m_IsSelfCast);
 
         public async UniTask Execute(AbilityContext context)
         {

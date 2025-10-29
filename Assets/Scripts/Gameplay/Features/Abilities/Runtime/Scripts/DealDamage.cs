@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Gameplay.Abilities
 {
-    public class DealDamage : IAbilityEffect
+    public class DealDamage : IAbilityNode
     {
         public int m_BaseDamage { get; set; }
         public DamageType m_DamageType { get; set; }
@@ -19,7 +19,7 @@ namespace Gameplay.Abilities
             this.m_DamageType = a_damageType;
         }
 
-        public IAbilityEffect Clone() => new DealDamage(m_BaseDamage, m_DamageType);
+        public IAbilityNode Clone() => new DealDamage(m_BaseDamage, m_DamageType);
 
         public async UniTask Execute(AbilityContext context)
         {
