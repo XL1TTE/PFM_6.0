@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Domain.BattleField.Components;
@@ -9,6 +10,7 @@ using Domain.Stats.Components;
 using Domain.TargetSelection.Events;
 using Scellecs.Morpeh;
 using UnityEngine;
+using UnityEngine.Localization.SmartFormat.Utilities;
 
 namespace Core.Utilities
 {
@@ -23,6 +25,8 @@ namespace Core.Utilities
         }
         public static IEnumerable<Entity> GetCellsFromShifts(Vector2Int a_basis, IEnumerable<Vector2Int> a_shifts, World a_world)
         {
+            if (a_shifts == null) { return default; }
+
             var f_cells = a_world.Filter
                 .With<CellTag>()
                 .With<PositionComponent>()
@@ -41,6 +45,22 @@ namespace Core.Utilities
                 }
             }
             return t_result;
+        }
+
+        public static IEnumerable<Vector2Int> TransformShiftsFromSubjectLook(Entity a_subject, IEnumerable<Vector2Int> a_shifts, World a_world)
+        {
+            var stash_LookDir = a_world.GetStash<LookDirection>();
+            if (stash_LookDir.Has(a_subject) == false) { return a_shifts; }
+
+            IEnumerable<Vector2Int> result = a_shifts;
+
+            switch (stash_LookDir.Get(a_subject).m_Value)
+            {
+                case Directions.LEFT:
+                    result = a_shifts.Select(shift => shift * new Vector2Int(-1, 1));
+                    break;
+            }
+            return result;
         }
 
         public static ref TargetSelectionResult GetTargetSelectionResult(Entity owner, World world)

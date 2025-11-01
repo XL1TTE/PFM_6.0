@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Core.Utilities;
 using Domain.Abilities.Components;
 using Domain.Components;
 using Domain.Extentions;
@@ -205,6 +206,9 @@ namespace Persistence.Buiders
             t_abilities.m_LeftHandAbility = lArmAbtData;
             t_abilities.m_RightHandAbility = rArmAbtData;
             t_abilities.m_LegsAbility = LegAbtData;
+
+            t_abilities.m_TurnAroundAbility =
+                DbUtility.GetAbilityDataFromAbilityRecord(L.TURN_AROUND_ABILITY_ID);
 
             stash_abilities.Set(monster_entity, t_abilities);
 

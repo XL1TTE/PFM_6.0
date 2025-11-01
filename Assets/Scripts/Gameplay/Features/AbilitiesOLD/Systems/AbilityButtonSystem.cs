@@ -171,7 +171,8 @@ namespace Gameplay.Abilities.Systems
 
                 var abilityData = stash_AbilityButtonTag.Get(evt.ClickedButton).m_Ability;
 
-                var t_options = GU.GetCellsFromShifts(ownerPos, abilityData.m_Shifts, World);
+                var t_shifts = GU.TransformShiftsFromSubjectLook(owner, abilityData.m_Shifts, World);
+                var t_options = GU.GetCellsFromShifts(ownerPos, t_shifts, World);
 
                 ExecuteAbilityAsync(abilityData.m_Value, evt.ClickedButton, owner, t_options, abilityData.m_TargetType, 1).Forget(); // Run execution in async
             }
@@ -188,11 +189,13 @@ namespace Gameplay.Abilities.Systems
         {
             SetSelectedEffect(abilityView, true);
 
+
             Result t_result = new Result();
             foreach (var i in Interactor.GetAll<IOnTargetSelection>())
             {
                 await i.Execute(a_cellOptions, a_type, a_maxTargets, World, t_result);
             }
+
             if (t_result.m_Value.Count() != 0)
             {
                 Entity target = default;
@@ -216,7 +219,13 @@ namespace Gameplay.Abilities.Systems
                     }
                 }
             }
-            Debug.Log(t_result.m_Value.FirstOrDefault());
+
+
+            if (a_type == TargetSelectionTypes.NONE)
+            {
+                await ability.Execute(caster, default, World);
+            }
+
             SetSelectedEffect(abilityView, false);
         }
 

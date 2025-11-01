@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,11 @@ namespace Persistence.Utilities
 
     public static class DbUtility
     {
+        /// <summary>
+        /// Gets ability data from ability record by record id.
+        /// </summary>
+        /// <param name="a_RecordID"></param>
+        /// <returns></returns>
         public static AbilityData GetAbilityDataFromAbilityRecord(string a_RecordID)
         {
             if (DataBase.TryFindRecordByID(a_RecordID, out var record) == false) { return null; }
@@ -27,7 +33,7 @@ namespace Persistence.Utilities
                 {
                     m_Value = defenition.m_Ability.Clone(),
                     m_AbilityTemplateID = a_RecordID,
-                    m_Shifts = defenition.m_Shifts,
+                    m_Shifts = defenition.m_Shifts == null ? new List<Vector2Int>() : defenition.m_Shifts,
                     m_TargetType = defenition.m_TargetType,
                     m_Icon = icon.m_Value,
                     m_Tags = defenition.m_Tags,
@@ -36,6 +42,8 @@ namespace Persistence.Utilities
             }
             return null;
         }
+
+
 
         public static void DoubleAbilityStats(ref Ability ability)
         {

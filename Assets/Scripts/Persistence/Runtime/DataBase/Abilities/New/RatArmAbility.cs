@@ -11,12 +11,11 @@ using UnityEngine;
 
 namespace Persistence.DB
 {
-
-    public sealed class CowArmAbility : IDbRecord
+    public sealed class RatArmAbility : IDbRecord
     {
-        public CowArmAbility()
+        public RatArmAbility()
         {
-            ID("abt_cow_arm");
+            ID("abt_rat_arm");
 
             With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
             With<AbilityDefenition>(new AbilityDefenition
@@ -26,7 +25,7 @@ namespace Persistence.DB
                 },
                 m_AbilityType = AbilityType.INTERACTION,
                 m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
-                m_Shifts = new Vector2Int[2] { new Vector2Int(1, 0), new Vector2Int(1, 0) },
+                m_Shifts = new Vector2Int[2] { new Vector2Int(5, 0), new Vector2Int(6, 0) },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),

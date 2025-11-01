@@ -111,6 +111,16 @@ namespace Gameplay.TurnSystem.Systems
                 AttachAbilityToView(ability_btn, t_abilities.m_LegsAbility);
                 m_abilityBtnsCache.Add(ability_btn);
             }
+            if (t_abilities.m_TurnAroundAbility?.m_Value != null)
+            {
+                var slot = BattleFieldUIRefs.Instance.BookWidget.m_TurnAroundButtonSlot;
+                var ability_btn = Object.Instantiate(m_AbilityButtonPrefab, slot);
+                SetAbilityIcon(ability_btn, t_abilities.m_TurnAroundAbility);
+
+                AttachAbilityOwnerToView(ability_btn, abilityOwner);
+                AttachAbilityToView(ability_btn, t_abilities.m_TurnAroundAbility);
+                m_abilityBtnsCache.Add(ability_btn);
+            }
         }
 
         private void SetAbilityIcon(AbilityButtonView a_AbilityBtn, AbilityData a_AbilityData)

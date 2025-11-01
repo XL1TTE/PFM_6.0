@@ -110,6 +110,36 @@ namespace Game
         }
 
 
+
+        public static void TurnAround(Entity a_subject, World a_world)
+        {
+            TurnAroundAsync(a_subject, a_world).Forget();
+        }
+
+        public async static UniTask TurnAroundAsync(Entity a_subject, World a_world)
+        {
+            var t_animation = A.TurnAround(a_subject, a_world);
+            t_animation.Play();
+            await UniTask.WaitWhile(() => t_animation.IsActive());
+
+            var stash_lookDir = a_world.GetStash<LookDirection>();
+            if (stash_lookDir.Has(a_subject))
+            {
+                switch (stash_lookDir.Get(a_subject).m_Value)
+                {
+                    case Directions.LEFT:
+                        stash_lookDir.Get(a_subject).m_Value = Directions.RIGHT;
+                        break;
+                    case Directions.RIGHT:
+                        stash_lookDir.Get(a_subject).m_Value = Directions.LEFT;
+                        break;
+                }
+
+            }
+
+
+        }
+
         /// <summary>
         /// Occupy cell by changing OccupiedCell tag's value.
         /// Set's subject position component to occupied cell values as well.

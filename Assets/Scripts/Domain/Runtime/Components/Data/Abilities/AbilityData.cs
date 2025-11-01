@@ -10,15 +10,15 @@ namespace Domain.Abilities.Components
     {
         DAMAGE,
         HEAL,
-        MOVEMENT,
         EFFECT,
-        ROTATE
     }
 
     public enum AbilityType : byte
     {
         MOVEMENT,
-        INTERACTION
+        INTERACTION,
+        ROTATE,
+        ALL
     }
 
     [Serializable]

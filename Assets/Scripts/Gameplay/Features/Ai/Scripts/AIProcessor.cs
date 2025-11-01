@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
+using Domain.Abilities;
 using Domain.Abilities.Components;
 using Domain.Extentions;
 using Gameplay.Abilities;
@@ -14,12 +15,28 @@ using UnityEngine;
 namespace Project.AI
 {
     [Serializable]
-    public struct AIConfig
+    public class AIConfig
     {
-        public float m_RewardPerDistanceFromEnemies;
-        public float m_RewardPerPointOfDamage;
-        public float m_RewardPerPointOfHeal;
-        public float m_DiscountFactor;
+
+        public float m_PointPerDistanceFromEnemy;
+        public float m_PointsPerDamage;
+        public float m_PointsPerHeal;
+
+        [Header("Action Weights (меньше = лучше)")]
+        [Tooltip("Базовый вес поворота")]
+        [Range(0f, 1f)] public float m_RotationWeight = 0f;
+
+        [Tooltip("Базовый вес бездействия")]
+        [Range(0f, 1f)] public float m_DoNothingWeight = 0f;
+
+
+        [Header("Strategy")]
+        [Range(0.1f, 1f)] public float m_DiscountFactor = 1f;
+
+        [Header("Action Limits")]
+        public int m_MaxActionsPerTurn = 3;
+        public int m_PlanningDepth = 2;
+
     }
 
     public struct AIAction
@@ -36,12 +53,19 @@ namespace Project.AI
 
         public async UniTask Process(Entity a_agent, World a_world)
         {
-            var t_bestSequence = await FindBestActionSequence(a_agent, a_world, 2);
+            var t_bestSequence = await FindBestActionSequence(a_agent, a_world, m_Config.m_MaxActionsPerTurn * m_Config.m_PlanningDepth);
 
             var context = new AIExecutionContext(a_agent, a_world);
+
+            var t_counter = m_Config.m_MaxActionsPerTurn;
             foreach (var t_action in t_bestSequence)
             {
+                --t_counter;
                 await ExecuteAction(t_action, context);
+                if (t_counter <= 0)
+                {
+                    break;
+                }
             }
             await new EndTurn().DoJob(context);
         }
@@ -108,15 +132,27 @@ namespace Project.AI
 
         private bool CanAddActionToSequence(List<AIAction> a_sequence, AIAction a_newAction)
         {
-            var t_movementActionsCount = a_sequence.Count(a => a.m_ActionType == ActionType.Movement);
-            var t_interactionActionsCount = a_sequence.Count(a => a.m_ActionType == ActionType.Interaction);
+            var t_currentTurnActions = GetCurrentTurnActions(a_sequence);
 
-            if (a_newAction.m_ActionType == ActionType.Movement && t_movementActionsCount >= 1)
+            var t_movementActionsCount = t_currentTurnActions.Count(a => a.m_ActionType == ActionType.Movement);
+            var t_interactionActionsCount = t_currentTurnActions.Count(a => a.m_ActionType == ActionType.Interaction);
+            var t_rotationActionsCount = t_currentTurnActions.Count(a => a.m_ActionType == ActionType.Rotation);
+            var t_doNothingCount = t_currentTurnActions.Count(a => a.m_ActionType == ActionType.Nothing);
+
+            if (a_newAction.m_ActionType == ActionType.Movement && t_movementActionsCount + t_doNothingCount + t_rotationActionsCount >= 1)
                 return false;
-            if (a_newAction.m_ActionType == ActionType.Interaction && t_interactionActionsCount >= 1)
+            if (a_newAction.m_ActionType == ActionType.Interaction && t_interactionActionsCount + t_doNothingCount >= 1)
+                return false;
+            if (a_newAction.m_ActionType == ActionType.Rotation && t_movementActionsCount + t_rotationActionsCount + t_doNothingCount >= 1)
                 return false;
 
             return true;
+        }
+
+        private List<AIAction> GetCurrentTurnActions(List<AIAction> a_sequence)
+        {
+            int t_startIndex = Mathf.Max(0, a_sequence.Count - (a_sequence.Count % m_Config.m_MaxActionsPerTurn));
+            return a_sequence.Skip(t_startIndex).ToList();
         }
 
         private async UniTask<List<AIAction>> GetAvailableActions(AIExecutionContext a_context, AgentState a_currentState)
@@ -129,27 +165,50 @@ namespace Project.AI
                 await AddAbilityActions(a_context, t_ability, t_actions, a_currentState);
             }
 
+            // t_actions.Add(new AIAction
+            // {
+            //     m_ActionType = ActionType.Nothing,
+            //     m_Weight = m_Config.m_DoNothingWeight,
+            //     m_AbilityData = L.DO_NOTHING_ABILITY
+            // });
+
             return t_actions;
         }
 
+
         private async UniTask AddAbilityActions(AIExecutionContext a_context, AbilityData a_abilityData, List<AIAction> a_actions, AgentState a_currentState)
         {
-            var t_actionType = a_abilityData.m_Tags.Contains(AbilityTags.MOVEMENT) ? ActionType.Movement : ActionType.Interaction;
 
-            if (t_actionType == ActionType.Movement)
+            if (a_abilityData.m_AbilityType == AbilityType.MOVEMENT)
             {
                 AddMovementAbilityActions(a_context, a_abilityData, a_actions, a_currentState);
             }
-            else
+            else if (a_abilityData.m_AbilityType == AbilityType.INTERACTION)
             {
                 await AddInteractionAbilityActions(a_context, a_abilityData, a_actions, a_currentState);
             }
+            else if (a_abilityData.m_AbilityType == AbilityType.ROTATE)
+            {
+                AddRotateAbilityActions(a_context, a_abilityData, a_actions, a_currentState);
+            }
+        }
+        private void AddRotateAbilityActions(AIExecutionContext a_context, AbilityData a_abilityData, List<AIAction> a_actions, AgentState a_currentState)
+        {
+            var t_rotateAction = new AIAction
+            {
+                m_AbilityData = a_abilityData,
+                m_Weight = m_Config.m_RotationWeight,
+                m_ActionType = ActionType.Rotation
+            };
+            a_actions.Add(t_rotateAction);
         }
 
         private void AddMovementAbilityActions(AIExecutionContext a_context, AbilityData a_abilityData, List<AIAction> a_actions, AgentState a_currentState)
         {
             var t_agentPos = a_currentState.m_Position;
-            var t_moveShifts = a_abilityData.m_Shifts;
+
+            var t_moveShifts = a_currentState.m_IsRotated ?
+                a_abilityData.m_Shifts.Select(x => x *= new Vector2Int(-1, 1)) : a_abilityData.m_Shifts;
 
             var t_moveOptions = GU.GetCellsFromShifts(t_agentPos, t_moveShifts, a_context.m_World)
                 .Where(opt => !F.IsOccupiedCell(opt, a_context.m_World)).ToList();
@@ -164,17 +223,6 @@ namespace Project.AI
                     m_Weight = t_weight,
                     m_ActionType = ActionType.Movement
                 });
-            }
-
-            if (a_abilityData.m_Tags.Contains(AbilityTags.ROTATE))
-            {
-                var t_rotateAction = new AIAction
-                {
-                    m_AbilityData = a_abilityData,
-                    m_Weight = 0f,
-                    m_ActionType = ActionType.Movement
-                };
-                a_actions.Add(t_rotateAction);
             }
         }
 
@@ -197,18 +245,12 @@ namespace Project.AI
 
         private float CalculateMovementWeight(Vector2Int a_targetCell, AIExecutionContext a_context, AgentState a_currentState)
         {
-            float t_weight = 0f;
             var t_enemies = GetAllEnemiesOnField(a_context);
 
-            foreach (var t_enemy in t_enemies)
-            {
-                var t_enemyPos = GU.GetEntityPositionOnCell(t_enemy, a_context.m_World);
-                var t_distance = Vector2Int.Distance(a_targetCell, t_enemyPos);
+            var t_distance = t_enemies.Min(enemy =>
+                Vector2Int.Distance(a_targetCell, GU.GetEntityPositionOnCell(enemy, a_context.m_World)));
 
-                t_weight += t_distance * m_Config.m_RewardPerDistanceFromEnemies;
-            }
-
-            return t_weight;
+            return Math.Abs(t_distance) * m_Config.m_PointPerDistanceFromEnemy;
         }
 
         private async UniTask<float> CalculateAbilityWeight(AbilityData a_abilityData, Entity a_target, AIExecutionContext a_context, AgentState a_currentState)
@@ -221,15 +263,16 @@ namespace Project.AI
                 {
                     case AbilityTags.DAMAGE:
                         var t_expectedDamage = await CalculateExpectedDamage(a_abilityData, a_target, a_context);
-                        t_weight += t_expectedDamage * m_Config.m_RewardPerPointOfDamage;
+
+                        t_weight += t_expectedDamage * m_Config.m_PointsPerDamage;
                         break;
                     case AbilityTags.HEAL:
                         var t_expectedHeal = await CalculateExpectedHeal(a_abilityData, a_target, a_context);
-                        t_weight += t_expectedHeal * m_Config.m_RewardPerPointOfHeal;
+
+                        t_weight += t_expectedHeal * m_Config.m_PointsPerHeal;
                         break;
                 }
             }
-
             return t_weight;
         }
 
@@ -274,7 +317,10 @@ namespace Project.AI
             var t_targets = new List<Entity>();
             var t_agentPos = a_currentState.m_Position;
 
-            var t_targetCells = GU.GetCellsFromShifts(t_agentPos, a_abilityData.m_Shifts, a_context.m_World);
+            var t_Shifts = a_currentState.m_IsRotated ?
+                a_abilityData.m_Shifts.Select(x => x *= new Vector2Int(-1, 1)) : a_abilityData.m_Shifts;
+
+            var t_targetCells = GU.GetCellsFromShifts(t_agentPos, t_Shifts, a_context.m_World);
 
             foreach (var t_cell in t_targetCells)
             {
@@ -347,11 +393,40 @@ namespace Project.AI
             for (int i = 0; i < a_sequence.Count; i++)
             {
                 var t_action = a_sequence[i];
+
+
+                if (t_action.m_ActionType == ActionType.Rotation)
+                {
+                    if (i + 1 < a_sequence.Count)
+                    {
+                        if (!IsRotationUseful(t_action, a_sequence[i + 1]))
+                        {
+                            t_action.m_Weight -= 1000f;
+                        }
+                    }
+                    else
+                    {
+                        t_action.m_Weight -= 1000f;
+                    }
+                }
+
+
                 t_totalWeight += t_action.m_Weight * Mathf.Pow(m_Config.m_DiscountFactor, i);
                 t_currentState = SimulateAction(t_currentState, t_action, a_context);
             }
 
             return t_totalWeight;
+        }
+
+        private bool IsRotationUseful(AIAction a_rotation, AIAction t_next)
+        {
+            if (t_next.m_ActionType == ActionType.Nothing
+            || t_next.m_ActionType == ActionType.Rotation)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private AgentState SimulateAction(AgentState a_currentState, AIAction a_action, AIExecutionContext a_context)
@@ -362,7 +437,7 @@ namespace Project.AI
             {
                 t_newState.m_Position = GU.GetCellGridPosition(a_action.m_Target, a_context.m_World);
             }
-            else if (a_action.m_AbilityData.m_Tags.Contains(AbilityTags.ROTATE))
+            if (a_action.m_AbilityData.m_AbilityType == AbilityType.ROTATE)
             {
                 t_newState.m_IsRotated = !t_newState.m_IsRotated;
             }
@@ -373,10 +448,7 @@ namespace Project.AI
         private async UniTask ExecuteAction(AIAction a_action, AIExecutionContext a_context)
         {
 
-            if (a_action.m_Target.IsExist())
-            {
-                await a_action.m_AbilityData.m_Value.Execute(a_context.m_Agent, a_action.m_Target, a_context.m_World);
-            }
+            await a_action.m_AbilityData.m_Value.Execute(a_context.m_Agent, a_action.m_Target, a_context.m_World);
         }
     }
 
@@ -388,7 +460,15 @@ namespace Project.AI
         public AgentState(Entity a_agent, World a_world)
         {
             m_Position = GU.GetEntityPositionOnCell(a_agent, a_world);
-            m_IsRotated = false;
+
+            if (a_world.TryGetComponent<LookDirection>(a_agent, out var component))
+            {
+                m_IsRotated = component.m_Value == Directions.RIGHT ? false : true;
+            }
+            else
+            {
+                m_IsRotated = false;
+            }
         }
 
         public AgentState Clone()
@@ -403,8 +483,10 @@ namespace Project.AI
 
     public enum ActionType
     {
+        Nothing,
         Movement,
-        Interaction
+        Interaction,
+        Rotation
     }
 
 }

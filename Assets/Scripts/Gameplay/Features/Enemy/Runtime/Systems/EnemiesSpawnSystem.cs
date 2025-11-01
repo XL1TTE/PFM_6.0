@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Utilities;
 using Domain.Abilities.Components;
 using Domain.BattleField.Events;
 using Domain.BattleField.Tags;
@@ -150,6 +151,10 @@ namespace Gameplay.Enemies
             t_abilities.m_LeftHandAbility = t_lArmAbility;
             t_abilities.m_RightHandAbility = t_rArmAbility;
             t_abilities.m_LegsAbility = t_legsAbtData;
+
+
+            t_abilities.m_TurnAroundAbility =
+                DbUtility.GetAbilityDataFromAbilityRecord(L.TURN_AROUND_ABILITY_ID);
 
             stash_abilities.Set(a_enemyEntity, t_abilities);
         }

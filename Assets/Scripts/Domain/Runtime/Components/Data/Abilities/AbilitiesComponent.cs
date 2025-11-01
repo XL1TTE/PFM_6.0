@@ -17,6 +17,8 @@ namespace Domain.Abilities.Components
         public AbilityData m_HeadAbility;
         public AbilityData m_LegsAbility;
 
+        public AbilityData m_TurnAroundAbility;
+
 
         public IEnumerable<AbilityData> GetAllAbilities()
         {
@@ -24,7 +26,8 @@ namespace Domain.Abilities.Components
                 m_HeadAbility,
                 m_RightHandAbility,
                 m_LeftHandAbility,
-                m_LegsAbility
+                m_LegsAbility,
+                m_TurnAroundAbility
             };
         }
     }

@@ -8,6 +8,7 @@ namespace Gameplay.TargetSelection
 
     public enum TargetSelectionTypes : byte
     {
+        NONE,
         CELL_WITH_ENEMY,
         CELL_WITH_ALLY,
         CELL_EMPTY,

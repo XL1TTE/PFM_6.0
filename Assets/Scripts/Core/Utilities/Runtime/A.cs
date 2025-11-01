@@ -1,7 +1,9 @@
 using System;
 using DG.Tweening;
+using Domain.Abilities.Components;
 using Domain.Components;
 using Domain.Extentions;
+using Persistence.DB;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Collections;
 using UnityEngine;
@@ -89,6 +91,15 @@ namespace Core.Utilities
 
             return seq;
         }
+
+
+        public static Sequence TurnAround(Entity a_subject, World a_world)
+        {
+            var stash_TransformRef = a_world.GetStash<TransformRefComponent>();
+            if (stash_TransformRef.Has(a_subject) == false) { return DOTween.Sequence(); }
+
+            return TurnAround(stash_TransformRef.Get(a_subject).Value);
+        }
         public static Sequence TurnAround(Transform subjectTransform)
         {
             Sequence seq = DOTween.Sequence();
@@ -139,4 +150,6 @@ namespace Core.Utilities
             return seq;
         }
     }
+
+
 }
