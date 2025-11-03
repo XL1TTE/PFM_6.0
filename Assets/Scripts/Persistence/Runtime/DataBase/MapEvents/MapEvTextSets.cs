@@ -34,7 +34,7 @@ namespace Persistence.DB
                 choices = new Dictionary<string, IRequestData>
                 {
 
-                    { "�, ���� :(",
+                    { "А, блин :(",
                         new GiveGoldRequest() { amount = 10 } }
 
                 }
@@ -144,7 +144,7 @@ namespace Persistence.DB
                     {"NO CHOICE!",
                         new TakeGoldRequest() { amount = 100 }  },
 
-                    {"���� ���� ^_^",
+                    {"Люби себя ^_^",
                         new GiveGoldRequest() { amount = 999 }  }
                 }
             });
@@ -191,7 +191,7 @@ namespace Persistence.DB
                     { "What? No",
                         new TakeGoldRequest() { amount = 999999999 } },
 
-                    { "�� ����",
+                    { "Ты мега",
                         new GiveGoldRequest() { amount = 10 }  }
 
                 }

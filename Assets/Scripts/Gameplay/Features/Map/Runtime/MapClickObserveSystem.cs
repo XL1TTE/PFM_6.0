@@ -1,6 +1,7 @@
 
 using Domain.CursorDetection.Components;
 using Domain.Map.Components;
+using Domain.Map.Events;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -24,8 +25,8 @@ namespace Gameplay.Map.Systems
         private Stash<MapNodeEventId> nodeEvIDsStash;
         private Stash<MapNodeEventType> nodeTypesStash;
 
-        private Request<MapTextEventEnterRequest> req_draw_text_ui;
-        //private Event<ButtonClickedEvent> evt_btnClicked;
+        //private Request<MapTextEventEnterRequest> req_draw_text_ui;
+        private Event<MapNodeClickedEvent> ev_clicked_node;
 
         //private Stash<ButtonTag> stash_btnTag;
 
@@ -46,7 +47,8 @@ namespace Gameplay.Map.Systems
             nodeEvIDsStash = World.GetStash<MapNodeEventId>();
             nodeTypesStash = World.GetStash<MapNodeEventType>();
 
-            req_draw_text_ui = World.GetRequest<MapTextEventEnterRequest>();
+            ev_clicked_node = World.GetEvent<MapNodeClickedEvent>();
+            //req_draw_text_ui = World.GetRequest<MapTextEventEnterRequest>();
 
             //evt_btnClicked = World.GetEvent<ButtonClickedEvent>();
             //stash_btnTag = World.GetStash<ButtonTag>();
@@ -80,24 +82,28 @@ namespace Gameplay.Map.Systems
                         Debug.Log($"NODE EVENT TYPE IS {mapNodeEvTypeComponent.event_type}");
                         Debug.Log($"NODE EVENT ID IS {mapNodeEvIDComponent.event_id}");
 
-                        switch (mapNodeEvTypeComponent.event_type)
+
+                        ev_clicked_node.NextFrame(new MapNodeClickedEvent
                         {
-                            case EVENT_TYPE.TEXT:
-                                req_draw_text_ui.Publish(new MapTextEventEnterRequest
-                                {
-                                    event_id = mapNodeEvIDComponent.event_id,
-                                });
-                                break;
-                            case EVENT_TYPE.BATTLE:
+                            node_entity = ent,
+                        });
 
-                                break;
-                            case EVENT_TYPE.LAB:
+                        //switch (mapNodeEvTypeComponent.event_type)
+                        //{
+                        //    case EVENT_TYPE.TEXT:
+                        //        req_draw_text_ui.Publish(new MapTextEventEnterRequest
+                        //        {
+                        //            event_id = mapNodeEvIDComponent.event_id,
+                        //        });
+                        //        break;
+                        //    case EVENT_TYPE.BATTLE:
+                        //        break;
+                        //    case EVENT_TYPE.LAB:
+                        //        break;
+                        //    case EVENT_TYPE.BOSS:
+                        //        break;
+                        //}
 
-                                break;
-                            case EVENT_TYPE.BOSS:
-
-                                break;
-                        }
                         return;
                     }
                 }

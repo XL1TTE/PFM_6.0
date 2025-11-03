@@ -1,4 +1,5 @@
 using CursorDetection.Systems;
+using Domain.Extentions;
 using Domain.Components;
 using Domain.Map.Components;
 using Domain.Map.Requests;
@@ -6,7 +7,6 @@ using Domain.Monster.Mono;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Mono;
 using Gameplay.Map.Systems;
-using Gameplay.MapEvents.Systems;
 using Persistence.DB;
 using Scellecs.Morpeh;
 using System;
@@ -15,6 +15,8 @@ using System.Linq;
 using UnityEngine;
 
 using Random = UnityEngine.Random;
+using Gameplay.MapEvents.Systems;
+using Core.ECS.Modules;
 
 namespace Domain.Map.Mono
 {
@@ -62,8 +64,11 @@ namespace Domain.Map.Mono
 
 
 
-        public GameObject bgPrefab;
-        public GameObject nodePrefab;
+        //public GameObject bgPrefab;
+        //public GameObject nodePrefab;
+        //public Material lineMaterial;
+
+
 
         // collumn_count does not include start and end nodes, only path in between
         public byte collumn_count = 9;
@@ -73,7 +78,6 @@ namespace Domain.Map.Mono
         // icon_bounding_box_width this is a bounding box width that is used to check if the icons are colliding
         public byte icon_bounding_box_width;
 
-        public Material lineMaterial;
 
         // map_hor_offset is the coordinate offset from screen borders on both horizontal sides of screen, from left to start and from right to end
         public int map_hor_offset = 130;
@@ -122,17 +126,17 @@ namespace Domain.Map.Mono
 
             StateMachineWorld.EnterState<MapDefaultState>();
 
-            if (StateMachineWorld.TryGetState<MapDefaultState>(out var state))
-            {
-                // CAN do something with "state"
-            }
+            //if (StateMachineWorld.IsStateActive<MapDefaultState>(out var state))
+            //{
+            //    // CAN do something with "state"
+            //}
 
 
             // add to module
             var cursorDetectionSystem = new CursorDetectionSystem();
             var mapClickObserveSystem = new MapClickObserveSystem();
-            var mapTextEventHandlerSystem = new MapTextEventHandlerSystem();
-            var nodeDrawSystem = new MapDrawSystem();
+            var mapTextEventHandlerSystem = gameObject.AddComponent<MapTextEventHandlerSystem>();
+            var nodeDrawSystem = gameObject.AddComponent<MapDrawSystem>();
 
 
             // add to module
@@ -140,10 +144,16 @@ namespace Domain.Map.Mono
             var mapEvReqSystemTakeGold = new MapEvReqSystemTakeGold();
 
 
+            // add to module
+            //var mapNodeClickTextWaitSystem = new MapNodeClickTextWaitSystem();
+            //var mapNodeClickBattleWaitSystem = new MapNodeClickBattleWaitSystem();
+            //var mapNodeClickBossWaitSystem = new MapNodeClickBossWaitSystem();
+            //var mapNodeClickLabWaitSystem = new MapNodeClickLabWaitSystem();
+            nodeWorld.AddModule(new MapNodeWaitModule());
 
-            nodeDrawSystem.nodePrefab = nodePrefab;
-            nodeDrawSystem.bgPrefab = bgPrefab;
-            nodeDrawSystem.lineMaterial = lineMaterial;
+            //nodeDrawSystem.nodePrefab = nodePrefab;
+            //nodeDrawSystem.bgPrefab = bgPrefab;
+            //nodeDrawSystem.lineMaterial = lineMaterial;
 
 
 
@@ -160,12 +170,12 @@ namespace Domain.Map.Mono
 
             systemsMapGroup.AddSystem(nodeDrawSystem);
 
-            nodeWorld.AddSystemsGroup(order: 0, systemsMapGroup);
+            nodeWorld.AddSystemsGroup(order: -250, systemsMapGroup);
             //nodeWorld.RemoveSystemsGroup(systemsGroup);
 
 
 
-            this.filterPos = this.nodeWorld.Filter.With<MapNodePositionComponent>().Build();
+            filterPos = nodeWorld.Filter.With<MapNodePositionComponent>().Build();
 
             GenerateMap(collumn_count, row_count);
         }
@@ -218,16 +228,16 @@ namespace Domain.Map.Mono
             int temp_end_x = 0;
             for (byte i = 1; i <= collumns; i++)
             {
-                Debug.Log(" ------------------------------------------------ Making Collumn - " + i);
+                //Debug.Log\(" ------------------------------------------------ Making Collumn - " + i);
 
                 // rows + 1, since the end value is not inclusive and 2 at minimum, to avoid bottlenecks
                 int rowsInColumn = Random.Range(2, rows + 1);
-                Debug.Log(" will have this much rows = " + rowsInColumn);
+                //Debug.Log\(" will have this much rows = " + rowsInColumn);
 
 
                 for (byte c = 0; c < rowsInColumn; c++)
                 {
-                    Debug.Log(" ___ creating node with ID   " + temp_node_count);
+                    //Debug.Log\(" ___ creating node with ID   " + temp_node_count);
 
                     // create random row that we want to occupy, using past collumn rows
                     byte temp_curr_row = RollForCurrentRow(temp_past_coll, rows);
@@ -283,7 +293,7 @@ namespace Domain.Map.Mono
                 }
 
                 string debug_list = string.Join(",", temp_past_coll_copy);
-                Debug.Log("    !!!!!!!!!!!!!!!!!!!!!!!!    COLLUMN - " + i + " -   CREATED ROWS:  " + debug_list);
+                //Debug.Log\("    !!!!!!!!!!!!!!!!!!!!!!!!    COLLUMN - " + i + " -   CREATED ROWS:  " + debug_list);
 
 
                 Array.Clear(temp_past_coll, 0, temp_past_coll.Length);
@@ -319,12 +329,12 @@ namespace Domain.Map.Mono
             nodeNeighbStash.Set(entityFirst, new MapNodeNeighboursComponent { node_neighbours = new List<byte>() });
 
 
-            Debug.Log(".......................................GENERATING CLEAR CONNECTIONS.......................................");
+            //Debug.Log\(".......................................GENERATING CLEAR CONNECTIONS.......................................");
             // FIRST WALKTHROUGH TO GENERATE CLEAR CONNECTIONS (on the same or adjacent row)
             // do a collumns + 1 to include the final end node
             for (byte i = 1; i <= collumns + 1; i++)
             {
-                Debug.Log($"---------- doing collumn number _{i}_ ----------");
+                //Debug.Log\($"---------- doing collumn number _{i}_ ----------");
 
                 //prev_collumn_entities.Clear();
                 prev_collumn_entities = current_collumn_entities;
@@ -349,7 +359,7 @@ namespace Domain.Map.Mono
                     // add past node id to neighbours of this node
                     neighbours.Add(nodePrevIdComponent.node_id);
 
-                    Debug.Log($"---------- THIS IS FIRST COLLUMN ----------");
+                    //Debug.Log\($"---------- THIS IS FIRST COLLUMN ----------");
                     foreach (var entity in current_collumn_entities)
                     {
                         // get current node id
@@ -424,8 +434,8 @@ namespace Domain.Map.Mono
                     // get current node id
                     ref var nodeCurrIdComponent = ref nodeIdStash.Get(entity);
 
-                    Debug.Log($"---\"---\"---\"--- making neighbours for node with id __{nodeCurrIdComponent.node_id}__");
-                    Debug.Log($"--- max connections is __{max_conn}__");
+                    //Debug.Log\($"---\"---\"---\"--- making neighbours for node with id __{nodeCurrIdComponent.node_id}__");
+                    //Debug.Log\($"--- max connections is __{max_conn}__");
 
 
                     foreach (var prev_entity in prev_collumn_entities)
@@ -433,23 +443,23 @@ namespace Domain.Map.Mono
                         ref var nodePrevPosComponent = ref nodePosStash.Get(prev_entity);
                         ref var nodePrevIdComponent = ref nodeIdStash.Get(prev_entity);
 
-                        Debug.Log($"--- prev entity id __{nodePrevIdComponent.node_id}__");
-                        Debug.Log($"--- prev row = _{nodePrevPosComponent.node_row}_ und this row = _{nodeCurrPosComponent.node_row}_ ");
+                        //Debug.Log\($"--- prev entity id __{nodePrevIdComponent.node_id}__");
+                        //Debug.Log\($"--- prev row = _{nodePrevPosComponent.node_row}_ und this row = _{nodeCurrPosComponent.node_row}_ ");
                         // check for if current row position is equal or adjacent to previous position
                         if ((nodeCurrPosComponent.node_row == nodePrevPosComponent.node_row)
                         || (nodeCurrPosComponent.node_row - 1 == nodePrevPosComponent.node_row)
                         || (nodeCurrPosComponent.node_row + 1 == nodePrevPosComponent.node_row))
                         {
-                            Debug.Log("ALL GOOD, WILL ADD TO LIST");
+                            //Debug.Log\("ALL GOOD, WILL ADD TO LIST");
                             //potential_clear_neighb.Add(nodePrevIdComponent.node_id);
                             potential_clear_neighb.Add(prev_entity);
                         }
                     }
-                    Debug.Log($"--- found this much potential clear connections __{potential_clear_neighb.Count}__");
+                    //Debug.Log\($"--- found this much potential clear connections __{potential_clear_neighb.Count}__");
 
                     for (byte c = 0; c < max_conn; c++)
                     {
-                        Debug.Log($"--- connection __{c + 1}__");
+                        //Debug.Log\($"--- connection __{c + 1}__");
                         if (potential_clear_neighb.Count > 0)
                         {
                             //var neighb_id = potential_clear_neighb[Random.Range(0, potential_clear_neighb.Count)];
@@ -459,7 +469,7 @@ namespace Domain.Map.Mono
                             ref var nodePrevNeighbComponent = ref nodeNeighbStash.Get(neighb_entity);
                             ref var nodePrevIdComponent = ref nodeIdStash.Get(neighb_entity);
 
-                            Debug.Log($"--- rolled for and added id __{nodePrevIdComponent.node_id}__");
+                            //Debug.Log\($"--- rolled for and added id __{nodePrevIdComponent.node_id}__");
 
                             // add current id to neighbours of past nodes
                             //nodePrevNeighbComponent.node_neighbours.Add(nodeCurrIdComponent.node_id);
@@ -480,7 +490,7 @@ namespace Domain.Map.Mono
                         }
                         else
                         {
-                            Debug.Log($"---\"--- OUT OF POTENTIAL NEIGHBOURS ---\"---");
+                            //Debug.Log\($"---\"--- OUT OF POTENTIAL NEIGHBOURS ---\"---");
                             break;
                         }
                     }
@@ -493,21 +503,21 @@ namespace Domain.Map.Mono
 
 
 
-            Debug.Log(".......................................GETTING RID OF DEAD ENDS.......................................");
+            //Debug.Log\(".......................................GETTING RID OF DEAD ENDS.......................................");
             // SECOND WALKTHROUGH TO GET RID OF DEAD ENDS
 
 
             for (byte i = 1; i <= collumns; i++)
             {
-                //Debug.Log($"_______________ forcing connection on collumn {i} _______________");
-                //Debug.Log("_____ prev collumn _____");
+                ////Debug.Log\($"_______________ forcing connection on collumn {i} _______________");
+                ////Debug.Log\("_____ prev collumn _____");
                 prev_collumn_entities = SearchForEntitiesOfCollumn((byte)(i - 1));
 
-                //Debug.Log("_____ curr collumn _____");
+                ////Debug.Log\("_____ curr collumn _____");
                 // need to fill current_collumn_entities list with entities of current collumn
                 current_collumn_entities = SearchForEntitiesOfCollumn(i);
 
-                //Debug.Log("_____ next collumn _____");
+                ////Debug.Log\("_____ next collumn _____");
                 // need to fill current_collumn_entities list with entities of current collumn
                 next_collumn_entities = SearchForEntitiesOfCollumn((byte)(i + 1));
 
@@ -534,7 +544,7 @@ namespace Domain.Map.Mono
                                 ref var nodePrevNeighbComponent = ref nodeNeighbStash.Get(ent);
                                 ref var nodePrevIdComponent = ref nodeIdStash.Get(ent);
 
-                                Debug.Log($"_!_!_!_!_!_ FOUND CORRECT ID FOR FORCED PREV CONNECTION FROM _{nodeCurrIdComponent.node_id}_ TO _{nodePrevIdComponent.node_id}_");
+                                //Debug.Log\($"_!_!_!_!_!_ FOUND CORRECT ID FOR FORCED PREV CONNECTION FROM _{nodeCurrIdComponent.node_id}_ TO _{nodePrevIdComponent.node_id}_");
 
                                 // add current node id to neighbours of prev node
                                 List<byte> add_neighbours_prev = nodePrevNeighbComponent.node_neighbours;
@@ -560,7 +570,7 @@ namespace Domain.Map.Mono
                     byte best_forced_id_next = FindClosestRowNeighbour(entity, next_collumn_entities, rows);
                     if (best_forced_id_next != 0)
                     {
-                        Debug.Log($"_!_!_!_!_!_ FOUND BEST FORCED ID TO NEXT _{best_forced_id_next}_");
+                        //Debug.Log\($"_!_!_!_!_!_ FOUND BEST FORCED ID TO NEXT _{best_forced_id_next}_");
 
                         foreach (var ent in next_collumn_entities)
                         {
@@ -570,7 +580,7 @@ namespace Domain.Map.Mono
                                 ref var nodeNextNeighbComponent = ref nodeNeighbStash.Get(ent);
                                 ref var nodeNextIdComponent = ref nodeIdStash.Get(ent);
 
-                                Debug.Log($"_!_!_!_!_!_ FOUND CORRECT ID FOR FORCED NEXT CONNECTION FROM _{nodeCurrIdComponent.node_id}_ TO _{nodeNextIdComponent.node_id}_");
+                                //Debug.Log\($"_!_!_!_!_!_ FOUND CORRECT ID FOR FORCED NEXT CONNECTION FROM _{nodeCurrIdComponent.node_id}_ TO _{nodeNextIdComponent.node_id}_");
 
                                 // add current node id to neighbours of next node
                                 List<byte> add_neighbours_next = nodeNextNeighbComponent.node_neighbours;
@@ -605,7 +615,7 @@ namespace Domain.Map.Mono
 
             #region
 
-            //Debug.Log(".......................................GIVING OFFSET.......................................");
+            ////Debug.Log\(".......................................GIVING OFFSET.......................................");
             // THIRD WALKTHROUGH TO GIVE OFFSET
 
 
@@ -613,15 +623,15 @@ namespace Domain.Map.Mono
             // this logic MUST include the start row of the node itself
             for (byte i = 1; i <= collumns; i++)
             {
-                //Debug.Log($"_______________ giving offset on collumn {i} _______________");
-                //Debug.Log("_____ prev collumn _____");
+                ////Debug.Log\($"_______________ giving offset on collumn {i} _______________");
+                ////Debug.Log\("_____ prev collumn _____");
                 prev_collumn_entities = SearchForEntitiesOfCollumn((byte)(i - 1));
 
-                //Debug.Log("_____ curr collumn _____");
+                ////Debug.Log\("_____ curr collumn _____");
                 // need to fill current_collumn_entities list with entities of current collumn
                 current_collumn_entities = SearchForEntitiesOfCollumn(i);
 
-                //Debug.Log("_____ next collumn _____");
+                ////Debug.Log\("_____ next collumn _____");
                 // need to fill current_collumn_entities list with entities of current collumn
                 next_collumn_entities = SearchForEntitiesOfCollumn((byte)(i + 1));
 
@@ -634,27 +644,27 @@ namespace Domain.Map.Mono
                     ref var nodeCurrPosComponent = ref nodePosStash.Get(entity);
                     ref var nodeCurrIdComponent = ref nodeIdStash.Get(entity);
 
-                    Debug.Log($"------------------------- getting offset for {nodeCurrIdComponent.node_id} -------------------------");
+                    //Debug.Log\($"------------------------- getting offset for {nodeCurrIdComponent.node_id} -------------------------");
 
                     float temp_row_summ = nodeCurrPosComponent.node_row;
                     float temp_neighb_count = nodeCurrNeighbComponent.node_neighbours.Count + 1; // +1 since the initial row MUST be counted
 
-                    Debug.Log($"------------------------- CURRENT    row summ {temp_row_summ} and neighb count {temp_neighb_count}-------------------------");
+                    //Debug.Log\($"------------------------- CURRENT    row summ {temp_row_summ} and neighb count {temp_neighb_count}-------------------------");
 
                     var temp_prev_summ = GetRowSummOfNeighbours(prev_collumn_entities, nodeCurrNeighbComponent, nodeCurrPosComponent.node_row);
                     temp_row_summ += temp_prev_summ;
 
-                    Debug.Log($"------------------------- AFTER PREV row summ {temp_row_summ} and neighb count {temp_neighb_count}-------------------------");
+                    //Debug.Log\($"------------------------- AFTER PREV row summ {temp_row_summ} and neighb count {temp_neighb_count}-------------------------");
 
                     var temp_next_summ = GetRowSummOfNeighbours(next_collumn_entities, nodeCurrNeighbComponent, nodeCurrPosComponent.node_row);
                     temp_row_summ += temp_next_summ;
 
-                    Debug.Log($"------------------------- AFTER NEXT row summ {temp_row_summ} and neighb count {temp_neighb_count}-------------------------");
+                    //Debug.Log\($"------------------------- AFTER NEXT row summ {temp_row_summ} and neighb count {temp_neighb_count}-------------------------");
 
                     // find the average row
                     var temp_average_row = temp_row_summ / temp_neighb_count;
 
-                    Debug.Log($"------------------------- average row {temp_average_row} -------------------------");
+                    //Debug.Log\($"------------------------- average row {temp_average_row} -------------------------");
 
                     //var temp_y = (int)(map_vert_start + map_vert_offset + ((map_vert_end - map_vert_offset * 2) / rows) * temp_curr_row);
                     var temp_y_correct = map_vert_start + map_vert_offset + ((map_vert_end - map_vert_offset * 2) / rows) * (temp_average_row);
@@ -665,11 +675,11 @@ namespace Domain.Map.Mono
 
                     var temp_y_offset = (int)((temp_y_end_pos - nodeCurrPosComponent.node_y) * map_vert_pull_strenght);
 
-                    Debug.Log($"------------------------- current y {nodeCurrPosComponent.node_y} -------------------------");
-                    Debug.Log($"------------------------- correct y {temp_y_correct} -------------------------");
-                    Debug.Log($"------------------------- randome y {temp_offset_rand} -------------------------");
-                    Debug.Log($"------------------------- endpose y {temp_y_end_pos} -------------------------");
-                    Debug.Log($"------------------------- !FINAL! y {temp_y_offset / map_vert_pull_strenght} * {map_vert_pull_strenght} = {temp_y_offset} -------------------------");
+                    //Debug.Log\($"------------------------- current y {nodeCurrPosComponent.node_y} -------------------------");
+                    //Debug.Log\($"------------------------- correct y {temp_y_correct} -------------------------");
+                    //Debug.Log\($"------------------------- randome y {temp_offset_rand} -------------------------");
+                    //Debug.Log\($"------------------------- endpose y {temp_y_end_pos} -------------------------");
+                    //Debug.Log\($"------------------------- !FINAL! y {temp_y_offset / map_vert_pull_strenght} * {map_vert_pull_strenght} = {temp_y_offset} -------------------------");
 
                     nodeCurrPosComponent.node_y_offset = temp_y_offset;
 
@@ -725,10 +735,10 @@ namespace Domain.Map.Mono
                             if ((total_else_y >= total_curr_y - (icon_bounding_box_width + icon_bounding_box_width / 2))
                             && (total_else_y <= total_curr_y + (icon_bounding_box_width + icon_bounding_box_width / 2)))
                             {
-                                Debug.Log($"__________ ICON INTERSECTION AT CURR ID   {nodeIdComponent.node_id}  and ELSE ID  {nodeElseIdComponent.node_id}");
+                                //Debug.Log\($"__________ ICON INTERSECTION AT CURR ID   {nodeIdComponent.node_id}  and ELSE ID  {nodeElseIdComponent.node_id}");
                                 debug_flag = true;
-                                Debug.Log($" PRE change curr Y POS:  {total_curr_y}  ");
-                                Debug.Log($" PRE change else Y POS:  {total_else_y}  ");
+                                //Debug.Log\($" PRE change curr Y POS:  {total_curr_y}  ");
+                                //Debug.Log\($" PRE change else Y POS:  {total_else_y}  ");
 
                                 // curr y pos is belowe the middle
                                 if (total_curr_y <= (map_vert_end + map_vert_start) / 2)
@@ -770,8 +780,8 @@ namespace Domain.Map.Mono
 
                             if (debug_flag)
                             {
-                                Debug.Log($" TOTAL ELSE Y POS:  {total_else_y}  ");
-                                Debug.Log($" FINAL ELSE Y POS:  {total_else_y - nodeElsePosComponent.node_y_offset}  ");
+                                //Debug.Log\($" TOTAL ELSE Y POS:  {total_else_y}  ");
+                                //Debug.Log\($" FINAL ELSE Y POS:  {total_else_y - nodeElsePosComponent.node_y_offset}  ");
                             }
 
                             nodeElsePosComponent.node_y = total_else_y - nodeElsePosComponent.node_y_offset;
@@ -783,8 +793,8 @@ namespace Domain.Map.Mono
 
                     if (debug_flag)
                     {
-                        Debug.Log($" TOTAL CURR Y POS:  {total_curr_y}  ");
-                        Debug.Log($" FINAL CURR Y POS:  {total_curr_y - nodePosComponent.node_y_offset}  ");
+                        //Debug.Log\($" TOTAL CURR Y POS:  {total_curr_y}  ");
+                        //Debug.Log\($" FINAL CURR Y POS:  {total_curr_y - nodePosComponent.node_y_offset}  ");
                     }
 
                     nodePosComponent.node_y = total_curr_y - nodePosComponent.node_y_offset;
@@ -1082,8 +1092,8 @@ namespace Domain.Map.Mono
             ref var nodeCurrIdComponent = ref nodeIdStash.Get(base_entity);
             ref var nodeCurrPosComponent = ref nodePosStash.Get(base_entity);
 
-            Debug.Log("#######################################                  SEARCHING FOR CLOSEST ROW NEIGHBOUR");
-            Debug.Log($"#######################################                  base entity id : _{nodeCurrIdComponent.node_id}_");
+            //Debug.Log\("#######################################                  SEARCHING FOR CLOSEST ROW NEIGHBOUR");
+            //Debug.Log\($"#######################################                  base entity id : _{nodeCurrIdComponent.node_id}_");
 
 
             bool flag_got_collumn_neighb = false;
@@ -1093,7 +1103,7 @@ namespace Domain.Map.Mono
 
                 if (nodeCurrNeighbComponent.node_neighbours.Contains(nodePotIdComponent.node_id))
                 {
-                    Debug.Log($"#######################################                  found connection id : _{nodePotIdComponent.node_id}_");
+                    //Debug.Log\($"#######################################                  found connection id : _{nodePotIdComponent.node_id}_");
 
                     flag_got_collumn_neighb = true;
                     break;
@@ -1103,7 +1113,7 @@ namespace Domain.Map.Mono
 
             if (!flag_got_collumn_neighb)
             {
-                Debug.Log("#######################################                  not found connection on this side, proceding to search for forced connection");
+                //Debug.Log\("#######################################                  not found connection on this side, proceding to search for forced connection");
 
                 byte temp_entity_choice = 0;// = (byte)nodeCurrPosComponent.node_row;
                 int temp_row_diff = max_rows * 2;
@@ -1131,7 +1141,7 @@ namespace Domain.Map.Mono
             }
             else
             {
-                Debug.Log($"#######################################                  found connection CONFIRM END OF CYCLE");
+                //Debug.Log\($"#######################################                  found connection CONFIRM END OF CYCLE");
 
             }
 
@@ -1140,7 +1150,7 @@ namespace Domain.Map.Mono
 
         private List<Entity> SearchForEntitiesOfCollumn(byte collumn)
         {
-            //Debug.Log($"---------- searching for entities in collumn _{collumn}_ ----------");
+            ////Debug.Log\($"---------- searching for entities in collumn _{collumn}_ ----------");
 
             //this.filterPos = this.nodeWorld.Filter.With<MapNodePositionComponent>().Build();
 
@@ -1162,7 +1172,7 @@ namespace Domain.Map.Mono
 
             string combinedString = string.Join(",", debug_log.ToArray());
 
-            //Debug.Log($"---------- result : _{combinedString}_");
+            ////Debug.Log\($"---------- result : _{combinedString}_");
 
 
             return result;
@@ -1185,7 +1195,7 @@ namespace Domain.Map.Mono
 
             temp_curr_row = Math.Clamp(temp_curr_row, 0, rows);
 
-            Debug.Log($" ######  Rolled for Current Row, got _index {roll}_ , _equals to {val}_ , _with offset {offs}_ , itogo - _{val + offs}_ , clamped - _{temp_curr_row}_");
+            //Debug.Log\($" ######  Rolled for Current Row, got _index {roll}_ , _equals to {val}_ , _with offset {offs}_ , itogo - _{val + offs}_ , clamped - _{temp_curr_row}_");
 
             byte result = Convert.ToByte(temp_curr_row);
 
@@ -1206,7 +1216,7 @@ namespace Domain.Map.Mono
             int temp_direction = temp_steps[Random.Range(0, 1)];
 
 
-            Debug.Log($" ___________    STARTED MARCHING FOR ROW {init_row} with direction {temp_direction}  ___________");
+            //Debug.Log\($" ___________    STARTED MARCHING FOR ROW {init_row} with direction {temp_direction}  ___________");
 
 
             bool temp_flag_march = true;
@@ -1236,7 +1246,7 @@ namespace Domain.Map.Mono
                 }
             }
 
-            Debug.Log($" ___________    ENDED MARCHING WITH {(byte)temp_marcher}   ___________");
+            //Debug.Log\($" ___________    ENDED MARCHING WITH {(byte)temp_marcher}   ___________");
 
             return (byte)temp_marcher;
         }
@@ -1395,7 +1405,7 @@ namespace Domain.Map.Mono
                 tmp_random_event_id = ChooseRandomEventFromList(all_events_text, collumn, false);
             }
 
-            Debug.Log($"----------- gave event of type {tmp_random_event_type}  with id :  {tmp_random_event_id}");
+            //Debug.Log\($"----------- gave event of type {tmp_random_event_type}  with id :  {tmp_random_event_id}");
 
             nodeEventTypeStash.Set(entity, new MapNodeEventType { event_type = tmp_random_event_type });
             nodeEventIdStash.Set(entity, new MapNodeEventId { event_id = tmp_random_event_id });
@@ -1415,12 +1425,12 @@ namespace Domain.Map.Mono
 
         public void MapUpdate()
         {
-            Debug.Log("sent visuals request update");
+            //Debug.Log\("sent visuals request update");
             req_draw.Publish(new MapDrawVisualsRequest
             {
 
             });
-            //Debug.Log("MapController is Updating");
+            ////Debug.Log\("MapController is Updating");
 
             //manually world updates
             //nodeWorld.Update(Time.deltaTime);

@@ -1,4 +1,5 @@
 using Domain.Map.Components;
+using Domain.Map.Providers;
 using Domain.Map.Requests;
 using Scellecs.Morpeh;
 using TMPro;
@@ -30,10 +31,11 @@ namespace Gameplay.Map.Systems
 
         private Transform LinesContainer;
         private Transform NodesContainer;
+        private Transform BGContainer;
 
-        public GameObject bgPrefab;
-        public GameObject nodePrefab;
-        public Material lineMaterial;
+        private GameObject bgPrefab;
+        private GameObject nodePrefab;
+        private Material lineMaterial;
         private LineRenderer lineRenderer;
 
 
@@ -45,7 +47,7 @@ namespace Gameplay.Map.Systems
         public void OnAwake()
         {
 
-            //Debug.Log("NodeDrawSys is Awake");
+            Debug.Log("NodeDrawSys is Awake");
             req_draw = World.GetRequest<MapDrawVisualsRequest>();
 
             this.nodeBinderStash = this.World.GetStash<TagMapNodeBinder>();
@@ -66,11 +68,19 @@ namespace Gameplay.Map.Systems
 
             LinesContainer = new GameObject("LinesContainer").transform;
             NodesContainer = new GameObject("NodesContainer").transform;
+            BGContainer = new GameObject("BGContainer").transform;
+
 
             icon_lab = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Lab");
             icon_battle = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Battle");
             icon_text = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Random");
             icon_boss = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Boss");
+
+
+            nodePrefab = Resources.Load<GameObject>("Map/Prefabs/MapNodePrefab");
+            bgPrefab = Resources.Load<GameObject>("Map/Prefabs/MapBGGeneralPrefab");
+            lineMaterial = Resources.Load<Material>("Art/Materials/DottedLine_Material");
+
         }
 
         public void OnUpdate(float deltaTime)
@@ -182,6 +192,8 @@ namespace Gameplay.Map.Systems
                     bg_instance.transform.localScale = scaleChange;
                     bg_instance.GetComponent<SpriteRenderer>().sprite = bgComponent.sprite;
                     bg_instance.GetComponent<SpriteRenderer>().sortingOrder = bgComponent.layer;
+
+                    bg_instance.transform.SetParent(BGContainer, true);
                 }
             
             }
