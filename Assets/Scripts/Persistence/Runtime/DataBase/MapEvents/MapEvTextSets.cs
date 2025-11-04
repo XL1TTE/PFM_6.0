@@ -1,6 +1,6 @@
 using Domain.Components;
+using Domain.Map.Mono;
 using Domain.MapEvents.Requests;
-using Scellecs.Morpeh;
 using System.Collections.Generic;
 
 namespace Persistence.DB
@@ -31,11 +31,13 @@ namespace Persistence.DB
             });
             With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
             {
-                choices = new Dictionary<string, IRequestData>
+                choices = new Dictionary<string, MapChoiceWrapper>
                 {
 
                     { "А, блин :(",
-                        new GiveGoldRequest() { amount = 10 } }
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                            request = new GiveGoldRequest() { amount = 10 } }  }
 
                 }
             });
@@ -67,11 +69,13 @@ namespace Persistence.DB
             });
             With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
             {
-                choices = new Dictionary<string, IRequestData>
+                choices = new Dictionary<string, MapChoiceWrapper>
                 {
 
                     { "This is a default option",
-                        new GiveGoldRequest() { amount = 10 } }
+                        new MapChoiceWrapper() { 
+                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                            request = new GiveGoldRequest() { amount = 10 } } }
 
                 }
             });
@@ -133,19 +137,25 @@ namespace Persistence.DB
             With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
             {
                 //choices = new Dictionary<string, ScriptClass>
-                choices = new Dictionary<string, IRequestData>
+                choices = new Dictionary<string, MapChoiceWrapper>
                 {
                     //{ "SCHEISSE!",
                     //    GiveItems{ id1,id2,id3 } },
 
                     { "SCHEISSE!",
-                        new TakeGoldRequest() { amount = 10 }  },
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.TAKE_GOLD,
+                            request = new TakeGoldRequest() { amount = 10 } }   },
 
                     {"NO CHOICE!",
-                        new TakeGoldRequest() { amount = 100 }  },
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.TAKE_GOLD,
+                            request = new TakeGoldRequest() { amount = 100 } } },
 
                     {"Люби себя ^_^",
-                        new GiveGoldRequest() { amount = 999 }  }
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                            request = new GiveGoldRequest() { amount = 999 } }  }
                 }
             });
 
@@ -182,17 +192,63 @@ namespace Persistence.DB
             });
             With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
             {
-                choices = new Dictionary<string, IRequestData>
+                choices = new Dictionary<string, MapChoiceWrapper>
                 {
 
                     { "Yeah, sure",
-                        new GiveGoldRequest() { amount = 10 }  },
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                            request = new GiveGoldRequest() { amount = 10 } }  },
 
                     { "What? No",
-                        new TakeGoldRequest() { amount = 999999999 } },
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.TAKE_GOLD,
+                            request = new TakeGoldRequest() { amount = 999999999 } }},
 
                     { "Ты мега",
-                        new GiveGoldRequest() { amount = 10 }  }
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                            request = new GiveGoldRequest() { amount = 10 } } }
+
+                }
+            });
+        }
+    }
+    public sealed class ev_TextTest3 : IDbRecord
+    {
+        public ev_TextTest3()
+        {
+            ID("ev_TextTest3");
+
+            // -------------------------------------------------- ID and TAG
+            With<ID>(new ID { Value = "ev_TextTest3" });
+            With<MapEvTextTag>(new MapEvTextTag { });
+
+
+
+            // -------------------------------------------------- Main information
+            With<MapEvTextBGComponent>(new MapEvTextBGComponent
+            {
+                bg_sprite_path = "Map/MapTextEventBGs/Spr_Bodypart_Head_Test_2"
+            });
+            With<MapEvTextMessageComponent>(new MapEvTextMessageComponent
+            {
+                string_message = "ZZZZZZZZZZZZZZZZZZZZZZZZZZ"
+            });
+            With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
+            {
+                choices = new Dictionary<string, MapChoiceWrapper>
+                {
+
+                    { "ДАЙ ЗОЛОТА",
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                            request = new GiveGoldRequest() { amount = 67 } }  },
+
+                    { "НА ЗОТОЛО",
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.TAKE_GOLD,
+                            request = new TakeGoldRequest() { amount = 69 } }}
 
                 }
             });

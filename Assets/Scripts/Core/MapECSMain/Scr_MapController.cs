@@ -32,10 +32,9 @@ namespace Domain.Map.Mono
         private Filter all_events_text;
         private Filter all_events_battle;
 
-        public SystemsGroup systemsGroup;
 
         private Request<MapDrawVisualsRequest> req_draw;
-        public SystemsGroup systemsMapGroup;
+        private SystemsGroup systemsMapGroup;
 
 
         public Stash<MapNodeIdComponent> nodeIdStash;
@@ -124,7 +123,7 @@ namespace Domain.Map.Mono
 
 
 
-            StateMachineWorld.EnterState<MapDefaultState>();
+            //StateMachineWorld.EnterState<MapDefaultState>();
 
             //if (StateMachineWorld.IsStateActive<MapDefaultState>(out var state))
             //{
@@ -132,16 +131,16 @@ namespace Domain.Map.Mono
             //}
 
 
-            // add to module
-            var cursorDetectionSystem = new CursorDetectionSystem();
-            var mapClickObserveSystem = new MapClickObserveSystem();
+            //// add to module
+            //var cursorDetectionSystem = new CursorDetectionSystem();
+            //var mapClickObserveSystem = new MapClickObserveSystem();
             var mapTextEventHandlerSystem = gameObject.AddComponent<MapTextEventHandlerSystem>();
             var nodeDrawSystem = gameObject.AddComponent<MapDrawSystem>();
 
 
-            // add to module
-            var mapEvReqSystemGiveGold = new MapEvReqSystemGiveGold();
-            var mapEvReqSystemTakeGold = new MapEvReqSystemTakeGold();
+            //// add to module
+            //var mapEvReqSystemGiveGold = new MapEvReqSystemGiveGold();
+            //var mapEvReqSystemTakeGold = new MapEvReqSystemTakeGold();
 
 
             // add to module
@@ -149,7 +148,9 @@ namespace Domain.Map.Mono
             //var mapNodeClickBattleWaitSystem = new MapNodeClickBattleWaitSystem();
             //var mapNodeClickBossWaitSystem = new MapNodeClickBossWaitSystem();
             //var mapNodeClickLabWaitSystem = new MapNodeClickLabWaitSystem();
+            nodeWorld.AddModule(new MapInteractionBaseModule());
             nodeWorld.AddModule(new MapNodeWaitModule());
+            nodeWorld.AddModule(new MapReqSystemsModule());
 
             //nodeDrawSystem.nodePrefab = nodePrefab;
             //nodeDrawSystem.bgPrefab = bgPrefab;
@@ -159,18 +160,20 @@ namespace Domain.Map.Mono
 
 
             req_draw = nodeWorld.GetRequest<MapDrawVisualsRequest>();
+            
+            
             systemsMapGroup = nodeWorld.CreateSystemsGroup();
 
-            systemsMapGroup.AddSystem(cursorDetectionSystem);
-            systemsMapGroup.AddSystem(mapClickObserveSystem);
+            //systemsMapGroup.AddSystem(cursorDetectionSystem);
+            //systemsMapGroup.AddSystem(mapClickObserveSystem);
+
+            //systemsMapGroup.AddSystem(mapEvReqSystemGiveGold);
+            //systemsMapGroup.AddSystem(mapEvReqSystemTakeGold);
+
             systemsMapGroup.AddSystem(mapTextEventHandlerSystem);
-
-            systemsMapGroup.AddSystem(mapEvReqSystemGiveGold);
-            systemsMapGroup.AddSystem(mapEvReqSystemTakeGold);
-
             systemsMapGroup.AddSystem(nodeDrawSystem);
 
-            nodeWorld.AddSystemsGroup(order: -250, systemsMapGroup);
+            nodeWorld.AddSystemsGroup(order: 251, systemsMapGroup);
             //nodeWorld.RemoveSystemsGroup(systemsGroup);
 
 
@@ -1268,48 +1271,6 @@ namespace Domain.Map.Mono
             }
 
             return flag;
-        }
-
-
-        // This function is for searching and returning the specific event by ID
-        private MapEventData GetEventRecord(string id_for_search, bool IsBattle)
-        {
-            var result = new MapEventData();
-            if (!IsBattle)
-            {
-                if (DataBase.TryFindRecordByID(id_for_search, out var found_record))
-                {
-                    if (found_record == null)
-                    {
-                        throw new System.Exception($"Event in DB: {id_for_search} was not found.");
-                    }
-
-                    // Get BG path
-                    if (DataBase.TryGetRecord<MapEvTextBGComponent>(found_record, out var res_bg))
-                    {
-                        result.bg_sprite_path = res_bg.bg_sprite_path;
-                    }
-
-                    // Get main base text message
-                    if (DataBase.TryGetRecord<MapEvTextMessageComponent>(found_record, out var res_main_text))
-                    {
-                        result.string_message = res_main_text.string_message;
-                    }
-
-                    // Get all of the choices available
-                    if (DataBase.TryGetRecord<MapEvTextChoicesComponent>(found_record, out var res_choices))
-                    {
-                        //result.choices = res_choices.choices;
-                    }
-                }
-
-            }
-            else
-            {
-
-            }
-
-            return result;
         }
 
 

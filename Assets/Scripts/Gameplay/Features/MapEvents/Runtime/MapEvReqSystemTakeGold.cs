@@ -42,7 +42,7 @@ namespace Gameplay.MapEvents.Systems
         }
         private void ProcessRequest(TakeGoldRequest req)
         {
-            Debug.Log($"Give gold request is processed, gave {req.amount}");
+            Debug.Log($"Take gold request is processed, took {req.amount}");
         }
     }
 

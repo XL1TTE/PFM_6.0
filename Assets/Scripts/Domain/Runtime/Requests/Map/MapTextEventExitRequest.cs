@@ -7,6 +7,8 @@ namespace Domain.Map.Requests
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct MapTextEventExitRequest : IRequestData {
+    public struct MapTextEventExecuteRequest : IRequestData
+    {
+        public int choice_id;
     }
 }

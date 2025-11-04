@@ -1,5 +1,5 @@
-using Domain.Extentions;
 using Domain.Map.Components;
+using Domain.Map.Mono;
 using Domain.Map.Providers;
 using Scellecs.Morpeh;
 using System.Collections.Generic;
@@ -27,6 +27,8 @@ namespace Domain
         private float choices_x_pos;
         private float choices_y_pos;
 
+        private List<GameObject> prefabed_choices;
+
         private void Start()
         {
             Camera mainCamera = Camera.main;
@@ -46,12 +48,15 @@ namespace Domain
         //    this.stash = this.World.GetStash<MapTextEvChoiceComponent>();
         //}
 
-        public void VisualiseUI(Sprite bg_sprite, string string_message, Dictionary<string, IRequestData> choices)
+        public void VisualiseUI(Sprite bg_sprite, string string_message, Dictionary<string, MapChoiceWrapper> choices)
         {
             World = World.Default;
             filter = World.Filter.With<MapTextEvChoiceComponent>().Build();
 
             this.stash = this.World.GetStash<MapTextEvChoiceComponent>();
+
+
+            prefabed_choices = new List<GameObject>(); // Initialize the list
 
 
             ptr_sprite.sprite = bg_sprite;
@@ -74,6 +79,8 @@ namespace Domain
                 var prefabedChoice = Instantiate(textEvChoicePrefab, new Vector3(choices_x_pos, tmp_curr_y, 0), Quaternion.identity);
                 prefabedChoice.GetComponentInChildren<TextMeshPro>().text = choice.Key;
 
+                this.prefabed_choices.Add(prefabedChoice);
+
                 prefabedChoice.transform.SetParent(ptr_choices, false);
 
                 if (prefabedChoice.TryGetComponent<MapTextEvChoiceProvider>(out var t_choice))
@@ -86,15 +93,14 @@ namespace Domain
 
         }
 
-        public void OnUpdate(float deltaTime)
+        public void DeVisualiseUI()
         {
-            throw new System.NotImplementedException();
+            foreach(var choice in prefabed_choices)
+            {
+                Destroy(choice);
+            }
+            Destroy(gameObject);
         }
 
-
-        public void Dispose()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
