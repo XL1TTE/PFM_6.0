@@ -3,6 +3,7 @@ using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.Events;
 using Domain.HealthBars.Components;
+using Game;
 using Scellecs.Morpeh;
 
 namespace Interactions
@@ -41,5 +42,20 @@ namespace Interactions
             GU.UpdateHealthBarValueFor(a_Target, a_world);
         }
     }
+
+    public sealed class CheckIfTargetHaveDiedInteraction : BaseInteraction, IOnDamageDealtInteraction
+    {
+        public override Priority m_Priority => Priority.VERY_LOW;
+
+        public async UniTask Execute(Entity a_Source, Entity a_Target, World a_world, int a_Damage)
+        {
+            var t_targetHealth = GU.GetHealth(a_Target, a_world);
+            if (t_targetHealth <= 0)
+            {
+                await G.DieAsync(a_Target, a_Source, a_world);
+            }
+        }
+    }
+
 }
 

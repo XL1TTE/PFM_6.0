@@ -1,14 +1,14 @@
 
 using Core.Bootstrap;
-using Persistence.DB;
+using Persistence.DS;
 
 namespace Persistence.Mono
 {
-    public class DataBaseInitInstruction : BootstrapInstruction
+    public class DataStorageInitInstruction : BootstrapInstruction
     {
         public override void Execute()
         {
-            DataBase.Initialize();
+            DataStorage.Initialize();
         }
     }
 }

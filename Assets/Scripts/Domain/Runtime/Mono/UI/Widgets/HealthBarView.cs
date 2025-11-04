@@ -7,6 +7,7 @@ namespace Domain.UI.Widgets
     public class HealthBarView : MonoBehaviour
     {
         [SerializeField] private Slider m_slider;
+        [SerializeField] private Transform m_RootObject;
 
         /// <summary>
         /// 
@@ -21,5 +22,8 @@ namespace Domain.UI.Widgets
         {
             gameObject.transform.position = position;
         }
+
+
+        public void DestorySelf() => Destroy(m_RootObject.gameObject, 0.1f);
     }
 }

@@ -65,6 +65,8 @@ GameObject:
   - component: {fileID: 6165744893290528280}
   - component: {fileID: 6108805618221536525}
   - component: {fileID: 8431249981681279226}
+  - component: {fileID: 5531036670392291474}
+  - component: {fileID: 4245643017502127602}
   m_Layer: 0
   m_Name: p_Village_RatEnemy
   m_TagString: Untagged
@@ -272,7 +274,7 @@ MonoBehaviour:
       data:
         m_Config:
           m_PointPerDistanceFromEnemy: 1
-          m_PointsPerDamage: 1
+          m_PointsPerDamage: 2
           m_PointsPerHeal: 1
           m_RotationWeight: 0
           m_DoNothingWeight: 0
@@ -293,6 +295,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     m_Value: 0
+--- !u!114 &5531036670392291474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702015493862502221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2edc621b8f02096478f09defcc585dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    m_SpriteRenderer: {fileID: 3879960733164284997}
+--- !u!114 &4245643017502127602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702015493862502221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6004cc59c2c04afb96c6b6d42dad286c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7370415000329741317
 GameObject:
   m_ObjectHideFlags: 0

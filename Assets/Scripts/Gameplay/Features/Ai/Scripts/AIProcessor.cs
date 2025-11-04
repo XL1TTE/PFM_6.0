@@ -399,7 +399,7 @@ namespace Project.AI
                 {
                     if (i + 1 < a_sequence.Count)
                     {
-                        if (!IsRotationUseful(t_action, a_sequence[i + 1]))
+                        if (IsRotationUseful(t_action, a_sequence[i + 1]) == false)
                         {
                             t_action.m_Weight -= 1000f;
                         }
@@ -417,6 +417,7 @@ namespace Project.AI
 
             return t_totalWeight;
         }
+
 
         private bool IsRotationUseful(AIAction a_rotation, AIAction t_next)
         {

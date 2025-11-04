@@ -1,7 +1,9 @@
+using System;
 using Core.ECS.Modules;
 using Domain.Extentions;
 using Domain.StateMachine.Mono;
 using Interactions;
+using Persistence.DS;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -22,6 +24,8 @@ namespace Core.ECS
         {
             Interactor.Init();
             ConfigureSystems();
+
+            TestDataStorage();
         }
 
         private void ConfigureSystems()
@@ -56,6 +60,26 @@ namespace Core.ECS
             _defaultWorld.Commit();
 
             SM.Update();
+        }
+
+
+
+        private void TestDataStorage()
+        {
+            var m_file = DataStorage.NewFile<PlayerSave>()
+                .WithRecord<MonstersStorage>(new MonstersStorage())
+                .WithRecord<VolumeSettings>(new VolumeSettings())
+                .Build();
+
+            ref var volumeSettings = ref DataStorage.GetRecordFromFile<PlayerSave, VolumeSettings>();
+
+            Debug.Log($"Player's volume settings: Music: {volumeSettings.m_Music}.");
+
+            volumeSettings.m_Music = 0.86f;
+
+            volumeSettings = ref DataStorage.GetRecordFromFile<PlayerSave, VolumeSettings>();
+
+            Debug.Log($"Player's volume settings: Music: {volumeSettings.m_Music}.");
         }
 
     }

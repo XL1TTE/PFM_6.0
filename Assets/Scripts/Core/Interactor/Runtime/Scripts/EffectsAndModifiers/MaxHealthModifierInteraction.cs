@@ -38,6 +38,11 @@ namespace Interactions
                 ref var health = ref stash_health.Get(a_target);
                 ref var maxHealth = ref stash_maxHealth.Get(a_target);
 
+                if (health.GetHealth() <= 0)
+                {
+                    return;
+                }
+
                 int maxHealthDelta = maxHealth.m_Value - oldMaxHealth;
 
                 if (maxHealthDelta != 0)

@@ -120,6 +120,12 @@ namespace Game
         {
             var t_animation = A.TurnAround(a_subject, a_world);
             t_animation.Play();
+
+            Interactor.CallAll<IOnAnimationStart>(async handler =>
+            {
+                await handler.OnAnimationStart(a_subject, a_world);
+            }).Forget();
+
             await UniTask.WaitWhile(() => t_animation.IsActive());
 
             var stash_lookDir = a_world.GetStash<LookDirection>();
@@ -134,10 +140,12 @@ namespace Game
                         stash_lookDir.Get(a_subject).m_Value = Directions.LEFT;
                         break;
                 }
-
             }
 
-
+            Interactor.CallAll<IOnAnimationEnd>(async handler =>
+            {
+                await handler.OnAnimationEnd(a_subject, a_world);
+            }).Forget();
         }
 
         /// <summary>
@@ -176,5 +184,29 @@ namespace Game
             }
         }
 
+
+        public static void Die(Entity a_subject, Entity a_cause, World a_world)
+        {
+            DieAsync(a_subject, a_cause, a_world).Forget();
+        }
+
+        public async static UniTask DieAsync(Entity a_subject, Entity a_cause, World a_world)
+        {
+            var t_dieSeq = A.Die(a_subject, 4, a_world);
+            t_dieSeq.Play();
+
+            await UniTask.WaitWhile(() => t_dieSeq.IsActive());
+            t_dieSeq?.Kill();
+
+            // 1. Call this first
+            await Interactor.CallAll<IOnEntityDiedInteraction>(async t
+                => await t.OnEntityDied(a_subject, a_cause, a_world));
+
+            // 2. Destroy entity in the very end.
+            if (GU.TryDestroyEntityTransform(a_subject, a_world))
+            {
+
+            }
+        }
     }
 }

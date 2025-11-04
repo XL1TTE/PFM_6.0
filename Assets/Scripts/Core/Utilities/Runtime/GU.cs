@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
+using Domain.Components;
 using Domain.Enemies.Tags;
 using Domain.Extentions;
 using Domain.Monster.Tags;
@@ -172,6 +173,31 @@ namespace Core.Utilities
         public static IEnumerable<Entity> GetAllEnemiesOnField(World a_world)
         {
             return a_world.Filter.With<TagEnemy>().With<PositionComponent>().Build().AsEnumerable();
+        }
+
+        public static float GetHealth(Entity a_entity, World a_world)
+        {
+            if (a_world.TryGetComponent<Health>(a_entity, out var healthComponent))
+            {
+                return healthComponent.GetHealth();
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Destroys entity gameobject by transform ref.
+        /// </summary>
+        /// <param name="a_subject"></param>
+        /// <param name="a_world"></param>
+        /// <returns></returns>
+        public static bool TryDestroyEntityTransform(Entity a_subject, World a_world)
+        {
+            var t_transformRef = a_world.GetStash<TransformRefComponent>();
+
+            if (t_transformRef.Has(a_subject) == false) { return false; }
+
+            UnityEngine.Object.Destroy(t_transformRef.Get(a_subject).Value.gameObject, 0.1f);
+            return true;
         }
     }
 

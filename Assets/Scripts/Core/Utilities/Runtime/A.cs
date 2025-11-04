@@ -149,6 +149,40 @@ namespace Core.Utilities
 
             return seq;
         }
+
+
+        public static Sequence Die(Entity a_subject, float a_duration, World a_world)
+        {
+            var stash_SpriteRenderer = a_world.GetStash<SpriteRendererComponent>();
+            if (stash_SpriteRenderer.Has(a_subject) == false)
+            {
+                return DOTween.Sequence();
+            }
+            ref var t_renderer = ref stash_SpriteRenderer.Get(a_subject).m_SpriteRenderer;
+
+            return Die(t_renderer, a_duration);
+        }
+
+        public static Sequence Die(SpriteRenderer a_renderer, float a_duration)
+        {
+            var BLINK_COUNT = 3;
+            var BLINK_DURATION = BLINK_COUNT / a_duration;
+            var INITIAL_COLOR = a_renderer.color;
+
+            var FADE_DURATION = 1;
+
+            Sequence deathSequence = DOTween.Sequence();
+
+            for (int i = 0; i < BLINK_COUNT; ++i)
+            {
+                deathSequence.Append(a_renderer.DOColor(new Color(1, 1, 1, 0.3f), BLINK_DURATION / 2));
+                deathSequence.Append(a_renderer.DOColor(INITIAL_COLOR, BLINK_DURATION / 2));
+            }
+
+            deathSequence.Append(a_renderer.DOFade(0f, FADE_DURATION));
+
+            return deathSequence;
+        }
     }
 
 

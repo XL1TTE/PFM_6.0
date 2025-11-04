@@ -1,16 +1,16 @@
-using Domain.Components;
-using Scellecs.Morpeh.Providers;
+using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
-namespace Domain.Providers
+namespace Domain.Components
 {
+    [System.Serializable]
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class SpriteProvider : MonoProvider<SpriteComponent>
+    public struct SpriteRendererComponent : IComponent
     {
-
+        public SpriteRenderer m_SpriteRenderer;
     }
+
 }
-
-
