@@ -1338,7 +1338,7 @@ namespace Domain.Map.Mono
                 // Get event id
                 if (DataBase.TryGetRecord<ID>(tmp_potential_event, out var id))
                 {
-                    result = id.Value;
+                    result = id.m_Value;
                 }
 
             }

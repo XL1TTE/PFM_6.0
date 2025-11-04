@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Scellecs.Morpeh;
+using TriInspector;
 using Unity.IL2CPP.CompilerServices;
 
 namespace Domain.Stats.Components
@@ -10,7 +11,7 @@ namespace Domain.Stats.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct Speed : IStatComponent
     {
-        public int m_Value { get; set; }
+        [ShowInInspector] public int m_Value { get; set; }
     }
 }
 

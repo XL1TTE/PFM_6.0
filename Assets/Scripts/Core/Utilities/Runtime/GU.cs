@@ -1,138 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Domain.Abilities.Components;
 using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
+using Domain.Components;
+using Domain.Enemies.Tags;
+using Domain.Extentions;
+using Domain.Monster.Tags;
+using Domain.Stats.Components;
 using Domain.TargetSelection.Events;
-using GluonGui.Dialog;
 using Scellecs.Morpeh;
 using UnityEngine;
+using UnityEngine.Localization.SmartFormat.Utilities;
 
 namespace Core.Utilities
 {
     public static class GU
     {
-        public static List<Entity> FindMoveOptionsCellsFor(Entity entity, World world)
-        {
-            var gridPos = world.GetStash<GridPosition>();
-            var cellPos = world.GetStash<CellPositionComponent>();
-            var moveAbility = world.GetStash<MovementAbility>();
-            var lookDir = world.GetStash<LookDirection>();
-
-            var f_cellsNotOccupied = world.Filter
-                .With<CellTag>()
-                .With<CellPositionComponent>()
-                .Without<TagOccupiedCell>()
-                .Build();
-
-            if (moveAbility.Has(entity) == false) { return new(); }
-            if (gridPos.Has(entity) == false) { return new(); }
-
-            List<Entity> result = new();
-            List<Vector2Int> shiftedMoves = new();
-
-
-            var entityMoves = moveAbility.Get(entity).Movements;
-            var entityGridPos = gridPos.Get(entity);
-
-            if (lookDir.Has(entity))
-            {
-                switch (lookDir.Get(entity).m_Value)
-                {
-                    case Directions.LEFT:
-                        entityMoves = entityMoves.Select((m) => m *= new Vector2Int(-1, 1)).ToList();
-                        break;
-                    case Directions.RIGHT:
-                        // Movements setuped for right direction by default;
-                        break;
-                }
-            }
-
-            foreach (var move in entityMoves)
-            {
-                shiftedMoves.Add(move + entityGridPos.Value);
-            }
-
-            foreach (var cell in f_cellsNotOccupied)
-            {
-                var c_cellPos = cellPos.Get(cell);
-                if (shiftedMoves.Contains(new Vector2Int(c_cellPos.grid_x, c_cellPos.grid_y)))
-                {
-                    result.Add(cell);
-                }
-            }
-
-            return result;
-        }
-
-        public static List<Entity> FindAttackOptionsCellsFor(Entity attacker, World world)
-        {
-            var gridPos = world.GetStash<GridPosition>();
-            var cellPos = world.GetStash<CellPositionComponent>();
-            var attackAbility = world.GetStash<AttackAbility>();
-            var lookDir = world.GetStash<LookDirection>();
-
-            var f_cells = world.Filter
-                .With<CellTag>()
-                .With<CellPositionComponent>()
-                .Build();
-
-            if (gridPos.Has(attacker) == false) { return new(); }
-            if (attackAbility.Has(attacker) == false) { return new(); }
-
-            List<Entity> result = new();
-            List<Vector2Int> shiftedAttacks = new();
-
-            var attackerPos = gridPos.Get(attacker);
-            var entityAttacks = attackAbility.Get(attacker).Attacks;
-
-            if (lookDir.Has(attacker))
-            {
-                switch (lookDir.Get(attacker).m_Value)
-                {
-                    case Directions.LEFT:
-                        entityAttacks = entityAttacks.Select((m) => m *= new Vector2Int(-1, 1)).ToList();
-                        break;
-                    case Directions.RIGHT:
-                        // Movements setuped for right direction by default;
-                        break;
-                }
-            }
-
-
-            foreach (var attack in entityAttacks)
-            {
-                shiftedAttacks.Add(attack + attackerPos.Value);
-            }
-
-            foreach (var cell in f_cells)
-            {
-                var c_cellPos = cellPos.Get(cell);
-                var cellPosGrid = new Vector2Int(c_cellPos.grid_x, c_cellPos.grid_y);
-
-                if (shiftedAttacks.Contains(cellPosGrid))
-                {
-                    result.Add(cell);
-                }
-            }
-            return result;
-        }
-
         public static Vector2Int GetEntityPositionOnCell(Entity entity, World world)
         {
-            var stash_gridPos = world.GetStash<GridPosition>();
-            if (stash_gridPos.Has(entity) == false) { return Vector2Int.zero; }
+            var stash_Pos = world.GetStash<PositionComponent>();
+            if (stash_Pos.Has(entity) == false) { return Vector2Int.zero; }
 
-            return stash_gridPos.Get(entity).Value;
+            return stash_Pos.Get(entity).m_GridPosition;
         }
         public static IEnumerable<Entity> GetCellsFromShifts(Vector2Int a_basis, IEnumerable<Vector2Int> a_shifts, World a_world)
         {
+            if (a_shifts == null) { return default; }
+
             var f_cells = a_world.Filter
                 .With<CellTag>()
-                .With<CellPositionComponent>()
+                .With<PositionComponent>()
                 .Build();
-            var stash_pos = a_world.GetStash<CellPositionComponent>();
+            var stash_pos = a_world.GetStash<PositionComponent>();
 
             IEnumerable<Vector2Int> t_calcPos = a_shifts.Select(x => x + a_basis);
 
@@ -140,13 +40,28 @@ namespace Core.Utilities
             foreach (var cell in f_cells)
             {
                 var cellPos = stash_pos.Get(cell);
-                var cellPosVector = new Vector2Int(cellPos.grid_x, cellPos.grid_y);
-                if (t_calcPos.Contains(cellPosVector))
+                if (t_calcPos.Contains(cellPos.m_GridPosition))
                 {
                     t_result.Add(cell);
                 }
             }
             return t_result;
+        }
+
+        public static IEnumerable<Vector2Int> TransformShiftsFromSubjectLook(Entity a_subject, IEnumerable<Vector2Int> a_shifts, World a_world)
+        {
+            var stash_LookDir = a_world.GetStash<LookDirection>();
+            if (stash_LookDir.Has(a_subject) == false) { return a_shifts; }
+
+            IEnumerable<Vector2Int> result = a_shifts;
+
+            switch (stash_LookDir.Get(a_subject).m_Value)
+            {
+                case Directions.LEFT:
+                    result = a_shifts.Select(shift => shift * new Vector2Int(-1, 1));
+                    break;
+            }
+            return result;
         }
 
         public static ref TargetSelectionResult GetTargetSelectionResult(Entity owner, World world)
@@ -164,12 +79,18 @@ namespace Core.Utilities
             var occupiedCell = world.GetStash<TagOccupiedCell>();
             if (occupiedCell.Has(cell))
             {
-                return occupiedCell.Get(cell).Occupier;
+                return occupiedCell.Get(cell).m_Occupier;
             }
             else
             {
                 throw new System.Exception("You trying to get cell occupier from not occupied cell.");
             }
+        }
+
+        public static Vector2Int GetCellGridPosition(Entity a_cell, World a_world)
+        {
+            var stash_Position = a_world.GetStash<PositionComponent>();
+            return stash_Position.Get(a_cell).m_GridPosition;
         }
 
         public static IEnumerable<Entity> GetCellOccupiers(IEnumerable<Entity> cells, World world)
@@ -181,7 +102,7 @@ namespace Core.Utilities
             {
                 if (occupiedCell.Has(cell))
                 {
-                    result.Add(occupiedCell.Get(cell).Occupier);
+                    result.Add(occupiedCell.Get(cell).m_Occupier);
                 }
                 else
                 {
@@ -191,6 +112,93 @@ namespace Core.Utilities
             return result;
         }
 
+        public static float GetHealthPercentFor(Entity a_subject, World a_world)
+        {
+            try
+            {
+                var stash_health = a_world.GetStash<Health>();
+                var stash_maxHealth = a_world.GetStash<MaxHealth>();
+
+                return (float)stash_health.Get(a_subject).GetHealth() / stash_maxHealth.Get(a_subject).m_Value;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+
+        /// <summary>
+        /// Automaticly updates health bar value for entity, if it has one.
+        /// </summary>
+        /// <param name="a_owner">Entity with active health bar.</param>
+        /// <param name="a_world">ECS world in which entities leaves.</param>
+        public static void UpdateHealthBarValueFor(Entity a_owner, World a_world)
+        {
+            var healthBar = F.GetActiveHealthBarFor(a_owner, a_world);
+            var t_value = GetHealthPercentFor(a_owner, a_world);
+            healthBar?.SetValue(t_value);
+        }
+
+
+        /// <summary>
+        /// Find cell entity, which is occupied by other entity.
+        /// </summary>
+        /// <param name="a_occupier"></param>
+        /// <param name="a_world"></param>
+        /// <returns></returns>
+        public static Entity GetOccupiedCell(Entity a_occupier, World a_world)
+        {
+            var t_filter = a_world.Filter
+                .With<CellTag>()
+                .With<TagOccupiedCell>()
+                .Build();
+
+            var stash_occupiedCells = a_world.GetStash<TagOccupiedCell>();
+            foreach (var cell in t_filter)
+            {
+                if (stash_occupiedCells.Get(cell).m_Occupier.Id == a_occupier.Id)
+                {
+                    return cell;
+                }
+            }
+            return default;
+        }
+
+
+        public static IEnumerable<Entity> GetAllMonstersOnField(World a_world)
+        {
+            return a_world.Filter.With<TagMonster>().With<PositionComponent>().Build().AsEnumerable();
+        }
+        public static IEnumerable<Entity> GetAllEnemiesOnField(World a_world)
+        {
+            return a_world.Filter.With<TagEnemy>().With<PositionComponent>().Build().AsEnumerable();
+        }
+
+        public static float GetHealth(Entity a_entity, World a_world)
+        {
+            if (a_world.TryGetComponent<Health>(a_entity, out var healthComponent))
+            {
+                return healthComponent.GetHealth();
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Destroys entity gameobject by transform ref.
+        /// </summary>
+        /// <param name="a_subject"></param>
+        /// <param name="a_world"></param>
+        /// <returns></returns>
+        public static bool TryDestroyEntityTransform(Entity a_subject, World a_world)
+        {
+            var t_transformRef = a_world.GetStash<TransformRefComponent>();
+
+            if (t_transformRef.Has(a_subject) == false) { return false; }
+
+            UnityEngine.Object.Destroy(t_transformRef.Get(a_subject).Value.gameObject, 0.1f);
+            return true;
+        }
     }
 
 }

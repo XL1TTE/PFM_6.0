@@ -7,7 +7,7 @@ namespace Domain.BattleField.Providers
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class GridPositionProvider : MonoProvider<GridPosition>
+    public sealed class GridPositionProvider : MonoProvider<PositionComponent>
     {
 
     }

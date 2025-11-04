@@ -10,7 +10,16 @@ namespace Domain.GameEffects
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct EffectsPoolComponent : IComponent
     {
-        public List<StatusEffect> StatusEffects; 
-        public List<PermanentEffect> PermanentEffects; 
+        public List<StatusEffect> m_StatusEffects;
+        public List<PermanentEffect> m_PermanentEffects;
+    }
+    [System.Serializable]
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct InitialEffectsPoolComponent : IComponent
+    {
+        public List<StatusEffect> m_StatusEffects;
+        public List<PermanentEffect> m_PermanentEffects;
     }
 }

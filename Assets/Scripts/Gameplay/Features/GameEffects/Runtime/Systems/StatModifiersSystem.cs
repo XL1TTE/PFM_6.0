@@ -20,15 +20,13 @@ public class StatModifiersSystem<Modifier, AffectedStat> : ISystem
     private Stash<Modifier> stash_Modifier;
     private Stash<AffectedStat> stash_AffectedStat;
     private Filter f_toProcess;
-    private Stash<EffectsPoolComponent> stash_Effects;
 
     public void OnAwake()
     {
         f_toProcess = World.Filter
-            .With<EffectsPoolComponent>()
+            .With<Modifier>()
             .Build();
 
-        stash_Effects = World.GetStash<EffectsPoolComponent>();
         stash_Modifier = World.GetStash<Modifier>();
         stash_AffectedStat = World.GetStash<AffectedStat>();
     }
@@ -45,7 +43,6 @@ public class StatModifiersSystem<Modifier, AffectedStat> : ISystem
         for (int i = 0; i < nativeFilter.length; i++)
         {
             var entity = nativeFilter[i];
-            if (!stash_Effects.Has(entity)) continue;
 
             ProcessSingleEntity(entity);
         }
@@ -54,35 +51,9 @@ public class StatModifiersSystem<Modifier, AffectedStat> : ISystem
     [BurstCompile]
     private void ProcessSingleEntity(Entity entity)
     {
-        ResetModifiers(entity);
         ResetAffectedStats(entity);
 
-        ref var effects_pool = ref stash_Effects.Get(entity);
-
-        ProcessPermanentEffectsList(entity, effects_pool.PermanentEffects);
-        ProcessStatusEffectsList(entity, effects_pool.StatusEffects);
-
         ApplyModifierToStat(entity);
-    }
-
-    [BurstCompile]
-    private void ProcessStatusEffectsList(Entity entity, List<StatusEffect> effects)
-    {
-        int count = effects.Count;
-        for (int i = 0; i < count; i++)
-        {
-            CalculateEffectContribution(entity, effects[i].EffectId);
-        }
-    }
-
-    [BurstCompile]
-    private void ProcessPermanentEffectsList(Entity entity, List<PermanentEffect> effects)
-    {
-        int count = effects.Count;
-        for (int i = 0; i < count; i++)
-        {
-            CalculateEffectContribution(entity, effects[i].EffectId);
-        }
     }
 
     [BurstCompile]
@@ -95,12 +66,6 @@ public class StatModifiersSystem<Modifier, AffectedStat> : ISystem
 
         ref var stats = ref stash_AffectedStat.Get(entity);
         stats.m_Value = 0;
-    }
-
-    [BurstCompile]
-    private void ResetModifiers(Entity entity)
-    {
-        stash_Modifier.Set(entity);
     }
 
     [BurstCompile]
@@ -119,19 +84,6 @@ public class StatModifiersSystem<Modifier, AffectedStat> : ISystem
         return (int)Math.Round(result);
     }
 
-    [BurstCompile]
-    private void CalculateEffectContribution(Entity entity, string effectId)
-    {
-        if (DataBase.TryFindRecordByID(effectId, out var effect_record))
-        {
-            if (DataBase.TryGetRecord<Modifier>(effect_record, out var modifier))
-            {
-                ref var modifier_value = ref stash_Modifier.Get(entity);
-                modifier_value.m_Flat += modifier.m_Flat;
-                modifier_value.m_Multiplier += modifier.m_Multiplier;
-            }
-        }
-    }
 
     public void Dispose() { }
 }

@@ -13,7 +13,7 @@ namespace Persistence.DB
             ID("ev_FAILSAFE");
 
             // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { Value = "ev_FAILSAFE" });
+            With<ID>(new ID { m_Value = "ev_FAILSAFE" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
             // -------------------------------------------------- Required components
@@ -51,7 +51,7 @@ namespace Persistence.DB
             ID("ev_TextDefault");
 
             // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { Value = "ev_TextDefault" });
+            With<ID>(new ID { m_Value = "ev_TextDefault" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
             // -------------------------------------------------- Required components
@@ -89,7 +89,7 @@ namespace Persistence.DB
             ID("ev_TextTest1");
 
             // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { Value = "ev_TextTest1" });
+            With<ID>(new ID { m_Value = "ev_TextTest1" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
 
@@ -168,7 +168,7 @@ namespace Persistence.DB
             ID("ev_TextTest2");
 
             // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { Value = "ev_TextTest2" });
+            With<ID>(new ID { m_Value = "ev_TextTest2" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
             // -------------------------------------------------- Required components

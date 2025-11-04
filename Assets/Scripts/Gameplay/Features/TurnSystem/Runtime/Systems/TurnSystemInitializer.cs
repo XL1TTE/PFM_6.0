@@ -25,7 +25,7 @@ namespace Gameplay.TurnSystem.Systems
 
         private Request<InitializeTurnSystemRequest> req_initSystem;
 
-        private Request<ProcessTurnRequest> req_processTurn;
+        private Request<EndTurnRequest> req_processTurn;
         private Event<TurnSystemInitializedEvent> evt_turnSystemInitialized;
 
         private Stash<TurnQueueComponent> stash_turnQueue;
@@ -42,7 +42,7 @@ namespace Gameplay.TurnSystem.Systems
                 .Build();
 
             req_initSystem = World.GetRequest<InitializeTurnSystemRequest>();
-            req_processTurn = World.GetRequest<ProcessTurnRequest>();
+            req_processTurn = World.GetRequest<EndTurnRequest>();
             evt_turnSystemInitialized = World.GetEvent<TurnSystemInitializedEvent>();
 
             stash_turnQueue = World.GetStash<TurnQueueComponent>();

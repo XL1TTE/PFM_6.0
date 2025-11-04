@@ -5,6 +5,6 @@ namespace Domain.Services
         NONE,
         IN_PROCESS,
         FAILED,
-        SUCCSESSED
+        COMPLETED
     }
 }

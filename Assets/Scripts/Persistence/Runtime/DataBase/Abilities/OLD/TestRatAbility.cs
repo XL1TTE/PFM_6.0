@@ -12,7 +12,7 @@ namespace Persistence.DB.Abilities
         {
             ID("abt_TestRat");
 
-            With<ID>(new ID { Value = "abt_TestRat" });
+            With<ID>(new ID { m_Value = "abt_TestRat" });
             With<AbilityComponent>();
             With<AbilityTargetsComponent>(new AbilityTargetsComponent
             {

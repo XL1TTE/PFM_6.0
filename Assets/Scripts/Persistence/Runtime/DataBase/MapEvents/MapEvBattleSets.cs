@@ -12,7 +12,7 @@ namespace Persistence.DB
         {
             ID("ev_BattleDefault");
 
-            With<ID>(new ID { Value = "ev_BattleDefault" });
+            With<ID>(new ID { m_Value = "ev_BattleDefault" });
             With<MapEvBattleTag>(new MapEvBattleTag { });
 
             With<PrefabComponent>(new PrefabComponent
@@ -38,7 +38,7 @@ namespace Persistence.DB
         {
             ID("ev_BattleTest1");
 
-            With<ID>(new ID { Value = "ev_BattleTest1" });
+            With<ID>(new ID { m_Value = "ev_BattleTest1" });
             With<MapEvBattleTag>(new MapEvBattleTag { });
 
             With<MapEvStageRequirComponent>(new MapEvStageRequirComponent
@@ -77,7 +77,7 @@ namespace Persistence.DB
         {
             ID("ev_BattleTest2");
 
-            With<ID>(new ID { Value = "ev_BattleTest2" });
+            With<ID>(new ID { m_Value = "ev_BattleTest2" });
 
             With<MapEvBattleTag>(new MapEvBattleTag { });
 

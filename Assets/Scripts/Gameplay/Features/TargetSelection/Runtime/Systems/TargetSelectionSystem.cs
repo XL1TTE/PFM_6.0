@@ -218,7 +218,7 @@ namespace Gameplay.TargetSelection.Systems
             }
 
             // if target selection state was force removed, we shoud exit target selection.
-            if (StateMachineWorld.IsStateActive<TargetSelectionState>(out var state) == false)
+            if (SM.IsStateActive<TargetSelectionState>(out var state) == false)
             {
                 CompleteSelection(sessionOwner, TargetSelectionStatus.Failed);
                 return;
@@ -263,14 +263,14 @@ namespace Gameplay.TargetSelection.Systems
         /// </summary>
         private void EnterTargetSelectionState()
         {
-            StateMachineWorld.EnterState<TargetSelectionState>();
+            SM.EnterState<TargetSelectionState>();
         }
         /// <summary>
         /// Removes target selection state from game state machine.
         /// </summary>
         private void ExitTargetSelectionState()
         {
-            StateMachineWorld.ExitState<TargetSelectionState>();
+            SM.ExitState<TargetSelectionState>();
         }
         /// <summary>
         /// Request unawaible target highlight. 

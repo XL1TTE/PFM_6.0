@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using Core.Utilities;
 using Domain.AbilityGraph;
 using Domain.Components;
-using Domain.Extentions;
 using Domain.Services;
 
 namespace Persistence.DB.Abilities
@@ -13,7 +11,7 @@ namespace Persistence.DB.Abilities
         {
             ID("abt_PhysicalAttack");
 
-            With<ID>(new ID { Value = "abt_PhysicalAttack" });
+            With<ID>(new ID { m_Value = "abt_PhysicalAttack" });
             With<AbilityComponent>();
             With<AbilityTargetsComponent>(new AbilityTargetsComponent
             {

@@ -1,15 +1,13 @@
 using System;
 using Scellecs.Morpeh;
+using UnityEngine;
 
 namespace Domain.BattleField.Components
 {
     [Serializable]
-    public struct CellPositionComponent : IComponent
+    public struct PositionComponent : IComponent
     {
-        public int grid_x;
-        public int grid_y;
-
-        public float global_x;
-        public float global_y;
+        public Vector2Int m_GridPosition;
+        public Vector2 m_GlobalPosition;
     }
 }

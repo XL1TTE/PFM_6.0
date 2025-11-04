@@ -15,7 +15,7 @@ namespace Persistence.DB
 
             ID("lvl_Village");
 
-            With<ID>(new ID { Value = "lvl_Village" });
+            With<ID>(new ID { m_Value = "lvl_Village" });
             With<PrefabComponent>(new PrefabComponent
             {
                 Value = "Levels/lvl_Village".LoadResource<GameObject>()

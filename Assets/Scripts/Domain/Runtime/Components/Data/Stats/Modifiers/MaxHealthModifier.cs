@@ -1,5 +1,7 @@
 using Scellecs.Morpeh;
+using TriInspector;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
 namespace Domain.Stats.Components
 {
@@ -9,8 +11,9 @@ namespace Domain.Stats.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct MaxHealthModifier : IStatModifierComponent
     {
-        public int m_Flat { get; set; }
-        public float m_Multiplier { get; set; }
+        [ShowInInspector] public int m_Flat { get; set; }
+
+        [ShowInInspector] public float m_Multiplier { get; set; }
     }
 }
 

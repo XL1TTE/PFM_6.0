@@ -8,8 +8,9 @@ namespace Gameplay.TargetSelection
 
     public enum TargetSelectionTypes : byte
     {
+        NONE,
         CELL_WITH_ENEMY,
-        CELL_WITH_MONSTER,
+        CELL_WITH_ALLY,
         CELL_EMPTY,
     }
 
@@ -27,7 +28,6 @@ namespace Gameplay.TargetSelection
             World a_world,
             Result a_result);
     }
-
 }
 
 

@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace Domain.Abilities.Mono
 {
-    
-    public class MoveAbilityButtonView : AbiltiyButtonView
+
+    public class MoveAbilityButtonView : AbilityButtonView
     {
 
     }

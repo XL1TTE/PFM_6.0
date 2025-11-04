@@ -1,4 +1,5 @@
 using System.Net.NetworkInformation;
+using Domain.Components;
 using Scellecs.Morpeh;
 
 namespace Persistence.DB
@@ -14,6 +15,7 @@ namespace Persistence.DB
 
         protected void ID(string id)
         {
+            With<ID>(new ID { m_Value = id });
             DataBase.RegisterRecordWithId(id, _record);
         }
 

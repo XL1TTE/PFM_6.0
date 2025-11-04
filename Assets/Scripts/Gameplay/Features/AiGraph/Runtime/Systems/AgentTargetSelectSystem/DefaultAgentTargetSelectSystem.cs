@@ -46,17 +46,17 @@ namespace Gameplay.AIGraph
                 {
                     ref var aiState = ref stash_aiState.Get(req.AgentEntity);
 
-                    var targets = PickTargets(req.AgentEntity, req.MaxTargets);
+                    // var targets = PickTargets(req.AgentEntity, req.MaxTargets);
 
-                    if (targets.Count < 1)
-                    {
-                        aiState.TargetSelectionStatus = AIExecutionState.TargetSelectStatus.NoTargets;
-                        aiState.SelectedTargets = default;
-                        return;
-                    }
+                    // if (targets.Count < 1)
+                    // {
+                    //     aiState.TargetSelectionStatus = AIExecutionState.TargetSelectStatus.NoTargets;
+                    //     aiState.SelectedTargets = default;
+                    //     return;
+                    // }
 
-                    aiState.TargetSelectionStatus = AIExecutionState.TargetSelectStatus.Successful;
-                    aiState.SelectedTargets = targets;
+                    // aiState.TargetSelectionStatus = AIExecutionState.TargetSelectStatus.Successful;
+                    // aiState.SelectedTargets = targets;
                 }
             }
         }
@@ -65,21 +65,12 @@ namespace Gameplay.AIGraph
 
         }
 
-        private List<Entity> PickTargets(Entity agentEntity, int MaxTargets)
-        {
-            var options = GU.FindAttackOptionsCellsFor(agentEntity, World);
-
-            return options.GetRange(0, Math.Min(MaxTargets, options.Count))
-                .Where(cell => isCellValidByOccupier(cell)).Select(
-                    cell => stash_occupiedCell.Get(cell).Occupier
-                ).ToList();
-        }
 
 
         private bool isCellValidByOccupier(Entity cell)
         {
             if (stash_occupiedCell.Has(cell) == false) { return false; }
-            var occupier = stash_occupiedCell.Get(cell).Occupier;
+            var occupier = stash_occupiedCell.Get(cell).m_Occupier;
 
             if (stash_monster.Has(occupier) == false) { return false; }
 

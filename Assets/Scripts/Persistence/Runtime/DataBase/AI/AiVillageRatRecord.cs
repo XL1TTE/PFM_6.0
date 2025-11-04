@@ -11,7 +11,7 @@ namespace Persistence.DB
         {
             ID("ai_RatEnemy");
 
-            With<ID>(new ID { Value = "ai_RatEnemy" });
+            With<ID>(new ID { m_Value = "ai_RatEnemy" });
             With<AIExecutionGraph>(new AIExecutionGraph
             {
                 Nodes = new List<AINode>

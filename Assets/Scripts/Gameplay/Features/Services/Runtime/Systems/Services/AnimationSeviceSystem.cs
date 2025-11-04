@@ -1,13 +1,13 @@
 using System;
+using System.Diagnostics;
 using Core.Utilities;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Domain.AbilityGraph;
 using Domain.Components;
 using Domain.Services;
-using Domain.Stats.Components;
 using Scellecs.Morpeh;
+using Scellecs.Morpeh.Collections;
 using Unity.IL2CPP.CompilerServices;
-using UnityEngine;
 
 namespace Gameplay.Commands
 {
@@ -21,11 +21,12 @@ namespace Gameplay.Commands
         private Request<AnimateWithTweenRequest> req_AnimateWithTween;
         private Event<AnimatingStarted> evt_AnimatingStarted;
         private Event<AnimatingEnded> evt_AnimatingEnded;
-        private Event<TweenInteractionFrameRiched> evt_TweenInteractionFrameRiched;
+        private Stash<AnimatingState> stash_AnimatingState;
         private Stash<TransformRefComponent> stash_TransformRef;
 
         public World World { get; set; }
 
+        private IntHashMap<Sequence> m_ActiveTweensMap = new();
 
         public void OnAwake()
         {
@@ -34,8 +35,8 @@ namespace Gameplay.Commands
 
             evt_AnimatingStarted = World.GetEvent<AnimatingStarted>();
             evt_AnimatingEnded = World.GetEvent<AnimatingEnded>();
-            evt_TweenInteractionFrameRiched = World.GetEvent<TweenInteractionFrameRiched>();
 
+            stash_AnimatingState = World.GetStash<AnimatingState>();
             stash_TransformRef = World.GetStash<TransformRefComponent>();
         }
 
@@ -47,62 +48,83 @@ namespace Gameplay.Commands
             }
             foreach (var req in req_AnimateWithTween.Consume())
             {
-                if (stash_TransformRef.Has(req.m_Subject) == false) { OnAnimationFailed(req.m_Subject); }
-                if (stash_TransformRef.Has(req.m_Target) == false) { OnAnimationFailed(req.m_Subject); }
+                stash_AnimatingState.Set(req.m_Subject);
+                ref var state = ref stash_AnimatingState.Get(req.m_Subject);
 
+                if (stash_TransformRef.Has(req.m_Subject) == false) { OnAnimationFailed(ref state, req.m_Subject); }
+                if (stash_TransformRef.Has(req.m_Target) == false) { OnAnimationFailed(ref state, req.m_Subject); }
+
+                KillAllActiveAnimationsFor(req.m_Subject);
+
+                Sequence animation;
                 switch (req.m_TweenAnimationCode)
                 {
                     case TweenAnimations.ATTACK:
-                        PlayAttackAnimation(req);
+                        animation = PlayAttackAnimation(ref state, req);
+                        m_ActiveTweensMap.Add(req.m_Subject.Id, animation, out var _);
                         break;
                     case TweenAnimations.TURN_AROUND:
-                        PlayTurnAroundAnimation(req);
+                        animation = PlayTurnAroundAnimation(ref state, req);
+                        m_ActiveTweensMap.Add(req.m_Subject.Id, animation, out var _);
+
                         break;
                 }
             }
         }
 
-        private void PlayTurnAroundAnimation(AnimateWithTweenRequest req)
+        private void KillAllActiveAnimationsFor(Entity a_subject)
+        {
+            if (m_ActiveTweensMap.Has(a_subject.Id))
+            {
+                m_ActiveTweensMap.Remove(a_subject.Id, out var anim);
+                anim?.Kill(true);
+            }
+        }
+
+        private Sequence PlayTurnAroundAnimation(ref AnimatingState state, AnimateWithTweenRequest req)
         {
             var subjectTransform = stash_TransformRef.Get(req.m_Subject).Value;
 
-            var animation = AbilityAnimations.GetTurnAround(subjectTransform);
+            var animation = A.TurnAround(subjectTransform);
 
-            animation.AppendCallback(() => OnAnimationSuccses(req.m_Subject));
+            animation.AppendCallback(() => OnAnimationCompleted(req.m_Subject));
 
+            state.m_Status = AnimatingStatus.IN_PROCESS;
             evt_AnimatingStarted.NextFrame(new AnimatingStarted
             {
                 m_Subject = req.m_Subject
             });
             animation.Play();
+            return animation;
         }
 
-        private void PlayAttackAnimation(AnimateWithTweenRequest req)
+        private Sequence PlayAttackAnimation(ref AnimatingState state, AnimateWithTweenRequest req)
         {
             var subjectTransform = stash_TransformRef.Get(req.m_Subject).Value;
             var targetTransform = stash_TransformRef.Get(req.m_Target).Value;
 
-            var animation = AbilityAnimations.GetStandartAttack(subjectTransform, targetTransform,
+            var animation = A.StandartAttack(subjectTransform, targetTransform,
                  () => OnTweenInteractionFrame(req.m_Subject));
 
-            animation.AppendCallback(() => OnAnimationSuccses(req.m_Subject));
+            animation.OnComplete(() => OnAnimationCompleted(req.m_Subject));
 
+            state.m_Status = AnimatingStatus.IN_PROCESS;
             evt_AnimatingStarted.NextFrame(new AnimatingStarted
             {
                 m_Subject = req.m_Subject
             });
             animation.Play();
+
+            return animation;
         }
 
         private void OnTweenInteractionFrame(Entity subject)
         {
-            evt_TweenInteractionFrameRiched.NextFrame(new TweenInteractionFrameRiched
-            {
-                m_Subject = subject
-            });
+            ref var state = ref stash_AnimatingState.Get(subject);
+            state.m_IsTweenInteractionFrame = true;
         }
 
-        private void OnAnimationFailed(Entity subject)
+        private void OnAnimationFailed(ref AnimatingState state, Entity subject)
         {
             evt_AnimatingEnded.NextFrame(new AnimatingEnded
             {
@@ -111,13 +133,24 @@ namespace Gameplay.Commands
             });
         }
 
-        private void OnAnimationSuccses(Entity subject)
+        private void OnAnimationCompleted(Entity subject)
         {
+            ref var state = ref stash_AnimatingState.Get(subject);
+            state.m_Status = AnimatingStatus.COMPLETED;
+
+            RemoveAnimatingStateAsync(subject).Forget();
+
             evt_AnimatingEnded.NextFrame(new AnimatingEnded
             {
                 m_Subject = subject,
-                m_AnimatingStatus = AnimatingStatus.SUCCSESSED
+                m_AnimatingStatus = AnimatingStatus.COMPLETED
             });
+        }
+
+        private async UniTask RemoveAnimatingStateAsync(Entity subject)
+        {
+            await UniTask.Yield();
+            stash_AnimatingState.Remove(subject);
         }
 
         public void Dispose()

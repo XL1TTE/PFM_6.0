@@ -1,3 +1,4 @@
+using Domain.Abilities.Components;
 using Domain.Abilities.Mono;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -10,13 +11,13 @@ namespace Domain.Abilities.Tags
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct AbiltiyButtonTag : IComponent
     {
-        public AbiltiyButtonView m_View;
+        public AbilityButtonView m_View;
 
         /// <summary>
-        /// Id of related ability in data base.
+        /// Related ability.
         /// Will be executed on button trigger.
         /// </summary>
-        public string m_AbilityID;
+        public AbilityData m_Ability;
 
         /// <summary>
         /// Ability owner entity.

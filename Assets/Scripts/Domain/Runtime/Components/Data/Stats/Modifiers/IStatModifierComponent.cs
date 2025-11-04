@@ -1,4 +1,5 @@
 using Scellecs.Morpeh;
+using TriInspector;
 
 namespace Domain.Stats.Components
 {

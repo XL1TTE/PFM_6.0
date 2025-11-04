@@ -41,13 +41,13 @@ namespace Gameplay.GameEffects
                 ResetToBaseStats(entity);
 
                 ref var effects_pool = ref stash_EffectsPool.Get(entity);
-                foreach (var permanent_effect in effects_pool.PermanentEffects)
+                foreach (var permanent_effect in effects_pool.m_PermanentEffects)
                 {
-                    CalculateEffectContribution(entity, permanent_effect.EffectId);
+                    CalculateEffectContribution(entity, permanent_effect.m_EffectId);
                 }
-                foreach (var status_effect in effects_pool.StatusEffects)
+                foreach (var status_effect in effects_pool.m_StatusEffects)
                 {
-                    CalculateEffectContribution(entity, status_effect.EffectId);
+                    CalculateEffectContribution(entity, status_effect.m_EffectId);
                 }
             }
         }

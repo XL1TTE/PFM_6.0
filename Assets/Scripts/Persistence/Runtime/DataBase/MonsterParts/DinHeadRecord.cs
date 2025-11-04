@@ -11,16 +11,20 @@ namespace Persistence.DB
         {
             ID("mp_DinHead");
 
-            With<ID>(new ID { Value = "mp_DinHead" });
+            With<ID>(new ID { m_Value = "mp_DinHead" });
             With<HeadSpritePath>(new HeadSpritePath
             {
                 path = "Monsters/Sprites/test/Spr_Bodypart_Head_Test_1"
             });
             With<TagMonsterPart>();
             With<TagMonsterHead>();
-            With<Effects>(new Effects
+            With<EffectsProvider>(new EffectsProvider
             {
-                m_Effects = Enumerable.Repeat("effect_DinHead", 500).ToArray()
+                m_Effects = Enumerable.Repeat("effect_DinHead", 1).ToArray()
+            });
+            With<AbilityProvider>(new AbilityProvider
+            {
+                m_AbilityTemplateID = "abt_din_head"
             });
         }
     }

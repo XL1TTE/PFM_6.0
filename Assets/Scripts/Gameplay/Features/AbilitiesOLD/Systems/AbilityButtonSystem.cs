@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
+using Domain.Abilities;
 using Domain.Abilities.Tags;
 using Domain.AbilityGraph;
 using Domain.CursorDetection.Components;
@@ -16,6 +17,7 @@ using Interactions;
 using Persistence.DB;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Gameplay.Abilities.Systems
@@ -76,38 +78,19 @@ namespace Gameplay.Abilities.Systems
             // check if actor is busy. Busy -> Disable button. Otherwise -> Enable button. 
             foreach (var evt in evt_ActorStatesChanged.publishedChanges)
             {
-                var abilityButton = F.FindAbilityButtonByOwner(evt.m_Actor, World);
-                if (abilityButton.isNullOrDisposed(World)) { return; }
+                var abilityButtons = F.FindAbilityButtonsByOwner(evt.m_Actor, World);
 
-                if (V.IsActorBusy(evt.m_Actor, World))
+                foreach (var btn in abilityButtons)
                 {
-                    DisableButton(abilityButton);
-                }
-                else
-                {
-                    EnableButton(abilityButton);
-                }
-            }
-        }
+                    if (V.IsActorBusy(evt.m_Actor, World))
+                    {
+                        DisableButton(btn);
+                    }
+                    else
+                    {
+                        EnableButton(btn);
+                    }
 
-        private void ProcessTargetSelection()
-        {
-            foreach (var button in f_targetSelectionResults)
-            {
-                var abiltiyOwner = stash_AbilityButtonTag.Get(button).m_ButtonOwner;
-
-                ref var result = ref GU.GetTargetSelectionResult(button, World);
-
-                if (result.m_Status == TargetSelectionStatus.Success)
-                {
-                    SetSelectedEffect(button, false);
-                    UseAbility(abiltiyOwner, result);
-                    result.m_IsProcessed = true;
-                }
-                else if (result.m_Status == TargetSelectionStatus.Failed)
-                {
-                    SetSelectedEffect(button, false);
-                    result.m_IsProcessed = true;
                 }
             }
         }
@@ -145,6 +128,8 @@ namespace Gameplay.Abilities.Systems
 
         private void SetSelectedEffect(Entity abilityButton, bool isActive)
         {
+            if (abilityButton.isNullOrDisposed(World)) { return; }
+
             ref var view = ref stash_AbilityButtonTag.Get(abilityButton).m_View;
             if (isActive)
             {
@@ -156,17 +141,6 @@ namespace Gameplay.Abilities.Systems
             }
         }
 
-        private void UseAbility(Entity abiltiyOwner, TargetSelectionResult result)
-        {
-            var targets = GU.GetCellOccupiers(result.m_SelectedCells, World);
-
-            if (DataBase.TryFindRecordByID("AttackAbility", out var abt_record))
-            {
-                if (DataBase.TryGetRecord<AbilityData>(abt_record, out var abilityData))
-                {
-                }
-            }
-        }
 
         private void EnableButton(Entity abilityButton)
         {
@@ -193,31 +167,21 @@ namespace Gameplay.Abilities.Systems
 
                 var owner = stash_AbilityButtonTag.Get(evt.ClickedButton).m_ButtonOwner;
 
-                // var allOptions = GU.FindAttackOptionsCellsFor(owner, World);
-                // var avaibleOptions = F.FilterCellsWithEnemies(allOptions, World);
-
-                // req_TargetSelection.Publish(new TargetSelectionRequest
-                // {
-                //     m_Sender = evt.ClickedButton,
-                //     m_TargetsAmount = 1,
-                //     m_AwaibleOptions = avaibleOptions.ToList(),
-                //     m_UnavaibleOptions = allOptions.Except(avaibleOptions).ToList()
-
-                // });
-
                 var ownerPos = GU.GetEntityPositionOnCell(owner, World);
 
-                DataBase.TryFindRecordByID("AttackAbility", out var abilityRecord);
-                DataBase.TryGetRecord<AbilityData>(abilityRecord, out var abilityData);
+                var abilityData = stash_AbilityButtonTag.Get(evt.ClickedButton).m_Ability;
 
-                var t_options = GU.GetCellsFromShifts(ownerPos, abilityData.m_Shifts, World);
+                var t_shifts = GU.TransformShiftsFromSubjectLook(owner, abilityData.m_Shifts, World);
+                var t_options = GU.GetCellsFromShifts(ownerPos, t_shifts, World);
 
-                ExecuteAbilityAsync(evt.ClickedButton, t_options, TargetSelectionTypes.CELL_WITH_ENEMY, 1).Forget(); // Run execution in async
+                ExecuteAbilityAsync(abilityData.m_Value, evt.ClickedButton, owner, t_options, abilityData.m_TargetType, 1).Forget(); // Run execution in async
             }
         }
 
         private async UniTask ExecuteAbilityAsync(
+            Ability ability,
             Entity abilityView,
+            Entity caster,
             IEnumerable<Entity> a_cellOptions,
             TargetSelectionTypes a_type,
             uint a_maxTargets
@@ -225,16 +189,43 @@ namespace Gameplay.Abilities.Systems
         {
             SetSelectedEffect(abilityView, true);
 
+
             Result t_result = new Result();
             foreach (var i in Interactor.GetAll<IOnTargetSelection>())
             {
                 await i.Execute(a_cellOptions, a_type, a_maxTargets, World, t_result);
             }
-            if (t_result.m_Value.Count() == 0)
-            {
 
+            if (t_result.m_Value.Count() != 0)
+            {
+                Entity target = default;
+
+                foreach (var target_cell in t_result.m_Value)
+                {
+                    switch (a_type)
+                    {
+                        case TargetSelectionTypes.CELL_WITH_ENEMY:
+                            target = GU.GetCellOccupier(target_cell, World);
+                            await ability.Execute(caster, target, World);
+                            break;
+                        case TargetSelectionTypes.CELL_WITH_ALLY:
+                            target = GU.GetCellOccupier(target_cell, World);
+                            await ability.Execute(caster, target, World);
+                            break;
+                        case TargetSelectionTypes.CELL_EMPTY:
+                            target = target_cell;
+                            await ability.Execute(caster, target, World);
+                            break;
+                    }
+                }
             }
-            Debug.Log(t_result.m_Value.FirstOrDefault());
+
+
+            if (a_type == TargetSelectionTypes.NONE)
+            {
+                await ability.Execute(caster, default, World);
+            }
+
             SetSelectedEffect(abilityView, false);
         }
 

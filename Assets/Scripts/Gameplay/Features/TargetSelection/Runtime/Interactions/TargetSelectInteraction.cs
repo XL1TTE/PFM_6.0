@@ -8,6 +8,8 @@ using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
 using Domain.CursorDetection.Components;
 using Domain.Extentions;
+using Domain.StateMachine.Components;
+using Domain.StateMachine.Mono;
 using Interactions;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -42,6 +44,7 @@ namespace Gameplay.TargetSelection
             // Create new token for this session.
             m_CurrentSelectionCancellation =
                 CancellationTokenSource.CreateLinkedTokenSource(m_LifetimeCancellation.Token);
+            SM.EnterState<TargetSelectionState>();
 
 
             var f_cells = a_world.Filter
@@ -66,7 +69,7 @@ namespace Gameplay.TargetSelection
                     {
                         if (t_clickedCell.isNullOrDisposed(a_world)) { continue; }
 
-                        if (IsCellMeetType(t_clickedCell, a_type, a_world))
+                        if (IsCellMeetType(t_clickedCell, a_cellOptions, a_type, a_world))
                         {
                             t_result.Add(t_clickedCell);
                         }
@@ -78,7 +81,10 @@ namespace Gameplay.TargetSelection
                     }
                     else if (Input.GetMouseButtonDown(1))
                     {
-                        t_result.Clear();
+                        CancelSession();
+                    }
+                    else if (!SM.IsStateActive<TargetSelectionState>(out var state))
+                    {
                         CancelSession();
                     }
                 }
@@ -92,6 +98,7 @@ namespace Gameplay.TargetSelection
             {
                 HighlighSelectOptions(a_cellOptions, a_world, false);
                 a_result.m_Value = t_result;
+                SM.ExitState<TargetSelectionState>();
             }
         }
 
@@ -100,8 +107,9 @@ namespace Gameplay.TargetSelection
             m_CurrentSelectionCancellation?.Cancel();
         }
 
-        private bool IsCellMeetType(Entity a_cell, TargetSelectionTypes a_type, World a_world)
+        private bool IsCellMeetType(Entity a_cell, IEnumerable<Entity> a_cellOptions, TargetSelectionTypes a_type, World a_world)
         {
+            if (a_cellOptions.Contains(a_cell) == false) { return false; }
             switch (a_type)
             {
                 case TargetSelectionTypes.CELL_WITH_ENEMY:
@@ -110,7 +118,7 @@ namespace Gameplay.TargetSelection
                         return F.IsEnemy(GU.GetCellOccupier(a_cell, a_world), a_world);
                     }
                     break;
-                case TargetSelectionTypes.CELL_WITH_MONSTER:
+                case TargetSelectionTypes.CELL_WITH_ALLY:
                     if (F.IsOccupiedCell(a_cell, a_world))
                     {
                         return F.IsMonster(GU.GetCellOccupier(a_cell, a_world), a_world);

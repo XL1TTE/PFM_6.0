@@ -19,7 +19,7 @@ namespace Gameplay.AIGraph
         public World World { get; set; }
 
         private Filter f_activeAgents;
-        private Request<ProcessTurnRequest> req_nextTurn;
+        private Request<EndTurnRequest> req_nextTurn;
         private Filter f_turnTaker;
         private Stash<AIExecutionGraph> stash_aiGraph;
         private Stash<AIExecutionState> stash_aiState;
@@ -42,7 +42,7 @@ namespace Gameplay.AIGraph
                 .With<AIExecutionState>()
                 .Build();
 
-            req_nextTurn = World.GetRequest<ProcessTurnRequest>();
+            req_nextTurn = World.GetRequest<EndTurnRequest>();
 
             stash_aiGraph = World.GetStash<AIExecutionGraph>();
             stash_aiState = World.GetStash<AIExecutionState>();
@@ -262,7 +262,7 @@ namespace Gameplay.AIGraph
 
         private void CompleteExecution()
         {
-            req_nextTurn.Publish(new ProcessTurnRequest());
+            req_nextTurn.Publish(new EndTurnRequest());
         }
 
         public void Dispose() { }

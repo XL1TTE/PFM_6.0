@@ -60,9 +60,13 @@ GameObject:
   - component: {fileID: 1031712963108783947}
   - component: {fileID: 8453176143293812164}
   - component: {fileID: 7767710113392478308}
-  - component: {fileID: 3380081643142453472}
   - component: {fileID: 4810814904431708377}
-  - component: {fileID: 4743355827015876891}
+  - component: {fileID: 8975911737775275494}
+  - component: {fileID: 6165744893290528280}
+  - component: {fileID: 6108805618221536525}
+  - component: {fileID: 8431249981681279226}
+  - component: {fileID: 5531036670392291474}
+  - component: {fileID: 4245643017502127602}
   m_Layer: 0
   m_Name: p_Village_RatEnemy
   m_TagString: Untagged
@@ -169,23 +173,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    Attacks:
-    - {x: -1, y: 0}
---- !u!114 &3380081643142453472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1702015493862502221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3db5ff5fe1a955742b17ee066ee51bf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializedData:
-    AiGraphID: ai_RatEnemy
-    Tag: 0
+    m_LeftHandAbility:
+      m_AbilityTemplateID: 
+      m_TargetType: 0
+      m_Icon: {fileID: 0}
+      m_Tags: 
+      m_AbilityType: 0
+    m_RightHandAbility:
+      m_AbilityTemplateID: 
+      m_TargetType: 0
+      m_Icon: {fileID: 0}
+      m_Tags: 
+      m_AbilityType: 0
+    m_HeadAbility:
+      m_AbilityTemplateID: 
+      m_TargetType: 0
+      m_Icon: {fileID: 0}
+      m_Tags: 
+      m_AbilityType: 0
+    m_LegsAbility:
+      m_AbilityTemplateID: 
+      m_TargetType: 0
+      m_Icon: {fileID: 0}
+      m_Tags: 
+      m_AbilityType: 0
+    m_TurnAroundAbility:
+      m_AbilityTemplateID: 
+      m_TargetType: 0
+      m_Icon: {fileID: 0}
+      m_Tags: 
+      m_AbilityType: 0
 --- !u!114 &4810814904431708377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,7 +217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     HealthBarPrefab: {fileID: 3316543534114295942, guid: 3c207768c0edcda46b43143b0208c50a, type: 3}
---- !u!114 &4743355827015876891
+--- !u!114 &8975911737775275494
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -213,8 +230,97 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    StatusEffects: []
-    PermanentEffects: []
+    m_StatusEffects: []
+    m_PermanentEffects:
+    - m_EffectId: effect_RatEnemy
+--- !u!114 &6165744893290528280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702015493862502221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 413b0b42da8a43649bf6944aec86239d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    m_LeftHandID: bp_rat-arm
+    m_RightHandID: bp_rat-arm
+    m_HeadID: mp_DinHead
+    m_LeftLeg: bp_rat-leg
+    m_RightLeg: bp_rat-leg
+--- !u!114 &6108805618221536525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702015493862502221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3265cd65e876fa443a14bf999be676aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    m_AIModel:
+      rid: 4408555207749795923
+  references:
+    version: 2
+    RefIds:
+    - rid: 4408555207749795923
+      type: {class: AIProcessor, ns: Project.AI, asm: Assembly-CSharp}
+      data:
+        m_Config:
+          m_PointPerDistanceFromEnemy: 1
+          m_PointsPerDamage: 2
+          m_PointsPerHeal: 1
+          m_RotationWeight: 0
+          m_DoNothingWeight: 0
+          m_DiscountFactor: 1
+          m_MaxActionsPerTurn: 3
+          m_PlanningDepth: 2
+--- !u!114 &8431249981681279226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702015493862502221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4410982701e3d914b9ec3dc7fb4f6638, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    m_Value: 0
+--- !u!114 &5531036670392291474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702015493862502221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2edc621b8f02096478f09defcc585dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    m_SpriteRenderer: {fileID: 3879960733164284997}
+--- !u!114 &4245643017502127602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702015493862502221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6004cc59c2c04afb96c6b6d42dad286c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7370415000329741317
 GameObject:
   m_ObjectHideFlags: 0

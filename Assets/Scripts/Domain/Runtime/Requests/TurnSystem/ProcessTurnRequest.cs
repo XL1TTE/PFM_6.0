@@ -8,7 +8,7 @@ namespace Domain.TurnSystem.Requests
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct ProcessTurnRequest : IRequestData
+    public struct EndTurnRequest : IRequestData
     {
     }
 }
