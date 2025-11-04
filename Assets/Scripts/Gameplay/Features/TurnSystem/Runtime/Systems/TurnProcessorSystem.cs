@@ -20,16 +20,15 @@ namespace Gameplay.TurnSystem.Systems
     public sealed class TurnProcessorSystem : ISystem
     {
         public World World { get; set; }
-        
+
         private Filter filter_turnQueue;
-        
-        private Request<ProcessTurnRequest> req_processTurn;
+
+        private Request<EndTurnRequest> req_processTurn;
         private Event<NextTurnStartedEvent> evt_nextTurnStart;
         private Event<TurnSystemInitializedEvent> evt_turnSystemInitialized;
-        private Stash<Actions> stash_actions;
         private Stash<CurrentTurnTakerTag> stash_turnTakerTag;
         private Stash<TurnQueueComponent> stash_turnQueue;
-        
+
 
         public void OnAwake()
         {
@@ -37,26 +36,25 @@ namespace Gameplay.TurnSystem.Systems
                 .With<TurnQueueComponent>()
                 .Build();
 
-            req_processTurn = World.GetRequest<ProcessTurnRequest>();
+            req_processTurn = World.GetRequest<EndTurnRequest>();
+
             evt_nextTurnStart = World.GetEvent<NextTurnStartedEvent>();
             evt_turnSystemInitialized = World.GetEvent<TurnSystemInitializedEvent>();
-            
-            stash_actions = World.GetStash<Actions>();
-            
+
             stash_turnTakerTag = World.GetStash<CurrentTurnTakerTag>();
             stash_turnQueue = World.GetStash<TurnQueueComponent>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach(var req in req_processTurn.Consume()){
+            foreach (var req in req_processTurn.Consume())
+            {
                 ProcessTurn();
-                SendNotifications();
             }
-            
-            foreach(var evt in evt_turnSystemInitialized.publishedChanges){
+
+            foreach (var evt in evt_turnSystemInitialized.publishedChanges)
+            {
                 ProcessVeryFirstTurn();
-                SendNotifications();
             }
         }
 
@@ -64,63 +62,73 @@ namespace Gameplay.TurnSystem.Systems
         {
 
         }
-        
-        private void SendNotifications(){
-            evt_nextTurnStart.NextFrame(new NextTurnStartedEvent{});
+
+        private void SendNotifications(Entity previousTurnTaker, Entity currentTurnTaker)
+        {
+            evt_nextTurnStart.NextFrame(new NextTurnStartedEvent
+            {
+                m_PreviousTurnTaker = previousTurnTaker,
+                m_CurrentTurnTaker = currentTurnTaker
+            });
         }
-        
-        private void ProcessVeryFirstTurn(){
+
+        private void ProcessVeryFirstTurn()
+        {
             if (filter_turnQueue.IsEmpty()) { return; }
             ref var queue = ref stash_turnQueue.Get(filter_turnQueue.First()).Value;
             var currentTurnTaker = queue.First();
             AddTurnTakerTag(currentTurnTaker);
+
+            SendNotifications(currentTurnTaker, currentTurnTaker);
         }
-        
+
         private void ProcessTurn()
         {
-            if(filter_turnQueue.IsEmpty()){return;}
+            if (filter_turnQueue.IsEmpty()) { return; }
             ref var queue = ref stash_turnQueue.Get(filter_turnQueue.First()).Value;
-            
+
             Entity previousTurnTaker = default;
             Entity currentTurnTaker = default;
-            
-            if(queue.Count < 1){return;}
-            
-            if(queue.Count == 1){
+
+            if (queue.Count < 1) { return; }
+
+            if (queue.Count == 1)
+            {
                 previousTurnTaker = queue.Dequeue();
                 currentTurnTaker = previousTurnTaker;
                 queue.Enqueue(currentTurnTaker);
             }
-            
-            else{
+
+            else
+            {
                 previousTurnTaker = queue.Dequeue();
                 currentTurnTaker = queue.First();
                 queue.Enqueue(previousTurnTaker);
             }
-            if(previousTurnTaker.IsExist()){
+            if (previousTurnTaker.IsExist())
+            {
                 RemoveTurnTakerTag(previousTurnTaker);
-                ResetActions(previousTurnTaker);
             }
             AddTurnTakerTag(currentTurnTaker);
+
+            SendNotifications(previousTurnTaker, currentTurnTaker);
         }
 
-        private void ResetActions(Entity previousTurnTaker)
+
+        private void RemoveTurnTakerTag(Entity entity)
         {
-            if(stash_actions.Has(previousTurnTaker) == false){return;}
-            stash_actions.Get(previousTurnTaker).ResetActions();
-        }
-
-        private void RemoveTurnTakerTag(Entity entity){
-            if(stash_turnTakerTag.Has(entity)){
+            if (stash_turnTakerTag.Has(entity))
+            {
                 stash_turnTakerTag.Remove(entity);
             }
         }
         private void AddTurnTakerTag(Entity entity)
         {
-            stash_turnTakerTag.Set(entity, new CurrentTurnTakerTag{});
+            stash_turnTakerTag.Set(entity, new CurrentTurnTakerTag { });
         }
-        
-        private void Cleanup(){
+
+        private void Cleanup()
+        {
 
         }
 

@@ -1,4 +1,6 @@
 using Domain.ECS;
+using Domain.Stats.Components;
+using Gameplay.GameEffects;
 using Gameplay.GameStats.Systems;
 using Scellecs.Morpeh;
 
@@ -11,7 +13,14 @@ namespace Core.ECS.Modules
         public void Initialize(World world)
         {
             var sg_GameStats = world.CreateSystemsGroup();
-            sg_GameStats.AddSystem(new CurrentStatsFromBaseSystem());
+
+            //sg_GameStats.AddSystem(new CurrentStatsFromBaseSystem());
+            sg_GameStats.AddSystem(new StatsServiceSystem());
+
+            sg_GameStats.AddSystem(new HealthStatSystem());
+
+            sg_GameStats.AddSystem(new StatModifiersSystem<MaxHealthModifier, MaxHealth>());
+            sg_GameStats.AddSystem(new StatModifiersSystem<SpeedModifier, Speed>());
 
             world.AddSystemsGroup(Priority, sg_GameStats);
         }

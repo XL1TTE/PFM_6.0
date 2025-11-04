@@ -10,6 +10,7 @@ using Domain.Monster.Requests;
 using Persistence.Buiders;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
 namespace Gameplay.Monster.Systems
 {
@@ -21,27 +22,25 @@ namespace Gameplay.Monster.Systems
         public World World { get; set; }
 
         private Filter _freeMonsterSpawnCells;
-        
 
-        private Stash<CellPositionComponent> stash_cellPosition;
+
+        private Stash<PositionComponent> stash_Position;
         private Stash<TransformRefComponent> stash_monsterTransform;
-        private Stash<GridPosition> stash_gridPosition;
 
         private Request<SpawnMonstersRequest> _spawnRequests;
         private Event<CellOccupiedEvent> _cellOccupiedEvent;
-        
-        
+
+
         public void OnAwake()
         {
             _freeMonsterSpawnCells = World.Filter
                 .With<TagMonsterSpawnCell>()
                 .Without<TagOccupiedCell>()
-                .With<CellPositionComponent>()
+                .With<PositionComponent>()
                 .Build();
 
-            stash_cellPosition = World.GetStash<CellPositionComponent>();
+            stash_Position = World.GetStash<PositionComponent>();
             stash_monsterTransform = World.GetStash<TransformRefComponent>();
-            stash_gridPosition = World.GetStash<GridPosition>();
 
             _spawnRequests = World.GetRequest<SpawnMonstersRequest>();
             _cellOccupiedEvent = World.GetEvent<CellOccupiedEvent>();
@@ -84,7 +83,8 @@ namespace Gameplay.Monster.Systems
         }
 
 
-        private MonsterBuilder MonsterDataToBuilder(MosnterData mosnterData){
+        private MonsterBuilder MonsterDataToBuilder(MosnterData mosnterData)
+        {
             var builder = new MonsterBuilder(World)
                 .AttachHead(mosnterData.Head_id)
                 .AttachBody(mosnterData.Body_id)
@@ -98,8 +98,9 @@ namespace Gameplay.Monster.Systems
         private void SpawnNewMonster(SpawnMonstersRequest req)
         {
             var free_cells = PickRandomFreeCells(req.Monsters.Count);
-            
-            for(int i = 0; i < free_cells.Count; i++){
+
+            for (int i = 0; i < free_cells.Count; i++)
+            {
                 var cell = free_cells[i];
                 var monsterData = req.Monsters[i];
 
@@ -108,22 +109,24 @@ namespace Gameplay.Monster.Systems
                 SetupMonster(monster.Build(), cell);
             }
         }
-        
-        private void SetupMonster(Entity monster, Entity SpawnCell){
-            
-            var cellPos = stash_cellPosition.Get(SpawnCell);
-            
+
+        private void SetupMonster(Entity monster, Entity SpawnCell)
+        {
+
+            var cellPos = stash_Position.Get(SpawnCell);
+
             if (!stash_monsterTransform.Has(monster))
             {
                 throw new Exception("Monster entity does not have a transform component. Can't spawn monster without it!");
             }
             ref var monsterTransform = ref stash_monsterTransform.Get(monster);
-            monsterTransform.Value.position =
-                new UnityEngine.Vector3(cellPos.global_x, cellPos.global_y, cellPos.global_y * 0.01f);
+            monsterTransform.Value.position = cellPos.m_GlobalPosition;
+            monsterTransform.Value.position += new Vector3(0f, 0f, cellPos.m_GlobalPosition.y * 0.01f);
 
-            stash_gridPosition.Add(monster, new GridPosition
+            stash_Position.Add(monster, new PositionComponent
             {
-                Value = new UnityEngine.Vector2Int(cellPos.grid_x, cellPos.grid_y)
+                m_GridPosition = cellPos.m_GridPosition,
+                m_GlobalPosition = monsterTransform.Value.position
             });
 
             _cellOccupiedEvent.NextFrame(new CellOccupiedEvent

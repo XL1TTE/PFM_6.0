@@ -7,7 +7,8 @@ using Domain.Extentions;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
-namespace Gameplay.BattleField.Systems{
+namespace Gameplay.BattleField.Systems
+{
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]

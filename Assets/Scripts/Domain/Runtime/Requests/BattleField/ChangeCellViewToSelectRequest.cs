@@ -8,12 +8,11 @@ namespace Domain.BattleField.Requests
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct ChangeCellViewToSelectRequest : IRequestData
+    public struct ChangeCellViewToSelectedRequest : IRequestData
     {
         public enum SelectState : byte { Enabled, Disabled }
         public IEnumerable<Entity> Cells;
         public SelectState State;
-        public string test;
     }
 }
 

@@ -10,8 +10,10 @@ namespace Persistence.DB
     {
         public ev_FAILSAFE()
         {
+            ID("ev_FAILSAFE");
+
             // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { Value = "ev_FAILSAFE" });
+            With<ID>(new ID { m_Value = "ev_FAILSAFE" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
             // -------------------------------------------------- Required components
@@ -32,7 +34,7 @@ namespace Persistence.DB
                 choices = new Dictionary<string, IRequestData>
                 {
 
-                    { "О, блин :(",
+                    { "пїЅ, пїЅпїЅпїЅпїЅ :(",
                         new GiveGoldRequest() { amount = 10 } }
 
                 }
@@ -44,8 +46,10 @@ namespace Persistence.DB
     {
         public ev_TextDefault()
         {
+            ID("ev_TextDefault");
+
             // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { Value = "ev_TextDefault" });
+            With<ID>(new ID { m_Value = "ev_TextDefault" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
             // -------------------------------------------------- Required components
@@ -77,8 +81,11 @@ namespace Persistence.DB
     {
         public ev_TextTest1()
         {
+
+            ID("ev_TextTest1");
+
             // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { Value = "ev_TextTest1" });
+            With<ID>(new ID { m_Value = "ev_TextTest1" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
 
@@ -117,7 +124,7 @@ namespace Persistence.DB
             //        {"NO CHOICE!",
             //            "Map/MapTextEventResultScripts/Scr_MapEvResult_Test1" },
             //        
-            //        {"Люби себя ^_^",
+            //        {"пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ ^_^",
             //            "Map/MapTextEventResultScripts/Scr_MapEvResult_Test1" },
             //    }
             //});
@@ -133,11 +140,11 @@ namespace Persistence.DB
 
                     { "SCHEISSE!",
                         new TakeGoldRequest() { amount = 10 }  },
-                
+
                     {"NO CHOICE!",
                         new TakeGoldRequest() { amount = 100 }  },
-                
-                    {"Люби себя ^_^",
+
+                    {"пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ ^_^",
                         new GiveGoldRequest() { amount = 999 }  }
                 }
             });
@@ -148,8 +155,10 @@ namespace Persistence.DB
     {
         public ev_TextTest2()
         {
+            ID("ev_TextTest2");
+
             // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { Value = "ev_TextTest2" });
+            With<ID>(new ID { m_Value = "ev_TextTest2" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
             // -------------------------------------------------- Required components
@@ -182,7 +191,7 @@ namespace Persistence.DB
                     { "What? No",
                         new TakeGoldRequest() { amount = 999999999 } },
 
-                    { "Ты мега",
+                    { "пїЅпїЅ пїЅпїЅпїЅпїЅ",
                         new GiveGoldRequest() { amount = 10 }  }
 
                 }

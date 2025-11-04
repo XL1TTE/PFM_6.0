@@ -1,5 +1,7 @@
 
 using System.Collections.Generic;
+using System.Linq;
+using Core.Utilities;
 using Domain.Abilities.Components;
 using Domain.Components;
 using Domain.Extentions;
@@ -10,8 +12,10 @@ using Domain.Monster.Mono;
 using Domain.Monster.Tags;
 using Domain.Stats.Components;
 using Domain.TurnSystem.Components;
+using Interactions;
 using Persistence.Components;
 using Persistence.DB;
+using Persistence.Utilities;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -25,15 +29,21 @@ namespace Persistence.Buiders
             _ecsWorld = ecsWorld;
 
             stash_tagMonster = _ecsWorld.GetStash<TagMonster>();
+            stash_lookDir = _ecsWorld.GetStash<LookDirection>();
             stash_moveAbility = _ecsWorld.GetStash<MovementAbility>();
-            stash_attackAbility = _ecsWorld.GetStash<AttackAbility>();
+            //stash_attackAbility = _ecsWorld.GetStash<AttackAbility>();
             stash_transformRef = _ecsWorld.GetStash<TransformRefComponent>();
             stash_hitBox = _ecsWorld.GetStash<HitBoxComponent>();
             stash_monsterDammyRef = _ecsWorld.GetStash<MonsterDammyRefComponent>();
             stash_turnQueueAvatar = _ecsWorld.GetStash<TurnQueueAvatar>();
-            stash_baseStats = _ecsWorld.GetStash<BaseStatsComponent>();
-            stash_effectsPool = _ecsWorld.GetStash<EffectsPoolComponent>();
+            stash_initEffectsPool = _ecsWorld.GetStash<InitialEffectsPoolComponent>();
             stash_iHaveHealthBar = _ecsWorld.GetStash<IHaveHealthBar>();
+
+            stash_abilities = _ecsWorld.GetStash<AbilitiesComponent>();
+
+            stash_Speed = _ecsWorld.GetStash<Speed>();
+            stash_Health = _ecsWorld.GetStash<Health>();
+            stash_MaxHealt = _ecsWorld.GetStash<MaxHealth>();
 
             pfb_monsterDammy = _monsterDammyPath.LoadResource<MonsterDammy>();
 
@@ -54,15 +64,18 @@ namespace Persistence.Buiders
         private World _ecsWorld;
 
         Stash<TagMonster> stash_tagMonster;
+        private Stash<LookDirection> stash_lookDir;
         Stash<MovementAbility> stash_moveAbility;
-        Stash<AttackAbility> stash_attackAbility;
+        //Stash<AttackAbility> stash_attackAbility;
         Stash<TransformRefComponent> stash_transformRef;
         Stash<HitBoxComponent> stash_hitBox;
         Stash<MonsterDammyRefComponent> stash_monsterDammyRef;
         Stash<TurnQueueAvatar> stash_turnQueueAvatar;
-        Stash<BaseStatsComponent> stash_baseStats;
-        Stash<EffectsPoolComponent> stash_effectsPool;
+
+        Stash<InitialEffectsPoolComponent> stash_initEffectsPool;
         private readonly Stash<IHaveHealthBar> stash_iHaveHealthBar;
+        private readonly Stash<AbilitiesComponent> stash_abilities;
+        private readonly Stash<Speed> stash_Speed;
 
 
         #region Part_Ids
@@ -72,6 +85,8 @@ namespace Persistence.Buiders
         private string id_farArm;
         private string id_nearLeg;
         private string id_farLeg;
+        private Stash<Health> stash_Health;
+        private readonly Stash<MaxHealth> stash_MaxHealt;
         #endregion
 
         public override Entity Build()
@@ -140,86 +155,84 @@ namespace Persistence.Buiders
 
             #endregion
 
-            #region Movement
-            ref var moveAbility = ref stash_moveAbility.Add(monster_entity);
-            var movementTemp = new HashSet<Vector2Int>();
-
-            if (DataBase.TryGetRecord<MovementData>(rec_nearLeg, out var moveData_nearLeg))
-            {
-                foreach (var move in moveData_nearLeg.Movements)
-                {
-                    movementTemp.Add(move);
-                }
-            }
-            if (DataBase.TryGetRecord<MovementData>(rec_farLeg, out var moveData_farLeg))
-            {
-                foreach (var move in moveData_farLeg.Movements)
-                {
-                    movementTemp.Add(move);
-                }
-            }
-
-            moveAbility.Movements = new(movementTemp);
 
             stash_tagMonster.Add(monster_entity);
 
+            stash_lookDir.Set(monster_entity, new LookDirection { m_Value = Directions.RIGHT });
+
+            AbilitiesComponent t_abilities = new AbilitiesComponent();
+            AbilityData headAbtData = null;
+            AbilityData rArmAbtData = null;
+            AbilityData lArmAbtData = null;
+            AbilityData lLegAbtData = null;
+            AbilityData rLegAbtData = null;
+            AbilityData LegAbtData = null;
+            if (DataBase.TryGetRecord<AbilityProvider>(rec_head, out var head_Ability))
+            {
+                headAbtData = DbUtility.GetAbilityDataFromAbilityRecord(head_Ability.m_AbilityTemplateID);
+            }
+            if (DataBase.TryGetRecord<AbilityProvider>(rec_farArm, out var fArm_Ability))
+            {
+                lArmAbtData = DbUtility.GetAbilityDataFromAbilityRecord(fArm_Ability.m_AbilityTemplateID);
+            }
+            if (DataBase.TryGetRecord<AbilityProvider>(rec_nearArm, out var nArm_Ability))
+            {
+                rArmAbtData = DbUtility.GetAbilityDataFromAbilityRecord(nArm_Ability.m_AbilityTemplateID);
+            }
+
+            if (rArmAbtData != null && lArmAbtData != null && nArm_Ability.m_AbilityTemplateID == fArm_Ability.m_AbilityTemplateID)
+            {
+                DbUtility.DoubleAbilityStats(ref rArmAbtData.m_Value);
+                DbUtility.DoubleAbilityStats(ref lArmAbtData.m_Value);
+            }
+
+            if (DataBase.TryGetRecord<AbilityProvider>(rec_nearLeg, out var nleg_Ability))
+            {
+                lLegAbtData = DbUtility.GetAbilityDataFromAbilityRecord(nleg_Ability.m_AbilityTemplateID);
+            }
+            if (DataBase.TryGetRecord<AbilityProvider>(rec_farLeg, out var fleg_Ability))
+            {
+                rLegAbtData = DbUtility.GetAbilityDataFromAbilityRecord(fleg_Ability.m_AbilityTemplateID);
+            }
+
+            if (rLegAbtData != null && rLegAbtData != null && nleg_Ability.m_AbilityTemplateID == fleg_Ability.m_AbilityTemplateID)
+            {
+                var movements = DbUtility.CombineShifts(lLegAbtData.m_Shifts, rLegAbtData.m_Shifts);
+                LegAbtData = lLegAbtData;
+                LegAbtData.m_Shifts = movements;
+            }
+
+            t_abilities.m_HeadAbility = headAbtData;
+            t_abilities.m_LeftHandAbility = lArmAbtData;
+            t_abilities.m_RightHandAbility = rArmAbtData;
+            t_abilities.m_LegsAbility = LegAbtData;
+
+            t_abilities.m_TurnAroundAbility =
+                DbUtility.GetAbilityDataFromAbilityRecord(L.TURN_AROUND_ABILITY_ID);
+
+            stash_abilities.Set(monster_entity, t_abilities);
+
             #endregion
 
-            #region  AttackAbility
 
-            var attacks_temp = new HashSet<Vector2Int>();
+            #region Effects
 
-            if (DataBase.TryGetRecord<AttackData>(rec_farArm, out var fArm_Attack))
+            var all_effects = new List<string>();
+
+            if (DataBase.TryGetRecord<EffectsProvider>(rec_head, out var head_effects))
             {
-                foreach (var attack in fArm_Attack.Attacks)
-                {
-                    attacks_temp.Add(attack);
-                }
-            }
-            if (DataBase.TryGetRecord<AttackData>(rec_nearArm, out var nArm_Attack))
-            {
-                foreach (var attack in nArm_Attack.Attacks)
-                {
-                    attacks_temp.Add(attack);
-                }
+                all_effects.AddRange(head_effects.m_Effects);
             }
 
-            stash_attackAbility.Add(monster_entity, new AttackAbility
+            stash_initEffectsPool.Set(monster_entity, new InitialEffectsPoolComponent
             {
-                Attacks = new(attacks_temp)
+                m_StatusEffects = new(),
+                m_PermanentEffects = all_effects.Select((e_id) => new PermanentEffect { m_EffectId = e_id }).ToList()
             });
-
-            #endregion
-
-            stash_effectsPool.Set(monster_entity, new EffectsPoolComponent
-            {
-                StatusEffects = new(),
-                PermanentEffects = new()
-            });
-
-            #region Stats
-
-
-            int total_speed = 0;
-            int total_health = 1;
-
-            if (DataBase.TryGetRecord<Speed>(rec_head, out var head_spead))
-            {
-                total_speed += head_spead.Value;
-            }
-
-            stash_baseStats.Set(monster_entity, new BaseStatsComponent
-            {
-                Speed = total_speed,
-                MaxSpeed = total_speed,
-                Health = total_health,
-                MaxHealth = total_health
-            });
-
 
             stash_iHaveHealthBar.Set(monster_entity, new IHaveHealthBar
             {
-                HealthBarPrefab = GameResources.p_MonsterHealthBar
+                HealthBarPrefab = GR.p_MonsterHealthBar
             });
 
             #endregion
@@ -228,7 +241,6 @@ namespace Persistence.Buiders
             ref TransformRefComponent c_Transform = ref stash_transformRef.Add(monster_entity);
             c_Transform.Value = monsterDammy.transform;
 
-            //stash_cursorDetector.Add(entity, new TagCursorDetector{DetectionRadius = 1.0f, DetectionPriority = 9999});
 
             stash_hitBox.Add(monster_entity, new HitBoxComponent
             {
@@ -242,7 +254,6 @@ namespace Persistence.Buiders
 
             return monster_entity;
 
-            #endregion
         }
 
         public MonsterBuilder AttachHead(string head_id)

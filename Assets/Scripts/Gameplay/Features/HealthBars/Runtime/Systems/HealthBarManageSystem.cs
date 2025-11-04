@@ -1,3 +1,5 @@
+using Core.Utilities;
+using Cysharp.Threading.Tasks;
 using Domain.HealthBars.Components;
 using Domain.HealthBars.Requests;
 using Domain.UI.Widgets;
@@ -45,6 +47,7 @@ namespace Gameplay.HealthBars.Systems
             {
                 if (IsHealthBarCouldBeCreated(req.Owner, req.Renderer) == false) { continue; }
                 CreateHealthBar(req.Owner, req.Renderer);
+                UpdateHealthBarAsync(req.Owner).Forget();
             }
             foreach (var req in req_changeHealthBarRenderer.Consume())
             {
@@ -119,6 +122,13 @@ namespace Gameplay.HealthBars.Systems
 
         public void Dispose()
         {
+        }
+
+
+        private async UniTask UpdateHealthBarAsync(Entity owner)
+        {
+            await UniTask.Yield();
+            GU.UpdateHealthBarValueFor(owner, World);
         }
     }
 }

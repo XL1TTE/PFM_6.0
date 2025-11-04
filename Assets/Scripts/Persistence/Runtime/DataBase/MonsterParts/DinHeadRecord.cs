@@ -1,18 +1,31 @@
+using System.Linq;
 using Domain.Components;
 using Domain.Stats.Components;
 using Persistence.Components;
 
-namespace Persistence.DB{
-    public class DinHeadRecord: MonsterPartRecord{
-        public DinHeadRecord(){
-            With<ID>(new ID { Value = "mp_DinHead" });
-            With<HeadSpritePath>(new HeadSpritePath{ 
+namespace Persistence.DB
+{
+    public class DinHeadRecord : MonsterPartRecord
+    {
+        public DinHeadRecord()
+        {
+            ID("mp_DinHead");
+
+            With<ID>(new ID { m_Value = "mp_DinHead" });
+            With<HeadSpritePath>(new HeadSpritePath
+            {
                 path = "Monsters/Sprites/test/Spr_Bodypart_Head_Test_1"
             });
             With<TagMonsterPart>();
             With<TagMonsterHead>();
-            With<Speed>(new Speed{Value = 2});
-            With<Health>(new Health { Value = 10});
+            With<EffectsProvider>(new EffectsProvider
+            {
+                m_Effects = Enumerable.Repeat("effect_DinHead", 1).ToArray()
+            });
+            With<AbilityProvider>(new AbilityProvider
+            {
+                m_AbilityTemplateID = "abt_din_head"
+            });
         }
     }
 }

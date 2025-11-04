@@ -41,10 +41,14 @@ namespace Gameplay.GameStats.Systems
 
             stash_curStats.Set(owner, new CurrentStatsComponent
             {
-                CurrentHealth = baseStats.MaxHealth,
-                MaxHealth = baseStats.MaxHealth,
-                CurrentSpeed = baseStats.MaxSpeed,
-                MaxSpeed = baseStats.MaxSpeed
+                m_CurrentHealth = baseStats.MaxHealth,
+                m_MaxHealth = baseStats.MaxHealth,
+                m_CurrentSpeed = baseStats.MaxSpeed,
+                m_MaxSpeed = baseStats.MaxSpeed,
+                m_InteractionActions = baseStats.m_InteractionActions,
+                m_MaxInteractionActions = baseStats.m_MaxInteractionActions,
+                m_MovementActions = baseStats.m_MovementActions,
+                m_MaxMovementActions = baseStats.m_MaxMovementActions,
             });
         }
 

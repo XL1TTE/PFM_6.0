@@ -11,22 +11,15 @@ namespace Domain.Stats.Components
     {
         public int Health;
         public int MaxHealth;
-        
+
         public int Speed;
         public int MaxSpeed;
- 
-    }
-    [System.Serializable]
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct CurrentStatsComponent : IComponent
-    {
-        public int CurrentHealth;
-        public int MaxHealth;
-        
-        public int CurrentSpeed;
-        public int MaxSpeed;
+
+
+        public int m_MovementActions;
+        public int m_MaxMovementActions;
+        public int m_InteractionActions;
+        public int m_MaxInteractionActions;
     }
 }
 

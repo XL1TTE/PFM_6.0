@@ -10,9 +10,9 @@ namespace Domain.BattleField.Events
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct EntityCellPositionChangedEvent : IEventData
     {
-        public Entity entity;
-        public Entity oldCell;
-        public Entity newCell;
+        public Entity m_Subject;
+        public Entity m_pCell;
+        public Entity m_nCell;
     }
 }
 

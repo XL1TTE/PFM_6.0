@@ -360,27 +360,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5181193297195749483, guid: 477ae13020688854280519a0c0ba6c40, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5181193297195749483, guid: 477ae13020688854280519a0c0ba6c40, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5181193297195749483, guid: 477ae13020688854280519a0c0ba6c40, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5181193297195749483, guid: 477ae13020688854280519a0c0ba6c40, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5181193297195749483, guid: 477ae13020688854280519a0c0ba6c40, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5181193297195749483, guid: 477ae13020688854280519a0c0ba6c40, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -40
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6987075312480410171, guid: 477ae13020688854280519a0c0ba6c40, type: 3}
@@ -457,7 +457,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 0000000063ae0db3d530b1a25ba642983d0434c4c59b516dab595109139c0602
+  m_ApplyToSortingLayers: 00000000c59b516d63ae0db3d530b1a2139c06025ba642986382510f99c60439
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0

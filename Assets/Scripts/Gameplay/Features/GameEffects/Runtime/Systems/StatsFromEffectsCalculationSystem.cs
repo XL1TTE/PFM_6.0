@@ -1,6 +1,5 @@
 using System;
 using Domain.GameEffects;
-using Domain.GameEffects.Modifiers;
 using Domain.Stats.Components;
 using Persistence.DB;
 using Scellecs.Morpeh;
@@ -42,13 +41,13 @@ namespace Gameplay.GameEffects
                 ResetToBaseStats(entity);
 
                 ref var effects_pool = ref stash_EffectsPool.Get(entity);
-                foreach (var permanent_effect in effects_pool.PermanentEffects)
+                foreach (var permanent_effect in effects_pool.m_PermanentEffects)
                 {
-                    CalculateEffectContribution(entity, permanent_effect.EffectId);
+                    CalculateEffectContribution(entity, permanent_effect.m_EffectId);
                 }
-                foreach (var status_effect in effects_pool.StatusEffects)
+                foreach (var status_effect in effects_pool.m_StatusEffects)
                 {
-                    CalculateEffectContribution(entity, status_effect.EffectId);
+                    CalculateEffectContribution(entity, status_effect.m_EffectId);
                 }
             }
         }
@@ -69,15 +68,15 @@ namespace Gameplay.GameEffects
 
             if (DataBase.TryGetRecord<MaxHealthModifier>(effect_record, out var max_health_modifier))
             {
-                cur_subject_stats.MaxHealth += max_health_modifier.AdditiveValue;
-                cur_subject_stats.MaxHealth =
-                    (int)Math.Floor(cur_subject_stats.MaxHealth * 1 + max_health_modifier.MultiplierValue);
+                cur_subject_stats.m_MaxHealth += max_health_modifier.m_Flat;
+                cur_subject_stats.m_MaxHealth =
+                    (int)Math.Floor(cur_subject_stats.m_MaxHealth * 1 + max_health_modifier.m_Multiplier);
             }
-            if (DataBase.TryGetRecord<MaxSpeedModifier>(effect_record, out var max_speed_modifier))
+            if (DataBase.TryGetRecord<SpeedModifier>(effect_record, out var max_speed_modifier))
             {
-                cur_subject_stats.MaxSpeed += max_speed_modifier.AdditiveValue;
-                cur_subject_stats.MaxSpeed =
-                    (int)Math.Floor(cur_subject_stats.MaxSpeed * 1 + max_speed_modifier.MultiplierValue);
+                cur_subject_stats.m_MaxSpeed += max_speed_modifier.m_Flat;
+                cur_subject_stats.m_MaxSpeed =
+                    (int)Math.Floor(cur_subject_stats.m_MaxSpeed * 1 + max_speed_modifier.m_Multiplier);
             }
 
         }
@@ -87,9 +86,9 @@ namespace Gameplay.GameEffects
             var base_stats = stash_BaseStats.Get(subject);
             ref var cur_stats = ref stash_CurrentStats.Get(subject);
 
-            cur_stats.MaxHealth = base_stats.MaxHealth;
+            cur_stats.m_MaxHealth = base_stats.MaxHealth;
 
-            cur_stats.MaxSpeed = base_stats.MaxSpeed;
+            cur_stats.m_MaxSpeed = base_stats.MaxSpeed;
         }
     }
 }

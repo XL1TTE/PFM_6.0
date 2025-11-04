@@ -36,15 +36,17 @@ namespace Gameplay.StateMachine.Systems
 
         public void OnAwake()
         {
-            evt_onStateEnter = StateMachineWorld.Value.GetEvent<OnStateEnterEvent>();
+            evt_onStateEnter = SM.Value.GetEvent<OnStateEnterEvent>();
 
-            stash_state = StateMachineWorld.Value.GetStash<BattleSceneInitializeState>();
+            stash_state = SM.Value.GetStash<BattleSceneInitializeState>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach(var evt in evt_onStateEnter.publishedChanges){
-                if(IsValid(evt.StateEntity)){
+            foreach (var evt in evt_onStateEnter.publishedChanges)
+            {
+                if (IsValid(evt.StateEntity))
+                {
                     Enter(evt.StateEntity);
                 }
             }
@@ -54,13 +56,15 @@ namespace Gameplay.StateMachine.Systems
         {
 
         }
-        
-        private IEnumerator EnterRoutine(Entity stateEntity){
-            
+
+        private IEnumerator EnterRoutine(Entity stateEntity)
+        {
+
             /* ########################################## */
             /*                 Load level                 */
             /* ########################################## */
-            if(LevelConfig.StartLevelID != null){
+            if (LevelConfig.StartLevelID != null)
+            {
                 if (DataBase.TryFindRecordByID(LevelConfig.StartLevelID, out var lvl_record))
                 {
                     if (DataBase.TryGetRecord<PrefabComponent>(lvl_record, out var lvl_prefab))
@@ -71,20 +75,21 @@ namespace Gameplay.StateMachine.Systems
                         }
                         Object.Instantiate(lvl_prefab.Value); // instantiate level prefab
                     }
-                    
+
                     yield return new WaitForEndOfFrame(); // Wait while prefab instantiated;
 
                     if (DataBase.TryGetRecord<EnemiesPool>(lvl_record, out var ep))
                     {
                         var enemiesToSpawn = ep.Value;
                         var spawnEnemiesReq = World.GetRequest<EnemySpawnRequest>();
-                        spawnEnemiesReq.Publish(new EnemySpawnRequest{
+                        spawnEnemiesReq.Publish(new EnemySpawnRequest
+                        {
                             EnemiesIDs = enemiesToSpawn.ToList()
                         }, true);
                     }
                 }
             }
-            
+
             /* ############################################## */
             /*           Pre-spawn monsters request           */
             /* ############################################## */
@@ -103,17 +108,20 @@ namespace Gameplay.StateMachine.Systems
                         "mp_DinLeg"),
                 }
             }, true);
-            
-            StateMachineWorld.ExitState<BattleSceneInitializeState>();
-            StateMachineWorld.EnterState<PreBattlePlanningNotificationState>();
+
+            SM.ExitState<BattleSceneInitializeState>();
+            SM.EnterState<PreBattlePlanningNotificationState>();
         }
 
-        private void Enter(Entity stateEntity){
+        private void Enter(Entity stateEntity)
+        {
             RellayCoroutiner.Run(EnterRoutine(stateEntity));
         }
-        
-        private bool IsValid(Entity stateEntity){
-            if(stash_state.Has(stateEntity)){
+
+        private bool IsValid(Entity stateEntity)
+        {
+            if (stash_state.Has(stateEntity))
+            {
                 return true;
             }
             return false;

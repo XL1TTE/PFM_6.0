@@ -25,15 +25,17 @@ namespace Gameplay.StateMachine.Systems
 
         public void OnAwake()
         {
-            evt_onStateEnter = StateMachineWorld.Value.GetEvent<OnStateEnterEvent>();
+            evt_onStateEnter = SM.Value.GetEvent<OnStateEnterEvent>();
 
-            stash_state = StateMachineWorld.Value.GetStash<PreBattlePlanningNotificationState>();
+            stash_state = SM.Value.GetStash<PreBattlePlanningNotificationState>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach(var evt in evt_onStateEnter.publishedChanges){
-                if(IsValid(evt.StateEntity)){
+            foreach (var evt in evt_onStateEnter.publishedChanges)
+            {
+                if (IsValid(evt.StateEntity))
+                {
                     Enter(evt.StateEntity);
                 }
             }
@@ -43,12 +45,14 @@ namespace Gameplay.StateMachine.Systems
         {
 
         }
-        
-        private void Enter(Entity stateEntity){
+
+        private void Enter(Entity stateEntity)
+        {
             RellayCoroutiner.Run(EnterRoutine(stateEntity));
         }
-        
-        private IEnumerator EnterRoutine(Entity stateEntity){
+
+        private IEnumerator EnterRoutine(Entity stateEntity)
+        {
             World.GetRequest<FullScreenNotificationRequest>().Publish(
             new FullScreenNotificationRequest
             {
@@ -65,12 +69,14 @@ namespace Gameplay.StateMachine.Systems
                 state = FullScreenNotificationRequest.State.Disable,
             }, true);
 
-            StateMachineWorld.ExitState<PreBattlePlanningNotificationState>();
-            StateMachineWorld.EnterState<BattlePlanningState>();
+            SM.ExitState<PreBattlePlanningNotificationState>();
+            SM.EnterState<BattlePlanningState>();
         }
-        
-        private bool IsValid(Entity stateEntity){
-            if(stash_state.Has(stateEntity)){
+
+        private bool IsValid(Entity stateEntity)
+        {
+            if (stash_state.Has(stateEntity))
+            {
                 return true;
             }
             return false;

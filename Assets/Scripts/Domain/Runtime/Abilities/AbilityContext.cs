@@ -1,0 +1,28 @@
+using System.Threading.Tasks;
+using Scellecs.Morpeh;
+
+namespace Domain.Abilities
+{
+    public struct AnimationContext
+    {
+        public bool m_IsTweenInteractionFrame;
+        public bool m_IsAnimationOver;
+    }
+
+
+    public class AbilityContext
+    {
+        public Entity m_Caster { get; }
+        public Entity m_Target { get; }
+        public World m_World { get; }
+
+        public AnimationContext m_AnimationContext;
+
+        public AbilityContext(Entity a_Caster, Entity a_Target, World a_World)
+        {
+            this.m_Caster = a_Caster;
+            this.m_Target = a_Target;
+            this.m_World = a_World;
+        }
+    }
+}

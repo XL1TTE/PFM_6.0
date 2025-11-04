@@ -2,6 +2,7 @@ using System;
 using Core.Utilities;
 using Domain.Components;
 using Scellecs.Morpeh;
+using Scellecs.Morpeh.Collections;
 
 
 namespace Persistence.DB
@@ -13,7 +14,8 @@ namespace Persistence.DB
         private static bool _isInitialized = false;
 
 
-        //private static Stash<EmptyRecord> stash_emptyRecords;
+        private static IntHashMap<Entity> m_RecordsMap = new();
+
 
         static DataBase()
         {
@@ -33,15 +35,13 @@ namespace Persistence.DB
 
         private static void Init()
         {
-            var records = ReflectionUtility.FindAllSubclasses<IDbRecord>("Assembly-Persistance");
+            var records = ReflectionUtility.FindAllSubclasses<IDbRecord>();
 
             foreach (var rec in records)
             {
                 Activator.CreateInstance(rec); // Just need to call contructor
             }
 
-            _allRecords = _dbWorld.Filter.With<ID>().Build();
-            stash_ids = _dbWorld.GetStash<ID>();
 
             Commit();
         }
@@ -50,9 +50,6 @@ namespace Persistence.DB
         {
             _dbWorld.Commit();
         }
-
-        private static Filter _allRecords;
-        private static Stash<ID> stash_ids;
 
         public static FilterBuilder Filter
         {
@@ -64,17 +61,30 @@ namespace Persistence.DB
 
         public static bool TryFindRecordByID(string id, out Entity record)
         {
-            foreach (var r in _allRecords)
+            if (id == String.Empty || id == null)
             {
-                if (stash_ids.Get(r).Value == id) { record = r; return true; }
+                record = default;
+                return false;
             }
-            record = default;
-            return false;
+
+            var id_hash = id.GetHashCode();
+            if (m_RecordsMap.Has(id_hash) == false)
+            {
+                record = default;
+                return false;
+            }
+            record = m_RecordsMap.GetValueRefByKey(id_hash);
+            return true;
         }
 
         public static Entity CreateRecord()
         {
             return _dbWorld.CreateEntity();
+        }
+
+        internal static void RegisterRecordWithId(string id, Entity record)
+        {
+            m_RecordsMap.Add(id.GetHashCode(), record, out var slotIndex);
         }
 
         public static void SetRecord<T>(Entity entity, T component) where T : struct, IComponent

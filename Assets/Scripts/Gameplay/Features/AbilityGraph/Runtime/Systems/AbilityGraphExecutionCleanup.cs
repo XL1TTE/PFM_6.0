@@ -1,54 +1,40 @@
-using Domain.AbilityGraph;
-using Scellecs.Morpeh;
-using Unity.IL2CPP.CompilerServices;
+// using Domain.AbilityGraph;
+// using Domain.Services;
+// using Scellecs.Morpeh;
+// using Unity.IL2CPP.CompilerServices;
 
-namespace Gameplay.AbilityGraph
-{
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class AbilityGraphExecutionCleanup : ICleanupSystem
-    {
-        private Filter f_abilitiesToCleanup;
-        private Event<AbiltiyExecutionCompletedEvent> evt_abtExecutionCompleted;
-        private Stash<AbilityCasterComponent> stash_caster;
+// namespace Gameplay.AbilityGraph
+// {
+//     [Il2CppSetOption(Option.NullChecks, false)]
+//     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+//     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+//     public sealed class AbilityGraphExecutionCleanup : ICleanupSystem
+//     {
+//         private Filter f_abilitiesToCleanup;
+//         private Event<AbilityExecutionEnded> evt_AbilityExecutionEnded;
+//         private Stash<AbilityCasterComponent> stash_caster;
 
-        public World World { get; set; }
+//         public World World { get; set; }
 
 
-        public void OnAwake()
-        {
-            f_abilitiesToCleanup = World.Filter
-                .With<AbilityExecutionGraph>()
-                .With<AbilityExecutionState>()
-                .With<AbilityExecutionCompletedTag>()
-                .Build();
+//         public void OnAwake()
+//         {
+//             evt_AbilityExecutionEnded = World.GetEvent<AbilityExecutionEnded>();
 
-            evt_abtExecutionCompleted = World.GetEvent<AbiltiyExecutionCompletedEvent>();
+//             stash_caster = World.GetStash<AbilityCasterComponent>();
+//         }
 
-            stash_caster = World.GetStash<AbilityCasterComponent>();
-        }
+//         public void OnUpdate(float deltaTime)
+//         {
+//             foreach (var evt in evt_AbilityExecutionEnded.publishedChanges)
+//             {
+//                 World.RemoveEntity(evt.m_Ability);
+//             }
+//         }
 
-        public void OnUpdate(float deltaTime)
-        {
-            foreach (var ability in f_abilitiesToCleanup)
-            {
-                NotifyAbilityExecutionCompleted(ability);
-                World.RemoveEntity(ability);
-            }
-        }
+//         public void Dispose()
+//         {
+//         }
 
-        private void NotifyAbilityExecutionCompleted(Entity ability)
-        {
-            evt_abtExecutionCompleted.NextFrame(new AbiltiyExecutionCompletedEvent
-            {
-                Caster = stash_caster.Get(ability).caster
-            });
-        }
-
-        public void Dispose()
-        {
-        }
-
-    }
-}
+//     }
+// }

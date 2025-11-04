@@ -9,7 +9,7 @@ namespace Domain.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct ID : IComponent
     {
-        public string Value;
+        public string m_Value;
     }
 }
 

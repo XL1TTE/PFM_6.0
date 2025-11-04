@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Core.Utilities;
 using Domain.AbilityGraph;
 using Domain.AIGraph;
-using Domain.Commands.Requests;
 using Domain.Extentions;
 using Domain.TurnSystem.Requests;
 using Domain.TurnSystem.Tags;
@@ -20,12 +19,12 @@ namespace Gameplay.AIGraph
         public World World { get; set; }
 
         private Filter f_activeAgents;
-        private Request<ProcessTurnRequest> req_nextTurn;
+        private Request<EndTurnRequest> req_nextTurn;
         private Filter f_turnTaker;
         private Stash<AIExecutionGraph> stash_aiGraph;
         private Stash<AIExecutionState> stash_aiState;
         private Request<AgentMoveRequest> req_agentMove;
-        private Request<AbilityUseRequest> req_abilityUse;
+        private Request<ActivateAbilityRequest> req_abilityUse;
         private Request<AgentTargetSelectionRequest> req_agentTargetSelection;
 
         public void OnAwake()
@@ -43,13 +42,13 @@ namespace Gameplay.AIGraph
                 .With<AIExecutionState>()
                 .Build();
 
-            req_nextTurn = World.GetRequest<ProcessTurnRequest>();
+            req_nextTurn = World.GetRequest<EndTurnRequest>();
 
             stash_aiGraph = World.GetStash<AIExecutionGraph>();
             stash_aiState = World.GetStash<AIExecutionState>();
 
             req_agentMove = World.GetRequest<AgentMoveRequest>();
-            req_abilityUse = World.GetRequest<AbilityUseRequest>();
+            req_abilityUse = World.GetRequest<ActivateAbilityRequest>();
             req_agentTargetSelection = World.GetRequest<AgentTargetSelectionRequest>();
         }
 
@@ -132,11 +131,11 @@ namespace Gameplay.AIGraph
 
         private void ProcessAbilityUse(Entity agent, AIAction actionInfo, ref AIExecutionState state)
         {
-            req_abilityUse.Publish(new AbilityUseRequest
+            req_abilityUse.Publish(new ActivateAbilityRequest
             {
-                Caster = agent,
-                AbilityTemplateID = actionInfo.AbilityId,
-                Targets = state.SelectedTargets
+                m_Caster = agent,
+                m_AbilityTemplateID = actionInfo.AbilityId,
+                m_Targets = state.SelectedTargets
             });
         }
 
@@ -263,7 +262,7 @@ namespace Gameplay.AIGraph
 
         private void CompleteExecution()
         {
-            req_nextTurn.Publish(new ProcessTurnRequest());
+            req_nextTurn.Publish(new EndTurnRequest());
         }
 
         public void Dispose() { }

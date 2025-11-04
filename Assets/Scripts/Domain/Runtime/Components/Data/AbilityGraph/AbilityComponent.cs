@@ -9,7 +9,7 @@ namespace Domain.AbilityGraph
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct AbilityComponent : IComponent { }
 
-    public enum NodeType : byte { Immediate, WaitForAnimationFrame, WaitForTween, WaitForDamage, WaitForEffect, End }
-    public enum ConditionType : byte { AnimationFrame, DamageDealt, EffectApplied, Custom }
+    public enum NodeType : byte { Immediate, WaitForAnimationFrame, WaitForAnimation, WaitForTweenInteractionFrame, WaitForDamage, WaitForEffect, End }
+    public enum ConditionType : byte { AnimationFrame, DamageDealt, EffectApplied, AnimationFailed, AnimationSuccsesed, TweenInteractionFrame }
 }
 

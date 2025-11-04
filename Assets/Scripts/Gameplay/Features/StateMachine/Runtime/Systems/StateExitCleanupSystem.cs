@@ -12,19 +12,20 @@ namespace Gameplay.StateMachine.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class StateExitCleanupSystem : ICleanupSystem
     {
-        public World World { get; set; }     
-        
+        public World World { get; set; }
+
         private Event<OnStateExitEvent> evt_StateExit;
-        
+
         public void OnAwake()
         {
-            evt_StateExit = StateMachineWorld.Value.GetEvent<OnStateExitEvent>();
+            evt_StateExit = SM.Value.GetEvent<OnStateExitEvent>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach(var e in evt_StateExit.publishedChanges){
-                StateMachineWorld.RemoveState(e.StateEntity);
+            foreach (var e in evt_StateExit.publishedChanges)
+            {
+                SM.RemoveState(e.StateEntity);
             }
         }
         public void Dispose()

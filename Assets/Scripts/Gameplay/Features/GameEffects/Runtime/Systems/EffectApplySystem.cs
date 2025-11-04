@@ -1,4 +1,5 @@
 using System;
+using Core.Utilities;
 using Domain.Extentions;
 using Domain.GameEffects;
 using Persistence.DB;
@@ -21,42 +22,49 @@ namespace Gameplay.GameEffects
         public void OnAwake()
         {
             req_applyEffect = World.GetRequest<ApplyEffectRequest>();
-            
+
             evt_effectApplied = World.GetEvent<EffectAppliedEvent>();
-            
+
             stash_effectPool = World.GetStash<EffectsPoolComponent>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach(var req in req_applyEffect.Consume()){
-                if(req.EffectId == null){continue;}
-                if(req.Target.isNullOrDisposed(World)){continue;}
-                
-                if(DataBase.TryFindRecordByID(req.EffectId, out var effect_record) == false){continue;}
-                
-                if(stash_effectPool.Has(req.Target) == false){
-                    stash_effectPool.Set(req.Target, new EffectsPoolComponent{
-                        StatusEffects = new(),
-                        PermanentEffects = new()
+            foreach (var req in req_applyEffect.Consume())
+            {
+                if (req.EffectId == null) { continue; }
+                if (req.Target.isNullOrDisposed(World)) { continue; }
+
+                if (DataBase.TryFindRecordByID(req.EffectId, out var effect_record) == false) { continue; }
+
+                if (stash_effectPool.Has(req.Target) == false)
+                {
+                    stash_effectPool.Set(req.Target, new EffectsPoolComponent
+                    {
+                        m_StatusEffects = new(),
+                        m_PermanentEffects = new()
                     });
                 }
-                
+
                 ref var effectPool = ref stash_effectPool.Get(req.Target);
-                
-                if(req.DurationInTurns == -1){
-                    effectPool.PermanentEffects.Add(new PermanentEffect{EffectId = req.EffectId});
+
+                if (req.DurationInTurns == -1)
+                {
+                    effectPool.m_PermanentEffects.Add(new PermanentEffect { m_EffectId = req.EffectId });
                     NotifyEffectApplied(req);
                 }
-                else if(req.DurationInTurns < 0){
+                else if (req.DurationInTurns < 0)
+                {
                     throw new ArgumentOutOfRangeException("Effect duration can't be negative. Only -1 is works for permanents effects.");
                 }
-                else{
-                    effectPool.StatusEffects
-                        .Add(new StatusEffect{
-                           EffectId = req.EffectId,
-                           DurationInTurns = req.DurationInTurns,
-                           TurnsLeft = req.DurationInTurns 
+                else
+                {
+                    effectPool.m_StatusEffects
+                        .Add(new StatusEffect
+                        {
+                            m_EffectId = req.EffectId,
+                            m_DurationInTurns = req.DurationInTurns,
+                            m_TurnsLeft = req.DurationInTurns
                         });
                     NotifyEffectApplied(req);
                 }
@@ -67,9 +75,11 @@ namespace Gameplay.GameEffects
         {
 
         }
-        
-        private void NotifyEffectApplied(ApplyEffectRequest req){
-            evt_effectApplied.NextFrame(new EffectAppliedEvent{
+
+        private void NotifyEffectApplied(ApplyEffectRequest req)
+        {
+            evt_effectApplied.NextFrame(new EffectAppliedEvent
+            {
                 Source = req.Source,
                 SourceAbility = req.AbilitySource,
                 Target = req.Target,

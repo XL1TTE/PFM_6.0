@@ -1,0 +1,16 @@
+using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
+
+namespace Domain.Services
+{
+
+    [System.Serializable]
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct TweenInteractionFrameRiched : IEventData
+    {
+
+        public Entity m_Subject;
+    }
+}

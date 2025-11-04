@@ -9,7 +9,9 @@ namespace Persistence.DB
     {
         public AiVillageRatRecord()
         {
-            With<ID>(new ID { Value = "ai_RatEnemy" });
+            ID("ai_RatEnemy");
+
+            With<ID>(new ID { m_Value = "ai_RatEnemy" });
             With<AIExecutionGraph>(new AIExecutionGraph
             {
                 Nodes = new List<AINode>
@@ -55,7 +57,7 @@ namespace Persistence.DB
                         Actions = new List<AIAction>{
                             new AIAction{
                                 Type = AIActionType.UseAbility,
-                                AbilityId = "abt_TestRat"
+                                AbilityId = "abt_PhysicalAttack"
                             }
                         },
                         Transitions = new List<AITransition>{

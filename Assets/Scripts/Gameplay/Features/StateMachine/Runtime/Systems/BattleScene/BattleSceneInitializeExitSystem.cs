@@ -12,16 +12,16 @@ namespace Gameplay.StateMachine.Systems
     public sealed class BattleSceneInitializeExitSystem : ISystem
     {
         public World World { get; set; }
-        
+
         private Event<OnStateExitEvent> evt_onStateExit;
-        
+
         private Stash<BattleSceneInitializeState> stash_state;
 
         public void OnAwake()
         {
-            evt_onStateExit = StateMachineWorld.Value.GetEvent<OnStateExitEvent>();
+            evt_onStateExit = SM.Value.GetEvent<OnStateExitEvent>();
 
-            stash_state = StateMachineWorld.Value.GetStash<BattleSceneInitializeState>();
+            stash_state = SM.Value.GetStash<BattleSceneInitializeState>();
 
         }
 

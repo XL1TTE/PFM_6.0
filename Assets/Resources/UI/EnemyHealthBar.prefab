@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_slider: {fileID: 1387974191067913273}
+  m_RootObject: {fileID: 1156693966819888745}
 --- !u!1 &3100271672717033523
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,7 +305,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: -1003224003
+  m_SortingLayerID: -1740462501
   m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &3465449244616578360

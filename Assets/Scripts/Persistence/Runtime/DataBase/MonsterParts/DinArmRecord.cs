@@ -1,10 +1,16 @@
 using Domain.Components;
 using Persistence.Components;
 
-namespace Persistence.DB{
-    public class DinArmRecord: MonsterPartRecord{
-        public DinArmRecord(){
-            With<ID>(new ID { Value = "mp_DinArm" });
+namespace Persistence.DB
+{
+    public class DinArmRecord : MonsterPartRecord
+    {
+        public DinArmRecord()
+        {
+
+            ID("mp_DinArm");
+
+            With<ID>(new ID { m_Value = "mp_DinArm" });
             With<ArmSpritePath>(new ArmSpritePath
             {
                 FarSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Further_Test_1",
@@ -12,9 +18,10 @@ namespace Persistence.DB{
             });
             With<TagMonsterPart>();
             With<TagMonsterArm>();
-            With<AttackData>(new AttackData{Attacks = new UnityEngine.Vector2Int[2]{
-                new UnityEngine.Vector2Int(5,0), new UnityEngine.Vector2Int(1,1)
-            }});
+            With<AbilityProvider>(new AbilityProvider
+            {
+                m_AbilityTemplateID = "abt_din_arm"
+            });
         }
     }
 }
