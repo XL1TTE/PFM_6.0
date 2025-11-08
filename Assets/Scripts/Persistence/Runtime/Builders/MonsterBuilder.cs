@@ -250,7 +250,7 @@ namespace Persistence.Buiders
 
             stash_monsterDammyRef.Add(monster_entity, new MonsterDammyRefComponent { MonsterDammy = monsterDammy });
 
-            stash_turnQueueAvatar.Add(monster_entity, new TurnQueueAvatar { Value = monsterDammy.MonsterAvatar });
+            stash_turnQueueAvatar.Add(monster_entity, new TurnQueueAvatar { m_Value = monsterDammy.MonsterAvatar });
 
             return monster_entity;
 

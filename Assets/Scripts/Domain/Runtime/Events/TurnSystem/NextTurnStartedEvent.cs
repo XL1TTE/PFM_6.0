@@ -10,7 +10,6 @@ namespace Domain.TurnSystem.Events
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct NextTurnStartedEvent : IEventData
     {
-        public Entity m_PreviousTurnTaker;
         public Entity m_CurrentTurnTaker;
     }
 }

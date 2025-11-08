@@ -8,6 +8,7 @@ using Domain.TurnSystem.Requests;
 using Domain.TurnSystem.Tags;
 using Domain.UI.Requests;
 using Domain.UI.Tags;
+using Game;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -124,7 +125,7 @@ namespace Gameplay.EcsButtons.Systems
 
         private void Execute(ButtonClickedEvent evt)
         {
-            req_processTurn.Publish(new EndTurnRequest { });
+            G.NextTurn(World);
 
             SM.ExitState<TargetSelectionState>();
         }

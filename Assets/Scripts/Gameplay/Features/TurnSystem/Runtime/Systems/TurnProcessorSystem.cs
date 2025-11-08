@@ -67,7 +67,6 @@ namespace Gameplay.TurnSystem.Systems
         {
             evt_nextTurnStart.NextFrame(new NextTurnStartedEvent
             {
-                m_PreviousTurnTaker = previousTurnTaker,
                 m_CurrentTurnTaker = currentTurnTaker
             });
         }

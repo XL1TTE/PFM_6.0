@@ -21,7 +21,7 @@ namespace Gameplay.TurnSystem.Systems
 
         private Event<TurnSystemInitializedEvent> evt_turnSystemInitialized;
         private Event<NextTurnStartedEvent> evt_nextTurnStarted;
-        
+
         private Stash<TurnQueueAvatar> stash_turnQueueAvatar;
 
         public void OnAwake()
@@ -39,7 +39,8 @@ namespace Gameplay.TurnSystem.Systems
 
         public void OnUpdate(float deltaTime)
         {
-            foreach(var envt in evt_turnSystemInitialized.publishedChanges){
+            foreach (var envt in evt_turnSystemInitialized.publishedChanges)
+            {
                 ShowAvatar();
             }
 
@@ -53,20 +54,23 @@ namespace Gameplay.TurnSystem.Systems
         {
 
         }
-        
-        private void ShowAvatar(){
+
+        private void ShowAvatar()
+        {
             BattleFieldUIRefs.Instance.BookWidget.TurnTakerAvatar.gameObject.SetActive(true);
         }
 
-        private void HideAvatar(){
+        private void HideAvatar()
+        {
             BattleFieldUIRefs.Instance.BookWidget.TurnTakerAvatar.gameObject.SetActive(false);
         }
 
-        private void DrawCurrentTurnTakerAvatar(){
-            if(filter_currentTurnTaker.IsEmpty()){return;}
-            
+        private void DrawCurrentTurnTakerAvatar()
+        {
+            if (filter_currentTurnTaker.IsEmpty()) { return; }
+
             var turnTaker = filter_currentTurnTaker.First();
-            var avatar = stash_turnQueueAvatar.Get(turnTaker).Value;
+            var avatar = stash_turnQueueAvatar.Get(turnTaker).m_Value;
             if (avatar != null)
             {
                 BattleFieldUIRefs.Instance.BookWidget.TurnTakerAvatar.sprite = avatar;
