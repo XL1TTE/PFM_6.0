@@ -26,12 +26,12 @@ namespace Persistence.DB
                 },
                 m_AbilityType = AbilityType.INTERACTION,
                 m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
-                m_Shifts = new Vector2Int[2] { new Vector2Int(5, 0), new Vector2Int(2, 0) },
+                m_Shifts = new Vector2Int[2] { new Vector2Int(5, 0), new Vector2Int(1, 0) },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
                     new WaitForTweenActionFrame(),
-                    new DealDamage(1, DamageType.PHYSICAL_DAMAGE),
+                    new DealDamage(3, DamageType.PHYSICAL_DAMAGE),
                     new WaitForLastAnimationEnd()
                 }),
             });
