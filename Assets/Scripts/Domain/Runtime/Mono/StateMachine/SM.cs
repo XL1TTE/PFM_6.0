@@ -1,5 +1,6 @@
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Events;
+using Gameplay.StateMachine.Systems;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -15,6 +16,10 @@ namespace Domain.StateMachine.Mono
 
             evt_onStateEnter = Value.GetEvent<OnStateEnterEvent>();
             evt_onStateExit = Value.GetEvent<OnStateExitEvent>();
+
+            var systems = Value.CreateSystemsGroup();
+            systems.AddSystem(new StateExitCleanupSystem());
+            Value.AddSystemsGroup(0, systems);
         }
 
         public static World Value;

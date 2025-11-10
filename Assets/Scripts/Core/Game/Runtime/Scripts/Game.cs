@@ -193,12 +193,6 @@ namespace Game
 
         public async static UniTask DieAsync(Entity a_subject, Entity a_cause, World a_world)
         {
-            var t_dieSeq = A.Die(a_subject, 4, a_world);
-            t_dieSeq.Play();
-
-            await UniTask.WaitWhile(() => t_dieSeq.IsActive());
-            t_dieSeq?.Kill();
-
             // 1. Call this first
             await Interactor.CallAll<IOnEntityDiedInteraction>(async t
                 => await t.OnEntityDied(a_subject, a_cause, a_world));

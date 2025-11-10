@@ -15,7 +15,6 @@ namespace Core.ECS.Modules
         {
             var sg_Cleanup = world.CreateSystemsGroup();
             sg_Cleanup.AddSystem(new DragAndDropCleanupSystem());
-            sg_Cleanup.AddSystem(new StateExitCleanupSystem());
             sg_Cleanup.AddSystem(new FpsShowSystem());
             sg_Cleanup.AddSystem(new TargetSelectionCleanupSystem());
 
