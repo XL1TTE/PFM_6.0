@@ -3,7 +3,8 @@ using Gameplay.EcsButtons.Systems;
 using Scellecs.Morpeh;
 using UI.Systems;
 
-namespace Core.ECS.Modules{
+namespace Core.ECS.Modules
+{
     public sealed class UILogicModule : IWorldModule
     {
         public int Priority => -700;
