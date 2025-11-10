@@ -1,3 +1,4 @@
+using Domain.Map;
 using Domain.Map.Components;
 using Domain.Map.Providers;
 using Domain.Map.Requests;
@@ -56,7 +57,6 @@ namespace Gameplay.Map.Systems
         public void OnAwake()
         {
 
-            Debug.Log("NodeDrawSys is Awake");
             req_update = World.GetRequest<MapUpdateVisualsRequest>();
             req_draw = World.GetRequest<MapDrawVisualsRequest>();
 
@@ -80,10 +80,14 @@ namespace Gameplay.Map.Systems
 
             this.filterBG = this.World.Filter.With<MapBGComponent>().Build();
             this.bgStash = this.World.GetStash<MapBGComponent>();
+        }
+        public void Start()
+        {
 
-            LinesContainer = new GameObject("LinesContainer").transform;
-            NodesContainer = new GameObject("NodesContainer").transform;
-            BGContainer = new GameObject("BGContainer").transform;
+            LinesContainer = MapReferences.Instance().linesRef.transform;
+            //LinesContainer = new GameObject("[LinesContainer]").transform;
+            NodesContainer = new GameObject("[NodesContainer]").transform;
+            BGContainer = new GameObject("[BGContainer]").transform;
 
 
             icon_lab = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Lab");
@@ -225,7 +229,7 @@ namespace Gameplay.Map.Systems
                 }
 
 
-                GameObject cam = Camera.main.GameObject();
+                GameObject cam = MapReferences.Instance().mainCameraContainer.gameObject;
                 cam.GetComponent<CameraEdgePan>().SetBounds(new Vector2(tmp_start_x,0), new Vector2(tmp_end_x,360));
 
 

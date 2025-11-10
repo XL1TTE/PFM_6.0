@@ -1,4 +1,5 @@
 using Domain;
+using Domain.Map;
 using Domain.Map.Mono;
 using Domain.Map.Requests;
 using Domain.MapEvents.Requests;
@@ -162,7 +163,7 @@ namespace Gameplay.MapEvents.Systems
         private void DrawTextUI()
         {
 
-            prefabedMainUI = Instantiate(textEvMainPrefab, new Vector3( 0 , 0 , 0 ), Quaternion.identity);
+            prefabedMainUI = Instantiate(textEvMainPrefab, new Vector3( 0 , 0 , 0 ), Quaternion.identity, MapReferences.Instance().mainCameraContainer.transform);
 
             prefabedMainUI.GetComponent<Scr_MapTextEvUI>().VisualiseUI(bg_sprite, string_message, choices);
 

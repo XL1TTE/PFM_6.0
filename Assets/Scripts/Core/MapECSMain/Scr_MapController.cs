@@ -5,6 +5,7 @@ using Domain.Map.Components;
 using Domain.Map.Requests;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Mono;
+using DS.Files;
 using Gameplay.Map.Systems;
 using Gameplay.MapEvents.Systems;
 using Gameplay.StateMachine.Systems;
@@ -110,6 +111,8 @@ namespace Domain.Map.Mono
 
         public void Start()
         {
+            DataStorage.NewFile<BattleConfig>().WithRecord<LoadConfig>(new LoadConfig());
+
             Interactor.Init();
 
             nodeWorld = World.Default;
@@ -183,8 +186,6 @@ namespace Domain.Map.Mono
 
             systemsMapGroup.AddSystem(mapTextEventHandlerSystem);
             systemsMapGroup.AddSystem(nodeDrawSystem);
-
-            systemsMapGroup.AddSystem(new StateExitCleanupSystem());
 
             nodeWorld.AddSystemsGroup(order: 251, systemsMapGroup);
             //nodeWorld.RemoveSystemsGroup(systemsGroup);
@@ -1464,6 +1465,12 @@ namespace Domain.Map.Mono
             //nodeWorld.CleanupUpdate(Time.deltaTime);
             //nodeWorld.Commit();
             SM.Update();
+        }
+
+
+        public void OnDestroy()
+        {
+            nodeWorld.Dispose();
         }
 
     }

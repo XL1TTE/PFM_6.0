@@ -91,6 +91,11 @@ namespace Persistence.DB
                 count_offset = 2,
                 count_offset_percentile = 0.4f
             });
+
+            With<PrefabComponent>(new PrefabComponent
+            {
+                Value = "Levels/lvl_Village".LoadResource<GameObject>()
+            });
         }
     }
 }

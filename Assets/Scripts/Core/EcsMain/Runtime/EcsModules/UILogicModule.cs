@@ -11,7 +11,7 @@ namespace Core.ECS.Modules{
         public void Initialize(World world)
         {
             var sg_UILogic = world.CreateSystemsGroup();
-            sg_UILogic.AddInitializer(new SharedUI_Initializer());
+            sg_UILogic.AddSystem(new SharedUI_Initializer());
             sg_UILogic.AddSystem(new ExitPlanningStageButtonSystem());
             sg_UILogic.AddSystem(new NextTurnButtonSystem());
 

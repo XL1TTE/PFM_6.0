@@ -35,7 +35,7 @@ namespace Project
         [SerializeField] private bool showBoundsInEditor = true;
         [SerializeField] private Color boundsColor = Color.green;
 
-        private Camera cam;
+        [SerializeField] private Camera cam;
         private Vector3 velocity = Vector3.zero;
 
         public enum EdgeDetectionMode
@@ -60,13 +60,6 @@ namespace Project
 
         void Start()
         {
-            cam = GetComponent<Camera>();
-            if (cam == null)
-            {
-                cam = Camera.main;
-                Debug.LogWarning("Camera component not found, using Main Camera");
-            }
-
             // Initialize default custom curve if not set
             if (customSpeedCurve == null || customSpeedCurve.length == 0)
             {
@@ -240,7 +233,8 @@ namespace Project
         private void DrawEdgeZonesGizmos()
         {
             // Используем нашу игровую камеру, а не камеру редактора
-            Camera gameCam = GetComponent<Camera>();
+            //Camera gameCam = GetComponentInChildren<Camera>();
+            Camera gameCam = cam;
             if (gameCam == null) return;
 
             // Рассчитываем границы видимости игровой камеры в мировых координатах

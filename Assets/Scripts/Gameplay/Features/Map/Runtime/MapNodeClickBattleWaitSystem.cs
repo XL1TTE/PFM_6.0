@@ -1,6 +1,10 @@
 using Domain.Map.Events;
+using DS.Files;
+using Persistence.Components;
+using Persistence.DB;
 using Persistence.DS;
 using Scellecs.Morpeh;
+using UnityEngine.SceneManagement;
 
 namespace Gameplay.Map.Systems
 {
@@ -18,6 +22,7 @@ namespace Gameplay.Map.Systems
 
             nodeEvIDsStash = World.GetStash<MapNodeEventId>();
             nodeTypesStash = World.GetStash<MapNodeEventType>();
+
         }
 
         public void OnUpdate(float deltaTime)
@@ -35,11 +40,18 @@ namespace Gameplay.Map.Systems
                         ref var mapNodeEvIDComponent = ref nodeEvIDsStash.Get(ent);
 
 
-                        ref var crusadeBattleId = ref DataStorage.GetRecordFromFile<Crusade, CurrentBattleId>();
-                        crusadeBattleId.battle_event_id = mapNodeEvIDComponent.event_id;
+                        //ref var crusadeBattleId = ref DataStorage.GetRecordFromFile<Crusade, CurrentBattleId>();
+                        //crusadeBattleId.battle_event_id = mapNodeEvIDComponent.event_id;
+
+                        ref var battleConfig = ref DataStorage.GetRecordFromFile<BattleConfig, LoadConfig>();
+
+                        if (DataBase.TryFindRecordByID(mapNodeEvIDComponent.event_id, out var @event)) {
+                            var prefab = DataBase.GetRecord<PrefabComponent>(@event);
+                            battleConfig.m_prefab_level = prefab.Value;
+                        }
 
 
-                        // LOAD SCENE HERE
+                        SceneManager.LoadScene("BattleField");
 
 
                         break;
