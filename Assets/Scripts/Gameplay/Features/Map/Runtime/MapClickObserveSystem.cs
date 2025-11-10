@@ -3,7 +3,6 @@ using Domain.CursorDetection.Components;
 using Domain.Map.Components;
 using Domain.Map.Events;
 using Domain.Map.Requests;
-using NUnit;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -25,6 +24,7 @@ namespace Gameplay.Map.Systems
 
         public Stash<MapNodeIdComponent> nodeIdStash;
         private Stash<TagMapNodeBinder> nodeBinderStash;
+        private Stash<TagMapNodeChoosable> nodeChoosableStash;
         private Stash<MapTextEvChoiceComponent> mapChoicesStash;
 
         private Stash<MapNodeEventId> nodeEvIDsStash;
@@ -33,6 +33,7 @@ namespace Gameplay.Map.Systems
         //private Request<MapTextEventEnterRequest> req_draw_text_ui;
         private Event<MapNodeClickedEvent> ev_clicked_node;
         private Request<MapTextEventExecuteRequest> req_exe_choice;
+        private Request<MapUpdateProgress> req_update_progress;
 
         //private Stash<ButtonTag> stash_btnTag;
 
@@ -55,13 +56,17 @@ namespace Gameplay.Map.Systems
             nodeIdStash = World.GetStash<MapNodeIdComponent>();
             nodeBinderStash = World.GetStash<TagMapNodeBinder>();
 
+            nodeChoosableStash = World.GetStash<TagMapNodeChoosable>();
+
             mapChoicesStash = World.GetStash<MapTextEvChoiceComponent>();
 
             nodeEvIDsStash = World.GetStash<MapNodeEventId>();
             nodeTypesStash = World.GetStash<MapNodeEventType>();
 
             ev_clicked_node = World.GetEvent<MapNodeClickedEvent>();
+
             req_exe_choice = World.GetRequest<MapTextEventExecuteRequest>();
+            req_update_progress = World.GetRequest<MapUpdateProgress>();
             //req_draw_text_ui = World.GetRequest<MapTextEventEnterRequest>();
 
             //evt_btnClicked = World.GetEvent<ButtonClickedEvent>();
@@ -77,6 +82,7 @@ namespace Gameplay.Map.Systems
                     && choicesUnderCursorFilter.IsEmpty()) { return; }
 
 
+                // IF NEED BE, THIS SYSTEM CAN BE REBUILD TO WORK WITH STATEMACHINE WORLD... if only it worked in general
                 if (!choicesUnderCursorFilter.IsEmpty())
                 {
                     var clickedChoice = choicesUnderCursorFilter.First();
@@ -101,7 +107,8 @@ namespace Gameplay.Map.Systems
                     foreach (Entity ent in nodesWithIdComponent)
                     {
                         ref var mapNodeIdComponent = ref nodeIdStash.Get(ent);
-                        if (mapNodeIdComponent.node_id == actualNodeId)
+
+                        if (mapNodeIdComponent.node_id == actualNodeId && nodeChoosableStash.Has(ent))
                         {
                             ref var mapNodeEvTypeComponent = ref nodeTypesStash.Get(ent);
                             ref var mapNodeEvIDComponent = ref nodeEvIDsStash.Get(ent);
@@ -111,6 +118,10 @@ namespace Gameplay.Map.Systems
                             Debug.Log($"NODE EVENT TYPE IS {mapNodeEvTypeComponent.event_type}");
                             Debug.Log($"NODE EVENT ID IS {mapNodeEvIDComponent.event_id}");
 
+                            req_update_progress.Publish(new MapUpdateProgress
+                            {
+                                end_node = actualNodeId
+                            });
 
                             ev_clicked_node.NextFrame(new MapNodeClickedEvent
                             {

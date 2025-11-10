@@ -1,32 +1,34 @@
-using CursorDetection.Systems;
-using Domain.Extentions;
+using Core.ECS.Modules;
 using Domain.Components;
+using Domain.Extentions;
 using Domain.Map.Components;
 using Domain.Map.Requests;
-using Domain.Monster.Mono;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Mono;
 using Gameplay.Map.Systems;
+using Gameplay.MapEvents.Systems;
+using Gameplay.StateMachine.Systems;
+using Interactions;
 using Persistence.DB;
+using Persistence.DS;
 using Scellecs.Morpeh;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
 using Random = UnityEngine.Random;
-using Gameplay.MapEvents.Systems;
-using Core.ECS.Modules;
 
 namespace Domain.Map.Mono
 {
     public sealed class Scr_MapController : MonoBehaviour
     {
+
         public STAGES current_stage = STAGES.VILLAGE;
 
         public float event_battle_chance = 0.5f;
 
         public World nodeWorld;
+        private Request<MapUpdateProgress> req_update;
         private Filter filterPos;
 
         private Filter all_events_text;
@@ -36,6 +38,8 @@ namespace Domain.Map.Mono
         private Request<MapDrawVisualsRequest> req_draw;
         private SystemsGroup systemsMapGroup;
 
+
+        public Stash<TagMapNodeCurrent> nodeCurrentStash;
 
         public Stash<MapNodeIdComponent> nodeIdStash;
         public Stash<MapNodePositionComponent> nodePosStash;
@@ -106,13 +110,17 @@ namespace Domain.Map.Mono
 
         public void Start()
         {
+            Interactor.Init();
 
             nodeWorld = World.Default;
+            //nodeWorld.UpdateByUnity = false;
 
 
             all_events_text = DataBase.Filter.With<MapEvTextTag>().Build();
             all_events_battle = DataBase.Filter.With<MapEvBattleTag>().Build();
 
+
+            nodeCurrentStash = nodeWorld.GetStash<TagMapNodeCurrent>();
 
             nodeIdStash = nodeWorld.GetStash<MapNodeIdComponent>();
             nodePosStash = nodeWorld.GetStash<MapNodePositionComponent>();
@@ -123,9 +131,9 @@ namespace Domain.Map.Mono
 
 
 
-            //StateMachineWorld.EnterState<MapDefaultState>();
+            SM.EnterState<MapDefaultState>();
 
-            //if (StateMachineWorld.IsStateActive<MapDefaultState>(out var state))
+            //if (SM.IsStateActive<MapDefaultState>(out var state))
             //{
             //    // CAN do something with "state"
             //}
@@ -148,6 +156,7 @@ namespace Domain.Map.Mono
             //var mapNodeClickBattleWaitSystem = new MapNodeClickBattleWaitSystem();
             //var mapNodeClickBossWaitSystem = new MapNodeClickBossWaitSystem();
             //var mapNodeClickLabWaitSystem = new MapNodeClickLabWaitSystem();
+
             nodeWorld.AddModule(new MapInteractionBaseModule());
             nodeWorld.AddModule(new MapNodeWaitModule());
             nodeWorld.AddModule(new MapReqSystemsModule());
@@ -159,6 +168,7 @@ namespace Domain.Map.Mono
 
 
 
+            req_update = nodeWorld.GetRequest<MapUpdateProgress>();
             req_draw = nodeWorld.GetRequest<MapDrawVisualsRequest>();
             
             
@@ -170,8 +180,11 @@ namespace Domain.Map.Mono
             //systemsMapGroup.AddSystem(mapEvReqSystemGiveGold);
             //systemsMapGroup.AddSystem(mapEvReqSystemTakeGold);
 
+
             systemsMapGroup.AddSystem(mapTextEventHandlerSystem);
             systemsMapGroup.AddSystem(nodeDrawSystem);
+
+            systemsMapGroup.AddSystem(new StateExitCleanupSystem());
 
             nodeWorld.AddSystemsGroup(order: 251, systemsMapGroup);
             //nodeWorld.RemoveSystemsGroup(systemsGroup);
@@ -204,6 +217,7 @@ namespace Domain.Map.Mono
 
             var first_x = map_hor_start + map_hor_offset;
 
+            //nodeCurrentStash.Set(entityFirst, new TagMapNodeCurrent { });
             nodeIdStash.Set(entityFirst, new MapNodeIdComponent { node_id = 0 });
             nodePosStash.Set(entityFirst, new MapNodePositionComponent
             {
@@ -817,28 +831,8 @@ namespace Domain.Map.Mono
             #region
 
 
-            // layer -10 : Two Base BGs to fill the space before the map itself, the second one is inverted by X
             bgStash = nodeWorld.GetStash<MapBGComponent>();
 
-            var bg_entity = nodeWorld.CreateEntity();
-            bgStash.Set(bg_entity, new MapBGComponent
-            {
-                sprite = bg_big_sprite,
-                pos_x = (int)(bg_big_sprite.rect.width / 2),
-                pos_y = whole_map_middle_y_point,
-                scale_x = 1,
-                layer = -10
-            });
-
-            bg_entity = nodeWorld.CreateEntity();
-            bgStash.Set(bg_entity, new MapBGComponent
-            {
-                sprite = bg_big_sprite,
-                pos_x = (int)(bg_big_sprite.rect.width + bg_big_sprite.rect.width / 2),
-                pos_y = whole_map_middle_y_point,
-                scale_x = -1,
-                layer = -10
-            });
 
             //var scaleChange = new Vector3(-1f, 1f, 1f);
             //Instantiate(UIBGPrefab, new Vector3(500, 180, 0), Quaternion.identity);
@@ -848,14 +842,15 @@ namespace Domain.Map.Mono
 
             // layer -9 : Start of Map Scroll
             var scroll_start = bg_beginning_of_scroll + bg_startend_lenght / 2;
-            bg_entity = nodeWorld.CreateEntity();
+            var bg_entity = nodeWorld.CreateEntity();
             bgStash.Set(bg_entity, new MapBGComponent
             {
                 sprite = bg_start_sprite,
                 pos_x = scroll_start,
                 pos_y = whole_map_middle_y_point,
                 scale_x = 1,
-                layer = -9
+                layer = -9,
+                bg_type = BG_TYPE.START,
             });
             //Instantiate(UIMapStartPrefab, new Vector3(scroll_start, 180, 0), Quaternion.identity);
 
@@ -874,7 +869,8 @@ namespace Domain.Map.Mono
                 pos_x = segment_start,
                 pos_y = whole_map_middle_y_point,
                 scale_x = 1,
-                layer = -8
+                layer = -8,
+                bg_type = BG_TYPE.MIDDLE
             });
 
             //var segment_first = Instantiate(UIMapSegmentPrefab, new Vector3(segment_start, 180, 0), Quaternion.identity);
@@ -908,7 +904,8 @@ namespace Domain.Map.Mono
                     pos_x = latest_x,
                     pos_y = whole_map_middle_y_point,
                     scale_x = 1,
-                    layer = -8
+                    layer = -8,
+                    bg_type = BG_TYPE.MIDDLE
                 });
 
                 // add total coordinates count
@@ -926,10 +923,31 @@ namespace Domain.Map.Mono
                 pos_x = scroll_end,
                 pos_y = whole_map_middle_y_point,
                 scale_x = 1,
-                layer = -9
+                layer = -9,
+                bg_type = BG_TYPE.END
             });
 
 
+            // layer -10 : Base BGs to fill the space before the map itself, the second one is inverted by X
+
+            var tmp_scale = 1;
+            var tmp_count = Math.Ceiling((scroll_end - scroll_start) / bg_big_sprite.rect.width);
+
+            for (var i = 0; i < tmp_count; i++)
+            {
+                bg_entity = nodeWorld.CreateEntity();
+                bgStash.Set(bg_entity, new MapBGComponent
+                {
+                    sprite = bg_big_sprite,
+                    pos_x = (int)((bg_big_sprite.rect.width) * i + bg_big_sprite.rect.width / 2),
+                    pos_y = whole_map_middle_y_point,
+                    scale_x = tmp_scale,
+                    layer = -10,
+                    bg_type = BG_TYPE.BG
+                });
+
+                tmp_scale *= -1;
+            }
 
             nodeWorld.Commit();
             #endregion
@@ -1022,6 +1040,7 @@ namespace Domain.Map.Mono
             #endregion
 
 
+            SaveGeneratedMap();
             MapUpdate();
             return;
         }
@@ -1384,12 +1403,49 @@ namespace Domain.Map.Mono
         #endregion
 
 
+        public void SaveGeneratedMap()
+        {
+
+            //var m_file = DataStorage.GetFile<Crusade>();
+
+            ref var crusadeState = ref DataStorage.GetRecordFromFile<Crusade, CrusadeState>();
+            ref var crusadeNodes = ref DataStorage.GetRecordFromFile<Crusade, MapNodes>();
+            ref var crusadeBGs = ref DataStorage.GetRecordFromFile<Crusade, MapBGs>();
+
+            crusadeState.curr_node_id = 0;
+            crusadeState.curr_stage = current_stage;
+            crusadeState.crusade_state = CRUSADE_STATE.CHOOSING;
+
+            var filterId = nodeWorld.Filter.With<MapNodeIdComponent>().Build();
+            var filterBG = nodeWorld.Filter.With<MapBGComponent>().Build();
+
+            List<Entity> nodes = new List<Entity>();
+            List<Entity> bgs = new List<Entity>();
+
+            foreach (var node in filterId)
+            {
+                nodes.Add(node);
+            }
+            crusadeNodes.arr_nodes = nodes;
+
+            foreach (var bg in filterBG)
+            {
+                bgs.Add(bg);
+            }
+            crusadeBGs.arr_bgs = bgs;
+        }
+
+
         public void MapUpdate()
         {
             //Debug.Log\("sent visuals request update");
             req_draw.Publish(new MapDrawVisualsRequest
             {
 
+            });
+            req_update.Publish(new MapUpdateProgress
+            {
+                end_node = 0,
             });
             ////Debug.Log\("MapController is Updating");
 
@@ -1399,6 +1455,15 @@ namespace Domain.Map.Mono
             //apply all entity changes, filters will be updated.
             //automatically invoked between systems
             //nodeWorld.Commit();
+        }
+
+
+        public void Update()
+        {
+            //nodeWorld.Update(Time.deltaTime);
+            //nodeWorld.CleanupUpdate(Time.deltaTime);
+            //nodeWorld.Commit();
+            SM.Update();
         }
 
     }

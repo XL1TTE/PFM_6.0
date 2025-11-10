@@ -1,4 +1,5 @@
 using Domain.Map.Events;
+using Persistence.DS;
 using Scellecs.Morpeh;
 
 namespace Gameplay.Map.Systems
@@ -34,7 +35,11 @@ namespace Gameplay.Map.Systems
                         ref var mapNodeEvIDComponent = ref nodeEvIDsStash.Get(ent);
 
 
-                        // CODE GOES HERE
+                        ref var crusadeBattleId = ref DataStorage.GetRecordFromFile<Crusade, CurrentBattleId>();
+                        crusadeBattleId.battle_event_id = mapNodeEvIDComponent.event_id;
+
+
+                        // LOAD SCENE HERE
 
 
                         break;

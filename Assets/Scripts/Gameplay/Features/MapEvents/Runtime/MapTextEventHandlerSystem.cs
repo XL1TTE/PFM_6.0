@@ -1,16 +1,14 @@
 using Domain;
-using Domain.BattleField.Requests;
-using Domain.DragAndDrop.Requests;
-using Domain.Map.Events;
 using Domain.Map.Mono;
 using Domain.Map.Requests;
 using Domain.MapEvents.Requests;
-using NUnit;
+using Domain.StateMachine.Components;
+using Domain.StateMachine.Mono;
 using Persistence.DB;
+using Persistence.DS;
 using Scellecs.Morpeh;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 namespace Gameplay.MapEvents.Systems
 {
@@ -27,7 +25,6 @@ namespace Gameplay.MapEvents.Systems
 
         private Request<GiveGoldRequest> req_give_gold;
         private Request<TakeGoldRequest> req_take_gold;
-
 
         private GameObject prefabedMainUI;
 
@@ -69,34 +66,46 @@ namespace Gameplay.MapEvents.Systems
         {
             foreach (var req in req_draw_text_ui.Consume())
             {
-                //if (StateMachineWorld.IsStateActive<MapDefaultState>(out var state))
-                if (!flag_ui_is_shown)
+                if (SM.IsStateActive<MapDefaultState>(out var state))
+                //if (!flag_ui_is_shown)
                 {
-                    //    StateMachineWorld.ExitState<MapDefaultState>();
-                    //    StateMachineWorld.EnterState<MapTextEvState>();
+                    SM.ExitState<MapDefaultState>();
+                    SM.EnterState<MapTextEvState>();
                     flag_ui_is_shown = true;
 
                     Debug.Log("WE ARE IN DRAWING VISUALS FOR TEXT EVENTS");
 
                     UpdateUIValues(req.event_id);
                     //DrawTextUI(req.event_id); 
-                    DrawTextUI(); 
+                    DrawTextUI();
+
+                    var m_file = DataStorage.GetFile<Crusade>();
+
+                    ref var crusadeState = ref DataStorage.GetRecordFromFile<Crusade, CrusadeState>();
+
+                    crusadeState.crusade_state = CRUSADE_STATE.TEXT_EVENT;
 
                     return;
                 }
             }
             foreach (var req in req_exe_choice.Consume())
             {
-                //if (StateMachineWorld.IsStateActive<MapTextEvState>(out var state))
-                if (flag_ui_is_shown)
+                if (SM.IsStateActive<MapTextEvState>(out var state))
+                //if (flag_ui_is_shown)
                 {
                     flag_ui_is_shown = false;
-                    //StateMachineWorld.ExitState<MapTextEvState>();
-                    //StateMachineWorld.EnterState<MapDefaultState>();
+                    SM.ExitState<MapTextEvState>();
+                    SM.EnterState<MapDefaultState>();
 
                     Debug.Log("WE ARE IN SOLVING A CHOSEN CHOICE FUR TEXT EVENTS");
 
                     UnDrawTextUI();
+
+                    var m_file = DataStorage.GetFile<Crusade>();
+
+                    ref var crusadeState = ref DataStorage.GetRecordFromFile<Crusade, CrusadeState>();
+
+                    crusadeState.crusade_state = CRUSADE_STATE.CHOOSING;
 
                     var tmp_count = 0;
                     foreach (var choice in choices)
@@ -128,11 +137,11 @@ namespace Gameplay.MapEvents.Systems
             }
 
 
-            ////StateMachineWorld.EnterState<MapDefaultState>();
-            //StateMachineWorld.ExitState<MapDefaultState>();
-            //StateMachineWorld.EnterState<MapTextEvState>();
+            ////SM.EnterState<MapDefaultState>();
+            //SM.ExitState<MapDefaultState>();
+            //SM.EnterState<MapTextEvState>();
 
-            //if (StateMachineWorld.IsStateActive<MapDefaultState>(out var state))
+            //if (SM.IsStateActive<MapDefaultState>(out var state))
             //{
             //    // CAN do something with "state"
             //}

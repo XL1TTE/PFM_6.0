@@ -6,43 +6,43 @@ using System.Collections.Generic;
 namespace Persistence.DB
 {
 
-    public sealed class ev_FAILSAFE : IDbRecord
-    {
-        public ev_FAILSAFE()
-        {
-            ID("ev_FAILSAFE");
+    //public sealed class ev_FAILSAFE : IDbRecord
+    //{
+    //    public ev_FAILSAFE()
+    //    {
+    //        ID("ev_FAILSAFE");
 
-            // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { m_Value = "ev_FAILSAFE" });
-            With<MapEvTextTag>(new MapEvTextTag { });
+    //        // -------------------------------------------------- ID and TAG
+    //       // With<ID>(new ID { m_Value = "ev_FAILSAFE" });
+    //        With<MapEvTextTag>(new MapEvTextTag { });
 
-            // -------------------------------------------------- Required components
+    //        // -------------------------------------------------- Required components
 
 
 
-            // -------------------------------------------------- Main information
-            With<MapEvTextBGComponent>(new MapEvTextBGComponent
-            {
-                bg_sprite_path = "Map/MapTextEventBGs/Spr_Bodypart_Head_Test_1"
-            });
-            With<MapEvTextMessageComponent>(new MapEvTextMessageComponent
-            {
-                string_message = "IF YOU SEE THIS, THEN SOMETHING WENT WRONG"
-            });
-            With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
-            {
-                choices = new Dictionary<string, MapChoiceWrapper>
-                {
+    //        // -------------------------------------------------- Main information
+    //        With<MapEvTextBGComponent>(new MapEvTextBGComponent
+    //        {
+    //            bg_sprite_path = "Map/MapTextEventBGs/Spr_Bodypart_Head_Test_1"
+    //        });
+    //        With<MapEvTextMessageComponent>(new MapEvTextMessageComponent
+    //        {
+    //            string_message = "IF YOU SEE THIS, THEN SOMETHING WENT WRONG"
+    //        });
+    //        With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
+    //        {
+    //            choices = new Dictionary<string, MapChoiceWrapper>
+    //            {
 
-                    { "А, блин :(",
-                        new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 10 } }  }
+    //                { "А, блин :(",
+    //                    new MapChoiceWrapper() {
+    //                        type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+    //                        request = new GiveGoldRequest() { amount = 10 } }  }
 
-                }
-            });
-        }
-    }
+    //            }
+    //        });
+    //    }
+    //}
 
     public sealed class ev_TextDefault : IDbRecord
     {
@@ -51,7 +51,7 @@ namespace Persistence.DB
             ID("ev_TextDefault");
 
             // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { m_Value = "ev_TextDefault" });
+            //With<ID>(new ID { m_Value = "ev_TextDefault" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
             // -------------------------------------------------- Required components
@@ -89,7 +89,7 @@ namespace Persistence.DB
             ID("ev_TextTest1");
 
             // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { m_Value = "ev_TextTest1" });
+           // With<ID>(new ID { m_Value = "ev_TextTest1" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
 
@@ -168,7 +168,7 @@ namespace Persistence.DB
             ID("ev_TextTest2");
 
             // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { m_Value = "ev_TextTest2" });
+            //With<ID>(new ID { m_Value = "ev_TextTest2" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
             // -------------------------------------------------- Required components
@@ -220,8 +220,8 @@ namespace Persistence.DB
         {
             ID("ev_TextTest3");
 
-            // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { Value = "ev_TextTest3" });
+            //// -------------------------------------------------- ID and TAG
+            //With<ID>(new ID { m_Value = "ev_TextTest3" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
 
