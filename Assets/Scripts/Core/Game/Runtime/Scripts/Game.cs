@@ -1,3 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -6,7 +10,9 @@ using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
 using Domain.Extentions;
 using Domain.Stats.Components;
+using DS.Files;
 using Interactions;
+using Persistence.DS;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -66,9 +72,6 @@ namespace Game
             }
         }
 
-
-
-
         public static void MoveToCell(Entity a_subject, Entity a_cell, World a_world)
         {
             MoveToCellAsync(a_subject, a_cell, a_world).Forget();
@@ -108,8 +111,6 @@ namespace Game
                 await handler.OnAnimationEnd(a_subject, a_world);
             }).Forget();
         }
-
-
 
         public static void TurnAround(Entity a_subject, World a_world)
         {
@@ -192,12 +193,6 @@ namespace Game
 
         public async static UniTask DieAsync(Entity a_subject, Entity a_cause, World a_world)
         {
-            var t_dieSeq = A.Die(a_subject, 4, a_world);
-            t_dieSeq.Play();
-
-            await UniTask.WaitWhile(() => t_dieSeq.IsActive());
-            t_dieSeq?.Kill();
-
             // 1. Call this first
             await Interactor.CallAll<IOnEntityDiedInteraction>(async t
                 => await t.OnEntityDied(a_subject, a_cause, a_world));
@@ -208,5 +203,52 @@ namespace Game
 
             }
         }
+
+
+        /// <summary>
+        /// Creates turn queue for battle.
+        /// </summary>
+        /// <param name="a_members">Entities which will be included in per turn process.</param>
+        /// <param name="a_world"></param>
+        /// <returns></returns>
+        public static void CreateTurnsQueue(IEnumerable<Entity> a_members, World a_world)
+        {
+            var t_file = DataStorage.GetFile<BattleMeta>();
+            if (t_file == null) { t_file = DataStorage.NewFile<BattleMeta>().Build(); }
+
+
+            var stash_speed = a_world.GetStash<Speed>();
+
+            var t_orderedBySpeed = a_members.OrderByDescending(x =>
+                stash_speed.Has(x) ? stash_speed.Get(x).m_Value : 0);
+
+            t_file.SetRecord<TurnsQueueRecord>(new TurnsQueueRecord { m_Queue = new List<Entity>(t_orderedBySpeed) });
+
+            Interactor.CallAll<IOnTurnQueueCreatedInteraction>(handler => handler.IOnTurnQueueCreated(a_world)).Forget();
+        }
+
+        /// <summary>
+        /// Ends current turn taker's turn and process to next turn.
+        /// </summary>
+        /// <param name="a_world"></param>
+        public static void NextTurn(World a_world)
+        {
+            ref var t_queue = ref DataStorage.GetRecordFromFile<BattleMeta, TurnsQueueRecord>();
+
+            if (t_queue.m_Queue.Count < 1) { return; }
+
+            t_queue.m_LastTurnTaker = t_queue.m_CurrentTurnTaker;
+            t_queue.m_CurrentTurnTaker = t_queue.m_Queue.PopFirst();
+            t_queue.m_Queue.Add(t_queue.m_CurrentTurnTaker);
+
+            NextTurnAsync(t_queue.m_LastTurnTaker, t_queue.m_CurrentTurnTaker, a_world).Forget();
+        }
+
+        private async static UniTask NextTurnAsync(Entity a_lastTurnTaker, Entity a_currentTurnTaker, World a_world)
+        {
+            await Interactor.CallAll<IOnTurnEndInteraction>(async handler => await handler.OnTurnEnd(a_lastTurnTaker, a_world));
+            await Interactor.CallAll<IOnTurnStartInteraction>(async handler => await handler.OnTurnStart(a_currentTurnTaker, a_world));
+        }
+
     }
 }

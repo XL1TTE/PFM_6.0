@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Domain.TurnSystem.Requests;
+using Game;
 using Scellecs.Morpeh;
 
 namespace Project.AI
@@ -9,8 +10,8 @@ namespace Project.AI
         public async UniTask DoJob(AIExecutionContext context)
         {
             var t_world = context.m_World;
-            var request = t_world.GetRequest<EndTurnRequest>();
-            request.Publish(new EndTurnRequest { }, true);
+
+            G.NextTurn(t_world);
 
             await UniTask.CompletedTask;
         }

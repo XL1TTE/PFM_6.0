@@ -165,6 +165,7 @@ namespace Persistence.DS
         {
             var t_stash = m_storageWorld.GetStash<T>();
             t_stash.Set(a_file.m_FileEntity, a_value);
+            Commit();
         }
         /// <summary>
         /// Data storage internal method. Now for external access.

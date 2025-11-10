@@ -24,8 +24,6 @@ namespace Core.ECS
         {
             Interactor.Init();
             ConfigureSystems();
-
-            TestDataStorage();
         }
 
         private void ConfigureSystems()
@@ -61,27 +59,6 @@ namespace Core.ECS
 
             SM.Update();
         }
-
-
-
-        private void TestDataStorage()
-        {
-            var m_file = DataStorage.NewFile<PlayerSave>()
-                .WithRecord<MonstersStorage>(new MonstersStorage())
-                .WithRecord<VolumeSettings>(new VolumeSettings())
-                .Build();
-
-            ref var volumeSettings = ref DataStorage.GetRecordFromFile<PlayerSave, VolumeSettings>();
-
-            Debug.Log($"Player's volume settings: Music: {volumeSettings.m_Music}.");
-
-            volumeSettings.m_Music = 0.86f;
-
-            volumeSettings = ref DataStorage.GetRecordFromFile<PlayerSave, VolumeSettings>();
-
-            Debug.Log($"Player's volume settings: Music: {volumeSettings.m_Music}.");
-        }
-
     }
 
 }

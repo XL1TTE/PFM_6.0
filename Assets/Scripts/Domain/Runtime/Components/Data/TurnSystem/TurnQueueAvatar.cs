@@ -10,7 +10,7 @@ namespace Domain.TurnSystem.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct TurnQueueAvatar : IComponent
     {
-        public Sprite Value;
+        public Sprite m_Value;
     }
 }
 

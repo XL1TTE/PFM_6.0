@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    Value: {fileID: -4481749515038321221, guid: c4f7dc41fba50104ca9b1253006f6b59, type: 3}
+    m_Value: {fileID: -4481749515038321221, guid: c4f7dc41fba50104ca9b1253006f6b59, type: 3}
 --- !u!114 &1031712963108783947
 MonoBehaviour:
   m_ObjectHideFlags: 0
