@@ -2,7 +2,7 @@ using Domain.Ecs;
 using Gameplay.EcsButtons.Systems;
 using Scellecs.Morpeh;
 
-namespace Core.Ecs.Modules
+namespace Core.ECS.Modules
 {
     public sealed class UILogicModule : IWorldModule
     {
