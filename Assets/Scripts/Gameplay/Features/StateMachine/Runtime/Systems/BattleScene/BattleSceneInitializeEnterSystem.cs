@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Utilities;
+using Cysharp.Threading.Tasks;
 using Domain.BattleField.Requests;
 using Domain.BattleField.Tags;
 using Domain.DragAndDrop.Components;
@@ -16,6 +17,7 @@ using Domain.StateMachine.Events;
 using Domain.StateMachine.Mono;
 using Domain.UI.Mono;
 using Domain.UI.Requests;
+using Game;
 using Persistence.Components;
 using Persistence.DB;
 using Scellecs.Morpeh;
@@ -57,12 +59,13 @@ namespace Gameplay.StateMachine.Systems
 
         }
 
-        private IEnumerator EnterRoutine(Entity stateEntity)
+        private void Enter(Entity stateEntity)
         {
+            EnterAsync(stateEntity).Forget();
+        }
 
-            /* ########################################## */
-            /*                 Load level                 */
-            /* ########################################## */
+        private async UniTask EnterAsync(Entity stateEntity)
+        {
             if (LevelConfig.StartLevelID != null)
             {
                 if (DataBase.TryFindRecordByID(LevelConfig.StartLevelID, out var lvl_record))
@@ -74,25 +77,13 @@ namespace Gameplay.StateMachine.Systems
                             throw new System.Exception($"Level prefab: {LevelConfig.StartLevelID} was not found.");
                         }
                         Object.Instantiate(lvl_prefab.Value); // instantiate level prefab
+
+                        await UniTask.Yield(); // Waiting for all entities creation.
                     }
 
-                    yield return new WaitForEndOfFrame(); // Wait while prefab instantiated;
-
-                    if (DataBase.TryGetRecord<EnemiesPool>(lvl_record, out var ep))
-                    {
-                        var enemiesToSpawn = ep.Value;
-                        var spawnEnemiesReq = World.GetRequest<EnemySpawnRequest>();
-                        spawnEnemiesReq.Publish(new EnemySpawnRequest
-                        {
-                            EnemiesIDs = enemiesToSpawn.ToList()
-                        }, true);
-                    }
+                    Battle.SpawnEnemiesOnLoad(World);
                 }
             }
-
-            /* ############################################## */
-            /*           Pre-spawn monsters request           */
-            /* ############################################## */
 
             var genMonsterReq = World.GetRequest<SpawnMonstersRequest>();
 
@@ -111,11 +102,6 @@ namespace Gameplay.StateMachine.Systems
 
             SM.ExitState<BattleSceneInitializeState>();
             SM.EnterState<PreBattlePlanningNotificationState>();
-        }
-
-        private void Enter(Entity stateEntity)
-        {
-            RellayCoroutiner.Run(EnterRoutine(stateEntity));
         }
 
         private bool IsValid(Entity stateEntity)

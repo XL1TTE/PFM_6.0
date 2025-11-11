@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Bootstrap.unity
     guid: 4a520737e3d0d78438a5b4727c97e123
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/SharedUI.unity
     guid: 810ea37835183e4478fd030aadec9745
   - enabled: 1

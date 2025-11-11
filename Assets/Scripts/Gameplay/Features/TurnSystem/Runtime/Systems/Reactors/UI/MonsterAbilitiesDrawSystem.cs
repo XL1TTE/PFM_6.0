@@ -74,7 +74,7 @@ namespace Gameplay.TurnSystem.Systems
 
             if (t_abilities.m_LeftHandAbility?.m_Value != null)
             {
-                var slot = BattleFieldUIRefs.Instance.BookWidget.m_FirstHandAbilitySlot;
+                var slot = BattleUiRefs.Instance.BookWidget.m_FirstHandAbilitySlot;
                 var ability_btn = Object.Instantiate(m_AbilityButtonPrefab, slot);
                 SetAbilityIcon(ability_btn, t_abilities.m_LeftHandAbility);
                 AttachAbilityOwnerToView(ability_btn, abilityOwner);
@@ -83,7 +83,7 @@ namespace Gameplay.TurnSystem.Systems
             }
             if (t_abilities.m_RightHandAbility?.m_Value != null)
             {
-                var slot = BattleFieldUIRefs.Instance.BookWidget.m_SecondHandAbilitySlot;
+                var slot = BattleUiRefs.Instance.BookWidget.m_SecondHandAbilitySlot;
                 var ability_btn = Object.Instantiate(m_AbilityButtonPrefab, slot);
                 SetAbilityIcon(ability_btn, t_abilities.m_RightHandAbility);
 
@@ -93,7 +93,7 @@ namespace Gameplay.TurnSystem.Systems
             }
             if (t_abilities.m_HeadAbility?.m_Value != null)
             {
-                var slot = BattleFieldUIRefs.Instance.BookWidget.m_HeadAbilitySlot;
+                var slot = BattleUiRefs.Instance.BookWidget.m_HeadAbilitySlot;
                 var ability_btn = Object.Instantiate(m_AbilityButtonPrefab, slot);
                 SetAbilityIcon(ability_btn, t_abilities.m_HeadAbility);
 
@@ -103,7 +103,7 @@ namespace Gameplay.TurnSystem.Systems
             }
             if (t_abilities.m_LegsAbility?.m_Value != null)
             {
-                var slot = BattleFieldUIRefs.Instance.BookWidget.m_MoveButtonSlot;
+                var slot = BattleUiRefs.Instance.BookWidget.m_MoveButtonSlot;
                 var ability_btn = Object.Instantiate(m_AbilityButtonPrefab, slot);
                 SetAbilityIcon(ability_btn, t_abilities.m_LegsAbility);
 
@@ -113,7 +113,7 @@ namespace Gameplay.TurnSystem.Systems
             }
             if (t_abilities.m_TurnAroundAbility?.m_Value != null)
             {
-                var slot = BattleFieldUIRefs.Instance.BookWidget.m_TurnAroundButtonSlot;
+                var slot = BattleUiRefs.Instance.BookWidget.m_TurnAroundButtonSlot;
                 var ability_btn = Object.Instantiate(m_AbilityButtonPrefab, slot);
                 SetAbilityIcon(ability_btn, t_abilities.m_TurnAroundAbility);
 

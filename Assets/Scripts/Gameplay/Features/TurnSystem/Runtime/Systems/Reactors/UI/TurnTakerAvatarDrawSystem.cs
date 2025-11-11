@@ -57,12 +57,12 @@ namespace Gameplay.TurnSystem.Systems
 
         private void ShowAvatar()
         {
-            BattleFieldUIRefs.Instance.BookWidget.TurnTakerAvatar.gameObject.SetActive(true);
+            BattleUiRefs.Instance.BookWidget.TurnTakerAvatar.gameObject.SetActive(true);
         }
 
         private void HideAvatar()
         {
-            BattleFieldUIRefs.Instance.BookWidget.TurnTakerAvatar.gameObject.SetActive(false);
+            BattleUiRefs.Instance.BookWidget.TurnTakerAvatar.gameObject.SetActive(false);
         }
 
         private void DrawCurrentTurnTakerAvatar()
@@ -73,7 +73,7 @@ namespace Gameplay.TurnSystem.Systems
             var avatar = stash_turnQueueAvatar.Get(turnTaker).m_Value;
             if (avatar != null)
             {
-                BattleFieldUIRefs.Instance.BookWidget.TurnTakerAvatar.sprite = avatar;
+                BattleUiRefs.Instance.BookWidget.TurnTakerAvatar.sprite = avatar;
             }
         }
 

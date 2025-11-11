@@ -1,5 +1,4 @@
 using Domain.Ecs;
-using Gameplay.Enemies;
 using Scellecs.Morpeh;
 
 namespace Core.Ecs.Modules
@@ -11,7 +10,7 @@ namespace Core.Ecs.Modules
         public void Initialize(World world)
         {
             var sg_EnemiesLogic = world.CreateSystemsGroup();
-            sg_EnemiesLogic.AddSystem(new EnemiesSpawnSystem());
+            //sg_EnemiesLogic.AddSystem(new EnemiesSpawnSystem());
 
             world.AddSystemsGroup(Priority, sg_EnemiesLogic);
         }

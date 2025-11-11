@@ -52,14 +52,14 @@ namespace Gameplay.StateMachine.Systems
             /*              Change plate text             */
             /* ########################################## */
 
-            BattleFieldUIRefs.Instance.InformationBoardWidget.ChangeText("Preparation");
+            BattleUiRefs.Instance.InformationBoardWidget.ChangeText("Preparation");
 
 
             /* ########################################## */
             /*          Spawn start battle button         */
             /* ########################################## */
 
-            BattleFieldUIRefs.Instance.BookWidget.SpawnStartBattleButton();
+            BattleUiRefs.Instance.BookWidget.SpawnStartBattleButton();
 
             /* ############################################## */
             /*         Hightlight monster spawn cells         */
