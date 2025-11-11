@@ -9,8 +9,11 @@ using Domain.StateMachine.Events;
 using Domain.StateMachine.Mono;
 using Domain.UI.Mono;
 using Domain.UI.Requests;
+using Domain.UI.Widgets;
+using Game;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 namespace Gameplay.StateMachine.Systems
 {
     [Il2CppSetOption(Option.NullChecks, false)]
@@ -48,30 +51,12 @@ namespace Gameplay.StateMachine.Systems
 
         private void Enter(Entity stateEntity)
         {
-            RellayCoroutiner.Run(EnterRoutine(stateEntity));
-        }
-
-        private IEnumerator EnterRoutine(Entity stateEntity)
-        {
-            World.GetRequest<FullScreenNotificationRequest>().Publish(
-            new FullScreenNotificationRequest
-            {
-                state = FullScreenNotificationRequest.State.Enable,
-                Message = "Planning stage",
-                Tip = "Press LMB to continue..."
-            }, true);
-
-            yield return new WaitForMouseDown(0);
-
-            World.GetRequest<FullScreenNotificationRequest>().Publish(
-            new FullScreenNotificationRequest
-            {
-                state = FullScreenNotificationRequest.State.Disable,
-            }, true);
+            Game.GUI.NotifyFullScreen("Planning stage", () => Input.GetMouseButtonDown(0), "Press LMB to continue...");
 
             SM.ExitState<PreBattlePlanningNotificationState>();
             SM.EnterState<BattlePlanningState>();
         }
+
 
         private bool IsValid(Entity stateEntity)
         {

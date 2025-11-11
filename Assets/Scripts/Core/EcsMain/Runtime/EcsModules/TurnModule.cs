@@ -1,8 +1,8 @@
-using Domain.ECS;
+using Domain.Ecs;
 using Gameplay.TurnSystem.Systems;
 using Scellecs.Morpeh;
 
-namespace Core.ECS.Modules
+namespace Core.Ecs.Modules
 {
     public sealed class TurnModule : IWorldModule
     {

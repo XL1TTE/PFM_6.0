@@ -1,10 +1,10 @@
 using Domain.Components;
-using Scellecs.Morpeh.Providers;
+using Domain.Providers;
 using UnityEngine;
 
 namespace Domain.CursorDetection.Providers
 {
-    public sealed class HitBoxComponentProvider : MonoProvider<HitBoxComponent>
+    public sealed class HitBoxComponentProvider : ComponentProvider<HitBoxComponent>
     {
         void OnDrawGizmosSelected()
         {

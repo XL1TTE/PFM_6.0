@@ -7,7 +7,7 @@ namespace Domain.Providers
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class SpriteRendererProvider : MonoProvider<SpriteRendererComponent>
+    public sealed class SpriteRendererProvider : ComponentProvider<SpriteRendererComponent>
     {
     }
 

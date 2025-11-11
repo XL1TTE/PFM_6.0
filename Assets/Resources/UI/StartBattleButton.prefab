@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 1608030409738656973}
   - component: {fileID: 8961293388690328081}
   - component: {fileID: 7730071228026335234}
-  - component: {fileID: 7716071390774346140}
+  - component: {fileID: 7234421897159810291}
   m_Layer: 0
   m_Name: StartBattleButton
   m_TagString: Untagged
@@ -283,7 +283,7 @@ MonoBehaviour:
   serializedData:
     Offset: {x: 0, y: 0}
     Size: {x: 96, y: 20}
---- !u!114 &7716071390774346140
+--- !u!114 &7234421897159810291
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -292,7 +292,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3502223911818016269}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6004cc59c2c04afb96c6b6d42dad286c, type: 3}
+  m_Script: {fileID: 11500000, guid: b3bf7fb6ff478d64cb39b8eec60ff214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7674566962446575570

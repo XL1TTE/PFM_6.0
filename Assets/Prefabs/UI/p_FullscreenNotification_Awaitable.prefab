@@ -590,9 +590,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bffbff65243e02148a3728fc4f827956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _primaryMessage: {fileID: 6027298890077125548}
-  _tipMessage: {fileID: 1941741234843912986}
-  _background: {fileID: 2461670961538200967}
+  m_primaryMessage: {fileID: 6027298890077125548}
+  m_tipMessage: {fileID: 1941741234843912986}
+  m_background: {fileID: 2461670961538200967}
 --- !u!1 &8607659548627610360
 GameObject:
   m_ObjectHideFlags: 0

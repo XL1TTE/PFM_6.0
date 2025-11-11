@@ -1,10 +1,9 @@
-using Domain.ECS;
+using Domain.Ecs;
 using Gameplay.FloatingDamage.Systems;
 using Gameplay.HealthBars.Systems;
 using Scellecs.Morpeh;
-using UI.Systems;
 
-namespace Core.ECS.Modules
+namespace Core.Ecs.Modules
 {
     public sealed class HealthBarsModule : IWorldModule
     {

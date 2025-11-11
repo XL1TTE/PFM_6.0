@@ -1,9 +1,9 @@
-using Domain.ECS;
+using Domain.Ecs;
 using Gameplay.Abilities.Systems;
 using Gameplay.TargetSelection.Systems;
 using Scellecs.Morpeh;
 
-namespace Core.ECS.Modules
+namespace Core.Ecs.Modules
 {
     public sealed class AbilitiesLogicModule : IWorldModule
     {

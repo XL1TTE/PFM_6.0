@@ -8,7 +8,7 @@ namespace Domain.Providers
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class TransformRefProvider : MonoProvider<TransformRefComponent>
+    public sealed class TransformRefProvider : ComponentProvider<TransformRefComponent>
     {
     }
 
