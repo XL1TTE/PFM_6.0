@@ -18,6 +18,7 @@ namespace Core.Ecs
         {
             m_battleWorld = World.Create();
             ECS.m_CurrentWorld = m_battleWorld;
+
             m_battleWorld.UpdateByUnity = false;
         }
 

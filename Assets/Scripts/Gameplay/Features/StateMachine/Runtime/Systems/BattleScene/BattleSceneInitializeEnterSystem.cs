@@ -85,20 +85,7 @@ namespace Gameplay.StateMachine.Systems
                 }
             }
 
-            var genMonsterReq = World.GetRequest<SpawnMonstersRequest>();
-
-            genMonsterReq.Publish(new SpawnMonstersRequest
-            {
-                Monsters = new List<MosnterData>{
-                    new MosnterData(
-                        "mp_DinHead",
-                        "mp_DinArm",
-                        "mp_DinArm",
-                        "mp_DinTorso",
-                        "mp_DinLeg",
-                        "mp_DinLeg"),
-                }
-            }, true);
+            Battle.SpawnMonstersOnLoad(World);
 
             SM.ExitState<BattleSceneInitializeState>();
             SM.EnterState<PreBattlePlanningNotificationState>();

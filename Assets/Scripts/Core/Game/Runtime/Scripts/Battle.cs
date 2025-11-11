@@ -1,20 +1,90 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.Abilities.Components;
+using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
 using Domain.Components;
 using Domain.Extentions;
+using Domain.Monster.Mono;
+using Interactions;
+using Persistence.Buiders;
 using Persistence.Components;
 using Persistence.DB;
 using Persistence.Utilities;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Providers;
+using Unity.VisualScripting;
 
 namespace Game
 {
     public static partial class Battle
     {
+
+        private static List<MonsterData> MONSTERS_TO_SPAWN = new List<MonsterData>{
+                    new MonsterData(
+                        "mp_DinHead",
+                        "mp_DinArm",
+                        "mp_Din3Arm",
+                        "mp_DinTorso",
+                        "mp_DinLeg",
+                        "mp_DinLeg"),
+                    new MonsterData(
+                        "mp_DinHead",
+                        "mp_Din2Arm",
+                        "mp_Din3Arm",
+                        "mp_DinTorso",
+                        "mp_DinLeg",
+                        "mp_DinLeg"),
+                };
+        public static void SpawnMonstersOnLoad(World a_world)
+        {
+            var t_filter = a_world.Filter
+                .With<TagMonsterSpawnCell>()
+                .Without<TagOccupiedCell>()
+                .With<PositionComponent>()
+                .Build();
+
+            var t_spawnCells = F.FilterEmptyCells(t_filter.AsEnumerable(), a_world).ToArray();
+            for (int i = 0; i < Math.Min(t_spawnCells.Length, MONSTERS_TO_SPAWN.Count); ++i)
+            {
+                var t_cell = t_spawnCells[i];
+                var monsterData = MONSTERS_TO_SPAWN[i];
+
+                SpawnMonsterAsync(monsterData, t_cell, a_world).Forget();
+            }
+        }
+
+        private static async UniTask SpawnMonsterAsync(MonsterData a_monsterData, Entity a_cell, World a_world)
+        {
+            var t_monsterEntity = GetMonsterBuilder(a_monsterData, a_world).Build();
+
+            await UniTask.Yield();
+
+            PlaceOnCell(t_monsterEntity, a_cell, a_world);
+            G.OccupyCell(t_monsterEntity, a_cell, a_world);
+
+            Interactor.CallAll<IOnEntityCellPositionChanged>(async handler =>
+            {
+                await handler.OnPositionChanged(a_cell, a_cell, t_monsterEntity, a_world);
+            }).Forget();
+        }
+
+        private static MonsterBuilder GetMonsterBuilder(MonsterData mosnterData, World a_world)
+        {
+            var builder = new MonsterBuilder(a_world)
+                .AttachHead(mosnterData.Head_id)
+                .AttachBody(mosnterData.Body_id)
+                .AttachFarArm(mosnterData.FarArm_id)
+                .AttachNearArm(mosnterData.NearArm_id)
+                .AttachNearLeg(mosnterData.NearLeg_id)
+                .AttachFarLeg(mosnterData.FarLeg_id);
+            return builder;
+        }
+
+
         public static void SpawnEnemiesOnLoad(World a_world)
         {
             var t_filter = a_world.Filter
@@ -54,17 +124,22 @@ namespace Game
                         PlaceOnCell(t_enemyEntity, a_cell, a_world);
                         G.OccupyCell(t_enemyEntity, a_cell, a_world);
                         SetupAbilities(t_enemyEntity, a_world);
+
+                        Interactor.CallAll<IOnEntityCellPositionChanged>(async handler =>
+                        {
+                            await handler.OnPositionChanged(a_cell, a_cell, t_enemyEntity, a_world);
+                        }).Forget();
                     }
                 }
             }
         }
 
-        private static void PlaceOnCell(Entity a_enemyEntity, Entity a_cell, World a_world)
+        private static void PlaceOnCell(Entity a_entity, Entity a_cell, World a_world)
         {
             var t_transform = a_world.GetStash<TransformRefComponent>();
             var cellPos = t_transform.Get(a_cell).Value.position;
 
-            ref var enemyTransform = ref t_transform.Get(a_enemyEntity).Value;
+            ref var enemyTransform = ref t_transform.Get(a_entity).Value;
             enemyTransform.position = cellPos;
         }
 
@@ -131,7 +206,7 @@ namespace Game
             {
                 var movements = DbUtility.CombineShifts(t_lLegAbility.m_Shifts, t_rLegAbility.m_Shifts);
                 t_legsAbtData = t_lLegAbility;
-                t_legsAbtData.m_Shifts = movements;
+                t_legsAbtData.m_Shifts = movements.ToList();
             }
 
             t_abilities.m_HeadAbility = t_headAbility;

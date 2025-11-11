@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
-using Domain.AbilityGraph;
+using Domain.Abilities;
 using Domain.Components;
-using Domain.Events;
 using Domain.Extentions;
 using Domain.FloatingDamage;
 using Scellecs.Morpeh;
@@ -15,63 +14,70 @@ namespace Gameplay.FloatingDamage.Systems
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class FloatingDamageSystem : ISystem
+    public sealed class FloatingDamage : MonoBehaviour
     {
-        public World World { get; set; }
-
-
-        private Event<DamageDealtEvent> evt_OnDamageDealt;
-        private Stash<TransformRefComponent> stash_TransformRef;
         private Transform m_PoolContainer;
         private Queue<FloatingDamageView> m_Pool = new();
 
-
-        public void OnAwake()
+        private static FloatingDamage m_instance;
+        public void Awake()
         {
-            evt_OnDamageDealt = World.GetEvent<DamageDealtEvent>();
-
-            stash_TransformRef = World.GetStash<TransformRefComponent>();
-
             InitializePool();
         }
 
         private void InitializePool()
         {
-            m_PoolContainer = new GameObject("[FlOATING_DAMAGE]").transform;
-
-        }
-
-        public void OnUpdate(float deltaTime)
-        {
-            ProcessDamageDealt();
-        }
-
-        private void ProcessDamageDealt()
-        {
-            foreach (var evt in evt_OnDamageDealt.publishedChanges)
+            if (m_instance == null)
             {
-                if (stash_TransformRef.Has(evt.m_Target) == false) { continue; }
-
-                ref var spawnPoint = ref stash_TransformRef.Get(evt.m_Target).Value;
-
-                FloatingDamageView floatingDamage;
-
-                if (m_Pool.Count <= 0)
-                {
-                    floatingDamage = CreateFloatingDamage();
-                }
-                else
-                {
-                    floatingDamage = m_Pool.Dequeue();
-                }
-
-                floatingDamage.Value.text = evt.m_FinalDamage.ToString();
-                var anim = GetFloatingDamageAnim(spawnPoint, floatingDamage);
-
-                anim.onComplete += () => ReturnToPool(floatingDamage);
-
-                anim.Play();
+                m_instance = this;
             }
+            m_PoolContainer = new GameObject("[FlOATING_DAMAGE]").transform;
+        }
+
+        public static bool IsInstantiated() => m_instance != null;
+
+        public static void Show(Entity a_target, int a_value, DamageType a_damageType, World a_world)
+        {
+            var stash_TransformRef = a_world.GetStash<TransformRefComponent>();
+
+            if (stash_TransformRef.Has(a_target) == false) { return; }
+
+            ref var spawnPoint = ref stash_TransformRef.Get(a_target).Value;
+
+            FloatingDamageView floatingDamage;
+
+            if (m_instance.m_Pool.Count <= 0)
+            {
+                floatingDamage = m_instance.CreateFloatingDamage();
+            }
+            else
+            {
+                floatingDamage = m_instance.m_Pool.Dequeue();
+            }
+
+            floatingDamage.Value.text = a_value.ToString();
+
+            switch (a_damageType)
+            {
+                case DamageType.BLEED_DAMAGE:
+                    floatingDamage.Value.color = Color.red;
+                    break;
+                case DamageType.PHYSICAL_DAMAGE:
+                    floatingDamage.Value.color = Color.white;
+                    break;
+                case DamageType.FIRE_DAMAGE:
+                    floatingDamage.Value.color = Color.yellow;
+                    break;
+                case DamageType.POISON_DAMAGE:
+                    floatingDamage.Value.color = Color.green;
+                    break;
+            }
+
+            var anim = m_instance.GetFloatingDamageAnim(spawnPoint, floatingDamage);
+
+            anim.onComplete += () => m_instance.ReturnToPool(floatingDamage);
+
+            anim.Play();
         }
 
         public void Dispose()

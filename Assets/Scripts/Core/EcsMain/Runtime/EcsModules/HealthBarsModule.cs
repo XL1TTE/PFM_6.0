@@ -17,7 +17,7 @@ namespace Core.Ecs.Modules
             sg_HealthBarsRenders.AddSystem(new CellsHealthBarsSystem());
             //sg_HealthBarsRenders.AddSystem(new HealthBarsUpdateValueSystem());
 
-            sg_HealthBarsRenders.AddSystem(new FloatingDamageSystem());
+            //sg_HealthBarsRenders.AddSystem(new FloatingDamage());
 
             sg_HealthBarsManage.AddSystem(new HealthBarManageSystem());
 

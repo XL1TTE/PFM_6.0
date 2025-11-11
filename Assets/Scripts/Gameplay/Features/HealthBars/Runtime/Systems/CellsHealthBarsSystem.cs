@@ -36,7 +36,7 @@ namespace Gameplay.HealthBars.Systems
                 if (stash_healthBarLink.Has(evt.m_Subject) == false)
                 {
                     RequestHealthBarCreation(evt.m_Subject, evt.m_nCell);
-                    return;
+                    continue;
                 }
                 RequestUpdateHealthBarPosition(evt.m_Subject, evt.m_nCell);
             }

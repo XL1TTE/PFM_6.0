@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    m_StatusEffects: []
+    m_TemporalEffects: []
     m_PermanentEffects:
     - m_EffectId: effect_RatEnemy
 --- !u!114 &6165744893290528280
@@ -265,11 +265,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     m_AIModel:
-      rid: 4408555207749795923
+      rid: 6303632360757788802
   references:
     version: 2
     RefIds:
-    - rid: 4408555207749795923
+    - rid: 6303632360757788802
       type: {class: AIProcessor, ns: Project.AI, asm: Assembly-CSharp}
       data:
         m_Config:

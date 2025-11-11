@@ -307,7 +307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    Value: {fileID: 3229829497803016713}
+    m_Value: {fileID: 3229829497803016713}
 --- !u!114 &7744050427025167888
 MonoBehaviour:
   m_ObjectHideFlags: 0

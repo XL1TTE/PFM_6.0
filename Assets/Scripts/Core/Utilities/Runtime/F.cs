@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Domain.Abilities.Tags;
 using Domain.BattleField.Tags;
+using Domain.Components;
 using Domain.Enemies.Tags;
 using Domain.Extentions;
 using Domain.HealthBars.Components;
@@ -76,6 +77,8 @@ namespace Core.Utilities
             return null;
         }
 
+        public static bool IsDead(Entity entity, World world)
+            => world.GetStash<DiedEntityTag>().Has(entity);
         public static bool IsMonster(Entity entity, World world)
             => world.GetStash<TagMonster>().Has(entity);
         public static bool IsEnemy(Entity entity, World world)

@@ -2,6 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using Domain.Abilities;
 using Domain.GameEffects;
+using Game;
 using Interactions;
 using Scellecs.Morpeh;
 using UnityEngine.Rendering;
@@ -38,44 +39,11 @@ namespace Gameplay.Abilities
                 t_target = t_caster;
             }
 
-            AddEffectToPool(t_target, m_EffectID, m_Duration, t_world);
+            G.Statuses.AddEffectToPool(t_target, m_EffectID, m_Duration, t_world);
 
             foreach (var i in Interactor.GetAll<IOnGameEffectApply>())
             {
                 await i.OnEffectApply(m_EffectID, t_target, t_world);
-            }
-        }
-
-        private void AddEffectToPool(Entity a_subject, string a_effectID, int a_duration, World a_world)
-        {
-            var effect_pool = a_world.GetStash<EffectsPoolComponent>();
-            if (effect_pool.Has(a_subject) == false)
-            {
-                effect_pool.Set(a_subject, new EffectsPoolComponent
-                {
-                    m_PermanentEffects = new(),
-                    m_StatusEffects = new()
-                });
-            }
-
-            ref var subjects_pool = ref effect_pool.Get(a_subject);
-
-            if (a_duration <= -1)
-            {
-                subjects_pool.m_PermanentEffects.Add(new PermanentEffect
-                {
-                    m_EffectId = a_effectID
-                });
-            }
-            else
-            {
-                subjects_pool.m_StatusEffects.Add(new StatusEffect
-                {
-                    m_EffectId = a_effectID,
-                    m_DurationInTurns = a_duration,
-                    m_TurnsLeft = a_duration
-                });
-
             }
         }
     }

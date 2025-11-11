@@ -118,4 +118,4 @@ MonoBehaviour:
       data:
         m_Pool:
         - m_weight: 1
-          m_enemyID: e_VillageRat
+          m_enemyID: 

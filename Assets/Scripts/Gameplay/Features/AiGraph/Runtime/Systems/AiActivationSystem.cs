@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.Abilities.Components;
@@ -28,6 +29,7 @@ namespace Gameplay.AIGraph
         private Stash<AIExecutionGraph> stash_aiGraph;
         private Stash<AIExecutionState> stash_aiState;
         private Stash<AIIsExecutingTag> stash_aiActivationTag;
+        private Stash<AgentAICancellationToken> stash_aiCancell;
         private Event<NextTurnStartedEvent> evt_nextTurnStarted;
 
         public void OnAwake()
@@ -54,43 +56,12 @@ namespace Gameplay.AIGraph
             stash_aiState = World.GetStash<AIExecutionState>();
             stash_aiActivationTag = World.GetStash<AIIsExecutingTag>();
 
+            stash_aiCancell = World.GetStash<AgentAICancellationToken>();
+
             evt_nextTurnStarted = World.GetEvent<NextTurnStartedEvent>();
         }
 
         public void OnUpdate(float deltaTime)
-        {
-            // foreach (var a in f_notInitedAgents)
-            // {
-            //     var agentInfo = stash_aiAgent.Get(a);
-            //     if (DataBase.TryFindRecordByID(agentInfo.AiGraphID, out var graph_rec) == false)
-            //     {
-            //         Debug.Log($"{agentInfo.AiGraphID} record not found for ai agent: {a.Id}.");
-            //         return;
-            //     }
-
-            //     var graph = DataBase.GetRecord<AIExecutionGraph>(graph_rec);
-
-            //     stash_aiGraph.Set(a, graph);
-            //     stash_aiState.Set(a, new AIExecutionState());
-            // }
-
-            // foreach (var a in f_agentTurnTaker)
-            // {
-            //     Debug.Log($"Enable agent ai: {a.Id}.");
-            //     stash_aiActivationTag.Add(a);
-            // }
-
-            // foreach (var a in f_agentCleanup)
-            // {
-            //     Debug.Log($"Disable agent ai: {a.Id}.");
-            //     stash_aiActivationTag.Remove(a);
-            //     stash_aiState.Set(a, new AIExecutionState());
-            // }
-
-            NewLogic();
-        }
-
-        private void NewLogic()
         {
             foreach (var evt in evt_nextTurnStarted.publishedChanges)
             {
@@ -104,7 +75,7 @@ namespace Gameplay.AIGraph
             }
         }
 
-        private async UniTask StartAI(AIProcessor ai, Entity agent)
+        private async UniTask StartAI(IAIProcessor ai, Entity agent)
         {
             await ai.Process(agent, World);
         }

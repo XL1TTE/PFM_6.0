@@ -199,7 +199,7 @@ namespace Persistence.Buiders
             {
                 var movements = DbUtility.CombineShifts(lLegAbtData.m_Shifts, rLegAbtData.m_Shifts);
                 LegAbtData = lLegAbtData;
-                LegAbtData.m_Shifts = movements;
+                LegAbtData.m_Shifts = movements.ToList();
             }
 
             t_abilities.m_HeadAbility = headAbtData;
@@ -226,7 +226,7 @@ namespace Persistence.Buiders
 
             stash_initEffectsPool.Set(monster_entity, new InitialEffectsPoolComponent
             {
-                m_StatusEffects = new(),
+                m_TemporalEffects = new(),
                 m_PermanentEffects = all_effects.Select((e_id) => new PermanentEffect { m_EffectId = e_id }).ToList()
             });
 
