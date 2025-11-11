@@ -1,8 +1,9 @@
-using Domain.ECS;
+using Domain.Ecs;
 using Gameplay.StateMachine.Systems;
 using Scellecs.Morpeh;
 
-namespace Core.ECS.Modules{
+namespace Core.Ecs.Modules
+{
     public sealed class GameStatesModule : IWorldModule
     {
         public int Priority => -800;

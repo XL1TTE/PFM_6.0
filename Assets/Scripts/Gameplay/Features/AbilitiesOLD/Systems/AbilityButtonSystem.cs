@@ -14,11 +14,8 @@ using Domain.UI.Requests;
 using Domain.UI.Tags;
 using Gameplay.TargetSelection;
 using Interactions;
-using Persistence.DB;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
-using Unity.VisualScripting;
-using UnityEngine;
 
 namespace Gameplay.Abilities.Systems
 {

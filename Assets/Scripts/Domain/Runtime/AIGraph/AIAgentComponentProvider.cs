@@ -1,6 +1,6 @@
 using Unity.IL2CPP.CompilerServices;
 using System;
-using Scellecs.Morpeh.Providers;
+using Domain.Providers;
 
 namespace Domain.AIGraph
 {
@@ -8,7 +8,7 @@ namespace Domain.AIGraph
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public class AIAgentComponentProvider : MonoProvider<AIAgentComponent>
+    public class AIAgentComponentProvider : ComponentProvider<AIAgentComponent>
     {
     }
 

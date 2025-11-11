@@ -1,10 +1,10 @@
-using Domain.ECS;
+using Domain.Ecs;
 using Domain.Stats.Components;
 using Gameplay.GameEffects;
 using Gameplay.GameStats.Systems;
 using Scellecs.Morpeh;
 
-namespace Core.ECS.Modules
+namespace Core.Ecs.Modules
 {
     public sealed class GameStatsModule : IWorldModule
     {

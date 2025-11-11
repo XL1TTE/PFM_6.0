@@ -1,8 +1,9 @@
 using Core.Utilities.Systems;
-using Domain.ECS;
+using Domain.Ecs;
 using Scellecs.Morpeh;
 
-namespace Core.ECS.Modules{
+namespace Core.Ecs.Modules
+{
     public sealed class PrefabInstantiationModule : IWorldModule
     {
         public int Priority => 200;

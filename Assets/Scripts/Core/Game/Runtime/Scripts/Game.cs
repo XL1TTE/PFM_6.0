@@ -18,6 +18,7 @@ using UnityEngine;
 
 namespace Game
 {
+
     public static partial class G
     {
 

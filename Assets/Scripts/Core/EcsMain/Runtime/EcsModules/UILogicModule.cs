@@ -1,7 +1,6 @@
-using Domain.ECS;
+using Domain.Ecs;
 using Gameplay.EcsButtons.Systems;
 using Scellecs.Morpeh;
-using UI.Systems;
 
 namespace Core.ECS.Modules
 {
@@ -12,7 +11,7 @@ namespace Core.ECS.Modules
         public void Initialize(World world)
         {
             var sg_UILogic = world.CreateSystemsGroup();
-            sg_UILogic.AddInitializer(new SharedUI_Initializer());
+            //sg_UILogic.AddInitializer(new SharedUI_Initializer());
             sg_UILogic.AddSystem(new ExitPlanningStageButtonSystem());
             sg_UILogic.AddSystem(new NextTurnButtonSystem());
 

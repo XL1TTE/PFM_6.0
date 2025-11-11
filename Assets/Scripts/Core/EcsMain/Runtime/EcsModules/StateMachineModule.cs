@@ -1,7 +1,8 @@
-using Domain.ECS;
+using Domain.Ecs;
 using Scellecs.Morpeh;
 
-namespace Core.ECS.Modules{
+namespace Core.Ecs.Modules
+{
     public sealed class StateMachineModule : IWorldModule
     {
         public int Priority => -900;
