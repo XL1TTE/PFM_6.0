@@ -119,6 +119,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &89492433
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 89492434}
+  m_Layer: 0
+  m_Name: '[NodesContainer]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &89492434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89492433}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 440.7135, y: 188.21527, z: -0.28873044}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &295550720
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,6 +344,37 @@ Transform:
   - {fileID: 1837099475}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &828316574
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 828316575}
+  m_Layer: 0
+  m_Name: '[BGContainer]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &828316575
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828316574}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 440.7135, y: 188.21527, z: -0.28873044}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1259684086
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,13 +557,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableEdgeMovement: 1
-  edgeMovementSpeed: 12000
+  edgeMovementSpeed: 18000
   edgeDetectionMode: 0
   edgeThreshold: 0.2
   edgeThresholdPixels: 40
   allowHorizontalMovement: 1
   allowVerticalMovement: 0
-  speedCurveType: 2
+  speedCurveType: 3
   customSpeedCurve:
     serializedVersion: 2
     m_Curve:
@@ -509,16 +571,25 @@ MonoBehaviour:
       time: 0
       value: 0
       inSlope: 0
-      outSlope: 1
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.87675464
+      value: 0.40746537
+      inSlope: 1.5234632
+      outSlope: 1.5234632
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.6957287
+    - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -583,6 +654,8 @@ MonoBehaviour:
   mainCameraContainer: {fileID: 1634981832}
   mainCamera: {fileID: 295550722}
   linesRef: {fileID: 1412433949}
+  nodesRef: {fileID: 89492433}
+  bgsRef: {fileID: 828316574}
 --- !u!1 &2041969025
 GameObject:
   m_ObjectHideFlags: 0
@@ -623,3 +696,5 @@ SceneRoots:
   - {fileID: 2041969026}
   - {fileID: 310042277}
   - {fileID: 1412433950}
+  - {fileID: 89492434}
+  - {fileID: 828316575}

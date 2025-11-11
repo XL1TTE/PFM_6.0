@@ -51,7 +51,7 @@ namespace Gameplay.Map.Systems
                         }
 
 
-                        SceneManager.LoadScene("BattleField");
+                        //SceneManager.LoadScene("BattleField");
 
 
                         break;

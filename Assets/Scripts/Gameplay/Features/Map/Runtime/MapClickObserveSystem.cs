@@ -3,6 +3,8 @@ using Domain.CursorDetection.Components;
 using Domain.Map.Components;
 using Domain.Map.Events;
 using Domain.Map.Requests;
+using Domain.StateMachine.Components;
+using Domain.StateMachine.Mono;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -83,7 +85,7 @@ namespace Gameplay.Map.Systems
 
 
                 // IF NEED BE, THIS SYSTEM CAN BE REBUILD TO WORK WITH STATEMACHINE WORLD... if only it worked in general
-                if (!choicesUnderCursorFilter.IsEmpty())
+                if (!choicesUnderCursorFilter.IsEmpty() && SM.IsStateActive<MapTextEvState>(out var state_text))
                 {
                     var clickedChoice = choicesUnderCursorFilter.First();
                     var actualChoiceId = mapChoicesStash.Get(clickedChoice).count_id;
@@ -94,7 +96,7 @@ namespace Gameplay.Map.Systems
                     });
                     return;
                 }
-                if (!nodesUnderCursorFilter.IsEmpty())
+                if (!nodesUnderCursorFilter.IsEmpty() && SM.IsStateActive<MapDefaultState>(out var state_def))
                 {
                     var clickedNodeBinder = nodesUnderCursorFilter.First();
 

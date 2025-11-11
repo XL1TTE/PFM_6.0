@@ -21,6 +21,8 @@ namespace Domain.Map
         public Camera mainCamera;
 
         public GameObject linesRef;
+        public GameObject nodesRef;
+        public GameObject bgsRef;
 
 
     }

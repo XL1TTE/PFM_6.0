@@ -85,9 +85,12 @@ namespace Gameplay.Map.Systems
         {
 
             LinesContainer = MapReferences.Instance().linesRef.transform;
+            NodesContainer = MapReferences.Instance().nodesRef.transform;
+            BGContainer = MapReferences.Instance().bgsRef.transform;
+
             //LinesContainer = new GameObject("[LinesContainer]").transform;
-            NodesContainer = new GameObject("[NodesContainer]").transform;
-            BGContainer = new GameObject("[BGContainer]").transform;
+            //NodesContainer = new GameObject("[NodesContainer]").transform;
+            //BGContainer = new GameObject("[BGContainer]").transform;
 
 
             icon_lab = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Lab");
@@ -99,7 +102,6 @@ namespace Gameplay.Map.Systems
             nodePrefab = Resources.Load<GameObject>("Map/Prefabs/MapNodePrefab");
             bgPrefab = Resources.Load<GameObject>("Map/Prefabs/MapBGGeneralPrefab");
             lineMaterial = Resources.Load<Material>("Art/Materials/DottedLine_Material");
-
         }
 
         public void OnUpdate(float deltaTime)
