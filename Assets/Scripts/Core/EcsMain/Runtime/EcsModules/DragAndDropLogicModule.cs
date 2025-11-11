@@ -1,10 +1,11 @@
-using Domain.ECS;
+using Domain.Ecs;
 using Gameplay.DragAndDrop.Systems;
 using Gameplay.DragAndDrop.Validators;
 using Gameplay.Monster.Systems;
 using Scellecs.Morpeh;
 
-namespace Core.ECS.Modules{
+namespace Core.Ecs.Modules
+{
     public sealed class DragAndDropLogicModule : IWorldModule
     {
         public int Priority => -400;

@@ -10,6 +10,7 @@ using Domain.UI.Requests;
 using Domain.UI.Widgets;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
 namespace Gameplay.StateMachine.Systems
 {
@@ -52,38 +53,14 @@ namespace Gameplay.StateMachine.Systems
 
         private void Enter(Entity stateEntity)
         {
-            RellayCoroutiner.Run(EnterRoutine(stateEntity));
-        }
-
-        private IEnumerator EnterRoutine(Entity stateEntity)
-        {
-
-            /* ########################################## */
-            /*              Change plate text             */
-            /* ########################################## */
-
             BattleFieldUIRefs.Instance.InformationBoardWidget.ChangeText("Battle");
 
-            World.GetRequest<FullScreenNotificationRequest>().Publish(
-            new FullScreenNotificationRequest
-            {
-                state = FullScreenNotificationRequest.State.Enable,
-                Message = "Battle stage",
-                Tip = "Press LMB to continue..."
-            }, true);
+            Game.GUI.NotifyFullScreen("Battle stage", () => Input.GetMouseButtonDown(0), "Press LMB to continue...");
 
-            yield return new WaitForMouseDown(0);
-
-            World.GetRequest<FullScreenNotificationRequest>().Publish(
-            new FullScreenNotificationRequest
-            {
-                state = FullScreenNotificationRequest.State.Disable,
-            }, true);
 
             SM.ExitState<PreBattleNotificationState>();
             SM.EnterState<BattleState>();
         }
-
 
         private bool IsValid(Entity stateEntity)
         {

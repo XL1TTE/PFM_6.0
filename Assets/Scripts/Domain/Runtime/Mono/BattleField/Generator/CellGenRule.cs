@@ -1,28 +1,30 @@
 using Domain.Extentions;
+using Game;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Providers;
 using UnityEngine;
 
 namespace Domain.BattleField.Mono
 {
-    public class CellGenRule : MonoBehaviour{
+    public class CellGenRule : MonoBehaviour
+    {
         [HideInInspector] public Vector2Int GridPosition;
         [SerializeField] public GameObject CellPrefab;
         [SerializeField] public GameObject CellCache;
-    
+
         [HideInInspector] private Entity CellEntityCache;
 
         void Start()
-        {   
-            if(CellCache == null || !CellCache.TryFindComponent<EntityProvider>(out var unknown)){return;}
-            Entity entity =  unknown.Entity;
-            
-            CellEntityCache = BattleFieldEntitiesBuilder.SetupCellEntity(entity, gameObject.transform.position, GridPosition);
+        {
+            if (CellCache == null || !CellCache.TryFindComponent<EntityProvider>(out var unknown)) { return; }
+            Entity entity = unknown.Entity;
+
+            CellEntityCache = BattleFieldEntitiesBuilder.SetupCellEntity(entity, gameObject.transform.position, GridPosition, entity.GetWorld());
         }
 
         void OnDisable()
         {
-            World.Default.RemoveEntity(CellEntityCache);
+            CellEntityCache.GetWorld().RemoveEntity(CellEntityCache);
         }
 
         public void UpdateCell()
@@ -30,9 +32,10 @@ namespace Domain.BattleField.Mono
             if (this == null) { return; }
 
             DestroyCell();
-            
-            if(CellPrefab != null){
-                
+
+            if (CellPrefab != null)
+            {
+
                 CellCache = Instantiate(CellPrefab, transform.position, transform.rotation, transform);
                 CellCache.name = "Cell";
             }
@@ -43,8 +46,9 @@ namespace Domain.BattleField.Mono
             DestroyCell();
         }
 
-        private void DestroyCell() {
-            
+        private void DestroyCell()
+        {
+
             if (CellCache != null)
             {
                 if (Application.isPlaying)

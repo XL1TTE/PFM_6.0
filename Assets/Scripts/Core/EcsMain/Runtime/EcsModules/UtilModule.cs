@@ -1,9 +1,10 @@
 using Core.Utilities.Systems;
-using Domain.ECS;
+using Domain.Ecs;
 using Gameplay.StateMachine.Systems;
 using Scellecs.Morpeh;
 
-namespace Core.ECS.Modules{
+namespace Core.Ecs.Modules
+{
     public sealed class UtilModule : IWorldModule
     {
         public int Priority => 99999;

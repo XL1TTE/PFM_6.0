@@ -1,10 +1,10 @@
 using CursorDetection.Systems;
-using Domain.ECS;
+using Domain.Ecs;
 using Gameplay.DragAndDrop.Systems;
 using Scellecs.Morpeh;
 using UI.Buttons;
 
-namespace Core.ECS.Modules
+namespace Core.Ecs.Modules
 {
     public sealed class InputModule : IWorldModule
     {

@@ -67,7 +67,7 @@ namespace Gameplay.StateMachine.Systems
 
             Filter spawnCellsFilter = World.Filter.With<TagMonsterSpawnCell>().Build();
 
-            var highlightMonsterSpawnCellsReq = World.Default.GetRequest<ChangeCellViewToSelectedRequest>();
+            var highlightMonsterSpawnCellsReq = World.GetRequest<ChangeCellViewToSelectedRequest>();
 
             highlightMonsterSpawnCellsReq.Publish(
                     new ChangeCellViewToSelectedRequest
@@ -78,7 +78,7 @@ namespace Gameplay.StateMachine.Systems
                     , true);
 
             var req_markMonsterSpawnCellsAsDropTargets =
-                World.Default.GetRequest<MarkMonsterSpawnCellsAsDropTargetRequest>();
+                World.GetRequest<MarkMonsterSpawnCellsAsDropTargetRequest>();
 
             req_markMonsterSpawnCellsAsDropTargets.Publish(
                 new MarkMonsterSpawnCellsAsDropTargetRequest

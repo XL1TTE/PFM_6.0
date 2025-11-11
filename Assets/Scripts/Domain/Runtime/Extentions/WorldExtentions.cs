@@ -1,4 +1,4 @@
-using Domain.ECS;
+using Domain.Ecs;
 using Scellecs.Morpeh;
 
 namespace Domain.Extentions

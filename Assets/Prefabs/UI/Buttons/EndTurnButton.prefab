@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 270885097923575970}
   - component: {fileID: 2145029474484718029}
   - component: {fileID: 7941445657624938232}
-  - component: {fileID: 1611060740520566516}
+  - component: {fileID: 3489628077490721876}
   m_Layer: 0
   m_Name: EntityLink
   m_TagString: Untagged
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    state: 0
+    state: 1
 --- !u!114 &7497254855732591939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,7 +280,7 @@ MonoBehaviour:
   serializedData:
     Offset: {x: 0, y: 4}
     Size: {x: 60, y: 20}
---- !u!114 &1611060740520566516
+--- !u!114 &3489628077490721876
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -289,7 +289,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8015908763167635897}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6004cc59c2c04afb96c6b6d42dad286c, type: 3}
+  m_Script: {fileID: 11500000, guid: b3bf7fb6ff478d64cb39b8eec60ff214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8494646398357180023

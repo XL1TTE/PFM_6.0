@@ -7,16 +7,16 @@ namespace Domain.UI.Mono
 {
     public class StartBattleButtonView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
-        
+
         [SerializeField] GameObject RootButtonObject;
         [SerializeField] GameObject ViewObject;
-        
+
         [Header("Animation")]
         [SerializeField, Range(1, 2)] private float HoverPunchPower = 1.1f;
         [SerializeField, Range(0, 2)] private float HoverPunchDuration = 0.25f;
-        
+
         private UnityEngine.Vector3 OriginScale;
-        
+
         private Tween Animation;
 
         void Awake()
@@ -24,9 +24,13 @@ namespace Domain.UI.Mono
             OriginScale = ViewObject.transform.localScale;
         }
 
-        public void DestroySelf(){
-            Animation?.Kill(false);            
-            Destroy(RootButtonObject);
+        public void DestroySelf()
+        {
+            Animation?.Kill(true);
+
+            RootButtonObject.SetActive(false);
+
+            Destroy(RootButtonObject, 0.25f);
         }
 
         public void OnPointerEnter(PointerEventData eventData)

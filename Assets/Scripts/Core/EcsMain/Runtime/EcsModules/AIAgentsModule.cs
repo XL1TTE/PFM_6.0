@@ -1,9 +1,9 @@
-using Domain.ECS;
+using Domain.Ecs;
 using Gameplay.AIGraph;
 using Gameplay.Enemies;
 using Scellecs.Morpeh;
 
-namespace Core.ECS.Modules
+namespace Core.Ecs.Modules
 {
     public sealed class AIAgentsModule : IWorldModule
     {

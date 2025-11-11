@@ -1,23 +1,26 @@
 using System;
-using Core.ECS.Modules;
+using Core.Ecs.Modules;
 using Domain.Extentions;
 using Domain.StateMachine.Mono;
+using Game;
 using Interactions;
 using Persistence.DS;
 using Scellecs.Morpeh;
 using UnityEngine;
 
-namespace Core.ECS
+namespace Core.Ecs
 {
+
+    [DefaultExecutionOrder(ECS.SCENE_ENTRY_POINT)]
     public class ECS_Main : MonoBehaviour
     {
-        public static World _defaultWorld;
+        public static World m_battleWorld;
 
         void Awake()
         {
-            _defaultWorld = World.Default;
-
-            _defaultWorld.UpdateByUnity = false;
+            m_battleWorld = World.Create();
+            ECS.m_CurrentWorld = m_battleWorld;
+            m_battleWorld.UpdateByUnity = false;
         }
 
         void Start()
@@ -28,36 +31,41 @@ namespace Core.ECS
 
         private void ConfigureSystems()
         {
-            _defaultWorld.AddModule(new CoreModule());
-            _defaultWorld.AddModule(new StateMachineModule());
-            _defaultWorld.AddModule(new GameStatesModule());
-            _defaultWorld.AddModule(new UILogicModule());
-            _defaultWorld.AddModule(new AIAgentsModule());
-            _defaultWorld.AddModule(new TurnModule());
-            _defaultWorld.AddModule(new InputModule());
-            _defaultWorld.AddModule(new DragAndDropLogicModule());
-            _defaultWorld.AddModule(new GridLogicModule());
-            _defaultWorld.AddModule(new MonstersLogicModule());
-            _defaultWorld.AddModule(new EnemiesLogicModule());
-            _defaultWorld.AddModule(new AbilitiesLogicModule());
+            m_battleWorld.AddModule(new CoreModule());
+            m_battleWorld.AddModule(new StateMachineModule());
+            m_battleWorld.AddModule(new GameStatesModule());
+            m_battleWorld.AddModule(new UILogicModule());
+            m_battleWorld.AddModule(new AIAgentsModule());
+            m_battleWorld.AddModule(new TurnModule());
+            m_battleWorld.AddModule(new InputModule());
+            m_battleWorld.AddModule(new DragAndDropLogicModule());
+            m_battleWorld.AddModule(new GridLogicModule());
+            m_battleWorld.AddModule(new MonstersLogicModule());
+            m_battleWorld.AddModule(new EnemiesLogicModule());
+            m_battleWorld.AddModule(new AbilitiesLogicModule());
             //_defaultWorld.AddModule(new AbilityGraphModule());
-            _defaultWorld.AddModule(new GameEffectsModule());
-            _defaultWorld.AddModule(new GameStatsModule());
-            _defaultWorld.AddModule(new ServicesModule());
-            _defaultWorld.AddModule(new VisualsModule());
-            _defaultWorld.AddModule(new HealthBarsModule());
-            _defaultWorld.AddModule(new PrefabInstantiationModule());
-            _defaultWorld.AddModule(new CleanupModule());
+            m_battleWorld.AddModule(new GameEffectsModule());
+            m_battleWorld.AddModule(new GameStatsModule());
+            m_battleWorld.AddModule(new ServicesModule());
+            m_battleWorld.AddModule(new VisualsModule());
+            m_battleWorld.AddModule(new HealthBarsModule());
+            m_battleWorld.AddModule(new PrefabInstantiationModule());
+            m_battleWorld.AddModule(new CleanupModule());
         }
 
 
         void Update()
         {
-            _defaultWorld.Update(Time.deltaTime);
-            _defaultWorld.CleanupUpdate(Time.deltaTime);
-            _defaultWorld.Commit();
+            m_battleWorld.Update(Time.deltaTime);
+            m_battleWorld.CleanupUpdate(Time.deltaTime);
+            m_battleWorld.Commit();
 
             SM.Update();
+        }
+
+        void OnDestroy()
+        {
+            //m_battleWorld.Dispose();
         }
     }
 

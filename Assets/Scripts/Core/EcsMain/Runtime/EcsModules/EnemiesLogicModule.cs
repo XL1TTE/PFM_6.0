@@ -1,8 +1,9 @@
-using Domain.ECS;
+using Domain.Ecs;
 using Gameplay.Enemies;
 using Scellecs.Morpeh;
 
-namespace Core.ECS.Modules{
+namespace Core.Ecs.Modules
+{
     public sealed class EnemiesLogicModule : IWorldModule
     {
         public int Priority => -100;

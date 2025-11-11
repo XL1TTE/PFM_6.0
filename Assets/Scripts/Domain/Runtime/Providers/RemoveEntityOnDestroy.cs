@@ -1,16 +1,14 @@
-using Domain.Providers;
-using Domain.UI.Tags;
+using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
-
-namespace Domain.UI.Providers
+namespace Domain.Providers
 {
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class NextTurnButtonTagProvider : ComponentProvider<NextTurnButtonTag>
+    public struct RemoveEntityOnDestroy : IComponent
     {
 
     }
-}
 
+}
