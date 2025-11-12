@@ -174,7 +174,27 @@ namespace Project
                 }
             }
         }
+        /// <summary>
+        /// ћгновенно провер€ет и корректирует позицию камеры, если она вышла за границы
+        /// </summary>
+        /// <returns>True если позици€ была скорректирована, false если камера уже в пределах границ</returns>
+        public bool CheckAndEnforceBoundsImmediately()
+        {
+            if (!enableBounds || cam == null) return false;
 
+            Vector3 currentPosition = transform.position;
+            Vector3 correctedPosition = ApplyBounds(currentPosition);
+
+            // ≈сли позици€ изменилась - значит была за границами
+            if (currentPosition != correctedPosition)
+            {
+                transform.position = correctedPosition;
+                velocity = Vector3.zero; // —брасываем скорость дл€ плавного движени€
+                return true;
+            }
+
+            return false;
+        }
         private float CalculateSpeedMultiplier(float normalizedDistance)
         {
             switch (speedCurveType)

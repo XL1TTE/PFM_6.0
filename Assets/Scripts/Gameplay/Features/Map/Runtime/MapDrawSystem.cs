@@ -2,6 +2,7 @@ using Domain.Map;
 using Domain.Map.Components;
 using Domain.Map.Providers;
 using Domain.Map.Requests;
+using Game;
 using Project;
 using Scellecs.Morpeh;
 using TMPro;
@@ -56,6 +57,7 @@ namespace Gameplay.Map.Systems
 
         public void OnAwake()
         {
+            World = ECS_Main_Map.m_mapWorld;
 
             req_update = World.GetRequest<MapUpdateVisualsRequest>();
             req_draw = World.GetRequest<MapDrawVisualsRequest>();
@@ -101,7 +103,7 @@ namespace Gameplay.Map.Systems
 
             nodePrefab = Resources.Load<GameObject>("Map/Prefabs/MapNodePrefab");
             bgPrefab = Resources.Load<GameObject>("Map/Prefabs/MapBGGeneralPrefab");
-            lineMaterial = Resources.Load<Material>("Art/Materials/DottedLine_Material");
+            lineMaterial = Resources.Load<Material>("Materials/DottedLine_Material");
         }
 
         public void OnUpdate(float deltaTime)

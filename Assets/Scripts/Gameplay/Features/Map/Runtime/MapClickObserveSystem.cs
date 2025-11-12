@@ -5,6 +5,7 @@ using Domain.Map.Events;
 using Domain.Map.Requests;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Mono;
+using Game;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -41,6 +42,7 @@ namespace Gameplay.Map.Systems
 
         public void OnAwake()
         {
+            World = ECS_Main_Map.m_mapWorld;
             choicesUnderCursorFilter = World.Filter
                 .With<MapTextEvChoiceComponent>()
                 .With<UnderCursorComponent>()

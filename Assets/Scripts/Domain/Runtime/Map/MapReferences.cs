@@ -24,6 +24,8 @@ namespace Domain.Map
         public GameObject nodesRef;
         public GameObject bgsRef;
 
+        public GameObject textEvUI;
 
+        public GameObject mapController;
     }
 }

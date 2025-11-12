@@ -1,14 +1,18 @@
 using Domain;
 using Domain.Map;
+using Domain.Map.Components;
 using Domain.Map.Mono;
+using Domain.Map.Providers;
 using Domain.Map.Requests;
 using Domain.MapEvents.Requests;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Mono;
+using Game;
 using Persistence.DB;
 using Persistence.DS;
 using Scellecs.Morpeh;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace Gameplay.MapEvents.Systems
@@ -29,26 +33,31 @@ namespace Gameplay.MapEvents.Systems
 
         private GameObject prefabedMainUI;
 
-        //private Filter all_events_text;
-
-        //private Stash<MapNodeIdComponent> nodeIdStash;
-        //private Stash<MapNodeEventId> nodeEventIdStash;
-
-
-        private GameObject textEvMainPrefab;
-        //private GameObject textEvChoicePrefab;
-
 
         public World World { get; set; }
 
+
+        private GameObject textEvChoicePrefab;
+
+        private Transform ptr_whole;
+        private SpriteRenderer ptr_sprite;
+        private TextMeshPro ptr_message;
+        private Transform ptr_choices;
+
+
+        private float dist_between_options = 30;
+        private float choices_x_pos;
+        private float choices_y_pos;
+
+        private List<GameObject> prefabed_choices;
+        private Camera mainCamera;
         public void Dispose()
         {
             //throw new System.NotImplementedException();
         }
-
         public void OnAwake()
         {
-            //all_events_text = DataBase.Filter.With<MapEvTextTag>().Build();
+            World = ECS_Main_Map.m_mapWorld;
 
             req_draw_text_ui = World.GetRequest<MapTextEventEnterRequest>();
             req_exe_choice = World.GetRequest<MapTextEventExecuteRequest>();
@@ -56,11 +65,21 @@ namespace Gameplay.MapEvents.Systems
             req_give_gold = World.GetRequest<GiveGoldRequest>();
             req_take_gold = World.GetRequest<TakeGoldRequest>();
 
-            //nodeIdStash = World.GetStash<MapNodeIdComponent>();
-            //nodeEventIdStash = World.GetStash<MapNodeEventId>();
 
-            textEvMainPrefab = Resources.Load<GameObject>("Map/Prefabs/MapTextEvUIPrefab");
-            //textEvChoicePrefab = Resources.Load<GameObject>("Map/Prefabs/MapTextEvChoicePrefab");
+            prefabedMainUI = MapReferences.Instance().textEvUI;
+
+            mainCamera = MapReferences.Instance().mainCamera;
+
+            Scr_MapTextEvUI mainUI = prefabedMainUI.GetComponent<Scr_MapTextEvUI>();
+
+            //textEvChoicePrefab = mainUI.textEvChoicePrefab;
+            textEvChoicePrefab = Resources.Load<GameObject>("Map/Prefabs/MapTextEvChoicePrefab");
+
+            ptr_whole = mainUI.ptr_whole;
+            ptr_sprite = mainUI.ptr_sprite;
+            ptr_message = mainUI.ptr_message;
+            ptr_choices = mainUI.ptr_choices;
+            dist_between_options = mainUI.dist_between_options;
         }
 
         public void OnUpdate(float deltaTime)
@@ -80,12 +99,6 @@ namespace Gameplay.MapEvents.Systems
                     //DrawTextUI(req.event_id); 
                     DrawTextUI();
 
-                    var m_file = DataStorage.GetFile<Crusade>();
-
-                    ref var crusadeState = ref DataStorage.GetRecordFromFile<Crusade, CrusadeState>();
-
-                    crusadeState.crusade_state = CRUSADE_STATE.TEXT_EVENT;
-
                     return;
                 }
             }
@@ -102,11 +115,12 @@ namespace Gameplay.MapEvents.Systems
 
                     UnDrawTextUI();
 
-                    var m_file = DataStorage.GetFile<Crusade>();
+
 
                     ref var crusadeState = ref DataStorage.GetRecordFromFile<Crusade, CrusadeState>();
-
                     crusadeState.crusade_state = CRUSADE_STATE.CHOOSING;
+
+
 
                     var tmp_count = 0;
                     foreach (var choice in choices)
@@ -136,43 +150,68 @@ namespace Gameplay.MapEvents.Systems
                     }
                 }
             }
-
-
-            ////SM.EnterState<MapDefaultState>();
-            //SM.ExitState<MapDefaultState>();
-            //SM.EnterState<MapTextEvState>();
-
-            //if (SM.IsStateActive<MapDefaultState>(out var state))
-            //{
-            //    // CAN do something with "state"
-            //}
-
-
-            //req_give_gold.Publish(new GiveGoldRequest
-            //{
-            //    
-            //});
-            //req_take_gold.Publish(new TakeGoldRequest
-            //{
-            //
-            //});
             return;
         }
-
-        //private void DrawTextUI(string event_id)
         private void DrawTextUI()
         {
+            prefabedMainUI.SetActive(true);
 
-            prefabedMainUI = Instantiate(textEvMainPrefab, new Vector3( 0 , 0 , 0 ), Quaternion.identity, MapReferences.Instance().mainCameraContainer.transform);
 
-            prefabedMainUI.GetComponent<Scr_MapTextEvUI>().VisualiseUI(bg_sprite, string_message, choices);
+
+            Vector3 cameraPosition = mainCamera.transform.position;
+            Vector3 positionWithoutZ = new Vector3(cameraPosition.x, cameraPosition.y, 0f);
+
+            ptr_whole.transform.position = positionWithoutZ;
+
+
+
+
+            prefabed_choices = new List<GameObject>(); // Initialize the list
+
+
+            ptr_sprite.sprite = bg_sprite;
+            ptr_message.text = string_message;
+
+            //choices_x_pos = ptr_choices.position.x;
+            //choices_y_pos = ptr_choices.position.y;
+
+            choices_x_pos = 0;
+            choices_y_pos = 0;
+
+            float tmp_whole_dist = (choices.Count - 1) * dist_between_options;
+            float tmp_start_y = (choices_y_pos + tmp_whole_dist / 2);
+            int count = 0;
+
+            foreach (var choice in choices)
+            {
+                var tmp_curr_y = tmp_start_y - dist_between_options * count;
+
+                var prefabedChoice = Instantiate(textEvChoicePrefab, new Vector3(choices_x_pos, tmp_curr_y, 0), Quaternion.identity);
+                prefabedChoice.GetComponentInChildren<TextMeshPro>().text = choice.Key;
+
+                this.prefabed_choices.Add(prefabedChoice);
+
+                prefabedChoice.transform.SetParent(ptr_choices, false);
+
+                if (prefabedChoice.TryGetComponent<MapTextEvChoiceProvider>(out var t_choice))
+                {
+                    t_choice.GetData().count_id = count;
+                }
+
+                count++;
+            }
 
         }
         private void UnDrawTextUI()
         {
+            foreach (var choice in prefabed_choices)
+            {
+                Destroy(choice);
+            }
 
-            prefabedMainUI.GetComponent<Scr_MapTextEvUI>().DeVisualiseUI();
+            prefabed_choices.Clear();
 
+            prefabedMainUI.SetActive(false);
         }
 
         private void UpdateUIValues(string event_id)
@@ -187,21 +226,21 @@ namespace Gameplay.MapEvents.Systems
                 // Get BG path
                 if (DataBase.TryGetRecord<MapEvTextBGComponent>(found_record, out var res_bg))
                 {
-                    Debug.Log(res_bg.bg_sprite_path);
+                    //Debug.Log(res_bg.bg_sprite_path);
                     bg_sprite = Resources.Load<Sprite>(res_bg.bg_sprite_path);
                 }
 
                 // Get main base text message
                 if (DataBase.TryGetRecord<MapEvTextMessageComponent>(found_record, out var res_main_text))
                 {
-                    Debug.Log(res_main_text.string_message);
+                    //Debug.Log(res_main_text.string_message);
                     string_message = res_main_text.string_message;
                 }
 
                 // Get all of the choices available
                 if (DataBase.TryGetRecord<MapEvTextChoicesComponent>(found_record, out var res_choices))
                 {
-                    Debug.Log(res_choices.choices);
+                    //Debug.Log(res_choices.choices);
                     choices = res_choices.choices;
                 }
             }

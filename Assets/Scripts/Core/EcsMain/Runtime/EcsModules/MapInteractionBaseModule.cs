@@ -1,5 +1,5 @@
 using CursorDetection.Systems;
-using Domain.ECS;
+using Domain.Ecs;
 using Gameplay.Map.Systems;
 using Scellecs.Morpeh;
 
@@ -17,7 +17,6 @@ namespace Core.ECS.Modules
             sg_MapBase.AddSystem(new MapClickObserveSystem());
             //sg_MapBase.AddSystem(new MapTextEventHandlerSystem());
             //sg_MapBase.AddSystem(new MapDrawSystem());
-            sg_MapBase.AddSystem(new MapEvReqSystemUpdateProgress());
 
             world.AddSystemsGroup(Priority, sg_MapBase);
         }

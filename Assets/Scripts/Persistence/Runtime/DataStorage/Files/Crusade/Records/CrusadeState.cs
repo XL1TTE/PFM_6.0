@@ -1,12 +1,11 @@
 
-using Scellecs.Morpeh;
 using System.Collections.Generic;
 
 namespace Persistence.DS
 {
     public struct CrusadeState : IDataStorageRecord
     {
-        public int curr_node_id;
+        public byte curr_node_id;
 
         public STAGES curr_stage;
 

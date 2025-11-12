@@ -1,12 +1,11 @@
 using Core.Ecs.Modules;
 using Domain.Extentions;
 using Domain.StateMachine.Mono;
-using Game;
 using Interactions;
 using Scellecs.Morpeh;
 using UnityEngine;
 
-namespace Core.Ecs
+namespace Game
 {
 
     [DefaultExecutionOrder(ECS.SCENE_ENTRY_POINT)]

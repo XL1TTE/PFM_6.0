@@ -1,4 +1,4 @@
-using Domain.ECS;
+using Domain.Ecs;
 using Gameplay.Map.Systems;
 using Scellecs.Morpeh;
 

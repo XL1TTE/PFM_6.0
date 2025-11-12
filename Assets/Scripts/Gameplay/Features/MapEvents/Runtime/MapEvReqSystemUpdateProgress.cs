@@ -1,7 +1,8 @@
 using Domain.Map.Components;
 using Domain.Map.Requests;
+using Game;
+using Persistence.DS;
 using Scellecs.Morpeh;
-using UnityEngine;
 
 namespace Gameplay.Map.Systems
 {
@@ -24,6 +25,8 @@ namespace Gameplay.Map.Systems
 
         public void OnAwake()
         {
+            World = ECS_Main_Map.m_mapWorld;
+
             req_update = World.GetRequest<MapUpdateProgress>();
             req_update_vis = World.GetRequest<MapUpdateVisualsRequest>();
 
@@ -54,6 +57,20 @@ namespace Gameplay.Map.Systems
                     curr_node = nodeCurrentFilter.FirstOrDefault();
                     nodeUsedStash.Add(curr_node);
                     nodeCurrentStash.Remove(curr_node);
+
+
+                    var curr_id = nodeIdStash.Get(curr_node).node_id;
+                    ref var crusadeNodes = ref DataStorage.GetRecordFromFile<Crusade, MapNodes>();
+                    for (int i = 0; i < crusadeNodes.arr_nodes.Count; i++)
+                    {
+                        var n_wrap = crusadeNodes.arr_nodes[i];
+                        if (curr_id == crusadeNodes.arr_nodes[i].node_id)
+                        {
+                            n_wrap.crossed = true;
+                            crusadeNodes.arr_nodes[i] = n_wrap;
+                            break;
+                        }
+                    }
                 }
                 else
                 {

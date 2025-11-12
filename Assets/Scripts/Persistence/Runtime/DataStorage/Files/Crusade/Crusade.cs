@@ -11,7 +11,6 @@ namespace Persistence.DS
             With<CrusadeState>(new CrusadeState() { crusade_state = CRUSADE_STATE.NONE });
             With<MapNodes>(new MapNodes());
             With<MapBGs>(new MapBGs());
-            With<CurrentBattleId>(new CurrentBattleId() { battle_event_id = "" });
         }
     }
 

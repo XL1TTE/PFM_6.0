@@ -1,4 +1,6 @@
+using Domain.Map.Components;
 using Domain.Map.Events;
+using Persistence.DS;
 using Scellecs.Morpeh;
 
 namespace Gameplay.Map.Systems
@@ -11,12 +13,14 @@ namespace Gameplay.Map.Systems
 
         private Stash<MapNodeEventId> nodeEvIDsStash;
         private Stash<MapNodeEventType> nodeTypesStash;
+        private Stash<MapNodeIdComponent> nodeIDsStash;
         public void OnAwake()
         {
             ev_clicked_node = World.GetEvent<MapNodeClickedEvent>();
 
             nodeEvIDsStash = World.GetStash<MapNodeEventId>();
             nodeTypesStash = World.GetStash<MapNodeEventType>();
+            nodeIDsStash = World.GetStash<MapNodeIdComponent>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -31,6 +35,12 @@ namespace Gameplay.Map.Systems
 
                     if (mapNodeEvTypeComponent.event_type == EVENT_TYPE.BOSS)
                     {
+                        // Save Current State
+                        ref var crusadeState = ref DataStorage.GetRecordFromFile<Crusade, CrusadeState>();
+                        crusadeState.curr_node_id = nodeIDsStash.Get(ent).node_id;
+                        crusadeState.crusade_state = CRUSADE_STATE.BATTLE;
+
+
                         ref var mapNodeEvIDComponent = ref nodeEvIDsStash.Get(ent);
 
 

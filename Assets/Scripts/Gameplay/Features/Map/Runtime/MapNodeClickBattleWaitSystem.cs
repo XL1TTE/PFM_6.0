@@ -1,5 +1,8 @@
+using Core.Utilities;
+using Domain.Map.Components;
 using Domain.Map.Events;
 using DS.Files;
+using Game;
 using Persistence.Components;
 using Persistence.DB;
 using Persistence.DS;
@@ -16,13 +19,16 @@ namespace Gameplay.Map.Systems
 
         private Stash<MapNodeEventId> nodeEvIDsStash;
         private Stash<MapNodeEventType> nodeTypesStash;
+        private Stash<MapNodeIdComponent> nodeIDsStash;
         public void OnAwake()
         {
+            World = ECS_Main_Map.m_mapWorld;
+
             ev_clicked_node = World.GetEvent<MapNodeClickedEvent>();
 
             nodeEvIDsStash = World.GetStash<MapNodeEventId>();
             nodeTypesStash = World.GetStash<MapNodeEventType>();
-
+            nodeIDsStash = World.GetStash<MapNodeIdComponent>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -37,8 +43,13 @@ namespace Gameplay.Map.Systems
 
                     if (mapNodeEvTypeComponent.event_type == EVENT_TYPE.BATTLE)
                     {
-                        ref var mapNodeEvIDComponent = ref nodeEvIDsStash.Get(ent);
+                        // Save Current State
+                        ref var crusadeState = ref DataStorage.GetRecordFromFile<Crusade, CrusadeState>();
+                        crusadeState.curr_node_id = nodeIDsStash.Get(ent).node_id;
+                        crusadeState.crusade_state = CRUSADE_STATE.BATTLE;
 
+
+                        ref var mapNodeEvIDComponent = ref nodeEvIDsStash.Get(ent);
 
                         //ref var crusadeBattleId = ref DataStorage.GetRecordFromFile<Crusade, CurrentBattleId>();
                         //crusadeBattleId.battle_event_id = mapNodeEvIDComponent.event_id;
@@ -51,7 +62,7 @@ namespace Gameplay.Map.Systems
                         }
 
 
-                        //SceneManager.LoadScene("BattleField");
+                        SceneManager.LoadScene("BattleField");
 
 
                         break;
