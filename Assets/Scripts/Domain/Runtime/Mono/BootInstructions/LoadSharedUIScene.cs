@@ -3,13 +3,15 @@ using UnityEngine.SceneManagement;
 
 namespace Core.Bootstrap
 {
-    
+
     public class LoadSharedUIScene : BootstrapInstruction
     {
         [SerializeField] private string SharedUISceneName;
         public override void Execute()
         {
-            SceneManager.LoadScene(SharedUISceneName, LoadSceneMode.Additive);
+            var load = SceneManager.LoadSceneAsync(SharedUISceneName, LoadSceneMode.Additive);
+
+            load.completed += (load) => SceneManager.UnloadSceneAsync(SharedUISceneName);
         }
     }
 }

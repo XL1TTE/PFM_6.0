@@ -63,6 +63,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5595998051278696528, guid: da154fa0f4338284cb03c6522ddfa982, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7899411563866823203}
+    - targetCorrespondingSourceObject: {fileID: 5595998051278696528, guid: da154fa0f4338284cb03c6522ddfa982, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1551709791309904439}
   m_SourcePrefab: {fileID: 100100000, guid: da154fa0f4338284cb03c6522ddfa982, type: 3}
 --- !u!114 &4302958777049962595 stripped
 MonoBehaviour:
@@ -92,3 +95,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17d35d755dc1c0c40a94becab785eb4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1551709791309904439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6543022659933332026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2fd5a2f65e70374b9acfe7f5e01cadc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    m_SpawnRule:
+      rid: 6303632354044019047
+  references:
+    version: 2
+    RefIds:
+    - rid: 6303632354044019047
+      type: {class: SpawnByWeight, ns: Domain.BattleField.Tags, asm: Assembly-CSharp}
+      data:
+        m_Pool:
+        - m_weight: 1
+          m_enemyID: 

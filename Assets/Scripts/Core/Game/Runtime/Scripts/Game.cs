@@ -8,7 +8,9 @@ using DG.Tweening;
 using Domain.Abilities;
 using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
+using Domain.Components;
 using Domain.Extentions;
+using Domain.GameEffects;
 using Domain.Stats.Components;
 using DS.Files;
 using Interactions;
@@ -69,7 +71,7 @@ namespace Game
             // On damage dealt notification
             foreach (var i in Interactor.GetAll<IOnDamageDealtInteraction>())
             {
-                await i.Execute(a_source, a_target, a_world, t_damageCounter);
+                await i.Execute(a_source, a_target, a_damageType, a_world, t_damageCounter);
             }
         }
 
@@ -150,6 +152,7 @@ namespace Game
             }).Forget();
         }
 
+
         /// <summary>
         /// Occupy cell by changing OccupiedCell tag's value.
         /// Set's subject position component to occupied cell values as well.
@@ -194,6 +197,8 @@ namespace Game
 
         public async static UniTask DieAsync(Entity a_subject, Entity a_cause, World a_world)
         {
+            a_world.GetStash<DiedEntityTag>().Set(a_subject, new DiedEntityTag());
+
             // 1. Call this first
             await Interactor.CallAll<IOnEntityDiedInteraction>(async t
                 => await t.OnEntityDied(a_subject, a_cause, a_world));
@@ -249,6 +254,208 @@ namespace Game
         {
             await Interactor.CallAll<IOnTurnEndInteraction>(async handler => await handler.OnTurnEnd(a_lastTurnTaker, a_world));
             await Interactor.CallAll<IOnTurnStartInteraction>(async handler => await handler.OnTurnStart(a_currentTurnTaker, a_world));
+        }
+
+
+
+
+
+        public static class Statuses
+        {
+
+            public static void RemoveBleedingStack(Entity a_target, BleedingStatusComponent.Stack a_stack, World a_world)
+            {
+                var stash_stacks = a_world.GetStash<BleedingStatusComponent>();
+                ref var stacks = ref stash_stacks.Get(a_target);
+                stacks.m_Stacks.Remove(a_stack);
+
+                if (stacks.m_Stacks.Count < 1)
+                {
+                    stash_stacks.Remove(a_target);
+                }
+            }
+            public static void RemovePoisonStack(Entity a_target, PoisonStatusComponent.Stack a_stack, World a_world)
+            {
+                var stash_stacks = a_world.GetStash<PoisonStatusComponent>();
+                ref var stacks = ref stash_stacks.Get(a_target);
+                stacks.m_Stacks.Remove(a_stack);
+
+                if (stacks.m_Stacks.Count < 1)
+                {
+                    stash_stacks.Remove(a_target);
+                }
+            }
+            public static void RemoveBurningStack(Entity a_target, BurningStatusComponent.Stack a_stack, World a_world)
+            {
+                var stash_stacks = a_world.GetStash<BurningStatusComponent>();
+                ref var stacks = ref stash_stacks.Get(a_target);
+                stacks.m_Stacks.Remove(a_stack);
+
+                if (stacks.m_Stacks.Count < 1)
+                {
+                    stash_stacks.Remove(a_target);
+                }
+            }
+
+
+            public static void ApplyBleeding(Entity a_source, Entity a_target, int a_duration, int a_damagePerTick, World a_world)
+            {
+                ApplyBleedingAsync(a_source, a_target, a_duration, a_damagePerTick, a_world).Forget();
+            }
+            private static async UniTask ApplyBleedingAsync(Entity a_source, Entity a_target, int a_duration, int a_damagePerTick, World a_world)
+            {
+                if (V.IsBuring(a_target, a_world)) { return; } // burning netrolize bleeding.
+
+
+                if (a_world.GetStash<BleedingStatusComponent>().Has(a_target)) { return; }
+
+
+                var stash_bleeding = a_world.GetStash<BleedingStatusComponent>();
+                if (stash_bleeding.Has(a_target))
+                {
+                    stash_bleeding.Get(a_target).m_Stacks.Add(new BleedingStatusComponent.Stack
+                    {
+                        m_DamagePerTurn = a_damagePerTick,
+                        m_Duration = a_duration,
+                        m_TurnsLeft = a_duration
+                    });
+                }
+                else
+                {
+                    stash_bleeding.Set(a_target, new BleedingStatusComponent
+                    {
+                        m_Stacks = new List<BleedingStatusComponent.Stack>
+                        {
+                            new BleedingStatusComponent.Stack{
+                                m_DamagePerTurn = a_damagePerTick,
+                                m_Duration = a_duration,
+                                m_TurnsLeft = a_duration
+                            }
+                        }
+                    });
+                }
+
+                await UniTask.Yield();
+                Interactor.CallAll<IOnBleedApplied>(async handler
+                    => await handler.OnBleedApplied(a_source, a_target, a_duration, a_damagePerTick, a_world)).Forget();
+            }
+
+            public static void ApplyPoison(Entity a_source, Entity a_target, int a_duration, int a_damagePerTick, World a_world)
+            {
+                ApplyPoisonAsync(a_source, a_target, a_duration, a_damagePerTick, a_world).Forget();
+            }
+            private static async UniTask ApplyPoisonAsync(Entity a_source, Entity a_target, int a_duration, int a_damagePerTick, World a_world)
+            {
+                if (V.IsBleeding(a_target, a_world)) { return; } // bleeding netrolize poison.
+
+
+                if (a_world.GetStash<BleedingStatusComponent>().Has(a_target)) { return; }
+
+
+                var stash_poison = a_world.GetStash<PoisonStatusComponent>();
+                if (stash_poison.Has(a_target))
+                {
+                    stash_poison.Get(a_target).m_Stacks.Add(new PoisonStatusComponent.Stack
+                    {
+                        m_DamagePerTurn = a_damagePerTick,
+                        m_Duration = a_duration,
+                        m_TurnsLeft = a_duration
+                    });
+                }
+                else
+                {
+                    stash_poison.Set(a_target, new PoisonStatusComponent
+                    {
+                        m_Stacks = new List<PoisonStatusComponent.Stack>
+                        {
+                            new PoisonStatusComponent.Stack{
+                                m_DamagePerTurn = a_damagePerTick,
+                                m_Duration = a_duration,
+                                m_TurnsLeft = a_duration
+                            }
+                        }
+                    });
+                }
+
+                await UniTask.Yield();
+                Interactor.CallAll<IOnPoisonApplied>(async handler
+                    => await handler.OnPoisonApplied(a_source, a_target, a_duration, a_damagePerTick, a_world)).Forget();
+            }
+
+            public static void ApplyBurning(Entity a_source, Entity a_target, int a_duration, int a_damagePerTick, World a_world)
+            {
+                ApplyBurningAsync(a_source, a_target, a_duration, a_damagePerTick, a_world).Forget();
+            }
+            private static async UniTask ApplyBurningAsync(Entity a_source, Entity a_target, int a_duration, int a_damagePerTick, World a_world)
+            {
+                if (V.IsPoisoned(a_target, a_world)) { return; } // poison netrolize burning.
+
+                if (a_world.GetStash<BurningStatusComponent>().Has(a_target)) { return; }
+
+
+                var stash_poison = a_world.GetStash<BurningStatusComponent>();
+                if (stash_poison.Has(a_target))
+                {
+                    stash_poison.Get(a_target).m_Stacks.Add(new BurningStatusComponent.Stack
+                    {
+                        m_DamagePerTurn = a_damagePerTick,
+                        m_Duration = a_duration,
+                        m_TurnsLeft = a_duration
+                    });
+                }
+                else
+                {
+                    stash_poison.Set(a_target, new BurningStatusComponent
+                    {
+                        m_Stacks = new List<BurningStatusComponent.Stack>
+                        {
+                            new BurningStatusComponent.Stack{
+                                m_DamagePerTurn = a_damagePerTick,
+                                m_Duration = a_duration,
+                                m_TurnsLeft = a_duration
+                            }
+                        }
+                    });
+                }
+
+                await UniTask.Yield();
+                Interactor.CallAll<IOnBurningApplied>(async handler
+                    => await handler.OnBurningApplied(a_source, a_target, a_duration, a_damagePerTick, a_world)).Forget();
+
+            }
+
+            public static void AddEffectToPool(Entity a_subject, string a_effectID, int a_duration, World a_world)
+            {
+                var effect_pool = a_world.GetStash<EffectsPoolComponent>();
+                if (effect_pool.Has(a_subject) == false)
+                {
+                    effect_pool.Set(a_subject, new EffectsPoolComponent
+                    {
+                        m_PermanentEffects = new(),
+                        m_StatusEffects = new()
+                    });
+                }
+
+                ref var subjects_pool = ref effect_pool.Get(a_subject);
+
+                if (a_duration <= -1)
+                {
+                    subjects_pool.m_PermanentEffects.Add(new PermanentEffect
+                    {
+                        m_EffectId = a_effectID
+                    });
+                }
+                else
+                {
+                    subjects_pool.m_StatusEffects.Add(new StatusEffect
+                    {
+                        m_EffectId = a_effectID,
+                        m_DurationInTurns = a_duration,
+                        m_TurnsLeft = a_duration
+                    });
+
+                }
+            }
         }
 
     }

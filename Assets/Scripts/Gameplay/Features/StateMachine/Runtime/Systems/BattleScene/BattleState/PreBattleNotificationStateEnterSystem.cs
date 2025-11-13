@@ -53,7 +53,7 @@ namespace Gameplay.StateMachine.Systems
 
         private void Enter(Entity stateEntity)
         {
-            BattleFieldUIRefs.Instance.InformationBoardWidget.ChangeText("Battle");
+            BattleUiRefs.Instance.InformationBoardWidget.ChangeText("Battle");
 
             Game.GUI.NotifyFullScreen("Battle stage", () => Input.GetMouseButtonDown(0), "Press LMB to continue...");
 

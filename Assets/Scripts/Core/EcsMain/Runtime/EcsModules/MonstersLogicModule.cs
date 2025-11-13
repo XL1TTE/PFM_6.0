@@ -11,7 +11,7 @@ namespace Core.Ecs.Modules
         public void Initialize(World world)
         {
             var sg_MonsterLogic = world.CreateSystemsGroup();
-            sg_MonsterLogic.AddSystem(new MonsterSpawnSystem());
+            //sg_MonsterLogic.AddSystem(new MonsterSpawnSystem());
             sg_MonsterLogic.AddSystem(new MonsterGhostSystem());
             sg_MonsterLogic.AddSystem(new MonsterActionsControlSystem());
 

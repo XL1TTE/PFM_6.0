@@ -1,12 +1,19 @@
 
 
+using System.Collections.Generic;
+using Core.Utilities;
 using Cysharp.Threading.Tasks;
+using Domain.BattleField.Components;
 using Domain.Extentions;
+using Domain.GameEffects;
 using Domain.TurnSystem.Tags;
+using Game;
 using Scellecs.Morpeh;
 
 namespace Interactions
 {
+
+
     public interface IOnTurnEndInteraction
     {
         /// <summary>
@@ -34,5 +41,22 @@ namespace Interactions
 
             return UniTask.CompletedTask;
         }
+    }
+
+    public sealed class DisableCellPointerView : BaseInteraction, IOnTurnEndInteraction
+    {
+        public async UniTask OnTurnEnd(Entity a_turnTaker, World a_world)
+        {
+            var stash_cellView = a_world.GetStash<CellViewComponent>();
+            var t_cell = GU.GetOccupiedCell(a_turnTaker, a_world);
+
+            if (t_cell.isNullOrDisposed(a_world)) { return; }
+            if (stash_cellView.Has(t_cell) == false) { return; }
+
+            stash_cellView.Get(t_cell).m_Value.DisablePointerLayer();
+
+            await UniTask.CompletedTask;
+        }
+
     }
 }

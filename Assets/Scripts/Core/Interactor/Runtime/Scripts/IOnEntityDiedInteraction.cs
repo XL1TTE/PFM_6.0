@@ -1,8 +1,10 @@
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Domain.Abilities.Components;
 using Domain.Extentions;
 using Domain.HealthBars.Components;
+using Domain.TurnSystem.Tags;
 using DS.Files;
 using Game;
 using Persistence.DS;
@@ -17,6 +19,36 @@ namespace Interactions
             Entity a_entity,
             Entity a_cause,
             World a_world);
+    }
+
+    public sealed class DisableAI : BaseInteraction, IOnEntityDiedInteraction
+    {
+        public override Priority m_Priority => Priority.VERY_HIGH;
+        public async UniTask OnEntityDied(Entity a_entity, Entity a_cause, World a_world)
+        {
+            await UniTask.Yield();
+            var stash_aiCancell = a_world.GetStash<AgentAICancellationToken>();
+            if (stash_aiCancell.Has(a_entity) == false) { return; }
+
+            stash_aiCancell.Get(a_entity).m_TokenSource?.Cancel();
+            stash_aiCancell.Get(a_entity).m_TokenSource?.Dispose();
+        }
+    }
+
+    public sealed class EndAgentTurnIfDied : BaseInteraction, IOnEntityDiedInteraction
+    {
+        public override Priority m_Priority => Priority.LOW;
+        public UniTask OnEntityDied(Entity a_entity, Entity a_cause, World a_world)
+        {
+            var stash_aiAgent = a_world.GetStash<AgentAIComponent>();
+            var stash_curTurnTaker = a_world.GetStash<CurrentTurnTakerTag>();
+
+            if (stash_curTurnTaker.Has(a_entity) == false) { return UniTask.CompletedTask; }
+            if (stash_aiAgent.Has(a_entity) == false) { return UniTask.CompletedTask; }
+
+            G.NextTurn(a_world);
+            return UniTask.CompletedTask;
+        }
     }
 
     public sealed class PlayDieAnimationInteraction : BaseInteraction, IOnEntityDiedInteraction
@@ -48,8 +80,8 @@ namespace Interactions
                 t_record.m_Queue.Remove(a_entity);
             }
 
-            if (t_record.m_LastTurnTaker.Id == a_entity.Id) { t_record.m_LastTurnTaker = default; }
-            if (t_record.m_CurrentTurnTaker.Id == a_entity.Id) { t_record.m_CurrentTurnTaker = default; }
+            // if (t_record.m_LastTurnTaker.Id == a_entity.Id) { t_record.m_LastTurnTaker = default; }
+            // if (t_record.m_CurrentTurnTaker.Id == a_entity.Id) { t_record.m_CurrentTurnTaker = default; }
 
             return UniTask.CompletedTask;
         }
@@ -57,7 +89,7 @@ namespace Interactions
 
     public sealed class UnoccupyCellOnDeathInteraction : BaseInteraction, IOnEntityDiedInteraction
     {
-        public override Priority m_Priority => Priority.LOW;
+        public override Priority m_Priority => Priority.VERY_LOW;
         public UniTask OnEntityDied(Entity a_entity, Entity a_cause, World a_world)
         {
             G.UnoccupyCell(GU.GetOccupiedCell(a_entity, a_world), a_world);

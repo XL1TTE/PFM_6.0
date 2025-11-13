@@ -19,7 +19,7 @@ namespace Domain.GameEffects
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct InitialEffectsPoolComponent : IComponent
     {
-        public List<StatusEffect> m_StatusEffects;
+        public List<StatusEffect> m_TemporalEffects;
         public List<PermanentEffect> m_PermanentEffects;
     }
 }

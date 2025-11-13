@@ -1,0 +1,2561 @@
+fileFormatVersion: 2
+guid: f37a9f1840dbabf488613fa19b2424b5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2179208437769409976
+    second: MedievalDropCapFont Atlas_0
+  - first:
+      213: -1480442119212845495
+    second: MedievalDropCapFont Atlas_1
+  - first:
+      213: 3478877153484934598
+    second: MedievalDropCapFont Atlas_2
+  - first:
+      213: 4227915921946268393
+    second: MedievalDropCapFont Atlas_3
+  - first:
+      213: 1628978071143811401
+    second: MedievalDropCapFont Atlas_4
+  - first:
+      213: -7912307483382575961
+    second: MedievalDropCapFont Atlas_5
+  - first:
+      213: 6902902728286059239
+    second: MedievalDropCapFont Atlas_6
+  - first:
+      213: -4953792734466689998
+    second: MedievalDropCapFont Atlas_7
+  - first:
+      213: 2416204518721934509
+    second: MedievalDropCapFont Atlas_8
+  - first:
+      213: -3006014324382179727
+    second: MedievalDropCapFont Atlas_9
+  - first:
+      213: -7818089714462084708
+    second: MedievalDropCapFont Atlas_10
+  - first:
+      213: 5768785166344453018
+    second: MedievalDropCapFont Atlas_11
+  - first:
+      213: -4453666073406281823
+    second: MedievalDropCapFont Atlas_12
+  - first:
+      213: 7285999789494471294
+    second: MedievalDropCapFont Atlas_13
+  - first:
+      213: -7557205891331868391
+    second: MedievalDropCapFont Atlas_14
+  - first:
+      213: 3169974903700687944
+    second: MedievalDropCapFont Atlas_15
+  - first:
+      213: 3181722246481477989
+    second: MedievalDropCapFont Atlas_16
+  - first:
+      213: 8477747478408573546
+    second: MedievalDropCapFont Atlas_17
+  - first:
+      213: -2936186261160228667
+    second: MedievalDropCapFont Atlas_18
+  - first:
+      213: -1680532127351822518
+    second: MedievalDropCapFont Atlas_19
+  - first:
+      213: 2057423360548161114
+    second: MedievalDropCapFont Atlas_20
+  - first:
+      213: 9134448235906086616
+    second: MedievalDropCapFont Atlas_21
+  - first:
+      213: 611966370994278522
+    second: MedievalDropCapFont Atlas_22
+  - first:
+      213: -7688186953311403816
+    second: MedievalDropCapFont Atlas_23
+  - first:
+      213: 233543219768605553
+    second: MedievalDropCapFont Atlas_24
+  - first:
+      213: 9015438276338621636
+    second: MedievalDropCapFont Atlas_25
+  - first:
+      213: -2462513438566842651
+    second: MedievalDropCapFont Atlas_26
+  - first:
+      213: 6517844339931717056
+    second: MedievalDropCapFont Atlas_27
+  - first:
+      213: 6513716725156179179
+    second: MedievalDropCapFont Atlas_28
+  - first:
+      213: -1740722899076896560
+    second: MedievalDropCapFont Atlas_29
+  - first:
+      213: 1519283408542396107
+    second: MedievalDropCapFont Atlas_30
+  - first:
+      213: -8822424075146071233
+    second: MedievalDropCapFont Atlas_31
+  - first:
+      213: 8198229724407459014
+    second: MedievalDropCapFont Atlas_32
+  - first:
+      213: 112751059083854583
+    second: MedievalDropCapFont Atlas_33
+  - first:
+      213: 8638211984414736209
+    second: MedievalDropCapFont Atlas_34
+  - first:
+      213: 8187832127938808639
+    second: MedievalDropCapFont Atlas_35
+  - first:
+      213: 83616438498268226
+    second: MedievalDropCapFont Atlas_36
+  - first:
+      213: 2662103032461869737
+    second: MedievalDropCapFont Atlas_37
+  - first:
+      213: 4245017453086751156
+    second: MedievalDropCapFont Atlas_38
+  - first:
+      213: -3436327525448763453
+    second: MedievalDropCapFont Atlas_39
+  - first:
+      213: 295151270299293944
+    second: MedievalDropCapFont Atlas_40
+  - first:
+      213: 1200745334899083837
+    second: MedievalDropCapFont Atlas_41
+  - first:
+      213: -1505188526214415471
+    second: MedievalDropCapFont Atlas_42
+  - first:
+      213: -607738713147373574
+    second: MedievalDropCapFont Atlas_43
+  - first:
+      213: 1283381092413355503
+    second: MedievalDropCapFont Atlas_44
+  - first:
+      213: 4716696499744716778
+    second: MedievalDropCapFont Atlas_45
+  - first:
+      213: 2636217328197794062
+    second: MedievalDropCapFont Atlas_46
+  - first:
+      213: 4699486976867903839
+    second: MedievalDropCapFont Atlas_47
+  - first:
+      213: 4841279755800253635
+    second: MedievalDropCapFont Atlas_48
+  - first:
+      213: 5564707652916226911
+    second: MedievalDropCapFont Atlas_49
+  - first:
+      213: -8824346036835849242
+    second: MedievalDropCapFont Atlas_50
+  - first:
+      213: 6260461562113469759
+    second: MedievalDropCapFont Atlas_51
+  - first:
+      213: -5211171772292207073
+    second: MedievalDropCapFont Atlas_52
+  - first:
+      213: -2824864575442636186
+    second: MedievalDropCapFont Atlas_53
+  - first:
+      213: 7189618284798191163
+    second: MedievalDropCapFont Atlas_54
+  - first:
+      213: 3734666571296071564
+    second: MedievalDropCapFont Atlas_55
+  - first:
+      213: -8127904116783935348
+    second: MedievalDropCapFont Atlas_56
+  - first:
+      213: 710521640127957433
+    second: MedievalDropCapFont Atlas_57
+  - first:
+      213: 631302249235111420
+    second: MedievalDropCapFont Atlas_58
+  - first:
+      213: -9037387450169396341
+    second: MedievalDropCapFont Atlas_59
+  - first:
+      213: -8509019097759621896
+    second: MedievalDropCapFont Atlas_60
+  - first:
+      213: -5853040962343008943
+    second: MedievalDropCapFont Atlas_61
+  - first:
+      213: 2672901559865731002
+    second: MedievalDropCapFont Atlas_62
+  - first:
+      213: 8991963357889347572
+    second: MedievalDropCapFont Atlas_63
+  - first:
+      213: 212678650639961939
+    second: MedievalDropCapFont Atlas_64
+  - first:
+      213: -3060276649578552505
+    second: MedievalDropCapFont Atlas_65
+  - first:
+      213: -6521071399364651141
+    second: MedievalDropCapFont Atlas_66
+  - first:
+      213: -2221143628469036340
+    second: MedievalDropCapFont Atlas_67
+  - first:
+      213: 806495317136363616
+    second: MedievalDropCapFont Atlas_68
+  - first:
+      213: 7241198305289752153
+    second: MedievalDropCapFont Atlas_69
+  - first:
+      213: 1205827425544576836
+    second: MedievalDropCapFont Atlas_70
+  - first:
+      213: -1163605447980958386
+    second: MedievalDropCapFont Atlas_71
+  - first:
+      213: 5883399006499357150
+    second: MedievalDropCapFont Atlas_72
+  - first:
+      213: -5269415786577948346
+    second: MedievalDropCapFont Atlas_73
+  - first:
+      213: 5660850080105181465
+    second: MedievalDropCapFont Atlas_74
+  - first:
+      213: 2363015932621816557
+    second: MedievalDropCapFont Atlas_75
+  - first:
+      213: 519607665072431979
+    second: MedievalDropCapFont Atlas_76
+  - first:
+      213: 6996123498937820296
+    second: MedievalDropCapFont Atlas_77
+  - first:
+      213: 241801894559075018
+    second: MedievalDropCapFont Atlas_78
+  - first:
+      213: -2768275917502066840
+    second: MedievalDropCapFont Atlas_79
+  - first:
+      213: 3651514330612445109
+    second: MedievalDropCapFont Atlas_80
+  - first:
+      213: 4012020852241090434
+    second: MedievalDropCapFont Atlas_81
+  - first:
+      213: 247708345335438058
+    second: MedievalDropCapFont Atlas_82
+  - first:
+      213: -256566776727964881
+    second: MedievalDropCapFont Atlas_83
+  - first:
+      213: -9032620584840564996
+    second: MedievalDropCapFont Atlas_84
+  - first:
+      213: -8354900646935351152
+    second: MedievalDropCapFont Atlas_85
+  - first:
+      213: -8198220870302785446
+    second: MedievalDropCapFont Atlas_86
+  - first:
+      213: -3533266494228794404
+    second: MedievalDropCapFont Atlas_87
+  - first:
+      213: -8011540790589420331
+    second: MedievalDropCapFont Atlas_88
+  - first:
+      213: 8819698979506124353
+    second: MedievalDropCapFont Atlas_89
+  - first:
+      213: 7105838932537925609
+    second: MedievalDropCapFont Atlas_90
+  - first:
+      213: -1289633499300184801
+    second: MedievalDropCapFont Atlas_91
+  - first:
+      213: -1857216946260289312
+    second: MedievalDropCapFont Atlas_92
+  - first:
+      213: 3999000431610640709
+    second: MedievalDropCapFont Atlas_93
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 216
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b597c8378a1e3e10800000000000000
+      internalID: 2179208437769409976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 192
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 946bacd7cb9647be0800000000000000
+      internalID: -1480442119212845495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_2
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 216
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cd01b6d654774030800000000000000
+      internalID: 3478877153484934598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_3
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 192
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e253db61239caa30800000000000000
+      internalID: 4227915921946268393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_4
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 216
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9498d6dccea4b9610800000000000000
+      internalID: 1628978071143811401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_5
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 192
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ac015bd346d13290800000000000000
+      internalID: -7912307483382575961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_6
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 216
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7eab09e45790ccf50800000000000000
+      internalID: 6902902728286059239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_7
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 192
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 234b33b11c7904bb0800000000000000
+      internalID: -4953792734466689998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_8
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 216
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da45d1b4535188120800000000000000
+      internalID: 2416204518721934509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_9
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 192
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17ed67506ed7846d0800000000000000
+      internalID: -3006014324382179727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_10
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 216
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c913a53a3d0908390800000000000000
+      internalID: -7818089714462084708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_11
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 192
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9bf0816b87de0050800000000000000
+      internalID: 5768785166344453018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_12
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 216
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a7e8628d466132c0800000000000000
+      internalID: -4453666073406281823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_13
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 192
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7a8366a4321d1560800000000000000
+      internalID: 7285999789494471294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_14
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 192
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 919bca818496f1790800000000000000
+      internalID: -7557205891331868391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 168
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84c8bf131630efb20800000000000000
+      internalID: 3169974903700687944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 144
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5618c73968fb72c20800000000000000
+      internalID: 3181722246481477989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_17
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 168
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a62b1022a6207a570800000000000000
+      internalID: 8477747478408573546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_18
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 144
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c8892de6229047d0800000000000000
+      internalID: -2936186261160228667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_19
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 168
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a47209b1fec8da8e0800000000000000
+      internalID: -1680532127351822518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_20
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 144
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a56401e45af6d8c10800000000000000
+      internalID: 2057423360548161114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_21
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 168
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d63060364414ce70800000000000000
+      internalID: 9134448235906086616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_22
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 144
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a70599d0c242e7800800000000000000
+      internalID: 611966370994278522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_23
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 168
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d0c41123b21e4590800000000000000
+      internalID: -7688186953311403816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_24
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 144
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17b320e2256bd3300800000000000000
+      internalID: 233543219768605553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_25
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 168
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cc9f93b8554d1d70800000000000000
+      internalID: 9015438276338621636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_26
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 144
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5eef897131563ddd0800000000000000
+      internalID: -2462513438566842651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_27
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 168
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cd9be6e4e8047a50800000000000000
+      internalID: 6517844339931717056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_28
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 144
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bec6472b9de556a50800000000000000
+      internalID: 6513716725156179179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_29
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 168
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d8222cfeb5b7d7e0800000000000000
+      internalID: -1740722899076896560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_30
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 144
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bce6057e534951510800000000000000
+      internalID: 1519283408542396107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_31
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 168
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f33701ffb04709580800000000000000
+      internalID: -8822424075146071233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_32
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 144
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ccea5e8f76f5c170800000000000000
+      internalID: 8198229724407459014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_33
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 143
+        width: 25
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f20eb8ad72909100800000000000000
+      internalID: 112751059083854583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_34
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 120
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15fff89580811e770800000000000000
+      internalID: 8638211984414736209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3bc25a70f501a170800000000000000
+      internalID: 8187832127938808639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_36
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 120
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 244921235b0192100800000000000000
+      internalID: 83616438498268226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_37
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 96
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a241658a90b1f420800000000000000
+      internalID: 2662103032461869737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_38
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 120
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b9b19ce1e459ea30800000000000000
+      internalID: 4245017453086751156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_39
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 96
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c7bab17256bf40d0800000000000000
+      internalID: -3436327525448763453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_40
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 120
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f8d13d3486981400800000000000000
+      internalID: 295151270299293944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_41
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 96
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3a0e503587e9a010800000000000000
+      internalID: 1200745334899083837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_42
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 120
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19bfefe920f7c1be0800000000000000
+      internalID: -1505188526214415471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_43
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af7099e3cd0e097f0800000000000000
+      internalID: -607738713147373574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_44
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 120
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe530cccd4c7fc110800000000000000
+      internalID: 1283381092413355503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_45
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 96
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae7bc94f972157140800000000000000
+      internalID: 4716696499744716778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_46
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 120
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0975f551b9b59420800000000000000
+      internalID: 2636217328197794062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_47
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 96
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5929caa18ee73140800000000000000
+      internalID: 4699486976867903839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_48
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 120
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c493c6a94eaf2340800000000000000
+      internalID: 4841279755800253635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_49
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 96
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5b28f29020d93d40800000000000000
+      internalID: 5564707652916226911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_50
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 120
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ebe54b6800a98580800000000000000
+      internalID: -8824346036835849242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_51
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 96
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3da2c31f90a1e650800000000000000
+      internalID: 6260461562113469759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_52
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 120
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1eeaf012e23ea7b0800000000000000
+      internalID: -5211171772292207073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_53
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 96
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 662382aa2a01cc8d0800000000000000
+      internalID: -2824864575442636186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_54
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 72
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b36ac00ecb7a6c360800000000000000
+      internalID: 7189618284798191163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_55
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8fd0a0a57334d330800000000000000
+      internalID: 3734666571296071564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_56
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 72
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8098aee442e33f80800000000000000
+      internalID: -8127904116783935348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_57
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 48
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b90e0dcaa74cd900800000000000000
+      internalID: 710521640127957433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_58
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 72
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfd50970d06d2c800800000000000000
+      internalID: 631302249235111420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_59
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 48
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8374170fffb49280800000000000000
+      internalID: -9037387450169396341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_60
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 72
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8fcd50b9634e9e980800000000000000
+      internalID: -8509019097759621896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_61
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 48
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1550cb76142d5cea0800000000000000
+      internalID: -5853040962343008943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_62
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 72
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab7626b9ecd081520800000000000000
+      internalID: 2672901559865731002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_63
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 48
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ffb254580fd9cc70800000000000000
+      internalID: 8991963357889347572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_64
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 72
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35f44be1b1693f200800000000000000
+      internalID: 212678650639961939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_65
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 48
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 743a27be996b785d0800000000000000
+      internalID: -3060276649578552505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_66
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 72
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7719e5cc108085a0800000000000000
+      internalID: -6521071399364651141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_67
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 48
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cca1bf553a9ec21e0800000000000000
+      internalID: -2221143628469036340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_68
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 72
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 060ddeac73f313b00800000000000000
+      internalID: 806495317136363616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_69
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 48
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95ec4fe3e77ed7460800000000000000
+      internalID: 7241198305289752153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_70
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 72
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44f1200a7a5fbb010800000000000000
+      internalID: 1205827425544576836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_71
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 48
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4db266920b0adfe0800000000000000
+      internalID: -1163605447980958386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_72
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 72
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed1c74e893806a150800000000000000
+      internalID: 5883399006499357150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_73
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 48
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6419f2bb2464fd6b0800000000000000
+      internalID: -5269415786577948346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_74
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 24
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9113967c7216f8e40800000000000000
+      internalID: 5660850080105181465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_75
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de2038e887e1bc020800000000000000
+      internalID: 2363015932621816557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_76
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 24
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b63663b1b64063700800000000000000
+      internalID: 519607665072431979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_77
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 0
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 884a3f65149371160800000000000000
+      internalID: 6996123498937820296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_78
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 24
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acac53fba8d0b5300800000000000000
+      internalID: 241801894559075018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_79
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86f450158bb1599d0800000000000000
+      internalID: -2768275917502066840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_80
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 24
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bf2768efe8cca230800000000000000
+      internalID: 3651514330612445109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_81
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 0
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2874a4165bf8da730800000000000000
+      internalID: 4012020852241090434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_82
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 24
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aea5e9b7d69007300800000000000000
+      internalID: 247708345335438058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_83
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2376fb30ed707cf0800000000000000
+      internalID: -256566776727964881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_84
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 24
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfe62b95f6fa5a280800000000000000
+      internalID: -9032620584840564996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_85
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 0
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 090bcb5b02e6d0c80800000000000000
+      internalID: -8354900646935351152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_86
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 24
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a50a863fd811a3e80800000000000000
+      internalID: -8198220870302785446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_87
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd3f3b2f7d057fec0800000000000000
+      internalID: -3533266494228794404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_88
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 24
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5dc8d51191a41d090800000000000000
+      internalID: -8011540790589420331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_89
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 0
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 146765b3e7dd56a70800000000000000
+      internalID: 8819698979506124353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_90
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 24
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ef501d5cd20d9260800000000000000
+      internalID: 7105838932537925609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_91
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1db4c74a2d4a1ee0800000000000000
+      internalID: -1289633499300184801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_92
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 24
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e8d15ff607d936e0800000000000000
+      internalID: -1857216946260289312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedievalDropCapFont Atlas_93
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 0
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54939c674bd4f7730800000000000000
+      internalID: 3999000431610640709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      MedievalDropCapFont Atlas_0: 2179208437769409976
+      MedievalDropCapFont Atlas_1: -1480442119212845495
+      MedievalDropCapFont Atlas_10: -7818089714462084708
+      MedievalDropCapFont Atlas_11: 5768785166344453018
+      MedievalDropCapFont Atlas_12: -4453666073406281823
+      MedievalDropCapFont Atlas_13: 7285999789494471294
+      MedievalDropCapFont Atlas_14: -7557205891331868391
+      MedievalDropCapFont Atlas_15: 3169974903700687944
+      MedievalDropCapFont Atlas_16: 3181722246481477989
+      MedievalDropCapFont Atlas_17: 8477747478408573546
+      MedievalDropCapFont Atlas_18: -2936186261160228667
+      MedievalDropCapFont Atlas_19: -1680532127351822518
+      MedievalDropCapFont Atlas_2: 3478877153484934598
+      MedievalDropCapFont Atlas_20: 2057423360548161114
+      MedievalDropCapFont Atlas_21: 9134448235906086616
+      MedievalDropCapFont Atlas_22: 611966370994278522
+      MedievalDropCapFont Atlas_23: -7688186953311403816
+      MedievalDropCapFont Atlas_24: 233543219768605553
+      MedievalDropCapFont Atlas_25: 9015438276338621636
+      MedievalDropCapFont Atlas_26: -2462513438566842651
+      MedievalDropCapFont Atlas_27: 6517844339931717056
+      MedievalDropCapFont Atlas_28: 6513716725156179179
+      MedievalDropCapFont Atlas_29: -1740722899076896560
+      MedievalDropCapFont Atlas_3: 4227915921946268393
+      MedievalDropCapFont Atlas_30: 1519283408542396107
+      MedievalDropCapFont Atlas_31: -8822424075146071233
+      MedievalDropCapFont Atlas_32: 8198229724407459014
+      MedievalDropCapFont Atlas_33: 112751059083854583
+      MedievalDropCapFont Atlas_34: 8638211984414736209
+      MedievalDropCapFont Atlas_35: 8187832127938808639
+      MedievalDropCapFont Atlas_36: 83616438498268226
+      MedievalDropCapFont Atlas_37: 2662103032461869737
+      MedievalDropCapFont Atlas_38: 4245017453086751156
+      MedievalDropCapFont Atlas_39: -3436327525448763453
+      MedievalDropCapFont Atlas_4: 1628978071143811401
+      MedievalDropCapFont Atlas_40: 295151270299293944
+      MedievalDropCapFont Atlas_41: 1200745334899083837
+      MedievalDropCapFont Atlas_42: -1505188526214415471
+      MedievalDropCapFont Atlas_43: -607738713147373574
+      MedievalDropCapFont Atlas_44: 1283381092413355503
+      MedievalDropCapFont Atlas_45: 4716696499744716778
+      MedievalDropCapFont Atlas_46: 2636217328197794062
+      MedievalDropCapFont Atlas_47: 4699486976867903839
+      MedievalDropCapFont Atlas_48: 4841279755800253635
+      MedievalDropCapFont Atlas_49: 5564707652916226911
+      MedievalDropCapFont Atlas_5: -7912307483382575961
+      MedievalDropCapFont Atlas_50: -8824346036835849242
+      MedievalDropCapFont Atlas_51: 6260461562113469759
+      MedievalDropCapFont Atlas_52: -5211171772292207073
+      MedievalDropCapFont Atlas_53: -2824864575442636186
+      MedievalDropCapFont Atlas_54: 7189618284798191163
+      MedievalDropCapFont Atlas_55: 3734666571296071564
+      MedievalDropCapFont Atlas_56: -8127904116783935348
+      MedievalDropCapFont Atlas_57: 710521640127957433
+      MedievalDropCapFont Atlas_58: 631302249235111420
+      MedievalDropCapFont Atlas_59: -9037387450169396341
+      MedievalDropCapFont Atlas_6: 6902902728286059239
+      MedievalDropCapFont Atlas_60: -8509019097759621896
+      MedievalDropCapFont Atlas_61: -5853040962343008943
+      MedievalDropCapFont Atlas_62: 2672901559865731002
+      MedievalDropCapFont Atlas_63: 8991963357889347572
+      MedievalDropCapFont Atlas_64: 212678650639961939
+      MedievalDropCapFont Atlas_65: -3060276649578552505
+      MedievalDropCapFont Atlas_66: -6521071399364651141
+      MedievalDropCapFont Atlas_67: -2221143628469036340
+      MedievalDropCapFont Atlas_68: 806495317136363616
+      MedievalDropCapFont Atlas_69: 7241198305289752153
+      MedievalDropCapFont Atlas_7: -4953792734466689998
+      MedievalDropCapFont Atlas_70: 1205827425544576836
+      MedievalDropCapFont Atlas_71: -1163605447980958386
+      MedievalDropCapFont Atlas_72: 5883399006499357150
+      MedievalDropCapFont Atlas_73: -5269415786577948346
+      MedievalDropCapFont Atlas_74: 5660850080105181465
+      MedievalDropCapFont Atlas_75: 2363015932621816557
+      MedievalDropCapFont Atlas_76: 519607665072431979
+      MedievalDropCapFont Atlas_77: 6996123498937820296
+      MedievalDropCapFont Atlas_78: 241801894559075018
+      MedievalDropCapFont Atlas_79: -2768275917502066840
+      MedievalDropCapFont Atlas_8: 2416204518721934509
+      MedievalDropCapFont Atlas_80: 3651514330612445109
+      MedievalDropCapFont Atlas_81: 4012020852241090434
+      MedievalDropCapFont Atlas_82: 247708345335438058
+      MedievalDropCapFont Atlas_83: -256566776727964881
+      MedievalDropCapFont Atlas_84: -9032620584840564996
+      MedievalDropCapFont Atlas_85: -8354900646935351152
+      MedievalDropCapFont Atlas_86: -8198220870302785446
+      MedievalDropCapFont Atlas_87: -3533266494228794404
+      MedievalDropCapFont Atlas_88: -8011540790589420331
+      MedievalDropCapFont Atlas_89: 8819698979506124353
+      MedievalDropCapFont Atlas_9: -3006014324382179727
+      MedievalDropCapFont Atlas_90: 7105838932537925609
+      MedievalDropCapFont Atlas_91: -1289633499300184801
+      MedievalDropCapFont Atlas_92: -1857216946260289312
+      MedievalDropCapFont Atlas_93: 3999000431610640709
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

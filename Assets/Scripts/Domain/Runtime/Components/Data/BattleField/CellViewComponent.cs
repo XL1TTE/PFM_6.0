@@ -6,6 +6,6 @@ namespace Domain.BattleField.Components
     [Serializable]
     public struct CellViewComponent : IComponent
     {
-        public CellView Value;
+        public CellView m_Value;
     }
 }

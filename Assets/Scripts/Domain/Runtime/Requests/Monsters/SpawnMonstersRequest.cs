@@ -5,7 +5,8 @@ using Scellecs.Morpeh;
 
 namespace Domain.Monster.Requests
 {
-    public struct SpawnMonstersRequest : IRequestData{        
-        public List<MosnterData> Monsters;
+    public struct SpawnMonstersRequest : IRequestData
+    {
+        public List<MonsterData> Monsters;
     }
 }

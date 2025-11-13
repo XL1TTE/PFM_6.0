@@ -88,7 +88,7 @@ namespace Gameplay.TurnSystem.Systems
             var queue = stash_turnQueue.Get(filter_turnQueue.First());
             foreach (var elt in queue.Value)
             {
-                var elt_view = BattleFieldUIRefs.Instance.TurnQueueWidget.AddNewInQueue();
+                var elt_view = BattleUiRefs.Instance.TurnQueueWidget.AddNewInQueue();
                 QueueRenderMap.Add(elt.Id, elt_view);
 
                 if (stash_turnQueueAvatar.Has(elt))

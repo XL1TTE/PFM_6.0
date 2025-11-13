@@ -33,7 +33,7 @@ namespace Persistence.Utilities
                 {
                     m_Value = defenition.m_Ability.Clone(),
                     m_AbilityTemplateID = a_RecordID,
-                    m_Shifts = defenition.m_Shifts == null ? new List<Vector2Int>() : defenition.m_Shifts,
+                    m_Shifts = defenition.m_Shifts == null ? new List<Vector2Int>() : defenition.m_Shifts.ToList(),
                     m_TargetType = defenition.m_TargetType,
                     m_Icon = icon.m_Value,
                     m_Tags = defenition.m_Tags,
