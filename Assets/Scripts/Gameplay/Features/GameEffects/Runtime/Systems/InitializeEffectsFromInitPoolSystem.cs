@@ -34,7 +34,7 @@ namespace Gameplay.GameEffects
                 stash_EffectsPool.Set(entity, new EffectsPoolComponent
                 {
                     m_PermanentEffects = Ipool.m_PermanentEffects,
-                    m_StatusEffects = Ipool.m_StatusEffects,
+                    m_StatusEffects = Ipool.m_TemporalEffects,
                 });
                 stash_InitEffectsPool.Remove(entity);
 
@@ -45,7 +45,7 @@ namespace Gameplay.GameEffects
                         i.OnEffectApply(effect.m_EffectId, entity, World);
                     }
                 }
-                foreach (var effect in Ipool.m_StatusEffects)
+                foreach (var effect in Ipool.m_TemporalEffects)
                 {
                     foreach (var i in Interactor.GetAll<IOnGameEffectApply>())
                     {

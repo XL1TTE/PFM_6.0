@@ -138,12 +138,12 @@ namespace Gameplay.TargetSelection
                 if (stash_view.Has(cell) == false) { continue; }
                 if (isActive)
                 {
-                    stash_view.Get(cell).Value.EnableSelectedLayer();
+                    stash_view.Get(cell).m_Value.EnableSelectedLayer();
 
                 }
                 else
                 {
-                    stash_view.Get(cell).Value.DisableSelectedLayer();
+                    stash_view.Get(cell).m_Value.DisableSelectedLayer();
 
                 }
             }

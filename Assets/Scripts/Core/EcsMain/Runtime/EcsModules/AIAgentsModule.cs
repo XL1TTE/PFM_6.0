@@ -1,6 +1,5 @@
 using Domain.Ecs;
 using Gameplay.AIGraph;
-using Gameplay.Enemies;
 using Scellecs.Morpeh;
 
 namespace Core.Ecs.Modules

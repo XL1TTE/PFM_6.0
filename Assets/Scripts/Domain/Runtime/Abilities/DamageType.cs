@@ -4,5 +4,8 @@ namespace Domain.Abilities
     {
         PHYSICAL_DAMAGE,
         FIRE_DAMAGE,
+        BLEED_DAMAGE,
+        POISON_DAMAGE
     }
+
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.Abilities;
@@ -22,12 +23,10 @@ namespace Project.AI
         public float m_PointsPerDamage;
         public float m_PointsPerHeal;
 
-        [Header("Action Weights (меньше = лучше)")]
-        [Tooltip("Базовый вес поворота")]
-        [Range(0f, 1f)] public float m_RotationWeight = 0f;
 
-        [Tooltip("Базовый вес бездействия")]
-        [Range(0f, 1f)] public float m_DoNothingWeight = 0f;
+        [HideInInspector][Range(0f, 1f)] public const float m_RotationWeight = 0f;
+
+        [HideInInspector][Range(0f, 1f)] public const float m_DoNothingWeight = 0f;
 
 
         [Header("Strategy")]
@@ -47,27 +46,58 @@ namespace Project.AI
         public ActionType m_ActionType;
     }
 
-    public sealed class AIProcessor
+    public interface IAIProcessor
+    {
+        UniTask Process(Entity a_agent, World a_world);
+    }
+
+    public sealed class TCAI : IAIProcessor
+    {
+        public async UniTask Process(Entity a_agent, World a_world)
+        {
+            var context = new AIExecutionContext(a_agent, a_world);
+            await new EndTurn().DoJob(context);
+
+        }
+    }
+
+    public sealed class AIProcessor : IAIProcessor
     {
         [SerializeField] private AIConfig m_Config;
 
         public async UniTask Process(Entity a_agent, World a_world)
         {
-            var t_bestSequence = await FindBestActionSequence(a_agent, a_world, m_Config.m_MaxActionsPerTurn * m_Config.m_PlanningDepth);
+
+            using var cts = new CancellationTokenSource();
+            var stash_aiCancell = a_world.GetStash<AgentAICancellationToken>();
+
+            stash_aiCancell.Set(a_agent, new AgentAICancellationToken { m_TokenSource = cts });
 
             var context = new AIExecutionContext(a_agent, a_world);
 
-            var t_counter = m_Config.m_MaxActionsPerTurn;
-            foreach (var t_action in t_bestSequence)
+            try
             {
-                --t_counter;
-                await ExecuteAction(t_action, context);
-                if (t_counter <= 0)
+                var t_bestSequence = await FindBestActionSequence(a_agent, a_world, m_Config.m_MaxActionsPerTurn * m_Config.m_PlanningDepth);
+                var t_counter = m_Config.m_MaxActionsPerTurn;
+
+                foreach (var t_action in t_bestSequence)
                 {
-                    break;
+                    await UniTask.DelayFrame(1, cancellationToken: cts.Token);
+
+                    --t_counter;
+                    await ExecuteAction(t_action, context);
+                    if (t_counter <= 0)
+                    {
+                        break;
+                    }
                 }
+                await new EndTurn().DoJob(context);
+                stash_aiCancell.Remove(a_agent);
             }
-            await new EndTurn().DoJob(context);
+            catch (OperationCanceledException)
+            {
+                stash_aiCancell.Remove(a_agent);
+            }
         }
 
         private async UniTask<List<AIAction>> FindBestActionSequence(Entity a_agent, World a_world, int a_depth)
@@ -197,7 +227,7 @@ namespace Project.AI
             var t_rotateAction = new AIAction
             {
                 m_AbilityData = a_abilityData,
-                m_Weight = m_Config.m_RotationWeight,
+                m_Weight = AIConfig.m_RotationWeight,
                 m_ActionType = ActionType.Rotation
             };
             a_actions.Add(t_rotateAction);

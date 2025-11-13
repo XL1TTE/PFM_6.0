@@ -30,7 +30,7 @@ namespace Domain.Abilities.Components
         public Ability m_Value;
         public string m_AbilityTemplateID;
         public TargetSelectionTypes m_TargetType;
-        public IEnumerable<Vector2Int> m_Shifts;
+        public List<Vector2Int> m_Shifts;
         public Sprite m_Icon;
         public List<AbilityTags> m_Tags;
         public AbilityType m_AbilityType;

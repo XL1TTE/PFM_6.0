@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 
 namespace Interactions
 {
+
     public interface IOnGameEffectApply
     {
         UniTask OnEffectApply(

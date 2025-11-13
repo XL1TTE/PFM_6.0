@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using Domain.BattleField.Components;
 using Domain.BattleField.Events;
+using Domain.TurnSystem.Tags;
 using Scellecs.Morpeh;
 using Unity.VisualScripting;
 
@@ -15,6 +17,25 @@ namespace Interactions
         /// <param name="a_nCell">New cell.</param>
         /// <param name="a_subject">Subject.</param>
         UniTask OnPositionChanged(Entity a_pCell, Entity a_nCell, Entity a_subject, World a_world);
+    }
+
+    public sealed class UpdateTurnTakerPointer : BaseInteraction, IOnEntityCellPositionChanged
+    {
+        public async UniTask OnPositionChanged(Entity a_pCell, Entity a_nCell, Entity a_subject, World a_world)
+        {
+            if (a_world.GetStash<CurrentTurnTakerTag>().Has(a_subject) == false) { return; }
+
+            var stash_cellView = a_world.GetStash<CellViewComponent>();
+            if (stash_cellView.Has(a_pCell))
+            {
+                stash_cellView.Get(a_pCell).m_Value.DisablePointerLayer();
+            }
+            if (stash_cellView.Has(a_nCell))
+            {
+                stash_cellView.Get(a_nCell).m_Value.EnablePointerLayer();
+            }
+            await UniTask.CompletedTask;
+        }
     }
 
     public sealed class NotifyEcsSystemsCellPositionChangedInteraction : BaseInteraction, IOnEntityCellPositionChanged

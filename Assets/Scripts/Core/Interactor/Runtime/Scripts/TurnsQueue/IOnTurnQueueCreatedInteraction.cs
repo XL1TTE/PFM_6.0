@@ -29,7 +29,7 @@ namespace Interactions
 
             foreach (var m in t_queue.m_Queue)
             {
-                var t_view = BattleFieldUIRefs.Instance.TurnQueueWidget.AddNewInQueue();
+                var t_view = BattleUiRefs.Instance.TurnQueueWidget.AddNewInQueue();
                 t_queue.m_QueueElementsRenderMap.Add(m.Id, t_view, out _);
 
                 if (stash_avatar.Has(m) == false) { continue; }

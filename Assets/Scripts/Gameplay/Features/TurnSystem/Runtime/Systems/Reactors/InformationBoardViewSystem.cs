@@ -15,11 +15,11 @@ namespace Gameplay.TurnSystem.Systems
     public sealed class InformationBoardViewSystem : ISystem
     {
         public World World { get; set; }
-        
+
         private Filter f_turnTaker;
-        
+
         private Event<NextTurnStartedEvent> evt_nextTurnStarted;
-        
+
         private Stash<TagMonster> stash_monsterTag;
         private Stash<TagEnemy> stash_enemyTag;
 
@@ -35,22 +35,25 @@ namespace Gameplay.TurnSystem.Systems
 
         public void OnUpdate(float deltaTime)
         {
-            foreach(var evt in evt_nextTurnStarted.publishedChanges){
+            foreach (var evt in evt_nextTurnStarted.publishedChanges)
+            {
                 UpdateInformation(evt);
             }
         }
 
         private void UpdateInformation(NextTurnStartedEvent evt)
         {
-            if(f_turnTaker.IsEmpty()){return;}
-            
+            if (f_turnTaker.IsEmpty()) { return; }
+
             var turnTaker = f_turnTaker.First();
-            
-            if(stash_monsterTag.Has(turnTaker)){
-                BattleFieldUIRefs.Instance.InformationBoardWidget.ChangeText("Player's turn");
+
+            if (stash_monsterTag.Has(turnTaker))
+            {
+                BattleUiRefs.Instance.InformationBoardWidget.ChangeText("Player's turn");
             }
-            else if(stash_enemyTag.Has(turnTaker)){
-                BattleFieldUIRefs.Instance.InformationBoardWidget.ChangeText("Enemy's turn");
+            else if (stash_enemyTag.Has(turnTaker))
+            {
+                BattleUiRefs.Instance.InformationBoardWidget.ChangeText("Enemy's turn");
             }
         }
 
