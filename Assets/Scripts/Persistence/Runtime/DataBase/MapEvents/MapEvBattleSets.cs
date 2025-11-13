@@ -1,5 +1,5 @@
-using Domain.Components;
 using Domain.Extentions;
+using Domain.Levels.Components;
 using Persistence.Components;
 using UnityEngine;
 
@@ -12,24 +12,28 @@ namespace Persistence.DB
         {
             ID("ev_BattleDefault");
 
-            With<ID>(new ID { m_Value = "ev_BattleDefault" });
+            //With<ID>(new ID { m_Value = "ev_BattleDefault" });
             With<MapEvBattleTag>(new MapEvBattleTag { });
 
+            // Префаб уровня
             With<PrefabComponent>(new PrefabComponent
             {
                 Value = "Levels/lvl_Village".LoadResource<GameObject>()
             });
+
+            // Пока что без этого. Нужно только после завершения битвы
             //With<RewardsPool>(new RewardsPool
             //{
             //    Value = new string[1]{
-            //        //"e_VillageRat", 2, 1, chance, [1,2], 0.3f
-            //        "e_VillageRat"
+            //              "SOME BODYPART", "N AMOUNT OF GOLD"
             //    }
             //});
-            //With<EnemiesCount>(new EnemiesCount
-            //{
-            //    Value = 99
-            //});
+
+            // Требуемое кол-во противников
+            With<EnemiesCount>(new EnemiesCount
+            {
+                amount = 2
+            });
         }
     }
     public sealed class ev_BattleTest1 : IDbRecord
@@ -38,7 +42,7 @@ namespace Persistence.DB
         {
             ID("ev_BattleTest1");
 
-            With<ID>(new ID { m_Value = "ev_BattleTest1" });
+            //With<ID>(new ID { m_Value = "ev_BattleTest1" });
             With<MapEvBattleTag>(new MapEvBattleTag { });
 
             With<MapEvStageRequirComponent>(new MapEvStageRequirComponent
@@ -77,7 +81,7 @@ namespace Persistence.DB
         {
             ID("ev_BattleTest2");
 
-            With<ID>(new ID { m_Value = "ev_BattleTest2" });
+            //With<ID>(new ID { m_Value = "ev_BattleTest2" });
 
             With<MapEvBattleTag>(new MapEvBattleTag { });
 
@@ -86,6 +90,11 @@ namespace Persistence.DB
                 count_start_from_zero = true,
                 count_offset = 2,
                 count_offset_percentile = 0.4f
+            });
+
+            With<PrefabComponent>(new PrefabComponent
+            {
+                Value = "Levels/lvl_Village".LoadResource<GameObject>()
             });
         }
     }

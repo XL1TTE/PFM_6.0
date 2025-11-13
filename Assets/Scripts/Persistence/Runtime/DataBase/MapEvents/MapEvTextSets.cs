@@ -1,46 +1,48 @@
 using Domain.Components;
+using Domain.Map.Mono;
 using Domain.MapEvents.Requests;
-using Scellecs.Morpeh;
 using System.Collections.Generic;
 
 namespace Persistence.DB
 {
 
-    public sealed class ev_FAILSAFE : IDbRecord
-    {
-        public ev_FAILSAFE()
-        {
-            ID("ev_FAILSAFE");
+    //public sealed class ev_FAILSAFE : IDbRecord
+    //{
+    //    public ev_FAILSAFE()
+    //    {
+    //        ID("ev_FAILSAFE");
 
-            // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { m_Value = "ev_FAILSAFE" });
-            With<MapEvTextTag>(new MapEvTextTag { });
+    //        // -------------------------------------------------- ID and TAG
+    //       // With<ID>(new ID { m_Value = "ev_FAILSAFE" });
+    //        With<MapEvTextTag>(new MapEvTextTag { });
 
-            // -------------------------------------------------- Required components
+    //        // -------------------------------------------------- Required components
 
 
 
-            // -------------------------------------------------- Main information
-            With<MapEvTextBGComponent>(new MapEvTextBGComponent
-            {
-                bg_sprite_path = "Map/MapTextEventBGs/Spr_Bodypart_Head_Test_1"
-            });
-            With<MapEvTextMessageComponent>(new MapEvTextMessageComponent
-            {
-                string_message = "IF YOU SEE THIS, THEN SOMETHING WENT WRONG"
-            });
-            With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
-            {
-                choices = new Dictionary<string, IRequestData>
-                {
+    //        // -------------------------------------------------- Main information
+    //        With<MapEvTextBGComponent>(new MapEvTextBGComponent
+    //        {
+    //            bg_sprite_path = "Map/MapTextEventBGs/Spr_Bodypart_Head_Test_1"
+    //        });
+    //        With<MapEvTextMessageComponent>(new MapEvTextMessageComponent
+    //        {
+    //            string_message = "IF YOU SEE THIS, THEN SOMETHING WENT WRONG"
+    //        });
+    //        With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
+    //        {
+    //            choices = new Dictionary<string, MapChoiceWrapper>
+    //            {
 
-                    { "�, ���� :(",
-                        new GiveGoldRequest() { amount = 10 } }
+    //                { "А, блин :(",
+    //                    new MapChoiceWrapper() {
+    //                        type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+    //                        request = new GiveGoldRequest() { amount = 10 } }  }
 
-                }
-            });
-        }
-    }
+    //            }
+    //        });
+    //    }
+    //}
 
     public sealed class ev_TextDefault : IDbRecord
     {
@@ -49,7 +51,7 @@ namespace Persistence.DB
             ID("ev_TextDefault");
 
             // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { m_Value = "ev_TextDefault" });
+            //With<ID>(new ID { m_Value = "ev_TextDefault" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
             // -------------------------------------------------- Required components
@@ -67,11 +69,13 @@ namespace Persistence.DB
             });
             With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
             {
-                choices = new Dictionary<string, IRequestData>
+                choices = new Dictionary<string, MapChoiceWrapper>
                 {
 
                     { "This is a default option",
-                        new GiveGoldRequest() { amount = 10 } }
+                        new MapChoiceWrapper() { 
+                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                            request = new GiveGoldRequest() { amount = 10 } } }
 
                 }
             });
@@ -85,7 +89,7 @@ namespace Persistence.DB
             ID("ev_TextTest1");
 
             // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { m_Value = "ev_TextTest1" });
+           // With<ID>(new ID { m_Value = "ev_TextTest1" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
 
@@ -133,19 +137,25 @@ namespace Persistence.DB
             With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
             {
                 //choices = new Dictionary<string, ScriptClass>
-                choices = new Dictionary<string, IRequestData>
+                choices = new Dictionary<string, MapChoiceWrapper>
                 {
                     //{ "SCHEISSE!",
                     //    GiveItems{ id1,id2,id3 } },
 
                     { "SCHEISSE!",
-                        new TakeGoldRequest() { amount = 10 }  },
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.TAKE_GOLD,
+                            request = new TakeGoldRequest() { amount = 10 } }   },
 
                     {"NO CHOICE!",
-                        new TakeGoldRequest() { amount = 100 }  },
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.TAKE_GOLD,
+                            request = new TakeGoldRequest() { amount = 100 } } },
 
-                    {"���� ���� ^_^",
-                        new GiveGoldRequest() { amount = 999 }  }
+                    {"Люби себя ^_^",
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                            request = new GiveGoldRequest() { amount = 999 } }  }
                 }
             });
 
@@ -158,7 +168,7 @@ namespace Persistence.DB
             ID("ev_TextTest2");
 
             // -------------------------------------------------- ID and TAG
-            With<ID>(new ID { m_Value = "ev_TextTest2" });
+            //With<ID>(new ID { m_Value = "ev_TextTest2" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
             // -------------------------------------------------- Required components
@@ -182,17 +192,63 @@ namespace Persistence.DB
             });
             With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
             {
-                choices = new Dictionary<string, IRequestData>
+                choices = new Dictionary<string, MapChoiceWrapper>
                 {
 
                     { "Yeah, sure",
-                        new GiveGoldRequest() { amount = 10 }  },
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                            request = new GiveGoldRequest() { amount = 10 } }  },
 
                     { "What? No",
-                        new TakeGoldRequest() { amount = 999999999 } },
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.TAKE_GOLD,
+                            request = new TakeGoldRequest() { amount = 999999999 } }},
 
-                    { "�� ����",
-                        new GiveGoldRequest() { amount = 10 }  }
+                    { "Ты мега",
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                            request = new GiveGoldRequest() { amount = 10 } } }
+
+                }
+            });
+        }
+    }
+    public sealed class ev_TextTest3 : IDbRecord
+    {
+        public ev_TextTest3()
+        {
+            ID("ev_TextTest3");
+
+            //// -------------------------------------------------- ID and TAG
+            //With<ID>(new ID { m_Value = "ev_TextTest3" });
+            With<MapEvTextTag>(new MapEvTextTag { });
+
+
+
+            // -------------------------------------------------- Main information
+            With<MapEvTextBGComponent>(new MapEvTextBGComponent
+            {
+                bg_sprite_path = "Map/MapTextEventBGs/Spr_Bodypart_Head_Test_2"
+            });
+            With<MapEvTextMessageComponent>(new MapEvTextMessageComponent
+            {
+                string_message = "ZZZZZZZZZZZZZZZZZZZZZZZZZZ"
+            });
+            With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
+            {
+                choices = new Dictionary<string, MapChoiceWrapper>
+                {
+
+                    { "ДАЙ ЗОЛОТА",
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                            request = new GiveGoldRequest() { amount = 67 } }  },
+
+                    { "НА ЗОТОЛО",
+                        new MapChoiceWrapper() {
+                            type = CHOICE_SCRIPT_TYPE.TAKE_GOLD,
+                            request = new TakeGoldRequest() { amount = 69 } }}
 
                 }
             });

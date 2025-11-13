@@ -1,7 +1,6 @@
 using Scellecs.Morpeh;
 using UnityEngine;
 using Unity.IL2CPP.CompilerServices;
-using System.Collections.Generic;
 
 namespace Domain.Map.Components
 {
@@ -20,5 +19,15 @@ namespace Domain.Map.Components
         public int pos_y;
 
         public int layer;
+
+        public BG_TYPE bg_type;
+    }
+
+    public enum BG_TYPE
+    {
+        START,
+        END,
+        MIDDLE,
+        BG
     }
 }

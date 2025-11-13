@@ -1,6 +1,7 @@
+using Domain.Map.Mono;
 using Scellecs.Morpeh;
-using Unity.IL2CPP.CompilerServices;
 using System.Collections.Generic;
+using Unity.IL2CPP.CompilerServices;
 
 [System.Serializable]
 [Il2CppSetOption(Option.NullChecks, false)]
@@ -16,5 +17,5 @@ public struct MapEvTextChoicesComponent : IComponent
     /// key is the text,
     /// value is the path to result script
     /// </summary>
-    public Dictionary<string, IRequestData> choices;
+    public Dictionary<string, MapChoiceWrapper> choices;
 }

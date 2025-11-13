@@ -1,7 +1,12 @@
+using Domain.Map;
 using Domain.Map.Components;
+using Domain.Map.Providers;
 using Domain.Map.Requests;
+using Game;
+using Project;
 using Scellecs.Morpeh;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Gameplay.Map.Systems
@@ -10,11 +15,15 @@ namespace Gameplay.Map.Systems
     {
         public World World { get; set; }
 
-        public Request<MapDrawVisualsRequest> req_draw;
+        private Request<MapUpdateVisualsRequest> req_update;
+        private Request<MapDrawVisualsRequest> req_draw;
 
         private Filter filterPos;
         private Filter filterId;
+        private Stash<TagMapNodeUsed> nodeUsedStash;
 
+        private Filter nodeCurrentFilter;
+        private Stash<TagMapNodeChoosable> nodeChoosableStash;
         private Filter filterBG;
 
         private Stash<TagMapNodeBinder> nodeBinderStash;
@@ -23,17 +32,18 @@ namespace Gameplay.Map.Systems
         private Stash<MapNodeIdComponent> nodeIdStash;
         private Stash<MapNodeNeighboursComponent> nodeNeighbStash;
 
-        public Stash<MapNodeEventType> nodeEventTypeStash;
-        public Stash<MapNodeEventId> nodeEventIdStash;
+        private Stash<MapNodeEventType> nodeEventTypeStash;
+        private Stash<MapNodeEventId> nodeEventIdStash;
 
         private Stash<MapBGComponent> bgStash;
 
         private Transform LinesContainer;
         private Transform NodesContainer;
+        private Transform BGContainer;
 
-        public GameObject bgPrefab;
-        public GameObject nodePrefab;
-        public Material lineMaterial;
+        private GameObject bgPrefab;
+        private GameObject nodePrefab;
+        private Material lineMaterial;
         private LineRenderer lineRenderer;
 
 
@@ -42,17 +52,26 @@ namespace Gameplay.Map.Systems
         private Sprite icon_text;
         private Sprite icon_boss;
 
+        // for scroll_offset look into bg_beginning_of_scroll field in Scr_MapController. It should be the same
+        private int scroll_offset = 16;
+
         public void OnAwake()
         {
+            World = ECS_Main_Map.m_mapWorld;
 
-            //Debug.Log("NodeDrawSys is Awake");
+            req_update = World.GetRequest<MapUpdateVisualsRequest>();
             req_draw = World.GetRequest<MapDrawVisualsRequest>();
+
 
             this.nodeBinderStash = this.World.GetStash<TagMapNodeBinder>();
 
             this.filterPos = this.World.Filter.With<MapNodePositionComponent>().Build();
             this.filterId = this.World.Filter.With<MapNodeIdComponent>().Build();
 
+
+            nodeUsedStash = World.GetStash<TagMapNodeUsed>();
+            nodeCurrentFilter = World.Filter.With<TagMapNodeCurrent>().Build();
+            nodeChoosableStash = World.GetStash<TagMapNodeChoosable>();
 
             this.nodePosStash = this.World.GetStash<MapNodePositionComponent>();
             this.nodeIdStash = this.World.GetStash<MapNodeIdComponent>();
@@ -63,14 +82,28 @@ namespace Gameplay.Map.Systems
 
             this.filterBG = this.World.Filter.With<MapBGComponent>().Build();
             this.bgStash = this.World.GetStash<MapBGComponent>();
+        }
+        public void Start()
+        {
 
-            LinesContainer = new GameObject("LinesContainer").transform;
-            NodesContainer = new GameObject("NodesContainer").transform;
+            LinesContainer = MapReferences.Instance().linesRef.transform;
+            NodesContainer = MapReferences.Instance().nodesRef.transform;
+            BGContainer = MapReferences.Instance().bgsRef.transform;
+
+            //LinesContainer = new GameObject("[LinesContainer]").transform;
+            //NodesContainer = new GameObject("[NodesContainer]").transform;
+            //BGContainer = new GameObject("[BGContainer]").transform;
+
 
             icon_lab = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Lab");
             icon_battle = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Battle");
             icon_text = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Random");
             icon_boss = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Boss");
+
+
+            nodePrefab = Resources.Load<GameObject>("Map/Prefabs/MapNodePrefab");
+            bgPrefab = Resources.Load<GameObject>("Map/Prefabs/MapBGGeneralPrefab");
+            lineMaterial = Resources.Load<Material>("Materials/DottedLine_Material");
         }
 
         public void OnUpdate(float deltaTime)
@@ -174,6 +207,9 @@ namespace Gameplay.Map.Systems
                     prefabedNode.transform.SetParent(NodesContainer, true);
                 }
 
+                var tmp_start_x = 0;
+                var tmp_end_x = 0;
+
                 foreach (var bg in filterBG)
                 {
                     ref var bgComponent = ref bgStash.Get(bg);
@@ -182,8 +218,80 @@ namespace Gameplay.Map.Systems
                     bg_instance.transform.localScale = scaleChange;
                     bg_instance.GetComponent<SpriteRenderer>().sprite = bgComponent.sprite;
                     bg_instance.GetComponent<SpriteRenderer>().sortingOrder = bgComponent.layer;
+
+                    bg_instance.transform.SetParent(BGContainer, true);
+
+                    if (bgComponent.bg_type == BG_TYPE.START)
+                    {
+                        tmp_start_x = (int)(bgComponent.pos_x - bgComponent.sprite.rect.width / 2) - scroll_offset;
+                    }
+
+                    if (bgComponent.bg_type == BG_TYPE.END)
+                    {
+                        tmp_end_x = (int)(bgComponent.pos_x + bgComponent.sprite.rect.width / 2) + scroll_offset;
+                    }
                 }
-            
+
+
+                GameObject cam = MapReferences.Instance().mainCameraContainer.gameObject;
+                cam.GetComponent<CameraEdgePan>().SetBounds(new Vector2(tmp_start_x,0), new Vector2(tmp_end_x,360));
+
+
+                UpdateVisuals();
+            }
+
+            foreach (var req in req_update.Consume())
+            {
+                UpdateVisuals();
+            }
+        }
+
+        private void UpdateVisuals()
+        {
+            MapNodeBinderProvider[] providers = Object.FindObjectsByType<MapNodeBinderProvider>(sortMode: FindObjectsSortMode.None);
+
+            Entity curr_node = nodeCurrentFilter.FirstOrDefault();
+
+            foreach (var bind in providers)
+            {
+                foreach (var ent in filterId)
+                {
+                    ref var mapNodeIdComponent = ref nodeIdStash.Get(ent);
+
+                    if (bind.GetData().node_id == mapNodeIdComponent.node_id)
+                    {
+                        // current sprite
+                        if (curr_node == ent)
+                        {
+                            bind.gameObject.transform.Find("CurrentSprite").gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            bind.gameObject.transform.Find("CurrentSprite").gameObject.SetActive(false);
+                        }
+
+                        // choosable sprite
+                        if (nodeChoosableStash.Has(ent))
+                        {
+                            bind.gameObject.transform.Find("ChoosableSprite").gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            bind.gameObject.transform.Find("ChoosableSprite").gameObject.SetActive(false);
+                        }
+
+                        // used sprite
+                        if (nodeUsedStash.Has(ent))
+                        {
+                            bind.gameObject.transform.Find("CrossedSprite").gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            bind.gameObject.transform.Find("CrossedSprite").gameObject.SetActive(false);
+                        }
+                        break;
+                    }
+                }
             }
 
         }
