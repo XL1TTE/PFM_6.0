@@ -4,7 +4,7 @@ using Game;
 
 namespace Gameplay.Abilities
 {
-    public struct ApplyPoison : IAbilityNode
+    public struct ApplyPoison : IApplyStatusEffect
     {
         public ApplyPoison(int a_duration, int a_damagePerTick)
         {
@@ -12,8 +12,8 @@ namespace Gameplay.Abilities
             this.m_DamagePerTick = a_damagePerTick;
         }
 
-        private int m_Duration;
-        private int m_DamagePerTick;
+        public int m_Duration { get; set; }
+        public int m_DamagePerTick { get; set; }
 
         public IAbilityNode Clone() => new ApplyPoison(m_Duration, m_DamagePerTick);
 

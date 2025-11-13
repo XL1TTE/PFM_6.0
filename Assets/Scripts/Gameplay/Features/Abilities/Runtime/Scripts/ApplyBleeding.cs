@@ -4,7 +4,8 @@ using Game;
 
 namespace Gameplay.Abilities
 {
-    public struct ApplyBleeding : IAbilityNode
+
+    public struct ApplyBleeding : IApplyStatusEffect
     {
         public ApplyBleeding(int a_duration, int a_damagePerTick)
         {
@@ -12,8 +13,8 @@ namespace Gameplay.Abilities
             this.m_DamagePerTick = a_damagePerTick;
         }
 
-        private int m_Duration;
-        private int m_DamagePerTick;
+        public int m_Duration { get; set; }
+        public int m_DamagePerTick { get; set; }
 
         public IAbilityNode Clone() => new ApplyBleeding(m_Duration, m_DamagePerTick);
 

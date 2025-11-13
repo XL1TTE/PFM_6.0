@@ -7,4 +7,5 @@ namespace Domain.Abilities
         BLEED_DAMAGE,
         POISON_DAMAGE
     }
+
 }

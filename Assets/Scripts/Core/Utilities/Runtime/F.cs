@@ -12,6 +12,7 @@ using Scellecs.Morpeh;
 
 namespace Core.Utilities
 {
+
     public static class F
     {
         public static IEnumerable<Entity> FilterEmptyCells(IEnumerable<Entity> cells, World world)

@@ -18,6 +18,9 @@ namespace Persistence.DB
         {
             ID("abt_din_arm");
 
+            With<Name>(new Name("Din's power."));
+            With<Description>(new Description("Make an attack, dealing physical damage and applying poison."));
+
             With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
             With<AbilityDefenition>(new AbilityDefenition
             {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Utilities;
@@ -15,6 +16,7 @@ using Domain.UI.Tags;
 using Gameplay.TargetSelection;
 using Interactions;
 using Scellecs.Morpeh;
+using UI.ToolTip;
 using Unity.IL2CPP.CompilerServices;
 
 namespace Gameplay.Abilities.Systems
@@ -24,9 +26,6 @@ namespace Gameplay.Abilities.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class AbilityButtonSystem : ISystem
     {
-        private Filter f_targetSelectionResults;
-        private Request<TargetSelectionRequest> req_TargetSelection;
-        private Request<ActivateAbilityRequest> req_AbiltiyActivation;
         private Event<ButtonClickedEvent> evt_ButtonClicked;
 
         private Event<ActorActionStatesChanged> evt_ActorStatesChanged;
@@ -39,15 +38,6 @@ namespace Gameplay.Abilities.Systems
 
         public void OnAwake()
         {
-            f_targetSelectionResults = World.Filter
-                .With<AbiltiyButtonTag>()
-                .With<TargetSelectionResult>()
-                .Build();
-
-            req_TargetSelection = World.GetRequest<TargetSelectionRequest>();
-
-            req_AbiltiyActivation = World.GetRequest<ActivateAbilityRequest>();
-
             evt_ButtonClicked = World.GetEvent<ButtonClickedEvent>();
 
             evt_ActorStatesChanged = World.GetEvent<ActorActionStatesChanged>();
@@ -99,6 +89,7 @@ namespace Gameplay.Abilities.Systems
                 if (IsAbilityButton(evt.m_Entity))
                 {
                     SetHoverEffect(evt.m_Entity, true);
+                    ShowAbilityTooltip(evt.m_Entity);
                 }
             }
             foreach (var evt in evt_OnCursorExit.publishedChanges)
@@ -106,8 +97,23 @@ namespace Gameplay.Abilities.Systems
                 if (IsAbilityButton(evt.m_Entity))
                 {
                     SetHoverEffect(evt.m_Entity, false);
+                    HideAbilityTooltip();
                 }
             }
+        }
+
+        private void ShowAbilityTooltip(Entity m_button)
+        {
+            var owner = stash_AbilityButtonTag.Get(m_button).m_ButtonOwner;
+            var abilityData = stash_AbilityButtonTag.Get(m_button).m_Ability;
+
+            ToolTipManager.ShowTooltip(T.GetAbilityShortTooltip(abilityData));
+        }
+
+        private void HideAbilityTooltip()
+        {
+            ToolTipManager.HideTooltip();
+
         }
 
         private void SetHoverEffect(Entity abilityButton, bool isActive)
