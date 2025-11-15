@@ -390,9 +390,6 @@ namespace Game
             {
                 if (V.IsPoisoned(a_target, a_world)) { return; } // poison netrolize burning.
 
-                if (a_world.GetStash<BurningStatusComponent>().Has(a_target)) { return; }
-
-
                 var stash_poison = a_world.GetStash<BurningStatusComponent>();
                 if (stash_poison.Has(a_target))
                 {

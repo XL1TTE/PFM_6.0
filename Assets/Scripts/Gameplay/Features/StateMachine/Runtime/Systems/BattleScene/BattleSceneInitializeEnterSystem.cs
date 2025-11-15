@@ -38,9 +38,9 @@ namespace Gameplay.StateMachine.Systems
 
         public void OnAwake()
         {
-            evt_onStateEnter = SM.Value.GetEvent<OnStateEnterEvent>();
+            evt_onStateEnter = SM.m_World.GetEvent<OnStateEnterEvent>();
 
-            stash_state = SM.Value.GetStash<BattleSceneInitializeState>();
+            stash_state = SM.m_World.GetStash<BattleSceneInitializeState>();
         }
 
         public void OnUpdate(float deltaTime)

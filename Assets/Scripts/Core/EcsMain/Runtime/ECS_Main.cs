@@ -63,7 +63,8 @@ namespace Game
 
         void OnDestroy()
         {
-            //m_battleWorld.Dispose();
+            SM.Dispose();
+            m_battleWorld.Dispose();
         }
     }
 

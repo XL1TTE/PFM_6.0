@@ -19,7 +19,7 @@ namespace Gameplay.Abilities
 
         public bool m_IsSelfCast { get; private set; }
 
-        public ApplyEffect(int a_duration, string m_effectID, bool m_isSelfCast)
+        public ApplyEffect(int a_duration, string m_effectID, bool m_isSelfCast = false)
         {
             this.m_Duration = a_duration;
             this.m_EffectID = m_effectID;
