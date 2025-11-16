@@ -30,7 +30,6 @@ namespace Persistence.Buiders
 
             stash_tagMonster = _ecsWorld.GetStash<TagMonster>();
             stash_lookDir = _ecsWorld.GetStash<LookDirection>();
-            stash_moveAbility = _ecsWorld.GetStash<MovementAbility>();
             //stash_attackAbility = _ecsWorld.GetStash<AttackAbility>();
             stash_transformRef = _ecsWorld.GetStash<TransformRefComponent>();
             stash_hitBox = _ecsWorld.GetStash<HitBoxComponent>();
@@ -65,7 +64,6 @@ namespace Persistence.Buiders
 
         Stash<TagMonster> stash_tagMonster;
         private Stash<LookDirection> stash_lookDir;
-        Stash<MovementAbility> stash_moveAbility;
         //Stash<AttackAbility> stash_attackAbility;
         Stash<TransformRefComponent> stash_transformRef;
         Stash<HitBoxComponent> stash_hitBox;

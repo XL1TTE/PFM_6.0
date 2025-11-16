@@ -12,38 +12,38 @@ namespace Domain.StateMachine.Mono
     {
         static SM()
         {
-            Value = World.Create();
+            m_World = World.Create();
 
-            evt_onStateEnter = Value.GetEvent<OnStateEnterEvent>();
-            evt_onStateExit = Value.GetEvent<OnStateExitEvent>();
+            evt_onStateEnter = m_World.GetEvent<OnStateEnterEvent>();
+            evt_onStateExit = m_World.GetEvent<OnStateExitEvent>();
 
-            var systems = Value.CreateSystemsGroup();
+            var systems = m_World.CreateSystemsGroup();
             systems.AddSystem(new StateExitCleanupSystem());
-            Value.AddSystemsGroup(0, systems);
+            m_World.AddSystemsGroup(0, systems);
         }
 
-        public static World Value;
+        public static World m_World;
 
         private static Event<OnStateEnterEvent> evt_onStateEnter;
         private static Event<OnStateExitEvent> evt_onStateExit;
 
         private static void CommitChanges()
         {
-            Value.Commit();
+            m_World.Commit();
         }
 
         public static void Update()
         {
-            Value.Update(Time.deltaTime);
-            Value.CleanupUpdate(Time.deltaTime);
+            m_World.Update(Time.deltaTime);
+            m_World.CleanupUpdate(Time.deltaTime);
         }
 
         public static bool IsStateActive<T>(out T state) where T : struct, IState
         {
-            var states = Value.Filter.With<T>().Build();
+            var states = m_World.Filter.With<T>().Build();
             if (states.IsEmpty()) { state = default; return false; }
 
-            state = Value.GetStash<T>().Get(states.First());
+            state = m_World.GetStash<T>().Get(states.First());
             return true;
         }
 
@@ -61,8 +61,12 @@ namespace Domain.StateMachine.Mono
 
         public static Entity EnterState<T>() where T : struct, IState
         {
-            var state = Value.CreateEntity();
-            var stash = Value.GetStash<T>();
+            var state = m_World.CreateEntity();
+
+            var stash_smState = m_World.GetStash<StateMachineState>();
+            stash_smState.Add(state);
+
+            var stash = m_World.GetStash<T>();
             stash.Add(state);
 
             evt_onStateEnter.NextFrame(new OnStateEnterEvent { StateEntity = state });
@@ -73,7 +77,7 @@ namespace Domain.StateMachine.Mono
 
         public static void ExitState<T>() where T : struct, IState
         {
-            var states = Value.Filter.With<T>().Build();
+            var states = m_World.Filter.With<T>().Build();
             if (states.IsEmpty()) { return; }
 
             var state = states.First();
@@ -87,11 +91,20 @@ namespace Domain.StateMachine.Mono
         /// <param name="stateEntity"></param>
         public static void RemoveState(Entity stateEntity)
         {
-            if (Value.Has(stateEntity))
+            if (m_World.Has(stateEntity))
             {
-                Value.RemoveEntity(stateEntity);
+                m_World.RemoveEntity(stateEntity);
             }
             CommitChanges();
+        }
+
+
+        public static void Dispose()
+        {
+            foreach (var e in m_World.Filter.With<StateMachineState>().Build())
+            {
+                m_World.RemoveEntity(e);
+            }
         }
     }
 

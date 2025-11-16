@@ -5,6 +5,8 @@ using Scellecs.Morpeh;
 
 namespace Interactions
 {
+
+
     public abstract class ModifierInteractionBase<T>
         : BaseInteraction, IOnGameEffectApply, IOnGameEffectRemove where T : struct, IStatModifierComponent
     {

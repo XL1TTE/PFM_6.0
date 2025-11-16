@@ -67,6 +67,7 @@ namespace Core.Utilities
             var raiseHeight = 20;
 
             Sequence seq = DOTween.Sequence();
+            seq.SetLink(attackerTransform.gameObject);
 
             var originalPosition = attackerTransform.position;
             var targetPos = targetTransform.position;
@@ -105,6 +106,7 @@ namespace Core.Utilities
         public static Sequence TurnAround(Transform subjectTransform)
         {
             Sequence seq = DOTween.Sequence();
+            seq.SetLink(subjectTransform.gameObject);
             seq.Append(subjectTransform.DORotate(new Vector3(0, 180, 0), 0.25f, RotateMode.LocalAxisAdd));
 
             return seq;
@@ -139,11 +141,12 @@ namespace Core.Utilities
             var originalPosition = subject.position;
 
             Sequence seq = DOTween.Sequence();
+            seq.SetLink(subject.gameObject);
 
             seq.Append(subject.DOMoveY(originalPosition.y
                 + raiseHeight, 0.25f).SetEase(Ease.OutQuad));
 
-            seq.Append(subject.DOMove(targetPosWithHeight, 0.5f)
+            seq.Append(subject.DOMove(new Vector3(targetPosWithHeight.x, targetPosWithHeight.y, targetPos.y * 0.01f), 0.5f)
                 .SetEase(Ease.OutQuad));
 
             seq.Append(subject.DOMoveY(targetPos.y, 0.25f)
@@ -174,6 +177,7 @@ namespace Core.Utilities
             var FADE_DURATION = 1;
 
             Sequence deathSequence = DOTween.Sequence();
+            deathSequence.SetLink(a_renderer.gameObject);
 
             for (int i = 0; i < BLINK_COUNT; ++i)
             {

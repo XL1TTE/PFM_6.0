@@ -18,7 +18,7 @@ namespace Gameplay.StateMachine.Systems
 
         public void OnAwake()
         {
-            evt_StateExit = SM.Value.GetEvent<OnStateExitEvent>();
+            evt_StateExit = SM.m_World.GetEvent<OnStateExitEvent>();
         }
 
         public void OnUpdate(float deltaTime)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ using Domain.GameEffects;
 using Domain.Stats.Components;
 using DS.Files;
 using Interactions;
+using Interactions.ICanBeHealedValidator;
 using Persistence.DS;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -41,16 +43,18 @@ namespace Game
             Entity a_target,
             int a_amount,
             DamageType a_damageType,
-            World a_world)
+            World a_world,
+            IEnumerable<OnDamageTags> a_tags = null)
         {
-            DealDamageAsync(a_source, a_target, a_amount, a_damageType, a_world).Forget();
+            DealDamageAsync(a_source, a_target, a_amount, a_damageType, a_world, a_tags).Forget();
         }
         private static async UniTask DealDamageAsync(
             Entity a_source,
             Entity a_target,
             int a_amount,
             DamageType a_damageType,
-            World a_world)
+            World a_world,
+            IEnumerable<OnDamageTags> a_tags = null)
         {
             var t_canTakeDamage = true;
             foreach (var i in Interactor.GetAll<ICanTakeDamageValidator>())
@@ -59,19 +63,53 @@ namespace Game
             }
             if (t_canTakeDamage == false) { return; }
 
+            List<OnDamageTags> t_tags = new(2);
+
             int t_damageCounter = a_amount;
             foreach (var i in Interactor.GetAll<ICalculateDamageInteraction>())
             {
-                t_damageCounter = await i.Execute(
-                    a_source, a_target, a_world, a_damageType, t_damageCounter);
+                await i.Execute(
+                    a_source, a_target, a_world, a_damageType, ref t_damageCounter, t_tags);
             }
 
-            a_world.GetStash<Health>().Get(a_target).ChangeHealth(-t_damageCounter);
+            a_world.GetStash<Health>().Get(a_target).AddHealth(-t_damageCounter);
 
             // On damage dealt notification
             foreach (var i in Interactor.GetAll<IOnDamageDealtInteraction>())
             {
-                await i.Execute(a_source, a_target, a_damageType, a_world, t_damageCounter);
+                await i.Execute(a_source, a_target, a_damageType, a_world, t_damageCounter, t_tags);
+            }
+        }
+
+        public static void Heal(Entity a_source, Entity a_target, int a_amount, World a_world)
+        {
+            HealAsync(a_source, a_target, a_amount, a_world).Forget();
+        }
+
+        private static async UniTask HealAsync(Entity a_source, Entity a_target, int a_amount, World a_world)
+        {
+            var t_isCanBeHealed = true;
+            var t_log = "";
+            foreach (var i in Interactor.GetAll<ICanBeHealedValidator>())
+            {
+                t_isCanBeHealed &= await i.Validate(a_target, a_world, t_log);
+                if (!t_isCanBeHealed) { break; }
+            }
+            if (t_isCanBeHealed)
+            {
+                int t_health = GU.GetHealth(a_target, a_world);
+                int t_maxHealth = GU.GetMaxHealth(a_target, a_world);
+
+                int t_finalHeal = Math.Min(a_amount, t_maxHealth - t_health);
+
+                a_world.GetStash<Health>().Get(a_target).AddHealth(t_finalHeal);
+
+                // On Healed notification
+                foreach (var i in Interactor.GetAll<IOnEntityHealedInteraction>())
+                {
+                    await i.Execute(a_source, a_target, t_finalHeal, a_world);
+                }
+
             }
         }
 
@@ -390,9 +428,6 @@ namespace Game
             {
                 if (V.IsPoisoned(a_target, a_world)) { return; } // poison netrolize burning.
 
-                if (a_world.GetStash<BurningStatusComponent>().Has(a_target)) { return; }
-
-
                 var stash_poison = a_world.GetStash<BurningStatusComponent>();
                 if (stash_poison.Has(a_target))
                 {
@@ -422,6 +457,33 @@ namespace Game
                 Interactor.CallAll<IOnBurningApplied>(async handler
                     => await handler.OnBurningApplied(a_source, a_target, a_duration, a_damagePerTick, a_world)).Forget();
 
+            }
+
+            public static void RemoveEffectFromPool(Entity a_subject, string a_EffectID, World a_world)
+            {
+                var effect_pool = a_world.GetStash<EffectsPoolComponent>();
+                if (effect_pool.Has(a_subject))
+                {
+                    ref var pool = ref effect_pool.Get(a_subject);
+                    for (int i = 0; i < pool.m_PermanentEffects.Count; ++i)
+                    {
+                        if (pool.m_PermanentEffects[i].m_EffectId == a_EffectID)
+                        {
+                            pool.m_PermanentEffects.RemoveAt(i);
+                        }
+                    }
+                    for (int i = 0; i < pool.m_StatusEffects.Count; ++i)
+                    {
+                        if (pool.m_StatusEffects[i].m_EffectId == a_EffectID)
+                        {
+                            pool.m_StatusEffects.RemoveAt(i);
+                        }
+                    }
+
+
+                    Interactor.CallAll<IOnGameEffectRemove>(
+                        async handler => await handler.OnEffectRemove(a_EffectID, a_subject, a_world)).Forget();
+                }
             }
 
             public static void AddEffectToPool(Entity a_subject, string a_effectID, int a_duration, World a_world)
@@ -455,6 +517,9 @@ namespace Game
                     });
 
                 }
+
+                Interactor.CallAll<IOnGameEffectApply>(
+                    async handler => await handler.OnEffectApply(a_effectID, a_subject, a_world)).Forget();
             }
         }
 

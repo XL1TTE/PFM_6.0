@@ -16,7 +16,7 @@ namespace Gameplay.FloatingDamage.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class FloatingDamage : MonoBehaviour
     {
-        private Transform m_PoolContainer;
+        [SerializeField] private Transform m_PoolContainer;
         private Queue<FloatingDamageView> m_Pool = new();
 
         private static FloatingDamage m_instance;
@@ -31,7 +31,10 @@ namespace Gameplay.FloatingDamage.Systems
             {
                 m_instance = this;
             }
-            m_PoolContainer = new GameObject("[FlOATING_DAMAGE]").transform;
+            if (m_PoolContainer == null)
+            {
+                m_PoolContainer = new GameObject("[FlOATING_DAMAGE]").transform;
+            }
         }
 
         public static bool IsInstantiated() => m_instance != null;

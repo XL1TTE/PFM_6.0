@@ -1,6 +1,7 @@
 using System.Linq;
 using Domain.GameEffects;
 using Domain.Notificator;
+using Domain.Stats.Components;
 using Scellecs.Morpeh;
 
 namespace Core.Utilities

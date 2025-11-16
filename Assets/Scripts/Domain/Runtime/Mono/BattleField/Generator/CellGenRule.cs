@@ -24,7 +24,10 @@ namespace Domain.BattleField.Mono
 
         void OnDisable()
         {
-            CellEntityCache.GetWorld().RemoveEntity(CellEntityCache);
+            if (CellEntityCache.GetWorld() != null)
+            {
+                CellEntityCache.GetWorld().RemoveEntity(CellEntityCache);
+            }
         }
 
         public void UpdateCell()

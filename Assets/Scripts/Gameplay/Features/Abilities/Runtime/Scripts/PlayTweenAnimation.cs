@@ -67,13 +67,14 @@ namespace Gameplay.Abilities
         private async UniTask WaitForTweenActionFrame(AbilityContext context, Stash<AnimatingState> stash_State)
         {
             var subject = context.m_Caster;
-            await UniTask.WaitUntil(() => stash_State.Get(subject).m_IsTweenInteractionFrame);
+            await UniTask.WaitUntil(() => stash_State.IsDisposed || stash_State.Get(subject).m_IsTweenInteractionFrame);
 
             context.m_AnimationContext.m_IsTweenInteractionFrame = true;
         }
 
         private bool IsAnimationOver(Entity subject, Stash<AnimatingState> stash_State)
         {
+            if (stash_State.IsDisposed) { return true; }
             if (stash_State.Has(subject) == false) { return true; }
 
             ref var state = ref stash_State.Get(subject);

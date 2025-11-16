@@ -19,6 +19,7 @@ namespace Interactions
     {
         public async UniTask OnAnimationStart(Entity a_subject, World a_world)
         {
+            if (a_world.IsDisposed) { return; }
             var stash_actorState = a_world.GetStash<ActorActionStatesComponent>();
             var evt_actorStateChanged = a_world.GetEvent<ActorActionStatesChanged>();
 
@@ -36,6 +37,7 @@ namespace Interactions
         }
         public async UniTask OnAnimationEnd(Entity a_subject, World a_world)
         {
+            if (a_world.IsDisposed) { return; }
             var stash_actorState = a_world.GetStash<ActorActionStatesComponent>();
             var evt_actorStateChanged = a_world.GetEvent<ActorActionStatesChanged>();
 

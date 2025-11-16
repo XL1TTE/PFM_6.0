@@ -1,6 +1,7 @@
 using Domain.Abilities.Mono;
 using Domain.FloatingDamage;
 using Domain.UI.Widgets;
+using UI.Elements;
 using UI.ToolTip;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ namespace Domain.Extentions
 
         public readonly static AbilityButtonView p_AbilityButton = "Abilities/AbilityButton".LoadResource<AbilityButtonView>();
 
-        public readonly static ToolTipLine p_ToolTipLine = "UI/ToolTipLine".LoadResource<ToolTipLine>();
+        public readonly static HorizontalLayoutElement p_ToolTipLine = "UI/ToolTipLine".LoadResource<HorizontalLayoutElement>();
 
         public readonly static Sprite SPR_EFFECT_ABILITY_ICON = "UI/Sprites/Abilities/Spr_Battle_UI_Icon_Effect".LoadResource<Sprite>();
         public readonly static Sprite SPR_ATTACK_ABILITY_ICON = "UI/Sprites/Abilities/Spr_Battle_UI_Icon_Attack".LoadResource<Sprite>();
