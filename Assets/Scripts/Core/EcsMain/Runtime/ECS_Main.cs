@@ -63,6 +63,7 @@ namespace Game
 
         void OnDestroy()
         {
+            ECS.Reset();
             SM.Dispose();
             m_battleWorld.Dispose();
         }

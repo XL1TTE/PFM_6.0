@@ -17,6 +17,14 @@ namespace Core.Utilities
 {
     public static class GU
     {
+        public static ref Transform GetTransform(Entity entity, World world)
+        {
+            var stash_transform = world.GetStash<TransformRefComponent>();
+            if (stash_transform.Has(entity) == false) { throw new System.Exception("No transform component was found."); }
+
+            return ref stash_transform.Get(entity).Value;
+        }
+
         public static Vector2Int GetEntityPositionOnCell(Entity entity, World world)
         {
             var stash_Pos = world.GetStash<PositionComponent>();
@@ -175,13 +183,21 @@ namespace Core.Utilities
             return a_world.Filter.With<TagEnemy>().With<PositionComponent>().Build().AsEnumerable();
         }
 
-        public static float GetHealth(Entity a_entity, World a_world)
+        public static int GetHealth(Entity a_entity, World a_world)
         {
             if (a_world.TryGetComponent<Health>(a_entity, out var healthComponent))
             {
                 return healthComponent.GetHealth();
             }
             return 0;
+        }
+        public static int GetMaxHealth(Entity a_entity, World a_world)
+        {
+            if (a_world.TryGetComponent<MaxHealth>(a_entity, out var healthComponent))
+            {
+                return healthComponent.m_Value;
+            }
+            return 100;
         }
 
         /// <summary>

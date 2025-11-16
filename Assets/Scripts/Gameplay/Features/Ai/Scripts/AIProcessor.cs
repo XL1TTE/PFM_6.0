@@ -92,11 +92,17 @@ namespace Project.AI
                     }
                 }
                 await new EndTurn().DoJob(context);
-                stash_aiCancell.Remove(a_agent);
+                if (stash_aiCancell.IsDisposed == false)
+                {
+                    stash_aiCancell.Remove(a_agent);
+                }
             }
             catch (OperationCanceledException)
             {
-                stash_aiCancell.Remove(a_agent);
+                if (stash_aiCancell.IsDisposed == false)
+                {
+                    stash_aiCancell.Remove(a_agent);
+                }
             }
         }
 

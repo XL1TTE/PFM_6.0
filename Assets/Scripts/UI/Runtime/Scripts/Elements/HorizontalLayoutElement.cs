@@ -1,57 +1,42 @@
-namespace UI.ToolTip
+namespace UI.Elements
 {
+    using System;
+    using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.UI;
 
-    public class ToolTipLine : MonoBehaviour
+    public class HorizontalLayoutElement : IUIElement, IPoolElement
     {
         [SerializeField] private HorizontalLayoutGroup m_HorizontalLayout;
 
-        [SerializeField] private Icon m_IconPrototype;
-        [SerializeField] private Text m_TextPrototype;
+        private List<IUIElement> m_Childrens = new(4);
 
-        public Text WarmupText(string a_text, Color a_color)
-        {
+        public event Action OnFree;
 
-            var t_text = Instantiate(m_TextPrototype, m_HorizontalLayout.transform);
-
-            t_text.SetText(a_text, a_color);
-            t_text.gameObject.SetActive(false);
-
-            return t_text;
-        }
-        public Icon WarmupIcon(Sprite a_icon)
-        {
-            var t_icon = Instantiate(m_IconPrototype, m_HorizontalLayout.transform);
-
-            t_icon.SetIcon(a_icon);
-            t_icon.gameObject.SetActive(false);
-
-            return t_icon;
-        }
-
-        public ToolTipLine AlignCenter()
+        public HorizontalLayoutElement AlignCenter()
         {
             m_HorizontalLayout.childAlignment = TextAnchor.MiddleCenter;
             return this;
         }
 
-        public ToolTipLine AlignStart()
+        public HorizontalLayoutElement AlignStart()
         {
             m_HorizontalLayout.childAlignment = TextAnchor.MiddleLeft;
             return this;
         }
-        public ToolTipLine AlignEnd()
+        public HorizontalLayoutElement AlignEnd()
         {
             m_HorizontalLayout.childAlignment = TextAnchor.MiddleRight;
             return this;
         }
 
-        public ToolTipLine Insert(ILineElement a_element)
+        public HorizontalLayoutElement Insert(IUIElement a_element)
         {
             a_element.SetLayout(m_HorizontalLayout.transform);
             a_element.transform.SetAsLastSibling();
+
+            m_Childrens.Add(a_element);
             return this;
         }
 
@@ -64,6 +49,13 @@ namespace UI.ToolTip
             {
                 m_HorizontalLayout.transform.GetChild(i).gameObject.SetActive(true);
             }
+        }
+
+        public IEnumerable<IUIElement> GetChildrens() => m_Childrens;
+
+        public void Free()
+        {
+            OnFree?.Invoke();
         }
     }
 }

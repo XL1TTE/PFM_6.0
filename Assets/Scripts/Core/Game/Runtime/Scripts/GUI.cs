@@ -7,6 +7,8 @@ using Domain.FloatingDamage;
 using Domain.UI.Widgets;
 using Gameplay.FloatingDamage.Systems;
 using Scellecs.Morpeh;
+using UI.Elements;
+using UnityEngine;
 
 namespace Game
 {
@@ -33,9 +35,32 @@ namespace Game
 
         public static void ShowFloatingDamage(Entity a_target, int a_value, DamageType a_damageType, World a_world)
         {
-            if (FloatingDamage.IsInstantiated())
+            if (FloatingGui.IsInstantiated())
             {
-                FloatingDamage.Show(a_target, a_value, a_damageType, a_world);
+
+                var floatingDamage = TextPool.I()
+                    .WarmupElement()
+                    .SetText(a_value.ToString())
+                    .AlignCenter()
+                    .FontSize(T.TEXT_SIZE_H1);
+
+                switch (a_damageType)
+                {
+                    case DamageType.BLEED_DAMAGE:
+                        floatingDamage.SetColor(Color.red);
+                        break;
+                    case DamageType.PHYSICAL_DAMAGE:
+                        floatingDamage.SetColor(Color.white);
+                        break;
+                    case DamageType.FIRE_DAMAGE:
+                        floatingDamage.SetColor(Color.yellow);
+                        break;
+                    case DamageType.POISON_DAMAGE:
+                        floatingDamage.SetColor(Color.green);
+                        break;
+                }
+
+                FloatingGui.Show(GU.GetTransform(a_target, a_world).position, floatingDamage);
             }
         }
 

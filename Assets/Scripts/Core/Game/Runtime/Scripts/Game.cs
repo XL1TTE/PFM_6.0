@@ -14,6 +14,7 @@ using Domain.GameEffects;
 using Domain.Stats.Components;
 using DS.Files;
 using Interactions;
+using Interactions.ICanBeHealedValidator;
 using Persistence.DS;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -66,12 +67,33 @@ namespace Game
                     a_source, a_target, a_world, a_damageType, t_damageCounter);
             }
 
-            a_world.GetStash<Health>().Get(a_target).ChangeHealth(-t_damageCounter);
+            a_world.GetStash<Health>().Get(a_target).AddHealth(-t_damageCounter);
 
             // On damage dealt notification
             foreach (var i in Interactor.GetAll<IOnDamageDealtInteraction>())
             {
                 await i.Execute(a_source, a_target, a_damageType, a_world, t_damageCounter);
+            }
+        }
+
+        public static void Heal(Entity a_source, Entity a_target, int a_amount, World a_world)
+        {
+            HealAsync(a_source, a_target, a_amount, a_world).Forget();
+        }
+
+        private static async UniTask HealAsync(Entity a_source, Entity a_target, int a_amount, World a_world)
+        {
+            var t_isCanBeHealed = true;
+            var t_log = "";
+            foreach (var i in Interactor.GetAll<ICanBeHealedValidator>())
+            {
+                t_isCanBeHealed &= await i.Validate(a_target, a_world, t_log);
+                if (!t_isCanBeHealed) { break; }
+            }
+            if (t_isCanBeHealed)
+            {
+                int t_maxHealth = GU.GetMaxHealth(a_target, a_world);
+                a_world.GetStash<Health>().Get(a_target).AddHealth(a_amount, t_maxHealth);
             }
         }
 
