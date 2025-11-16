@@ -19,7 +19,7 @@ namespace Persistence.DB
             ID("abt_din_arm");
 
             With<Name>(new Name("Din's power."));
-            With<Description>(new Description("Make an attack, dealing physical damage and applying poison."));
+            With<Description>(new Description("Heals enemy?! WTF."));
 
             With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
             With<AbilityDefenition>(new AbilityDefenition
@@ -32,11 +32,7 @@ namespace Persistence.DB
                 m_Shifts = new Vector2Int[2] { new Vector2Int(5, 0), new Vector2Int(1, 0) },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
-                    new PlayTweenAnimation(TweenAnimations.ATTACK),
-                    new WaitForTweenActionFrame(),
-                    new DealDamage(2, DamageType.PHYSICAL_DAMAGE),
-                    new ApplyPoison(2, 1),
-                    new WaitForLastAnimationEnd()
+                    new Heal(5)
                 }),
             });
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,8 +93,19 @@ namespace Game
             }
             if (t_isCanBeHealed)
             {
+                int t_health = GU.GetHealth(a_target, a_world);
                 int t_maxHealth = GU.GetMaxHealth(a_target, a_world);
-                a_world.GetStash<Health>().Get(a_target).AddHealth(a_amount, t_maxHealth);
+
+                int t_finalHeal = Math.Min(a_amount, t_maxHealth - t_health);
+
+                a_world.GetStash<Health>().Get(a_target).AddHealth(t_finalHeal);
+
+                // On Healed notification
+                foreach (var i in Interactor.GetAll<IOnEntityHealedInteraction>())
+                {
+                    await i.Execute(a_source, a_target, t_finalHeal, a_world);
+                }
+
             }
         }
 

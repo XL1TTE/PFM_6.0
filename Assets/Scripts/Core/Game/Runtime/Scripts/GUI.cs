@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.Abilities;
+using Domain.Extentions;
 using Domain.FloatingDamage;
 using Domain.UI.Widgets;
 using Gameplay.FloatingDamage.Systems;
@@ -64,5 +65,21 @@ namespace Game
             }
         }
 
+        public static void ShowHealNumber(Entity a_target, int a_value, World a_world)
+        {
+            if (FloatingGui.IsInstantiated())
+            {
+                ref var targetPos = ref GU.GetTransform(a_target, a_world);
+
+                var text = TextPool.I()
+                    .WarmupElement()
+                    .SetText(a_value.ToString())
+                    .SetColor("#9dff7a".ToColor())
+                    .AlignCenter()
+                    .FontSize(T.TEXT_SIZE_B1);
+
+                FloatingGui.Show(targetPos.position, text);
+            }
+        }
     }
 }

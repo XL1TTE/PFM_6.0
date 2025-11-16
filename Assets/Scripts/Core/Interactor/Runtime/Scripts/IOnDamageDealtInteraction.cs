@@ -29,11 +29,17 @@ namespace Interactions
             await UniTask.CompletedTask;
         }
     }
-    public sealed class UpdateHealthBarInteraction : BaseInteraction, IOnDamageDealtInteraction
+    public sealed class UpdateHealthBarInteraction : BaseInteraction, IOnDamageDealtInteraction, IOnEntityHealedInteraction
     {
         public override Priority m_Priority => base.m_Priority;
 
         public async UniTask Execute(Entity a_Source, Entity a_Target, DamageType a_damageType, World a_world, int a_Damage)
+        {
+            await UniTask.Yield();
+            GU.UpdateHealthBarValueFor(a_Target, a_world);
+        }
+
+        public async UniTask Execute(Entity a_Source, Entity a_Target, int a_amount, World a_world)
         {
             await UniTask.Yield();
             GU.UpdateHealthBarValueFor(a_Target, a_world);
@@ -55,5 +61,6 @@ namespace Interactions
             }
         }
     }
+
 }
 
