@@ -17,9 +17,11 @@ using Domain.StateMachine.Events;
 using Domain.StateMachine.Mono;
 using Domain.UI.Mono;
 using Domain.UI.Requests;
+using DS.Files;
 using Game;
 using Persistence.Components;
 using Persistence.DB;
+using Persistence.DS;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -66,23 +68,16 @@ namespace Gameplay.StateMachine.Systems
 
         private async UniTask EnterAsync(Entity stateEntity)
         {
-            if (LevelConfig.StartLevelID != null)
+
+            var config = DataStorage.GetRecordFromFile<BattleConfig, LoadConfig>();
+
+            if (config.m_prefab_level != null)
             {
-                if (DataBase.TryFindRecordByID(LevelConfig.StartLevelID, out var lvl_record))
-                {
-                    if (DataBase.TryGetRecord<PrefabComponent>(lvl_record, out var lvl_prefab))
-                    {
-                        if (lvl_prefab.Value == null)
-                        {
-                            throw new System.Exception($"Level prefab: {LevelConfig.StartLevelID} was not found.");
-                        }
-                        Object.Instantiate(lvl_prefab.Value); // instantiate level prefab
 
-                        await UniTask.Yield(); // Waiting for all entities creation.
-                    }
+                Object.Instantiate(config.m_prefab_level); // instantiate level prefab
 
-                    Battle.SpawnEnemiesOnLoad(World);
-                }
+                await UniTask.Yield(); // Waiting for all entities creation.
+                Battle.SpawnEnemiesOnLoad(World);
             }
 
             Battle.SpawnMonstersOnLoad(World);

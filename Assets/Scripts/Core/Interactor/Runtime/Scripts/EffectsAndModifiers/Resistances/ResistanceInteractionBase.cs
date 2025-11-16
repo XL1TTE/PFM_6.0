@@ -39,7 +39,7 @@ namespace Interactions
             ref var target_mod = ref stash_modifier.Get(a_Target);
             DataBase.TryGetRecord<T>(a_Effect, out var effect_mod);
 
-            target_mod.m_Stage = (Stage)Math.Clamp((Int32)target_mod.m_Stage + (Int32)effect_mod.m_Stage, 0, 2);
+            target_mod.m_Stage = (Stage)Math.Clamp((Int32)target_mod.m_Stage + (Int32)effect_mod.m_Stage, -1, 2);
         }
 
         protected virtual void RemoveEffect(Entity a_Effect, Entity a_Target, World a_world)
