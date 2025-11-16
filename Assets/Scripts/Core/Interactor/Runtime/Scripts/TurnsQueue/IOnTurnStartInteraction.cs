@@ -111,7 +111,7 @@ namespace Interactions
 
 
                 int damage = t_damagePerTurn;
-                GU.ApplyResistanceToDamage<BleedResistanceModiffier>(a_turnTaker, ref damage, a_world);
+                //GU.ApplyResistanceToDamage<BleedResistanceModiffier>(a_turnTaker, ref damage, a_world);
 
                 G.DealDamage(default, a_turnTaker, damage, Domain.Abilities.DamageType.BLEED_DAMAGE, a_world);
                 t_turnsLeft -= 1;
@@ -157,7 +157,7 @@ namespace Interactions
             foreach (var stack in t_toRemove)
             {
                 int damage = stack.m_DamagePerTurn * stack.m_Duration;
-                GU.ApplyResistanceToDamage<PoisonResistanceModiffier>(a_turnTaker, ref damage, a_world);
+                //GU.ApplyResistanceToDamage<PoisonResistanceModiffier>(a_turnTaker, ref damage, a_world);
 
                 G.DealDamage(default, a_turnTaker, damage, Domain.Abilities.DamageType.POISON_DAMAGE, a_world);
                 G.Statuses.RemovePoisonStack(a_turnTaker, stack, a_world);
@@ -183,7 +183,7 @@ namespace Interactions
                 var t_damagePerTurn = stack.m_DamagePerTurn;
 
                 int damage = stack.m_DamagePerTurn - (stack.m_Duration - stack.m_TurnsLeft);
-                GU.ApplyResistanceToDamage<BurningResistanceModiffier>(a_turnTaker, ref damage, a_world);
+                //GU.ApplyResistanceToDamage<BurningResistanceModiffier>(a_turnTaker, ref damage, a_world);
 
                 G.DealDamage(default, a_turnTaker, damage, Domain.Abilities.DamageType.FIRE_DAMAGE, a_world);
                 t_turnsLeft -= 1;

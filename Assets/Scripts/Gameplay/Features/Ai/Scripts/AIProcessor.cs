@@ -318,14 +318,17 @@ namespace Project.AI
             int t_damageTotal = 0;
             foreach (var dmg_effect in a_abilityData.m_Value.GetEffects<DealDamage>())
             {
-                await Interactor.CallAll<CalculateDamageInteraction>(async handler =>
+                int t_damage = dmg_effect.m_BaseDamage;
+                await Interactor.CallAll<ICalculateDamageInteraction>(async handler =>
                 {
-                    t_damageTotal = await handler.Execute(
+                    await handler.Execute(
                         a_context.m_Agent,
                         a_target, a_context.m_World,
                         dmg_effect.m_DamageType,
-                        dmg_effect.m_BaseDamage);
+                        ref t_damage,
+                        new List<OnDamageTags>());
                 });
+                t_damageTotal += t_damage;
             }
 
             return t_damageTotal;

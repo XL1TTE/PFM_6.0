@@ -43,16 +43,18 @@ namespace Game
             Entity a_target,
             int a_amount,
             DamageType a_damageType,
-            World a_world)
+            World a_world,
+            IEnumerable<OnDamageTags> a_tags = null)
         {
-            DealDamageAsync(a_source, a_target, a_amount, a_damageType, a_world).Forget();
+            DealDamageAsync(a_source, a_target, a_amount, a_damageType, a_world, a_tags).Forget();
         }
         private static async UniTask DealDamageAsync(
             Entity a_source,
             Entity a_target,
             int a_amount,
             DamageType a_damageType,
-            World a_world)
+            World a_world,
+            IEnumerable<OnDamageTags> a_tags = null)
         {
             var t_canTakeDamage = true;
             foreach (var i in Interactor.GetAll<ICanTakeDamageValidator>())
@@ -61,11 +63,13 @@ namespace Game
             }
             if (t_canTakeDamage == false) { return; }
 
+            List<OnDamageTags> t_tags = new(2);
+
             int t_damageCounter = a_amount;
             foreach (var i in Interactor.GetAll<ICalculateDamageInteraction>())
             {
-                t_damageCounter = await i.Execute(
-                    a_source, a_target, a_world, a_damageType, t_damageCounter);
+                await i.Execute(
+                    a_source, a_target, a_world, a_damageType, ref t_damageCounter, t_tags);
             }
 
             a_world.GetStash<Health>().Get(a_target).AddHealth(-t_damageCounter);
@@ -73,7 +77,7 @@ namespace Game
             // On damage dealt notification
             foreach (var i in Interactor.GetAll<IOnDamageDealtInteraction>())
             {
-                await i.Execute(a_source, a_target, a_damageType, a_world, t_damageCounter);
+                await i.Execute(a_source, a_target, a_damageType, a_world, t_damageCounter, t_tags);
             }
         }
 

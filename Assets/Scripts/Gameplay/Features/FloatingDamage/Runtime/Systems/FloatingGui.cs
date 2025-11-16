@@ -28,11 +28,7 @@ namespace Gameplay.FloatingDamage.Systems
 
         public static void Show(Vector3 a_spawnIn, IUIElement a_element)
         {
-            var spawnPoint = Camera.main.WorldToScreenPoint(a_spawnIn) + new Vector3(
-                                     UnityEngine.Random.Range(-40f, 40f),
-                                     UnityEngine.Random.Range(-20f, 20f),
-                                     a_spawnIn.z
-                                 );
+            var spawnPoint = Camera.main.WorldToScreenPoint(a_spawnIn);
 
             var anim = m_instance.GetAnim(spawnPoint, a_element);
 

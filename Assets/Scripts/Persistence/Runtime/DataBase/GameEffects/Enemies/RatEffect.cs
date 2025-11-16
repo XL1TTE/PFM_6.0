@@ -22,6 +22,10 @@ namespace Persistence.DB
             {
                 m_Stage = IResistanceModiffier.Stage.IMMUNE
             });
+            With<BurningResistanceModiffier>(new BurningResistanceModiffier
+            {
+                m_Stage = IResistanceModiffier.Stage.IMMUNE
+            });
         }
     }
     public class CowEffectRecord : MonsterPartRecord

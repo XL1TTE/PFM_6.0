@@ -8,4 +8,12 @@ namespace Domain.Abilities
         POISON_DAMAGE
     }
 
+    public enum OnDamageTags : byte
+    {
+        BLOCKED,
+        IMMUNED,
+        RESISTANT,
+        WEAKNESS
+    }
+
 }

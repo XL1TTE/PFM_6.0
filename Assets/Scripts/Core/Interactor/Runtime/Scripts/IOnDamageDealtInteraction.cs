@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.Abilities;
@@ -16,16 +17,17 @@ namespace Interactions
             Entity a_Target,
             DamageType a_damageType,
             World a_world,
-            int a_Damage);
+            int a_Damage,
+            List<OnDamageTags> a_tags);
     }
 
     public sealed class ShowFloatingDamageInteraction : BaseInteraction, IOnDamageDealtInteraction
     {
         public override Priority m_Priority => base.m_Priority;
 
-        public async UniTask Execute(Entity a_Source, Entity a_Target, DamageType a_damageType, World a_world, int a_Damage)
+        public async UniTask Execute(Entity a_Source, Entity a_Target, DamageType a_damageType, World a_world, int a_Damage, List<OnDamageTags> a_tags)
         {
-            GUI.ShowFloatingDamage(a_Target, a_Damage, a_damageType, a_world);
+            GUI.ShowFloatingDamage(a_Target, a_Damage, a_damageType, a_world, a_tags);
             await UniTask.CompletedTask;
         }
     }
@@ -33,7 +35,7 @@ namespace Interactions
     {
         public override Priority m_Priority => base.m_Priority;
 
-        public async UniTask Execute(Entity a_Source, Entity a_Target, DamageType a_damageType, World a_world, int a_Damage)
+        public async UniTask Execute(Entity a_Source, Entity a_Target, DamageType a_damageType, World a_world, int a_Damage, List<OnDamageTags> a_tags)
         {
             await UniTask.Yield();
             GU.UpdateHealthBarValueFor(a_Target, a_world);
@@ -50,7 +52,7 @@ namespace Interactions
     {
         public override Priority m_Priority => Priority.VERY_LOW;
 
-        public async UniTask Execute(Entity a_Source, Entity a_Target, DamageType a_damageType, World a_world, int a_Damage)
+        public async UniTask Execute(Entity a_Source, Entity a_Target, DamageType a_damageType, World a_world, int a_Damage, List<OnDamageTags> a_tags)
         {
             if (F.IsDead(a_Target, a_world)) { return; }
 
