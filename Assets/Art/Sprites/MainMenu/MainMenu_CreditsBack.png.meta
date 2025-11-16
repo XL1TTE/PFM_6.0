@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 115f93122fc678743b369ea4097afd61
+guid: 3557534052a942749bb46ca5566471ab
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2486272689461538429
-    second: Spr_Battle_UI_InformationBoard_0
+      213: 325440641546151924
+    second: Credits_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spr_Battle_UI_InformationBoard_0
+      name: Credits_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 75
-        height: 47
+        width: 303
+        height: 283
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d7e2c1696d3018220800000000000000
-      internalID: 2486272689461538429
+      spriteID: 4f765da0a82348400800000000000000
+      internalID: 325440641546151924
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Spr_Battle_UI_InformationBoard_0: 2486272689461538429
+      Credits_0: 325440641546151924
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

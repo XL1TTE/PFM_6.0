@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: de1f0b5529f10e44094f36064daa2328
+guid: a11839d044c09fc459d61cca43c9983a
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - HandwrittenFont
+  - MedievalDropCapFont
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
