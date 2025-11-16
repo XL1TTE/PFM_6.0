@@ -126,6 +126,8 @@ namespace Gameplay.TargetSelection
                     break;
                 case TargetSelectionTypes.CELL_EMPTY:
                     return !F.IsOccupiedCell(a_cell, a_world);
+                case TargetSelectionTypes.ANY_CELL:
+                    return F.IsCell(a_cell, a_world);
             }
             return false;
         }

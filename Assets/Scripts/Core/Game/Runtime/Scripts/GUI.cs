@@ -76,7 +76,7 @@ namespace Game
                     .SetText(a_value.ToString())
                     .SetColor("#9dff7a".ToColor())
                     .AlignCenter()
-                    .FontSize(T.TEXT_SIZE_B1);
+                    .FontSize(T.TEXT_SIZE_H1);
 
                 FloatingGui.Show(targetPos.position, text);
             }

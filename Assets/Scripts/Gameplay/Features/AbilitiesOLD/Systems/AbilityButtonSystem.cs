@@ -219,6 +219,10 @@ namespace Gameplay.Abilities.Systems
                             target = target_cell;
                             await ability.Execute(caster, target, World);
                             break;
+                        case TargetSelectionTypes.ANY_CELL:
+                            target = target_cell;
+                            await ability.Execute(caster, target, World);
+                            break;
                     }
                 }
             }

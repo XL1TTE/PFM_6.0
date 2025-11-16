@@ -32,6 +32,20 @@ namespace Core.Utilities
 
             return stash_Pos.Get(entity).m_GridPosition;
         }
+
+        public static IEnumerable<Entity> GetCellsInArea(Entity a_cell, int a_area, World a_world)
+        {
+            var a_basis = GetCellGridPosition(a_cell, a_world);
+
+            var t_shifts = Enumerable.Range(-a_area, a_area * 2 + 1)
+                .SelectMany(x => Enumerable.Range(-a_area, a_area * 2 + 1)
+                    .Select(y => new Vector2Int(x, y)))
+                .Where(pos => pos != Vector2Int.zero)
+                .ToList();
+
+            return GU.GetCellsFromShifts(a_basis, t_shifts, a_world);
+        }
+
         public static IEnumerable<Entity> GetCellsFromShifts(Vector2Int a_basis, IEnumerable<Vector2Int> a_shifts, World a_world)
         {
             if (a_shifts == null) { return default; }

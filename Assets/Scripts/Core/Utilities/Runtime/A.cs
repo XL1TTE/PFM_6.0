@@ -146,7 +146,7 @@ namespace Core.Utilities
             seq.Append(subject.DOMoveY(originalPosition.y
                 + raiseHeight, 0.25f).SetEase(Ease.OutQuad));
 
-            seq.Append(subject.DOMove(targetPosWithHeight, 0.5f)
+            seq.Append(subject.DOMove(new Vector3(targetPosWithHeight.x, targetPosWithHeight.y, targetPos.y * 0.01f), 0.5f)
                 .SetEase(Ease.OutQuad));
 
             seq.Append(subject.DOMoveY(targetPos.y, 0.25f)

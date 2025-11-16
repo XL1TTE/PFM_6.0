@@ -28,7 +28,11 @@ namespace Gameplay.FloatingDamage.Systems
 
         public static void Show(Vector3 a_spawnIn, IUIElement a_element)
         {
-            var spawnPoint = Camera.main.WorldToScreenPoint(a_spawnIn);
+            var spawnPoint = Camera.main.WorldToScreenPoint(a_spawnIn) + new Vector3(
+                                     UnityEngine.Random.Range(-40f, 40f),
+                                     UnityEngine.Random.Range(-20f, 20f),
+                                     a_spawnIn.z
+                                 );
 
             var anim = m_instance.GetAnim(spawnPoint, a_element);
 
@@ -50,9 +54,9 @@ namespace Gameplay.FloatingDamage.Systems
 
             Vector3 endPosition = spawnPoint +
                                  new Vector3(
-                                     UnityEngine.Random.Range(-30f, 30f),
+                                     UnityEngine.Random.Range(-50f, 50f),
                                      floatHeight,
-                                     UnityEngine.Random.Range(-30f, 30f)
+                                     spawnPoint.z
                                  );
 
             floatSequence.Append(a_element.gameObject.transform.DOMove(spawnPoint, 0f));

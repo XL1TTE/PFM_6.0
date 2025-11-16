@@ -86,6 +86,8 @@ namespace Core.Utilities
             => world.GetStash<TagEnemy>().Has(entity);
         public static bool IsOccupiedCell(Entity entity, World world)
             => world.GetStash<TagOccupiedCell>().Has(entity);
+        public static bool IsCell(Entity entity, World world)
+            => world.GetStash<CellTag>().Has(entity);
     }
 
 }
