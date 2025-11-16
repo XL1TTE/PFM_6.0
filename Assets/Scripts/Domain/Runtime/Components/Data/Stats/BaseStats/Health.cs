@@ -24,7 +24,7 @@ namespace Domain.Stats.Components
         public int GetHealth() => m_Value;
 
 
-        public void ChangeHealth(int amount)
+        public void AddHealth(int amount)
             => m_Value = Math.Max(0, m_Value + amount);
 
     }

@@ -65,6 +65,7 @@ namespace Gameplay.TargetSelection
                     m_CurrentSelectionCancellation.Token.ThrowIfCancellationRequested();
 
                     Entity t_clickedCell = default;
+
                     if (IsPlayerClickedOnCell(f_cells, out t_clickedCell))
                     {
                         if (t_clickedCell.isNullOrDisposed(a_world)) { continue; }
@@ -79,6 +80,7 @@ namespace Gameplay.TargetSelection
                             Debug.Log("Not valid choose.");
                         }
                     }
+
                     else if (Input.GetMouseButtonDown(1))
                     {
                         CancelSession();
@@ -126,6 +128,8 @@ namespace Gameplay.TargetSelection
                     break;
                 case TargetSelectionTypes.CELL_EMPTY:
                     return !F.IsOccupiedCell(a_cell, a_world);
+                case TargetSelectionTypes.ANY_CELL:
+                    return F.IsCell(a_cell, a_world);
             }
             return false;
         }
@@ -160,6 +164,7 @@ namespace Gameplay.TargetSelection
             clickedCell = default;
             return false;
         }
+
     }
 
 }

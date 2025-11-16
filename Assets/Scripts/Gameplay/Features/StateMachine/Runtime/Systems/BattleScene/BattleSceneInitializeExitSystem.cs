@@ -19,9 +19,9 @@ namespace Gameplay.StateMachine.Systems
 
         public void OnAwake()
         {
-            evt_onStateExit = SM.Value.GetEvent<OnStateExitEvent>();
+            evt_onStateExit = SM.m_World.GetEvent<OnStateExitEvent>();
 
-            stash_state = SM.Value.GetStash<BattleSceneInitializeState>();
+            stash_state = SM.m_World.GetStash<BattleSceneInitializeState>();
 
         }
 

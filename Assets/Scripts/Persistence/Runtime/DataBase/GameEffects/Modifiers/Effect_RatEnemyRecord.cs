@@ -20,6 +20,10 @@ namespace Persistence.DB
                 {
                     m_Flat = 2
                 });
+            With<PoisonResistanceModiffier>(new PoisonResistanceModiffier
+            {
+                m_Stage = IResistanceModiffier.Stage.IMMUNE
+            });
         }
     }
 }

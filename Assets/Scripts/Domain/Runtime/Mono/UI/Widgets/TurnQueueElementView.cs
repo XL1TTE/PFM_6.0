@@ -21,20 +21,20 @@ namespace Domain.UI.Widgets
 
         public void EnableHover()
         {
-            HoverVisualLayer.SetActive(true);
+            HoverVisualLayer?.SetActive(true);
         }
         public void DisableHover()
         {
-            HoverVisualLayer.SetActive(false);
+            HoverVisualLayer?.SetActive(false);
         }
 
         public void EnableHighlighting()
         {
-            HighlightLayer.SetActive(true);
+            HighlightLayer?.SetActive(true);
         }
         public void DisableHighlighting()
         {
-            HighlightLayer.SetActive(false);
+            HighlightLayer?.SetActive(false);
         }
 
 

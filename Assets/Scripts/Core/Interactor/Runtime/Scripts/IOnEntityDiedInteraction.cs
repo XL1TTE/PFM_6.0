@@ -44,7 +44,7 @@ namespace Interactions
             var stash_curTurnTaker = a_world.GetStash<CurrentTurnTakerTag>();
 
             if (stash_curTurnTaker.Has(a_entity) == false) { return UniTask.CompletedTask; }
-            if (stash_aiAgent.Has(a_entity) == false) { return UniTask.CompletedTask; }
+            //if (stash_aiAgent.Has(a_entity) == false) { return UniTask.CompletedTask; }
 
             G.NextTurn(a_world);
             return UniTask.CompletedTask;

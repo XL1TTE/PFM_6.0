@@ -12,6 +12,7 @@ namespace Gameplay.TargetSelection
         CELL_WITH_ENEMY,
         CELL_WITH_ALLY,
         CELL_EMPTY,
+        ANY_CELL,
     }
 
     public class Result

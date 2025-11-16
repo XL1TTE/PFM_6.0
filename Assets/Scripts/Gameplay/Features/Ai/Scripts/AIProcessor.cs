@@ -11,6 +11,7 @@ using Gameplay.Abilities;
 using Gameplay.TargetSelection;
 using Interactions;
 using Scellecs.Morpeh;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 namespace Project.AI
@@ -92,11 +93,17 @@ namespace Project.AI
                     }
                 }
                 await new EndTurn().DoJob(context);
-                stash_aiCancell.Remove(a_agent);
+                if (stash_aiCancell.IsDisposed == false)
+                {
+                    stash_aiCancell.Remove(a_agent);
+                }
             }
             catch (OperationCanceledException)
             {
-                stash_aiCancell.Remove(a_agent);
+                if (stash_aiCancell.IsDisposed == false)
+                {
+                    stash_aiCancell.Remove(a_agent);
+                }
             }
         }
 
@@ -311,22 +318,47 @@ namespace Project.AI
             int t_damageTotal = 0;
             foreach (var dmg_effect in a_abilityData.m_Value.GetEffects<DealDamage>())
             {
-                await Interactor.CallAll<CalculateDamageInteraction>(async handler =>
+                int t_damage = dmg_effect.m_BaseDamage;
+                await Interactor.CallAll<ICalculateDamageInteraction>(async handler =>
                 {
-                    t_damageTotal = await handler.Execute(
+                    await handler.Execute(
                         a_context.m_Agent,
                         a_target, a_context.m_World,
                         dmg_effect.m_DamageType,
-                        dmg_effect.m_BaseDamage);
+                        ref t_damage,
+                        new List<OnDamageTags>());
                 });
+                t_damageTotal += t_damage;
             }
 
             return t_damageTotal;
         }
 
-        private UniTask<float> CalculateExpectedHeal(AbilityData a_abilityData, Entity a_target, AIExecutionContext a_context)
+        private UniTask<int> CalculateExpectedHeal(AbilityData a_abilityData, Entity a_target, AIExecutionContext a_context)
         {
-            return UniTask.FromResult(0.0f);
+            int t_Total = 0;
+            foreach (var heal in a_abilityData.m_Value.GetEffects<Heal>())
+            {
+                t_Total += heal.m_Amount;
+            }
+            if (F.IsCell(a_target, a_context.m_World))
+            {
+                var alliesCells = GetAllAlliesOnField(a_context).Select(e => GU.GetOccupiedCell(e, a_context.m_World));
+
+                foreach (var healArea in a_abilityData.m_Value.GetEffects<HealInArea>())
+                {
+                    var cellsInArea = GU.GetCellsInArea(a_target, healArea.m_Area, a_context.m_World);
+                    foreach (var cell in cellsInArea)
+                    {
+                        if (alliesCells.Contains(cell))
+                        {
+                            t_Total += healArea.m_Amount;
+                        }
+                    }
+                }
+            }
+
+            return UniTask.FromResult(t_Total);
         }
 
         private List<Entity> GetAllEnemiesOnField(AIExecutionContext a_context)
@@ -338,6 +370,18 @@ namespace Project.AI
             else if (F.IsMonster(a_context.m_Agent, a_context.m_World))
             {
                 return GU.GetAllEnemiesOnField(a_context.m_World).ToList();
+            }
+            return new();
+        }
+        private List<Entity> GetAllAlliesOnField(AIExecutionContext a_context)
+        {
+            if (F.IsEnemy(a_context.m_Agent, a_context.m_World))
+            {
+                return GU.GetAllEnemiesOnField(a_context.m_World).ToList();
+            }
+            else if (F.IsMonster(a_context.m_Agent, a_context.m_World))
+            {
+                return GU.GetAllMonstersOnField(a_context.m_World).ToList();
             }
             return new();
         }
@@ -373,6 +417,8 @@ namespace Project.AI
                     return GU.GetCellOccupier(a_cell, t_world);
                 case TargetSelectionTypes.CELL_WITH_ALLY:
                     return GU.GetCellOccupier(a_cell, t_world);
+                case TargetSelectionTypes.ANY_CELL:
+                    return a_cell;
                 case TargetSelectionTypes.CELL_EMPTY:
                     return a_cell;
             }
@@ -411,6 +457,8 @@ namespace Project.AI
                     break;
                 case TargetSelectionTypes.CELL_EMPTY:
                     return !F.IsOccupiedCell(a_cell, t_world);
+                case TargetSelectionTypes.ANY_CELL:
+                    return true;
             }
             return false;
         }

@@ -10,7 +10,6 @@ namespace Core.Utilities
         public const string TURN_AROUND_ABILITY_ID = "abt_turn_around";
 
 
-
         public static AbilityData DO_NOTHING_ABILITY = new AbilityData
         {
             m_AbilityType = AbilityType.ALL,

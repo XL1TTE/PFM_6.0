@@ -15,13 +15,13 @@ namespace Persistence.DB
             //With<ID>(new ID { m_Value = "ev_BattleDefault" });
             With<MapEvBattleTag>(new MapEvBattleTag { });
 
-            // Префаб уровня
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             With<PrefabComponent>(new PrefabComponent
             {
-                Value = "Levels/lvl_Village".LoadResource<GameObject>()
+                Value = "Levels/lvl_Village 2".LoadResource<GameObject>()
             });
 
-            // Пока что без этого. Нужно только после завершения битвы
+            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             //With<RewardsPool>(new RewardsPool
             //{
             //    Value = new string[1]{
@@ -29,7 +29,7 @@ namespace Persistence.DB
             //    }
             //});
 
-            // Требуемое кол-во противников
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             With<EnemiesCount>(new EnemiesCount
             {
                 amount = 2

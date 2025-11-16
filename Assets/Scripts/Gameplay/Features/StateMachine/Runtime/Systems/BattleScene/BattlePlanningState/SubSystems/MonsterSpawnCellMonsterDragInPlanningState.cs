@@ -33,9 +33,9 @@ namespace Gameplay.StateMachine.Systems
 
         public void OnAwake()
         {
-            f_state = SM.Value.Filter.With<BattlePlanningState>().Build();
+            f_state = SM.m_World.Filter.With<BattlePlanningState>().Build();
 
-            stash_planningState = SM.Value.GetStash<BattlePlanningState>();
+            stash_planningState = SM.m_World.GetStash<BattlePlanningState>();
 
             _cellsWithMonsterUnderCursor = World.Filter
                 .With<UnderCursorComponent>()

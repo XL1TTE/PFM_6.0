@@ -16,7 +16,7 @@ namespace Interactions
             var t_view = t_record.m_QueueElementsRenderMap.TryGetValueRefByKey(a_turnTaker.Id, out var exist);
             if (exist)
             {
-                t_view.EnableHighlighting();
+                t_view?.EnableHighlighting();
             }
             return UniTask.CompletedTask;
         }
@@ -27,7 +27,7 @@ namespace Interactions
             var t_view = t_record.m_QueueElementsRenderMap.TryGetValueRefByKey(a_turnTaker.Id, out var exist);
             if (exist)
             {
-                t_view.DisableHighlighting();
+                t_view?.DisableHighlighting();
             }
             return UniTask.CompletedTask;
         }

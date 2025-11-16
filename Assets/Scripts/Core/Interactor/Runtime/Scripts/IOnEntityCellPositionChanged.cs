@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.BattleField.Components;
 using Domain.BattleField.Events;
@@ -18,6 +19,16 @@ namespace Interactions
         /// <param name="a_subject">Subject.</param>
         UniTask OnPositionChanged(Entity a_pCell, Entity a_nCell, Entity a_subject, World a_world);
     }
+
+    // public sealed class FixZFighting : BaseInteraction, IOnEntityCellPositionChanged
+    // {
+    //     public UniTask OnPositionChanged(Entity a_pCell, Entity a_nCell, Entity a_subject, World a_world)
+    //     {
+    //         ref var transform = ref GU.GetTransform(a_subject, a_world);
+    //         transform.position += new UnityEngine.Vector3(0, 0, transform.position.y * 0.01f);
+    //         return UniTask.CompletedTask;
+    //     }
+    // }
 
     public sealed class UpdateTurnTakerPointer : BaseInteraction, IOnEntityCellPositionChanged
     {

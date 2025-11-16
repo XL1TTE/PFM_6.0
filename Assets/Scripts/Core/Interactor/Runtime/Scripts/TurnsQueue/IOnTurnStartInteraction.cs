@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using Domain.BattleField.Components;
 using Domain.Extentions;
 using Domain.GameEffects;
+using Domain.Stats.Components;
 using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Tags;
 using Game;
@@ -64,6 +65,34 @@ namespace Interactions
         }
     }
 
+    public sealed class ProcessTemporalEffectsInteraction : BaseInteraction, IOnTurnStartInteraction
+    {
+        public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
+        {
+            var stash_effectPool = a_world.GetStash<EffectsPoolComponent>();
+            if (stash_effectPool.Has(a_turnTaker) == false) { return UniTask.CompletedTask; }
+
+            List<string> t_toRemove = new(4);
+
+            ref var effects = ref stash_effectPool.Get(a_turnTaker);
+
+            for (int i = 0; i < effects.m_StatusEffects.Count; ++i)
+            {
+                ref var turnsLeft = ref effects.m_StatusEffects[i].m_TurnsLeft;
+                turnsLeft -= 1;
+                if (turnsLeft < 0)
+                {
+                    t_toRemove.Add(effects.m_StatusEffects[i].m_EffectId);
+                }
+            }
+            foreach (var i in t_toRemove)
+            {
+                G.Statuses.RemoveEffectFromPool(a_turnTaker, i, a_world);
+            }
+            return UniTask.CompletedTask;
+        }
+    }
+
     public sealed class ProcessBleedStatus : BaseInteraction, IOnTurnStartInteraction
     {
         public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
@@ -81,7 +110,10 @@ namespace Interactions
                 var t_damagePerTurn = stack.m_DamagePerTurn;
 
 
-                G.DealDamage(default, a_turnTaker, t_damagePerTurn, Domain.Abilities.DamageType.BLEED_DAMAGE, a_world);
+                int damage = t_damagePerTurn;
+                //GU.ApplyResistanceToDamage<BleedResistanceModiffier>(a_turnTaker, ref damage, a_world);
+
+                G.DealDamage(default, a_turnTaker, damage, Domain.Abilities.DamageType.BLEED_DAMAGE, a_world);
                 t_turnsLeft -= 1;
 
                 if (t_turnsLeft <= 0)
@@ -124,7 +156,10 @@ namespace Interactions
 
             foreach (var stack in t_toRemove)
             {
-                G.DealDamage(default, a_turnTaker, stack.m_DamagePerTurn * stack.m_Duration, Domain.Abilities.DamageType.POISON_DAMAGE, a_world);
+                int damage = stack.m_DamagePerTurn * stack.m_Duration;
+                //GU.ApplyResistanceToDamage<PoisonResistanceModiffier>(a_turnTaker, ref damage, a_world);
+
+                G.DealDamage(default, a_turnTaker, damage, Domain.Abilities.DamageType.POISON_DAMAGE, a_world);
                 G.Statuses.RemovePoisonStack(a_turnTaker, stack, a_world);
             }
 
@@ -148,6 +183,7 @@ namespace Interactions
                 var t_damagePerTurn = stack.m_DamagePerTurn;
 
                 int damage = stack.m_DamagePerTurn - (stack.m_Duration - stack.m_TurnsLeft);
+                //GU.ApplyResistanceToDamage<BurningResistanceModiffier>(a_turnTaker, ref damage, a_world);
 
                 G.DealDamage(default, a_turnTaker, damage, Domain.Abilities.DamageType.FIRE_DAMAGE, a_world);
                 t_turnsLeft -= 1;
