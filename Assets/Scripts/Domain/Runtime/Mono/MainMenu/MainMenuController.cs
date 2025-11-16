@@ -19,17 +19,17 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private string debugFormURL = "https://docs.google.com/forms/your-debug-form-link";
     [SerializeField] private string feedbackFormURL = "https://docs.google.com/forms/your-feedback-form-link";
 
-    [Header("Transition Settings")]
-    [SerializeField] private CanvasGroup fadePanel;
-    [SerializeField] private float fadeDuration = 1f;
-
     private bool demoMessageActive = true;
     private bool canSkipDemoMessage = false;
     private float demoMessageTimer = 0f;
     private bool isTransitioning = false;
 
+    private FadeController fadeController;
+
     private void Start()
     {
+        fadeController = FadeController.GetInstance();
+
         InitializeUI();
         StartCoroutine(StartSequence());
     }
@@ -44,11 +44,9 @@ public class MainMenuController : MonoBehaviour
 
     private void InitializeUI()
     {
-        if (fadePanel != null)
+        if (fadeController != null)
         {
-            fadePanel.alpha = 1f;
-            fadePanel.blocksRaycasts = true;
-            fadePanel.gameObject.SetActive(true);
+            fadeController.SetFadeImmediate(1f);
         }
 
         demoMessagePanel.SetActive(true);
@@ -60,7 +58,10 @@ public class MainMenuController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
 
-        yield return StartCoroutine(Fade(1f, 0f, fadeDuration));
+        if (fadeController != null)
+        {
+            yield return fadeController.FadeOutCoroutine();
+        }
 
         demoMessageTimer = demoMessageDuration;
 
@@ -100,12 +101,18 @@ public class MainMenuController : MonoBehaviour
     {
         isTransitioning = true;
 
-        yield return StartCoroutine(Fade(0f, 1f, fadeDuration));
+        if (fadeController != null)
+        {
+            yield return fadeController.FadeInCoroutine();
+        }
 
         demoMessagePanel.SetActive(false);
         mainMenuPanel.SetActive(true);
 
-        yield return StartCoroutine(Fade(1f, 0f, fadeDuration));
+        if (fadeController != null)
+        {
+            yield return fadeController.FadeOutCoroutine();
+        }
 
         isTransitioning = false;
     }
@@ -115,12 +122,18 @@ public class MainMenuController : MonoBehaviour
         if (isTransitioning) yield break;
         isTransitioning = true;
 
-        yield return StartCoroutine(Fade(0f, 1f, fadeDuration));
+        if (fadeController != null)
+        {
+            yield return fadeController.FadeInCoroutine();
+        }
 
         mainMenuPanel.SetActive(false);
         creditsPanel.SetActive(true);
 
-        yield return StartCoroutine(Fade(1f, 0f, fadeDuration));
+        if (fadeController != null)
+        {
+            yield return fadeController.FadeOutCoroutine();
+        }
 
         isTransitioning = false;
     }
@@ -130,12 +143,18 @@ public class MainMenuController : MonoBehaviour
         if (isTransitioning) yield break;
         isTransitioning = true;
 
-        yield return StartCoroutine(Fade(0f, 1f, fadeDuration));
+        if (fadeController != null)
+        {
+            yield return fadeController.FadeInCoroutine();
+        }
 
         creditsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
 
-        yield return StartCoroutine(Fade(1f, 0f, fadeDuration));
+        if (fadeController != null)
+        {
+            yield return fadeController.FadeOutCoroutine();
+        }
 
         isTransitioning = false;
     }
@@ -149,33 +168,6 @@ public class MainMenuController : MonoBehaviour
 
         isTransitioning = false;
     }
-
-    private IEnumerator Fade(float startAlpha, float endAlpha, float duration)
-    {
-        if (fadePanel == null) yield break;
-
-        fadePanel.gameObject.SetActive(true);
-        fadePanel.blocksRaycasts = true;
-
-        float timer = 0f;
-        fadePanel.alpha = startAlpha;
-
-        while (timer < duration)
-        {
-            timer += Time.deltaTime;
-            float progress = timer / duration;
-            fadePanel.alpha = Mathf.Lerp(startAlpha, endAlpha, progress);
-            yield return null;
-        }
-
-        fadePanel.alpha = endAlpha;
-
-        if (endAlpha == 0f)
-        {
-            fadePanel.blocksRaycasts = false;
-        }
-    }
-
 
     public void OnPlayButtonClicked()
     {
@@ -209,22 +201,23 @@ public class MainMenuController : MonoBehaviour
     {
         if (!isTransitioning)
         {
-            Debug.Log("Exiting game...");
-            Application.Quit();
+            if (fadeController != null)
+            {
+                Debug.Log("Exiting game...");
+                Application.Quit();
 
 #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
+                UnityEditor.EditorApplication.isPlaying = false;
 #endif
+            }
         }
     }
-
 
     public void OnBackButtonClicked()
     {
         if (!isTransitioning)
             StartCoroutine(TransitionFromCreditsToMainMenu());
     }
-
 
     private void OpenURL(string url)
     {
