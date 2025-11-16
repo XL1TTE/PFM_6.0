@@ -455,6 +455,33 @@ namespace Game
 
             }
 
+            public static void RemoveEffectFromPool(Entity a_subject, string a_EffectID, World a_world)
+            {
+                var effect_pool = a_world.GetStash<EffectsPoolComponent>();
+                if (effect_pool.Has(a_subject))
+                {
+                    ref var pool = ref effect_pool.Get(a_subject);
+                    for (int i = 0; i < pool.m_PermanentEffects.Count; ++i)
+                    {
+                        if (pool.m_PermanentEffects[i].m_EffectId == a_EffectID)
+                        {
+                            pool.m_PermanentEffects.RemoveAt(i);
+                        }
+                    }
+                    for (int i = 0; i < pool.m_StatusEffects.Count; ++i)
+                    {
+                        if (pool.m_StatusEffects[i].m_EffectId == a_EffectID)
+                        {
+                            pool.m_StatusEffects.RemoveAt(i);
+                        }
+                    }
+
+
+                    Interactor.CallAll<IOnGameEffectRemove>(
+                        async handler => await handler.OnEffectRemove(a_EffectID, a_subject, a_world)).Forget();
+                }
+            }
+
             public static void AddEffectToPool(Entity a_subject, string a_effectID, int a_duration, World a_world)
             {
                 var effect_pool = a_world.GetStash<EffectsPoolComponent>();
@@ -486,6 +513,9 @@ namespace Game
                     });
 
                 }
+
+                Interactor.CallAll<IOnGameEffectApply>(
+                    async handler => await handler.OnEffectApply(a_effectID, a_subject, a_world)).Forget();
             }
         }
 

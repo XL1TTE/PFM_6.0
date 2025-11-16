@@ -18,6 +18,10 @@ namespace Persistence.DB
                 {
                     m_Flat = 16
                 });
+            With<PoisonResistanceModiffier>(new PoisonResistanceModiffier
+            {
+                m_Stage = IResistanceModiffier.Stage.IMMUNE
+            });
         }
     }
     public class CowEffectRecord : MonsterPartRecord

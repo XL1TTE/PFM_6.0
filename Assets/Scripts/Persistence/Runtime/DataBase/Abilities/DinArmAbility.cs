@@ -43,6 +43,8 @@ namespace Persistence.DB
         {
             ID("abt_din_arm2");
 
+            With<Description>(new Description("Make target weak to poison effects."));
+
             With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
             With<AbilityDefenition>(new AbilityDefenition
             {
@@ -58,6 +60,7 @@ namespace Persistence.DB
                     new WaitForTweenActionFrame(),
                     new DealDamage(1, DamageType.PHYSICAL_DAMAGE),
                     new ApplyBleeding(1, 2),
+                    new ApplyEffect(2, "effect_poison_weak_1"),
                     new WaitForLastAnimationEnd()
                 }),
             });

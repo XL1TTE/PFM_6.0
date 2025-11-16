@@ -7,6 +7,7 @@ using Domain.Enemies.Tags;
 using Domain.Extentions;
 using Domain.HealthBars.Components;
 using Domain.Monster.Tags;
+using Domain.Stats.Components;
 using Domain.UI.Widgets;
 using Scellecs.Morpeh;
 
@@ -88,6 +89,16 @@ namespace Core.Utilities
             => world.GetStash<TagOccupiedCell>().Has(entity);
         public static bool IsCell(Entity entity, World world)
             => world.GetStash<CellTag>().Has(entity);
+
+        public static IResistanceModiffier.Stage GetResistance<T>(Entity a_actor, World a_world)
+        where T : struct, IResistanceModiffier
+        {
+            var stash = a_world.GetStash<T>();
+            if (stash.Has(a_actor) == false) { return IResistanceModiffier.Stage.NONE; }
+
+            return stash.Get(a_actor).m_Stage;
+        }
+
     }
 
 }

@@ -65,6 +65,7 @@ namespace Gameplay.TargetSelection
                     m_CurrentSelectionCancellation.Token.ThrowIfCancellationRequested();
 
                     Entity t_clickedCell = default;
+
                     if (IsPlayerClickedOnCell(f_cells, out t_clickedCell))
                     {
                         if (t_clickedCell.isNullOrDisposed(a_world)) { continue; }
@@ -79,6 +80,7 @@ namespace Gameplay.TargetSelection
                             Debug.Log("Not valid choose.");
                         }
                     }
+
                     else if (Input.GetMouseButtonDown(1))
                     {
                         CancelSession();
@@ -162,6 +164,7 @@ namespace Gameplay.TargetSelection
             clickedCell = default;
             return false;
         }
+
     }
 
 }

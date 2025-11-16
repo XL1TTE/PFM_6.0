@@ -229,6 +229,25 @@ namespace Core.Utilities
             UnityEngine.Object.Destroy(t_transformRef.Get(a_subject).Value.gameObject, 0.1f);
             return true;
         }
+
+
+        public static void ApplyResistanceToDamage<T>(Entity a_target, ref int a_damage, World a_world) where T : struct, IResistanceModiffier
+        {
+            switch (F.GetResistance<T>(a_target, a_world))
+            {
+                case IResistanceModiffier.Stage.NONE:
+                    break;
+                case IResistanceModiffier.Stage.WEAKNESS:
+                    a_damage *= 2;
+                    break;
+                case IResistanceModiffier.Stage.RESISTANT:
+                    a_damage /= 2;
+                    break;
+                case IResistanceModiffier.Stage.IMMUNE:
+                    a_damage = 0;
+                    break;
+            }
+        }
     }
 
 }
