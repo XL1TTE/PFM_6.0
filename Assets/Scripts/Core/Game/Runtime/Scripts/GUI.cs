@@ -126,7 +126,7 @@ namespace Game
                 .FontSize(T.TEXT_SIZE_H1)
                 .SetColor(a_color);
 
-            FloatingGui.Show(Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, -10, 0), text);
+            FloatingGui.Show(Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, -20, 0), text);
         }
 
     }
