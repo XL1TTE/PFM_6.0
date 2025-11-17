@@ -67,6 +67,7 @@ namespace Project.AI
 
         public async UniTask Process(Entity a_agent, World a_world)
         {
+
             using var cts = new CancellationTokenSource();
             var stash_aiCancell = a_world.GetStash<AgentAICancellationToken>();
 
@@ -90,7 +91,7 @@ namespace Project.AI
                         break;
                     }
                 }
-                await new EndTurn().DoJob(context);
+                await new EndTurn().DoJob(context).AttachExternalCancellation(cts.Token);
                 if (stash_aiCancell.IsDisposed == false)
                 {
                     stash_aiCancell.Remove(a_agent);

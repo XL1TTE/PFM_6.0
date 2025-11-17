@@ -3,7 +3,7 @@ using Gameplay.Map.Systems;
 using Scellecs.Morpeh;
 
 
-namespace Core.ECS.Modules
+namespace Core.Ecs.Modules
 {
     public sealed class MapNodeWaitModule : IWorldModule
     {

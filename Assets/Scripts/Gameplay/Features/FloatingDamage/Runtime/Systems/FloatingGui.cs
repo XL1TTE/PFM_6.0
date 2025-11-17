@@ -41,29 +41,30 @@ namespace Gameplay.FloatingDamage.Systems
         {
 
         }
+
+        [SerializeField] Ease m_FloatingEase = Ease.OutCubic;
+
+        [SerializeField] float m_FloatingHeight = 100f;
+        [SerializeField] float m_FloatingDuration = 4f;
+        [SerializeField] float m_StartDisappearingOnSec = 2f;
+        [SerializeField] float m_DisappearDuration = 0.25f;
+        [SerializeField] Ease m_DisappearEase = Ease.OutCubic;
+
         private Sequence GetAnim(Vector3 spawnPoint, IUIElement a_element)
         {
-            var floatHeight = 100f;
-            var floatDuration = 3f;
-
             Sequence floatSequence = DOTween.Sequence();
 
-            Vector3 endPosition = spawnPoint +
-                                 new Vector3(
-                                     UnityEngine.Random.Range(-50f, 50f),
-                                     floatHeight,
-                                     spawnPoint.z
-                                 );
+            Vector3 endPosition = spawnPoint + new Vector3(0, m_FloatingHeight, 0);
 
             floatSequence.Append(a_element.gameObject.transform.DOMove(spawnPoint, 0f));
             floatSequence.AppendCallback(() => a_element.gameObject.SetActive(true));
 
-            floatSequence.Append(a_element.gameObject.transform.DOMove(endPosition, floatDuration)
-                .SetEase(Ease.OutCubic));
+            floatSequence.Append(a_element.gameObject.transform.DOMove(endPosition, m_FloatingDuration)
+                .SetEase(m_FloatingEase));
 
 
-            floatSequence.Insert(1f, a_element.transform.DOScale(0, 2f)
-                .SetEase(Ease.OutBack));
+            floatSequence.Insert(m_StartDisappearingOnSec, a_element.transform.DOScale(0, m_DisappearDuration))
+                .SetEase(m_DisappearEase);
 
             return floatSequence;
         }

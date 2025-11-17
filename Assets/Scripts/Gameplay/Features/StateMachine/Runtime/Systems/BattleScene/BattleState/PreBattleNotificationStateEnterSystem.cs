@@ -56,7 +56,8 @@ namespace Gameplay.StateMachine.Systems
         {
             BattleUiRefs.Instance.InformationBoardWidget.ChangeText("Battle");
 
-            await Game.GUI.NotifyFullScreenAsync("Battle stage", () => Input.GetMouseButtonDown(0), "Press LMB to continue...");
+            await Game.GUI.NotifyFullScreenAsync("Battle stage",
+                UniTask.WaitUntil(() => Input.GetMouseButtonDown(0)), C.COLOR_NOTIFICATION_BG_DEFAULT, "Press LMB to continue...");
 
             SM.ExitState<PreBattleNotificationState>();
             SM.EnterState<BattleState>();

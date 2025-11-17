@@ -7,6 +7,8 @@ using Domain.Abilities.Components;
 using Domain.BattleField.Components;
 using Domain.Extentions;
 using Domain.GameEffects;
+using Domain.StateMachine.Components;
+using Domain.StateMachine.Mono;
 using Domain.Stats.Components;
 using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Tags;
@@ -27,6 +29,7 @@ namespace Interactions
         /// <returns></returns>
         UniTask OnTurnStart(Entity a_turnTaker, World a_world);
     }
+
 
     public sealed class EvaluateNextTurnButton : BaseInteraction, IOnTurnStartInteraction
     {
@@ -103,13 +106,16 @@ namespace Interactions
 
     public sealed class ActivateAgentAI : BaseInteraction, IOnTurnStartInteraction
     {
-        public override Priority m_Priority => Priority.NORMAL;
+        public override Priority m_Priority => Priority.LOW;
         public async UniTask OnTurnStart(Entity a_turnTaker, World a_world)
         {
+            await UniTask.Yield();
+
             var stash_agentAI = a_world.GetStash<AgentAIComponent>();
             if (stash_agentAI.Has(a_turnTaker) == false) { return; }
+
             var ai = stash_agentAI.Get(a_turnTaker);
-            await ai.m_AIModel.Process(a_turnTaker, a_world);
+            ai.m_AIModel.Process(a_turnTaker, a_world).Forget();
         }
     }
 

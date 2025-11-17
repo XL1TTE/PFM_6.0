@@ -15,21 +15,22 @@ namespace Game
 {
     public static partial class GUI
     {
-        public static void NotifyFullScreen(string a_message, Func<bool> a_hideWhen, string a_tip = "")
+        public static void NotifyFullScreen(string a_message, UniTask a_hideWhen, Color a_bgColor, string a_tip = "")
         {
-            NotifyFullScreenAsync(a_message, a_hideWhen, a_tip).Forget();
+            NotifyFullScreenAsync(a_message, a_hideWhen, a_bgColor, a_tip).Forget();
         }
 
-        public static async UniTask NotifyFullScreenAsync(string a_message, Func<bool> a_hideWhen, string a_tip = "")
+        public static async UniTask NotifyFullScreenAsync(string a_message, UniTask a_hideWhen, Color a_bgColor, string a_tip = "")
         {
             if (FullscreenNotification.IsInstantiated() == false)
             {
                 return;
             }
 
+            FullscreenNotification.SetBgColor(a_bgColor);
             FullscreenNotification.ShowMessage(a_message, a_tip);
 
-            await UniTask.WaitUntil(() => a_hideWhen.Invoke());
+            await a_hideWhen;
 
             FullscreenNotification.HideMessage();
         }
@@ -115,5 +116,18 @@ namespace Game
                 FloatingGui.Show(targetPos.position, text);
             }
         }
+
+
+        public static void NotifyUnderCursor(string a_message, Color a_color)
+        {
+            var text = TextPool.I()
+                .WarmupElement()
+                .SetText(a_message)
+                .FontSize(T.TEXT_SIZE_H1)
+                .SetColor(a_color);
+
+            FloatingGui.Show(Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, -20, 0), text);
+        }
+
     }
 }

@@ -12,6 +12,12 @@ namespace Core.Utilities
         public static Color COLOR_BURNING = "#e48237".ToColor();
 
 
+        public static Color COLOR_NOTIFICATION_BG_DEFAULT = new Color(0, 0, 0, 0.8f);
+        public static Color COLOR_WIN_NOTIFICATION = "#81d756".ToColor();
+        public static Color COLOR_LOST_NOTIFICATION = "#a12828".ToColor();
+
+        public static Color COLOR_WRONG_CELL_CHOICE_NOTIFICATION = Color.white;
+
         public static Color ToColor(this DamageType a_type)
         {
             switch (a_type)
