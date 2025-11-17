@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Domain.Abilities.Components;
 using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
 using Domain.Components;
@@ -247,6 +248,19 @@ namespace Core.Utilities
                     a_damage = 0;
                     break;
             }
+        }
+
+        /// <summary>
+        /// Will delete AI component. So you will need to manualy setup it again if you 
+        /// would wanna to enable it again.
+        /// </summary>
+        /// <param name="a_agent"></param>
+        /// <param name="a_world"></param>
+        public static void DisposeAI(Entity a_agent, World a_world)
+        {
+            if (F.IsAiControlled(a_agent, a_world) == false) { return; }
+
+            a_world.GetStash<AgentAIComponent>().Remove(a_agent);
         }
     }
 

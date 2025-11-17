@@ -1,3 +1,4 @@
+using Core.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,6 +17,11 @@ namespace Project
             {
                 LoadingScreen.Instance.LoadScene("MapGeneration");
                 //SceneManager.LoadScene("MapGeneration");
+            }
+
+            if (Input.GetKeyDown(KeyCode.E) && Input.GetKeyDown(KeyCode.T))
+            {
+                CHEATS.EndlessTurnsForMonsters();
             }
 
         }

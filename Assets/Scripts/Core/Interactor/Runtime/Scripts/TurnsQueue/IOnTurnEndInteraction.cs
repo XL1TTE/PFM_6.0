@@ -6,6 +6,8 @@ using Cysharp.Threading.Tasks;
 using Domain.BattleField.Components;
 using Domain.Extentions;
 using Domain.GameEffects;
+using Domain.StateMachine.Components;
+using Domain.StateMachine.Mono;
 using Domain.TurnSystem.Tags;
 using Game;
 using Scellecs.Morpeh;
@@ -25,6 +27,19 @@ namespace Interactions
         UniTask OnTurnEnd(Entity a_turnTaker, World a_world);
     }
 
+    public sealed class ExitTargetSelectionState : BaseInteraction, IOnTurnEndInteraction
+    {
+        public override Priority m_Priority => Priority.VERY_HIGH;
+
+        public UniTask OnTurnEnd(Entity a_turnTaker, World a_world)
+        {
+            if (SM.IsStateActive<TargetSelectionState>(out _))
+            {
+                SM.ExitState<TargetSelectionState>();
+            }
+            return UniTask.CompletedTask;
+        }
+    }
 
     public sealed class RemoveTurnTakerMark : BaseInteraction, IOnTurnEndInteraction
     {

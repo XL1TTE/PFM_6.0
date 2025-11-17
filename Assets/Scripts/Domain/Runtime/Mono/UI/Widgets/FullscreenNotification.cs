@@ -41,6 +41,9 @@ namespace Domain.UI.Widgets
         }
         private void ShowSelf() => gameObject.SetActive(true);
         private void HideSelf() => gameObject.SetActive(false);
+
+
+        public static void SetBgColor(Color a_color) => m_instance.m_background.color = a_color;
     }
 
 }

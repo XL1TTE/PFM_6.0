@@ -16,6 +16,7 @@ using Domain.Extentions;
 using Domain.GameEffects;
 using Domain.Stats.Components;
 using Domain.UI.Tags;
+using Domain.UI.Widgets;
 using DS.Files;
 using Interactions;
 using Interactions.ICanBeHealedValidator;
@@ -52,7 +53,7 @@ namespace Game
         {
             DealDamageAsync(a_source, a_target, a_amount, a_damageType, a_world, a_tags).Forget();
         }
-        private static async UniTask DealDamageAsync(
+        public static async UniTask DealDamageAsync(
             Entity a_source,
             Entity a_target,
             int a_amount,
@@ -417,6 +418,18 @@ namespace Game
             }
         }
 
+        public static class BattleOutcomes
+        {
+            public static void PlayerWon(World a_world)
+            {
+                Debug.Log("WIN");
+                Interactor.CallAll<IOnPlayerWonBattle>(async h => await h.OnPlayerWon(a_world)).Forget();
+            }
+            public static void PlayerLost(World a_world)
+            {
+                Interactor.CallAll<IOnPlayerLostBattle>(async h => await h.OnPlayerLost(a_world)).Forget();
+            }
+        }
 
         public static class Statuses
         {
@@ -467,6 +480,7 @@ namespace Game
 
             public static void ApplyStun(Entity a_source, Entity a_target, int a_duration, World a_world)
             {
+                if (a_world.IsDisposed || a_world == null) { return; }
                 if (a_world.GetStash<StunStatusComponent>().Has(a_target)) { return; }
 
 

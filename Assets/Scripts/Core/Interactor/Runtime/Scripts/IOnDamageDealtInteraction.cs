@@ -23,7 +23,7 @@ namespace Interactions
 
     public sealed class ShowFloatingDamageInteraction : BaseInteraction, IOnDamageDealtInteraction
     {
-        public override Priority m_Priority => base.m_Priority;
+        public override Priority m_Priority => Priority.VERY_HIGH;
 
         public async UniTask Execute(Entity a_Source, Entity a_Target, DamageType a_damageType, World a_world, int a_Damage, List<OnDamageTags> a_tags)
         {

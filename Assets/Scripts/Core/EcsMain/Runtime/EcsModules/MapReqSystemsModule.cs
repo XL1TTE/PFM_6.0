@@ -5,7 +5,7 @@ using Gameplay.MapEvents.Systems;
 using Scellecs.Morpeh;
 
 
-namespace Core.ECS.Modules
+namespace Core.Ecs.Modules
 {
     public sealed class MapReqSystemsModule : IWorldModule
     {

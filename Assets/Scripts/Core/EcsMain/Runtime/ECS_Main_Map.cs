@@ -1,5 +1,5 @@
 using Core.Ecs.Modules;
-using Core.ECS.Modules;
+using Core.Ecs.Modules;
 using Domain.Extentions;
 using Domain.Map;
 using Domain.Map.Events;
