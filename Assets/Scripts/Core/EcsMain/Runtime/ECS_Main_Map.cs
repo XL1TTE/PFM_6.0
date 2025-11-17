@@ -36,10 +36,6 @@ namespace Game
         {
             Interactor.Init();
 
-            DataStorage.NewFile<BattleConfig>().WithRecord<LoadConfig>(new LoadConfig());
-
-
-
             ref var crusadeState = ref DataStorage.GetRecordFromFile<Crusade, CrusadeState>();
 
             switch (crusadeState.crusade_state)

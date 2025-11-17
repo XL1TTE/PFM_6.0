@@ -7,17 +7,21 @@ using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Domain.Abilities;
+using Domain.Abilities.Components;
+using Domain.Abilities.Tags;
 using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
 using Domain.Components;
 using Domain.Extentions;
 using Domain.GameEffects;
 using Domain.Stats.Components;
+using Domain.UI.Tags;
 using DS.Files;
 using Interactions;
 using Interactions.ICanBeHealedValidator;
 using Persistence.DS;
 using Scellecs.Morpeh;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Game
@@ -295,8 +299,109 @@ namespace Game
         }
 
 
+        public static async UniTask ExecuteAbilityAsync(AbilityData abilityData, Entity a_caster, Entity a_target, World a_world)
+        {
+            await Interactor.CallAll<IOnAbiltiyExecutionStart>(
+                async h => await h.OnExecutionStart(abilityData, a_caster, a_target, a_world));
+
+            await abilityData.m_Value.Execute(a_caster, a_target, a_world);
+
+            Interactor.CallAll<IOnAbiltiyExecutionEnd>(
+                async h => await h.OnExecutionEnd(abilityData, a_caster, a_target, a_world)).Forget();
+        }
+
+        public static void RefreshInteractions(Entity a_subject, World a_world)
+        {
+            var stash_interactions = a_world.GetStash<InteractionsComponent>();
+            if (stash_interactions.Has(a_subject) == false) { return; }
+
+            ref var t_interactions = ref stash_interactions.Get(a_subject);
+
+            t_interactions.m_InteractionsLeft = t_interactions.m_MaxInteractions;
+            t_interactions.m_MoveInteractionsLeft = t_interactions.m_MaxMoveInteractions;
+
+            Interactor.CallAll<IOnInteractionCountChanged>(
+                async h => await h.OnChange(a_subject, stash_interactions.Get(a_subject).m_InteractionsLeft, a_world)).Forget();
+        }
+
+        public static void ConsumeInteraction(Entity a_subject, World a_world)
+        {
+            ConsumeInteractionAsync(a_subject, a_world).Forget();
+        }
+
+        private static async UniTask ConsumeInteractionAsync(Entity a_subject, World a_world)
+        {
+            var stash_interactions = a_world.GetStash<InteractionsComponent>();
+            if (stash_interactions.Has(a_subject) == false) { return; }
+
+            var t_interactions = stash_interactions.Get(a_subject);
+
+            stash_interactions.Get(a_subject).m_InteractionsLeft =
+                Math.Clamp(t_interactions.m_InteractionsLeft - 1, 0, t_interactions.m_MaxInteractions);
+
+            foreach (var i in Interactor.GetAll<IOnInteractionCountChanged>())
+            {
+                await i.OnChange(a_subject, stash_interactions.Get(a_subject).m_InteractionsLeft, a_world);
+            }
+        }
+        public static void ConsumeMoveInteraction(Entity a_subject, World a_world)
+        {
+            ConsumeMoveInteractionAsync(a_subject, a_world).Forget();
+        }
+
+        private static async UniTask ConsumeMoveInteractionAsync(Entity a_subject, World a_world)
+        {
+            var stash_interactions = a_world.GetStash<InteractionsComponent>();
+            if (stash_interactions.Has(a_subject) == false) { return; }
+
+            var t_interactions = stash_interactions.Get(a_subject);
+
+            stash_interactions.Get(a_subject).m_MoveInteractionsLeft =
+                Math.Clamp(t_interactions.m_MoveInteractionsLeft - 1, 0, t_interactions.m_MaxMoveInteractions);
+
+            foreach (var i in Interactor.GetAll<IOnInteractionCountChanged>())
+            {
+                await i.OnChange(a_subject, stash_interactions.Get(a_subject).m_MoveInteractionsLeft, a_world);
+            }
+        }
 
 
+        public static void UpdateAbilityButtonsState(World a_world)
+        {
+            UpdateAbilityButtonsStateAsync(a_world).Forget();
+        }
+
+        private static async UniTask UpdateAbilityButtonsStateAsync(World a_world)
+        {
+            await UniTask.Yield();
+
+            var filter = a_world.Filter.With<AbilityButtonTag>().With<ButtonTag>().Build();
+
+            var t_btnStash = a_world.GetStash<ButtonTag>(); ;
+            var t_abilityBtnStash = a_world.GetStash<AbilityButtonTag>(); ;
+
+            foreach (var btn in filter)
+            {
+                bool t_canBeUsed = true;
+                await Interactor.CallAll<IOnEvaluateAbilityButtonsState>(
+                    async h => await h.OnEvaluate(btn, ref t_canBeUsed, a_world));
+
+                if (t_canBeUsed)
+                {
+                    if (t_btnStash.Has(btn) == false) { continue; }
+                    t_btnStash.Get(btn).m_State = ButtonTag.State.Enabled;
+                    if (t_abilityBtnStash.Has(btn) == false) { continue; }
+                    t_abilityBtnStash.Get(btn).m_View.DisableUnavaibleView();
+                }
+                else
+                {
+                    if (t_btnStash.Has(btn) == false) { continue; }
+                    t_btnStash.Get(btn).m_State = ButtonTag.State.Disabled;
+                    if (t_abilityBtnStash.Has(btn) == false) { continue; }
+                    t_abilityBtnStash.Get(btn).m_View.EnableUnavaibleView();
+                }
+            }
+        }
 
         public static class Statuses
         {
@@ -524,4 +629,5 @@ namespace Game
         }
 
     }
+
 }

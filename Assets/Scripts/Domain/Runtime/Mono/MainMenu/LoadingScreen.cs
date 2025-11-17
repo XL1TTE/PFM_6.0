@@ -28,7 +28,7 @@ public class LoadingScreen : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = FindObjectOfType<LoadingScreen>();
+                instance = FindFirstObjectByType<LoadingScreen>();
                 if (instance == null)
                 {
                     GameObject obj = new GameObject("LoadingScreen");
@@ -51,7 +51,7 @@ public class LoadingScreen : MonoBehaviour
             {
                 loadingScreen.SetActive(false);
 
-                // Добавляем CanvasGroup для плавного появления loading screen
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ CanvasGroup пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ loading screen
                 loadingCanvasGroup = loadingScreen.GetComponent<CanvasGroup>();
                 if (loadingCanvasGroup == null)
                 {

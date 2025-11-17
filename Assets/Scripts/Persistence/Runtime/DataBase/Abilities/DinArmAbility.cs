@@ -22,7 +22,7 @@ namespace Persistence.DB
             With<Description>(new Description("Apply poison. And poison weakness."));
 
             With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
-            With<AbilityDefenition>(new AbilityDefenition
+            With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
                     AbilityTags.DAMAGE
@@ -51,7 +51,7 @@ namespace Persistence.DB
             With<Description>(new Description("Heal in area."));
 
             With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
-            With<AbilityDefenition>(new AbilityDefenition
+            With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
                     AbilityTags.DAMAGE
@@ -78,7 +78,7 @@ namespace Persistence.DB
             ID("abt_din_arm3");
 
             With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
-            With<AbilityDefenition>(new AbilityDefenition
+            With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
                     AbilityTags.DAMAGE

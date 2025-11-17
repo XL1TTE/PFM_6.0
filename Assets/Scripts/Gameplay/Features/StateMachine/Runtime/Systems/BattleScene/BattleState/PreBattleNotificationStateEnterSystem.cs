@@ -1,5 +1,6 @@
 using System.Collections;
 using Core.Utilities;
+using Cysharp.Threading.Tasks;
 using Domain.Extentions;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Events;
@@ -40,7 +41,7 @@ namespace Gameplay.StateMachine.Systems
             {
                 if (IsValid(evt.StateEntity))
                 {
-                    Enter(evt.StateEntity);
+                    Enter(evt.StateEntity).Forget();
                 }
             }
 
@@ -51,12 +52,11 @@ namespace Gameplay.StateMachine.Systems
 
         }
 
-        private void Enter(Entity stateEntity)
+        private async UniTask Enter(Entity stateEntity)
         {
             BattleUiRefs.Instance.InformationBoardWidget.ChangeText("Battle");
 
-            Game.GUI.NotifyFullScreen("Battle stage", () => Input.GetMouseButtonDown(0), "Press LMB to continue...");
-
+            await Game.GUI.NotifyFullScreenAsync("Battle stage", () => Input.GetMouseButtonDown(0), "Press LMB to continue...");
 
             SM.ExitState<PreBattleNotificationState>();
             SM.EnterState<BattleState>();

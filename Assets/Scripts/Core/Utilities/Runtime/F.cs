@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Domain.Abilities.Components;
 using Domain.Abilities.Tags;
 using Domain.BattleField.Tags;
 using Domain.Components;
@@ -44,8 +46,8 @@ namespace Core.Utilities
 
         public static IEnumerable<Entity> FindAbilityButtonsByOwner(Entity owner, World world)
         {
-            var f_abilityButtons = world.Filter.With<AbiltiyButtonTag>().Build();
-            var stash_abilityButtons = world.GetStash<AbiltiyButtonTag>();
+            var f_abilityButtons = world.Filter.With<AbilityButtonTag>().Build();
+            var stash_abilityButtons = world.GetStash<AbilityButtonTag>();
 
             List<Entity> t_result = new(8);
             foreach (var e in f_abilityButtons)
@@ -58,6 +60,20 @@ namespace Core.Utilities
             return t_result;
         }
 
+        public static bool IsAbilityButton(Entity a_button, World a_world)
+            => a_world.GetStash<AbilityButtonTag>().Has(a_button);
+        public static Entity GetAbilityButtonOwner(Entity a_button, World a_world)
+        {
+            var stash_tag = a_world.GetStash<AbilityButtonTag>();
+            //if (stash_tag.Has(a_button) == false) { return default; }
+            return stash_tag.Get(a_button).m_ButtonOwner;
+        }
+
+        public static AbilityType GetAbilityType(Entity a_abilityButton, World a_world)
+        {
+            var stash_tag = a_world.GetStash<AbilityButtonTag>();
+            return stash_tag.Get(a_abilityButton).m_Ability.m_AbilityType;
+        }
 
         public static HealthBarView GetActiveHealthBarFor(Entity owner, World world)
         {
@@ -78,6 +94,7 @@ namespace Core.Utilities
             }
             return null;
         }
+
 
         public static bool IsDead(Entity entity, World world)
             => world.GetStash<DiedEntityTag>().Has(entity);

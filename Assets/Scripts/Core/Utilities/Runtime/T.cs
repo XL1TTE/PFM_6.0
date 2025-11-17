@@ -30,7 +30,7 @@ namespace Core.Utilities
             return line;
         }
 
-        public static ToolTipLines GetAbilityShortTooltip(AbilityData a_abilityData)
+        public static ToolTipLines GetAbilityShortTooltip(Domain.Abilities.Components.AbilityData a_abilityData)
         {
             var a_ability = a_abilityData.m_Value;
 

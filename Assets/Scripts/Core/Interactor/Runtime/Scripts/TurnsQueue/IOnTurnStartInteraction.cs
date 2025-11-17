@@ -11,6 +11,7 @@ using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Tags;
 using Game;
 using Scellecs.Morpeh;
+using Unity.VisualScripting;
 
 namespace Interactions
 {
@@ -23,6 +24,15 @@ namespace Interactions
         /// <param name="a_world"></param>
         /// <returns></returns>
         UniTask OnTurnStart(Entity a_turnTaker, World a_world);
+    }
+
+    public sealed class RefreshInteractions : BaseInteraction, IOnTurnStartInteraction
+    {
+        public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
+        {
+            G.RefreshInteractions(a_turnTaker, a_world);
+            return UniTask.CompletedTask;
+        }
     }
 
     public sealed class AddTurnTakerMarkInteraction : BaseInteraction, IOnTurnStartInteraction
