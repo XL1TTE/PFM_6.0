@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 115f93122fc678743b369ea4097afd61
+guid: f782da6252424ab468585d1a8a8b3cb2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2486272689461538429
-    second: Spr_Battle_UI_InformationBoard_0
+      213: -8578418458684398838
+    second: 1 (1)_0
+  - first:
+      213: 8948831832030624112
+    second: 1 (1)_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,7 +78,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spr_Battle_UI_InformationBoard_0
+      name: 1 (1)_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 75
-        height: 47
+        width: 6
+        height: 179
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +131,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d7e2c1696d3018220800000000000000
-      internalID: 2486272689461538429
+      spriteID: a03667bbcd553f880800000000000000
+      internalID: -8578418458684398838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1 (1)_1
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 0
+        width: 6
+        height: 179
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 079b4e66323a03c70800000000000000
+      internalID: 8948831832030624112
       vertices: []
       indices: 
       edges: []
@@ -148,7 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Spr_Battle_UI_InformationBoard_0: 2486272689461538429
+      1 (1)_0: -8578418458684398838
+      1 (1)_1: 8948831832030624112
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
