@@ -33,7 +33,7 @@ public class FadeController : MonoBehaviour
             fadePanelInstance = Instantiate(fadePanelPrefab);
             fadePanelInstance.name = "FadePanel";
 
-            Canvas mainCanvas = FindObjectOfType<Canvas>();
+            Canvas mainCanvas = FindFirstObjectByType<Canvas>();
             if (mainCanvas == null)
             {
                 Debug.LogError("No Canvas found in scene!");

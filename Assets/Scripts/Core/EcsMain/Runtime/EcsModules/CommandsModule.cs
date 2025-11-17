@@ -12,12 +12,10 @@ namespace Core.Ecs.Modules
         {
             var sg_Commands = world.CreateSystemsGroup();
             sg_Commands.AddSystem(new ActorsActionStateInitializer());
-            sg_Commands.AddSystem(new AnimationSeviceSystem());
-            sg_Commands.AddSystem(new MovementServiceSystem());
-            //sg_Commands.AddSystem(new DamageSeviceSystem());
 
-            sg_Commands.AddSystem(new AnimationsObserver());
-            sg_Commands.AddSystem(new AbilitiesObserver());
+            sg_Commands.AddSystem(new AnimationSeviceSystem());
+            //sg_Commands.AddSystem(new MovementServiceSystem());
+            //sg_Commands.AddSystem(new DamageSeviceSystem());
 
             world.AddSystemsGroup(Priority, sg_Commands);
         }

@@ -18,7 +18,7 @@ namespace Persistence.DB
             ID("abt_rat-arm");
 
             With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
-            With<AbilityDefenition>(new AbilityDefenition
+            With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
                     AbilityTags.DAMAGE
@@ -32,6 +32,7 @@ namespace Persistence.DB
                     new WaitForTweenActionFrame(),
                     new DealDamage(3, DamageType.PHYSICAL_DAMAGE),
                     new ApplyPoison(3, 12),
+                    new ApplyEffect(2, "effect_poison_weak"),
                     new WaitForLastAnimationEnd()
                 }),
             });

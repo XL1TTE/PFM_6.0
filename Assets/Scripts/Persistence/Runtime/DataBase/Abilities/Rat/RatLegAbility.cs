@@ -17,7 +17,7 @@ namespace Persistence.DB
             ID("abt_rat-leg");
 
             With<IconUI>(new IconUI(GR.SPR_MOVE_ABILITY_ICON));
-            With<AbilityDefenition>(new AbilityDefenition
+            With(new AbilityDefenition
             {
                 m_AbilityType = AbilityType.MOVEMENT,
                 m_TargetType = TargetSelectionTypes.CELL_EMPTY,

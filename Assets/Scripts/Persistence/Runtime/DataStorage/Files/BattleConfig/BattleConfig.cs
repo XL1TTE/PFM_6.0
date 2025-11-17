@@ -3,8 +3,5 @@ using System.Collections.Generic;
 
 namespace DS.Files
 {
-    public struct BattleConfig : IDataStoragaFileID
-    {
-
-    }
+    public struct BattleConfig : IDataStoragaFileID { }
 }

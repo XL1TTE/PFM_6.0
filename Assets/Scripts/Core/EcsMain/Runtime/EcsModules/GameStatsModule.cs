@@ -14,9 +14,6 @@ namespace Core.Ecs.Modules
         {
             var sg_GameStats = world.CreateSystemsGroup();
 
-            //sg_GameStats.AddSystem(new CurrentStatsFromBaseSystem());
-            sg_GameStats.AddSystem(new StatsServiceSystem());
-
             sg_GameStats.AddSystem(new HealthStatSystem());
 
             sg_GameStats.AddSystem(new StatModifiersSystem<MaxHealthModifier, MaxHealth>());

@@ -7,7 +7,7 @@ namespace Domain.Abilities.Providers
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class AbilityButtonTagProvider : ComponentProvider<AbiltiyButtonTag>
+    public sealed class AbilityButtonTagProvider : ComponentProvider<AbilityButtonTag>
     {
     }
 

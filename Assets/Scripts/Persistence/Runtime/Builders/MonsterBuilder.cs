@@ -39,6 +39,7 @@ namespace Persistence.Buiders
             stash_iHaveHealthBar = _ecsWorld.GetStash<IHaveHealthBar>();
 
             stash_abilities = _ecsWorld.GetStash<AbilitiesComponent>();
+            stash_interactions = _ecsWorld.GetStash<InteractionsComponent>();
 
             stash_Speed = _ecsWorld.GetStash<Speed>();
             stash_Health = _ecsWorld.GetStash<Health>();
@@ -73,6 +74,7 @@ namespace Persistence.Buiders
         Stash<InitialEffectsPoolComponent> stash_initEffectsPool;
         private readonly Stash<IHaveHealthBar> stash_iHaveHealthBar;
         private readonly Stash<AbilitiesComponent> stash_abilities;
+        private readonly Stash<InteractionsComponent> stash_interactions;
         private readonly Stash<Speed> stash_Speed;
 
 
@@ -249,6 +251,15 @@ namespace Persistence.Buiders
             stash_monsterDammyRef.Add(monster_entity, new MonsterDammyRefComponent { MonsterDammy = monsterDammy });
 
             stash_turnQueueAvatar.Add(monster_entity, new TurnQueueAvatar { m_Value = monsterDammy.MonsterAvatar });
+
+
+            stash_interactions.Set(monster_entity, new InteractionsComponent
+            {
+                m_MaxInteractions = 1,
+                m_InteractionsLeft = 1,
+                m_MaxMoveInteractions = 1,
+                m_MoveInteractionsLeft = 1
+            });
 
             return monster_entity;
 

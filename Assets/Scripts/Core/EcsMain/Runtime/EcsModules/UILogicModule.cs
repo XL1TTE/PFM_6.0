@@ -13,7 +13,7 @@ namespace Core.Ecs.Modules
             var sg_UILogic = world.CreateSystemsGroup();
             //sg_UILogic.AddInitializer(new SharedUI_Initializer());
             sg_UILogic.AddSystem(new ExitPlanningStageButtonSystem());
-            sg_UILogic.AddSystem(new NextTurnButtonSystem());
+            //sg_UILogic.AddSystem(new NextTurnButtonSystem());
 
             world.AddSystemsGroup(Priority, sg_UILogic);
         }

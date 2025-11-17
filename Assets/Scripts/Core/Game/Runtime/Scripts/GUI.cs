@@ -20,7 +20,7 @@ namespace Game
             NotifyFullScreenAsync(a_message, a_hideWhen, a_tip).Forget();
         }
 
-        private static async UniTask NotifyFullScreenAsync(string a_message, Func<bool> a_hideWhen, string a_tip = "")
+        public static async UniTask NotifyFullScreenAsync(string a_message, Func<bool> a_hideWhen, string a_tip = "")
         {
             if (FullscreenNotification.IsInstantiated() == false)
             {

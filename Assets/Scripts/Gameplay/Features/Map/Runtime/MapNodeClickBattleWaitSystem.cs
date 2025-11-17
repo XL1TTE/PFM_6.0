@@ -56,13 +56,15 @@ namespace Gameplay.Map.Systems
 
                         ref var battleConfig = ref DataStorage.GetRecordFromFile<BattleConfig, LoadConfig>();
 
-                        if (DataBase.TryFindRecordByID(mapNodeEvIDComponent.event_id, out var @event)) {
+                        if (DataBase.TryFindRecordByID(mapNodeEvIDComponent.event_id, out var @event))
+                        {
                             var prefab = DataBase.GetRecord<PrefabComponent>(@event);
                             battleConfig.m_prefab_level = prefab.Value;
                         }
 
+                        LoadingScreen.Instance.LoadScene("BattleField");
 
-                        SceneManager.LoadScene("BattleField");
+                        //SceneManager.LoadScene("BattleField");
 
 
                         break;

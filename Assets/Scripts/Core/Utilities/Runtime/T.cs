@@ -30,7 +30,7 @@ namespace Core.Utilities
             return line;
         }
 
-        public static ToolTipLines GetAbilityShortTooltip(AbilityData a_abilityData)
+        public static ToolTipLines GetAbilityShortTooltip(Domain.Abilities.Components.AbilityData a_abilityData)
         {
             var a_ability = a_abilityData.m_Value;
 
@@ -126,11 +126,26 @@ namespace Core.Utilities
                 t_lines.Add(t_line);
             }
 
+            foreach (var status in a_ability.GetEffects<ApplyStun>())
+            {
+                HorizontalLayoutElement t_line = CreateToolTipLine().AlignStart();
+                var text =
+                    TextPool.I().WarmupElement()
+                    .SetText($"STUNS FOR {status.m_Duration} TURNS.")
+                    .SetColor(Color.white)
+                    .FontSize(TEXT_SIZE_B2);
+
+                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_PHYSICAL_DMG);
+                t_line.Insert(icon);
+                t_line.Insert(text);
+                t_lines.Add(t_line);
+            }
+
             return new ToolTipLines { m_Lines = t_lines };
         }
 
         private static string GetTextForStatusEffects<T>(T a_status)
-            where T : struct, IApplyStatusEffect
+            where T : struct, IApplyDamageStatusEffect
         {
             return $"{a_status.m_DamagePerTick} DMG FOR {a_status.m_Duration} TURNS.";
         }

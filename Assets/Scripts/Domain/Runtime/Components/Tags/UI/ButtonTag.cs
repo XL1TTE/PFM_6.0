@@ -10,11 +10,12 @@ namespace Domain.UI.Tags
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct ButtonTag : IComponent
     {
-        public enum State: byte {
+        public enum State : byte
+        {
             Enabled,
             Disabled
         }
-        public State state;
+        public State m_State;
     }
 }
 

@@ -2,11 +2,11 @@ using Domain.Stats.Components;
 
 namespace Persistence.DB
 {
-    public partial class PoisonWeaknessEffect : MonsterPartRecord
+    public partial class PoisonWeaknessEffect : BodyPartRecord
     {
         public PoisonWeaknessEffect()
         {
-            ID("effect_poison_weak_1");
+            ID("effect_poison_weak");
 
             With<PoisonResistanceModiffier>(
                 new PoisonResistanceModiffier

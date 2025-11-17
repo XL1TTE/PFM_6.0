@@ -3,7 +3,7 @@ using Domain.Stats.Components;
 
 namespace Persistence.DB
 {
-    public class Effects_DinHeadRecord : MonsterPartRecord
+    public class Effects_DinHeadRecord : BodyPartRecord
     {
         public Effects_DinHeadRecord()
         {

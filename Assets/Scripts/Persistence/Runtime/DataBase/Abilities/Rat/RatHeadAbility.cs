@@ -17,7 +17,7 @@ namespace Persistence.DB
             ID("abt_rat-head");
 
             With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
-            With<AbilityDefenition>(new AbilityDefenition
+            With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
                     AbilityTags.DAMAGE

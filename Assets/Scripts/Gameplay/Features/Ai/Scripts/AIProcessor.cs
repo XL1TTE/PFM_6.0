@@ -11,7 +11,6 @@ using Gameplay.Abilities;
 using Gameplay.TargetSelection;
 using Interactions;
 using Scellecs.Morpeh;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 namespace Project.AI
@@ -68,7 +67,6 @@ namespace Project.AI
 
         public async UniTask Process(Entity a_agent, World a_world)
         {
-
             using var cts = new CancellationTokenSource();
             var stash_aiCancell = a_world.GetStash<AgentAICancellationToken>();
 
