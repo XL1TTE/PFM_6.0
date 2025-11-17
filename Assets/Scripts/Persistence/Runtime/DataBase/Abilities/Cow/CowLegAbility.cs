@@ -23,7 +23,7 @@ namespace Persistence.DB
                 m_TargetType = TargetSelectionTypes.CELL_EMPTY,
                 m_Shifts = new Vector2Int[4]
                 {
-                    new Vector2Int(1, 0),
+                    new Vector2Int(3, 0),
                     new Vector2Int(0, 1),
                     new Vector2Int(0, -1),
                     new Vector2Int(-1, 0),

@@ -4,7 +4,7 @@ using Game;
 
 namespace Gameplay.Abilities
 {
-    public struct ApplyPoison : IApplyStatusEffect
+    public struct ApplyPoison : IApplyDamageStatusEffect
     {
         public ApplyPoison(int a_duration, int a_damagePerTick)
         {

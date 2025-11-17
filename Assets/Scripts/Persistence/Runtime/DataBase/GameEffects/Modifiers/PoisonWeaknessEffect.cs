@@ -6,7 +6,7 @@ namespace Persistence.DB
     {
         public PoisonWeaknessEffect()
         {
-            ID("effect_poison_weak_1");
+            ID("effect_poison_weak");
 
             With<PoisonResistanceModiffier>(
                 new PoisonResistanceModiffier

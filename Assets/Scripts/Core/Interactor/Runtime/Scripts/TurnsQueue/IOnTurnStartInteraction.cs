@@ -3,12 +3,14 @@
 using System.Collections.Generic;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
+using Domain.Abilities.Components;
 using Domain.BattleField.Components;
 using Domain.Extentions;
 using Domain.GameEffects;
 using Domain.Stats.Components;
 using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Tags;
+using Domain.UI.Mono;
 using Game;
 using Scellecs.Morpeh;
 using Unity.VisualScripting;
@@ -26,8 +28,29 @@ namespace Interactions
         UniTask OnTurnStart(Entity a_turnTaker, World a_world);
     }
 
+    public sealed class EvaluateNextTurnButton : BaseInteraction, IOnTurnStartInteraction
+    {
+        public override Priority m_Priority => Priority.VERY_HIGH;
+
+        public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
+        {
+            if (F.IsAiControlled(a_turnTaker, a_world))
+            {
+                BattleUiRefs.Instance.m_NextTurnButton.Hide();
+            }
+            else if (F.IsMonster(a_turnTaker, a_world))
+            {
+                BattleUiRefs.Instance.m_NextTurnButton.Show();
+            }
+
+            return UniTask.CompletedTask;
+        }
+    }
+
     public sealed class RefreshInteractions : BaseInteraction, IOnTurnStartInteraction
     {
+        public override Priority m_Priority => Priority.VERY_HIGH;
+
         public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
         {
             G.RefreshInteractions(a_turnTaker, a_world);
@@ -37,6 +60,7 @@ namespace Interactions
 
     public sealed class AddTurnTakerMarkInteraction : BaseInteraction, IOnTurnStartInteraction
     {
+        public override Priority m_Priority => Priority.VERY_HIGH;
         public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
         {
             if (a_turnTaker.isNullOrDisposed(a_world)) { return UniTask.CompletedTask; }
@@ -49,6 +73,8 @@ namespace Interactions
 
     public sealed class EnableCellPointerView : BaseInteraction, IOnTurnStartInteraction
     {
+        public override Priority m_Priority => Priority.VERY_HIGH;
+
         public async UniTask OnTurnStart(Entity a_turnTaker, World a_world)
         {
             var stash_cellView = a_world.GetStash<CellViewComponent>();
@@ -75,8 +101,22 @@ namespace Interactions
         }
     }
 
+    public sealed class ActivateAgentAI : BaseInteraction, IOnTurnStartInteraction
+    {
+        public override Priority m_Priority => Priority.NORMAL;
+        public async UniTask OnTurnStart(Entity a_turnTaker, World a_world)
+        {
+            var stash_agentAI = a_world.GetStash<AgentAIComponent>();
+            if (stash_agentAI.Has(a_turnTaker) == false) { return; }
+            var ai = stash_agentAI.Get(a_turnTaker);
+            await ai.m_AIModel.Process(a_turnTaker, a_world);
+        }
+    }
+
     public sealed class ProcessTemporalEffectsInteraction : BaseInteraction, IOnTurnStartInteraction
     {
+        public override Priority m_Priority => Priority.VERY_HIGH;
+
         public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
         {
             var stash_effectPool = a_world.GetStash<EffectsPoolComponent>();
@@ -101,6 +141,61 @@ namespace Interactions
             }
             return UniTask.CompletedTask;
         }
+    }
+
+    public sealed class ProcessStunStatus : BaseInteraction, IOnTurnStartInteraction
+    {
+        public override Priority m_Priority => Priority.VERY_LOW; // Must be called be after ActivateAgentAI.
+        public async UniTask OnTurnStart(Entity a_turnTaker, World a_world)
+        {
+            if (V.IsStuned(a_turnTaker, a_world) == false) { return; }
+
+            if (F.IsMonster(a_turnTaker, a_world))
+            {
+                G.ConsumeAllInteractions(a_turnTaker, a_world); // Consumes all interactions if player's controlled.
+                BattleUiRefs.Instance.m_NextTurnButton.Hide();
+            }
+
+            if (F.IsAiControlled(a_turnTaker, a_world)) // Disable ai.
+            {
+                await UniTask.Yield(); // wait for world updates.
+
+                var stash_aiCancell = a_world.GetStash<AgentAICancellationToken>();
+                stash_aiCancell.Get(a_turnTaker).m_TokenSource?.Cancel();
+            }
+
+            ProcessStacksDisappear(a_turnTaker, a_world);
+
+            await UniTask.WaitForSeconds(3f); // Here may trigger visuals.
+
+            G.NextTurn(a_world);
+        }
+
+        private void ProcessStacksDisappear(Entity a_turnTaker, World a_world)
+        {
+            List<StunStatusComponent.Stack> t_toRemove = new(4);
+
+            ref var t_stuns = ref a_world.GetStash<StunStatusComponent>().Get(a_turnTaker);
+
+            for (int i = 0; i < t_stuns.m_Stacks.Count; ++i)
+            {
+                var stack = t_stuns.m_Stacks[i];
+                ref var t_turnsLeft = ref t_stuns.m_Stacks[i].m_TurnsLeft;
+
+                t_turnsLeft -= 1;
+
+                if (t_turnsLeft <= 0)
+                {
+                    t_toRemove.Add(stack);
+                }
+            }
+
+            foreach (var stack in t_toRemove)
+            {
+                G.Statuses.RemoveStunStack(a_turnTaker, stack, a_world);
+            }
+        }
+
     }
 
     public sealed class ProcessBleedStatus : BaseInteraction, IOnTurnStartInteraction

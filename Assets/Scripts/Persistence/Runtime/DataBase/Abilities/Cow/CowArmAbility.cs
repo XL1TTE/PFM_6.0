@@ -21,11 +21,11 @@ namespace Persistence.DB
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
-                    AbilityTags.HEAL
+                    AbilityTags.EFFECT
                 },
                 m_AbilityType = AbilityType.INTERACTION,
-                m_TargetType = TargetSelectionTypes.ANY_CELL,
-                m_Shifts = new Vector2Int[2] { new Vector2Int(1, 0), new Vector2Int(1, 0) },
+                m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
+                m_Shifts = new Vector2Int[2] { new Vector2Int(1, 0), new Vector2Int(2, 0) },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     // new PlayTweenAnimation(TweenAnimations.ATTACK),
@@ -33,8 +33,10 @@ namespace Persistence.DB
                     // new DealDamage(4, DamageType.PHYSICAL_DAMAGE),
                     // // Stun
                     // new WaitForLastAnimationEnd()
-                    
-                    new HealInArea(5, 1)
+                    new PlayTweenAnimation(TweenAnimations.ATTACK),
+                    new WaitForTweenActionFrame(),
+                    new ApplyStun(1),
+                    new WaitForLastAnimationEnd()
                 }),
             });
         }

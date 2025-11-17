@@ -12,7 +12,7 @@ namespace Core.Ecs.Modules
         {
             var sg_AiAgents = world.CreateSystemsGroup();
 
-            sg_AiAgents.AddSystem(new AiActivationSystem());
+            //sg_AiAgents.AddSystem(new AiActivationSystem());
 
             world.AddSystemsGroup(Priority, sg_AiAgents);
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using Domain.Extentions;
 using Domain.HealthBars.Components;
 using Domain.Monster.Tags;
 using Domain.Stats.Components;
+using Domain.UI.Tags;
 using Domain.UI.Widgets;
 using Scellecs.Morpeh;
 
@@ -42,7 +44,6 @@ namespace Core.Utilities
                 occupiedCells.Has(e) && monsters.Has(occupiedCells.Get(e).m_Occupier)
             );
         }
-
 
         public static IEnumerable<Entity> FindAbilityButtonsByOwner(Entity owner, World world)
         {
@@ -95,6 +96,9 @@ namespace Core.Utilities
             return null;
         }
 
+
+        public static bool IsAiControlled(Entity entity, World world)
+            => world.GetStash<AgentAIComponent>().Has(entity);
 
         public static bool IsDead(Entity entity, World world)
             => world.GetStash<DiedEntityTag>().Has(entity);

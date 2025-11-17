@@ -5,7 +5,7 @@ using Game;
 namespace Gameplay.Abilities
 {
 
-    public struct ApplyBleeding : IApplyStatusEffect
+    public struct ApplyBleeding : IApplyDamageStatusEffect
     {
         public ApplyBleeding(int a_duration, int a_damagePerTick)
         {

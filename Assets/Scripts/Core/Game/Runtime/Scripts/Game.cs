@@ -324,6 +324,21 @@ namespace Game
                 async h => await h.OnChange(a_subject, stash_interactions.Get(a_subject).m_InteractionsLeft, a_world)).Forget();
         }
 
+
+        public static void ConsumeAllInteractions(Entity a_subject, World a_world)
+        {
+            var stash_interactions = a_world.GetStash<InteractionsComponent>();
+            if (stash_interactions.Has(a_subject) == false) { return; }
+
+            ref var t_interactions = ref stash_interactions.Get(a_subject);
+
+            t_interactions.m_InteractionsLeft = 0;
+            t_interactions.m_MoveInteractionsLeft = 0;
+
+            Interactor.CallAll<IOnInteractionCountChanged>(
+                async h => await h.OnChange(a_subject, stash_interactions.Get(a_subject).m_InteractionsLeft, a_world)).Forget();
+        }
+
         public static void ConsumeInteraction(Entity a_subject, World a_world)
         {
             ConsumeInteractionAsync(a_subject, a_world).Forget();
@@ -365,7 +380,6 @@ namespace Game
             }
         }
 
-
         public static void UpdateAbilityButtonsState(World a_world)
         {
             UpdateAbilityButtonsStateAsync(a_world).Forget();
@@ -403,9 +417,20 @@ namespace Game
             }
         }
 
+
         public static class Statuses
         {
+            public static void RemoveStunStack(Entity a_target, StunStatusComponent.Stack a_stack, World a_world)
+            {
+                var stash_stacks = a_world.GetStash<StunStatusComponent>();
+                ref var stacks = ref stash_stacks.Get(a_target);
+                stacks.m_Stacks.Remove(a_stack);
 
+                if (stacks.m_Stacks.Count < 1)
+                {
+                    stash_stacks.Remove(a_target);
+                }
+            }
             public static void RemoveBleedingStack(Entity a_target, BleedingStatusComponent.Stack a_stack, World a_world)
             {
                 var stash_stacks = a_world.GetStash<BleedingStatusComponent>();
@@ -440,6 +465,34 @@ namespace Game
                 }
             }
 
+            public static void ApplyStun(Entity a_source, Entity a_target, int a_duration, World a_world)
+            {
+                if (a_world.GetStash<StunStatusComponent>().Has(a_target)) { return; }
+
+
+                var stash_stun = a_world.GetStash<StunStatusComponent>();
+                if (stash_stun.Has(a_target))
+                {
+                    stash_stun.Get(a_target).m_Stacks.Add(new StunStatusComponent.Stack
+                    {
+                        m_Duration = a_duration,
+                        m_TurnsLeft = a_duration
+                    });
+                }
+                else
+                {
+                    stash_stun.Set(a_target, new StunStatusComponent
+                    {
+                        m_Stacks = new List<StunStatusComponent.Stack>
+                        {
+                            new StunStatusComponent.Stack{
+                                m_Duration = a_duration,
+                                m_TurnsLeft = a_duration
+                            }
+                        }
+                    });
+                }
+            }
 
             public static void ApplyBleeding(Entity a_source, Entity a_target, int a_duration, int a_damagePerTick, World a_world)
             {

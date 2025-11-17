@@ -36,7 +36,7 @@ namespace Persistence.DB
                     new WaitForTweenActionFrame(),
                     new DealDamage(1, DamageType.PHYSICAL_DAMAGE),
                     new ApplyPoison(2, 5),
-                    new ApplyEffect(2, "effect_poison_weak_1"),
+                    new ApplyEffect(2, "effect_poison_weak"),
                     new WaitForLastAnimationEnd()
                 }),
             });

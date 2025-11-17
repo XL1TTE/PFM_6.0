@@ -82,6 +82,8 @@ namespace Gameplay.StateMachine.Systems
 
             Battle.SpawnMonstersOnLoad(World);
 
+            BattleUiRefs.Instance.m_NextTurnButton.Hide();
+
             SM.ExitState<BattleSceneInitializeState>();
             SM.EnterState<PreBattlePlanningNotificationState>();
         }
