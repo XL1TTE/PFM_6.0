@@ -2,21 +2,19 @@ using Persistence.Components;
 
 namespace Persistence.DB
 {
-    public class CowHeadRecord : MonsterPartRecord
+    public class CowHeadRecord : BodyPartRecord // <-- Обязательное наследование.
     {
-        public CowHeadRecord()
+        public CowHeadRecord() // <-- Все происходит в конструкторе.
         {
+            ID("bp_cow-head"); // <-- Обязательный идентификатор.
 
-            ID("bp_cow-head");
+            With<TagBodyPart>(); // <-- Идентификатор, при помощи которого, можно будет найти
+                                 //     эту запись через фильтр по частям тел.
 
-            With<LegSpritePath>(new LegSpritePath
-            {
-                FarSprite = "Monsters/Sprites/test/Spr_Bodypart_Leg_Further_Test_1",
-                NearSprite = "Monsters/Sprites/test/Spr_Bodypart_Leg_Closer_Test_1"
-            });
-            With<TagMonsterPart>();
-            With<TagMonsterHead>();
-            With<AbilityProvider>(new AbilityProvider
+            With<TagHead>(); // <-- Идентификатор, при помощи которого, можно будет найти
+                             //     эту запись через фильтр по частям тел типа голова.
+
+            With<AbilityProvider>(new AbilityProvider // <-- Связывает часть тела и спсособность.
             {
                 m_AbilityTemplateID = "abt_cow-head"
             });

@@ -3,7 +3,7 @@ using Domain.Stats.Components;
 
 namespace Persistence.DB
 {
-    public partial class Effect_EmpowerRecord : MonsterPartRecord
+    public partial class Effect_EmpowerRecord : BodyPartRecord
     {
         public Effect_EmpowerRecord()
         {

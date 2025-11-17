@@ -620,14 +620,19 @@ namespace Game
             public static void RemoveEffectFromPool(Entity a_subject, string a_EffectID, World a_world)
             {
                 var effect_pool = a_world.GetStash<EffectsPoolComponent>();
+
                 if (effect_pool.Has(a_subject))
                 {
+
+                    bool isRemoved = false;
+
                     ref var pool = ref effect_pool.Get(a_subject);
                     for (int i = 0; i < pool.m_PermanentEffects.Count; ++i)
                     {
                         if (pool.m_PermanentEffects[i].m_EffectId == a_EffectID)
                         {
                             pool.m_PermanentEffects.RemoveAt(i);
+                            isRemoved = true;
                         }
                     }
                     for (int i = 0; i < pool.m_StatusEffects.Count; ++i)
@@ -635,12 +640,14 @@ namespace Game
                         if (pool.m_StatusEffects[i].m_EffectId == a_EffectID)
                         {
                             pool.m_StatusEffects.RemoveAt(i);
+                            isRemoved = true;
                         }
                     }
-
-
-                    Interactor.CallAll<IOnGameEffectRemove>(
-                        async handler => await handler.OnEffectRemove(a_EffectID, a_subject, a_world)).Forget();
+                    if (isRemoved)
+                    {
+                        Interactor.CallAll<IOnGameEffectRemove>(
+                                            async handler => await handler.OnEffectRemove(a_EffectID, a_subject, a_world)).Forget();
+                    }
                 }
             }
 

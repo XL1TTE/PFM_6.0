@@ -22,6 +22,7 @@ namespace Persistence.DB
             With<Description>(new Description("Apply poison. And poison weakness."));
 
             With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
+
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{

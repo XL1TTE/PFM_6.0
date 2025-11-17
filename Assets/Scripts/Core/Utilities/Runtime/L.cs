@@ -8,15 +8,6 @@ namespace Core.Utilities
     public sealed class L
     {
         public const string TURN_AROUND_ABILITY_ID = "abt_turn_around";
-
-
-        public static Domain.Abilities.Components.AbilityData DO_NOTHING_ABILITY = new Domain.Abilities.Components.AbilityData
-        {
-            m_AbilityType = AbilityType.ALL,
-            m_Value = new Ability(new List<IAbilityNode> { new DoNothing() })
-        };
-
-
     }
 
 }

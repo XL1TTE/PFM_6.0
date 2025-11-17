@@ -2,7 +2,7 @@ using Domain.Stats.Components;
 
 namespace Persistence.DB
 {
-    public partial class PoisonWeaknessEffect : MonsterPartRecord
+    public partial class PoisonWeaknessEffect : BodyPartRecord
     {
         public PoisonWeaknessEffect()
         {

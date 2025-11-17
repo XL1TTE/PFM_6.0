@@ -3,7 +3,7 @@ using Persistence.Components;
 
 namespace Persistence.DB
 {
-    public class DinArmRecord : MonsterPartRecord
+    public class DinArmRecord : BodyPartRecord
     {
         public DinArmRecord()
         {
@@ -16,15 +16,15 @@ namespace Persistence.DB
                 FarSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Further_Test_1",
                 NearSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Closer_Test_1"
             });
-            With<TagMonsterPart>();
-            With<TagMonsterArm>();
+            With<TagBodyPart>();
+            With<TagArm>();
             With<AbilityProvider>(new AbilityProvider
             {
                 m_AbilityTemplateID = "abt_din_arm"
             });
         }
     }
-    public class Din2ArmRecord : MonsterPartRecord
+    public class Din2ArmRecord : BodyPartRecord
     {
         public Din2ArmRecord()
         {
@@ -36,15 +36,15 @@ namespace Persistence.DB
                 FarSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Further_Test_1",
                 NearSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Closer_Test_1"
             });
-            With<TagMonsterPart>();
-            With<TagMonsterArm>();
+            With<TagBodyPart>();
+            With<TagArm>();
             With<AbilityProvider>(new AbilityProvider
             {
                 m_AbilityTemplateID = "abt_din_arm2"
             });
         }
     }
-    public class Din3ArmRecord : MonsterPartRecord
+    public class Din3ArmRecord : BodyPartRecord
     {
         public Din3ArmRecord()
         {
@@ -56,8 +56,8 @@ namespace Persistence.DB
                 FarSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Further_Test_1",
                 NearSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Closer_Test_1"
             });
-            With<TagMonsterPart>();
-            With<TagMonsterArm>();
+            With<TagBodyPart>();
+            With<TagArm>();
             With<AbilityProvider>(new AbilityProvider
             {
                 m_AbilityTemplateID = "abt_din_arm3"

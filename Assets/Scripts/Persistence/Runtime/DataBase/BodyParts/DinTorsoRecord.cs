@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Persistence.DB
 {
-    public class DinTorsoRecord : MonsterPartRecord
+    public class DinTorsoRecord : BodyPartRecord
     {
         public DinTorsoRecord()
         {
@@ -17,8 +17,8 @@ namespace Persistence.DB
             {
                 path = "Monsters/Sprites/test/Spr_Bodypart_Torso_Test_1"
             });
-            With<TagMonsterPart>();
-            With<TagMonsterTorso>();
+            With<TagBodyPart>();
+            With<TagTorso>();
             With<PartsOffsets>(new PartsOffsets
             {
                 NearLegOffset = new Vector2(-7f, -13f),

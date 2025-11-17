@@ -1,5 +1,5 @@
 namespace Persistence.DB
 {
-    public abstract class MonsterPartRecord : IDbRecord { }
+    public abstract class BodyPartRecord : IDbRecord { }
 }
 

@@ -5,7 +5,7 @@ using Persistence.Components;
 
 namespace Persistence.DB
 {
-    public class DinHeadRecord : MonsterPartRecord
+    public class DinHeadRecord : BodyPartRecord
     {
         public DinHeadRecord()
         {
@@ -16,8 +16,8 @@ namespace Persistence.DB
             {
                 path = "Monsters/Sprites/test/Spr_Bodypart_Head_Test_1"
             });
-            With<TagMonsterPart>();
-            With<TagMonsterHead>();
+            With<TagBodyPart>();
+            With<TagHead>();
             With<EffectsProvider>(new EffectsProvider
             {
                 m_Effects = Enumerable.Repeat("effect_DinHead", 1).ToArray()

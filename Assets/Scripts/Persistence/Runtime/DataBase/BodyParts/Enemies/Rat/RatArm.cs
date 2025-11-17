@@ -2,7 +2,7 @@ using Persistence.Components;
 
 namespace Persistence.DB
 {
-    public class RatArmRecord : MonsterPartRecord
+    public class RatArmRecord : BodyPartRecord
     {
         public RatArmRecord()
         {
@@ -14,8 +14,8 @@ namespace Persistence.DB
                 NearSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Closer_Test_1"
             });
 
-            With<TagMonsterPart>();
-            With<TagMonsterArm>();
+            With<TagBodyPart>();
+            With<TagArm>();
 
             With<AbilityProvider>(new AbilityProvider
             {
