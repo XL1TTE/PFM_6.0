@@ -116,5 +116,18 @@ namespace Game
                 FloatingGui.Show(targetPos.position, text);
             }
         }
+
+
+        public static void NotifyUnderCursor(string a_message, Color a_color)
+        {
+            var text = TextPool.I()
+                .WarmupElement()
+                .SetText(a_message)
+                .FontSize(T.TEXT_SIZE_H1)
+                .SetColor(a_color);
+
+            FloatingGui.Show(Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, -10, 0), text);
+        }
+
     }
 }

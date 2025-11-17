@@ -1,7 +1,9 @@
 using Domain.Abilities.Components;
 using Domain.Monster.Tags;
 using Game;
+using Gameplay.FloatingDamage.Systems;
 using Scellecs.Morpeh;
+using UnityEngine;
 
 namespace Core.Utilities
 {
@@ -14,14 +16,17 @@ namespace Core.Utilities
 
             if (world.IsDisposed || world == null) { return; }
 
+            Debug.Log("ENDLESS TURNS CHEAT");
+            Game.GUI.NotifyUnderCursor("ENDLESS TURNS CHEAT", Color.white);
+
             var filter = world.Filter.With<TagMonster>().With<InteractionsComponent>().Build();
 
             var stash = world.GetStash<InteractionsComponent>();
 
             foreach (var e in filter)
             {
-                stash.Remove(e);
                 G.RefreshInteractions(e, world);
+                stash.Remove(e);
             }
 
         }
