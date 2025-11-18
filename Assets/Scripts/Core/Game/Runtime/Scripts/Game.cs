@@ -79,6 +79,9 @@ namespace Game
 
             a_world.GetStash<Health>().Get(a_target).AddHealth(-t_damageCounter);
 
+            // Notify health changed.
+            await Interactor.CallAll<IOnEntityHealthChanged>(async handler => await handler.OnChanged(a_target, a_world));
+
             // On damage dealt notification
             foreach (var i in Interactor.GetAll<IOnDamageDealtInteraction>())
             {
@@ -108,6 +111,9 @@ namespace Game
                 int t_finalHeal = Math.Min(a_amount, t_maxHealth - t_health);
 
                 a_world.GetStash<Health>().Get(a_target).AddHealth(t_finalHeal);
+
+                // Notify health changed.
+                await Interactor.CallAll<IOnEntityHealthChanged>(async handler => await handler.OnChanged(a_target, a_world));
 
                 // On Healed notification
                 foreach (var i in Interactor.GetAll<IOnEntityHealedInteraction>())
@@ -240,6 +246,8 @@ namespace Game
 
         public async static UniTask DieAsync(Entity a_subject, Entity a_cause, World a_world)
         {
+            if (F.IsDead(a_subject, a_world)) { return; }
+
             a_world.GetStash<DiedEntityTag>().Set(a_subject, new DiedEntityTag());
 
             // 1. Call this first

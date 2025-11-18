@@ -206,6 +206,14 @@ namespace Core.Utilities
             }
             return 0;
         }
+        public static int GetSpeed(Entity a_entity, World a_world)
+        {
+            if (a_world.TryGetComponent<Speed>(a_entity, out var speedComponent))
+            {
+                return speedComponent.m_Value;
+            }
+            return 0;
+        }
         public static int GetMaxHealth(Entity a_entity, World a_world)
         {
             if (a_world.TryGetComponent<MaxHealth>(a_entity, out var healthComponent))

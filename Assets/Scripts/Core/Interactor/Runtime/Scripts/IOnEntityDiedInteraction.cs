@@ -93,15 +93,26 @@ namespace Interactions
         }
     }
 
-    public sealed class PlayDieAnimationInteraction : BaseInteraction, IOnEntityDiedInteraction
+    public sealed class PlayDieAnimationForEnemyInteraction : BaseInteraction, IOnEntityDiedInteraction
     {
         public async UniTask OnEntityDied(Entity a_entity, Entity a_cause, World a_world)
         {
+            if (F.IsEnemy(a_entity, a_world) == false) { return; }
+
             var t_dieSeq = A.Die(a_entity, 4, a_world);
             t_dieSeq.Play();
 
             await UniTask.WaitWhile(() => t_dieSeq.IsActive());
             t_dieSeq?.Kill();
+        }
+    }
+    public sealed class PlayDieAnimationForMonsterInteraction : BaseInteraction, IOnEntityDiedInteraction
+    {
+        public async UniTask OnEntityDied(Entity a_entity, Entity a_cause, World a_world)
+        {
+            if (F.IsMonster(a_entity, a_world) == false) { return; }
+
+            await UniTask.WaitForSeconds(2.5f);
         }
     }
 

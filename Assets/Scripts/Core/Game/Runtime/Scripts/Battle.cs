@@ -25,6 +25,7 @@ namespace Game
 
         private static List<MonsterData> MONSTERS_TO_SPAWN = new List<MonsterData>{
                     new MonsterData(
+                        "Din",
                         "mp_DinHead",
                         "mp_DinArm",
                         "mp_Din3Arm",
@@ -32,6 +33,7 @@ namespace Game
                         "mp_DinLeg",
                         "mp_DinLeg"),
                     new MonsterData(
+                        "Robin",
                         "mp_DinHead",
                         "mp_Din2Arm",
                         "mp_Din3Arm",
@@ -75,6 +77,7 @@ namespace Game
         private static MonsterBuilder GetMonsterBuilder(MonsterData mosnterData, World a_world)
         {
             var builder = new MonsterBuilder(a_world)
+                .GiveName(mosnterData.m_MonsterName)
                 .AttachHead(mosnterData.Head_id)
                 .AttachBody(mosnterData.Body_id)
                 .AttachFarArm(mosnterData.FarArm_id)
