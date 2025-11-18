@@ -28,6 +28,7 @@ namespace Persistence.Buiders
         {
             _ecsWorld = ecsWorld;
 
+            stash_name = _ecsWorld.GetStash<Name>();
             stash_tagMonster = _ecsWorld.GetStash<TagMonster>();
             stash_lookDir = _ecsWorld.GetStash<LookDirection>();
             //stash_attackAbility = _ecsWorld.GetStash<AttackAbility>();
@@ -62,7 +63,7 @@ namespace Persistence.Buiders
         private readonly MonsterDammy pfb_monsterDammy;
 
         private World _ecsWorld;
-
+        private Stash<Name> stash_name;
         Stash<TagMonster> stash_tagMonster;
         private Stash<LookDirection> stash_lookDir;
         //Stash<AttackAbility> stash_attackAbility;
@@ -75,8 +76,11 @@ namespace Persistence.Buiders
         private readonly Stash<IHaveHealthBar> stash_iHaveHealthBar;
         private readonly Stash<AbilitiesComponent> stash_abilities;
         private readonly Stash<InteractionsComponent> stash_interactions;
+
         private readonly Stash<Speed> stash_Speed;
 
+
+        private string m_MonsterName;
 
         #region Part_Ids
         private string id_head;
@@ -261,8 +265,19 @@ namespace Persistence.Buiders
                 m_MoveInteractionsLeft = 1
             });
 
+            stash_name.Set(monster_entity, new Name
+            {
+                m_Value = m_MonsterName
+            });
+
             return monster_entity;
 
+        }
+
+        public MonsterBuilder GiveName(string a_name)
+        {
+            m_MonsterName = a_name;
+            return this;
         }
 
         public MonsterBuilder AttachHead(string head_id)
