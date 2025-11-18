@@ -11,8 +11,10 @@ using Domain.Extentions;
 using Domain.HealthBars.Components;
 using Domain.Monster.Tags;
 using Domain.Stats.Components;
+using Domain.TurnSystem.Tags;
 using Domain.UI.Tags;
 using Domain.UI.Widgets;
+using Persistence.Components;
 using Scellecs.Morpeh;
 
 namespace Core.Utilities
@@ -104,6 +106,8 @@ namespace Core.Utilities
             => world.GetStash<DiedEntityTag>().Has(entity);
         public static bool IsMonster(Entity entity, World world)
             => world.GetStash<TagMonster>().Has(entity);
+        public static bool IsTakesTurn(Entity entity, World world)
+            => world.GetStash<CurrentTurnTakerTag>().Has(entity);
         public static bool IsEnemy(Entity entity, World world)
             => world.GetStash<TagEnemy>().Has(entity);
         public static bool IsOccupiedCell(Entity entity, World world)
@@ -119,6 +123,11 @@ namespace Core.Utilities
 
             return stash.Get(a_actor).m_Stage;
         }
+
+        public static bool HasName(Entity a_entity, World a_world)
+            => a_world.GetStash<Name>().Has(a_entity);
+        public static string GetName(Entity a_entity, World a_world)
+            => a_world.GetStash<Name>().Get(a_entity).m_Value;
 
     }
 

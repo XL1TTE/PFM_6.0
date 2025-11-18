@@ -23,7 +23,7 @@ namespace Core.Utilities
         public const int TEXT_SIZE_B3 = 16;
         public const int TEXT_SIZE_B4 = 14;
 
-        private static HorizontalLayoutElement CreateToolTipLine()
+        private static HorizontalLayoutElement CreateHorizontalLine()
         {
             var line = UnityEngine.Object.Instantiate(GR.p_ToolTipLine);
             line.gameObject.SetActive(false);
@@ -40,7 +40,7 @@ namespace Core.Utilities
             {
                 if (DataBase.TryGetRecord<Name>(abilityRecord, out var abilityName))
                 {
-                    HorizontalLayoutElement t_nameLine = CreateToolTipLine().AlignStart();
+                    HorizontalLayoutElement t_nameLine = CreateHorizontalLine().AlignStart();
                     var name =
                         TextPool.I().WarmupElement()
                         .SetText(abilityName.m_Value)
@@ -53,7 +53,7 @@ namespace Core.Utilities
                 }
                 if (DataBase.TryGetRecord<Description>(abilityRecord, out var abilityDesc))
                 {
-                    HorizontalLayoutElement t_descLine = CreateToolTipLine().AlignStart();
+                    HorizontalLayoutElement t_descLine = CreateHorizontalLine().AlignStart();
                     var text =
                         TextPool.I().WarmupElement()
                         .SetText(abilityDesc.m_Value)
@@ -68,7 +68,7 @@ namespace Core.Utilities
             var phys_dmg = GetDamageForAbiltiy(a_ability, DamageType.PHYSICAL_DAMAGE);
             if (phys_dmg > 0)
             {
-                HorizontalLayoutElement t_physDmg = CreateToolTipLine().AlignStart();
+                HorizontalLayoutElement t_physDmg = CreateHorizontalLine().AlignStart();
                 var text =
                     TextPool.I().WarmupElement()
                     .SetText($"{phys_dmg} DMG.")
@@ -84,7 +84,7 @@ namespace Core.Utilities
 
             foreach (var status in a_ability.GetEffects<ApplyBleeding>())
             {
-                HorizontalLayoutElement t_line = CreateToolTipLine().AlignStart();
+                HorizontalLayoutElement t_line = CreateHorizontalLine().AlignStart();
                 var text =
                     TextPool.I().WarmupElement()
                     .SetText(GetTextForStatusEffects(status))
@@ -98,7 +98,7 @@ namespace Core.Utilities
             }
             foreach (var status in a_ability.GetEffects<ApplyBurning>())
             {
-                HorizontalLayoutElement t_line = CreateToolTipLine().AlignStart();
+                HorizontalLayoutElement t_line = CreateHorizontalLine().AlignStart();
                 var text =
                     TextPool.I().WarmupElement()
                     .SetText(GetTextForStatusEffects(status))
@@ -113,7 +113,7 @@ namespace Core.Utilities
             }
             foreach (var status in a_ability.GetEffects<ApplyPoison>())
             {
-                HorizontalLayoutElement t_line = CreateToolTipLine().AlignStart();
+                HorizontalLayoutElement t_line = CreateHorizontalLine().AlignStart();
                 var text =
                     TextPool.I().WarmupElement()
                     .SetText(GetTextForStatusEffects(status))
@@ -128,7 +128,7 @@ namespace Core.Utilities
 
             foreach (var status in a_ability.GetEffects<ApplyStun>())
             {
-                HorizontalLayoutElement t_line = CreateToolTipLine().AlignStart();
+                HorizontalLayoutElement t_line = CreateHorizontalLine().AlignStart();
                 var text =
                     TextPool.I().WarmupElement()
                     .SetText($"STUNS FOR {status.m_Duration} TURNS.")

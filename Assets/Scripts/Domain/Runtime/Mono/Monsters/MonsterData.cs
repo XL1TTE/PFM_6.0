@@ -6,8 +6,9 @@ namespace Domain.Monster.Mono
     public sealed class MonsterData
     {
 
-        public MonsterData(string head_id, string nearArm_id, string farArm_id, string body_id, string nearLeg_id, string farLeg_id)
+        public MonsterData(string monsterName, string head_id, string nearArm_id, string farArm_id, string body_id, string nearLeg_id, string farLeg_id)
         {
+            m_MonsterName = monsterName;
             Head_id = head_id;
             NearArm_id = nearArm_id;
             FarArm_id = farArm_id;
@@ -15,6 +16,7 @@ namespace Domain.Monster.Mono
             NearLeg_id = nearLeg_id;
             FarLeg_id = farLeg_id;
         }
+        public string m_MonsterName;
 
         public string Head_id;
         public string NearArm_id;

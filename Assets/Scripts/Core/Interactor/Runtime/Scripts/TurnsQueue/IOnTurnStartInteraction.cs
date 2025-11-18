@@ -19,6 +19,7 @@ using Unity.VisualScripting;
 
 namespace Interactions
 {
+
     public interface IOnTurnStartInteraction
     {
         /// <summary>
@@ -57,6 +58,36 @@ namespace Interactions
         public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
         {
             G.RefreshInteractions(a_turnTaker, a_world);
+            return UniTask.CompletedTask;
+        }
+    }
+
+    public sealed class ShowTurnTakerNameInBook : BaseInteraction, IOnTurnStartInteraction
+    {
+        public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
+        {
+            if (F.HasName(a_turnTaker, a_world) == false) { return UniTask.CompletedTask; }
+
+            var t_name = F.GetName(a_turnTaker, a_world);
+
+            BattleUiRefs.Instance.BookWidget.SetTurnTakerName(t_name);
+
+            return UniTask.CompletedTask;
+        }
+    }
+    public sealed class ShowTurnTakerStatsInBook : BaseInteraction, IOnTurnStartInteraction
+    {
+        public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
+        {
+            var t_maxHealth = GU.GetMaxHealth(a_turnTaker, a_world);
+            var t_health = GU.GetHealth(a_turnTaker, a_world);
+            var t_speed = GU.GetSpeed(a_turnTaker, a_world);
+
+            var t_book = BattleUiRefs.Instance.BookWidget;
+
+            t_book.SetHealth(t_maxHealth, t_health);
+            t_book.SetSpeed(t_speed);
+
             return UniTask.CompletedTask;
         }
     }
