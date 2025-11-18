@@ -15,6 +15,10 @@ namespace Project
             {
                 SceneManager.LoadScene("MapGeneration");
             }
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                SceneManager.LoadScene("Laboratory");
+            }
 
         }
     }

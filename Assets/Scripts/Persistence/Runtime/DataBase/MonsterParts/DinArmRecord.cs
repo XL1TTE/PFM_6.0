@@ -1,5 +1,6 @@
 using Domain.Components;
 using Persistence.Components;
+using UnityEngine;
 
 namespace Persistence.DB
 {
@@ -15,6 +16,10 @@ namespace Persistence.DB
             {
                 FarSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Further_Test_1",
                 NearSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Closer_Test_1"
+            });
+            With<IconUI>(new IconUI
+            {
+                m_Value = Resources.Load<Sprite>("Monsters/Sprites/test/Spr_Bodypart_Arm_Closer_Test_1")
             });
             With<TagMonsterPart>();
             With<TagMonsterArm>();
@@ -35,6 +40,10 @@ namespace Persistence.DB
             {
                 FarSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Further_Test_1",
                 NearSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Closer_Test_1"
+            });
+            With<IconUI>(new IconUI
+            {
+                m_Value = Resources.Load<Sprite>("Monsters/Sprites/test/Spr_Bodypart_Arm_Further_Test_1")
             });
             With<TagMonsterPart>();
             With<TagMonsterArm>();

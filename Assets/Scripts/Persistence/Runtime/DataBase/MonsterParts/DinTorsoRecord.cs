@@ -17,6 +17,10 @@ namespace Persistence.DB
             {
                 path = "Monsters/Sprites/test/Spr_Bodypart_Torso_Test_1"
             });
+            With<IconUI>(new IconUI
+            {
+                m_Value = Resources.Load<Sprite>("Monsters/Sprites/test/Spr_Bodypart_Torso_Test_1")
+            });
             With<TagMonsterPart>();
             With<TagMonsterTorso>();
             With<PartsOffsets>(new PartsOffsets

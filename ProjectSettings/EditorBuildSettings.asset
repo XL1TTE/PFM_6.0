@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MapGeneration.unity
     guid: c3a0a8f6de6509149bbf0b77d183f247
+  - enabled: 1
+    path: Assets/Scenes/Laboratory.unity
+    guid: 6af6f28d17f5ffb46a1e09f825eb184a
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

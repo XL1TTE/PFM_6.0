@@ -36,8 +36,6 @@ namespace Game
         {
             Interactor.Init();
 
-            DataStorage.NewFile<BattleConfig>().WithRecord<LoadConfig>(new LoadConfig());
-
 
 
             ref var crusadeState = ref DataStorage.GetRecordFromFile<Crusade, CrusadeState>();
@@ -48,6 +46,7 @@ namespace Game
                     crusadeState.crusade_state = CRUSADE_STATE.CHOOSING;
                     SM.EnterState<MapDefaultState>();
                     flag_first_load = true;
+                    DataStorage.NewFile<BattleConfig>().WithRecord<LoadConfig>(new LoadConfig());
                     break;
                 case CRUSADE_STATE.TEXT_EVENT:
                     SM.EnterState<MapTextEvState>();

@@ -2,6 +2,7 @@ using System.Linq;
 using Domain.Components;
 using Domain.Stats.Components;
 using Persistence.Components;
+using UnityEngine;
 
 namespace Persistence.DB
 {
@@ -15,6 +16,10 @@ namespace Persistence.DB
             With<HeadSpritePath>(new HeadSpritePath
             {
                 path = "Monsters/Sprites/test/Spr_Bodypart_Head_Test_1"
+            }); 
+            With<IconUI>(new IconUI
+            {
+                m_Value = Resources.Load<Sprite>("Monsters/Sprites/test/Spr_Bodypart_Head_Test_1")
             });
             With<TagMonsterPart>();
             With<TagMonsterHead>();
