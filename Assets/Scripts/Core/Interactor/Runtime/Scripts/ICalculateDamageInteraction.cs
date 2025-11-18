@@ -1,40 +1,103 @@
 using System.Collections;
+using System.Collections.Generic;
+using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.Abilities;
+using Domain.Stats.Components;
 using Scellecs.Morpeh;
 
 namespace Interactions
 {
     public interface ICalculateDamageInteraction
     {
-        UniTask<int> Execute(
+        UniTask Execute(
             Entity a_Source,
             Entity a_Target,
             World a_world,
             DamageType a_damageType,
-            int a_baseDamage);
+            ref int a_damage,
+            List<OnDamageTags> a_tags);
     }
 
-    public sealed class CalculateDamageInteraction : BaseInteraction, ICalculateDamageInteraction
+    public sealed class ResistPoisonInteraction : BaseInteraction, ICalculateDamageInteraction
     {
-        public async UniTask<int> Execute(Entity a_Attacker, Entity a_Target, World a_world, DamageType a_damageType, int a_baseDamage)
+        public UniTask Execute(Entity a_Source, Entity a_Target, World a_world, DamageType a_damageType, ref int a_damage, List<OnDamageTags> a_tags = null)
         {
-            switch (a_damageType)
+            if (a_damageType != DamageType.POISON_DAMAGE) { return UniTask.CompletedTask; }
+
+            switch (F.GetResistance<PoisonResistanceModiffier>(a_Target, a_world))
             {
-                case DamageType.PHYSICAL_DAMAGE:
-                    return await UniTask.FromResult(
-                        CalculatePhysicalDamage(a_Attacker, a_Target, a_world, a_baseDamage));
-
-                case DamageType.FIRE_DAMAGE:
-                    return await UniTask.FromResult(
-                        CalculatePhysicalDamage(a_Attacker, a_Target, a_world, a_baseDamage));
+                case IResistanceModiffier.Stage.NONE:
+                    break;
+                case IResistanceModiffier.Stage.WEAKNESS:
+                    a_tags.Add(OnDamageTags.WEAKNESS);
+                    a_damage *= 2;
+                    break;
+                case IResistanceModiffier.Stage.RESISTANT:
+                    a_tags.Add(OnDamageTags.RESISTANT);
+                    a_damage /= 2;
+                    break;
+                case IResistanceModiffier.Stage.IMMUNE:
+                    a_tags.Add(OnDamageTags.IMMUNED);
+                    a_damage = 0;
+                    break;
             }
-            return a_baseDamage;
-        }
 
-        private int CalculatePhysicalDamage(Entity a_Attacker, Entity a_Target, World a_world, int a_baseDamage)
+            return UniTask.CompletedTask;
+        }
+    }
+    public sealed class ResistBleedingInteraction : BaseInteraction, ICalculateDamageInteraction
+    {
+        public UniTask Execute(Entity a_Source, Entity a_Target, World a_world, DamageType a_damageType, ref int a_damage, List<OnDamageTags> a_tags = null)
         {
-            return a_baseDamage;
+            if (a_damageType != DamageType.BLEED_DAMAGE) { return UniTask.CompletedTask; }
+
+            switch (F.GetResistance<BleedResistanceModiffier>(a_Target, a_world))
+            {
+                case IResistanceModiffier.Stage.NONE:
+                    break;
+                case IResistanceModiffier.Stage.WEAKNESS:
+                    a_tags.Add(OnDamageTags.WEAKNESS);
+                    a_damage *= 2;
+                    break;
+                case IResistanceModiffier.Stage.RESISTANT:
+                    a_tags.Add(OnDamageTags.RESISTANT);
+                    a_damage /= 2;
+                    break;
+                case IResistanceModiffier.Stage.IMMUNE:
+                    a_tags.Add(OnDamageTags.IMMUNED);
+                    a_damage = 0;
+                    break;
+            }
+
+            return UniTask.CompletedTask;
+        }
+    }
+    public sealed class ResistBurningInteraction : BaseInteraction, ICalculateDamageInteraction
+    {
+        public UniTask Execute(Entity a_Source, Entity a_Target, World a_world, DamageType a_damageType, ref int a_damage, List<OnDamageTags> a_tags = null)
+        {
+            if (a_damageType != DamageType.FIRE_DAMAGE) { return UniTask.CompletedTask; }
+
+            switch (F.GetResistance<BurningResistanceModiffier>(a_Target, a_world))
+            {
+                case IResistanceModiffier.Stage.NONE:
+                    break;
+                case IResistanceModiffier.Stage.WEAKNESS:
+                    a_tags.Add(OnDamageTags.WEAKNESS);
+                    a_damage *= 2;
+                    break;
+                case IResistanceModiffier.Stage.RESISTANT:
+                    a_tags.Add(OnDamageTags.RESISTANT);
+                    a_damage /= 2;
+                    break;
+                case IResistanceModiffier.Stage.IMMUNE:
+                    a_tags.Add(OnDamageTags.IMMUNED);
+                    a_damage = 0;
+                    break;
+            }
+
+            return UniTask.CompletedTask;
         }
     }
 }

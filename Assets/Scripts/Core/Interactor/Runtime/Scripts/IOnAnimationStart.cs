@@ -1,6 +1,7 @@
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Domain.Notificator;
+using Interactions.ActorStateChanged;
 using Scellecs.Morpeh;
 
 namespace Interactions
@@ -19,25 +20,22 @@ namespace Interactions
     {
         public async UniTask OnAnimationStart(Entity a_subject, World a_world)
         {
+            if (a_world.IsDisposed) { return; }
             var stash_actorState = a_world.GetStash<ActorActionStatesComponent>();
-            var evt_actorStateChanged = a_world.GetEvent<ActorActionStatesChanged>();
 
             if (stash_actorState.Has(a_subject) == false) { return; }
 
             stash_actorState.Get(a_subject).m_Values.Add(ActorActionStates.Animating);
 
-            evt_actorStateChanged.NextFrame(new ActorActionStatesChanged
-            {
-                m_Actor = a_subject,
-                m_Values = stash_actorState.Get(a_subject).m_Values
-            });
+            Interactor.CallAll<IOnActorStateChanged>(
+                async h => await h.OnStateChanged(a_subject, stash_actorState.Get(a_subject).m_Values, a_world)).Forget();
 
             await UniTask.CompletedTask;
         }
         public async UniTask OnAnimationEnd(Entity a_subject, World a_world)
         {
+            if (a_world.IsDisposed) { return; }
             var stash_actorState = a_world.GetStash<ActorActionStatesComponent>();
-            var evt_actorStateChanged = a_world.GetEvent<ActorActionStatesChanged>();
 
             if (stash_actorState.Has(a_subject) == false) { return; }
 
@@ -46,11 +44,8 @@ namespace Interactions
                 stash_actorState.Get(a_subject).m_Values.Remove(ActorActionStates.Animating);
             }
 
-            evt_actorStateChanged.NextFrame(new ActorActionStatesChanged
-            {
-                m_Actor = a_subject,
-                m_Values = stash_actorState.Get(a_subject).m_Values
-            });
+            Interactor.CallAll<IOnActorStateChanged>(
+                async h => await h.OnStateChanged(a_subject, stash_actorState.Get(a_subject).m_Values, a_world)).Forget();
 
             await UniTask.CompletedTask;
         }

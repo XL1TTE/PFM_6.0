@@ -91,7 +91,7 @@ namespace CursorDetection.Systems
                 }
             }
 
-            if (_lastUnderCursor.IsExist() && !World.IsDisposed(_lastUnderCursor))
+
             {
                 if (!_closestEntity.IsExist() || _closestEntity != _lastUnderCursor)
                 {
@@ -101,7 +101,11 @@ namespace CursorDetection.Systems
                         m_Entity = _lastUnderCursor
                     });
 
-                    stash_underCursor.Remove(_lastUnderCursor);
+                    if (_lastUnderCursor.IsExist() && !World.IsDisposed(_lastUnderCursor))
+                    {
+                        stash_underCursor.Remove(_lastUnderCursor);
+
+                    }
                 }
             }
 

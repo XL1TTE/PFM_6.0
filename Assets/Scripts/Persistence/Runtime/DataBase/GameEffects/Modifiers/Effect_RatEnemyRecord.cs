@@ -3,7 +3,7 @@ using Domain.Stats.Components;
 
 namespace Persistence.DB
 {
-    public class Effect_RatEnemyRecord : MonsterPartRecord
+    public class Effect_RatEnemyRecord : BodyPartRecord
     {
         public Effect_RatEnemyRecord()
         {
@@ -20,6 +20,10 @@ namespace Persistence.DB
                 {
                     m_Flat = 2
                 });
+            With<PoisonResistanceModiffier>(new PoisonResistanceModiffier
+            {
+                m_Stage = IResistanceModiffier.Stage.IMMUNE
+            });
         }
     }
 }

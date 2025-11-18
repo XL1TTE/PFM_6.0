@@ -1,20 +1,23 @@
 using DG.Tweening;
+using Game;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Domain.UI.Mono
 {
-    public class NextTurnBtnView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class NextTurnBtnView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         [SerializeField] private GameObject ViewObject;
+        [SerializeField] private Collider2D m_Collider;
         [SerializeField] private float AnimationDuration;
         [SerializeField] private Ease AnimationEase;
-        
+
         private Vector2 OriginalPosition;
 
         void Awake()
         {
-            if(ViewObject != null){
+            if (ViewObject != null)
+            {
                 OriginalPosition = ViewObject.transform.position;
             }
 
@@ -29,7 +32,7 @@ namespace Domain.UI.Mono
             {
                 _animation.Kill(false);
             }
-            if (ViewObject == null){return;}
+            if (ViewObject == null) { return; }
             _animation = ViewObject.transform
                 .DOMoveY(OriginalPosition.y + 7.0f, AnimationDuration)
                 .SetEase(AnimationEase);
@@ -37,7 +40,8 @@ namespace Domain.UI.Mono
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if(_animation != null){
+            if (_animation != null)
+            {
                 _animation.Kill(false);
             }
             if (ViewObject == null) { return; }
@@ -46,27 +50,32 @@ namespace Domain.UI.Mono
                 .SetEase(AnimationEase);
         }
 
-        private void DisableView(){
+        private void DisableView()
+        {
             ViewObject.SetActive(false);
         }
-        
-        private void DisableAnimations(){
+
+        private void DisableAnimations()
+        {
             this.gameObject.SetActive(false);
         }
-        private void EnableView(){
+        private void EnableView()
+        {
             ViewObject.SetActive(true);
         }
-        
-        private void EnableAnimations(){
+
+        private void EnableAnimations()
+        {
             this.gameObject.SetActive(true);
         }
 
-        private void PlayAppearAnimation(){
+        private void PlayAppearAnimation()
+        {
             if (_animation != null)
             {
                 _animation.Kill(false);
             }
-            
+
             ViewObject.transform.position -= new Vector3(0, 20, 0);
             _animation = ViewObject.transform
                 .DOMoveY(OriginalPosition.y, 0.5f).OnComplete(
@@ -74,19 +83,27 @@ namespace Domain.UI.Mono
     );
         }
 
-        public void Hide(){
-            if(_animation != null){
+        public void Hide()
+        {
+            if (_animation != null)
+            {
                 _animation.Kill(false);
             }
             DisableAnimations();
             _animation = ViewObject.transform
                 .DOMoveY(OriginalPosition.y - 40, 0.25f).OnComplete(
-                    () => { DisableView();}
+                    () => { DisableView(); }
                 );
         }
-        public void Show(){
+        public void Show()
+        {
             EnableView();
             PlayAppearAnimation();
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            G.NextTurn(ECS.m_CurrentWorld);
         }
     }
 }

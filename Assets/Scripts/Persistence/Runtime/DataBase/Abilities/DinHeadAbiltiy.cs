@@ -18,7 +18,7 @@ namespace Persistence.DB
             ID("abt_din_head");
 
             With<IconUI>(new IconUI(GR.SPR_EFFECT_ABILITY_ICON));
-            With<AbilityDefenition>(new AbilityDefenition
+            With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
                     AbilityTags.EFFECT

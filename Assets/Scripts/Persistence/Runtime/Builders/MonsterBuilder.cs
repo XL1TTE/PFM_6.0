@@ -30,7 +30,6 @@ namespace Persistence.Buiders
 
             stash_tagMonster = _ecsWorld.GetStash<TagMonster>();
             stash_lookDir = _ecsWorld.GetStash<LookDirection>();
-            stash_moveAbility = _ecsWorld.GetStash<MovementAbility>();
             //stash_attackAbility = _ecsWorld.GetStash<AttackAbility>();
             stash_transformRef = _ecsWorld.GetStash<TransformRefComponent>();
             stash_hitBox = _ecsWorld.GetStash<HitBoxComponent>();
@@ -40,6 +39,7 @@ namespace Persistence.Buiders
             stash_iHaveHealthBar = _ecsWorld.GetStash<IHaveHealthBar>();
 
             stash_abilities = _ecsWorld.GetStash<AbilitiesComponent>();
+            stash_interactions = _ecsWorld.GetStash<InteractionsComponent>();
 
             stash_Speed = _ecsWorld.GetStash<Speed>();
             stash_Health = _ecsWorld.GetStash<Health>();
@@ -65,7 +65,6 @@ namespace Persistence.Buiders
 
         Stash<TagMonster> stash_tagMonster;
         private Stash<LookDirection> stash_lookDir;
-        Stash<MovementAbility> stash_moveAbility;
         //Stash<AttackAbility> stash_attackAbility;
         Stash<TransformRefComponent> stash_transformRef;
         Stash<HitBoxComponent> stash_hitBox;
@@ -75,6 +74,7 @@ namespace Persistence.Buiders
         Stash<InitialEffectsPoolComponent> stash_initEffectsPool;
         private readonly Stash<IHaveHealthBar> stash_iHaveHealthBar;
         private readonly Stash<AbilitiesComponent> stash_abilities;
+        private readonly Stash<InteractionsComponent> stash_interactions;
         private readonly Stash<Speed> stash_Speed;
 
 
@@ -251,6 +251,15 @@ namespace Persistence.Buiders
             stash_monsterDammyRef.Add(monster_entity, new MonsterDammyRefComponent { MonsterDammy = monsterDammy });
 
             stash_turnQueueAvatar.Add(monster_entity, new TurnQueueAvatar { m_Value = monsterDammy.MonsterAvatar });
+
+
+            stash_interactions.Set(monster_entity, new InteractionsComponent
+            {
+                m_MaxInteractions = 1,
+                m_InteractionsLeft = 1,
+                m_MaxMoveInteractions = 1,
+                m_MoveInteractionsLeft = 1
+            });
 
             return monster_entity;
 

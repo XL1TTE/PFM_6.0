@@ -19,10 +19,11 @@ namespace Persistence.DB
             ID("abt_din_arm");
 
             With<Name>(new Name("Din's power."));
-            With<Description>(new Description("Make an attack, dealing physical damage and applying poison."));
+            With<Description>(new Description("Apply poison. And poison weakness."));
 
             With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
-            With<AbilityDefenition>(new AbilityDefenition
+
+            With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
                     AbilityTags.DAMAGE
@@ -34,8 +35,9 @@ namespace Persistence.DB
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
                     new WaitForTweenActionFrame(),
-                    new DealDamage(2, DamageType.PHYSICAL_DAMAGE),
-                    new ApplyPoison(2, 1),
+                    new DealDamage(1, DamageType.PHYSICAL_DAMAGE),
+                    new ApplyPoison(2, 5),
+                    new ApplyEffect(2, "effect_poison_weak"),
                     new WaitForLastAnimationEnd()
                 }),
             });
@@ -47,22 +49,25 @@ namespace Persistence.DB
         {
             ID("abt_din_arm2");
 
+            With<Description>(new Description("Heal in area."));
+
             With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
-            With<AbilityDefenition>(new AbilityDefenition
+            With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
                     AbilityTags.DAMAGE
                 },
                 m_AbilityType = AbilityType.INTERACTION,
-                m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
+                m_TargetType = TargetSelectionTypes.ANY_CELL,
                 m_Shifts = new Vector2Int[2] { new Vector2Int(3, 0), new Vector2Int(1, 0) },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
-                    new PlayTweenAnimation(TweenAnimations.ATTACK),
-                    new WaitForTweenActionFrame(),
-                    new DealDamage(1, DamageType.PHYSICAL_DAMAGE),
-                    new ApplyBleeding(1, 2),
-                    new WaitForLastAnimationEnd()
+                    // new PlayTweenAnimation(TweenAnimations.ATTACK),
+                    // new WaitForTweenActionFrame(),
+                    // new DealDamage(1, DamageType.PHYSICAL_DAMAGE),
+                    // new ApplyBleeding(1, 2),
+                    // new WaitForLastAnimationEnd()
+                    new HealInArea(5, 1)
                 }),
             });
         }
@@ -74,7 +79,7 @@ namespace Persistence.DB
             ID("abt_din_arm3");
 
             With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
-            With<AbilityDefenition>(new AbilityDefenition
+            With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
                     AbilityTags.DAMAGE

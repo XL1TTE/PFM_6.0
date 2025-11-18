@@ -1290,8 +1290,10 @@ MonoBehaviour:
       type: {class: SpawnByWeight, ns: Domain.BattleField.Tags, asm: Assembly-CSharp}
       data:
         m_Pool:
-        - m_weight: 1
-          m_enemyID: e_VillageRat
+        - m_weight: 50
+          m_enemyID: e_Rat
+        - m_weight: 50
+          m_enemyID: e_Cow
 --- !u!1 &616398088172314711
 GameObject:
   m_ObjectHideFlags: 0
@@ -10223,7 +10225,7 @@ MonoBehaviour:
       data:
         m_Pool:
         - m_weight: 1
-          m_enemyID: 
+          m_enemyID: e_Rat
 --- !u!1 &6040258422200277211
 GameObject:
   m_ObjectHideFlags: 0
@@ -13999,7 +14001,7 @@ MonoBehaviour:
       data:
         m_Pool:
         - m_weight: 1
-          m_enemyID: 
+          m_enemyID: e_Cow
 --- !u!1 &8226018535601070975
 GameObject:
   m_ObjectHideFlags: 0

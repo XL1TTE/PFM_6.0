@@ -4,6 +4,7 @@ using System.Linq;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.Abilities;
+using Domain.Abilities.Components;
 using Domain.Abilities.Tags;
 using Domain.AbilityGraph;
 using Domain.CursorDetection.Components;
@@ -13,6 +14,7 @@ using Domain.TargetSelection.Events;
 using Domain.TargetSelection.Requests;
 using Domain.UI.Requests;
 using Domain.UI.Tags;
+using Game;
 using Gameplay.TargetSelection;
 using Interactions;
 using Scellecs.Morpeh;
@@ -28,10 +30,9 @@ namespace Gameplay.Abilities.Systems
     {
         private Event<ButtonClickedEvent> evt_ButtonClicked;
 
-        private Event<ActorActionStatesChanged> evt_ActorStatesChanged;
         private Event<OnCursorEnterEvent> evt_OnCursorEnter;
         private Event<OnCursorExitEvent> evt_OnCursorExit;
-        private Stash<AbiltiyButtonTag> stash_AbilityButtonTag;
+        private Stash<AbilityButtonTag> stash_AbilityButtonTag;
         private Stash<ButtonTag> stash_ButtonTag;
 
         public World World { get; set; }
@@ -40,12 +41,11 @@ namespace Gameplay.Abilities.Systems
         {
             evt_ButtonClicked = World.GetEvent<ButtonClickedEvent>();
 
-            evt_ActorStatesChanged = World.GetEvent<ActorActionStatesChanged>();
 
             evt_OnCursorEnter = World.GetEvent<OnCursorEnterEvent>();
             evt_OnCursorExit = World.GetEvent<OnCursorExitEvent>();
 
-            stash_AbilityButtonTag = World.GetStash<AbiltiyButtonTag>();
+            stash_AbilityButtonTag = World.GetStash<AbilityButtonTag>();
             stash_ButtonTag = World.GetStash<ButtonTag>();
         }
 
@@ -61,25 +61,25 @@ namespace Gameplay.Abilities.Systems
 
         private void ProcessOwnerBusyState()
         {
-            // For actors which have active ability buttons
-            // check if actor is busy. Busy -> Disable button. Otherwise -> Enable button. 
-            foreach (var evt in evt_ActorStatesChanged.publishedChanges)
-            {
-                var abilityButtons = F.FindAbilityButtonsByOwner(evt.m_Actor, World);
+            // // For actors which have active ability buttons
+            // // check if actor is busy. Busy -> Disable button. Otherwise -> Enable button. 
+            // foreach (var evt in evt_ActorStatesChanged.publishedChanges)
+            // {
+            //     var abilityButtons = F.FindAbilityButtonsByOwner(evt.m_Actor, World);
 
-                foreach (var btn in abilityButtons)
-                {
-                    if (V.IsActorBusy(evt.m_Actor, World))
-                    {
-                        DisableButton(btn);
-                    }
-                    else
-                    {
-                        EnableButton(btn);
-                    }
+            //     foreach (var btn in abilityButtons)
+            //     {
+            //         if (V.IsActorBusy(evt.m_Actor, World))
+            //         {
+            //             DisableButton(btn);
+            //         }
+            //         else
+            //         {
+            //             EnableButton(btn);
+            //         }
 
-                }
-            }
+            //     }
+            // }
         }
 
         private void ProcessHoverEffect()
@@ -147,13 +147,13 @@ namespace Gameplay.Abilities.Systems
 
         private void EnableButton(Entity abilityButton)
         {
-            stash_ButtonTag.Get(abilityButton).state = ButtonTag.State.Enabled;
+            stash_ButtonTag.Get(abilityButton).m_State = ButtonTag.State.Enabled;
             stash_AbilityButtonTag.Get(abilityButton).m_View.DisableUnavaibleView();
         }
 
         private void DisableButton(Entity abilityButton)
         {
-            stash_ButtonTag.Get(abilityButton).state = ButtonTag.State.Disabled;
+            stash_ButtonTag.Get(abilityButton).m_State = ButtonTag.State.Disabled;
             stash_AbilityButtonTag.Get(abilityButton).m_View.EnableUnavaibleView();
         }
 
@@ -177,12 +177,12 @@ namespace Gameplay.Abilities.Systems
                 var t_shifts = GU.TransformShiftsFromSubjectLook(owner, abilityData.m_Shifts, World);
                 var t_options = GU.GetCellsFromShifts(ownerPos, t_shifts, World);
 
-                ExecuteAbilityAsync(abilityData.m_Value, evt.ClickedButton, owner, t_options, abilityData.m_TargetType, 1).Forget(); // Run execution in async
+                ExecuteAbilityAsync(abilityData, evt.ClickedButton, owner, t_options, abilityData.m_TargetType, 1).Forget(); // Run execution in async
             }
         }
 
         private async UniTask ExecuteAbilityAsync(
-            Ability ability,
+            AbilityData abilityData,
             Entity abilityView,
             Entity caster,
             IEnumerable<Entity> a_cellOptions,
@@ -209,15 +209,19 @@ namespace Gameplay.Abilities.Systems
                     {
                         case TargetSelectionTypes.CELL_WITH_ENEMY:
                             target = GU.GetCellOccupier(target_cell, World);
-                            await ability.Execute(caster, target, World);
+                            await G.ExecuteAbilityAsync(abilityData, caster, target, World);
                             break;
                         case TargetSelectionTypes.CELL_WITH_ALLY:
                             target = GU.GetCellOccupier(target_cell, World);
-                            await ability.Execute(caster, target, World);
+                            await G.ExecuteAbilityAsync(abilityData, caster, target, World);
                             break;
                         case TargetSelectionTypes.CELL_EMPTY:
                             target = target_cell;
-                            await ability.Execute(caster, target, World);
+                            await G.ExecuteAbilityAsync(abilityData, caster, target, World);
+                            break;
+                        case TargetSelectionTypes.ANY_CELL:
+                            target = target_cell;
+                            await G.ExecuteAbilityAsync(abilityData, caster, target, World);
                             break;
                     }
                 }
@@ -226,7 +230,7 @@ namespace Gameplay.Abilities.Systems
 
             if (a_type == TargetSelectionTypes.NONE)
             {
-                await ability.Execute(caster, default, World);
+                await G.ExecuteAbilityAsync(abilityData, caster, default, World);
             }
 
             SetSelectedEffect(abilityView, false);

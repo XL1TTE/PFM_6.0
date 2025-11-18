@@ -2,8 +2,11 @@ using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Domain.Abilities.Components;
+using Domain.Components;
+using Domain.Enemies.Tags;
 using Domain.Extentions;
 using Domain.HealthBars.Components;
+using Domain.Monster.Tags;
 using Domain.TurnSystem.Tags;
 using DS.Files;
 using Game;
@@ -13,6 +16,7 @@ using Scellecs.Morpeh.Collections;
 
 namespace Interactions
 {
+
     public interface IOnEntityDiedInteraction
     {
         UniTask OnEntityDied(
@@ -21,12 +25,52 @@ namespace Interactions
             World a_world);
     }
 
+    public sealed class CheckPlayerWinCondition : BaseInteraction, IOnEntityDiedInteraction
+    {
+        public override Priority m_Priority => Priority.VERY_LOW;
+        public async UniTask OnEntityDied(Entity a_entity, Entity a_cause, World a_world)
+        {
+            await UniTask.Yield(); // Wait for world update.
+
+            var filter = a_world.Filter.With<TagEnemy>().Without<DiedEntityTag>().Build();
+
+            if (filter.IsEmpty())
+            {
+                G.BattleOutcomes.PlayerWon(a_world);
+            }
+        }
+    }
+    public sealed class CheckPlayerLostCondition : BaseInteraction, IOnEntityDiedInteraction
+    {
+        public override Priority m_Priority => Priority.VERY_LOW;
+        public async UniTask OnEntityDied(Entity a_entity, Entity a_cause, World a_world)
+        {
+            await UniTask.Yield(); // Wait for world update.
+
+            var filter = a_world.Filter.With<TagMonster>().Without<DiedEntityTag>().Build();
+
+            var t_enemies = a_world.Filter.With<TagEnemy>().Build();
+
+            if (filter.IsEmpty())
+            {
+                foreach (var e in t_enemies)
+                {
+                    GU.DisposeAI(e, a_world);
+                }
+                G.BattleOutcomes.PlayerLost(a_world);
+            }
+        }
+    }
+
     public sealed class DisableAI : BaseInteraction, IOnEntityDiedInteraction
     {
         public override Priority m_Priority => Priority.VERY_HIGH;
         public async UniTask OnEntityDied(Entity a_entity, Entity a_cause, World a_world)
         {
             await UniTask.Yield();
+
+            GU.DisposeAI(a_entity, a_world);
+
             var stash_aiCancell = a_world.GetStash<AgentAICancellationToken>();
             if (stash_aiCancell.Has(a_entity) == false) { return; }
 
@@ -35,16 +79,14 @@ namespace Interactions
         }
     }
 
-    public sealed class EndAgentTurnIfDied : BaseInteraction, IOnEntityDiedInteraction
+    public sealed class EndTurnIfDied : BaseInteraction, IOnEntityDiedInteraction
     {
         public override Priority m_Priority => Priority.LOW;
         public UniTask OnEntityDied(Entity a_entity, Entity a_cause, World a_world)
         {
-            var stash_aiAgent = a_world.GetStash<AgentAIComponent>();
             var stash_curTurnTaker = a_world.GetStash<CurrentTurnTakerTag>();
 
             if (stash_curTurnTaker.Has(a_entity) == false) { return UniTask.CompletedTask; }
-            if (stash_aiAgent.Has(a_entity) == false) { return UniTask.CompletedTask; }
 
             G.NextTurn(a_world);
             return UniTask.CompletedTask;

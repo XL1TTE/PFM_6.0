@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Domain.Components;
 using Domain.Services;
+using Interactions;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Collections;
 using Unity.IL2CPP.CompilerServices;
@@ -66,7 +67,6 @@ namespace Gameplay.Commands
                     case TweenAnimations.TURN_AROUND:
                         animation = PlayTurnAroundAnimation(ref state, req);
                         m_ActiveTweensMap.Add(req.m_Subject.Id, animation, out var _);
-
                         break;
                 }
             }
@@ -90,10 +90,12 @@ namespace Gameplay.Commands
             animation.AppendCallback(() => OnAnimationCompleted(req.m_Subject));
 
             state.m_Status = AnimatingStatus.IN_PROCESS;
-            evt_AnimatingStarted.NextFrame(new AnimatingStarted
+
+            Interactor.CallAll<IOnAnimationStart>(async handler =>
             {
-                m_Subject = req.m_Subject
-            });
+                await handler.OnAnimationStart(req.m_Subject, World);
+            }).Forget();
+
             animation.Play();
             return animation;
         }
@@ -109,10 +111,12 @@ namespace Gameplay.Commands
             animation.OnComplete(() => OnAnimationCompleted(req.m_Subject));
 
             state.m_Status = AnimatingStatus.IN_PROCESS;
-            evt_AnimatingStarted.NextFrame(new AnimatingStarted
+
+            Interactor.CallAll<IOnAnimationStart>(async handler =>
             {
-                m_Subject = req.m_Subject
-            });
+                await handler.OnAnimationStart(req.m_Subject, World);
+            }).Forget();
+
             animation.Play();
 
             return animation;
@@ -140,11 +144,10 @@ namespace Gameplay.Commands
 
             RemoveAnimatingStateAsync(subject).Forget();
 
-            evt_AnimatingEnded.NextFrame(new AnimatingEnded
+            Interactor.CallAll<IOnAnimationEnd>(async handler =>
             {
-                m_Subject = subject,
-                m_AnimatingStatus = AnimatingStatus.COMPLETED
-            });
+                await handler.OnAnimationEnd(subject, World);
+            }).Forget();
         }
 
         private async UniTask RemoveAnimatingStateAsync(Entity subject)

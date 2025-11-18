@@ -18,5 +18,6 @@ namespace Domain.UI.Mono
         [SerializeField] public BattleBookWidget BookWidget;
         [SerializeField] public TurnQueueWidget TurnQueueWidget;
         [SerializeField] public InformationBoardWidget InformationBoardWidget;
+        [SerializeField] public NextTurnBtnView m_NextTurnButton;
     }
 }

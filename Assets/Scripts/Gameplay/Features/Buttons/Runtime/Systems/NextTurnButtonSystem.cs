@@ -106,7 +106,7 @@ namespace Gameplay.EcsButtons.Systems
             var btn = filter_myBtn.First();
 
             stash_myBtn.Get(btn).View.Show();
-            stash_btnTag.Get(btn).state = ButtonTag.State.Enabled;
+            stash_btnTag.Get(btn).m_State = ButtonTag.State.Enabled;
         }
 
         private void HideNextTurnButton()
@@ -115,7 +115,7 @@ namespace Gameplay.EcsButtons.Systems
             var btn = filter_myBtn.First();
 
             stash_myBtn.Get(btn).View.Hide();
-            stash_btnTag.Get(btn).state = ButtonTag.State.Disabled;
+            stash_btnTag.Get(btn).m_State = ButtonTag.State.Disabled;
         }
 
         public void Dispose()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using Core.Utilities;
+using Cysharp.Threading.Tasks;
 using Domain.BattleField.Requests;
 using Domain.BattleField.Tags;
 using Domain.Extentions;
@@ -13,6 +14,7 @@ using Domain.UI.Widgets;
 using Game;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 namespace Gameplay.StateMachine.Systems
 {
@@ -28,9 +30,9 @@ namespace Gameplay.StateMachine.Systems
 
         public void OnAwake()
         {
-            evt_onStateEnter = SM.Value.GetEvent<OnStateEnterEvent>();
+            evt_onStateEnter = SM.m_World.GetEvent<OnStateEnterEvent>();
 
-            stash_state = SM.Value.GetStash<PreBattlePlanningNotificationState>();
+            stash_state = SM.m_World.GetStash<PreBattlePlanningNotificationState>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -51,7 +53,8 @@ namespace Gameplay.StateMachine.Systems
 
         private void Enter(Entity stateEntity)
         {
-            Game.GUI.NotifyFullScreen("Planning stage", () => Input.GetMouseButtonDown(0), "Press LMB to continue...");
+            Game.GUI.NotifyFullScreen("Planning stage",
+                UniTask.WaitUntil(() => Input.GetMouseButtonDown(0)), C.COLOR_NOTIFICATION_BG_DEFAULT, "Press LMB to continue...");
 
             SM.ExitState<PreBattlePlanningNotificationState>();
             SM.EnterState<BattlePlanningState>();

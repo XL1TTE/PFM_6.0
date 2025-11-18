@@ -3,7 +3,7 @@ using Domain.Stats.Components;
 
 namespace Persistence.DB
 {
-    public class Effects_DinHeadRecord : MonsterPartRecord
+    public class Effects_DinHeadRecord : BodyPartRecord
     {
         public Effects_DinHeadRecord()
         {
@@ -12,7 +12,7 @@ namespace Persistence.DB
             With<ID>(new ID { m_Value = "effect_DinHead" });
             With<MaxHealthModifier>(new MaxHealthModifier
             {
-                m_Flat = 10,
+                m_Flat = 32,
                 m_Multiplier = 0.1f
             });
             With<SpeedModifier>(new SpeedModifier

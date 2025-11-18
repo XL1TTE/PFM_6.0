@@ -1,10 +1,11 @@
 namespace UI.ToolTip
 {
     using System.Collections.Generic;
+    using UI.Elements;
 
     public sealed class ToolTipLines
     {
-        public List<ToolTipLine> m_Lines;
+        public List<HorizontalLayoutElement> m_Lines;
     }
 
 }

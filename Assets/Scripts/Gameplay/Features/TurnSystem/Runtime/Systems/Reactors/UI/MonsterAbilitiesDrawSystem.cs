@@ -7,6 +7,7 @@ using Domain.Monster.Tags;
 using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Tags;
 using Domain.UI.Mono;
+using Game;
 using Persistence.Components;
 using Persistence.DB;
 using Scellecs.Morpeh;
@@ -54,6 +55,7 @@ namespace Gameplay.TurnSystem.Systems
 
                     ClearAbilityViews();
                     DrawAbilities(abilityOwner);
+                    G.UpdateAbilityButtonsState(World);
                 }
                 else
                 {

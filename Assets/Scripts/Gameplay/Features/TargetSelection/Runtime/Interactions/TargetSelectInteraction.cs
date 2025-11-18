@@ -65,6 +65,7 @@ namespace Gameplay.TargetSelection
                     m_CurrentSelectionCancellation.Token.ThrowIfCancellationRequested();
 
                     Entity t_clickedCell = default;
+
                     if (IsPlayerClickedOnCell(f_cells, out t_clickedCell))
                     {
                         if (t_clickedCell.isNullOrDisposed(a_world)) { continue; }
@@ -75,10 +76,12 @@ namespace Gameplay.TargetSelection
                         }
                         else
                         {
+                            ProcessNotValidChoose(t_clickedCell, a_cellOptions, a_type, a_world);
                             // Play sound and stuff when invalid
                             Debug.Log("Not valid choose.");
                         }
                     }
+
                     else if (Input.GetMouseButtonDown(1))
                     {
                         CancelSession();
@@ -100,6 +103,31 @@ namespace Gameplay.TargetSelection
                 a_result.m_Value = t_result;
                 SM.ExitState<TargetSelectionState>();
             }
+        }
+
+        private void ProcessNotValidChoose(Entity t_clickedCell, IEnumerable<Entity> a_cellOptions, TargetSelectionTypes a_expectedType, World a_world)
+        {
+            if (a_cellOptions.Contains(t_clickedCell) == false)
+            {
+                Game.GUI.NotifyUnderCursor("OUT OF RANGE", C.COLOR_WRONG_CELL_CHOICE_NOTIFICATION);
+                return;
+            }
+
+            string t_message = "NOT  ";
+            switch (a_expectedType)
+            {
+                case TargetSelectionTypes.CELL_EMPTY:
+                    t_message += "EMPTY CELL";
+                    break;
+                case TargetSelectionTypes.CELL_WITH_ALLY:
+                    t_message += "CELL WITH ALLY";
+                    break;
+                case TargetSelectionTypes.CELL_WITH_ENEMY:
+                    t_message += "CELL WITH ENEMY";
+                    break;
+            }
+
+            Game.GUI.NotifyUnderCursor(t_message, C.COLOR_WRONG_CELL_CHOICE_NOTIFICATION);
         }
 
         private void CancelSession()
@@ -126,6 +154,8 @@ namespace Gameplay.TargetSelection
                     break;
                 case TargetSelectionTypes.CELL_EMPTY:
                     return !F.IsOccupiedCell(a_cell, a_world);
+                case TargetSelectionTypes.ANY_CELL:
+                    return F.IsCell(a_cell, a_world);
             }
             return false;
         }
@@ -160,6 +190,7 @@ namespace Gameplay.TargetSelection
             clickedCell = default;
             return false;
         }
+
     }
 
 }

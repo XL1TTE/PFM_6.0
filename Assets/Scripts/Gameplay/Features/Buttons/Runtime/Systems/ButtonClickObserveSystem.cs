@@ -37,7 +37,7 @@ namespace UI.Buttons
             if (_buttonsUnderCursor.IsEmpty()) { return; }
 
             var clickedButton = _buttonsUnderCursor.First();
-            if (stash_btnTag.Get(clickedButton).state == ButtonTag.State.Disabled) { return; }
+            if (stash_btnTag.Get(clickedButton).m_State == ButtonTag.State.Disabled) { return; }
 
             if (Input.GetMouseButtonDown(0))
             {

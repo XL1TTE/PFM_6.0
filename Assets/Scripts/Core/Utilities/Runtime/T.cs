@@ -5,6 +5,7 @@ using Domain.Extentions;
 using Gameplay.Abilities;
 using Persistence.Components;
 using Persistence.DB;
+using UI.Elements;
 using UI.ToolTip;
 using UnityEngine;
 
@@ -12,36 +13,38 @@ namespace Core.Utilities
 {
     public static partial class T
     {
-        private const int TEXT_SIZE_H1 = 32;
-        private const int TEXT_SIZE_H2 = 28;
-        private const int TEXT_SIZE_H3 = 24;
-        private const int TEXT_SIZE_H4 = 20;
-        private const int TEXT_SIZE_H5 = 18;
-        private const int TEXT_SIZE_B1 = 20;
-        private const int TEXT_SIZE_B2 = 18;
-        private const int TEXT_SIZE_B3 = 16;
-        private const int TEXT_SIZE_B4 = 14;
+        public const int TEXT_SIZE_H1 = 32;
+        public const int TEXT_SIZE_H2 = 28;
+        public const int TEXT_SIZE_H3 = 24;
+        public const int TEXT_SIZE_H4 = 20;
+        public const int TEXT_SIZE_H5 = 18;
+        public const int TEXT_SIZE_B1 = 20;
+        public const int TEXT_SIZE_B2 = 18;
+        public const int TEXT_SIZE_B3 = 16;
+        public const int TEXT_SIZE_B4 = 14;
 
-        private static ToolTipLine CreateToolTipLine()
+        private static HorizontalLayoutElement CreateToolTipLine()
         {
             var line = UnityEngine.Object.Instantiate(GR.p_ToolTipLine);
             line.gameObject.SetActive(false);
             return line;
         }
 
-        public static ToolTipLines GetAbilityShortTooltip(AbilityData a_abilityData)
+        public static ToolTipLines GetAbilityShortTooltip(Domain.Abilities.Components.AbilityData a_abilityData)
         {
             var a_ability = a_abilityData.m_Value;
 
-            var t_lines = new List<ToolTipLine>();
+            var t_lines = new List<HorizontalLayoutElement>();
 
             if (DataBase.TryFindRecordByID(a_abilityData.m_AbilityTemplateID, out var abilityRecord))
             {
                 if (DataBase.TryGetRecord<Name>(abilityRecord, out var abilityName))
                 {
-                    ToolTipLine t_nameLine = CreateToolTipLine().AlignStart();
-                    var name = t_nameLine
-                        .WarmupText(abilityName.m_Value, Color.white)
+                    HorizontalLayoutElement t_nameLine = CreateToolTipLine().AlignStart();
+                    var name =
+                        TextPool.I().WarmupElement()
+                        .SetText(abilityName.m_Value)
+                        .SetColor(Color.white)
                         .Bold()
                         .FontSize(TEXT_SIZE_H3);
 
@@ -50,12 +53,14 @@ namespace Core.Utilities
                 }
                 if (DataBase.TryGetRecord<Description>(abilityRecord, out var abilityDesc))
                 {
-                    ToolTipLine t_descLine = CreateToolTipLine().AlignStart();
-                    var desc = t_descLine
-                        .WarmupText(abilityDesc.m_Value, Color.white)
+                    HorizontalLayoutElement t_descLine = CreateToolTipLine().AlignStart();
+                    var text =
+                        TextPool.I().WarmupElement()
+                        .SetText(abilityDesc.m_Value)
+                        .SetColor(Color.white)
                         .FontSize(TEXT_SIZE_B2);
 
-                    t_descLine.Insert(desc);
+                    t_descLine.Insert(text);
                     t_lines.Add(t_descLine);
                 }
             }
@@ -63,38 +68,44 @@ namespace Core.Utilities
             var phys_dmg = GetDamageForAbiltiy(a_ability, DamageType.PHYSICAL_DAMAGE);
             if (phys_dmg > 0)
             {
-                ToolTipLine t_physDmg = CreateToolTipLine().AlignStart();
-                var t_physDmgText = t_physDmg
-                    .WarmupText($"{phys_dmg} DMG.", "#8d781e".ToColor())
+                HorizontalLayoutElement t_physDmg = CreateToolTipLine().AlignStart();
+                var text =
+                    TextPool.I().WarmupElement()
+                    .SetText($"{phys_dmg} DMG.")
+                    .SetColor("#8d781e".ToColor())
                     .FontSize(TEXT_SIZE_B2);
 
-                var icon = t_physDmg.WarmupIcon(GR.SPR_UI_PHYSICAL_DMG);
-                t_physDmg.Insert(icon);
+                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_PHYSICAL_DMG);
 
-                t_physDmg.Insert(t_physDmgText);
+                t_physDmg.Insert(icon);
+                t_physDmg.Insert(text);
                 t_lines.Add(t_physDmg);
             }
 
             foreach (var status in a_ability.GetEffects<ApplyBleeding>())
             {
-                ToolTipLine t_line = CreateToolTipLine().AlignStart();
-                var text = t_line
-                    .WarmupText(GetTextForStatusEffects(status), Color.red)
+                HorizontalLayoutElement t_line = CreateToolTipLine().AlignStart();
+                var text =
+                    TextPool.I().WarmupElement()
+                    .SetText(GetTextForStatusEffects(status))
+                    .SetColor(Color.red)
                     .FontSize(TEXT_SIZE_B2);
 
-                var icon = t_line.WarmupIcon(GR.SPR_UI_EFFECT_BLOOD);
+                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_EFFECT_BLOOD);
                 t_line.Insert(icon);
                 t_line.Insert(text);
                 t_lines.Add(t_line);
             }
             foreach (var status in a_ability.GetEffects<ApplyBurning>())
             {
-                ToolTipLine t_line = CreateToolTipLine().AlignStart();
-                var text = t_line
-                    .WarmupText(GetTextForStatusEffects(status), Color.yellow)
+                HorizontalLayoutElement t_line = CreateToolTipLine().AlignStart();
+                var text =
+                    TextPool.I().WarmupElement()
+                    .SetText(GetTextForStatusEffects(status))
+                    .SetColor(Color.yellow)
                     .FontSize(TEXT_SIZE_B2);
 
-                var icon = t_line.WarmupIcon(GR.SPR_UI_EFFECT_FIRE);
+                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_EFFECT_FIRE);
                 t_line.Insert(icon);
                 t_line.Insert(text);
                 t_lines.Add(t_line);
@@ -102,12 +113,29 @@ namespace Core.Utilities
             }
             foreach (var status in a_ability.GetEffects<ApplyPoison>())
             {
-                ToolTipLine t_line = CreateToolTipLine().AlignStart();
-                var text = t_line
-                    .WarmupText(GetTextForStatusEffects(status), Color.green)
+                HorizontalLayoutElement t_line = CreateToolTipLine().AlignStart();
+                var text =
+                    TextPool.I().WarmupElement()
+                    .SetText(GetTextForStatusEffects(status))
+                    .SetColor(Color.green)
                     .FontSize(TEXT_SIZE_B2);
 
-                var icon = t_line.WarmupIcon(GR.SPR_UI_EFFECT_POISON);
+                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_EFFECT_POISON);
+                t_line.Insert(icon);
+                t_line.Insert(text);
+                t_lines.Add(t_line);
+            }
+
+            foreach (var status in a_ability.GetEffects<ApplyStun>())
+            {
+                HorizontalLayoutElement t_line = CreateToolTipLine().AlignStart();
+                var text =
+                    TextPool.I().WarmupElement()
+                    .SetText($"STUNS FOR {status.m_Duration} TURNS.")
+                    .SetColor(Color.white)
+                    .FontSize(TEXT_SIZE_B2);
+
+                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_PHYSICAL_DMG);
                 t_line.Insert(icon);
                 t_line.Insert(text);
                 t_lines.Add(t_line);
@@ -117,7 +145,7 @@ namespace Core.Utilities
         }
 
         private static string GetTextForStatusEffects<T>(T a_status)
-            where T : struct, IApplyStatusEffect
+            where T : struct, IApplyDamageStatusEffect
         {
             return $"{a_status.m_DamagePerTick} DMG FOR {a_status.m_Duration} TURNS.";
         }

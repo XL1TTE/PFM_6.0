@@ -23,13 +23,13 @@ namespace Persistence.Utilities
         /// </summary>
         /// <param name="a_RecordID"></param>
         /// <returns></returns>
-        public static AbilityData GetAbilityDataFromAbilityRecord(string a_RecordID)
+        public static Domain.Abilities.Components.AbilityData GetAbilityDataFromAbilityRecord(string a_RecordID)
         {
             if (DataBase.TryFindRecordByID(a_RecordID, out var record) == false) { return null; }
             DataBase.TryGetRecord<IconUI>(record, out var icon);
             if (DataBase.TryGetRecord<AbilityDefenition>(record, out var defenition))
             {
-                return new AbilityData
+                return new Domain.Abilities.Components.AbilityData
                 {
                     m_Value = defenition.m_Ability.Clone(),
                     m_AbilityTemplateID = a_RecordID,
