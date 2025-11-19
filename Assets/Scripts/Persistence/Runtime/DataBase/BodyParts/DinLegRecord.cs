@@ -19,6 +19,10 @@ namespace Persistence.DB
                 FarSprite = "Monsters/Sprites/test/Spr_Bodypart_Leg_Further_Test_1",
                 NearSprite = "Monsters/Sprites/test/Spr_Bodypart_Leg_Closer_Test_1"
             });
+            With<IconUI>(new IconUI
+            {
+                m_Value = Resources.Load<Sprite>("Monsters/Sprites/test/Spr_Bodypart_Leg_Closer_Test_1")
+            });
             With<TagBodyPart>();
             With<TagLeg>();
             With<AbilityProvider>(new AbilityProvider

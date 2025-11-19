@@ -1,5 +1,5 @@
 using Core.Ecs.Modules;
-using Core.Ecs.Modules;
+using Core.ECS.Modules;
 using Domain.Extentions;
 using Domain.Map;
 using Domain.Map.Events;
@@ -36,6 +36,8 @@ namespace Game
         {
             Interactor.Init();
 
+
+
             ref var crusadeState = ref DataStorage.GetRecordFromFile<Crusade, CrusadeState>();
 
             switch (crusadeState.crusade_state)
@@ -44,6 +46,7 @@ namespace Game
                     crusadeState.crusade_state = CRUSADE_STATE.CHOOSING;
                     SM.EnterState<MapDefaultState>();
                     flag_first_load = true;
+                    //DataStorage.NewFile<BattleConfig>().WithRecord<LoadConfig>(new LoadConfig());
                     break;
                 case CRUSADE_STATE.TEXT_EVENT:
                     SM.EnterState<MapTextEvState>();

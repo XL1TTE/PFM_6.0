@@ -23,6 +23,10 @@ namespace Project
             {
                 CHEATS.EndlessTurnsForMonsters();
             }
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                SceneManager.LoadScene("Laboratory");
+            }
 
         }
     }

@@ -9,6 +9,7 @@ namespace Persistence.DS
         {
             ID<Crusade>();
             With<CrusadeState>(new CrusadeState() { crusade_state = CRUSADE_STATE.NONE });
+            With<CrusadeMonsters>(new CrusadeMonsters());
             With<MapNodes>(new MapNodes());
             With<MapBGs>(new MapBGs());
         }
