@@ -3,5 +3,5 @@ using Scellecs.Morpeh;
 
 namespace Domain.BattleField.Tags
 {
-    [Serializable] public struct TagMonsterSpawnCell : IComponent{}
+    [Serializable] public struct TagMonsterSpawnCell : IComponent { }
 }
