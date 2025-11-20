@@ -50,7 +50,7 @@ namespace Project
 
         void Start()
         {
-            all_body_parts = DataBase.Filter.With<TagMonsterPart>().Build();
+            all_body_parts = DataBase.Filter.With<TagBodyPart>().Build();
 
 
             partSlotPrefab = Resources.Load<GameObject>("Lab/Prefabs/LabBodyPartStoragePrefab");
@@ -128,19 +128,19 @@ namespace Project
                 if (DataBase.TryFindRecordByID(part.Key, out var e_record))
                 {
 
-                    if (DataBase.TryGetRecord<TagMonsterHead>(e_record, out var e_tmh))
+                    if (DataBase.TryGetRecord<TagLeg>(e_record, out var e_tmh))
                     {
                         tmp_type = BODYPART_TYPE.HEAD;
                     }
-                    if (DataBase.TryGetRecord<TagMonsterTorso>(e_record, out var e_tmt))
+                    if (DataBase.TryGetRecord<TagTorso>(e_record, out var e_tmt))
                     {
                         tmp_type = BODYPART_TYPE.TORSO;
                     }
-                    if (DataBase.TryGetRecord<TagMonsterArm>(e_record, out var e_tma))
+                    if (DataBase.TryGetRecord<TagArm>(e_record, out var e_tma))
                     {
                         tmp_type = BODYPART_TYPE.ARM;
                     }
-                    if (DataBase.TryGetRecord<TagMonsterLeg>(e_record, out var e_tml))
+                    if (DataBase.TryGetRecord<TagLeg>(e_record, out var e_tml))
                     {
                         tmp_type = BODYPART_TYPE.LEG;
                     }
@@ -232,12 +232,12 @@ namespace Project
             isHoldingResource = true;
             storageSlot = slot;
 
-            // Активируем и настраиваем объект, следующий за мышкой
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             heldPartMono.SetPart(heldPartData);
 
             heldPartMono.ShowSelf(true);
 
-            // Подсвечиваем подходящие слоты крафта
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             HighlightCompatibleSlots();
         }
 
@@ -317,7 +317,7 @@ namespace Project
 
             heldPartMono.ShowSelf(false);
 
-            // Сбрасываем подсветку всех слотов
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             ResetAllSlotsHighlight();
 
 
@@ -388,7 +388,7 @@ namespace Project
                 LabCraftSlotMono slot = child.GetComponent<LabCraftSlotMono>();
                 if (slot != null)
                 {
-                    // Возвращаем обычный спрайт, но только если слот пустой
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     if (!slot.IsOccupied())
                     {
                         slot.ClearSlot();
@@ -548,8 +548,8 @@ namespace Project
                 }
             }
 
-            if (need_clear) 
-            {            
+            if (need_clear)
+            {
                 foreach (Transform child in craftingSlotsContainer)
                 {
                     LabCraftSlotMono slot = child.GetComponent<LabCraftSlotMono>();
@@ -561,7 +561,7 @@ namespace Project
                 }
             }
 
-            MonsterData monsterData = new(data_head, data_arml, data_armr, data_torso, data_legl, data_legr);
+            MonsterData monsterData = new MonsterData("name", data_head, data_arml, data_armr, data_torso, data_legl, data_legr);
             return monsterData;
         }
 

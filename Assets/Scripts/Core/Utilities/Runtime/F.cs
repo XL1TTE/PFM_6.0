@@ -114,6 +114,8 @@ namespace Core.Utilities
             => world.GetStash<TagOccupiedCell>().Has(entity);
         public static bool IsCell(Entity entity, World world)
             => world.GetStash<CellTag>().Has(entity);
+        public static bool IsBurnedCell(Entity cellEntity, World world)
+            => world.GetStash<TagBurnedCell>().Has(cellEntity);
 
         public static IResistanceModiffier.Stage GetResistance<T>(Entity a_actor, World a_world)
         where T : struct, IResistanceModiffier

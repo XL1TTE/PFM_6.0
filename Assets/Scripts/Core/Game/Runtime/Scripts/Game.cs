@@ -20,6 +20,7 @@ using Domain.UI.Widgets;
 using DS.Files;
 using Interactions;
 using Interactions.ICanBeHealedValidator;
+using Interactions.IOnEntityDiedInteraction;
 using Persistence.DS;
 using Scellecs.Morpeh;
 using Unity.VisualScripting;
