@@ -1,21 +1,16 @@
-
-
 using System.Collections.Generic;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.Abilities.Components;
 using Domain.BattleField.Components;
+using Domain.BattleField.Tags;
 using Domain.Extentions;
 using Domain.GameEffects;
-using Domain.StateMachine.Components;
-using Domain.StateMachine.Mono;
-using Domain.Stats.Components;
 using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Tags;
 using Domain.UI.Mono;
 using Game;
 using Scellecs.Morpeh;
-using Unity.VisualScripting;
 
 namespace Interactions
 {
@@ -31,6 +26,20 @@ namespace Interactions
         UniTask OnTurnStart(Entity a_turnTaker, World a_world);
     }
 
+
+    public sealed class BurnIfOnBurnedCell : BaseInteraction, IOnTurnStartInteraction
+    {
+        public override Priority m_Priority => Priority.HIGH;
+        public async UniTask OnTurnStart(Entity a_turnTaker, World a_world)
+        {
+            var cell = GU.GetOccupiedCell(a_turnTaker, a_world);
+            if (F.IsBurnedCell(cell, a_world))
+            {
+                var damage = a_world.GetStash<TagBurnedCell>().Get(cell).m_Damage;
+                await G.DealDamageAsync(cell, a_turnTaker, damage, Domain.Abilities.DamageType.FIRE_DAMAGE, a_world);
+            }
+        }
+    }
 
     public sealed class EvaluateNextTurnButton : BaseInteraction, IOnTurnStartInteraction
     {

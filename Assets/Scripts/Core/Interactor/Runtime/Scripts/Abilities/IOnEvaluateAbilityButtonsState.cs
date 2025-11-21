@@ -19,6 +19,15 @@ namespace Interactions
         UniTask OnEvaluate(Entity a_button, ref bool a_result, World a_world);
     }
 
+    public sealed class CheckIfEntityDied : BaseInteraction, IOnEvaluateAbilityButtonsState
+    {
+        public UniTask OnEvaluate(Entity a_button, ref bool a_result, World a_world)
+        {
+            var owner = F.GetAbilityButtonOwner(a_button, a_world);
+            a_result &= !F.IsDead(owner, a_world);
+            return UniTask.CompletedTask;
+        }
+    }
     public sealed class CheckOwnerBusyCondition : BaseInteraction, IOnEvaluateAbilityButtonsState
     {
         public UniTask OnEvaluate(Entity a_button, ref bool a_result, World a_world)

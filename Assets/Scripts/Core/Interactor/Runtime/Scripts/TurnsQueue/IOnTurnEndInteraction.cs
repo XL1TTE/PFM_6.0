@@ -11,6 +11,7 @@ using Domain.StateMachine.Mono;
 using Domain.TurnSystem.Tags;
 using Game;
 using Scellecs.Morpeh;
+using Unity.VisualScripting;
 
 namespace Interactions
 {
@@ -62,6 +63,7 @@ namespace Interactions
     {
         public async UniTask OnTurnEnd(Entity a_turnTaker, World a_world)
         {
+            await UniTask.Yield();
             var stash_cellView = a_world.GetStash<CellViewComponent>();
             var t_cell = GU.GetOccupiedCell(a_turnTaker, a_world);
 
