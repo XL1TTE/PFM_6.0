@@ -16,6 +16,17 @@ namespace Domain.Monster.Mono
             NearLeg_id = nearLeg_id;
             FarLeg_id = farLeg_id;
         }
+
+        public MonsterData(string data_head, string data_arml, string data_armr, string data_torso, string data_legl, string data_legr)
+        {
+            Head_id = data_head;
+            NearArm_id = data_arml;
+            FarArm_id = data_armr;
+            Body_id = data_torso;
+            NearLeg_id = data_legl;
+            FarLeg_id = data_legr;
+        }
+
         public string m_MonsterName;
 
         public string Head_id;
@@ -24,6 +35,16 @@ namespace Domain.Monster.Mono
         public string Body_id;
         public string NearLeg_id;
         public string FarLeg_id;
+        private string data_head;
+        private string data_arml;
+        private string data_armr;
+        private string data_torso;
+        private string data_legl;
+        private string data_legr;
 
+        public void SetName(string name)
+        {
+            m_MonsterName = name;
+        }
     }
 }

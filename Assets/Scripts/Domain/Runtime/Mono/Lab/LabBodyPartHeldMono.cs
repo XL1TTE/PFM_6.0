@@ -59,7 +59,6 @@ namespace Project
                         {
                             if (craftController.isHoldingResource)
                             {
-                                // Если держим ресурс - попытаться поместить его в слот
                                 slot.TryPlaceResource(craftController.heldPartData);
                                 break;
                             }
@@ -103,7 +102,7 @@ namespace Project
         public void FollowMouse()
         {
 
-            // Get the mouse position in screen coordinates
+            // Get the mouse position in screen coordinatesя
             Vector3 mouseScreenPosition = Input.mousePosition;
 
             // Set the Z-coordinate for the world point.

@@ -213,10 +213,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotImage: {fileID: 5261264018066233281}
   partIcon: {fileID: 2612742340364351616}
-  normalSprite: {fileID: 21300000, guid: c5797e98e5f1b5148be31a9ddc2f64a8, type: 3}
-  highlightedSprite: {fileID: 21300000, guid: 8261fd460042f194ca3e41a2862b6906, type: 3}
+  normalSprite: {fileID: 21300000, guid: db54c0597bf89554a95a30084220a29b, type: 3}
+  highlightedSprite: {fileID: 21300000, guid: d410689f0e2aad248b1a40bd97e722ae, type: 3}
   requiredType: 0
-  doubleClickTime: 0.2
 --- !u!114 &6986774042189205643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,7 +304,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 45, y: 45}
+  m_Size: {x: 27, y: 2}
   m_EdgeRadius: 0
 --- !u!1 &6146328915603085008
 GameObject:
@@ -383,12 +382,12 @@ SpriteRenderer:
   m_SortingLayerID: -1740462501
   m_SortingLayer: 5
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: c5797e98e5f1b5148be31a9ddc2f64a8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: db54c0597bf89554a95a30084220a29b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.16, y: 0.16}
+  m_Size: {x: 26, y: 26}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

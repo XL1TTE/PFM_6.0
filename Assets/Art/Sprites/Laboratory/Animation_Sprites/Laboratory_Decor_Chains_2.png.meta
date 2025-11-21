@@ -1,0 +1,754 @@
+fileFormatVersion: 2
+guid: 0adf4030b33071543a83a98dd9a7e43d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8906689559574922341
+    second: Laboratory_Decor_Chains_2_0
+  - first:
+      213: 2761733110338644052
+    second: Laboratory_Decor_Chains_2_1
+  - first:
+      213: -6059721768153843930
+    second: Laboratory_Decor_Chains_2_2
+  - first:
+      213: 8107895278198879991
+    second: Laboratory_Decor_Chains_2_3
+  - first:
+      213: -2647716659903203717
+    second: Laboratory_Decor_Chains_2_4
+  - first:
+      213: -2097322651544769951
+    second: Laboratory_Decor_Chains_2_5
+  - first:
+      213: -8657308826120860438
+    second: Laboratory_Decor_Chains_2_6
+  - first:
+      213: -8667779196993955472
+    second: Laboratory_Decor_Chains_2_7
+  - first:
+      213: 7259947401137416733
+    second: Laboratory_Decor_Chains_2_8
+  - first:
+      213: 7628182808054075819
+    second: Laboratory_Decor_Chains_2_9
+  - first:
+      213: 7169732479030745227
+    second: Laboratory_Decor_Chains_2_10
+  - first:
+      213: 8752666900794837846
+    second: Laboratory_Decor_Chains_2_11
+  - first:
+      213: 5390467910565498849
+    second: Laboratory_Decor_Chains_2_12
+  - first:
+      213: 1959739559630580899
+    second: Laboratory_Decor_Chains_2_13
+  - first:
+      213: 7261232861280498278
+    second: Laboratory_Decor_Chains_2_14
+  - first:
+      213: 4380116383348381809
+    second: Laboratory_Decor_Chains_2_15
+  - first:
+      213: -7207867910717941258
+    second: Laboratory_Decor_Chains_2_16
+  - first:
+      213: 1032169126112780566
+    second: Laboratory_Decor_Chains_2_17
+  - first:
+      213: -6547687733585367040
+    second: Laboratory_Decor_Chains_2_18
+  - first:
+      213: -3625463465786122782
+    second: Laboratory_Decor_Chains_2_19
+  - first:
+      213: -5014077743143051049
+    second: Laboratory_Decor_Chains_2_20
+  - first:
+      213: -3345205106287421502
+    second: Laboratory_Decor_Chains_2_21
+  - first:
+      213: 563002639462759449
+    second: Laboratory_Decor_Chains_2_22
+  - first:
+      213: 1222877697366265500
+    second: Laboratory_Decor_Chains_2_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 1
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9b3bd40905156480800000000000000
+      internalID: -8906689559574922341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_1
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4586b2ea1a5a35620800000000000000
+      internalID: 2761733110338644052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_2
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 627fc7b582b87eba0800000000000000
+      internalID: -6059721768153843930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_3
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f67c1d4cc7058070800000000000000
+      internalID: 8107895278198879991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_4
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b76f59cd9bb614bd0800000000000000
+      internalID: -2647716659903203717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_5
+      rect:
+        serializedVersion: 2
+        x: 515
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16a2b471920d4e2e0800000000000000
+      internalID: -2097322651544769951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_6
+      rect:
+        serializedVersion: 2
+        x: 618
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aec4634bd7f0bd780800000000000000
+      internalID: -8657308826120860438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_7
+      rect:
+        serializedVersion: 2
+        x: 721
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07997a38ebcd5b780800000000000000
+      internalID: -8667779196993955472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_8
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1ae0dc42b380c460800000000000000
+      internalID: 7259947401137416733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_9
+      rect:
+        serializedVersion: 2
+        x: 927
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba11ecb19dfbcd960800000000000000
+      internalID: 7628182808054075819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_10
+      rect:
+        serializedVersion: 2
+        x: 1030
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b88553be3b1008360800000000000000
+      internalID: 7169732479030745227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_11
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65b02333c28b77970800000000000000
+      internalID: 8752666900794837846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_12
+      rect:
+        serializedVersion: 2
+        x: 1236
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ef0666310aceca40800000000000000
+      internalID: 5390467910565498849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_13
+      rect:
+        serializedVersion: 2
+        x: 1339
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3acaf001fb4623b10800000000000000
+      internalID: 1959739559630580899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_14
+      rect:
+        serializedVersion: 2
+        x: 1442
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6627400d0d415c460800000000000000
+      internalID: 7261232861280498278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_15
+      rect:
+        serializedVersion: 2
+        x: 1545
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1785950d4ac49cc30800000000000000
+      internalID: 4380116383348381809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_16
+      rect:
+        serializedVersion: 2
+        x: 1648
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f958b9f25288fb90800000000000000
+      internalID: -7207867910717941258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_17
+      rect:
+        serializedVersion: 2
+        x: 1751
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 611e31ef950035e00800000000000000
+      internalID: 1032169126112780566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_18
+      rect:
+        serializedVersion: 2
+        x: 1854
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 000367b82b0f125a0800000000000000
+      internalID: -6547687733585367040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_19
+      rect:
+        serializedVersion: 2
+        x: 1957
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ed59a7bf24cfadc0800000000000000
+      internalID: -3625463465786122782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_20
+      rect:
+        serializedVersion: 2
+        x: 2060
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d024cbbbda6a6ab0800000000000000
+      internalID: -5014077743143051049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_21
+      rect:
+        serializedVersion: 2
+        x: 2163
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c75ae2fda17391d0800000000000000
+      internalID: -3345205106287421502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_22
+      rect:
+        serializedVersion: 2
+        x: 2266
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91cf8cceaef20d700800000000000000
+      internalID: 563002639462759449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Laboratory_Decor_Chains_2_23
+      rect:
+        serializedVersion: 2
+        x: 2369
+        y: 0
+        width: 103
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9e834369c888f010800000000000000
+      internalID: 1222877697366265500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: b860cc7622f77964ba5000c15e65a3f9
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Laboratory_Decor_Chains_2_0: -8906689559574922341
+      Laboratory_Decor_Chains_2_1: 2761733110338644052
+      Laboratory_Decor_Chains_2_10: 7169732479030745227
+      Laboratory_Decor_Chains_2_11: 8752666900794837846
+      Laboratory_Decor_Chains_2_12: 5390467910565498849
+      Laboratory_Decor_Chains_2_13: 1959739559630580899
+      Laboratory_Decor_Chains_2_14: 7261232861280498278
+      Laboratory_Decor_Chains_2_15: 4380116383348381809
+      Laboratory_Decor_Chains_2_16: -7207867910717941258
+      Laboratory_Decor_Chains_2_17: 1032169126112780566
+      Laboratory_Decor_Chains_2_18: -6547687733585367040
+      Laboratory_Decor_Chains_2_19: -3625463465786122782
+      Laboratory_Decor_Chains_2_2: -6059721768153843930
+      Laboratory_Decor_Chains_2_20: -5014077743143051049
+      Laboratory_Decor_Chains_2_21: -3345205106287421502
+      Laboratory_Decor_Chains_2_22: 563002639462759449
+      Laboratory_Decor_Chains_2_23: 1222877697366265500
+      Laboratory_Decor_Chains_2_3: 8107895278198879991
+      Laboratory_Decor_Chains_2_4: -2647716659903203717
+      Laboratory_Decor_Chains_2_5: -2097322651544769951
+      Laboratory_Decor_Chains_2_6: -8657308826120860438
+      Laboratory_Decor_Chains_2_7: -8667779196993955472
+      Laboratory_Decor_Chains_2_8: 7259947401137416733
+      Laboratory_Decor_Chains_2_9: 7628182808054075819
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SharedUI.unity
     guid: 810ea37835183e4478fd030aadec9745
+  - enabled: 1
+    path: Assets/Scenes/Laboratory.unity
+    guid: 6af6f28d17f5ffb46a1e09f825eb184a
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 5da620283c396ac4e94e66b12c8325c8, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

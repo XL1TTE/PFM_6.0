@@ -129,7 +129,7 @@ namespace Gameplay.Map.Systems
                             0),
                         Quaternion.identity);
 
-                    prefabedNode.GetComponentInChildren<TextMeshPro>().text = nodeIdComponent.node_id.ToString() + "\n" + nodeEventId.event_id.ToString();
+                    //prefabedNode.GetComponentInChildren<TextMeshPro>().text = nodeIdComponent.node_id.ToString() + "\n" + nodeEventId.event_id.ToString();
 
                     var pref_ent = prefabedNode.GetComponent<MapNodeBinderProvider>().Entity;
 

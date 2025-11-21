@@ -41,7 +41,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 26, y: 26}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2575537565648760080
 MonoBehaviour:
@@ -114,7 +114,6 @@ MonoBehaviour:
   part_id: 
   part_type: 0
   craftController: {fileID: 0}
-  bodyPartData: {fileID: 0}
 --- !u!61 &3927222089489657426
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -159,7 +158,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 90, y: 90}
+  m_Size: {x: 30, y: 30}
   m_EdgeRadius: 0
 --- !u!1 &1933975242500937381
 GameObject:
@@ -196,7 +195,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 26, y: 26}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3820411808557556343
 CanvasRenderer:
@@ -488,8 +487,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -0.70000076}
-  m_SizeDelta: {x: 0, y: 50}
+  m_AnchoredPosition: {x: 0, y: 6.4178}
+  m_SizeDelta: {x: 0, y: 12.8356}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5639242403065376109
 CanvasRenderer:
@@ -521,8 +520,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 999
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d0c05a0d9221bc745a1f718157ca17b9, type: 2}
-  m_sharedMaterial: {fileID: -5256016681532118376, guid: d0c05a0d9221bc745a1f718157ca17b9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c637bf612d8e7164a85bdbc76604e4f8, type: 2}
+  m_sharedMaterial: {fileID: -1730334627504334536, guid: c637bf612d8e7164a85bdbc76604e4f8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -546,15 +545,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 8
+  m_fontSizeBase: 8
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 4
+  m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
