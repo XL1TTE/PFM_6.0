@@ -1,6 +1,8 @@
+using Cysharp.Threading.Tasks;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Events;
 using Gameplay.StateMachine.Systems;
+using Interactions;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -71,6 +73,8 @@ namespace Domain.StateMachine.Mono
 
             evt_onStateEnter.NextFrame(new OnStateEnterEvent { StateEntity = state });
 
+            Interactor.CallAll<IOnStateEnterInteraction>(async h => await h.OnStateEnter(state)).Forget();
+
             CommitChanges();
             return state;
         }
@@ -82,8 +86,14 @@ namespace Domain.StateMachine.Mono
 
             var state = states.First();
 
+            Interactor.CallAll<IOnStateExitInteraction>(async h => await h.OnStateExit(state)).Forget();
+
             evt_onStateExit.NextFrame(new OnStateExitEvent { StateEntity = state });
         }
+
+
+        public static bool IsIt<T>(Entity state) where T : struct, IState
+            => m_World.GetStash<T>().Has(state);
 
         /// <summary>
         /// Forbbiden to use.

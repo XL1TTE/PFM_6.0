@@ -13,8 +13,15 @@ namespace Game
     {
         public static World m_battleWorld;
 
+        private static ECS_Main m_Instance;
+
         void Awake()
         {
+            if (m_Instance == null)
+            {
+                m_Instance = this;
+            }
+
             m_battleWorld = World.Create();
             ECS.m_CurrentWorld = m_battleWorld;
 
@@ -51,6 +58,15 @@ namespace Game
             m_battleWorld.AddModule(new CleanupModule());
         }
 
+        public static void Stop()
+        {
+            m_Instance.gameObject.SetActive(false);
+        }
+
+        public static void Run()
+        {
+            m_Instance.gameObject.SetActive(true);
+        }
 
         void Update()
         {
