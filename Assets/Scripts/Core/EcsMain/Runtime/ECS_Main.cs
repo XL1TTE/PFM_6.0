@@ -63,12 +63,12 @@ namespace Game
 
         public static void Stop()
         {
-            m_Instance.gameObject.SetActive(false);
+            m_Instance?.gameObject.SetActive(false);
         }
 
         public static void Run()
         {
-            m_Instance.gameObject.SetActive(true);
+            m_Instance?.gameObject.SetActive(true);
         }
 
         void Update()

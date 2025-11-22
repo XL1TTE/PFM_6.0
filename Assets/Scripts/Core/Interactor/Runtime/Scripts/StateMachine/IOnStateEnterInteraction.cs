@@ -45,4 +45,29 @@ namespace Interactions
         }
     }
 
+    public sealed class StopMapOnPause : BaseInteraction, IOnStateEnterInteraction
+    {
+        public UniTask OnStateEnter(Entity a_state)
+        {
+            if (SM.IsStateActive<MapSceneState>(out _) == false) { return UniTask.CompletedTask; }
+            if (SM.IsIt<PauseState>(a_state))
+            {
+                ECS_Main_Map.Pause();
+            }
+            return UniTask.CompletedTask;
+        }
+    }
+    public sealed class ContinueMapOnUnpause : BaseInteraction, IOnStateExitInteraction
+    {
+        public UniTask OnStateExit(Entity a_state)
+        {
+            if (SM.IsStateActive<MapSceneState>(out _) == false) { return UniTask.CompletedTask; }
+            if (SM.IsIt<PauseState>(a_state))
+            {
+                ECS_Main_Map.Unpause();
+            }
+            return UniTask.CompletedTask;
+        }
+    }
+
 }
