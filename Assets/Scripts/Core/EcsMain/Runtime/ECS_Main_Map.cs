@@ -133,6 +133,8 @@ namespace Game
             if (SM.IsStateActive<MapDefaultState>(out var d_state)) { SM.ExitState<MapDefaultState>(); }
             if (SM.IsStateActive<MapTextEvState>(out var t_state)) { SM.ExitState<MapTextEvState>(); }
 
+            SM.Dispose();
+
             m_mapWorld.Dispose();
         }
 

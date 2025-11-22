@@ -35,7 +35,7 @@ namespace Gameplay.StateMachine.Systems
         {
             foreach (var evt in evt_onStateExit.publishedChanges)
             {
-                if (IsValid(evt.StateEntity))
+                if (SM.IsIt<BattlePlanningState>(evt.StateEntity))
                 {
                     Exit(evt.StateEntity);
                 }
@@ -84,14 +84,6 @@ namespace Gameplay.StateMachine.Systems
             }
         }
 
-        private bool IsValid(Entity stateEntity)
-        {
-            if (stash_state.Has(stateEntity))
-            {
-                return true;
-            }
-            return false;
-        }
     }
 }
 

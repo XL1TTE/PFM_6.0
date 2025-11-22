@@ -224,7 +224,7 @@ namespace Persistence.DB
             // -------------------------------------------------- Main information
             With<MapEvTextBGComponent>(new MapEvTextBGComponent
             {
-                bg_sprite_path = "Map/MapTextEventBGs/Spr_Bodypart_Head_Test_2"
+                bg_sprite_path = "Map/MapTextEventBGs/-0"
             });
             With<MapEvTextMessageComponent>(new MapEvTextMessageComponent
             {
