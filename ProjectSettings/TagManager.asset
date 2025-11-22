@@ -53,14 +53,14 @@ TagManager:
   - name: DetailsLevel
     uniqueID: 33987603
     locked: 0
+  - name: MapLineLayer
+    uniqueID: 956614297
+    locked: 0
   - name: UI
     uniqueID: 2554504795
     locked: 0
   - name: Actors
     uniqueID: 257000035
-    locked: 0
-  - name: MapLineLayer
-    uniqueID: 956614297
     locked: 0
   - name: FloatingUI
     uniqueID: 3613051449

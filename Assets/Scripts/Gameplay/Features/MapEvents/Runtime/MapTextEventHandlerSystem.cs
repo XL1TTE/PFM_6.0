@@ -14,6 +14,7 @@ using Scellecs.Morpeh;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Gameplay.MapEvents.Systems
 {
@@ -40,12 +41,11 @@ namespace Gameplay.MapEvents.Systems
         private GameObject textEvChoicePrefab;
 
         private Transform ptr_whole;
-        private SpriteRenderer ptr_sprite;
-        private TextMeshPro ptr_message;
+        private Image ptr_sprite;
+        private TextMeshProUGUI ptr_message;
         private Transform ptr_choices;
 
 
-        private float dist_between_options = 30;
         private float choices_x_pos;
         private float choices_y_pos;
 
@@ -73,13 +73,12 @@ namespace Gameplay.MapEvents.Systems
             Scr_MapTextEvUI mainUI = prefabedMainUI.GetComponent<Scr_MapTextEvUI>();
 
             //textEvChoicePrefab = mainUI.textEvChoicePrefab;
-            textEvChoicePrefab = Resources.Load<GameObject>("Map/Prefabs/MapTextEvChoicePrefab");
+            textEvChoicePrefab = Resources.Load<GameObject>("Map/Prefabs/MapTextEvChoicePrefab2");
 
             ptr_whole = mainUI.ptr_whole;
             ptr_sprite = mainUI.ptr_sprite;
             ptr_message = mainUI.ptr_message;
             ptr_choices = mainUI.ptr_choices;
-            dist_between_options = mainUI.dist_between_options;
         }
 
         public void OnUpdate(float deltaTime)
@@ -178,16 +177,16 @@ namespace Gameplay.MapEvents.Systems
             choices_x_pos = 0;
             choices_y_pos = 0;
 
-            float tmp_whole_dist = (choices.Count - 1) * dist_between_options;
-            float tmp_start_y = (choices_y_pos + tmp_whole_dist / 2);
+            // float tmp_whole_dist = (choices.Count - 1) * dist_between_options;
+            // float tmp_start_y = (choices_y_pos + tmp_whole_dist / 2);
             int count = 0;
 
             foreach (var choice in choices)
             {
-                var tmp_curr_y = tmp_start_y - dist_between_options * count;
+                // var tmp_curr_y = tmp_start_y - dist_between_options * count;
 
-                var prefabedChoice = Instantiate(textEvChoicePrefab, new Vector3(choices_x_pos, tmp_curr_y, 0), Quaternion.identity);
-                prefabedChoice.GetComponentInChildren<TextMeshPro>().text = choice.Key;
+                var prefabedChoice = Instantiate(textEvChoicePrefab); // , new Vector3(choices_x_pos, tmp_curr_y, 0), Quaternion.identity
+                prefabedChoice.GetComponentInChildren<TextMeshProUGUI>().text = choice.Key;
 
                 this.prefabed_choices.Add(prefabedChoice);
 

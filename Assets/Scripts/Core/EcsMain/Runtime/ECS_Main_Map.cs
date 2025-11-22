@@ -24,10 +24,19 @@ namespace Game
         // this is a fucking stupid fucking crutch to make it fucking stupid fucking work
         private bool flag_first_load = false;
 
+        private static ECS_Main_Map m_Instance;
+
         void Awake()
         {
+            if (m_Instance == null)
+            {
+                m_Instance = this;
+            }
+
             m_mapWorld = World.Create();
             ECS.m_CurrentWorld = m_mapWorld;
+
+            SM.EnterState<MapSceneState>();
             m_mapWorld.UpdateByUnity = false;
         }
 
@@ -108,6 +117,7 @@ namespace Game
         }
 
 
+
         void Update()
         {
             m_mapWorld.Update(Time.deltaTime);
@@ -124,6 +134,16 @@ namespace Game
             if (SM.IsStateActive<MapTextEvState>(out var t_state)) { SM.ExitState<MapTextEvState>(); }
 
             m_mapWorld.Dispose();
+        }
+
+
+        public static void Pause()
+        {
+            m_Instance?.gameObject.SetActive(false);
+        }
+        public static void Unpause()
+        {
+            m_Instance?.gameObject.SetActive(true);
         }
     }
 

@@ -115,6 +115,8 @@ namespace Domain.StateMachine.Mono
             {
                 m_World.RemoveEntity(e);
             }
+
+            CommitChanges();
         }
     }
 

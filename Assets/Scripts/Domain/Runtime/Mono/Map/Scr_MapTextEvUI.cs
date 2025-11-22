@@ -7,17 +7,15 @@ using Scellecs.Morpeh;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Domain
 {
     public class Scr_MapTextEvUI : MonoBehaviour
     {
         public Transform ptr_whole;
-        public SpriteRenderer ptr_sprite;
-        public TextMeshPro ptr_message;
+        public Image ptr_sprite;
+        public TextMeshProUGUI ptr_message;
         public Transform ptr_choices;
-
-
-        public float dist_between_options = 30;
     }
 }

@@ -7,7 +7,7 @@ namespace Domain.StateMachine.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct MapDefaultState : IState
+    public struct MapSceneState : IState
     {
 
     }
