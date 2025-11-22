@@ -1,5 +1,6 @@
 using Core.Ecs.Modules;
 using Domain.Extentions;
+using Domain.StateMachine.Components;
 using Domain.StateMachine.Mono;
 using Interactions;
 using Scellecs.Morpeh;
@@ -9,11 +10,11 @@ namespace Game
 {
 
     [DefaultExecutionOrder(ECS.SCENE_ENTRY_POINT)]
-    public class ECS_Main : MonoBehaviour
+    public class BattleECS : MonoBehaviour
     {
         public static World m_battleWorld;
 
-        private static ECS_Main m_Instance;
+        private static BattleECS m_Instance;
 
         void Awake()
         {
@@ -26,6 +27,8 @@ namespace Game
             ECS.m_CurrentWorld = m_battleWorld;
 
             m_battleWorld.UpdateByUnity = false;
+
+            SM.EnterState<BattleScene>();
         }
 
         void Start()
@@ -81,6 +84,7 @@ namespace Game
         {
             ECS.Reset();
             SM.Dispose();
+
             m_battleWorld.Dispose();
         }
     }

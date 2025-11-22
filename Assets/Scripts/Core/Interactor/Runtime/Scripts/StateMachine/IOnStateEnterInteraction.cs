@@ -24,9 +24,10 @@ namespace Interactions
     {
         public UniTask OnStateEnter(Entity a_state)
         {
+            if (SM.IsStateActive<BattleScene>(out _) == false) { return UniTask.CompletedTask; }
             if (SM.IsIt<PauseState>(a_state))
             {
-                ECS_Main.Stop();
+                BattleECS.Stop();
             }
             return UniTask.CompletedTask;
         }
@@ -35,9 +36,10 @@ namespace Interactions
     {
         public UniTask OnStateExit(Entity a_state)
         {
+            if (SM.IsStateActive<BattleScene>(out _) == false) { return UniTask.CompletedTask; }
             if (SM.IsIt<PauseState>(a_state))
             {
-                ECS_Main.Run();
+                BattleECS.Run();
             }
             return UniTask.CompletedTask;
         }
