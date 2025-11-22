@@ -4,26 +4,21 @@ using UnityEngine;
 
 namespace Project
 {
-    public class LabBodyPartStorageMono : MonoBehaviour//, IBeginDragHandler, IDragHandler//, IPointerClickHandler
+    public class LabBodyPartStorageMono : MonoBehaviour
     {
         public SpriteRenderer part_sprite;
-
         public int count;
         public TMP_Text count_text;
 
-
-        public float doubleClickTime = 0.2f; // Time in seconds to consider a double click
+        public float doubleClickTime = 0.2f;
         private float lastClickTime;
 
-
-        // for viewing in unity editor
         public string part_id;
         public BODYPART_TYPE part_type;
 
-
         public LabMonsterCraftController craftController;
-
         public BodyPartData bodyPartData;
+        private TooltipTrigger tooltipTrigger;
 
         public void Initialize(BodyPartData data, int c)
         {
@@ -33,8 +28,16 @@ namespace Project
 
             craftController = LabReferences.Instance().craftController;
 
+            tooltipTrigger = GetComponent<TooltipTrigger>();
+            if (tooltipTrigger == null)
+            {
+                tooltipTrigger = gameObject.AddComponent<TooltipTrigger>();
+            }
+            tooltipTrigger.Initialize(data);
+
             UpdateDisplay();
         }
+
         private void UpdateDisplay()
         {
             if (count > 0)
@@ -49,61 +52,29 @@ namespace Project
             }
         }
 
-        //public void OnPointerClick(PointerEventData eventData)
-        //{
-        //    if (eventData.button == PointerEventData.InputButton.Left)
-        //    {
-        //        // ЛКМ - взять ресурс
-        //        //if (count > 0 && !craftController.isHoldingResource)
-        //        //{
-        //        //    count--;
-        //        //    UpdateDisplay();
-        //        //    craftController.PickResourceFromStorage(this);
-        //        //}
-
-        //        // ЛКМ - взять ресурс
-        //        if (count > 0)
-        //        {
-        //            count--;
-
-        //            // если уже есть в руках, то сбросить старый, а потом взять новый
-        //            if (craftController.isHoldingResource)
-        //            {
-        //                craftController.ReturnHeldResource();
-        //            }
-
-        //            UpdateDisplay();
-        //            craftController.PickResourceFromStorage(this);
-        //        }
-        //    }
-        //}
-
         public void ReturnResource()
         {
             count++;
             UpdateDisplay();
         }
 
-        //void Update()
-        //{
-        //    // Check for left mouse button click
-        //    if (Input.GetMouseButtonDown(0))
-        //    {
-        //        float timeSinceLastClick = Time.time - lastClickTime;
+        private void OnMouseEnter()
+        {
+            if (craftController != null && !craftController.isHoldingResource)
+            {
+                craftController.OnBodyPartHoverStart(this.bodyPartData);
+            }
+        }
 
-        //        if (timeSinceLastClick <= doubleClickTime)
-        //        {
-        //            Debug.Log("Double Click Detected!");
-        //        }
+        private void OnMouseExit()
+        {
+            if (craftController != null && !craftController.isHoldingResource)
+            {
+                craftController.OnBodyPartHoverEnd();
+            }
+        }
 
-        //        // Update the last click time for the next comparison
-        //        lastClickTime = Time.time;
-        //    }
-        //}
-        //public void OnDrag(PointerEventData eventData)
-        //{
 
-        //}
         public void OnMouseDown()
         {
             float timeSinceLastClick = Time.time - lastClickTime;
@@ -112,9 +83,7 @@ namespace Project
             {
                 if (count > 0)
                 {
-
                     bool res = craftController.QuickPlaceResourceInSlot(this);
-
                     if (res)
                     {
                         count--;
@@ -126,14 +95,11 @@ namespace Project
                 if (count > 0)
                 {
                     count--;
-
                     craftController.PickResourceFromStorage(this);
                 }
             }
 
             UpdateDisplay();
-
-            // Update the last click time for the next comparison
             lastClickTime = Time.time;
         }
     }

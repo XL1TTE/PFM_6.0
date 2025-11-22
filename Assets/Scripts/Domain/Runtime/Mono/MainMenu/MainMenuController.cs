@@ -164,7 +164,7 @@ public class MainMenuController : MonoBehaviour
         if (isTransitioning) yield break;
         isTransitioning = true;
 
-        LoadingScreen.Instance.LoadScene("MapGeneration");
+        LoadingScreen.Instance.LoadScene("Laboratory");
 
         isTransitioning = false;
     }

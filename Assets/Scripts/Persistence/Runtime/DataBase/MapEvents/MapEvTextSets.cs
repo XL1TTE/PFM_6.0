@@ -73,7 +73,7 @@ namespace Persistence.DB
                 {
 
                     { "This is a default option",
-                        new MapChoiceWrapper() { 
+                        new MapChoiceWrapper() {
                             type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
                             request = new GiveGoldRequest() { amount = 10 } } }
 
@@ -89,7 +89,7 @@ namespace Persistence.DB
             ID("ev_TextTest1");
 
             // -------------------------------------------------- ID and TAG
-           // With<ID>(new ID { m_Value = "ev_TextTest1" });
+            // With<ID>(new ID { m_Value = "ev_TextTest1" });
             With<MapEvTextTag>(new MapEvTextTag { });
 
 
@@ -184,28 +184,28 @@ namespace Persistence.DB
             // -------------------------------------------------- Main information
             With<MapEvTextBGComponent>(new MapEvTextBGComponent
             {
-                bg_sprite_path = "Map/MapTextEventBGs/Spr_Bodypart_Head_Test_1"
+                bg_sprite_path = "Map/MapTextEventBGs/-0"
             });
             With<MapEvTextMessageComponent>(new MapEvTextMessageComponent
             {
-                string_message = "Lets kill people together"
+                string_message = "The Fire-Ring Dance\r\nThe embers glow, the shadows leap,\r\nFrom hollow, burning villages so deep.\r\nA rat, a goat, a raven's call,\r\nThey dance in rings around the pall.\r\nThey beckon with a twisted grace,\r\nA sly and knowing smile on each face.\r\n\"\"Oh, weary traveler, lost and cold,\r\nCome join our tale that never shall be told.\"\"\""
             });
             With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
             {
                 choices = new Dictionary<string, MapChoiceWrapper>
                 {
 
-                    { "Yeah, sure",
+                    { "Join the dance",
                         new MapChoiceWrapper() {
                             type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
                             request = new GiveGoldRequest() { amount = 10 } }  },
 
-                    { "What? No",
+                    { "Watch",
                         new MapChoiceWrapper() {
                             type = CHOICE_SCRIPT_TYPE.TAKE_GOLD,
                             request = new TakeGoldRequest() { amount = 999999999 } }},
 
-                    { "Ты мега",
+                    { "Run away",
                         new MapChoiceWrapper() {
                             type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
                             request = new GiveGoldRequest() { amount = 10 } } }

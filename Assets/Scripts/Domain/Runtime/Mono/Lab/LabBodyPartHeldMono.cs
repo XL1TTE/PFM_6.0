@@ -9,7 +9,7 @@ namespace Project
         private LabMonsterCraftController craftController;
         public SpriteRenderer part_sprite;
 
-        private BoxCollider m_collider;
+        private BoxCollider collider;
 
         public float zOffset = 0; // Adjust this value to control the object's distance from the camera
 
@@ -19,7 +19,7 @@ namespace Project
             craftController = LabReferences.Instance().craftController;
             this.transform.SetParent(LabReferences.Instance().heldPartContainer.transform);
 
-            m_collider = GetComponent<BoxCollider>();
+            collider = GetComponent<BoxCollider>();
         }
 
         public void SetPart(BodyPartData part)
@@ -33,26 +33,25 @@ namespace Project
             if (val)
             {
                 part_sprite.color = Color.white;
-                m_collider.enabled = true;
+                collider.enabled = true;
             }
             else
             {
                 part_sprite.color = Color.clear;
-                m_collider.enabled = false;
+                collider.enabled = false;
             }
         }
         public void Update()
         {
             FollowMouse();
 
-            if (Input.GetMouseButtonUp(0))
-            {
+            if (Input.GetMouseButtonUp(0)) {
 
                 foreach (Transform child in craftingSlotsContainer)
                 {
 
                     BoxCollider2D otherCollider = child.gameObject.GetComponent<BoxCollider2D>();
-                    bool doesIntersect = m_collider.bounds.Intersects(otherCollider.bounds);
+                    bool doesIntersect = collider.bounds.Intersects(otherCollider.bounds);
                     if (doesIntersect)
                     {
                         LabCraftSlotMono slot = child.GetComponent<LabCraftSlotMono>();
@@ -60,7 +59,6 @@ namespace Project
                         {
                             if (craftController.isHoldingResource)
                             {
-                                // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
                                 slot.TryPlaceResource(craftController.heldPartData);
                                 break;
                             }
@@ -89,7 +87,7 @@ namespace Project
         //            {
         //                if (craftController.isHoldingResource)
         //                {
-        //                    // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
+        //                    // Если держим ресурс - попытаться поместить его в слот
         //                    slot.TryPlaceResource(craftController.heldPartData);
         //                    break;
         //                }
@@ -104,7 +102,7 @@ namespace Project
         public void FollowMouse()
         {
 
-            // Get the mouse position in screen coordinates
+            // Get the mouse position in screen coordinatesя
             Vector3 mouseScreenPosition = Input.mousePosition;
 
             // Set the Z-coordinate for the world point.

@@ -9,7 +9,7 @@ namespace Domain.Map
 
         void Awake()
         {
-            if (_instance == null )
+            if (_instance == null)
             {
                 _instance = this;
             }
@@ -19,27 +19,22 @@ namespace Domain.Map
 
         [Header("cams")]
         public Transform mainCameraContainer;
-
         public Camera mainCamera;
 
         [Header("heads")]
-        public GameObject headsTextRef;
         public GameObject headsGridRef;
         public GameObject headCraftSlotRef;
 
         [Header("torsos")]
-        public GameObject torsosTextRef;
         public GameObject torsosGridRef;
         public GameObject torsoCraftSlotRef;
 
         [Header("arms")]
-        public GameObject armsTextRef;
         public GameObject armsGridRef;
         public GameObject armLCraftSlotRef;
         public GameObject armRCraftSlotRef;
 
         [Header("legs")]
-        public GameObject legsTextRef;
         public GameObject legsGridRef;
         public GameObject legLCraftSlotRef;
         public GameObject legRCraftSlotRef;
@@ -53,5 +48,9 @@ namespace Domain.Map
         [Header("controllers")]
         public LabMonsterCraftController craftController;
         public LabBodyPartHeldMono heldPartMono;
+
+        public MonsterTooltipController monsterTooltipController;
+        public MonsterTooltipController preparationTooltipController;
+        public TooltipController tooltipController;
     }
 }
