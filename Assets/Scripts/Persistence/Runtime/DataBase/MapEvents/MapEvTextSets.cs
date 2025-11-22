@@ -75,7 +75,8 @@ namespace Persistence.DB
                     { "This is a default option",
                         new MapChoiceWrapper() {
                             type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 10 } } }
+                            request = new GiveGoldRequest() { amount = 10 },
+                            res_text = "This is a default RESULT" } }
 
                 }
             });
@@ -193,17 +194,20 @@ namespace Persistence.DB
                     { "Join the dance",
                         new MapChoiceWrapper() {
                             type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 10 } }  },
+                            request = new GiveGoldRequest() { amount = 10 },
+                            res_text = "ЭТО РЕЗУЛЬТАТ" }  },
 
                     { "Watch",
                         new MapChoiceWrapper() {
                             type = CHOICE_SCRIPT_TYPE.TAKE_GOLD,
-                            request = new TakeGoldRequest() { amount = 999999999 } }},
+                            request = new TakeGoldRequest() { amount = 999999999 },
+                            res_text = "ЭТО РЕЗУЛЬТАТ" }},
 
                     { "Run away",
                         new MapChoiceWrapper() {
                             type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 10 } } }
+                            request = new GiveGoldRequest() { amount = 10 },
+                            res_text = "ЭТО РЕЗУЛЬТАТ" } }
 
                 }
             });
@@ -238,16 +242,19 @@ namespace Persistence.DB
                     { "Take the golden coin",
                         new MapChoiceWrapper() {
                             type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 } }  },
+                            request = new GiveGoldRequest() { amount = 67 },
+                            res_text = "ЭТО РЕЗУЛЬТАТ" }  },
 
                     { "Accept the ancient scroll",
                         new MapChoiceWrapper() {
                             type = CHOICE_SCRIPT_TYPE.TAKE_GOLD,
-                            request = new TakeGoldRequest() { amount = 69 } }},
+                            request = new TakeGoldRequest() { amount = 69 },
+                            res_text = "ЭТО РЕЗУЛЬТАТ" }},
                     {"Ask for safe passage",
                     new MapChoiceWrapper() {
                         type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                        request = new GiveGoldRequest() { amount = 10 } } }}
+                        request = new GiveGoldRequest() { amount = 10 },
+                            res_text = "ЭТО РЕЗУЛЬТАТ" } }}
             });
         }
     }

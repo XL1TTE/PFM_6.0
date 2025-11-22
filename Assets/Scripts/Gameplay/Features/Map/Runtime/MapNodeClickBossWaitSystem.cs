@@ -1,5 +1,6 @@
 using Domain.Map.Components;
 using Domain.Map.Events;
+using Domain.StateMachine.Components;
 using Persistence.DS;
 using Scellecs.Morpeh;
 
@@ -46,6 +47,8 @@ namespace Gameplay.Map.Systems
 
                         // CODE GOES HERE
 
+                        crusadeState.crusade_state = CRUSADE_STATE.NONE;
+                        LoadingScreen.Instance.LoadScene("Laboratory");
 
                         break;
                     }

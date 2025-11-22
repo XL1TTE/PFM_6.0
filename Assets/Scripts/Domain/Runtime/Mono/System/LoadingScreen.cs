@@ -84,6 +84,10 @@ public class LoadingScreen : MonoBehaviour
         if (!isLoading)
             StartCoroutine(LoadSceneCoroutine(sceneName));
     }
+    public bool GetIsLoading()
+    {
+        return isLoading;
+    }
 
     private IEnumerator LoadSceneCoroutine(string sceneName)
     {

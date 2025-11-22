@@ -80,7 +80,7 @@ namespace Gameplay.Map.Systems
         public void OnUpdate(float deltaTime)
         {
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !LoadingScreen.Instance.GetIsLoading())
             {
                 if (nodesUnderCursorFilter.IsEmpty()
                     && choicesUnderCursorFilter.IsEmpty()) { return; }
