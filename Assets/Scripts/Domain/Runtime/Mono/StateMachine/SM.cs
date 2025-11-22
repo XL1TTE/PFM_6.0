@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Domain.Extentions;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Events;
 using Gameplay.StateMachine.Systems;
@@ -93,8 +94,10 @@ namespace Domain.StateMachine.Mono
 
 
         public static bool IsIt<T>(Entity state) where T : struct, IState
-            => m_World.GetStash<T>().Has(state);
-
+        {
+            if (state.isNullOrDisposed(m_World)) { return false; }
+            return m_World.GetStash<T>().Has(state);
+        }
         /// <summary>
         /// Forbbiden to use.
         /// </summary>
