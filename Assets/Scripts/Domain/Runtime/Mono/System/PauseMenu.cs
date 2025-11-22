@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Domain.StateMachine.Mono;
+using Domain.StateMachine.Components;
 
 namespace Project
 {
@@ -34,12 +36,15 @@ namespace Project
             pauseMenuPanel.SetActive(false);
 
             continueButton.onClick.AddListener(ContinueGame);
+            continueButton.onClick.AddListener(NotifyGameUnpaused);
+
             settingsButton.onClick.AddListener(OpenSettings);
             backToMenuButton.onClick.AddListener(BackToMainMenu);
 
             if (pauseButton != null)
             {
                 pauseButton.onClick.AddListener(TogglePause);
+                pauseButton.onClick.AddListener(NotifyGamePaused);
             }
 
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -117,6 +122,15 @@ namespace Project
             return currentSceneName == mainMenuSceneName;
         }
 
+        private void NotifyGamePaused()
+        {
+            SM.EnterState<PauseState>();
+        }
+        private void NotifyGameUnpaused()
+        {
+            SM.ExitState<PauseState>();
+        }
+
         public void TogglePause()
         {
             if (IsMainMenuScene()) return;
@@ -182,6 +196,7 @@ namespace Project
             if (paused && !isPaused)
             {
                 PauseGame();
+
             }
             else if (!paused && isPaused)
             {
