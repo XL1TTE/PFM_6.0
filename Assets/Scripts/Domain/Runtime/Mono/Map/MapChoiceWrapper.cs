@@ -9,6 +9,7 @@ namespace Domain.Map.Mono{
 
         public CHOICE_SCRIPT_TYPE type;
         public IRequestData request;
+        public string res_text;
 
     }
 

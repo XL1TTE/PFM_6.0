@@ -1,5 +1,6 @@
 using Core.Ecs.Modules;
 using Domain.Extentions;
+using Domain.Map;
 using Domain.StateMachine.Mono;
 using Interactions;
 using Persistence.DS;
@@ -74,11 +75,11 @@ namespace Game
         {
             Dictionary<string, int> parts = new()
             {
-                { "mp_DinHead", 3 },
-                { "mp_DinArm", 4 },
-                { "mp_Din2Arm", 2 },
-                { "mp_DinLeg", 5 },
-                { "mp_DinTorso", 2 }
+                { "mp_DinHead", 1 },
+                { "mp_DinArm", 2 },
+                { "mp_Din2Arm", 0 },
+                { "mp_DinLeg", 2 },
+                { "mp_DinTorso", 1 }
             };
 
             return parts;

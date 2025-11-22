@@ -14,7 +14,6 @@ namespace Project
 {
     public class LabMonsterCraftController : MonoBehaviour
     {
-        private Filter all_body_parts;
         private GameObject partSlotPrefab;
 
         private Transform monsterPreviewContainer;
@@ -53,9 +52,6 @@ namespace Project
 
         void Start()
         {
-            all_body_parts = DataBase.Filter.With<TagBodyPart>().Build();
-
-
             partSlotPrefab = Resources.Load<GameObject>("Lab/Prefabs/LabBodyPartStoragePrefab");
             //heldPartPrefab = Resources.Load<GameObject>("Lab/Prefabs/LabBodyPartHeldPrefab");
 
@@ -140,13 +136,13 @@ namespace Project
 
             foreach (var part in bodyPartsStorage.parts)
             {
+                if (part.Value <= 0) continue;
+
                 BodyPartData data = new BodyPartData();
 
                 BODYPART_TYPE tmp_type = BODYPART_TYPE.HEAD;
 
-                var tmp_potential_event = all_body_parts.GetEntity(1);
-
-                UnityEngine.Sprite sprite = null;
+                Sprite sprite = null;
 
                 if (DataBase.TryFindRecordByID(part.Key, out var e_record))
                 {
@@ -252,6 +248,8 @@ namespace Project
                     slot.Initialize();
                 }
             }
+
+            UpdateMonsterSlots();
         }
 
         #endregion

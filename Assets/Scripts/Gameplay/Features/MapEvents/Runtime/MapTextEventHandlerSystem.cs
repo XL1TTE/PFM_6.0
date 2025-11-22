@@ -1,6 +1,5 @@
 using Domain;
 using Domain.Map;
-using Domain.Map.Components;
 using Domain.Map.Mono;
 using Domain.Map.Providers;
 using Domain.Map.Requests;
@@ -44,7 +43,7 @@ namespace Gameplay.MapEvents.Systems
         private Image ptr_sprite;
         private TextMeshProUGUI ptr_message;
         private Transform ptr_choices;
-
+        private Transform ptr_continue_button;
 
         private float choices_x_pos;
         private float choices_y_pos;
@@ -71,6 +70,7 @@ namespace Gameplay.MapEvents.Systems
             mainCamera = MapReferences.Instance().mainCamera;
 
             Scr_MapTextEvUI mainUI = prefabedMainUI.GetComponent<Scr_MapTextEvUI>();
+            mainUI.textHandler = this;
 
             //textEvChoicePrefab = mainUI.textEvChoicePrefab;
             textEvChoicePrefab = Resources.Load<GameObject>("Map/Prefabs/MapTextEvChoicePrefab2");
@@ -79,6 +79,8 @@ namespace Gameplay.MapEvents.Systems
             ptr_sprite = mainUI.ptr_sprite;
             ptr_message = mainUI.ptr_message;
             ptr_choices = mainUI.ptr_choices;
+            ptr_continue_button = mainUI.ptr_continue_button;
+            ptr_continue_button.gameObject.SetActive(false);
         }
 
         public void OnUpdate(float deltaTime)
@@ -106,13 +108,8 @@ namespace Gameplay.MapEvents.Systems
                 if (SM.IsStateActive<MapTextEvState>(out var state))
                 //if (flag_ui_is_shown)
                 {
-                    flag_ui_is_shown = false;
-                    SM.ExitState<MapTextEvState>();
-                    SM.EnterState<MapDefaultState>();
 
                     Debug.Log("WE ARE IN SOLVING A CHOSEN CHOICE FUR TEXT EVENTS");
-
-                    UnDrawTextUI();
 
 
 
@@ -127,6 +124,7 @@ namespace Gameplay.MapEvents.Systems
                         if (tmp_count == req.choice_id)
                         {
                             //choice.Value.
+                            UpdateTextUI(choice.Value.res_text);
 
                             switch (choice.Value.type)
                             {
@@ -201,8 +199,11 @@ namespace Gameplay.MapEvents.Systems
             }
 
         }
-        private void UnDrawTextUI()
+        
+        private void UpdateTextUI(string message)
         {
+            ptr_message.text = message;
+
             foreach (var choice in prefabed_choices)
             {
                 Destroy(choice);
@@ -210,6 +211,17 @@ namespace Gameplay.MapEvents.Systems
 
             prefabed_choices.Clear();
 
+
+            ptr_continue_button.gameObject.SetActive(true);
+        }
+
+        public void UnDrawTextUI()
+        {
+            flag_ui_is_shown = false;
+            SM.ExitState<MapTextEvState>();
+            SM.EnterState<MapDefaultState>();
+
+            ptr_continue_button.gameObject.SetActive(false);
             prefabedMainUI.SetActive(false);
         }
 
