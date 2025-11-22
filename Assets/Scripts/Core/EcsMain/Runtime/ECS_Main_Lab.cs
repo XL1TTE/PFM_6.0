@@ -1,13 +1,6 @@
 using Core.Ecs.Modules;
 using Domain.Extentions;
-using Domain.Map;
-using Domain.Map.Events;
-using Domain.Map.Mono;
-using Domain.StateMachine.Components;
 using Domain.StateMachine.Mono;
-using DS.Files;
-using Gameplay.Map.Systems;
-using Gameplay.MapEvents.Systems;
 using Interactions;
 using Persistence.DS;
 using Scellecs.Morpeh;
