@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace Project
 {
-    public class LabCraftSlotMono : MonoBehaviour//, IEndDragHandler//, IPointerClickHandler
+    public class LabCraftSlotMono : MonoBehaviour
     {
         [Header("Refs")]
         public SpriteRenderer slotImage;
@@ -16,6 +16,10 @@ namespace Project
 
         [Header("Blink Settings")]
         public float blinkInterval = 0.5f;
+
+        private bool isDragInProgress = false;
+        private Vector3 mouseDownPosition;
+        private const float DRAG_THRESHOLD = 5f;
 
         public BODYPART_TYPE requiredType;
 
@@ -37,28 +41,80 @@ namespace Project
             partIcon.color = Color.clear;
             slotImage.sprite = normalSprite;
 
+            var labRef = LabReferences.Instance();
             switch (requiredType)
             {
                 case BODYPART_TYPE.ARM:
-                    if (LabReferences.Instance().armLCraftSlotRef == gameObject)
+                    if (labRef.armLCraftSlotRef == gameObject)
                     {
-                        pairCraftSlot = LabReferences.Instance().armRCraftSlotRef.GetComponent<LabCraftSlotMono>();
+                        pairCraftSlot = labRef.armRCraftSlotRef.GetComponent<LabCraftSlotMono>();
                     }
                     else
                     {
-                        pairCraftSlot = LabReferences.Instance().armLCraftSlotRef.GetComponent<LabCraftSlotMono>();
+                        pairCraftSlot = labRef.armLCraftSlotRef.GetComponent<LabCraftSlotMono>();
                     }
                     break;
                 case BODYPART_TYPE.LEG:
-                    if (LabReferences.Instance().legLCraftSlotRef == gameObject)
+                    if (labRef.legLCraftSlotRef == gameObject)
                     {
-                        pairCraftSlot = LabReferences.Instance().legRCraftSlotRef.GetComponent<LabCraftSlotMono>();
+                        pairCraftSlot = labRef.legRCraftSlotRef.GetComponent<LabCraftSlotMono>();
                     }
                     else
                     {
-                        pairCraftSlot = LabReferences.Instance().legLCraftSlotRef.GetComponent<LabCraftSlotMono>();
+                        pairCraftSlot = labRef.legLCraftSlotRef.GetComponent<LabCraftSlotMono>();
                     }
                     break;
+            }
+        }
+
+        public void OnMouseDown()
+        {
+            if (!IsOccupied()) return;
+
+            mouseDownPosition = Input.mousePosition;
+            isDragInProgress = false;
+        }
+
+        public void OnMouseDrag()
+        {
+            if (!IsOccupied()) return;
+
+            if (!isDragInProgress && Vector3.Distance(Input.mousePosition, mouseDownPosition) > DRAG_THRESHOLD)
+            {
+                isDragInProgress = true;
+                StartDragFromSlot();
+            }
+        }
+
+        public void OnMouseUp()
+        {
+            if (!IsOccupied()) return;
+
+            if (!isDragInProgress)
+            {
+                ReturnToInventory();
+            }
+            isDragInProgress = false;
+        }
+
+        private void StartDragFromSlot()
+        {
+            craftController.PickResourceFromCrafting(this);
+            ClearSlot();
+            Debug.Log($"Started drag from craft slot with {containedPart?.partName}");
+        }
+
+        private void ReturnToInventory()
+        {
+            if (IsOccupied() && originalStorageSlot != null)
+            {
+                originalStorageSlot.ReturnResource();
+                ClearSlot();
+
+                craftController.SubstrPreviewPoint();
+                craftController.UpdateCreateButtonState();
+
+                Debug.Log($"Returned {containedPart?.partName} to inventory via single click");
             }
         }
 
@@ -188,15 +244,6 @@ namespace Project
         public bool IsOccupied()
         {
             return (containedPart != null);
-        }
-
-        public void OnMouseDown()
-        {
-            if (IsOccupied())
-            {
-                craftController.PickResourceFromCrafting(this);
-                ClearSlot();
-            }
         }
 
         private void OnDestroy()

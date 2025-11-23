@@ -1,6 +1,5 @@
 
 using Scellecs.Morpeh;
-using System.Collections.Generic;
 
 namespace Domain.Map.Mono{
     
@@ -16,6 +15,7 @@ namespace Domain.Map.Mono{
     public enum CHOICE_SCRIPT_TYPE
     {
         GIVE_GOLD,
+        ATTACK_ASS,
         TAKE_GOLD
     }
 }

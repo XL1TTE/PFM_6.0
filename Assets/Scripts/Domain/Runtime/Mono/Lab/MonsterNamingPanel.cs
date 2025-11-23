@@ -15,8 +15,20 @@ namespace Project
         private System.Action<string> onNameAccepted;
         private MonsterData currentMonsterData;
 
+        [SerializeField] private string collidersTag;
+
+        private BoxCollider2D[] iconColliders;
+
         void Start()
         {
+            GameObject[] iconObjects = GameObject.FindGameObjectsWithTag(collidersTag);
+            iconColliders = new BoxCollider2D[iconObjects.Length];
+
+            for (int i = 0; i < iconObjects.Length; i++)
+            {
+                iconColliders[i] = iconObjects[i].GetComponent<BoxCollider2D>();
+            }
+
             gameObject.SetActive(false);
 
             acceptButton.onClick.AddListener(OnAcceptClicked);
@@ -39,6 +51,12 @@ namespace Project
 
         public void ShowNamingPanel(MonsterData monsterData, System.Action<string> onAcceptedCallback)
         {
+            foreach (BoxCollider2D collider in iconColliders)
+            {
+                if (collider != null)
+                    collider.enabled = false;
+            }
+
             currentMonsterData = monsterData;
             onNameAccepted = onAcceptedCallback;
             gameObject.SetActive(true);
@@ -85,6 +103,12 @@ namespace Project
             gameObject.SetActive(false);
             currentMonsterData = null;
             onNameAccepted = null;
+
+            foreach (BoxCollider2D collider in iconColliders)
+            {
+                if (collider != null)
+                    collider.enabled = true;
+            }
         }
 
         private void OnAcceptClicked()

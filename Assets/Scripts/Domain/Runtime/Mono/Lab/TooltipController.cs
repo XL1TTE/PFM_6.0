@@ -1,3 +1,4 @@
+using Domain.Map;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ namespace Project
         [Header("Settings")]
         public Vector2 offset = new Vector2(20, 20);
 
+        private LabReferences labRef;
         private RectTransform tooltipRect;
         private Canvas parentCanvas;
         private BodyPartData currentData;
@@ -21,6 +23,8 @@ namespace Project
 
         private void Awake()
         {
+            labRef = LabReferences.Instance();
+
             tooltipRect = tooltipPanel.GetComponent<RectTransform>();
             parentCanvas = GetComponentInParent<Canvas>();
             tooltipPanel.SetActive(false);
@@ -42,11 +46,9 @@ namespace Project
             slotWorldPosition = worldPosition;
 
             partNameText.text = data.partName;
-
             detailsText.text = FormatDetails(data);
 
             tooltipPanel.SetActive(true);
-
             UpdateTooltipPosition();
         }
 
@@ -98,7 +100,6 @@ namespace Project
                 out localPoint);
 
             tooltipRect.localPosition = localPoint;
-
             LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipRect);
         }
 

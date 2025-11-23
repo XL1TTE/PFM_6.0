@@ -1,3 +1,4 @@
+using Domain.Map;
 using UnityEngine;
 using System.Collections;
 
@@ -9,31 +10,24 @@ namespace Project
         public GameObject mainScreen;
         public GameObject preparationScreen;
 
-        [Header("Controllers")]
-        public LabMonstersController monstersController;
-        public PreparationMonsterPreviewController previewController;
-
         [Header("Transition Settings")]
         public float slideDuration = 0.5f;
         public AnimationCurve slideCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
+        private LabReferences labRef;
         private RectTransform mainScreenRT;
         private RectTransform preparationScreenRT;
         private Vector2 screenSize;
 
         void Start()
         {
+            labRef = LabReferences.Instance();
 
             mainScreenRT = mainScreen.GetComponent<RectTransform>();
             preparationScreenRT = preparationScreen.GetComponent<RectTransform>();
             screenSize = new Vector2(Screen.width, Screen.height);
 
             ResetScreens();
-
-            if (monstersController == null)
-                monstersController = FindObjectOfType<LabMonstersController>();
-            if (previewController == null)
-                previewController = FindObjectOfType<PreparationMonsterPreviewController>();
         }
 
         void ResetScreens()
@@ -56,14 +50,14 @@ namespace Project
 
         private IEnumerator SlideToPreparation()
         {
-            if (monstersController != null)
+            if (labRef.monstersController != null)
             {
-                monstersController.SwitchToPreparationScreen();
+                labRef.monstersController.SwitchToPreparationScreen();
             }
 
-            if (previewController != null)
+            if (labRef.previewController != null)
             {
-                previewController.OnPreparationScreenOpened();
+                labRef.previewController.OnPreparationScreenOpened();
             }
 
             float elapsedTime = 0f;
@@ -86,18 +80,17 @@ namespace Project
             mainScreenRT.anchoredPosition = mainEndPos;
             preparationScreenRT.anchoredPosition = prepEndPos;
 
-            if (monstersController != null)
+            if (labRef.monstersController != null)
             {
-                monstersController.DebugCurrentState();
+                labRef.monstersController.DebugCurrentState();
             }
         }
 
         private IEnumerator SlideToMain()
         {
-
-            if (monstersController != null)
+            if (labRef.monstersController != null)
             {
-                monstersController.SwitchToMainScreen();
+                labRef.monstersController.SwitchToMainScreen();
             }
 
             float elapsedTime = 0f;
@@ -120,9 +113,9 @@ namespace Project
             mainScreenRT.anchoredPosition = mainEndPos;
             preparationScreenRT.anchoredPosition = prepEndPos;
 
-            if (monstersController != null)
+            if (labRef.monstersController != null)
             {
-                monstersController.DebugCurrentState();
+                labRef.monstersController.DebugCurrentState();
             }
         }
 
@@ -140,9 +133,9 @@ namespace Project
 
         public void ForceDebug()
         {
-            if (monstersController != null)
+            if (labRef.monstersController != null)
             {
-                monstersController.DebugCurrentState();
+                labRef.monstersController.DebugCurrentState();
             }
         }
     }

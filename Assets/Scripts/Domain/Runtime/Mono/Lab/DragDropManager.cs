@@ -1,3 +1,4 @@
+using Domain.Map;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,6 +12,8 @@ namespace Project
         public float dragAlpha = 0.6f;
         public bool snapBackOnFail = true;
 
+        private LabReferences labRef;
+
         private void Awake()
         {
             if (Instance == null)
@@ -23,6 +26,12 @@ namespace Project
                 Destroy(gameObject);
             }
         }
+
+        private void Start()
+        {
+            labRef = LabReferences.Instance();
+        }
+
         public bool IsPointerOverUI()
         {
             return EventSystem.current.IsPointerOverGameObject();

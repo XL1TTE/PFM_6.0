@@ -51,7 +51,6 @@ public class LoadingScreen : MonoBehaviour
             {
                 loadingScreen.SetActive(false);
 
-                // ��������� CanvasGroup ��� �������� ��������� loading screen
                 loadingCanvasGroup = loadingScreen.GetComponent<CanvasGroup>();
                 if (loadingCanvasGroup == null)
                 {
