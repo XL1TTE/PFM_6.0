@@ -54,6 +54,7 @@ namespace Domain.Map
         public PreparationMonsterPreviewController previewController;
         public LabMonstersCounter monstersCounter;
         public LabSceneChanger sceneChanger;
+        public TutorialController tutorialController;
 
         [Header("Tooltips")]
         public MonsterTooltipController monsterTooltipController;

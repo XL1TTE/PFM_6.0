@@ -16,9 +16,6 @@ namespace Game
     {
         public static World m_labWorld;
 
-        // this is a fucking stupid fucking crutch to make it fucking stupid fucking work
-        private bool flag_first_load = false;
-
         void Awake()
         {
             m_labWorld = World.Create();
