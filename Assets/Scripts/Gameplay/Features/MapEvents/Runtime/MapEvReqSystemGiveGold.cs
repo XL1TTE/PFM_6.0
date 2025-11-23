@@ -1,13 +1,5 @@
-
-using Domain.CursorDetection.Components;
-using Domain.Events;
-using Domain.Extentions;
-using Domain.Map.Components;
 using Domain.MapEvents.Requests;
-using Domain.Requests;
 using Scellecs.Morpeh;
-using Scellecs.Morpeh.Providers;
-using System;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
@@ -42,6 +34,10 @@ namespace Gameplay.MapEvents.Systems
         }
         private void ProcessRequest(GiveGoldRequest req)
         {
+            //ref var resourcesStorage = ref DataStorage.GetRecordFromFile<Inventory, ResourcesStorage>(); //DataStorage - вся изменяемая инфа об игроке
+            //в инвентаре ищем штуку 2
+            //resourcesStorage.gold += req.amount;
+
             Debug.Log($"Give gold request is processed, gave {req.amount}");
         }
     }

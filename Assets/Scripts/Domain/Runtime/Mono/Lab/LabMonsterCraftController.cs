@@ -14,19 +14,9 @@ namespace Project
 {
     public class LabMonsterCraftController : MonoBehaviour
     {
+        private LabReferences labRef;
+
         private GameObject partSlotPrefab;
-
-        private Transform monsterPreviewContainer;
-        private Transform monsterSlotsContainer;
-        private Transform craftingSlotsContainer;
-
-
-        private Transform partStorageHeadsContainer;
-        private Transform partStorageTorsosContainer;
-        private Transform partStorageArmsContainer;
-        private Transform partStorageLegsContainer;
-
-        public GameObject createButton;
 
         private bool hasPartHead = false;
         private bool hasPartTorso = false;
@@ -36,65 +26,65 @@ namespace Project
         public BodyPartData[] initialResources;
         public int[] initialCounts;
 
-        public MonsterNamingPanel namingPanel;
-
-
         public bool isHoldingResource { get; private set; }
         public BodyPartData heldPartData { get; private set; }
-
 
         private LabBodyPartHeldMono heldPartMono;
         private LabBodyPartStorageMono storageSlot;
 
-
         public int currentPreviewPoints;
         private bool isShowingPreview;
 
+
+        //private Transform monsterPreviewContainer;
+        //private Transform monsterSlotsContainer;
+        //private Transform craftingSlotsContainer;
+
+
+        //private Transform partStorageHeadsContainer;
+        //private Transform partStorageTorsosContainer;
+        //private Transform partStorageArmsContainer;
+        //private Transform partStorageLegsContainer;
+
+        //public GameObject createButton;
+
+        //public MonsterNamingPanel namingPanel;
+
+        //public bool isHoldingResource { get; private set; }
+        //public BodyPartData heldPartData { get; private set; }
+
         void Start()
         {
+            labRef = LabReferences.Instance();
+
             partSlotPrefab = Resources.Load<GameObject>("Lab/Prefabs/LabBodyPartStoragePrefab");
-            //heldPartPrefab = Resources.Load<GameObject>("Lab/Prefabs/LabBodyPartHeldPrefab");
 
-            heldPartMono = LabReferences.Instance().heldPartMono;
+            heldPartMono = labRef.heldPartMono;
 
-            monsterPreviewContainer = LabReferences.Instance().monsterPreviewContainer.transform;
-            monsterSlotsContainer = LabReferences.Instance().monsterSlotsContainer.transform;
-            craftingSlotsContainer = LabReferences.Instance().craftSlotsContainer.transform;
+            labRef.createButton.SetActive(false);
 
-            partStorageHeadsContainer = LabReferences.Instance().headsGridRef.transform;
-            partStorageTorsosContainer = LabReferences.Instance().torsosGridRef.transform;
-            partStorageArmsContainer = LabReferences.Instance().armsGridRef.transform;
-            partStorageLegsContainer = LabReferences.Instance().legsGridRef.transform;
+            //monsterPreviewContainer = LabReferences.Instance().monsterPreviewContainer.transform;
+            //monsterSlotsContainer = LabReferences.Instance().monsterSlotsContainer.transform;
+            //craftingSlotsContainer = LabReferences.Instance().craftSlotsContainer.transform;
 
-            createButton.SetActive(false);
+            //partStorageHeadsContainer = LabReferences.Instance().headsGridRef.transform;
+            //partStorageTorsosContainer = LabReferences.Instance().torsosGridRef.transform;
+            //partStorageArmsContainer = LabReferences.Instance().armsGridRef.transform;
+            //partStorageLegsContainer = LabReferences.Instance().legsGridRef.transform;
 
             InitializeResources();
             InitializeCraftingSlots();
             InitializeHeldObject();
             InitializeMonstersSlots();
 
-            //if (!hasPartHead)
-            //{
-            //    LabReferences.Instance().headsTextRef.SetActive(false);
-            //}
-            //if (!hasPartTorso)
-            //{
-            //    LabReferences.Instance().torsosTextRef.SetActive(false);
-            //}
-            //if (!hasPartArm)
-            //{
-            //    LabReferences.Instance().armsTextRef.SetActive(false);
-            //}
-            //if (!hasPartLeg)
-            //{
-            //    LabReferences.Instance().legsTextRef.SetActive(false);
-            //}
-
             isShowingPreview = false;
         }
 
         private bool AreAllCraftSlotsFilled()
         {
+            var craftingSlotsContainer = labRef.GetCraftSlotsContainer();
+            if (craftingSlotsContainer == null) return false;
+
             foreach (Transform child in craftingSlotsContainer)
             {
                 LabCraftSlotMono slot = child.GetComponent<LabCraftSlotMono>();
@@ -109,25 +99,8 @@ namespace Project
         public void UpdateCreateButtonState()
         {
             bool allSlotsFilled = AreAllCraftSlotsFilled();
-            createButton.SetActive(allSlotsFilled);
+            labRef.createButton.SetActive(allSlotsFilled);
         }
-
-
-        //void Update()
-        //{
-        //    if (isHoldingResource && heldPartMono != null)
-        //    {
-        //        heldPartMono.FollowMouse();
-        //    }
-        //}
-
-        //public void OnDrag(PointerEventData eventData)
-        //{
-        //    if (isHoldingResource && heldPartMono != null)
-        //    {
-        //        heldPartMono.FollowMouse();
-        //    }
-        //}
 
         #region Initializing
         private void InitializeResources()
@@ -139,9 +112,7 @@ namespace Project
                 if (part.Value <= 0) continue;
 
                 BodyPartData data = new BodyPartData();
-
                 BODYPART_TYPE tmp_type = BODYPART_TYPE.HEAD;
-
                 Sprite sprite = null;
 
                 if (DataBase.TryFindRecordByID(part.Key, out var e_record))
@@ -152,7 +123,7 @@ namespace Project
                     }
                     else
                     {
-                        data.partName = data.type.ToString(); //јЋя–ћ ”ƒјЋ»“№
+                        data.partName = data.type.ToString();
                     }
 
                     data.description = $"A {data.type.ToString().ToLower()} part for crafting";
@@ -190,7 +161,7 @@ namespace Project
 
         private void InitializeCraftingSlots()
         {
-            foreach (Transform child in craftingSlotsContainer)
+            foreach (Transform child in labRef.GetCraftSlotsContainer())
             {
                 LabCraftSlotMono slot = child.GetComponent<LabCraftSlotMono>();
                 if (slot != null)
@@ -202,24 +173,24 @@ namespace Project
 
         private void CreateLabBodyPartStorageMono(BodyPartData data, int count)
         {
-            Transform container = partStorageHeadsContainer;
+            Transform container = null;
 
             switch (data.type)
             {
                 case BODYPART_TYPE.HEAD:
-                    container = partStorageHeadsContainer;
+                    container = labRef.GetHeadsContainer();
                     hasPartHead = true;
                     break;
                 case BODYPART_TYPE.TORSO:
-                    container = partStorageTorsosContainer;
+                    container = labRef.GetTorsosContainer();
                     hasPartTorso = true;
                     break;
                 case BODYPART_TYPE.ARM:
-                    container = partStorageArmsContainer;
+                    container = labRef.GetArmsContainer();
                     hasPartArm = true;
                     break;
                 case BODYPART_TYPE.LEG:
-                    container = partStorageLegsContainer;
+                    container = labRef.GetLegsContainer();
                     hasPartLeg = true;
                     break;
             }
@@ -231,8 +202,6 @@ namespace Project
 
         private void InitializeHeldObject()
         {
-            //GameObject heldObj = Instantiate(heldPartPrefab, LabReferences.Instance().heldPartContainer.transform);
-            //heldPartMono = heldObj.GetComponent<LabBodyPartHeldMono>();
             heldPartMono.Initialize();
 
             heldPartMono.ShowSelf(false);
@@ -240,6 +209,9 @@ namespace Project
 
         private void InitializeMonstersSlots()
         {
+            var monsterSlotsContainer = labRef.GetMonsterSlotsContainer();
+            if (monsterSlotsContainer == null) return;
+
             foreach (Transform child in monsterSlotsContainer)
             {
                 LabMonsterSlotMono slot = child.GetComponent<LabMonsterSlotMono>();
@@ -264,7 +236,6 @@ namespace Project
             storageSlot = slot;
 
             heldPartMono.SetPart(heldPartData);
-
             heldPartMono.ShowSelf(true);
 
             HighlightCompatibleSlots();
@@ -273,23 +244,19 @@ namespace Project
         public void PickResourceFromCrafting(LabCraftSlotMono slot)
         {
             heldPartData = slot.GetContainedResource();
-
             storageSlot = slot.GetOriginalSlot();
-
             isHoldingResource = true;
 
             heldPartMono.SetPart(heldPartData);
             heldPartMono.gameObject.SetActive(true);
 
             HighlightCompatibleSlots();
-
             SubstrPreviewPoint();
         }
 
         public bool QuickPlaceResourceInSlot(LabBodyPartStorageMono storage_slot)
         {
             bool res = false;
-
             storageSlot = storage_slot;
 
             GameObject craft_slot = null;
@@ -297,28 +264,23 @@ namespace Project
             switch (storage_slot.part_type)
             {
                 case BODYPART_TYPE.HEAD:
-                    craft_slot = LabReferences.Instance().headCraftSlotRef;
+                    craft_slot = labRef.headCraftSlotRef;
                     break;
-
                 case BODYPART_TYPE.TORSO:
-                    craft_slot = LabReferences.Instance().torsoCraftSlotRef;
+                    craft_slot = labRef.torsoCraftSlotRef;
                     break;
-
                 case BODYPART_TYPE.ARM:
-                    craft_slot = LabReferences.Instance().armLCraftSlotRef;
-
+                    craft_slot = labRef.armLCraftSlotRef;
                     if (craft_slot.GetComponent<LabCraftSlotMono>().IsOccupied())
                     {
-                        craft_slot = LabReferences.Instance().armRCraftSlotRef;
+                        craft_slot = labRef.armRCraftSlotRef;
                     }
                     break;
-
                 case BODYPART_TYPE.LEG:
-                    craft_slot = LabReferences.Instance().legLCraftSlotRef;
-
+                    craft_slot = labRef.legLCraftSlotRef;
                     if (craft_slot.GetComponent<LabCraftSlotMono>().IsOccupied())
                     {
-                        craft_slot = LabReferences.Instance().legRCraftSlotRef;
+                        craft_slot = labRef.legRCraftSlotRef;
                     }
                     break;
             }
@@ -332,36 +294,28 @@ namespace Project
                 }
             }
 
-
             return res;
         }
 
         public void PlaceResourceInSlot(LabCraftSlotMono slot)
         {
             slot.SetOriginalSlot(storageSlot);
-
-
             isHoldingResource = false;
             heldPartData = null;
 
             heldPartMono.ShowSelf(false);
-
             ResetAllSlotsHighlight();
-
-
             AddPreviewPoint();
 
             storageSlot = null;
-
             UpdateCreateButtonState();
         }
+
         public void MoveResourceFromToSlot(LabCraftSlotMono from_slot, LabCraftSlotMono to_slot)
         {
             to_slot.SetOriginalSlot(from_slot.GetOriginalSlot());
             to_slot.UpdatePartData(from_slot.GetContainedResource());
-
             from_slot.ClearSlot();
-
             UpdateCreateButtonState();
         }
 
@@ -387,11 +341,8 @@ namespace Project
             heldPartData = null;
 
             heldPartMono.ShowSelf(false);
-
             ResetAllSlotsHighlight();
-
             storageSlot = null;
-
             UpdateCreateButtonState();
         }
 
@@ -402,6 +353,9 @@ namespace Project
 
         private void HighlightCompatibleSlots()
         {
+            var craftingSlotsContainer = labRef.GetCraftSlotsContainer();
+            if (craftingSlotsContainer == null) return;
+
             foreach (Transform child in craftingSlotsContainer)
             {
                 LabCraftSlotMono slot = child.GetComponent<LabCraftSlotMono>();
@@ -417,16 +371,15 @@ namespace Project
 
         private void ResetAllSlotsHighlight()
         {
+            var craftingSlotsContainer = labRef.GetCraftSlotsContainer();
+            if (craftingSlotsContainer == null) return;
+
             foreach (Transform child in craftingSlotsContainer)
             {
                 LabCraftSlotMono slot = child.GetComponent<LabCraftSlotMono>();
-                if (slot != null)
+                if (slot != null && !slot.IsOccupied())
                 {
-                    // ¬озвращаем обычный спрайт, но только если слот пустой
-                    if (!slot.IsOccupied())
-                    {
-                        slot.ClearSlot();
-                    }
+                    slot.ClearSlot();
                 }
             }
         }
@@ -439,40 +392,37 @@ namespace Project
         public void AddPreviewPoint()
         {
             currentPreviewPoints += 1;
-
             if (currentPreviewPoints >= 6)
             {
                 currentPreviewPoints = 6;
-
                 if (!isShowingPreview)
                 {
                     PreviewMonsterUpdate();
                 }
             }
         }
+
         public void SubstrPreviewPoint()
         {
             currentPreviewPoints -= 1;
-
             if (isShowingPreview && currentPreviewPoints < 6)
             {
                 DeviewMonsterUpdate();
             }
-
             if (currentPreviewPoints <= 0)
             {
                 currentPreviewPoints = 0;
-
             }
         }
+
         public void PreviewMonsterUpdate()
         {
             var monsterData = GetMonsterDataFromCraftSlots(false);
-            if (monsterData == null) { return; }
-
+            if (monsterData == null) return;
 
             isShowingPreview = true;
-
+            var monsterPreviewContainer = labRef.GetMonsterPreviewContainer();
+            if (monsterPreviewContainer == null) return;
 
             var builder = new MonsterBuilder(ECS_Main_Lab.m_labWorld)
                 .AttachHead(monsterData.Head_id)
@@ -483,10 +433,7 @@ namespace Project
                 .AttachFarLeg(monsterData.FarLeg_id);
 
             var t_monsterEntity = builder.Build();
-
-
             var t_transform = ECS_Main_Lab.m_labWorld.GetStash<TransformRefComponent>();
-
 
             ref var monstTransf = ref t_transform.Get(t_monsterEntity).Value;
             monstTransf.position = monsterPreviewContainer.position;
@@ -496,8 +443,8 @@ namespace Project
         public void DeviewMonsterUpdate()
         {
             isShowingPreview = false;
-
-            if (monsterPreviewContainer.childCount > 0)
+            var monsterPreviewContainer = labRef.GetMonsterPreviewContainer();
+            if (monsterPreviewContainer != null && monsterPreviewContainer.childCount > 0)
             {
                 Destroy(monsterPreviewContainer.GetChild(0).gameObject);
             }
@@ -506,29 +453,25 @@ namespace Project
         public void CreateMonster()
         {
             ref var monstersStorage = ref DataStorage.GetRecordFromFile<Inventory, MonstersStorage>();
-
-
             if (monstersStorage.storage_monsters.Count >= monstersStorage.max_capacity)
             {
                 return;
             }
 
             var monsterData = GetMonsterDataFromCraftSlots(false);
-            if (monsterData == null) { return; }
-            ShowNamingPanel(monsterData);
-        }
+            if (monsterData == null) return;
 
-        private void ShowNamingPanel(MonsterData monsterData)
-        {
-            if (namingPanel != null)
+            if (labRef.namingPanel != null)
             {
-                namingPanel.ShowNamingPanel(monsterData, OnMonsterNamed);
+                labRef.namingPanel.ShowNamingPanel(monsterData, OnMonsterNamed);
             }
             else
             {
                 FinalizeMonsterCreation(monsterData, "Unnamed Monster");
             }
         }
+
+       
 
         private void OnMonsterNamed(string monsterName)
         {
@@ -543,10 +486,7 @@ namespace Project
         {
             ref var monstersStorage = ref DataStorage.GetRecordFromFile<Inventory, MonstersStorage>();
 
-            Debug.Log($"Storage before adding monster: {monstersStorage.storage_monsters.Count} monsters");
-
             monsterData.SetName(monsterName);
-
             SpendBodyPartsForMonster(monsterData);
 
             var updatedMonsters = new List<MonsterData>(monstersStorage.storage_monsters);
@@ -555,23 +495,20 @@ namespace Project
 
             ClearAllCraftSlots();
 
-            if (namingPanel != null)
+            if (labRef.namingPanel != null)
             {
-                namingPanel.ClearInputField();
-                Debug.Log("Input field cleared after monster creation");
+                labRef.namingPanel.ClearInputField();
             }
 
             UpdateMonsterSlots();
-            createButton.SetActive(false);
+            UpdateCreateButtonState();
 
-            Debug.Log($"Monster created: {monsterName}");
-
-            var monstersController = FindObjectOfType<LabMonstersController>();
-            if (monstersController != null)
+            if (labRef.monstersController != null)
             {
-                monstersController.SaveCurrentState();
+                labRef.monstersController.SaveCurrentState();
             }
         }
+
 
         private void SpendBodyPartsForMonster(MonsterData monsterData)
         {
@@ -589,35 +526,24 @@ namespace Project
 
         private void SpendBodyPart(string bodyPartId)
         {
-            if (string.IsNullOrEmpty(bodyPartId))
-            {
-                Debug.LogWarning("Attempted to spend null or empty body part ID");
-                return;
-            }
+            if (string.IsNullOrEmpty(bodyPartId)) return;
 
             ref var bodyPartsStorage = ref DataStorage.GetRecordFromFile<Inventory, BodyPartsStorage>();
-
-            int currentCount = bodyPartsStorage.parts.ContainsKey(bodyPartId) ? bodyPartsStorage.parts[bodyPartId] : 0;
-
             if (bodyPartsStorage.parts.ContainsKey(bodyPartId) && bodyPartsStorage.parts[bodyPartId] > 0)
             {
                 bodyPartsStorage.parts[bodyPartId]--;
-                int newCount = bodyPartsStorage.parts[bodyPartId];
-                Debug.Log($"Spent body part: {bodyPartId} (was: {currentCount}, now: {newCount})");
-
-                if (newCount == 0)
+                if (bodyPartsStorage.parts[bodyPartId] == 0)
                 {
                     bodyPartsStorage.parts.Remove(bodyPartId);
                 }
-            }
-            else
-            {
-                Debug.LogError($"Cannot spend body part {bodyPartId} - not enough in inventory!");
             }
         }
 
         private void ClearAllCraftSlots()
         {
+            var craftingSlotsContainer = labRef.GetCraftSlotsContainer();
+            if (craftingSlotsContainer == null) return;
+
             foreach (Transform child in craftingSlotsContainer)
             {
                 LabCraftSlotMono slot = child.GetComponent<LabCraftSlotMono>();
@@ -634,87 +560,59 @@ namespace Project
 
         public MonsterData GetMonsterDataFromCraftSlots(bool need_clear)
         {
-            string data_head = "";
-            string data_torso = "";
-            string data_arml = "";
-            string data_armr = "";
-            string data_legl = "";
-            string data_legr = "";
+            string data_head = "", data_torso = "", data_arml = "", data_armr = "", data_legl = "", data_legr = "";
 
+            var craftingSlotsContainer = labRef.GetCraftSlotsContainer();
+            if (craftingSlotsContainer == null) return null;
 
             foreach (Transform child in craftingSlotsContainer)
             {
                 LabCraftSlotMono slot = child.GetComponent<LabCraftSlotMono>();
-                if (slot != null)
+                if (slot != null && slot.IsOccupied())
                 {
-                    if (slot.IsOccupied())
+                    string res = slot.GetContainedResource().db_id;
+                    switch (slot.requiredType)
                     {
-                        string res = slot.GetContainedResource().db_id;
-                        switch (slot.requiredType)
-                        {
-                            case BODYPART_TYPE.HEAD:
-                                data_head = res;
-                                break;
-                            case BODYPART_TYPE.TORSO:
-                                data_torso = res;
-                                break;
-                            case BODYPART_TYPE.ARM:
-                                if (slot == LabReferences.Instance().armLCraftSlotRef.GetComponent<LabCraftSlotMono>())
-                                {
-                                    data_arml = res;
-                                }
-                                else
-                                {
-                                    data_armr = res;
-                                }
-                                break;
-                            case BODYPART_TYPE.LEG:
-                                if (slot == LabReferences.Instance().legLCraftSlotRef.GetComponent<LabCraftSlotMono>())
-                                {
-                                    data_legl = res;
-                                }
-                                else
-                                {
-                                    data_legr = res;
-                                }
-                                break;
-                        }
+                        case BODYPART_TYPE.HEAD:
+                            data_head = res;
+                            break;
+                        case BODYPART_TYPE.TORSO:
+                            data_torso = res;
+                            break;
+                        case BODYPART_TYPE.ARM:
+                            if (slot.gameObject == labRef.armLCraftSlotRef)
+                                data_arml = res;
+                            else
+                                data_armr = res;
+                            break;
+                        case BODYPART_TYPE.LEG:
+                            if (slot.gameObject == labRef.legLCraftSlotRef)
+                                data_legl = res;
+                            else
+                                data_legr = res;
+                            break;
                     }
-                    else
-                    {
-                        return null;
-                    }
+                }
+                else
+                {
+                    return null;
                 }
             }
 
-            if (need_clear) 
-            {            
-                foreach (Transform child in craftingSlotsContainer)
-                {
-                    LabCraftSlotMono slot = child.GetComponent<LabCraftSlotMono>();
-                    if (slot != null)
-                    {
-                        SubstrPreviewPoint();
-                        slot.ClearSlot();
-                    }
-                }
+            if (need_clear)
+            {
+                ClearAllCraftSlots();
             }
 
-            MonsterData monsterData = new(data_head, data_arml, data_armr, data_torso, data_legl, data_legr);
-            return monsterData;
+            return new MonsterData(data_head, data_arml, data_armr, data_torso, data_legl, data_legr);
         }
 
 
         public void UpdateMonsterSlots()
         {
-            var monstersController = FindObjectOfType<LabMonstersController>();
-            if (monstersController != null)
+            if (labRef.monstersController != null)
             {
-                monstersController.UpdateMonsterSlotsFromCrafting();
-            }
-            else
-            {
-                Debug.LogError("LabMonstersController not found!");
+                labRef.monstersController.UpdateMonsterSlotsFromCrafting();
             }
         }
 
@@ -743,17 +641,7 @@ namespace Project
 
         public void DeleteMonsterAndReturnParts(MonsterData monsterData)
         {
-            Debug.Log($"Deleting monster: {monsterData.m_MonsterName} and returning body parts");
-
-            if (monsterData == null)
-            {
-                Debug.LogError("MonsterData is null! Cannot return parts.");
-                return;
-            }
-
-            Debug.Log($"Returning parts for monster: Head={monsterData.Head_id}, Body={monsterData.Body_id}, " +
-                      $"Arms=({monsterData.NearArm_id}, {monsterData.FarArm_id}), " +
-                      $"Legs=({monsterData.NearLeg_id}, {monsterData.FarLeg_id})");
+            if (monsterData == null) return;
 
             ReturnBodyPartToInventory(monsterData.Head_id);
             ReturnBodyPartToInventory(monsterData.Body_id);
@@ -767,16 +655,9 @@ namespace Project
 
         private void ReturnBodyPartToInventory(string bodyPartId)
         {
-            if (string.IsNullOrEmpty(bodyPartId))
-            {
-                Debug.LogWarning("Attempted to return null or empty body part ID");
-                return;
-            }
+            if (string.IsNullOrEmpty(bodyPartId)) return;
 
             ref var bodyPartsStorage = ref DataStorage.GetRecordFromFile<Inventory, BodyPartsStorage>();
-
-            int currentCount = bodyPartsStorage.parts.ContainsKey(bodyPartId) ? bodyPartsStorage.parts[bodyPartId] : 0;
-
             if (bodyPartsStorage.parts.ContainsKey(bodyPartId))
             {
                 bodyPartsStorage.parts[bodyPartId]++;
@@ -785,30 +666,25 @@ namespace Project
             {
                 bodyPartsStorage.parts[bodyPartId] = 1;
             }
-
-            int newCount = bodyPartsStorage.parts[bodyPartId];
-            Debug.Log($"Returned body part to inventory: {bodyPartId} (was: {currentCount}, now: {newCount})");
         }
 
         private void RefreshInventoryDisplay()
         {
             ClearInventoryContainers();
-
             InitializeResources();
-
-            Debug.Log("Inventory refreshed after monster deletion");
         }
 
         private void ClearInventoryContainers()
         {
-            ClearContainer(partStorageHeadsContainer);
-            ClearContainer(partStorageTorsosContainer);
-            ClearContainer(partStorageArmsContainer);
-            ClearContainer(partStorageLegsContainer);
+            ClearContainer(labRef.GetHeadsContainer());
+            ClearContainer(labRef.GetTorsosContainer());
+            ClearContainer(labRef.GetArmsContainer());
+            ClearContainer(labRef.GetLegsContainer());
         }
 
         private void ClearContainer(Transform container)
         {
+            if (container == null) return;
             foreach (Transform child in container)
             {
                 if (child.GetComponent<LabBodyPartStorageMono>() != null)

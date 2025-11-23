@@ -1,3 +1,4 @@
+using Domain.Map;
 using Domain.Monster.Mono;
 using TMPro;
 using UnityEngine;
@@ -15,12 +16,13 @@ namespace Project
         [Header("Screen Settings")]
         public bool isForPreparationScreen = false;
         public Vector2 offset = new Vector2(20, 20);
+
+        private LabReferences labRef;
         private RectTransform tooltipRect;
         private Canvas parentCanvas;
         private MonsterData currentMonsterData;
         private Vector3 slotWorldPosition;
         private bool isInitialized = false;
-        private LabUIController uiController;
 
         private void Awake()
         {
@@ -29,7 +31,7 @@ namespace Project
 
         private void Start()
         {
-            uiController = FindObjectOfType<LabUIController>();
+            labRef = LabReferences.Instance();
         }
 
         private void Initialize()
@@ -92,41 +94,25 @@ namespace Project
 
             monsterTooltipPanel.SetActive(true);
             UpdateTooltipPosition();
-
         }
 
         private bool ShouldShowTooltip()
         {
             return true;
 
-            //if (uiController == null)
+            //if (labRef.uiController == null) return true;
+
+            //bool isPreparationScreenActive = labRef.uiController.IsPreparationScreenActive();
+
+            //// Тултип для подготовки должен показываться только на экране подготовки
+            //// Основной тултип - только на главном экране
+            //if (isForPreparationScreen && !isPreparationScreenActive)
             //{
-            //    uiController = FindObjectOfType<LabUIController>();
+            //    return false;
             //}
-
-            //if (uiController != null)
+            //if (!isForPreparationScreen && isPreparationScreenActive)
             //{
-            //    bool isPreparationScreenActive = uiController.IsPreparationScreenActive();
-
-            //    // ДЕБАГ: Выводим состояние экранов
-            //    Debug.Log($"ShouldShowTooltip check - isForPreparationScreen: {isForPreparationScreen}, isPreparationScreenActive: {isPreparationScreenActive}, tooltipName: {gameObject.name}");
-
-            //    // Тултип для подготовки должен показываться только на экране подготовки
-            //    // Основной тултип - только на главном экране
-            //    if (isForPreparationScreen && !isPreparationScreenActive)
-            //    {
-            //        Debug.Log("Blocking preparation tooltip - not on preparation screen");
-            //        return false;
-            //    }
-            //    if (!isForPreparationScreen && isPreparationScreenActive)
-            //    {
-            //        Debug.Log("Blocking main tooltip - not on main screen");
-            //        return false;
-            //    }
-            //}
-            //else
-            //{
-            //    Debug.LogWarning("uiController is null in ShouldShowTooltip");
+            //    return false;
             //}
 
             //return true;

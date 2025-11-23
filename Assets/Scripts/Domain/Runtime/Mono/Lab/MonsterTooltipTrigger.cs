@@ -15,10 +15,10 @@ namespace Project
         {
             monsterData = data;
 
-            var labReferences = LabReferences.Instance();
-            if (labReferences != null)
+            var labRef = LabReferences.Instance();
+            if (labRef != null)
             {
-                monsterTooltipController = labReferences.monsterTooltipController;
+                monsterTooltipController = labRef.monsterTooltipController;
                 isInitialized = monsterTooltipController != null;
             }
         }

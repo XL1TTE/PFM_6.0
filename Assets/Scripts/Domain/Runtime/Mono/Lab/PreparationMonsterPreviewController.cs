@@ -16,9 +16,7 @@ namespace Project
         public Transform monsterPreviewsContainer;
         public List<Transform> monsterPreviewSlots;
 
-        [Header("References")]
-        public LabMonstersController monstersController;
-
+        private LabReferences labRef;
         private MonsterTooltipController preparationTooltipController;
 
         private List<GameObject> currentPreviews = new List<GameObject>();
@@ -26,25 +24,18 @@ namespace Project
 
         void Start()
         {
+            labRef = LabReferences.Instance();
             InitializePreviewSlots();
 
-            var labReferences = LabReferences.Instance();
-            if (labReferences != null)
+            if (labRef != null)
             {
-                preparationTooltipController = labReferences.preparationTooltipController;
+                preparationTooltipController = labRef.preparationTooltipController;
             }
-
-            if (monstersController == null)
-                monstersController = FindObjectOfType<LabMonstersController>();
         }
-
 
         private void AddTooltipToPreview(GameObject previewObject, MonsterData monsterData)
         {
-            if (preparationTooltipController == null)
-            {
-                return;
-            }
+            if (preparationTooltipController == null) return;
 
             var tooltipTrigger = previewObject.AddComponent<MonsterTooltipTrigger>();
             if (tooltipTrigger != null)
@@ -57,8 +48,7 @@ namespace Project
         {
             foreach (var preview in currentPreviews)
             {
-                if (preview != null)
-                    Destroy(preview);
+                if (preview != null) Destroy(preview);
             }
             currentPreviews.Clear();
             slotPreviewMap.Clear();
@@ -79,20 +69,15 @@ namespace Project
         {
             InitializePreviewSlots();
 
-            if (monstersController == null || monstersController.preparationScreenSlots == null)
-            {
+            if (labRef.monstersController == null || labRef.monstersController.preparationScreenSlots == null)
                 return;
-            }
 
-            for (int i = 0; i < monstersController.preparationScreenSlots.Count; i++)
+            for (int i = 0; i < labRef.monstersController.preparationScreenSlots.Count; i++)
             {
-                var prepSlot = monstersController.preparationScreenSlots[i];
-
-                if (prepSlot.is_occupied && prepSlot.currentMonsterData != null &&
-                    i < monsterPreviewSlots.Count)
+                var prepSlot = labRef.monstersController.preparationScreenSlots[i];
+                if (prepSlot.is_occupied && prepSlot.currentMonsterData != null && i < monsterPreviewSlots.Count)
                 {
                     CreateMonsterPreviewForSlot(prepSlot.currentMonsterData, prepSlot.name, monsterPreviewSlots[i]);
-                    Debug.Log($"Created preview for monster: {prepSlot.currentMonsterData.m_MonsterName} at preview slot {i} (prep slot: {prepSlot.name})");
                 }
             }
         }
@@ -113,7 +98,6 @@ namespace Project
                 .AttachFarLeg(monsterData.FarLeg_id);
 
             var monsterEntity = builder.Build();
-
             var transformStash = ECS_Main_Lab.m_labWorld.GetStash<TransformRefComponent>();
             ref var monsterTransform = ref transformStash.Get(monsterEntity).Value;
 
@@ -122,7 +106,6 @@ namespace Project
 
             currentPreviews.Add(previewContainer);
             slotPreviewMap[preparationSlotName] = previewContainer;
-
             AddTooltipToPreview(previewContainer, monsterData);
         }
 
@@ -149,7 +132,7 @@ namespace Project
                 slotPreviewMap.Remove(slotName);
             }
 
-            var prepSlotIndex = monstersController.preparationScreenSlots.FindIndex(s => s.name == slotName);
+            var prepSlotIndex = labRef.monstersController.preparationScreenSlots.FindIndex(s => s.name == slotName);
             if (prepSlotIndex >= 0 && prepSlotIndex < monsterPreviewSlots.Count && monsterData != null)
             {
                 CreateMonsterPreviewForSlot(monsterData, slotName, monsterPreviewSlots[prepSlotIndex]);
@@ -160,12 +143,12 @@ namespace Project
         {
             foreach (var preview in currentPreviews)
             {
-                if (preview != null)
-                    Destroy(preview);
+                if (preview != null) Destroy(preview);
             }
             currentPreviews.Clear();
             slotPreviewMap.Clear();
         }
+
         public void ForceRefreshPreviews()
         {
             RefreshMonsterPreviews();
@@ -176,11 +159,6 @@ namespace Project
             Debug.Log("=== DEBUG PREVIEWS ===");
             Debug.Log($"Current previews: {currentPreviews.Count}");
             Debug.Log($"Slot preview mappings: {slotPreviewMap.Count}");
-
-            foreach (var kvp in slotPreviewMap)
-            {
-                Debug.Log($"  Slot: {kvp.Key} -> Preview: {(kvp.Value != null ? kvp.Value.name : "null")}");
-            }
         }
     }
 }

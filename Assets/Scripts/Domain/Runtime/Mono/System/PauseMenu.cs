@@ -111,6 +111,8 @@ namespace Project
         {
             if (IsMainMenuScene()) return;
 
+            if (IsLoadingScreenActive()) return;
+
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 TogglePause();
@@ -120,6 +122,16 @@ namespace Project
         private bool IsMainMenuScene()
         {
             return currentSceneName == mainMenuSceneName;
+        }
+
+        private bool IsLoadingScreenActive()
+        {
+            LoadingScreen loadingScreen = LoadingScreen.Instance;
+            if (loadingScreen != null)
+            {
+                return loadingScreen.GetIsLoading();
+            }
+            return false;
         }
 
         private void NotifyGamePaused()
@@ -134,6 +146,8 @@ namespace Project
         public void TogglePause()
         {
             if (IsMainMenuScene()) return;
+
+            if (IsLoadingScreenActive()) return;
 
             isPaused = !isPaused;
 
@@ -193,10 +207,11 @@ namespace Project
         {
             if (IsMainMenuScene()) return;
 
+            if (IsLoadingScreenActive()) return;
+
             if (paused && !isPaused)
             {
                 PauseGame();
-
             }
             else if (!paused && isPaused)
             {

@@ -10,8 +10,9 @@ namespace Project
         public int count;
         public TMP_Text count_text;
 
-        public float doubleClickTime = 0.2f;
-        private float lastClickTime;
+        private bool isDragInProgress = false;
+        private Vector3 mouseDownPosition;
+        private const float DRAG_THRESHOLD = 5f;
 
         public string part_id;
         public BODYPART_TYPE part_type;
@@ -74,33 +75,67 @@ namespace Project
             }
         }
 
-
         public void OnMouseDown()
         {
-            float timeSinceLastClick = Time.time - lastClickTime;
+            if (count <= 0) return;
 
-            if (timeSinceLastClick <= doubleClickTime)
+            mouseDownPosition = Input.mousePosition;
+            isDragInProgress = false;
+        }
+
+        public void OnMouseDrag()
+        {
+            if (!isDragInProgress && Vector3.Distance(Input.mousePosition, mouseDownPosition) > DRAG_THRESHOLD)
             {
-                if (count > 0)
-                {
-                    bool res = craftController.QuickPlaceResourceInSlot(this);
-                    if (res)
-                    {
-                        count--;
-                    }
-                }
+                isDragInProgress = true;
+                StartDrag();
             }
-            else
+        }
+
+        public void OnMouseUp()
+        {
+            if (!isDragInProgress)
             {
-                if (count > 0)
+                HandleSingleClick();
+            }
+            isDragInProgress = false;
+        }
+
+        private void StartDrag()
+        {
+            if (count > 0)
+            {
+                count--;
+                craftController.PickResourceFromStorage(this);
+                UpdateDisplay();
+                Debug.Log($"Started drag with {bodyPartData.partName}");
+            }
+        }
+
+        private void HandleSingleClick()
+        {
+            if (count > 0)
+            {
+                bool placedAutomatically = craftController.QuickPlaceResourceInSlot(this);
+
+                if (placedAutomatically)
+                {
+                    count--;
+                    Debug.Log($"Auto-placed {bodyPartData.partName} via single click");
+                }
+                else
                 {
                     count--;
                     craftController.PickResourceFromStorage(this);
+                    Debug.Log($"Picked {bodyPartData.partName} to hand via single click");
                 }
-            }
 
-            UpdateDisplay();
-            lastClickTime = Time.time;
+                UpdateDisplay();
+            }
+            else
+            {
+                Debug.Log("No parts available to pick");
+            }
         }
     }
 }

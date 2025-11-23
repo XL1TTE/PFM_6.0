@@ -1,5 +1,7 @@
+using Domain.Map;
 using Domain.Monster.Mono;
 using Persistence.DS;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -22,71 +24,46 @@ namespace Project
         [Header("Preparation Screen Slots")]
         public List<LabMonsterSlotMono> preparationScreenSlots;
 
-        private PreparationMonsterPreviewController previewController;
-        private LabMonsterCraftController craftController;
+        private LabReferences labRef;
+
+        private bool isInitialized = false;
 
         void Start()
         {
+            Initialize();
+        }
+        public void Initialize()
+        {
+            if (isInitialized) return;
+
+            labRef = LabReferences.Instance();
+
             SortSlotsByHierarchy();
+            StartCoroutine(DelayedRefresh());
 
-            previewController = FindObjectOfType<PreparationMonsterPreviewController>();
-            craftController = FindObjectOfType<LabMonsterCraftController>();
+            isInitialized = true;
+        }
 
+        private IEnumerator DelayedRefresh()
+        {
+            yield return new WaitForEndOfFrame();
             RefreshAllMonsterSlots();
         }
 
+
         private void SortSlotsByHierarchy()
         {
-            if (mainScreenSlots != null)
-            {
-                mainScreenSlots = mainScreenSlots.OrderBy(s => s.transform.GetSiblingIndex()).ToList();
-            }
-
-            if (preparationScreenSlots != null)
-            {
-                preparationScreenSlots = preparationScreenSlots.OrderBy(s => s.transform.GetSiblingIndex()).ToList();
-            }
+            mainScreenSlots = mainScreenSlots?.OrderBy(s => s.transform.GetSiblingIndex()).ToList();
+            preparationScreenSlots = preparationScreenSlots?.OrderBy(s => s.transform.GetSiblingIndex()).ToList();
         }
 
         public void UpdateStorageFromMainScreen()
         {
-            var slotMonsters = new List<MonsterSlotData>();
-
-            for (int i = 0; i < mainScreenSlots.Count; i++)
-            {
-                var slot = mainScreenSlots[i];
-                if (slot.is_occupied && slot.currentMonsterData != null)
-                {
-                    slotMonsters.Add(new MonsterSlotData
-                    {
-                        monsterData = slot.currentMonsterData,
-                        slotIndex = i,
-                        slotName = slot.name
-                    });
-                }
-            }
-
-            SaveToStorage(slotMonsters);
+            SaveToStorage(GetOccupiedSlots(mainScreenSlots));
         }
         public void UpdateStorageFromPreparationScreen()
         {
-            var slotMonsters = new List<MonsterSlotData>();
-
-            for (int i = 0; i < preparationScreenSlots.Count; i++)
-            {
-                var slot = preparationScreenSlots[i];
-                if (slot.is_occupied && slot.currentMonsterData != null)
-                {
-                    slotMonsters.Add(new MonsterSlotData
-                    {
-                        monsterData = slot.currentMonsterData,
-                        slotIndex = i,
-                        slotName = slot.name
-                    });
-                }
-            }
-
-            SaveToStorage(slotMonsters);
+            SaveToStorage(GetOccupiedSlots(preparationScreenSlots));
         }
 
         private void SaveToStorage(List<MonsterSlotData> slotMonsters)
@@ -97,7 +74,28 @@ namespace Project
             SaveSlotPositions(slotMonsters);
         }
 
-        private List<MonsterSlotData> GetMonstersWithSlotInfo()
+        private List<MonsterSlotData> GetOccupiedSlots(List<LabMonsterSlotMono> slots)
+        {
+            var slotMonsters = new List<MonsterSlotData>();
+            if (slots == null) return slotMonsters;
+
+            for (int i = 0; i < slots.Count; i++)
+            {
+                var slot = slots[i];
+                if (slot.is_occupied && slot.currentMonsterData != null)
+                {
+                    slotMonsters.Add(new MonsterSlotData
+                    {
+                        monsterData = slot.currentMonsterData,
+                        slotIndex = i,
+                        slotName = slot.name
+                    });
+                }
+            }
+            return slotMonsters;
+        }
+
+        public List<MonsterSlotData> GetMonstersWithSlotInfo()
         {
             ref var storageMonsters = ref DataStorage.GetRecordFromFile<Inventory, MonstersStorage>();
             var monsters = storageMonsters.storage_monsters ?? new List<MonsterData>();
@@ -121,20 +119,12 @@ namespace Project
                 SaveSlotPositions(slotMonsters);
             }
 
-            foreach (var slotMonster in slotMonsters)
-            {
-                Debug.Log($"  - Monster: {slotMonster.monsterData.m_MonsterName}, Slot: {slotMonster.slotName} (index: {slotMonster.slotIndex})");
-            }
-
             return slotMonsters;
         }
 
         private void RefreshMonsterSlotsFromList(List<LabMonsterSlotMono> slots, List<MonsterSlotData> slotMonsters, string screenName)
         {
-            if (slots == null)
-            {
-                return;
-            }
+            if (slots == null) return;
 
             foreach (var slot in slots)
             {
@@ -150,9 +140,6 @@ namespace Project
                     {
                         slot.OccupySelf(slotMonster.monsterData);
                     }
-                }
-                else
-                {
                 }
             }
         }
@@ -173,31 +160,24 @@ namespace Project
 
             string slotOrder = string.Join(",", slotMonsters.Select(sm => sm.slotName));
             PlayerPrefs.SetString("MonsterSlotOrder", slotOrder);
-
             PlayerPrefs.Save();
         }
 
         public void UpdateMonsterSlotsFromCrafting()
         {
-
             var slotMonsters = GetMonstersWithSlotInfo();
-
             RefreshMonsterSlotsFromList(mainScreenSlots, slotMonsters, "Main");
         }
 
         private List<MonsterSlotData> LoadSlotPositions(List<MonsterData> monsters)
         {
             var result = new List<MonsterSlotData>();
-
             string savedOrder = PlayerPrefs.GetString("MonsterSlotOrder", "");
-            if (string.IsNullOrEmpty(savedOrder))
-            {
-                return result;
-            }
+            if (string.IsNullOrEmpty(savedOrder)) return result;
 
             var slotNames = savedOrder.Split(',');
-
             var monsterDict = new Dictionary<string, MonsterData>();
+
             foreach (var monster in monsters)
             {
                 if (!string.IsNullOrEmpty(monster.m_MonsterName))
@@ -222,28 +202,22 @@ namespace Project
                             slotIndex = slotIndex,
                             slotName = slotName
                         });
-
                         monsterDict.Remove(monsterName);
                     }
                 }
             }
-
-            if (monsterDict.Count > 0)
+            foreach (var newMonster in monsterDict.Values)
             {
-
-                foreach (var newMonster in monsterDict.Values)
+                int emptySlotIndex = FindFirstEmptySlotIndex(result);
+                if (emptySlotIndex >= 0)
                 {
-                    int emptySlotIndex = FindFirstEmptySlotIndex(result);
-                    if (emptySlotIndex >= 0)
+                    var emptySlot = mainScreenSlots[emptySlotIndex];
+                    result.Add(new MonsterSlotData
                     {
-                        var emptySlot = mainScreenSlots[emptySlotIndex];
-                        result.Add(new MonsterSlotData
-                        {
-                            monsterData = newMonster,
-                            slotIndex = emptySlotIndex,
-                            slotName = emptySlot.name
-                        });
-                    }
+                        monsterData = newMonster,
+                        slotIndex = emptySlotIndex,
+                        slotName = emptySlot.name
+                    });
                 }
             }
             return result;
@@ -269,26 +243,22 @@ namespace Project
 
         public void SwitchToPreparationScreen()
         {
-            Debug.Log("=== SwitchToPreparationScreen ===");
             var slotMonsters = GetMonstersWithSlotInfo();
             RefreshMonsterSlotsFromList(preparationScreenSlots, slotMonsters, "Preparation");
             RefreshPreparationPreviews();
-            Debug.Log($"Preparation screen updated with {slotMonsters.Count} monsters from storage");
         }
 
         public void SwitchToMainScreen()
         {
-            Debug.Log("=== SwitchToMainScreen ===");
             var slotMonsters = GetMonstersWithSlotInfo();
             RefreshMonsterSlotsFromList(mainScreenSlots, slotMonsters, "Main");
-            Debug.Log($"Main screen updated with {slotMonsters.Count} monsters from storage");
         }
 
         private void RefreshPreparationPreviews()
         {
-            if (previewController != null)
+            if (labRef.previewController != null)
             {
-                previewController.RefreshMonsterPreviews();
+                labRef.previewController.RefreshMonsterPreviews();
             }
         }
 
@@ -296,35 +266,18 @@ namespace Project
         {
             UpdateStorageFromMainScreen();
             RefreshPreparationPreviews();
-
-            if (previewController != null)
-            {
-                previewController.OnMonsterOrderChanged();
-            }
+            labRef.previewController?.OnMonsterOrderChanged();
         }
 
         public void OnPreparationScreenChanged()
         {
             UpdateStorageFromPreparationScreen();
-
-            if (previewController != null)
-            {
-                previewController.OnMonsterOrderChanged();
-            }
-            else
-            {
-                previewController = FindObjectOfType<PreparationMonsterPreviewController>();
-                if (previewController != null)
-                {
-                    previewController.OnMonsterOrderChanged();
-                }
-            }
+            labRef.previewController?.OnMonsterOrderChanged();
         }
 
         public void SaveCurrentState()
         {
-            var uiController = FindObjectOfType<LabUIController>();
-            if (uiController != null && uiController.IsPreparationScreenActive())
+            if (labRef.uiController != null && labRef.uiController.IsPreparationScreenActive())
             {
                 UpdateStorageFromPreparationScreen();
             }
@@ -340,12 +293,17 @@ namespace Project
             RefreshMonsterSlotsFromList(mainScreenSlots, slotMonsters, "Main");
             RefreshMonsterSlotsFromList(preparationScreenSlots, slotMonsters, "Preparation");
             RefreshPreparationPreviews();
+
+            if (labRef.expeditionController != null)
+            {
+                ref var monstersStorage = ref DataStorage.GetRecordFromFile<Inventory, MonstersStorage>();
+                labRef.expeditionController.ValidateExpeditionMonsters(monstersStorage.storage_monsters);
+            }
         }
 
         public void DebugCurrentState()
         {
             Debug.Log("=== DEBUG CURRENT STATE ===");
-
             Debug.Log("MAIN SCREEN:");
             foreach (var slot in mainScreenSlots)
             {
@@ -366,46 +324,25 @@ namespace Project
         {
             if (monsterData == null) return;
 
-
-            ref var monstersStorageBefore = ref DataStorage.GetRecordFromFile<Inventory, MonstersStorage>();
-
-            foreach (var m in monstersStorageBefore.storage_monsters)
+            if (labRef.expeditionController != null)
             {
-                Debug.Log($"  - {m.m_MonsterName} (Head: {m.Head_id})");
+                labRef.expeditionController.RemoveDeletedMonsterFromExpedition(monsterData);
             }
 
-            if (craftController != null)
+            if (labRef.craftController != null)
             {
-                craftController.DeleteMonsterAndReturnParts(monsterData);
+                labRef.craftController.DeleteMonsterAndReturnParts(monsterData);
             }
 
             RemoveMonsterFromStorage(monsterData);
-
             RefreshAllMonsterSlots();
-
-            ref var monstersStorageAfter = ref DataStorage.GetRecordFromFile<Inventory, MonstersStorage>();
-
-            foreach (var m in monstersStorageAfter.storage_monsters)
-            {
-                Debug.Log($"  - {m.m_MonsterName} (Head: {m.Head_id})");
-            }
         }
 
         public void RemoveMonsterFromStorage(MonsterData monsterToRemove)
         {
-            if (monsterToRemove == null)
-            {
-                return;
-            }
-
+            if (monsterToRemove == null) return;
 
             ref var monstersStorage = ref DataStorage.GetRecordFromFile<Inventory, MonstersStorage>();
-
-            for (int i = 0; i < monstersStorage.storage_monsters.Count; i++)
-            {
-                var monster = monstersStorage.storage_monsters[i];
-            }
-
             var updatedMonsters = new List<MonsterData>();
             int removedCount = 0;
 
@@ -422,31 +359,20 @@ namespace Project
             }
 
             monstersStorage.storage_monsters = updatedMonsters;
-
-
             RemoveMonsterFromSavedPositions(monsterToRemove);
-
             SaveCurrentState();
         }
 
         private bool IsExactlySameMonster(MonsterData a, MonsterData b)
         {
             if (a == null || b == null) return false;
-
-            bool same = a.Head_id == b.Head_id &&
-                        a.Body_id == b.Body_id &&
-                        a.NearArm_id == b.NearArm_id &&
-                        a.FarArm_id == b.FarArm_id &&
-                        a.NearLeg_id == b.NearLeg_id &&
-                        a.FarLeg_id == b.FarLeg_id &&
-                        a.m_MonsterName == b.m_MonsterName;
-
-            if (same)
-            {
-                Debug.Log($"Exact monster match: {a.m_MonsterName}");
-            }
-
-            return same;
+            return a.Head_id == b.Head_id &&
+                   a.Body_id == b.Body_id &&
+                   a.NearArm_id == b.NearArm_id &&
+                   a.FarArm_id == b.FarArm_id &&
+                   a.NearLeg_id == b.NearLeg_id &&
+                   a.FarLeg_id == b.FarLeg_id &&
+                   a.m_MonsterName == b.m_MonsterName;
         }
 
         private void RemoveMonsterFromSavedPositions(MonsterData monsterToRemove)
@@ -474,7 +400,6 @@ namespace Project
 
                 PlayerPrefs.SetString("MonsterSlotOrder", string.Join(",", newOrder));
             }
-
             PlayerPrefs.Save();
         }
     }
