@@ -16,7 +16,7 @@ namespace Persistence.DB
         {
             ID("abt_cow-leg");
 
-            With<IconUI>(new IconUI(GR.SPR_MOVE_ABILITY_ICON));
+            With<IconUI>(new IconUI(GR.SPR_UI_ABT_MOVE));
             With(new AbilityDefenition
             {
                 m_AbilityType = AbilityType.MOVEMENT,

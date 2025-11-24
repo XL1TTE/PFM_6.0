@@ -21,7 +21,7 @@ namespace Interactions
     {
         public UniTask IOnTurnQueueCreated(World a_world)
         {
-            var stash_avatar = a_world.GetStash<TurnQueueAvatar>();
+            var stash_avatar = a_world.GetStash<AvatarUI>();
 
             ref var t_queue = ref DataStorage.GetRecordFromFile<BattleMeta, TurnsQueueRecord>();
 

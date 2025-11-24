@@ -40,6 +40,32 @@ namespace Interactions
             }
         }
     }
+    public sealed class PoisonIfOnPoisonedCell : BaseInteraction, IOnTurnStartInteraction
+    {
+        public override Priority m_Priority => Priority.HIGH;
+        public async UniTask OnTurnStart(Entity a_turnTaker, World a_world)
+        {
+            var cell = GU.GetOccupiedCell(a_turnTaker, a_world);
+            if (F.IsPoisonedCell(cell, a_world))
+            {
+                var damage = a_world.GetStash<TagPoisonedCell>().Get(cell).m_Damage;
+                await G.DealDamageAsync(cell, a_turnTaker, damage, Domain.Abilities.DamageType.POISON_DAMAGE, a_world);
+            }
+        }
+    }
+    public sealed class BleedIfOnThornsCell : BaseInteraction, IOnTurnStartInteraction
+    {
+        public override Priority m_Priority => Priority.HIGH;
+        public async UniTask OnTurnStart(Entity a_turnTaker, World a_world)
+        {
+            var cell = GU.GetOccupiedCell(a_turnTaker, a_world);
+            if (F.IsCellWithThorns(cell, a_world))
+            {
+                var damage = a_world.GetStash<TagCellWithThorns>().Get(cell).m_Damage;
+                await G.DealDamageAsync(cell, a_turnTaker, damage, Domain.Abilities.DamageType.BLEED_DAMAGE, a_world);
+            }
+        }
+    }
 
     public sealed class EvaluateNextTurnButton : BaseInteraction, IOnTurnStartInteraction
     {
@@ -71,32 +97,11 @@ namespace Interactions
         }
     }
 
-    public sealed class ShowTurnTakerNameInBook : BaseInteraction, IOnTurnStartInteraction
-    {
-        public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
-        {
-            if (F.HasName(a_turnTaker, a_world) == false) { return UniTask.CompletedTask; }
-
-            var t_name = F.GetName(a_turnTaker, a_world);
-
-            BattleUiRefs.Instance.BookWidget.SetTurnTakerName(t_name);
-
-            return UniTask.CompletedTask;
-        }
-    }
     public sealed class ShowTurnTakerStatsInBook : BaseInteraction, IOnTurnStartInteraction
     {
         public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
         {
-            var t_maxHealth = GU.GetMaxHealth(a_turnTaker, a_world);
-            var t_health = GU.GetHealth(a_turnTaker, a_world);
-            var t_speed = GU.GetSpeed(a_turnTaker, a_world);
-
-            var t_book = BattleUiRefs.Instance.BookWidget;
-
-            t_book.SetHealth(t_maxHealth, t_health);
-            t_book.SetSpeed(t_speed);
-
+            G.Battle.UpdateTurnTakerPageInBook(a_turnTaker, a_world);
             return UniTask.CompletedTask;
         }
     }
@@ -172,13 +177,13 @@ namespace Interactions
 
             ref var effects = ref stash_effectPool.Get(a_turnTaker);
 
-            for (int i = 0; i < effects.m_StatusEffects.Count; ++i)
+            for (int i = 0; i < effects.m_TemporalEffects.Count; ++i)
             {
-                ref var turnsLeft = ref effects.m_StatusEffects[i].m_TurnsLeft;
+                ref var turnsLeft = ref effects.m_TemporalEffects[i].m_TurnsLeft;
                 turnsLeft -= 1;
                 if (turnsLeft < 0)
                 {
-                    t_toRemove.Add(effects.m_StatusEffects[i].m_EffectId);
+                    t_toRemove.Add(effects.m_TemporalEffects[i].m_EffectId);
                 }
             }
             foreach (var i in t_toRemove)

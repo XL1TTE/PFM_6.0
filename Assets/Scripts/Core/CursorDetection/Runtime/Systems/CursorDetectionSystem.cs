@@ -1,6 +1,9 @@
+using Cysharp.Threading.Tasks;
 using Domain.Components;
 using Domain.CursorDetection.Components;
 using Domain.Extentions;
+using Interactions;
+using NUnit.Framework.Api;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -92,43 +95,54 @@ namespace CursorDetection.Systems
             }
 
 
+            if (_closestEntity.IsExist() && _closestEntity != _lastUnderCursor)
             {
-                if (!_closestEntity.IsExist() || _closestEntity != _lastUnderCursor)
-                {
-
-                    evt_OnPointerExit.NextFrame(new OnCursorExitEvent
-                    {
-                        m_Entity = _lastUnderCursor
-                    });
-
-                    if (_lastUnderCursor.IsExist() && !World.IsDisposed(_lastUnderCursor))
-                    {
-                        stash_underCursor.Remove(_lastUnderCursor);
-
-                    }
-                }
-            }
-
-            if (_closestEntity.IsExist() && !World.IsDisposed(_closestEntity))
-            {
-                if (!_lastUnderCursor.IsExist() || _closestEntity != _lastUnderCursor)
-                {
-                    evt_OnPointerEnter.NextFrame(new OnCursorEnterEvent
-                    {
-                        m_Entity = _closestEntity,
-                    });
-                }
-
                 stash_underCursor.Set(_closestEntity, new UnderCursorComponent
                 {
                     HitPoint = worldMousePos
                 });
+
+                if (_lastUnderCursor.IsExist())
+                {
+                    stash_underCursor.Remove(_lastUnderCursor);
+
+                    NotifyCursorExit(_lastUnderCursor);
+                }
+                NotifyCursorEnter(_closestEntity);
+
                 _lastUnderCursor = _closestEntity;
             }
-            else if (_lastUnderCursor.IsExist())
+            else if (!_closestEntity.IsExist())
             {
-                _lastUnderCursor = default;
+                if (_lastUnderCursor.IsExist())
+                {
+                    stash_underCursor.Remove(_lastUnderCursor);
+                    NotifyCursorExit(_lastUnderCursor);
+                    _lastUnderCursor = default;
+                }
             }
+        }
+
+        private void NotifyCursorEnter(Entity enteredEntity)
+        {
+            Interactor.CallAll<IOnPointerEnter>(
+                async h => await h.OnPointerEnter(enteredEntity, World)).Forget();
+
+            evt_OnPointerEnter.NextFrame(new OnCursorEnterEvent
+            {
+                m_Entity = enteredEntity,
+            });
+        }
+
+        private void NotifyCursorExit(Entity entity)
+        {
+            Interactor.CallAll<IOnPointerExit>(
+                async h => await h.OnPointerExit(entity, World)).Forget();
+
+            evt_OnPointerExit.NextFrame(new OnCursorExitEvent
+            {
+                m_Entity = entity
+            });
         }
 
         public void Dispose()
@@ -147,6 +161,5 @@ namespace CursorDetection.Systems
                    point.y <= boxCenter.y + halfHeight;
         }
     }
-
 }
 

@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Domain.BattleField
 {
+
     public sealed class CellView : MonoBehaviour
     {
         [SerializeField] GameObject m_SelectedLayer;

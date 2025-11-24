@@ -174,7 +174,7 @@ namespace Interactions.IOnEntityDiedInteraction
 
             if (filter.IsEmpty())
             {
-                G.BattleOutcomes.PlayerWon(a_world);
+                G.Battle.PlayerWon(a_world);
             }
         }
     }
@@ -195,7 +195,7 @@ namespace Interactions.IOnEntityDiedInteraction
                 {
                     GU.DisposeAI(e, a_world);
                 }
-                G.BattleOutcomes.PlayerLost(a_world);
+                G.Battle.PlayerLost(a_world);
             }
         }
     }

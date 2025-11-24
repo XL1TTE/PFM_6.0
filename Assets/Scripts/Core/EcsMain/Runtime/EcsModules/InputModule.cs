@@ -14,6 +14,7 @@ namespace Core.Ecs.Modules
         {
             var sg_Input = world.CreateSystemsGroup();
             sg_Input.AddSystem(new CursorDetectionSystem());
+            sg_Input.AddSystem(new CursorClickDetectionSystem());
             sg_Input.AddSystem(new DragInputSystem());
             sg_Input.AddSystem(new ButtonClickObserveSystem());
 

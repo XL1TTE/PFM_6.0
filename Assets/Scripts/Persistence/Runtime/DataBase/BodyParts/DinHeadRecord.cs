@@ -1,6 +1,8 @@
 using System.Linq;
 using Domain.Components;
+using Domain.Extentions;
 using Domain.Stats.Components;
+using Domain.TurnSystem.Components;
 using Persistence.Components;
 using UnityEngine;
 
@@ -16,10 +18,14 @@ namespace Persistence.DB
             With<HeadSpritePath>(new HeadSpritePath
             {
                 path = "Monsters/Sprites/test/Spr_Bodypart_Head_Test_1"
-            }); 
+            });
             With<IconUI>(new IconUI
             {
                 m_Value = Resources.Load<Sprite>("Monsters/Sprites/test/Spr_Bodypart_Head_Test_1")
+            });
+            With<AvatarUI>(new AvatarUI
+            {
+                m_Value = GR.SPR_UI_AVATAR_CAT
             });
             With<TagBodyPart>();
             With<TagHead>();

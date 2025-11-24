@@ -42,7 +42,7 @@ SortingGroup:
   m_GameObject: {fileID: 1350013977841652050}
   m_Enabled: 1
   m_SortingLayerID: 257000035
-  m_SortingLayer: 6
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_SortAtRoot: 0
 --- !u!1 &1702015493862502221
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    m_Value: {fileID: -4481749515038321221, guid: c4f7dc41fba50104ca9b1253006f6b59, type: 3}
+    m_Value: {fileID: 1075773077, guid: 3fbff174b68fe9349af18f8eb3a2580a, type: 3}
 --- !u!114 &1031712963108783947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,14 +151,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702015493862502221}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e50801e5e07daed4ca3daa8765650209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
     Offset: {x: 0, y: 0}
-    Size: {x: 45, y: 35}
+    Size: {x: 48, y: 35}
 --- !u!114 &7767710113392478308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +253,7 @@ MonoBehaviour:
     m_LeftHandID: bp_rat-arm
     m_RightHandID: bp_rat-arm
     m_HeadID: bp_rat-head
+    m_TorsoID: 
     m_LeftLeg: bp_rat-leg
     m_RightLeg: bp_rat-leg
 --- !u!114 &6108805618221536525
@@ -399,7 +400,7 @@ SpriteRenderer:
   m_SortingLayerID: 156326315
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b715e6343e841194487139195f90f603, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c9b726e2812182140bd0c337eb761d4e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

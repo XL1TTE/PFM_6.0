@@ -1,7 +1,7 @@
 namespace Domain.GameEffects
 {
     [System.Serializable]
-    public class StatusEffect
+    public class TemporalEffect
     {
         public string m_EffectId;
         public int m_DurationInTurns;

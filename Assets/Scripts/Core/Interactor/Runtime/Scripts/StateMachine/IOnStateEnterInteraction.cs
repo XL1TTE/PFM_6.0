@@ -3,8 +3,10 @@
 using Cysharp.Threading.Tasks;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Mono;
+using Domain.UI.Mono;
 using Game;
 using Scellecs.Morpeh;
+using UnityEngine;
 
 namespace Interactions
 {
@@ -18,7 +20,30 @@ namespace Interactions
         UniTask OnStateExit(Entity a_state);
     }
 
+    public sealed class ShowBookInfoOnBattleState : BaseInteraction, IOnStateEnterInteraction
+    {
+        public UniTask OnStateEnter(Entity a_state)
+        {
+            if (SM.IsIt<BattleState>(a_state) == false) { return UniTask.CompletedTask; }
 
+            BattleUiRefs.Instance.BookWidget.ShowTurnTakerInfo();
+            return UniTask.CompletedTask;
+        }
+    }
+
+    public sealed class HideBookInfoOnBattleLoad : BaseInteraction, IOnStateEnterInteraction
+    {
+        public UniTask OnStateEnter(Entity a_state)
+        {
+
+            if (SM.IsIt<BattleSceneInitializeState>(a_state) == false) { return UniTask.CompletedTask; }
+
+            BattleUiRefs.Instance.BookWidget.HideTurnTakerInfo();
+            BattleUiRefs.Instance.BookWidget.HideHoveredEntityInfo();
+
+            return UniTask.CompletedTask;
+        }
+    }
 
     public sealed class StopBattleOnPause : BaseInteraction, IOnStateEnterInteraction
     {

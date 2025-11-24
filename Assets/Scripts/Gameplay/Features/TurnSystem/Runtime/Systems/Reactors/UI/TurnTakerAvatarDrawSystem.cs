@@ -22,19 +22,19 @@ namespace Gameplay.TurnSystem.Systems
         private Event<TurnSystemInitializedEvent> evt_turnSystemInitialized;
         private Event<NextTurnStartedEvent> evt_nextTurnStarted;
 
-        private Stash<TurnQueueAvatar> stash_turnQueueAvatar;
+        private Stash<AvatarUI> stash_turnQueueAvatar;
 
         public void OnAwake()
         {
             filter_currentTurnTaker = World.Filter
-                .With<TurnQueueAvatar>()
+                .With<AvatarUI>()
                 .With<CurrentTurnTakerTag>()
                 .Build();
 
             evt_turnSystemInitialized = World.GetEvent<TurnSystemInitializedEvent>();
             evt_nextTurnStarted = World.GetEvent<NextTurnStartedEvent>();
 
-            stash_turnQueueAvatar = World.GetStash<TurnQueueAvatar>();
+            stash_turnQueueAvatar = World.GetStash<AvatarUI>();
         }
 
         public void OnUpdate(float deltaTime)

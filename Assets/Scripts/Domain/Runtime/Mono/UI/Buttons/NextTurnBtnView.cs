@@ -103,7 +103,10 @@ namespace Domain.UI.Mono
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            G.NextTurn(ECS.m_CurrentWorld);
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                G.NextTurn(ECS.m_CurrentWorld);
+            }
         }
     }
 }

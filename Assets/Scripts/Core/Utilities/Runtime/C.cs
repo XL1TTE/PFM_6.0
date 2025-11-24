@@ -18,6 +18,8 @@ namespace Core.Utilities
 
         public static Color COLOR_WRONG_CELL_CHOICE_NOTIFICATION = Color.white;
 
+        public static Color COLOR_DEFAULT = "#ffffff".ToColor();
+
         public static Color ToColor(this DamageType a_type)
         {
             switch (a_type)
