@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Domain.Abilities.Mono;
 using Domain.Extentions;
@@ -67,6 +68,9 @@ namespace Domain.UI.Widgets
         [HideInInspector] public bool m_IsPinned;
         [HideInInspector] public Entity m_PinnedEntity;
 
+
+        [HideInInspector] public List<AbilityButtonView> m_TurnTakerAbilitiesCache;
+
         public void HideTurnTakerInfo()
         {
             m_TurnTakerPageRoot.gameObject.SetActive(false);
@@ -134,6 +138,11 @@ namespace Domain.UI.Widgets
         public void SpawnStartBattleButton()
         {
             BattleStartButtonInstance = Instantiate(BattleStartButtonPrefab, StartBattleButtonSlot);
+        }
+
+        void OnDestroy()
+        {
+            m_TurnTakerAbilitiesCache.Clear();
         }
     }
 }

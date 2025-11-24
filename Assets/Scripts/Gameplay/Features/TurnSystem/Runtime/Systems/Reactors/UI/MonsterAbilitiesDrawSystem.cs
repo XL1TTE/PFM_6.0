@@ -21,8 +21,6 @@ namespace Gameplay.TurnSystem.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class MonsterAbilitiesDrawSystem : BaseInteraction, IOnTurnStartInteraction
     {
-        private List<AbilityButtonView> m_abilityBtnsCache = new();
-
 
         public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
         {
@@ -41,6 +39,7 @@ namespace Gameplay.TurnSystem.Systems
 
         private void DrawAbilities(Entity abilityOwner, World a_world)
         {
+            var t_book = BattleUiRefs.Instance.BookWidget;
             var stash_Abilities = a_world.GetStash<AbilitiesComponent>();
 
             var m_AbilityButtonPrefab = GR.p_AbilityButton;
@@ -55,7 +54,7 @@ namespace Gameplay.TurnSystem.Systems
                 SetAbilityIcon(ability_btn, t_abilities.m_LeftHandAbility);
                 AttachAbilityOwnerToView(ability_btn, abilityOwner);
                 AttachAbilityToView(ability_btn, t_abilities.m_LeftHandAbility);
-                m_abilityBtnsCache.Add(ability_btn);
+                t_book.m_TurnTakerAbilitiesCache.Add(ability_btn);
             }
             if (t_abilities.m_RightHandAbility?.m_Value != null)
             {
@@ -65,7 +64,7 @@ namespace Gameplay.TurnSystem.Systems
 
                 AttachAbilityOwnerToView(ability_btn, abilityOwner);
                 AttachAbilityToView(ability_btn, t_abilities.m_RightHandAbility);
-                m_abilityBtnsCache.Add(ability_btn);
+                t_book.m_TurnTakerAbilitiesCache.Add(ability_btn);
             }
             if (t_abilities.m_HeadAbility?.m_Value != null)
             {
@@ -75,7 +74,7 @@ namespace Gameplay.TurnSystem.Systems
 
                 AttachAbilityOwnerToView(ability_btn, abilityOwner);
                 AttachAbilityToView(ability_btn, t_abilities.m_HeadAbility);
-                m_abilityBtnsCache.Add(ability_btn);
+                t_book.m_TurnTakerAbilitiesCache.Add(ability_btn);
             }
             if (t_abilities.m_LegsAbility?.m_Value != null)
             {
@@ -85,7 +84,7 @@ namespace Gameplay.TurnSystem.Systems
 
                 AttachAbilityOwnerToView(ability_btn, abilityOwner);
                 AttachAbilityToView(ability_btn, t_abilities.m_LegsAbility);
-                m_abilityBtnsCache.Add(ability_btn);
+                t_book.m_TurnTakerAbilitiesCache.Add(ability_btn);
             }
             if (t_abilities.m_TurnAroundAbility?.m_Value != null)
             {
@@ -95,7 +94,7 @@ namespace Gameplay.TurnSystem.Systems
 
                 AttachAbilityOwnerToView(ability_btn, abilityOwner);
                 AttachAbilityToView(ability_btn, t_abilities.m_TurnAroundAbility);
-                m_abilityBtnsCache.Add(ability_btn);
+                t_book.m_TurnTakerAbilitiesCache.Add(ability_btn);
             }
         }
 
@@ -121,11 +120,13 @@ namespace Gameplay.TurnSystem.Systems
 
         private void ClearAbilityViews()
         {
-            foreach (var item in m_abilityBtnsCache)
+            var t_book = BattleUiRefs.Instance.BookWidget;
+
+            foreach (var item in t_book.m_TurnTakerAbilitiesCache)
             {
                 Object.Destroy(item.gameObject);
             }
-            m_abilityBtnsCache.Clear();
+            t_book.m_TurnTakerAbilitiesCache.Clear();
         }
     }
 }
