@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Domain.Abilities;
 using Domain.Abilities.Components;
+using Domain.Stats.Components;
 using Gameplay.Abilities;
 using Persistence.Components;
 using Persistence.DB;
@@ -43,8 +44,6 @@ namespace Persistence.Utilities
             return null;
         }
 
-
-
         public static void DoubleAbilityStats(ref Ability ability)
         {
             if (ability == null) { return; }
@@ -60,6 +59,37 @@ namespace Persistence.Utilities
         {
             HashSet<Vector2Int> result = new HashSet<Vector2Int>(first.Concat(second));
             return result;
+        }
+
+
+        public static string GetNameFromRecordWithID(string id)
+        {
+            if (!DataBase.TryFindRecordByID(id, out var record))
+            {
+                return "unknown";
+            }
+            if (!DataBase.TryGetRecord<Name>(record, out var name))
+            {
+                return "unknown";
+            }
+            return name.m_Value;
+        }
+
+        public static bool TryGetResistanceModifierFromEffectID<T>(string id, out T modifier)
+            where T : struct, IResistanceModiffier
+        {
+            if (!DataBase.TryFindRecordByID(id, out var effectRecord))
+            {
+                modifier = default;
+                return false;
+            }
+            if (!DataBase.TryGetRecord<T>(effectRecord, out var modifierValue))
+            {
+                modifier = default;
+                return false;
+            }
+            modifier = modifierValue;
+            return true;
         }
     }
 

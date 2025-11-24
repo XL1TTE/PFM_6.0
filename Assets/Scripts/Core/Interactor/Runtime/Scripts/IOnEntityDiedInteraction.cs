@@ -9,6 +9,7 @@ using Domain.Extentions;
 using Domain.HealthBars.Components;
 using Domain.Monster.Tags;
 using Domain.TurnSystem.Tags;
+using Domain.UI.Mono;
 using DS.Files;
 using Game;
 using Persistence.DS;
@@ -33,6 +34,15 @@ namespace Interactions.IOnEntityDiedInteraction
         public UniTask OnEntityDied(Entity a_entity, Entity a_cause, World a_world)
         {
             G.UpdateAbilityButtonsState(a_world);
+            return UniTask.CompletedTask;
+        }
+    }
+    public sealed class DisableNextTurnButtonIfControledByPlayer : BaseInteraction, IOnEntityDiedInteraction
+    {
+        public override Priority m_Priority => Priority.VERY_HIGH;
+        public UniTask OnEntityDied(Entity a_entity, Entity a_cause, World a_world)
+        {
+            BattleUiRefs.Instance.m_NextTurnButton.Hide();
             return UniTask.CompletedTask;
         }
     }
@@ -174,7 +184,7 @@ namespace Interactions.IOnEntityDiedInteraction
 
             if (filter.IsEmpty())
             {
-                G.BattleOutcomes.PlayerWon(a_world);
+                G.Battle.PlayerWon(a_world);
             }
         }
     }
@@ -195,7 +205,7 @@ namespace Interactions.IOnEntityDiedInteraction
                 {
                     GU.DisposeAI(e, a_world);
                 }
-                G.BattleOutcomes.PlayerLost(a_world);
+                G.Battle.PlayerLost(a_world);
             }
         }
     }

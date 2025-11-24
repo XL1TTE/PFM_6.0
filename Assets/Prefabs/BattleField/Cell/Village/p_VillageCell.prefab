@@ -114,8 +114,8 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1908443901035298307}
   m_Enabled: 1
-  m_SortingLayerID: -1565445931
-  m_SortingLayer: 3
+  m_SortingLayerID: 854103361
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_SortAtRoot: 0
 --- !u!1 &1995802897662666793
@@ -214,8 +214,8 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1995802897662666793}
   m_Enabled: 1
-  m_SortingLayerID: -1565445931
-  m_SortingLayer: 3
+  m_SortingLayerID: 854103361
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_SortAtRoot: 0
 --- !u!1 &2961481085919262409
@@ -504,8 +504,8 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5919272042299538722}
   m_Enabled: 1
-  m_SortingLayerID: -1565445931
-  m_SortingLayer: 3
+  m_SortingLayerID: 854103361
+  m_SortingLayer: 5
   m_SortingOrder: 2
   m_SortAtRoot: 0
 --- !u!1 &7284293115489919665
@@ -604,8 +604,8 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7284293115489919665}
   m_Enabled: 1
-  m_SortingLayerID: -1565445931
-  m_SortingLayer: 3
+  m_SortingLayerID: 854103361
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_SortAtRoot: 0
 --- !u!1 &8107789151260664424
@@ -704,7 +704,7 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8107789151260664424}
   m_Enabled: 1
-  m_SortingLayerID: -1565445931
-  m_SortingLayer: 3
+  m_SortingLayerID: 854103361
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_SortAtRoot: 0

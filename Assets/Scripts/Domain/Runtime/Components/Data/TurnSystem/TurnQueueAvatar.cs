@@ -8,7 +8,7 @@ namespace Domain.TurnSystem.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct TurnQueueAvatar : IComponent
+    public struct AvatarUI : IComponent
     {
         public Sprite m_Value;
     }

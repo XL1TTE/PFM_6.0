@@ -1,15 +1,15 @@
 using System.Collections.Generic;
+using Core.Utilities;
+using Cysharp.Threading.Tasks;
 using Domain.Abilities.Components;
 using Domain.Abilities.Mono;
 using Domain.Abilities.Providers;
 using Domain.Extentions;
-using Domain.Monster.Tags;
-using Domain.TurnSystem.Events;
-using Domain.TurnSystem.Tags;
+
 using Domain.UI.Mono;
 using Game;
-using Persistence.Components;
-using Persistence.DB;
+using Interactions;
+
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -19,58 +19,31 @@ namespace Gameplay.TurnSystem.Systems
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class MonsterAbilitiesDrawSystem : ISystem
+    public sealed class MonsterAbilitiesDrawSystem : BaseInteraction, IOnTurnStartInteraction
     {
-        public World World { get; set; }
 
-        private Filter filter_monsterTurnTaker;
-
-        private Event<NextTurnStartedEvent> evt_nextTurnStarted;
-        private Stash<AbilitiesComponent> stash_Abilities;
-        private readonly AbilityButtonView m_AbilityButtonPrefab = GR.p_AbilityButton;
-
-
-        private List<AbilityButtonView> m_abilityBtnsCache = new();
-
-        public void OnAwake()
+        public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
         {
-            filter_monsterTurnTaker = World.Filter
-                .With<TagMonster>()
-                .With<CurrentTurnTakerTag>()
-                .Build();
-
-            evt_nextTurnStarted = World.GetEvent<NextTurnStartedEvent>();
-
-            stash_Abilities = World.GetStash<AbilitiesComponent>();
-        }
-
-        public void OnUpdate(float deltaTime)
-        {
-            foreach (var evt in evt_nextTurnStarted.publishedChanges)
+            if (F.IsTakingTurn(a_turnTaker, a_world))
             {
-                if (filter_monsterTurnTaker.IsEmpty() == false)
-                { // means that now is monster turn
-
-                    var abilityOwner = filter_monsterTurnTaker.First();
-
-                    ClearAbilityViews();
-                    DrawAbilities(abilityOwner);
-                    G.UpdateAbilityButtonsState(World);
-                }
-                else
-                {
-                    ClearAbilityViews();
-                }
+                ClearAbilityViews();
+                DrawAbilities(a_turnTaker, a_world);
+                G.UpdateAbilityButtonsState(a_world);
             }
+            else
+            {
+                ClearAbilityViews();
+            }
+            return UniTask.CompletedTask;
         }
 
-        public void Dispose()
+        private void DrawAbilities(Entity abilityOwner, World a_world)
         {
+            var t_book = BattleUiRefs.Instance.BookWidget;
+            var stash_Abilities = a_world.GetStash<AbilitiesComponent>();
 
-        }
+            var m_AbilityButtonPrefab = GR.p_AbilityButton;
 
-        private void DrawAbilities(Entity abilityOwner)
-        {
             if (stash_Abilities.Has(abilityOwner) == false) { return; }
             var t_abilities = stash_Abilities.Get(abilityOwner);
 
@@ -81,7 +54,7 @@ namespace Gameplay.TurnSystem.Systems
                 SetAbilityIcon(ability_btn, t_abilities.m_LeftHandAbility);
                 AttachAbilityOwnerToView(ability_btn, abilityOwner);
                 AttachAbilityToView(ability_btn, t_abilities.m_LeftHandAbility);
-                m_abilityBtnsCache.Add(ability_btn);
+                t_book.m_TurnTakerAbilitiesCache.Add(ability_btn);
             }
             if (t_abilities.m_RightHandAbility?.m_Value != null)
             {
@@ -91,7 +64,7 @@ namespace Gameplay.TurnSystem.Systems
 
                 AttachAbilityOwnerToView(ability_btn, abilityOwner);
                 AttachAbilityToView(ability_btn, t_abilities.m_RightHandAbility);
-                m_abilityBtnsCache.Add(ability_btn);
+                t_book.m_TurnTakerAbilitiesCache.Add(ability_btn);
             }
             if (t_abilities.m_HeadAbility?.m_Value != null)
             {
@@ -101,7 +74,7 @@ namespace Gameplay.TurnSystem.Systems
 
                 AttachAbilityOwnerToView(ability_btn, abilityOwner);
                 AttachAbilityToView(ability_btn, t_abilities.m_HeadAbility);
-                m_abilityBtnsCache.Add(ability_btn);
+                t_book.m_TurnTakerAbilitiesCache.Add(ability_btn);
             }
             if (t_abilities.m_LegsAbility?.m_Value != null)
             {
@@ -111,7 +84,7 @@ namespace Gameplay.TurnSystem.Systems
 
                 AttachAbilityOwnerToView(ability_btn, abilityOwner);
                 AttachAbilityToView(ability_btn, t_abilities.m_LegsAbility);
-                m_abilityBtnsCache.Add(ability_btn);
+                t_book.m_TurnTakerAbilitiesCache.Add(ability_btn);
             }
             if (t_abilities.m_TurnAroundAbility?.m_Value != null)
             {
@@ -121,7 +94,7 @@ namespace Gameplay.TurnSystem.Systems
 
                 AttachAbilityOwnerToView(ability_btn, abilityOwner);
                 AttachAbilityToView(ability_btn, t_abilities.m_TurnAroundAbility);
-                m_abilityBtnsCache.Add(ability_btn);
+                t_book.m_TurnTakerAbilitiesCache.Add(ability_btn);
             }
         }
 
@@ -147,11 +120,13 @@ namespace Gameplay.TurnSystem.Systems
 
         private void ClearAbilityViews()
         {
-            foreach (var item in m_abilityBtnsCache)
+            var t_book = BattleUiRefs.Instance.BookWidget;
+
+            foreach (var item in t_book.m_TurnTakerAbilitiesCache)
             {
                 Object.Destroy(item.gameObject);
             }
-            m_abilityBtnsCache.Clear();
+            t_book.m_TurnTakerAbilitiesCache.Clear();
         }
     }
 }

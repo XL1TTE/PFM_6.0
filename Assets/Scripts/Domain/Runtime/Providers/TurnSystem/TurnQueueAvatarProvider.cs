@@ -7,7 +7,7 @@ namespace Domain.TurnSystem.Providers
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class TurnQueueAvatarProvider : ComponentProvider<TurnQueueAvatar>
+    public sealed class TurnQueueAvatarProvider : ComponentProvider<AvatarUI>
     {
 
     }

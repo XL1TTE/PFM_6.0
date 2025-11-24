@@ -16,7 +16,7 @@ namespace Persistence.DB
         {
             ID("abt_turn_around");
 
-            With<IconUI>(new IconUI(GR.SPR_TURN_AROUND_ABILITY_ICON));
+            With<IconUI>(new IconUI(GR.SPR_UI_ABT_ROTATE));
             With(new AbilityDefenition
             {
                 m_AbilityType = AbilityType.ROTATE,

@@ -35,7 +35,7 @@ namespace Persistence.Buiders
             stash_transformRef = _ecsWorld.GetStash<TransformRefComponent>();
             stash_hitBox = _ecsWorld.GetStash<HitBoxComponent>();
             stash_monsterDammyRef = _ecsWorld.GetStash<MonsterDammyRefComponent>();
-            stash_turnQueueAvatar = _ecsWorld.GetStash<TurnQueueAvatar>();
+            stash_turnQueueAvatar = _ecsWorld.GetStash<Domain.TurnSystem.Components.AvatarUI>();
             stash_initEffectsPool = _ecsWorld.GetStash<InitialEffectsPoolComponent>();
             stash_iHaveHealthBar = _ecsWorld.GetStash<IHaveHealthBar>();
 
@@ -70,7 +70,7 @@ namespace Persistence.Buiders
         Stash<TransformRefComponent> stash_transformRef;
         Stash<HitBoxComponent> stash_hitBox;
         Stash<MonsterDammyRefComponent> stash_monsterDammyRef;
-        Stash<TurnQueueAvatar> stash_turnQueueAvatar;
+        Stash<Domain.TurnSystem.Components.AvatarUI> stash_turnQueueAvatar;
 
         Stash<InitialEffectsPoolComponent> stash_initEffectsPool;
         private readonly Stash<IHaveHealthBar> stash_iHaveHealthBar;
@@ -227,6 +227,22 @@ namespace Persistence.Buiders
             {
                 all_effects.AddRange(head_effects.m_Effects);
             }
+            if (DataBase.TryGetRecord<EffectsProvider>(rec_farLeg, out var fLeg_effects))
+            {
+                all_effects.AddRange(fLeg_effects.m_Effects);
+            }
+            if (DataBase.TryGetRecord<EffectsProvider>(rec_nearLeg, out var nLeg_effects))
+            {
+                all_effects.AddRange(nLeg_effects.m_Effects);
+            }
+            if (DataBase.TryGetRecord<EffectsProvider>(rec_farArm, out var fArm_effects))
+            {
+                all_effects.AddRange(fArm_effects.m_Effects);
+            }
+            if (DataBase.TryGetRecord<EffectsProvider>(rec_nearArm, out var nArm_effects))
+            {
+                all_effects.AddRange(nArm_effects.m_Effects);
+            }
 
             stash_initEffectsPool.Set(monster_entity, new InitialEffectsPoolComponent
             {
@@ -254,8 +270,17 @@ namespace Persistence.Buiders
 
             stash_monsterDammyRef.Add(monster_entity, new MonsterDammyRefComponent { MonsterDammy = monsterDammy });
 
-            stash_turnQueueAvatar.Add(monster_entity, new TurnQueueAvatar { m_Value = monsterDammy.MonsterAvatar });
 
+            if (DataBase.TryGetRecord<AvatarUI>(rec_head, out var avatarUI))
+            {
+                stash_turnQueueAvatar.Set(monster_entity,
+                    new AvatarUI { m_Value = avatarUI.m_Value });
+            }
+            else
+            {
+                stash_turnQueueAvatar.Set(monster_entity,
+                    new AvatarUI { m_Value = GR.SPR_UI_AVATAR_CAT });
+            }
 
             stash_interactions.Set(monster_entity, new InteractionsComponent
             {

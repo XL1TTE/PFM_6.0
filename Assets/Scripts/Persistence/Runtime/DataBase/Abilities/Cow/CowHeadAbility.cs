@@ -16,7 +16,7 @@ namespace Persistence.DB
         {
             ID("abt_cow-head");
 
-            With<IconUI>(new IconUI(GR.SPR_ATTACK_ABILITY_ICON));
+            With<IconUI>(new IconUI(GR.SPR_UI_ABT_ATTACK));
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{

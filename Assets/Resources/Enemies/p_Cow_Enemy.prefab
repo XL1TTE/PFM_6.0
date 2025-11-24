@@ -42,7 +42,7 @@ SortingGroup:
   m_GameObject: {fileID: 1350013977841652050}
   m_Enabled: 1
   m_SortingLayerID: 257000035
-  m_SortingLayer: 6
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_SortAtRoot: 0
 --- !u!1 &1702015493862502221
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    m_Value: {fileID: 21300000, guid: 8b2724d2afafeec46a35beceeb6fa077, type: 3}
+    m_Value: {fileID: -697223095, guid: 3fbff174b68fe9349af18f8eb3a2580a, type: 3}
 --- !u!114 &1031712963108783947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,13 +151,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702015493862502221}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e50801e5e07daed4ca3daa8765650209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    Offset: {x: 0, y: 0}
+    Offset: {x: 0, y: 9.71}
     Size: {x: 50, y: 50}
 --- !u!114 &7767710113392478308
 MonoBehaviour:
@@ -253,6 +253,7 @@ MonoBehaviour:
     m_LeftHandID: bp_cow-arm
     m_RightHandID: bp_cow-arm
     m_HeadID: bp_cow-head
+    m_TorsoID: 
     m_LeftLeg: bp_cow-leg
     m_RightLeg: bp_cow-leg
 --- !u!114 &6108805618221536525
@@ -349,7 +350,7 @@ Transform:
   m_GameObject: {fileID: 7370415000329741317}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 11.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -399,7 +400,7 @@ SpriteRenderer:
   m_SortingLayerID: 156326315
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8b2724d2afafeec46a35beceeb6fa077, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 00d11b4a0275d37478260dac0ee894a6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

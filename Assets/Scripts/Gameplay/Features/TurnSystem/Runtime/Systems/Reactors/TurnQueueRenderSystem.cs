@@ -25,7 +25,7 @@ namespace Gameplay.TurnSystem.Systems
         private Event<TurnSystemInitializedEvent> evt_turnSystemInitialized;
 
         private Stash<TurnQueueComponent> stash_turnQueue;
-        private Stash<TurnQueueAvatar> stash_turnQueueAvatar;
+        private Stash<AvatarUI> stash_turnQueueAvatar;
 
         private Entity _previousTurnTaker;
 
@@ -41,7 +41,7 @@ namespace Gameplay.TurnSystem.Systems
             evt_turnSystemInitialized = World.GetEvent<TurnSystemInitializedEvent>();
 
             stash_turnQueue = World.GetStash<TurnQueueComponent>();
-            stash_turnQueueAvatar = World.GetStash<TurnQueueAvatar>();
+            stash_turnQueueAvatar = World.GetStash<AvatarUI>();
         }
 
         public void OnUpdate(float deltaTime)

@@ -22,4 +22,5 @@ namespace Domain.Abilities.Mono
         public virtual void EnableUnavaibleView() => UnavaibleLayer?.SetActive(true);
         public virtual void DisableUnavaibleView() => UnavaibleLayer?.SetActive(false);
     }
+
 }

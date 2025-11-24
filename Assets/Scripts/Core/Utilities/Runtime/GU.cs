@@ -7,6 +7,7 @@ using Domain.BattleField.Tags;
 using Domain.Components;
 using Domain.Enemies.Tags;
 using Domain.Extentions;
+using Domain.GameEffects;
 using Domain.Monster.Tags;
 using Domain.Stats.Components;
 using Domain.TargetSelection.Events;
@@ -40,8 +41,7 @@ namespace Core.Utilities
 
             var t_shifts = Enumerable.Range(-a_area, a_area * 2 + 1)
                 .SelectMany(x => Enumerable.Range(-a_area, a_area * 2 + 1)
-                    .Select(y => new Vector2Int(x, y)))
-                .Where(pos => pos != Vector2Int.zero)
+                .Select(y => new Vector2Int(x, y)))
                 .ToList();
 
             return GU.GetCellsFromShifts(a_basis, t_shifts, a_world);
@@ -257,6 +257,32 @@ namespace Core.Utilities
                     break;
             }
         }
+
+        public static List<PermanentEffect> GetAllPermanentEffects(Entity a_target, World a_world)
+        {
+            var stash = a_world.GetStash<EffectsPoolComponent>();
+            if (stash.Has(a_target))
+            {
+                return stash.Get(a_target).m_PermanentEffects;
+            }
+            else
+            {
+                return new();
+            }
+        }
+        public static List<TemporalEffect> GetAllTemporalEffects(Entity a_target, World a_world)
+        {
+            var stash = a_world.GetStash<EffectsPoolComponent>();
+            if (stash.Has(a_target))
+            {
+                return stash.Get(a_target).m_TemporalEffects;
+            }
+            else
+            {
+                return new();
+            }
+        }
+
 
         /// <summary>
         /// Will delete AI component. So you will need to manualy setup it again if you 

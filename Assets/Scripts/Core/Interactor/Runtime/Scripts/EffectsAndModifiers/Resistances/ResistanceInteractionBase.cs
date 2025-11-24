@@ -1,7 +1,9 @@
 using System;
+using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.Stats.Components;
 using Persistence.DB;
+using Persistence.Utilities;
 using Scellecs.Morpeh;
 using static Domain.Stats.Components.IResistanceModiffier;
 
@@ -10,6 +12,7 @@ namespace Interactions
     public abstract class ResistanceInteractionBase<T> : BaseInteraction, IOnGameEffectApply, IOnGameEffectRemove
     where T : struct, IResistanceModiffier
     {
+        public override Priority m_Priority => Priority.VERY_HIGH;
         public async UniTask OnEffectApply(string a_EffectID, Entity a_Target, World a_world)
         {
             if (DataBase.TryFindRecordByID(a_EffectID, out var effectRecord) == false) { return; }
@@ -51,9 +54,18 @@ namespace Interactions
             }
 
             ref var target_mod = ref stash_modifier.Get(a_Target);
-            DataBase.TryGetRecord<T>(a_Effect, out var effect_mod);
+            // DataBase.TryGetRecord<T>(a_Effect, out var effect_mod);
 
-            target_mod.m_Stage = (Stage)Math.Clamp((Int32)target_mod.m_Stage - (Int32)effect_mod.m_Stage, 0, 2);
+            int t_calculated = 0;
+            foreach (var effect in GU.GetAllPermanentEffects(a_Target, a_world))
+            {
+                if (DbUtility.TryGetResistanceModifierFromEffectID<T>(effect.m_EffectId, out T modifier))
+                {
+                    t_calculated += (Int32)modifier.m_Stage;
+                }
+            }
+
+            target_mod.m_Stage = (Stage)Math.Clamp(t_calculated, -1, 2);
         }
 
         protected virtual bool ValidateEffect(Entity a_Effect, World a_world)

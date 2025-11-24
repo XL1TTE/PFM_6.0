@@ -1,3 +1,4 @@
+using System.Linq;
 using Persistence.Components;
 
 namespace Persistence.DB
@@ -15,6 +16,12 @@ namespace Persistence.DB
             });
             With<TagBodyPart>();
             With<TagHead>();
+
+            With<EffectsProvider>(new EffectsProvider
+            {
+                m_Effects = Enumerable.Repeat("effect_RatHead", 1).ToArray()
+            });
+
             With<AbilityProvider>(new AbilityProvider
             {
                 m_AbilityTemplateID = "abt_rat-head"
