@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Domain.GameEffects;
 using Domain.StateMachine.Components;
 using Domain.StateMachine.Mono;
+using Domain.UI.Mono;
 using Game;
 using Gameplay.FloatingDamage.Systems;
 using Persistence.Utilities;
@@ -35,6 +36,8 @@ namespace Interactions
         public override Priority m_Priority => Priority.VERY_LOW;
         public UniTask OnEffectApply(string a_EffectID, Entity a_Target, World a_world)
         {
+            if (SM.IsStateActive<BattleState>(out _) == false) { return UniTask.CompletedTask; }
+
             if (F.IsTakingTurn(a_Target, a_world) == false) { return UniTask.CompletedTask; }
             G.Battle.UpdateTurnTakerPageInBook(a_Target, a_world);
             return UniTask.CompletedTask;
@@ -42,9 +45,35 @@ namespace Interactions
 
         public UniTask OnEffectRemove(string a_EffectID, Entity a_Target, World a_world)
         {
+            if (SM.IsStateActive<BattleState>(out _) == false) { return UniTask.CompletedTask; }
+
             if (F.IsTakingTurn(a_Target, a_world) == false) { return UniTask.CompletedTask; }
 
             G.Battle.UpdateTurnTakerPageInBook(a_Target, a_world);
+            return UniTask.CompletedTask;
+        }
+    }
+    public sealed class UpdateBookViewForPinned : BaseInteraction, IOnGameEffectApply, IOnGameEffectRemove
+    {
+        public override Priority m_Priority => Priority.VERY_LOW;
+        public UniTask OnEffectApply(string a_EffectID, Entity a_Target, World a_world)
+        {
+            if (SM.IsStateActive<BattleState>(out _) == false) { return UniTask.CompletedTask; }
+            if (BattleUiRefs.Instance.BookWidget.m_PinnedEntity != a_Target) { return UniTask.CompletedTask; }
+
+            G.Battle.UpdateHoveredActorPageInBook(a_Target, a_world);
+
+            return UniTask.CompletedTask;
+        }
+
+        public UniTask OnEffectRemove(string a_EffectID, Entity a_Target, World a_world)
+        {
+            if (SM.IsStateActive<BattleState>(out _) == false) { return UniTask.CompletedTask; }
+
+            if (BattleUiRefs.Instance.BookWidget.m_PinnedEntity != a_Target) { return UniTask.CompletedTask; }
+
+            G.Battle.UpdateHoveredActorPageInBook(a_Target, a_world);
+
             return UniTask.CompletedTask;
         }
     }

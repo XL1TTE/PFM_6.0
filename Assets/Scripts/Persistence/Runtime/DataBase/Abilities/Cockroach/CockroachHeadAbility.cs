@@ -16,7 +16,14 @@ namespace Persistence.DB
         {
             ID("abt_cockroach-head");
 
-            With<IconUI>(new IconUI(GR.SPR_UI_ABT_ATTACK));
+            With<Name>(new Name("Radioactivity"));
+
+            With<Description>(new Description
+            {
+                m_Value = "Cockroach's radioactivity will decrease enemy poison resistance by 2."
+            });
+
+            With<IconUI>(new IconUI(GR.SPR_COCKROACH_RADIOACTIVE));
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{

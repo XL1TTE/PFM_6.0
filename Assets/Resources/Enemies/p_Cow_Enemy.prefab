@@ -151,7 +151,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702015493862502221}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e50801e5e07daed4ca3daa8765650209, type: 3}
   m_Name: 
@@ -253,6 +253,7 @@ MonoBehaviour:
     m_LeftHandID: bp_cow-arm
     m_RightHandID: bp_cow-arm
     m_HeadID: bp_cow-head
+    m_TorsoID: 
     m_LeftLeg: bp_cow-leg
     m_RightLeg: bp_cow-leg
 --- !u!114 &6108805618221536525

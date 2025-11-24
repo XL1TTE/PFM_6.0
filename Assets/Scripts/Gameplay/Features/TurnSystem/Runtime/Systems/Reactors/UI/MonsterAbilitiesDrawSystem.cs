@@ -5,14 +5,11 @@ using Domain.Abilities.Components;
 using Domain.Abilities.Mono;
 using Domain.Abilities.Providers;
 using Domain.Extentions;
-using Domain.Monster.Tags;
-using Domain.TurnSystem.Events;
-using Domain.TurnSystem.Tags;
+
 using Domain.UI.Mono;
 using Game;
 using Interactions;
-using Persistence.Components;
-using Persistence.DB;
+
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;

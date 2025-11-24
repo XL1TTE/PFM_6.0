@@ -1,6 +1,7 @@
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.UI.Mono;
+using Game;
 using Scellecs.Morpeh;
 
 namespace Interactions
@@ -22,6 +23,17 @@ namespace Interactions
             var t_book = BattleUiRefs.Instance.BookWidget;
 
             t_book.SetHealth(t_maxHealth, t_health);
+
+            return UniTask.CompletedTask;
+        }
+    }
+    public sealed class UpdateStatsInBookIfPinned : BaseInteraction, IOnEntityHealthChanged
+    {
+        public UniTask OnChanged(Entity a_entity, World a_world)
+        {
+            if (BattleUiRefs.Instance.BookWidget.m_PinnedEntity != a_entity) { return UniTask.CompletedTask; }
+
+            G.Battle.UpdateHoveredActorPageInBook(a_entity, a_world);
 
             return UniTask.CompletedTask;
         }

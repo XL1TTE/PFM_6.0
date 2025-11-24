@@ -118,6 +118,10 @@ namespace Core.Utilities
             => world.GetStash<TagEnemy>().Has(entity);
         public static bool IsOccupiedCell(Entity entity, World world)
             => world.GetStash<TagOccupiedCell>().Has(entity);
+        public static bool IsCellOccupiedByEnemy(Entity cellEntity, World world)
+            => F.IsEnemy(GU.GetCellOccupier(cellEntity, world), world);
+        public static bool IsCellOccupiedByMonster(Entity cellEntity, World world)
+            => F.IsMonster(GU.GetCellOccupier(cellEntity, world), world);
         public static bool IsCell(Entity entity, World world)
             => world.GetStash<CellTag>().Has(entity);
         public static bool IsBurnedCell(Entity cellEntity, World world)

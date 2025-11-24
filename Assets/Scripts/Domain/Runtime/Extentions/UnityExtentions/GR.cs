@@ -77,5 +77,11 @@ namespace Domain.Extentions
             = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_move");
         public readonly static Sprite SPR_UI_ABT_HEAL
             = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_heal");
+        public readonly static Sprite SPR_UI_ABT_SPIT
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_spit");
+        public readonly static Sprite SPR_UI_ABT_COCKROACH_SPIT
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_cockroach-spit");
+        public readonly static Sprite SPR_COCKROACH_RADIOACTIVE
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_radioactive");
     }
 }

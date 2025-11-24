@@ -425,7 +425,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_10
+      name: spr_cockroach-spit
       rect:
         serializedVersion: 2
         x: 108
@@ -777,7 +777,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_26
+      name: spr_radioactive
       rect:
         serializedVersion: 2
         x: 54
@@ -909,7 +909,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_32
+      name: spr_spit
       rect:
         serializedVersion: 2
         x: 54
@@ -1011,7 +1011,6 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       Spr_Sheet_Abilities_1: -274541523
-      Spr_Sheet_Abilities_10: -1331348198
       Spr_Sheet_Abilities_11: 629718720
       Spr_Sheet_Abilities_12: -1517465742
       Spr_Sheet_Abilities_13: 1031629351
@@ -1027,13 +1026,11 @@ TextureImporter:
       Spr_Sheet_Abilities_22: 1871027656
       Spr_Sheet_Abilities_23: -520751154
       Spr_Sheet_Abilities_25: -506218144
-      Spr_Sheet_Abilities_26: -189435186
       Spr_Sheet_Abilities_27: -1604915832
       Spr_Sheet_Abilities_28: 671860842
       Spr_Sheet_Abilities_29: 1723046751
       Spr_Sheet_Abilities_3: -424474800
       Spr_Sheet_Abilities_31: -1759124572
-      Spr_Sheet_Abilities_32: -922973201
       Spr_Sheet_Abilities_33: -2003324493
       Spr_Sheet_Abilities_4: -861445433
       Spr_Sheet_Abilities_5: -1493523804
@@ -1042,10 +1039,13 @@ TextureImporter:
       Spr_Sheet_Abilities_8: -1183736678
       Spr_Sheet_Abilities_9: 370607554
       spr_attack: -1496569039
+      spr_cockroach-spit: -1331348198
       spr_effect: 701033466
       spr_heal: -268585427
       spr_move: -32962102
+      spr_radioactive: -189435186
       spr_rotate: -191618522
+      spr_spit: -922973201
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

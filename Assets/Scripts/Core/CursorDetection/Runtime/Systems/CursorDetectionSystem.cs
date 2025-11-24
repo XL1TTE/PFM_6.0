@@ -97,8 +97,6 @@ namespace CursorDetection.Systems
 
             if (_closestEntity.IsExist() && _closestEntity != _lastUnderCursor)
             {
-                NotifyCursorEnter(_closestEntity);
-
                 stash_underCursor.Set(_closestEntity, new UnderCursorComponent
                 {
                     HitPoint = worldMousePos
@@ -110,6 +108,8 @@ namespace CursorDetection.Systems
 
                     NotifyCursorExit(_lastUnderCursor);
                 }
+                NotifyCursorEnter(_closestEntity);
+
                 _lastUnderCursor = _closestEntity;
             }
             else if (!_closestEntity.IsExist())

@@ -97,36 +97,6 @@ namespace Interactions
         }
     }
 
-    public sealed class ShowTurnTakerAvatarInBook : BaseInteraction, IOnTurnStartInteraction
-    {
-        public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
-        {
-            var avatarRenderer = BattleUiRefs.Instance.BookWidget.m_Avatar;
-            if (F.HasAvatar(a_turnTaker, a_world))
-            {
-                avatarRenderer.sprite = F.GetAvatar(a_turnTaker, a_world);
-            }
-            else
-            {
-                avatarRenderer.sprite = null;
-            }
-
-            return UniTask.CompletedTask;
-        }
-    }
-    public sealed class ShowTurnTakerNameInBook : BaseInteraction, IOnTurnStartInteraction
-    {
-        public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
-        {
-            if (F.HasName(a_turnTaker, a_world) == false) { return UniTask.CompletedTask; }
-
-            var t_name = F.GetName(a_turnTaker, a_world);
-
-            BattleUiRefs.Instance.BookWidget.SetTurnTakerName(t_name);
-
-            return UniTask.CompletedTask;
-        }
-    }
     public sealed class ShowTurnTakerStatsInBook : BaseInteraction, IOnTurnStartInteraction
     {
         public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
