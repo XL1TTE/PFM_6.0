@@ -17,6 +17,8 @@ namespace Project
 
         public void LoadPreparation()
         {
+            LabReferences.Instance().tutorialController.ContinueSpecial();
+
             labRef.uiController?.ShowPreparationScreen();
         }
 

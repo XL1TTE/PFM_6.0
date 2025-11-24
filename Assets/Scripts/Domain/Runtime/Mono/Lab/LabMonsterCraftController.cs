@@ -438,6 +438,8 @@ namespace Project
             ref var monstTransf = ref t_transform.Get(t_monsterEntity).Value;
             monstTransf.position = monsterPreviewContainer.position;
             monstTransf.parent = monsterPreviewContainer;
+
+            LabReferences.Instance().tutorialController.ContinueSpecial();
         }
 
         public void DeviewMonsterUpdate()
@@ -507,6 +509,8 @@ namespace Project
             {
                 labRef.monstersController.SaveCurrentState();
             }
+
+            LabReferences.Instance().tutorialController.ContinueSpecial();
         }
 
 

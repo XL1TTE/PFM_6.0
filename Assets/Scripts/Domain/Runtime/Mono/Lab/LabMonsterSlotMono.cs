@@ -52,6 +52,8 @@ namespace Project
         {
             if (is_occupied && currentMonsterData != null)
             {
+                if (LabReferences.Instance().tutorialController.IsTutorialActive()) { return; }
+
                 Debug.Log($"Delete button clicked for monster: {currentMonsterData.m_MonsterName}");
                 var monsterToDelete = currentMonsterData;
                 ClearSlot();

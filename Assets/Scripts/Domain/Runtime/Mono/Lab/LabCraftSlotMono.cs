@@ -1,6 +1,7 @@
 using Domain.Map;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 namespace Project
 {
@@ -9,6 +10,9 @@ namespace Project
         [Header("Refs")]
         public SpriteRenderer slotImage;
         public SpriteRenderer partIcon;
+
+        public Image slotImageIMAGE;
+        public Image partIconIMAGE;
 
         [Header("Sprites")]
         public Sprite normalSprite;
@@ -39,7 +43,10 @@ namespace Project
             craftController = LabReferences.Instance().craftController;
 
             partIcon.color = Color.clear;
+            partIconIMAGE.color = Color.clear;
+
             slotImage.sprite = normalSprite;
+            slotImageIMAGE.sprite = normalSprite;
 
             var labRef = LabReferences.Instance();
             switch (requiredType)
@@ -142,6 +149,7 @@ namespace Project
                     blinkCoroutine = null;
                 }
                 slotImage.sprite = normalSprite;
+                slotImageIMAGE.sprite = normalSprite;
             }
         }
 
@@ -156,16 +164,19 @@ namespace Project
                 if (showHighlighted)
                 {
                     slotImage.sprite = highlightedSprite;
+                    slotImageIMAGE.sprite = highlightedSprite;
                 }
                 else
                 {
                     slotImage.sprite = normalSprite;
+                    slotImageIMAGE.sprite = normalSprite;
                 }
 
                 yield return new WaitForSeconds(blinkInterval);
             }
 
             slotImage.sprite = normalSprite;
+            slotImageIMAGE.sprite = normalSprite;
         }
 
         private void OnMouseEnter()
@@ -210,22 +221,35 @@ namespace Project
         public void UpdatePartData(BodyPartData resource)
         {
             containedPart = resource;
+
             partIcon.sprite = resource.icon;
+            partIconIMAGE.sprite = resource.icon;
+
             partIcon.color = Color.white;
+            partIconIMAGE.color = Color.white;
+
             slotImage.sprite = normalSprite;
+            slotImageIMAGE.sprite = normalSprite;
+
             StopHighlightBlink();
         }
 
         public void HighlightSlot()
         {
             slotImage.sprite = highlightedSprite;
+            slotImageIMAGE.sprite = highlightedSprite;
         }
 
         public void ClearSlot()
         {
             containedPart = null;
+
             partIcon.color = Color.clear;
+            partIconIMAGE.color = Color.clear;
+
             slotImage.sprite = normalSprite;
+            slotImageIMAGE.sprite = normalSprite;
+
             StopHighlightBlink();
         }
 
