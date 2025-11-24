@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Persistence.Components;
 
 namespace Persistence.DB
@@ -16,6 +18,12 @@ namespace Persistence.DB
 
             With<TagBodyPart>();
             With<TagArm>();
+
+
+            With<EffectsProvider>(new EffectsProvider
+            {
+                m_Effects = Enumerable.Repeat("effect_RatArm", 1).ToArray()
+            });
 
             With<AbilityProvider>(new AbilityProvider
             {

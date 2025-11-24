@@ -253,6 +253,7 @@ MonoBehaviour:
     m_LeftHandID: bp_cockroach-arm
     m_RightHandID: bp_cockroach-arm
     m_HeadID: bp_cockroach-head
+    m_TorsoID: bp_cockroach-torso
     m_LeftLeg: bp_cockroach-leg
     m_RightLeg: bp_cockroach-leg
 --- !u!114 &6108805618221536525

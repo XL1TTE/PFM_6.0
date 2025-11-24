@@ -12,6 +12,7 @@ namespace Domain.Abilities.Components
         public string m_LeftHandID;
         public string m_RightHandID;
         public string m_HeadID;
+        public string m_TorsoID;
         public string m_LeftLeg;
         public string m_RightLeg;
     }

@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.GameEffects;
+using Domain.StateMachine.Components;
+using Domain.StateMachine.Mono;
 using Game;
 using Gameplay.FloatingDamage.Systems;
 using Persistence.Utilities;
@@ -28,17 +30,39 @@ namespace Interactions
             World a_world);
     }
 
+    public sealed class UpdateBookViewForTurnTaker : BaseInteraction, IOnGameEffectApply, IOnGameEffectRemove
+    {
+        public override Priority m_Priority => Priority.VERY_LOW;
+        public UniTask OnEffectApply(string a_EffectID, Entity a_Target, World a_world)
+        {
+            if (F.IsTakingTurn(a_Target, a_world) == false) { return UniTask.CompletedTask; }
+            G.Battle.UpdateTurnTakerPageInBook(a_Target, a_world);
+            return UniTask.CompletedTask;
+        }
+
+        public UniTask OnEffectRemove(string a_EffectID, Entity a_Target, World a_world)
+        {
+            if (F.IsTakingTurn(a_Target, a_world) == false) { return UniTask.CompletedTask; }
+
+            G.Battle.UpdateTurnTakerPageInBook(a_Target, a_world);
+            return UniTask.CompletedTask;
+        }
+    }
+
     public sealed class NotifyAboveEnemyEffectName : BaseInteraction, IOnGameEffectApply
     {
         public override Priority m_Priority => Priority.HIGH;
         public UniTask OnEffectApply(string a_EffectID, Entity a_Target, World a_world)
         {
+            if (SM.IsStateActive<BattleState>(out _) == false) { return UniTask.CompletedTask; }
+
             var position = GU.GetTransform(a_Target, a_world).position;
             var notification = DbUtility.GetNameFromRecordWithID(a_EffectID);
 
             FloatingGui.Show(position, TextPool.I()
                 .WarmupElement()
                 .SetText(notification)
+                .FitContent(true)
                 .FontSize(T.TEXT_SIZE_H2)
                 .SetColor(C.COLOR_DEFAULT));
 

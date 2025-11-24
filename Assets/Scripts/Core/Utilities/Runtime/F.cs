@@ -112,7 +112,7 @@ namespace Core.Utilities
             => world.GetStash<DiedEntityTag>().Has(entity);
         public static bool IsMonster(Entity entity, World world)
             => world.GetStash<TagMonster>().Has(entity);
-        public static bool IsTakesTurn(Entity entity, World world)
+        public static bool IsTakingTurn(Entity entity, World world)
             => world.GetStash<CurrentTurnTakerTag>().Has(entity);
         public static bool IsEnemy(Entity entity, World world)
             => world.GetStash<TagEnemy>().Has(entity);

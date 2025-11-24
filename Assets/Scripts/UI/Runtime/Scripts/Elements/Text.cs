@@ -3,11 +3,13 @@ namespace UI.Elements
     using System;
     using TMPro;
     using UnityEngine;
+    using UnityEngine.UI;
 
     [Serializable]
     public class Text : IUIElement, IPoolElement
     {
         [SerializeField] private TextMeshProUGUI m_Text;
+        [SerializeField] private ContentSizeFitter m_Fitter;
 
         public event Action OnFree;
 
@@ -40,9 +42,16 @@ namespace UI.Elements
             return this;
         }
 
+        public Text FitContent(bool fit)
+        {
+            m_Fitter.enabled = fit;
+            return this;
+        }
+
         internal override void Reset()
         {
             base.Reset();
+            FitContent(false);
             Free();
         }
 

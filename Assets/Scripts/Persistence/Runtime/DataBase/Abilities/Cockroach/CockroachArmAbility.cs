@@ -19,6 +19,9 @@ namespace Persistence.DB
 
             With<IconUI>(new IconUI(GR.SPR_UI_ABT_ATTACK));
 
+            With<Name>(new Name("Cockroach spit"));
+            With<Description>(new Description("Spits acid that deals damage on contact to all enemies within a radius, and also poisons them."));
+
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{

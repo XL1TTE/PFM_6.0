@@ -60,6 +60,7 @@ namespace Game
                         .WarmupElement()
                         .SetText(tag.ToString())
                         .AlignCenter()
+                        .FitContent(true)
                         .FontSize(T.TEXT_SIZE_H1)
                         .SetColor(a_damageType.ToColor());
 
@@ -68,6 +69,7 @@ namespace Game
 
                 var floatingDamage = TextPool.I()
                     .WarmupElement()
+                    .FitContent(true)
                     .SetText(a_value.ToString())
                     .AlignCenter()
                     .FontSize(T.TEXT_SIZE_H1);
@@ -111,6 +113,7 @@ namespace Game
                     .WarmupElement()
                     .SetText(a_value.ToString())
                     .SetColor("#9dff7a".ToColor())
+                    .FitContent(true)
                     .AlignCenter()
                     .FontSize(T.TEXT_SIZE_H1);
 
@@ -125,6 +128,7 @@ namespace Game
                 .WarmupElement()
                 .SetText(a_message)
                 .FontSize(T.TEXT_SIZE_H1)
+                .FitContent(true)
                 .SetColor(a_color);
 
             FloatingGui.Show(Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, -20, 0), text);

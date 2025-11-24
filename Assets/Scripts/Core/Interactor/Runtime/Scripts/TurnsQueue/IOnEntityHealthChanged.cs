@@ -14,7 +14,7 @@ namespace Interactions
     {
         public UniTask OnChanged(Entity a_entity, World a_world)
         {
-            if (F.IsTakesTurn(a_entity, a_world) == false) { return UniTask.CompletedTask; }
+            if (F.IsTakingTurn(a_entity, a_world) == false) { return UniTask.CompletedTask; }
 
             var t_maxHealth = GU.GetMaxHealth(a_entity, a_world);
             var t_health = GU.GetHealth(a_entity, a_world);

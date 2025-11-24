@@ -131,19 +131,7 @@ namespace Interactions
     {
         public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
         {
-            var t_maxHealth = GU.GetMaxHealth(a_turnTaker, a_world);
-            var t_health = GU.GetHealth(a_turnTaker, a_world);
-            var t_speed = GU.GetSpeed(a_turnTaker, a_world);
-
-            var t_book = BattleUiRefs.Instance.BookWidget;
-
-            t_book.SetHealth(t_maxHealth, t_health);
-            t_book.SetSpeed(t_speed);
-
-            t_book.SetFireResSprite(GUI.GetFireResistanceSprite(a_turnTaker, a_world));
-            t_book.SetPoisonResSprite(GUI.GetPoisonResistanceSprite(a_turnTaker, a_world));
-            t_book.SetBleedResSprite(GUI.GetBleedResistanceSprite(a_turnTaker, a_world));
-
+            G.Battle.UpdateTurnTakerPageInBook(a_turnTaker, a_world);
             return UniTask.CompletedTask;
         }
     }

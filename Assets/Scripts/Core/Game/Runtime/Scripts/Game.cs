@@ -15,6 +15,7 @@ using Domain.Components;
 using Domain.Extentions;
 using Domain.GameEffects;
 using Domain.Stats.Components;
+using Domain.UI.Mono;
 using Domain.UI.Tags;
 using Domain.UI.Widgets;
 using DS.Files;
@@ -427,7 +428,7 @@ namespace Game
             }
         }
 
-        public static class BattleOutcomes
+        public static class Battle
         {
             public static void PlayerWon(World a_world)
             {
@@ -438,6 +439,26 @@ namespace Game
             {
                 Interactor.CallAll<IOnPlayerLostBattle>(async h => await h.OnPlayerLost(a_world)).Forget();
             }
+
+            public static void UpdateTurnTakerPageInBook(Entity entity, World a_world)
+            {
+                var t_maxHealth = GU.GetMaxHealth(entity, a_world);
+                var t_health = GU.GetHealth(entity, a_world);
+                var t_speed = GU.GetSpeed(entity, a_world);
+
+                var t_book = BattleUiRefs.Instance.BookWidget;
+
+                t_book.SetHealth(t_maxHealth, t_health);
+                t_book.SetSpeed(t_speed);
+
+                t_book.SetFireResSprite(GUI.GetFireResistanceSprite(entity, a_world));
+                t_book.SetPoisonResSprite(GUI.GetPoisonResistanceSprite(entity, a_world));
+                t_book.SetBleedResSprite(GUI.GetBleedResistanceSprite(entity, a_world));
+            }
+
+
+
+
         }
 
         public static class Statuses

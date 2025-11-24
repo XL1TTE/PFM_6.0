@@ -227,6 +227,22 @@ namespace Persistence.Buiders
             {
                 all_effects.AddRange(head_effects.m_Effects);
             }
+            if (DataBase.TryGetRecord<EffectsProvider>(rec_farLeg, out var fLeg_effects))
+            {
+                all_effects.AddRange(fLeg_effects.m_Effects);
+            }
+            if (DataBase.TryGetRecord<EffectsProvider>(rec_nearLeg, out var nLeg_effects))
+            {
+                all_effects.AddRange(nLeg_effects.m_Effects);
+            }
+            if (DataBase.TryGetRecord<EffectsProvider>(rec_farArm, out var fArm_effects))
+            {
+                all_effects.AddRange(fArm_effects.m_Effects);
+            }
+            if (DataBase.TryGetRecord<EffectsProvider>(rec_nearArm, out var nArm_effects))
+            {
+                all_effects.AddRange(nArm_effects.m_Effects);
+            }
 
             stash_initEffectsPool.Set(monster_entity, new InitialEffectsPoolComponent
             {

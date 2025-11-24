@@ -17,7 +17,7 @@ namespace Core.Ecs.Modules
             sg_Visuals.AddSystem(new InformationBoardViewSystem());
             //sg_Visuals.AddSystem(new TurnQueueRenderSystem());
             //sg_Visuals.AddSystem(new TurnTakerAvatarDrawSystem());
-            sg_Visuals.AddSystem(new MonsterAbilitiesDrawSystem());
+            //sg_Visuals.AddSystem(new MonsterAbilitiesDrawSystem());
             sg_Visuals.AddSystem(new CellsViewSystem());
 
             world.AddSystemsGroup(Priority, sg_Visuals);
