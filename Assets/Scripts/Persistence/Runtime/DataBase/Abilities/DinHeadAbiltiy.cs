@@ -17,7 +17,7 @@ namespace Persistence.DB
         {
             ID("abt_din_head");
 
-            With<IconUI>(new IconUI(GR.SPR_EFFECT_ABILITY_ICON));
+            With<IconUI>(new IconUI(GR.SPR_UI_ABT_EFFECT));
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{

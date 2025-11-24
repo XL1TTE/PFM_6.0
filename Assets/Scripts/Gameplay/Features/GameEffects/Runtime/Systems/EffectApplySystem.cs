@@ -41,7 +41,7 @@ namespace Gameplay.GameEffects
                 {
                     stash_effectPool.Set(req.Target, new EffectsPoolComponent
                     {
-                        m_StatusEffects = new(),
+                        m_TemporalEffects = new(),
                         m_PermanentEffects = new()
                     });
                 }
@@ -59,8 +59,8 @@ namespace Gameplay.GameEffects
                 }
                 else
                 {
-                    effectPool.m_StatusEffects
-                        .Add(new StatusEffect
+                    effectPool.m_TemporalEffects
+                        .Add(new TemporalEffect
                         {
                             m_EffectId = req.EffectId,
                             m_DurationInTurns = req.DurationInTurns,

@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using Domain.Abilities;
 using Domain.Extentions;
 using Domain.FloatingDamage;
+using Domain.Stats.Components;
 using Domain.UI.Widgets;
 using Gameplay.FloatingDamage.Systems;
 using Scellecs.Morpeh;
@@ -129,5 +130,50 @@ namespace Game
             FloatingGui.Show(Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, -20, 0), text);
         }
 
+        public static Sprite GetFireResistanceSprite(Entity a_entity, World a_world)
+        {
+            var stage = F.GetResistance<BurningResistanceModiffier>(a_entity, a_world);
+
+            switch (stage)
+            {
+                case IResistanceModiffier.Stage.NONE:
+                    return GR.SPR_UI_FIRE_RES_NONE;
+                case IResistanceModiffier.Stage.RESISTANT:
+                    return GR.SPR_UI_FIRE_RES_RESISTANT;
+                case IResistanceModiffier.Stage.IMMUNE:
+                    return GR.SPR_UI_FIRE_RES_IMMUNED;
+            }
+            return GR.SPR_UI_FIRE_RES_NONE;
+        }
+        public static Sprite GetPoisonResistanceSprite(Entity a_entity, World a_world)
+        {
+            var stage = F.GetResistance<PoisonResistanceModiffier>(a_entity, a_world);
+
+            switch (stage)
+            {
+                case IResistanceModiffier.Stage.NONE:
+                    return GR.SPR_UI_POISON_RES_NONE;
+                case IResistanceModiffier.Stage.RESISTANT:
+                    return GR.SPR_UI_POISON_RES_RESISTANT;
+                case IResistanceModiffier.Stage.IMMUNE:
+                    return GR.SPR_UI_POISON_RES_IMMUNED;
+            }
+            return GR.SPR_UI_POISON_RES_NONE;
+        }
+        public static Sprite GetBleedResistanceSprite(Entity a_entity, World a_world)
+        {
+            var stage = F.GetResistance<BleedResistanceModiffier>(a_entity, a_world);
+
+            switch (stage)
+            {
+                case IResistanceModiffier.Stage.NONE:
+                    return GR.SPR_UI_BLEED_RES_NONE;
+                case IResistanceModiffier.Stage.RESISTANT:
+                    return GR.SPR_UI_BLEED_RES_RESISTANT;
+                case IResistanceModiffier.Stage.IMMUNE:
+                    return GR.SPR_UI_BLEED_RES_IMMUNED;
+            }
+            return GR.SPR_UI_BLEED_RES_NONE;
+        }
     }
 }

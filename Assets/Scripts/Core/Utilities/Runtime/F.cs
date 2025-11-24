@@ -11,11 +11,13 @@ using Domain.Extentions;
 using Domain.HealthBars.Components;
 using Domain.Monster.Tags;
 using Domain.Stats.Components;
+using Domain.TurnSystem.Components;
 using Domain.TurnSystem.Tags;
 using Domain.UI.Tags;
 using Domain.UI.Widgets;
 using Persistence.Components;
 using Scellecs.Morpeh;
+using UnityEngine;
 
 namespace Core.Utilities
 {
@@ -98,6 +100,10 @@ namespace Core.Utilities
             return null;
         }
 
+        public static bool HasAvatar(Entity a_entity, World a_world)
+            => a_world.GetStash<AvatarUI>().Has(a_entity);
+        public static Sprite GetAvatar(Entity a_entity, World a_world)
+            => a_world.GetStash<AvatarUI>().Get(a_entity).m_Value;
 
         public static bool IsAiControlled(Entity entity, World world)
             => world.GetStash<AgentAIComponent>().Has(entity);
@@ -116,6 +122,11 @@ namespace Core.Utilities
             => world.GetStash<CellTag>().Has(entity);
         public static bool IsBurnedCell(Entity cellEntity, World world)
             => world.GetStash<TagBurnedCell>().Has(cellEntity);
+        public static bool IsPoisonedCell(Entity cellEntity, World world)
+            => world.GetStash<TagPoisonedCell>().Has(cellEntity);
+        public static bool IsCellWithThorns(Entity cellEntity, World world)
+            => world.GetStash<TagCellWithThorns>().Has(cellEntity);
+
 
         public static IResistanceModiffier.Stage GetResistance<T>(Entity a_actor, World a_world)
         where T : struct, IResistanceModiffier

@@ -10,7 +10,7 @@ namespace Domain.Stats.Components
     public interface IResistanceModiffier : IComponent
     {
         [Serializable]
-        public enum Stage { WEAKNESS = -1, NONE = 0, RESISTANT = 1, IMMUNE = 2 }
+        public enum Stage { STRONG_WEAKNESS = -2, WEAKNESS = -1, NONE = 0, RESISTANT = 1, IMMUNE = 2 }
 
         Stage m_Stage { get; set; }
     }

@@ -24,15 +24,54 @@ namespace Domain.UI.Widgets
         [SerializeField] public Transform m_MoveButtonSlot;
         [SerializeField] public Transform m_TurnAroundButtonSlot;
 
-        [Header("TurnTaker")]
+
+        [Header("Containers")]
+        [SerializeField] private Transform m_TurnTakerPageRoot;
+        [SerializeField] private Transform m_HoveredEntityPageRoot;
+
+        [Header("TurnTaker Info")]
         [SerializeField] private TextMeshProUGUI m_NameFirstLatter;
         [SerializeField] private TextMeshProUGUI m_NameRemains;
         [SerializeField] public Image m_Avatar;
 
-        [Header("Stats")]
+        [Header("Turn Taker Stats")]
         [SerializeField] private TextMeshProUGUI m_Health;
         [SerializeField] private TextMeshProUGUI m_Speed;
+        [SerializeField] private Image m_FireRes;
+        [SerializeField] private Image m_PoisonRes;
+        [SerializeField] private Image m_BleedingRes;
 
+        [Header("Hovered entity Info")]
+        [SerializeField] private TextMeshProUGUI m_RpNameFirstLatter;
+        [SerializeField] private TextMeshProUGUI m_RpNameRemains;
+        [SerializeField] public Image m_RpAvatar;
+
+        [Header("Hovered Entity Stats")]
+        [SerializeField] private TextMeshProUGUI m_RpHealth;
+        [SerializeField] private TextMeshProUGUI m_RpSpeed;
+        [SerializeField] private Image m_RpFireRes;
+        [SerializeField] private Image m_RpPoisonRes;
+        [SerializeField] private Image m_RpBleedingRes;
+
+        public void HideTurnTakerInfo()
+        {
+            m_TurnTakerPageRoot.gameObject.SetActive(false);
+
+        }
+        public void ShowTurnTakerInfo()
+        {
+            m_TurnTakerPageRoot.gameObject.SetActive(true);
+        }
+        public void HideHoveredEntityInfo()
+        {
+            m_HoveredEntityPageRoot.gameObject.SetActive(false);
+
+        }
+        public void ShowHoveredEntityInfo()
+        {
+            m_HoveredEntityPageRoot.gameObject.SetActive(true);
+
+        }
 
         public void SetHealth(int a_maxHealth, int a_health)
         {
@@ -40,6 +79,10 @@ namespace Domain.UI.Widgets
         }
 
         public void SetSpeed(int a_speed) => m_Speed.text = $"{a_speed}";
+
+        public void SetFireResSprite(Sprite sprite) => m_FireRes.sprite = sprite;
+        public void SetPoisonResSprite(Sprite sprite) => m_PoisonRes.sprite = sprite;
+        public void SetBleedResSprite(Sprite sprite) => m_BleedingRes.sprite = sprite;
 
         public void SetTurnTakerName(string a_name)
         {

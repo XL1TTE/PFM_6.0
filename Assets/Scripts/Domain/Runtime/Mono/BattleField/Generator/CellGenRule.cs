@@ -2,6 +2,7 @@ using Domain.Extentions;
 using Game;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Providers;
+using UnityEditor;
 using UnityEngine;
 
 namespace Domain.BattleField.Mono
@@ -9,7 +10,8 @@ namespace Domain.BattleField.Mono
     public class CellGenRule : MonoBehaviour
     {
         [HideInInspector] public Vector2Int GridPosition;
-        [SerializeField] public GameObject CellPrefab;
+
+        [SerializeReference] public GameObject CellPrefab;
         [SerializeField] public GameObject CellCache;
 
         [HideInInspector] private Entity CellEntityCache;
@@ -39,8 +41,13 @@ namespace Domain.BattleField.Mono
             if (CellPrefab != null)
             {
 
-                CellCache = Instantiate(CellPrefab, transform.position, transform.rotation, transform);
+                CellCache = (GameObject)PrefabUtility.InstantiatePrefab(CellPrefab.gameObject, transform);
+                //CellCache.transform.position = transform.position;
                 CellCache.name = "Cell";
+
+#if UNITY_EDITOR
+
+#endif
             }
         }
 

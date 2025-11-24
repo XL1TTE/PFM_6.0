@@ -568,9 +568,6 @@ namespace Game
                 if (V.IsBleeding(a_target, a_world)) { return; } // bleeding netrolize poison.
 
 
-                if (a_world.GetStash<BleedingStatusComponent>().Has(a_target)) { return; }
-
-
                 var stash_poison = a_world.GetStash<PoisonStatusComponent>();
                 if (stash_poison.Has(a_target))
                 {
@@ -658,11 +655,11 @@ namespace Game
                             isRemoved = true;
                         }
                     }
-                    for (int i = 0; i < pool.m_StatusEffects.Count; ++i)
+                    for (int i = 0; i < pool.m_TemporalEffects.Count; ++i)
                     {
-                        if (pool.m_StatusEffects[i].m_EffectId == a_EffectID)
+                        if (pool.m_TemporalEffects[i].m_EffectId == a_EffectID)
                         {
-                            pool.m_StatusEffects.RemoveAt(i);
+                            pool.m_TemporalEffects.RemoveAt(i);
                             isRemoved = true;
                         }
                     }
@@ -682,7 +679,7 @@ namespace Game
                     effect_pool.Set(a_subject, new EffectsPoolComponent
                     {
                         m_PermanentEffects = new(),
-                        m_StatusEffects = new()
+                        m_TemporalEffects = new()
                     });
                 }
 
@@ -697,7 +694,7 @@ namespace Game
                 }
                 else
                 {
-                    subjects_pool.m_StatusEffects.Add(new StatusEffect
+                    subjects_pool.m_TemporalEffects.Add(new TemporalEffect
                     {
                         m_EffectId = a_effectID,
                         m_DurationInTurns = a_duration,
