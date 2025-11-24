@@ -44,6 +44,7 @@ namespace Project
 
         public void BeginTutorial()
         {
+            tutorialScreen.SetActive(true);
             tutorial_active = true;
 
             tutorialCounter = -1;

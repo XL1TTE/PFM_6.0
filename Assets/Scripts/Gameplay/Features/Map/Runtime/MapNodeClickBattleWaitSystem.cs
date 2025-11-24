@@ -54,16 +54,23 @@ namespace Gameplay.Map.Systems
                         //ref var crusadeBattleId = ref DataStorage.GetRecordFromFile<Crusade, CurrentBattleId>();
                         //crusadeBattleId.battle_event_id = mapNodeEvIDComponent.event_id;
 
-                        ref var battleConfig = ref DataStorage.GetRecordFromFile<BattleConfig, LoadConfig>();
-
-                        if (DataBase.TryFindRecordByID(mapNodeEvIDComponent.event_id, out var @event))
+                        if (mapNodeEvIDComponent.event_id != "ev_BattleTutorial")
                         {
-                            var prefab = DataBase.GetRecord<PrefabComponent>(@event);
-                            battleConfig.m_prefab_level = prefab.Value;
+
+                            ref var battleConfig = ref DataStorage.GetRecordFromFile<BattleConfig, LoadConfig>();
+
+                            if (DataBase.TryFindRecordByID(mapNodeEvIDComponent.event_id, out var @event))
+                            {
+                                var prefab = DataBase.GetRecord<PrefabComponent>(@event);
+                                battleConfig.m_prefab_level = prefab.Value;
+                            }
+
+                            LoadingScreen.Instance.LoadScene("BattleField");
                         }
-
-                        LoadingScreen.Instance.LoadScene("BattleField");
-
+                        else
+                        {
+                            LoadingScreen.Instance.LoadScene("BattleFieldTutorial");
+                        }
                         //SceneManager.LoadScene("BattleField");
 
 

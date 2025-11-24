@@ -63,6 +63,7 @@ namespace Game
                 case CRUSADE_STATE.TUTORIAL:
                     crusadeState.crusade_state = CRUSADE_STATE.CHOOSING;
                     SM.EnterState<MapDefaultState>();
+                    flag_first_load = true;
                     flag_tutorial_load = true;
                     break;
                 default:
@@ -70,6 +71,13 @@ namespace Game
                     break;
             }
 
+            //flag_first_load = true;
+            //flag_tutorial_load = true;
+
+            if (flag_tutorial_load)
+            {
+                MapReferences.Instance().tutorialController.BeginTutorial();
+            }
 
             ConfigureSystems();
         }

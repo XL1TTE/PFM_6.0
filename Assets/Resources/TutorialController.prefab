@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1058676468333649268}
   - component: {fileID: 6316545792644215433}
   m_Layer: 0
-  m_Name: LabTutorialController
+  m_Name: TutorialController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
