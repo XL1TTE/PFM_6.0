@@ -102,7 +102,7 @@ namespace CursorDetection.Systems
                     HitPoint = worldMousePos
                 });
 
-                if (_lastUnderCursor.IsExist())
+                if (_lastUnderCursor.IsExist() && !_lastUnderCursor.isNullOrDisposed(World))
                 {
                     stash_underCursor.Remove(_lastUnderCursor);
 
@@ -114,7 +114,7 @@ namespace CursorDetection.Systems
             }
             else if (!_closestEntity.IsExist())
             {
-                if (_lastUnderCursor.IsExist())
+                if (_lastUnderCursor.IsExist() && !_lastUnderCursor.isNullOrDisposed(World))
                 {
                     stash_underCursor.Remove(_lastUnderCursor);
                     NotifyCursorExit(_lastUnderCursor);
