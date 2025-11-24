@@ -23,6 +23,7 @@ namespace Game
 
         // this is a fucking stupid fucking crutch to make it fucking stupid fucking work
         private bool flag_first_load = false;
+        private bool flag_tutorial_load = false;
 
         private static ECS_Main_Map m_Instance;
 
@@ -58,6 +59,11 @@ namespace Game
                     break;
                 case CRUSADE_STATE.TEXT_EVENT:
                     SM.EnterState<MapTextEvState>();
+                    break;
+                case CRUSADE_STATE.TUTORIAL:
+                    crusadeState.crusade_state = CRUSADE_STATE.CHOOSING;
+                    SM.EnterState<MapDefaultState>();
+                    flag_tutorial_load = true;
                     break;
                 default:
                     SM.EnterState<MapDefaultState>();
@@ -113,7 +119,7 @@ namespace Game
             //nodeWorld.RemoveSystemsGroup(systemsGroup);
 
 
-            m_mapWorld.GetEvent<MapLoadSceneEvent>().NextFrame(new MapLoadSceneEvent() { is_first_load = flag_first_load });
+            m_mapWorld.GetEvent<MapLoadSceneEvent>().NextFrame(new MapLoadSceneEvent() { is_first_load = flag_first_load, is_tutorial_load = flag_tutorial_load });
         }
 
 

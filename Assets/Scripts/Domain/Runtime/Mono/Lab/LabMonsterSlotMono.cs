@@ -14,6 +14,8 @@ namespace Project
     public class LabMonsterSlotMono : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
     {
         public SpriteRenderer sprite_renderer;
+        public Image sprite_renderer_IMAGE;
+
         public TMP_Text name_text;
         public bool is_occupied;
         public bool isExpeditionSlot = false;
@@ -31,6 +33,8 @@ namespace Project
             labRef = LabReferences.Instance();
             is_occupied = false;
             sprite_renderer.sprite = null;
+            sprite_renderer_IMAGE.sprite = null;
+            sprite_renderer_IMAGE.color = Color.clear;
             name_text.text = null;
 
             if (deleteButton != null)
@@ -183,10 +187,17 @@ namespace Project
         {
             dragCopy = new GameObject($"{name}_DragCopy");
             dragCopy.transform.SetParent(transform.root);
+
             SpriteRenderer copySprite = dragCopy.AddComponent<SpriteRenderer>();
             copySprite.sprite = sprite_renderer.sprite;
-            copySprite.sortingOrder = 1000;
+            copySprite.sortingLayerName = "UI";
+            copySprite.sortingOrder = 12;
             copySprite.color = new Color(1f, 1f, 1f, 0.8f);
+
+            //Image copySpriteIMAGE = dragCopy.AddComponent<Image>();
+            //copySpriteIMAGE.sprite = sprite_renderer.sprite;
+            //copySpriteIMAGE.color = new Color(1f, 1f, 1f, 0.8f);
+
             dragCopy.transform.localScale = transform.localScale;
             dragCopy.transform.position = transform.position;
         }
@@ -211,6 +222,8 @@ namespace Project
                     {
                         sprite_renderer.sprite = e_icon.m_Value;
                         sprite_renderer.color = Color.white;
+                        sprite_renderer_IMAGE.sprite = e_icon.m_Value;
+                        sprite_renderer_IMAGE.color = Color.white;
                     }
                 }
                 name_text.text = !string.IsNullOrEmpty(data.m_MonsterName) ? data.m_MonsterName : "Unnamed Monster";
@@ -229,6 +242,8 @@ namespace Project
             is_occupied = false;
             currentMonsterData = null;
             sprite_renderer.sprite = null;
+            sprite_renderer_IMAGE.sprite = null;
+            sprite_renderer_IMAGE.color = Color.clear;
             name_text.text = "";
             if (deleteButton != null) deleteButton.gameObject.SetActive(false);
             if (tooltipTrigger != null) tooltipTrigger.enabled = false;

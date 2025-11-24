@@ -86,6 +86,8 @@ namespace Project
 
             var currPart = allScreensWithWhatTheyEnable[tutorialCounter];
 
+            if (currPart.notification == null) { return; }
+
             await_special_continue = currPart.non_button_continue;
 
             currentNotification = currPart.notification;
