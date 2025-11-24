@@ -151,7 +151,7 @@ namespace Domain.Map.Mono
         {
             if (first_load)
             {
-                GenerateMap(collumn_count, row_count);
+                GenerateMap(collumn_count, row_count, false);
             }
             else
             {
@@ -163,11 +163,18 @@ namespace Domain.Map.Mono
         {
             foreach (var evt in evt_LoadScene.publishedChanges)
             {
-                BeginMainFunctions(evt.is_first_load);
+                if (!evt.is_tutorial_load)
+                {
+                    BeginMainFunctions(evt.is_first_load);
+                }
+                else
+                {
+                    GenerateMap(2,3,true);
+                }
             }
         }
 
-        public void GenerateMap(byte collumns, byte rows)
+        public void GenerateMap(byte collumns, byte rows, bool is_tutorial)
         {
             World = ECS_Main_Map.m_mapWorld;
 
@@ -182,8 +189,6 @@ namespace Domain.Map.Mono
 
             // ----------------------------------- First walkthrough - generate nodes and give IDs 
             Debug.LogWarning("----------------------------------- First walkthrough - generate nodes and give IDs");
-
-            #region
             // generation of first node, without any offset
             var entityFirst = World.CreateEntity();
 
@@ -201,6 +206,10 @@ namespace Domain.Map.Mono
 
             byte temp_node_count = 1;
 
+            if (!is_tutorial)
+            {
+
+            #region
             // temp array used for storing information about which rows are taken in past collumn.
             // Needed to create actually viable paths.
             byte[] temp_past_coll = new byte[rows];
@@ -308,7 +317,13 @@ namespace Domain.Map.Mono
             total_lenght = temp_end_x - first_x + map_hor_offset;
 
             World.Commit();
-            #endregion
+                #endregion
+
+            }
+            else
+            {
+
+            }
 
             // ----------------------------------- Second walkthrough - create connections between nodes
             Debug.LogWarning("----------------------------------- Second walkthrough - create connections between nodes");
@@ -1018,6 +1033,7 @@ namespace Domain.Map.Mono
 
         #region GenerateMapHelperFunctions
 
+
         private void AddNeighbour(MapNodeIdComponent id_to_add, MapNodeNeighboursComponent NeighbComponent)
         {
             List<byte> add_neighbours = NeighbComponent.node_neighbours;
@@ -1362,14 +1378,6 @@ namespace Domain.Map.Mono
 
         }
 
-        // This function is used to get an Array of all id`s from DB with some tag
-        // for now this is a dud
-        private List<string> GetEventsByTag(string tag)
-        {
-            var result = new List<string>();
-            return result;
-        }
-
         #endregion
 
 
@@ -1511,26 +1519,10 @@ namespace Domain.Map.Mono
         }
 
 
-
         public void Dispose()
         {
 
         }
-
-        //public void Update()
-        //{
-        //    //World.Update(Time.deltaTime);
-        //    //World.CleanupUpdate(Time.deltaTime);
-        //    //World.Commit();
-        //    SM.Update();
-        //}
-
-
-        //public void OnDestroy()
-        //{
-        //    World.Dispose();
-        //}
-
     }
 
 }

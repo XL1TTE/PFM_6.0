@@ -19,6 +19,7 @@ namespace Persistence.DS
         NONE,
         CHOOSING,
         TEXT_EVENT,
-        BATTLE
+        BATTLE,
+        TUTORIAL
     }
 }

@@ -84,6 +84,9 @@ namespace Project
             {
                 labRef.monstersController.DebugCurrentState();
             }
+
+            LabReferences.Instance().tutorialController.ContinueSpecial();
+
         }
 
         private IEnumerator SlideToMain()

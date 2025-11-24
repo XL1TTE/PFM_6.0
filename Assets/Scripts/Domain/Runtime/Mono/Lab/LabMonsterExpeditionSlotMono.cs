@@ -5,12 +5,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Persistence.DB;
 using Persistence.Components;
+using UnityEngine.UI;
 
 namespace Project
 {
     public class LabMonsterExpeditionSlotMono : MonoBehaviour, IDropHandler, IPointerClickHandler
     {
         public SpriteRenderer sprite_renderer;
+        public Image sprite_renderer_IMAGE;
         public TMP_Text name_text;
         public bool is_occupied;
 
@@ -25,6 +27,8 @@ namespace Project
             labRef = LabReferences.Instance();
             is_occupied = false;
             sprite_renderer.sprite = null;
+            sprite_renderer_IMAGE.sprite = null;
+            sprite_renderer_IMAGE.color = Color.clear;
             name_text.text = "Empty";
 
             tooltipTrigger = GetComponent<MonsterTooltipTrigger>();
@@ -104,11 +108,15 @@ namespace Project
                 {
                     sprite_renderer.sprite = monsterSprite;
                     sprite_renderer.color = Color.white;
+                    sprite_renderer_IMAGE.sprite = monsterSprite;
+                    sprite_renderer_IMAGE.color = Color.white;
                 }
                 else
                 {
                     Debug.LogWarning($"Failed to get sprite for monster: {data.m_MonsterName}");
                     sprite_renderer.sprite = null;
+                    sprite_renderer_IMAGE.sprite = null;
+                    sprite_renderer_IMAGE.color = Color.clear;
                 }
 
                 name_text.text = !string.IsNullOrEmpty(data.m_MonsterName) ? data.m_MonsterName : "Unnamed Monster";
@@ -122,6 +130,8 @@ namespace Project
 
                 if (clickCollider != null)
                     clickCollider.enabled = true;
+
+                LabReferences.Instance().tutorialController.ContinueSpecial();
             }
         }
 
@@ -148,6 +158,8 @@ namespace Project
             is_occupied = false;
             currentMonsterData = null;
             sprite_renderer.sprite = null;
+            sprite_renderer_IMAGE.sprite = null;
+            sprite_renderer_IMAGE.color = Color.clear;
             name_text.text = "Empty";
 
             if (tooltipTrigger != null)
