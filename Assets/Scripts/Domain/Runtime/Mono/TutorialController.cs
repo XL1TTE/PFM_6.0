@@ -7,6 +7,7 @@ namespace Project
     public class TutorialController : MonoBehaviour
     {
         private bool await_special_continue;
+        private bool tutorial_active;
 
         public GameObject tutorialScreen;
         public GameObject tutorialNotificationMessage;
@@ -43,6 +44,8 @@ namespace Project
 
         public void BeginTutorial()
         {
+            tutorial_active = true;
+
             tutorialCounter = -1;
 
             tutorialAllNotifications.SetActive(true);
@@ -114,15 +117,22 @@ namespace Project
         
         public void EndTutorial()
         {
+            tutorial_active = false;
             tutorialScreen.SetActive(false);
         }
 
 
         public void ContinueSpecial()
         {
-            if (!await_special_continue) { return; }
+            if (!await_special_continue && !tutorial_active) { return; }
 
             ContinueTutorial();
+        }
+
+
+        public bool IsTutorialActive()
+        {
+            return tutorial_active;
         }
     }
 
