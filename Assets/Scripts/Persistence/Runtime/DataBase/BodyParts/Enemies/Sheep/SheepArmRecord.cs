@@ -87,11 +87,11 @@ namespace Persistence.DB
 
             With<PartsOffsets>(new PartsOffsets
             {
-                NearLegOffset = new Vector2(-11f, -18f),
-                FarLegOffset = new Vector2(11f, -18f),
+                NearLegOffset = new Vector2(-4f, -7f),
+                FarLegOffset = new Vector2(4f, -7f),
                 NearArmOffset = new Vector2(-7f, 4f),
                 FarArmOffset = new Vector2(7f, 4f),
-                HeadOffset = new Vector2(1f, 5f),
+                HeadOffset = new Vector2(1f, 9f),
                 BodyOffset = new Vector2(0f, 12f)
             });
 
