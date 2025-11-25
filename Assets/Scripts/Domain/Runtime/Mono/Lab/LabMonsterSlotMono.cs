@@ -64,6 +64,8 @@ namespace Project
 
                 if (labRef.monstersController != null)
                 {
+                    AudioManager.Instance?.PlaySound(AudioManager.deleteMonsterSound);
+
                     labRef.monstersController.DeleteMonster(monsterToDelete);
                 }
             }
@@ -87,12 +89,18 @@ namespace Project
                 if (labRef.expeditionController != null && labRef.expeditionController.IsMonsterInExpedition(currentMonsterData))
                 {
                     Debug.Log($"Cannot add monster '{currentMonsterData.m_MonsterName}' to expedition - already added!");
+                    AudioManager.Instance?.PlaySound(AudioManager.buttonErrorSound);
                     return;
                 }
 
                 freeExpeditionSlot.OccupySelf(currentMonsterData);
                 labRef.expeditionController?.OnExpeditionSlotsChanged();
                 labRef.monstersController?.OnPreparationScreenChanged();
+                AudioManager.Instance?.PlaySound(AudioManager.putSound);
+            }
+            else
+            {
+                AudioManager.Instance?.PlaySound(AudioManager.buttonErrorSound);
             }
         }
 
@@ -114,6 +122,8 @@ namespace Project
             if (!is_occupied) return;
             CreateDragCopy();
             isDragging = true;
+
+            AudioManager.Instance?.PlaySound(AudioManager.whooshSound);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -209,6 +219,8 @@ namespace Project
             targetSlot.OccupySelf(monsterToMove);
             labRef.monstersController?.SaveCurrentState();
             labRef.previewController?.OnMonsterOrderChanged();
+
+            AudioManager.Instance?.PlaySound(AudioManager.putSound);
         }
 
         public void OccupySelf(MonsterData data)

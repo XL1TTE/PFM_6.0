@@ -10,6 +10,7 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private GameObject demoMessagePanel;
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private GameObject creditsPanel;
+    [SerializeField] private GameObject settingsPanel;
 
     [Header("Demo Message Settings")]
     [SerializeField] private float demoMessageDuration = 5f;
@@ -117,23 +118,65 @@ public class MainMenuController : MonoBehaviour
         isTransitioning = false;
     }
 
+    private IEnumerator TransitionToSettings()
+    {
+        if (isTransitioning) yield break;
+        isTransitioning = true;
+
+        //if (fadeController != null)
+        //{
+        //    yield return fadeController.FadeInCoroutine();
+        //}
+
+        mainMenuPanel.SetActive(false);
+        settingsPanel.SetActive(true);
+
+        //if (fadeController != null)
+        //{
+        //    yield return fadeController.FadeOutCoroutine();
+        //}
+
+        isTransitioning = false;
+    }
+
+    private IEnumerator TransitionFromSettingsToMainMenu()
+    {
+        if (isTransitioning) yield break;
+        isTransitioning = true;
+
+        //if (fadeController != null)
+        //{
+        //    yield return fadeController.FadeInCoroutine();
+        //}
+
+        settingsPanel.SetActive(false);
+        mainMenuPanel.SetActive(true);
+
+        //if (fadeController != null)
+        //{
+        //    yield return fadeController.FadeOutCoroutine();
+        //}
+
+        isTransitioning = false;
+    }
+
     private IEnumerator TransitionToCredits()
     {
         if (isTransitioning) yield break;
         isTransitioning = true;
 
-        if (fadeController != null)
-        {
-            yield return fadeController.FadeInCoroutine();
-        }
+        //if (fadeController != null)
+        //{
+        //    yield return fadeController.FadeInCoroutine();
+        //}
 
         mainMenuPanel.SetActive(false);
         creditsPanel.SetActive(true);
 
-        if (fadeController != null)
-        {
-            yield return fadeController.FadeOutCoroutine();
-        }
+        //if (fadeController != null)
+        //{
+        //    yield return fadeController.FadeOutCoroutine();
+        //}
 
         isTransitioning = false;
     }
@@ -143,18 +186,18 @@ public class MainMenuController : MonoBehaviour
         if (isTransitioning) yield break;
         isTransitioning = true;
 
-        if (fadeController != null)
-        {
-            yield return fadeController.FadeInCoroutine();
-        }
+        //if (fadeController != null)
+        //{
+        //    yield return fadeController.FadeInCoroutine();
+        //}
 
         creditsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
 
-        if (fadeController != null)
-        {
-            yield return fadeController.FadeOutCoroutine();
-        }
+        //if (fadeController != null)
+        //{
+        //    yield return fadeController.FadeOutCoroutine();
+        //}
 
         isTransitioning = false;
     }
@@ -171,34 +214,47 @@ public class MainMenuController : MonoBehaviour
 
     public void OnPlayButtonClicked()
     {
+        AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
         if (!isTransitioning)
             StartCoroutine(LoadGameScene());
     }
 
     public void OnDebugButtonClicked()
     {
+        AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
         if (!isTransitioning)
             OpenURL(debugFormURL);
     }
 
     public void OnFeedbackButtonClicked()
     {
+        AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
         if (!isTransitioning)
             OpenURL(feedbackFormURL);
     }
 
     public void OnSettingsButtonClicked()
     {
+        AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+        if (!isTransitioning)
+            StartCoroutine(TransitionToSettings());
     }
 
     public void OnCreditsButtonClicked()
     {
+        AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
         if (!isTransitioning)
             StartCoroutine(TransitionToCredits());
     }
 
     public void OnExitButtonClicked()
     {
+        AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
         if (!isTransitioning)
         {
             if (fadeController != null)
@@ -215,8 +271,17 @@ public class MainMenuController : MonoBehaviour
 
     public void OnBackButtonClicked()
     {
+        AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
         if (!isTransitioning)
             StartCoroutine(TransitionFromCreditsToMainMenu());
+    }
+    public void OnBackSettingsButtonClicked()
+    {
+        AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
+        if (!isTransitioning)
+            StartCoroutine(TransitionFromSettingsToMainMenu());
     }
 
     private void OpenURL(string url)
