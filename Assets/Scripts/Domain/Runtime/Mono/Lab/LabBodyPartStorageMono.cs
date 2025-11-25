@@ -1,12 +1,14 @@
 using Domain.Map;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Project
 {
     public class LabBodyPartStorageMono : MonoBehaviour
     {
         public SpriteRenderer part_sprite;
+        public Image part_sprite_IMAGE;
         public int count;
         public TMP_Text count_text;
 
@@ -27,6 +29,7 @@ namespace Project
             count = c;
             part_type = data.type;
             part_sprite.sprite = data.icon;
+            part_sprite_IMAGE.sprite = data.icon;
 
             craftController = LabReferences.Instance().craftController;
 
@@ -45,11 +48,13 @@ namespace Project
             if (count > 0)
             {
                 part_sprite.color = Color.white;
+                part_sprite_IMAGE.color = Color.white;
                 count_text.text = count.ToString();
             }
             else
             {
                 part_sprite.color = Color.gray;
+                part_sprite_IMAGE.color = Color.gray;
                 count_text.text = "0";
             }
         }
