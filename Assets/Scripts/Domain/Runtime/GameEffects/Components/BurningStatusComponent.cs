@@ -9,16 +9,8 @@ namespace Domain.GameEffects
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct BurningStatusComponent : IComponent
+    public struct BurningStatusComponent : IStatusEffectComponent
     {
-        [Serializable]
-        public class Stack
-        {
-            public int m_Duration;
-            public int m_TurnsLeft;
-            public int m_DamagePerTurn;
-        }
-
-        public List<Stack> m_Stacks;
+        public List<IStatusEffectComponent.Stack> m_Stacks { get; set; }
     }
 }

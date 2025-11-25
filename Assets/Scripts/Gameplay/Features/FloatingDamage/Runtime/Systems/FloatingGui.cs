@@ -33,6 +33,7 @@ namespace Gameplay.FloatingDamage.Systems
             var anim = m_instance.GetAnim(spawnPoint, a_element);
 
             anim.onComplete += () => a_element.Reset();
+            anim.onComplete += () => a_element.Free();
 
             anim.Play();
         }
