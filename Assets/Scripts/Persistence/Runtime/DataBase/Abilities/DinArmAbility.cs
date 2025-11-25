@@ -23,6 +23,8 @@ namespace Persistence.DB
 
             With<IconUI>(new IconUI(GR.SPR_UI_ABT_ATTACK));
 
+            With<AbilityShiftsSprite>(new AbilityShiftsSprite() { m_Value = Resources.Load<Sprite>("Assets/Resources/Art/Abilities/Spr_Bodypart_Head_Test_1") });
+
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
@@ -51,6 +53,8 @@ namespace Persistence.DB
 
             With<Description>(new Description("Heal in area."));
 
+            With<AbilityShiftsSprite>(new AbilityShiftsSprite() { m_Value = Resources.Load<Sprite>("Assets/Resources/Art/Abilities/Spr_Bodypart_Head_Test_1") });
+
             With<IconUI>(new IconUI(GR.SPR_UI_ABT_ATTACK));
             With(new AbilityDefenition
             {
@@ -77,6 +81,8 @@ namespace Persistence.DB
         public Din3ArmAbility()
         {
             ID("abt_din_arm3");
+
+            With<AbilityShiftsSprite>(new AbilityShiftsSprite() { m_Value = Resources.Load<Sprite>("Assets/Resources/Art/Abilities/Spr_Bodypart_Head_Test_1") });
 
             With<IconUI>(new IconUI(GR.SPR_UI_ABT_ATTACK));
             With(new AbilityDefenition

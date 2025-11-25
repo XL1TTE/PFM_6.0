@@ -14,7 +14,7 @@ namespace Project
         private Vector3 mouseDownPosition;
         private const float DRAG_THRESHOLD = 5f;
 
-        public string part_id;
+        //public string part_id;
         public BODYPART_TYPE part_type;
 
         public LabMonsterCraftController craftController;
@@ -108,6 +108,9 @@ namespace Project
                 count--;
                 craftController.PickResourceFromStorage(this);
                 UpdateDisplay();
+
+                AudioManager.Instance?.PlaySound(AudioManager.whooshSound);
+
                 Debug.Log($"Started drag with {bodyPartData.partName}");
             }
         }
@@ -122,12 +125,16 @@ namespace Project
                 {
                     count--;
                     Debug.Log($"Auto-placed {bodyPartData.partName} via single click");
+
+                    AudioManager.Instance?.PlaySound(AudioManager.putSound);
                 }
                 else
                 {
                     count--;
                     craftController.PickResourceFromStorage(this);
                     Debug.Log($"Picked {bodyPartData.partName} to hand via single click");
+
+                    AudioManager.Instance?.PlaySound(AudioManager.whooshSound);
                 }
 
                 UpdateDisplay();

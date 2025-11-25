@@ -17,12 +17,16 @@ namespace Project
 
         public void LoadPreparation()
         {
+            AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
             LabReferences.Instance().tutorialController.ContinueSpecial();
             labRef.uiController?.ShowPreparationScreen();
         }
 
         public void LoadMap()
         {
+            AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
             if (labRef.expeditionController == null) return;
 
             int expeditionMonsterCount = labRef.expeditionController.GetExpeditionMonsterCount();
@@ -62,6 +66,8 @@ namespace Project
 
         public void ReturnToMainLab()
         {
+            AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
             labRef.uiController?.ShowMainScreen();
         }
 

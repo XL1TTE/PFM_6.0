@@ -17,6 +17,8 @@ namespace Persistence.DB
             ID("abt_cow-leg");
 
             With<IconUI>(new IconUI(GR.SPR_UI_ABT_MOVE));
+
+            With<AbilityShiftsSprite>(new AbilityShiftsSprite() { m_Value = Resources.Load<Sprite>("Assets/Resources/Art/Abilities/Spr_Bodypart_Head_Test_1") });
             With(new AbilityDefenition
             {
                 m_AbilityType = AbilityType.MOVEMENT,

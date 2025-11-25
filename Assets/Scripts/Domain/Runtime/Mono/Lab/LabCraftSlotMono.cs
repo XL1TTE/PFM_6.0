@@ -121,6 +121,7 @@ namespace Project
                 craftController.SubstrPreviewPoint();
                 craftController.UpdateCreateButtonState();
 
+                AudioManager.Instance?.PlaySound(AudioManager.putSound);
                 Debug.Log($"Returned {containedPart?.partName} to inventory via single click");
             }
         }
@@ -200,6 +201,8 @@ namespace Project
                     UpdatePartData(resource);
                     craftController.PlaceResourceInSlot(this);
                     StopHighlightBlink();
+
+                    AudioManager.Instance?.PlaySound(AudioManager.putSound);
                     return true;
                 }
                 else if (pairCraftSlot != null)
@@ -210,11 +213,15 @@ namespace Project
                         craftController.PlaceResourceInSlot(this);
                         UpdatePartData(resource);
                         StopHighlightBlink();
+
+                        AudioManager.Instance?.PlaySound(AudioManager.putSound);
                         return true;
                     }
                 }
             }
             StopHighlightBlink();
+
+            AudioManager.Instance?.PlaySound(AudioManager.buttonErrorSound);
             return false;
         }
 

@@ -6,6 +6,7 @@ using Domain.Extentions;
 using Domain.Services;
 using Gameplay.Abilities;
 using Gameplay.TargetSelection;
+using Mono.Cecil;
 using Persistence.Components;
 using UnityEngine;
 
@@ -21,6 +22,9 @@ namespace Persistence.DB
 
             With<Name>(new Name("Cockroach spit"));
             With<Description>(new Description("Spits acid that deals damage on contact to all enemies within a radius, and also poisons them."));
+
+
+            With<AbilityShiftsSprite>(new AbilityShiftsSprite() { m_Value = Resources.Load<Sprite>("Assets/Resources/Art/Abilities/Spr_Bodypart_Head_Test_1") });
 
             With(new AbilityDefenition
             {
