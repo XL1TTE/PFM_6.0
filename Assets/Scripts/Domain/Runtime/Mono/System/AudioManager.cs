@@ -76,7 +76,7 @@ public class AudioManager : MonoBehaviour
 
     public static AudioManager Instance { get; private set; }
 
-    // События для изменения громкости
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     public System.Action<float> OnMasterVolumeChanged;
     public System.Action<float> OnMusicVolumeChanged;
     public System.Action<float> OnSFXVolumeChanged;
@@ -87,15 +87,15 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-    if (Instance == null)
+        if (Instance == null)
         {
-        Instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
             InitializeAudio();
         }
         else
         {
-        Destroy(gameObject);
+            Destroy(gameObject);
             return;
         }
     }
@@ -140,7 +140,7 @@ public class AudioManager : MonoBehaviour
 
         if (hasSavedSettings)
         {
-            Debug.Log("Загружаем сохраненные настройки");
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             currentMasterVolume = PlayerPrefs.GetFloat(MASTER_VOLUME_KEY, defaultMasterVolume);
             currentMusicVolume = PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, defaultMusicVolume);
             currentSFXVolume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, defaultSFXVolume);
@@ -149,7 +149,7 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Используем значения по умолчанию");
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             currentMasterVolume = defaultMasterVolume;
             currentMusicVolume = defaultMusicVolume;
             currentSFXVolume = defaultSFXVolume;

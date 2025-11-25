@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Domain.StateMachine.Mono;
+using Domain.StateMachine.Components;
 
 namespace Project
 {
@@ -45,12 +47,15 @@ namespace Project
                 settingsPanel.SetActive(false);
             }
 
-            // Настройка кнопок основного меню паузы
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             continueButton.onClick.AddListener(ContinueGame);
             settingsButton.onClick.AddListener(OpenSettings);
+            continueButton.onClick.AddListener(NotifyGameUnpaused);
+
+
             backToMenuButton.onClick.AddListener(BackToMainMenu);
 
-            // Настройка кнопки настроек
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             if (settingsBackButton != null)
             {
                 settingsBackButton.onClick.AddListener(CloseSettings);
@@ -59,6 +64,7 @@ namespace Project
             if (pauseButton != null)
             {
                 pauseButton.onClick.AddListener(TogglePause);
+                pauseButton.onClick.AddListener(NotifyGamePaused);
             }
 
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -98,6 +104,15 @@ namespace Project
             }
         }
 
+        private void NotifyGamePaused()
+        {
+            SM.EnterState<PauseState>();
+        }
+        private void NotifyGameUnpaused()
+        {
+            SM.ExitState<PauseState>();
+        }
+
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             currentSceneName = scene.name;
@@ -126,7 +141,7 @@ namespace Project
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                // Если открыты настройки - закрываем их, иначе пауза
+                // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
                 if (settingsPanel != null && settingsPanel.activeInHierarchy)
                 {
                     CloseSettings();
