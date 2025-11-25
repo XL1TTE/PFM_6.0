@@ -13,9 +13,12 @@ namespace Persistence.DB
 {
     public sealed class DinHeadAbiltiy : IDbRecord
     {
+        
         public DinHeadAbiltiy()
         {
             ID("abt_din_head");
+
+            With<AbilityShiftsSprite>(new AbilityShiftsSprite() { m_Value = Resources.Load<Sprite>("Art/Abilities/Spr_Bodypart_Head_Test_1") });
 
             With<IconUI>(new IconUI(GR.SPR_UI_ABT_EFFECT));
             With(new AbilityDefenition

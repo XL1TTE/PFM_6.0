@@ -1,6 +1,7 @@
 using Domain.Components;
 using Domain.Map;
 using Domain.Monster.Mono;
+using Domain.Stats.Components;
 using Game;
 using Persistence.Buiders;
 using Persistence.Components;
@@ -23,8 +24,8 @@ namespace Project
         private bool hasPartArm = false;
         private bool hasPartLeg = false;
 
-        public BodyPartData[] initialResources;
-        public int[] initialCounts;
+        //public BodyPartData[] initialResources;
+        //public int[] initialCounts;
 
         public bool isHoldingResource { get; private set; }
         public BodyPartData heldPartData { get; private set; }
@@ -112,22 +113,38 @@ namespace Project
                 if (part.Value <= 0) continue;
 
                 BodyPartData data = new BodyPartData();
+
                 BODYPART_TYPE tmp_type = BODYPART_TYPE.HEAD;
                 Sprite sprite = null;
 
+                string part_name = "";
+                string part_desc = "";
+
+                IResistanceModiffier.Stage part_res_fire = IResistanceModiffier.Stage.NONE;
+                IResistanceModiffier.Stage part_res_poison = IResistanceModiffier.Stage.NONE;
+                IResistanceModiffier.Stage part_res_bleed = IResistanceModiffier.Stage.NONE;
+
+                int hp_val = 0;
+                int spd_val = 0;
+
+                string abt_name = "";
+                string abt_desc = "";
+                Sprite abt_icon = null;
+                Sprite abt_shifts = null;
+
                 if (DataBase.TryFindRecordByID(part.Key, out var e_record))
                 {
-                    if (DataBase.TryGetRecord<Name>(e_record, out var nameRecord))
-                    {
-                        data.partName = nameRecord.m_Value;
-                    }
-                    else
-                    {
-                        data.partName = data.type.ToString();
-                    }
+                    //if (DataBase.TryGetRecord<Name>(e_record, out var nameRecord))
+                    //{
+                    //    data.partName = nameRecord.m_Value;
+                    //}
+                    //else
+                    //{
+                    //    data.partName = data.type.ToString();
+                    //}
+                    //data.description = $"A {data.type.ToString().ToLower()} part for crafting";
 
-                    data.description = $"A {data.type.ToString().ToLower()} part for crafting";
-
+                    // part type
                     if (DataBase.TryGetRecord<TagHead>(e_record, out var e_tmh))
                     {
                         tmp_type = BODYPART_TYPE.HEAD;
@@ -145,15 +162,100 @@ namespace Project
                         tmp_type = BODYPART_TYPE.LEG;
                     }
 
+
+                    // part icon
                     if (DataBase.TryGetRecord<IconUI>(e_record, out var e_icon))
                     {
                         sprite = e_icon.m_Value;
+                    }
+
+                    // part name and descr
+                    if (DataBase.TryGetRecord<Name>(e_record, out var e_name))
+                    {
+                        part_name = e_name.m_Value;
+                    }
+                    if (DataBase.TryGetRecord<Description>(e_record, out var e_desc))
+                    {
+                        part_desc = e_desc.m_Value;
+                    }
+
+
+                    // part effects - hp, speed, resists
+                    if (DataBase.TryGetRecord<EffectsProvider>(e_record, out var e_effects_record))
+                    {
+                        if (DataBase.TryFindRecordByID(e_effects_record.m_Effects[0], out var e_effect_pointer))
+                        {
+                            if (DataBase.TryGetRecord<MaxHealthModifier>(e_effect_pointer, out var e_effect_hp))
+                            {
+                                hp_val = e_effect_hp.m_Flat;
+                            }
+                            if (DataBase.TryGetRecord<SpeedModifier>(e_effect_pointer, out var e_effect_spd))
+                            {
+                                spd_val = e_effect_spd.m_Flat;
+                            }
+                            if (DataBase.TryGetRecord<BurningResistanceModiffier>(e_effect_pointer, out var e_effect_res_f))
+                            {
+                                part_res_fire = e_effect_res_f.m_Stage;
+                            }
+                            if (DataBase.TryGetRecord<PoisonResistanceModiffier>(e_effect_pointer, out var e_effect_res_p))
+                            {
+                                part_res_poison = e_effect_res_p.m_Stage;
+                            }
+                            if (DataBase.TryGetRecord<BleedResistanceModiffier>(e_effect_pointer, out var e_effect_res_b))
+                            {
+                                part_res_bleed = e_effect_res_b.m_Stage;
+                            }
+                        }
+                    }
+
+
+                    // part ability
+                    if (DataBase.TryGetRecord<AbilityProvider>(e_record, out var e_abt_id))
+                    {
+                        string abt_id = e_abt_id.m_AbilityTemplateID;
+
+                        if (DataBase.TryFindRecordByID(abt_id, out var e_abt_record))
+                        {
+                            if (DataBase.TryGetRecord<Name>(e_abt_record, out var e_abt_name))
+                            {
+                                abt_name = e_abt_name.m_Value;
+                            }
+                            if (DataBase.TryGetRecord<Description>(e_abt_record, out var e_abt_desc))
+                            {
+                                abt_desc = e_abt_desc.m_Value;
+                            }
+                            if (DataBase.TryGetRecord<IconUI>(e_abt_record, out var e_abt_icon))
+                            {
+                                abt_icon = e_abt_icon.m_Value;
+                            }
+                            if (DataBase.TryGetRecord<AbilityShiftsSprite>(e_abt_record, out var e_abt_shifts))
+                            {
+                                abt_shifts = e_abt_shifts.m_Value;
+                            }
+                        }
                     }
                 }
 
                 data.type = tmp_type;
                 data.db_id = part.Key;
                 data.icon = sprite;
+
+                data.partName = part_name;
+                data.description = part_desc;
+
+                data.hp_amount = hp_val;
+                data.speed_amount = spd_val;
+
+                data.res_fire = part_res_fire;
+                data.res_poison = part_res_poison;
+                data.res_bleed = part_res_bleed;
+
+                data.ability_name = abt_name;
+                data.ability_desc = abt_desc;
+                data.ability_icon = abt_icon;
+                data.ability_shifts = abt_shifts;
+
+
 
                 CreateLabBodyPartStorageMono(data, part.Value);
             }
