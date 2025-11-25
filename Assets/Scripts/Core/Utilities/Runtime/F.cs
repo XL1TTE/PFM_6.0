@@ -92,6 +92,8 @@ namespace Core.Utilities
             var stash_healthBarView = world.GetStash<HealthBarViewLink>();
             foreach (var bar in f_healthBars)
             {
+                if (bar.isNullOrDisposed(world)) { continue; }
+                if (stash_healthBarOwner.Has(bar) == false) { continue; }
                 if (stash_healthBarOwner.Get(bar).Value.Id == owner.Id)
                 {
                     return stash_healthBarView.Get(bar).Value;

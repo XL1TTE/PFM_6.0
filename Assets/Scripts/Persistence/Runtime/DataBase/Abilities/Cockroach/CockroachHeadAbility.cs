@@ -23,7 +23,7 @@ namespace Persistence.DB
                 m_Value = "Cockroach's radioactivity will decrease enemy poison resistance by 2."
             });
 
-            With<IconUI>(new IconUI(GR.SPR_COCKROACH_RADIOACTIVE));
+            With<IconUI>(new IconUI(GR.SPR_UI_ABT_COCKROACH_RADIOACTIVE));
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{

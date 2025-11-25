@@ -1,5 +1,6 @@
 
 using Domain.Components;
+using Domain.Extentions;
 using Persistence.Components;
 
 namespace Persistence.DB
@@ -10,10 +11,10 @@ namespace Persistence.DB
         {
             ID("bp_cow-leg");
 
-            With<LegSpritePath>(new LegSpritePath
+            With<LegSprite>(new LegSprite
             {
-                FarSprite = "Monsters/Sprites/test/Spr_Bodypart_Leg_Further_Test_1",
-                NearSprite = "Monsters/Sprites/test/Spr_Bodypart_Leg_Closer_Test_1"
+                m_FarSprite = GR.SPR_BP_FARM_COW,
+                m_NearSprite = GR.SPR_BP_NARM_COW
             });
             With<TagBodyPart>();
             With<TagLeg>();

@@ -1,31 +1,19 @@
 fileFormatVersion: 2
-guid: 5df2b27eb023bf748ad672ddc02324bb
+guid: 692a1f5317f99374898ee9bc5e8398a7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5003986716865755101
-    second: foot_0
+      213: 4512122570654469710
+    second: MosntersBodyParts_Rat_0
   - first:
-      213: 3928015792440003777
-    second: foot_1
+      213: -1233860449184445284
+    second: MosntersBodyParts_Rat_1
   - first:
-      213: 6251038916158088705
-    second: foot_2
+      213: 6409642528268916199
+    second: MosntersBodyParts_Rat_2
   - first:
-      213: 2577453321607992581
-    second: foot_3
-  - first:
-      213: -7430335177065333105
-    second: foot_4
-  - first:
-      213: 8998008802173356189
-    second: foot_5
-  - first:
-      213: 1606259656531535055
-    second: foot_6
-  - first:
-      213: 1635785854168889675
-    second: foot_7
+      213: -5828052738842575352
+    second: MosntersBodyParts_Rat_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -67,7 +55,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -96,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -121,177 +109,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: foot_0
+      name: Spr_Bp_nLeg_Rat
       rect:
         serializedVersion: 2
-        x: 7
-        y: 7
-        width: 40
-        height: 67
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 0
+        width: 14
+        height: 22
+      alignment: 9
+      pivot: {x: 0.2780139, y: 0.8355016}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3288170e7944e8ab0800000000000000
-      internalID: -5003986716865755101
+      spriteID: e4ec1ee52974e9e30800000000000000
+      internalID: 4512122570654469710
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: foot_1
+      name: Spr_Bp_fLeg_Rat
       rect:
         serializedVersion: 2
-        x: 18
-        y: 69
-        width: 8
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 13
+        y: 0
+        width: 15
+        height: 22
+      alignment: 9
+      pivot: {x: 0.3279607, y: 0.85442084}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1ccc28c3d8d138630800000000000000
-      internalID: 3928015792440003777
+      spriteID: c9c05ff657270eee0800000000000000
+      internalID: -1233860449184445284
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: foot_2
+      name: Spr_Bp_nArm_Rat
       rect:
         serializedVersion: 2
-        x: 25
-        y: 73
-        width: 10
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 29
+        y: 8
+        width: 11
+        height: 14
+      alignment: 9
+      pivot: {x: 0.53531545, y: 0.8151407}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 106eeba56c620c650800000000000000
-      internalID: 6251038916158088705
+      spriteID: 7e594b27bef93f850800000000000000
+      internalID: 6409642528268916199
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: foot_3
+      name: Spr_Bp_fArm_Rat
       rect:
         serializedVersion: 2
-        x: 35
-        y: 73
-        width: 12
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 40
+        y: 8
+        width: 7
+        height: 14
+      alignment: 9
+      pivot: {x: 0.42468208, y: 0.84288895}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 505589bd324f4c320800000000000000
-      internalID: 2577453321607992581
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: foot_4
-      rect:
-        serializedVersion: 2
-        x: 49
-        y: 73
-        width: 12
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f8e7ee8268522e890800000000000000
-      internalID: -7430335177065333105
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: foot_5
-      rect:
-        serializedVersion: 2
-        x: 49
-        y: 7
-        width: 40
-        height: 67
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d98816305595fdc70800000000000000
-      internalID: 8998008802173356189
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: foot_6
-      rect:
-        serializedVersion: 2
-        x: 61
-        y: 73
-        width: 10
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: fc46a94b5a49a4610800000000000000
-      internalID: 1606259656531535055
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: foot_7
-      rect:
-        serializedVersion: 2
-        x: 70
-        y: 69
-        width: 8
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b49785e419a73b610800000000000000
-      internalID: 1635785854168889675
+      spriteID: 80ebb0199e89e1fa0800000000000000
+      internalID: -5828052738842575352
       vertices: []
       indices: 
       edges: []
@@ -300,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 2a1ef813f4447db4b9214b5b4812b267
     internalID: 0
     vertices: []
     indices: 
@@ -310,14 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      foot_0: -5003986716865755101
-      foot_1: 3928015792440003777
-      foot_2: 6251038916158088705
-      foot_3: 2577453321607992581
-      foot_4: -7430335177065333105
-      foot_5: 8998008802173356189
-      foot_6: 1606259656531535055
-      foot_7: 1635785854168889675
+      Spr_Bp_fArm_Rat: -5828052738842575352
+      Spr_Bp_fLeg_Rat: -1233860449184445284
+      Spr_Bp_nArm_Rat: 6409642528268916199
+      Spr_Bp_nLeg_Rat: 4512122570654469710
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -132,29 +132,29 @@ namespace Persistence.Buiders
             }
 
             #region Sprite Attachment
-            if (DataBase.TryGetRecord<BodySpritePath>(rec_body, out var spr_torso))
+            if (DataBase.TryGetRecord<BodySprite>(rec_body, out var spr_torso))
             {
-                monsterDammy.AttachBody(spr_torso.path.LoadResource<Sprite>(), bodyOffsets.BodyOffset);
+                monsterDammy.AttachBody(spr_torso.m_Value, bodyOffsets.BodyOffset);
             }
-            if (DataBase.TryGetRecord<HeadSpritePath>(rec_head, out var spr_head))
+            if (DataBase.TryGetRecord<HeadSprite>(rec_head, out var spr_head))
             {
-                monsterDammy.AttachHead(spr_head.path.LoadResource<Sprite>(), bodyOffsets.HeadOffset);
+                monsterDammy.AttachHead(spr_head.m_Value, bodyOffsets.HeadOffset);
             }
-            if (DataBase.TryGetRecord<ArmSpritePath>(rec_farArm, out var spr_farArm))
+            if (DataBase.TryGetRecord<ArmSprite>(rec_farArm, out var spr_farArm))
             {
-                monsterDammy.AttachFarArm(spr_farArm.FarSprite.LoadResource<Sprite>(), bodyOffsets.FarArmOffset);
+                monsterDammy.AttachFarArm(spr_farArm.m_FarSprite, bodyOffsets.FarArmOffset);
             }
-            if (DataBase.TryGetRecord<ArmSpritePath>(rec_nearArm, out var spr_nearArm))
+            if (DataBase.TryGetRecord<ArmSprite>(rec_nearArm, out var spr_nearArm))
             {
-                monsterDammy.AttachNearArm(spr_nearArm.NearSprite.LoadResource<Sprite>(), bodyOffsets.NearArmOffset);
+                monsterDammy.AttachNearArm(spr_nearArm.m_NearSprite, bodyOffsets.NearArmOffset);
             }
-            if (DataBase.TryGetRecord<LegSpritePath>(rec_farLeg, out var spr_farLeg))
+            if (DataBase.TryGetRecord<LegSprite>(rec_farLeg, out var spr_farLeg))
             {
-                monsterDammy.AttachFarLeg(spr_farLeg.FarSprite.LoadResource<Sprite>(), bodyOffsets.FarLegOffset);
+                monsterDammy.AttachFarLeg(spr_farLeg.m_FarSprite, bodyOffsets.FarLegOffset);
             }
-            if (DataBase.TryGetRecord<LegSpritePath>(rec_nearLeg, out var spr_nearLeg))
+            if (DataBase.TryGetRecord<LegSprite>(rec_nearLeg, out var spr_nearLeg))
             {
-                monsterDammy.AttachNearLeg(spr_nearLeg.NearSprite.LoadResource<Sprite>(), bodyOffsets.NearLegOffset);
+                monsterDammy.AttachNearLeg(spr_nearLeg.m_NearSprite, bodyOffsets.NearLegOffset);
             }
 
             #endregion
@@ -171,6 +171,7 @@ namespace Persistence.Buiders
             AbilityData lLegAbtData = null;
             AbilityData rLegAbtData = null;
             AbilityData LegAbtData = null;
+
             if (DataBase.TryGetRecord<AbilityProvider>(rec_head, out var head_Ability))
             {
                 headAbtData = DbUtility.GetAbilityDataFromAbilityRecord(head_Ability.m_AbilityTemplateID);
@@ -199,7 +200,7 @@ namespace Persistence.Buiders
                 rLegAbtData = DbUtility.GetAbilityDataFromAbilityRecord(fleg_Ability.m_AbilityTemplateID);
             }
 
-            if (rLegAbtData != null && rLegAbtData != null && nleg_Ability.m_AbilityTemplateID == fleg_Ability.m_AbilityTemplateID)
+            if (rLegAbtData != null && lLegAbtData != null)
             {
                 var movements = DbUtility.CombineShifts(lLegAbtData.m_Shifts, rLegAbtData.m_Shifts);
                 LegAbtData = lLegAbtData;

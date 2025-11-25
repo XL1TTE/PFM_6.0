@@ -11,6 +11,7 @@ namespace Domain.Abilities.Components
         DAMAGE,
         HEAL,
         EFFECT,
+        DEBUFF
     }
 
     public enum AbilityType : byte

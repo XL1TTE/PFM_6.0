@@ -10,6 +10,7 @@ namespace Core.Utilities
         public static Color COLOR_BLEED = "#e21b1b".ToColor();
         public static Color COLOR_POISON = "#2f7c1d".ToColor();
         public static Color COLOR_BURNING = "#e48237".ToColor();
+        public static Color COLOR_HEALING = "#52da0e".ToColor();
 
 
         public static Color COLOR_NOTIFICATION_BG_DEFAULT = new Color(0, 0, 0, 0.8f);

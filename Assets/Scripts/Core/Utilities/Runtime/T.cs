@@ -5,6 +5,7 @@ using Domain.Extentions;
 using Gameplay.Abilities;
 using Persistence.Components;
 using Persistence.DB;
+using Persistence.Utilities;
 using UI.Elements;
 using UI.ToolTip;
 using UnityEngine;
@@ -139,6 +140,56 @@ namespace Core.Utilities
 
                 var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_PHYSICAL_DMG).MinSize(16);
                 t_line.Insert(icon);
+                t_line.Insert(text);
+                t_lines.Add(t_line);
+            }
+            foreach (var status in a_ability.GetEffects<Heal>())
+            {
+                HorizontalLayoutElement t_line = CreateHorizontalLine().AlignStart();
+                var text =
+                    TextPool.I().WarmupElement()
+                    .SetText($"HEALS TARGET FOR {status.m_Amount} HP.")
+                    .SetColor(C.COLOR_HEALING)
+                    .FontSize(TEXT_SIZE_B2);
+
+                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_PHYSICAL_DMG).MinSize(16);
+                t_line.Insert(icon);
+                t_line.Insert(text);
+                t_lines.Add(t_line);
+            }
+            foreach (var status in a_ability.GetEffects<HealInArea>())
+            {
+                HorizontalLayoutElement t_line = CreateHorizontalLine().AlignStart();
+                var text =
+                    TextPool.I().WarmupElement()
+                    .SetText($"HEALS ALL TARGET IN RADIUS OF {status.m_Area} FOR {status.m_Amount} HP.")
+                    .SetColor(C.COLOR_HEALING)
+                    .FontSize(TEXT_SIZE_B2);
+
+                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_PHYSICAL_DMG).MinSize(16);
+                t_line.Insert(icon);
+                t_line.Insert(text);
+                t_lines.Add(t_line);
+            }
+
+            foreach (var effect in a_ability.GetEffects<ApplyToAllAlliesInArea>())
+            {
+                var t_text = $"For every ally in area of {effect.m_Area}:\n";
+
+                var applyEffects = effect.m_Nodes.GetAll<ApplyEffect>();
+                foreach (var e in applyEffects)
+                {
+                    var name = DbUtility.GetNameFromRecordWithID(e.m_EffectID);
+                    t_text += $" Apply effect - {name}";
+                }
+
+                HorizontalLayoutElement t_line = CreateHorizontalLine().AlignStart();
+                var text =
+                    TextPool.I().WarmupElement()
+                    .SetText(t_text)
+                    .SetColor(C.COLOR_DEFAULT)
+                    .FontSize(TEXT_SIZE_B2);
+
                 t_line.Insert(text);
                 t_lines.Add(t_line);
             }

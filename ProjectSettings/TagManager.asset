@@ -60,17 +60,20 @@ TagManager:
   - name: MapLineLayer
     uniqueID: 956614297
     locked: 0
-  - name: Actors
-    uniqueID: 257000035
-    locked: 0
   - name: UI
     uniqueID: 2554504795
+    locked: 0
+  - name: Actors
+    uniqueID: 257000035
     locked: 0
   - name: FloatingUI
     uniqueID: 3613051449
     locked: 0
   - name: Tutorial
     uniqueID: 3789186589
+    locked: 0
+  - name: HighPriorityUI
+    uniqueID: 697419711
     locked: 0
   m_RenderingLayers:
   - Default

@@ -6,6 +6,22 @@ using Scellecs.Morpeh;
 
 namespace Domain.Abilities
 {
+    public static class Extantions
+    {
+        public static List<T> GetAll<T>(this IEnumerable<IAbilityNode> nodes)
+        {
+            var result = new List<T>();
+            foreach (var i in nodes)
+            {
+                if (i is T t)
+                {
+                    result.Add(t);
+                }
+            }
+            return result;
+        }
+    }
+
     public sealed class Ability
     {
         public Ability(List<IAbilityNode> effects)

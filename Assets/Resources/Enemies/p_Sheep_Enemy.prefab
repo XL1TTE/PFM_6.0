@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1161114726832146607
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -2960031293690125114, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: serializedData.m_Value
+      value: Sheep
+      objectReference: {fileID: 0}
+    - target: {fileID: 744149407986906591, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 744149407986906591, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 744149407986906591, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 744149407986906591, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 744149407986906591, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 744149407986906591, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 744149407986906591, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 744149407986906591, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 744149407986906591, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 744149407986906591, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031712963108783947, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: serializedData.Size.x
+      value: 24.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031712963108783947, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: serializedData.Size.y
+      value: 56.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031712963108783947, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: serializedData.Offset.y
+      value: 13.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702015493862502221, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: m_Name
+      value: p_Sheep_Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2375435949646462250, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: serializedData.m_Value
+      value: 
+      objectReference: {fileID: -69542915, guid: 3fbff174b68fe9349af18f8eb3a2580a, type: 3}
+    - target: {fileID: 3879960733164284997, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 85021f4b788ef02479ac49f9fdf388da, type: 3}
+    - target: {fileID: 6108805618221536525, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: managedReferences[6303632360757788802].m_Config.m_PointsPerHeal
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108805618221536525, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: managedReferences[6303632360757788802].m_Config.m_PointsPerDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108805618221536525, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: managedReferences[6303632360757788802].m_Config.m_PointPerDistanceFromEnemy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165744893290528280, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: serializedData.m_HeadID
+      value: bp_sheep-head
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165744893290528280, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: serializedData.m_LeftLeg
+      value: bp_sheep-leg
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165744893290528280, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: serializedData.m_TorsoID
+      value: bp_sheep-torso
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165744893290528280, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: serializedData.m_RightLeg
+      value: bp_sheep-leg
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165744893290528280, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: serializedData.m_LeftHandID
+      value: bp_sheep-arm
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165744893290528280, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: serializedData.m_RightHandID
+      value: bp_sheep-arm
+      objectReference: {fileID: 0}
+    - target: {fileID: 6306648272326219797, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6306648272326219797, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 15.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975911737775275494, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}
+      propertyPath: serializedData.m_PermanentEffects.Array.data[0].m_EffectId
+      value: effect_Sheep
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 31d3073550bfd1d498ab11b9fb27b254, type: 3}

@@ -56,6 +56,7 @@ namespace UI.Elements
 
         public virtual void FreeElement(T element)
         {
+            if (element == null) { return; }
             element.gameObject.SetActive(false);
 
             element.transform.SetParent(m_PoolContainer);

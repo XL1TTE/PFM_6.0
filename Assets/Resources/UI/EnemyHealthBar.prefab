@@ -259,6 +259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1699918701109168302}
   - component: {fileID: 844671713600151505}
+  - component: {fileID: 1456525144693488341}
   m_Layer: 5
   m_Name: Effects
   m_TagString: Untagged
@@ -309,6 +310,18 @@ MonoBehaviour:
   m_Spacing: {x: 1, y: 0}
   m_Constraint: 2
   m_ConstraintCount: 1
+--- !u!210 &1456525144693488341
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6071169407265216684}
+  m_Enabled: 1
+  m_SortingLayerID: -681915847
+  m_SortingLayer: 9
+  m_SortingOrder: 1
+  m_SortAtRoot: 0
 --- !u!1 &6502213242569477309
 GameObject:
   m_ObjectHideFlags: 0

@@ -158,6 +158,8 @@ namespace Core.Utilities
         /// <param name="a_world">ECS world in which entities leaves.</param>
         public static void UpdateHealthBarValueFor(Entity a_owner, World a_world)
         {
+            if (a_owner.isNullOrDisposed(a_world)) { return; }
+
             var healthBar = F.GetActiveHealthBarFor(a_owner, a_world);
             var t_value = GetHealthPercentFor(a_owner, a_world);
             healthBar?.SetValue(t_value);

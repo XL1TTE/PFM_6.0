@@ -25,16 +25,14 @@ namespace Persistence.DB
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
-                    AbilityTags.DAMAGE
+                    AbilityTags.DEBUFF
                 },
                 m_AbilityType = AbilityType.INTERACTION,
                 m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
-                m_Shifts = new Vector2Int[4] {
+                m_Shifts = new Vector2Int[2] {
                     new Vector2Int(1, 0),
-                    new Vector2Int(-1, 0),
-                    new Vector2Int(0, 1),
-                    new Vector2Int(0, -1)},
-
+                    new Vector2Int(2, 0),
+                },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),

@@ -16,6 +16,7 @@ namespace Interactions
         UniTask OnOnBleedRemoved(Entity a_target, IStatusEffectComponent.Stack a_stack, World a_world);
     }
 
+
     public sealed class WeakenPoisonsDamage : BaseInteraction, IOnBleedApplied
     {
         public UniTask OnBleedApplied(Entity a_source, Entity a_target, IStatusEffectComponent.Stack a_stack, World a_world)

@@ -1,28 +1,19 @@
 fileFormatVersion: 2
-guid: af3a96062bdf5aa45831fb60bfb381bc
+guid: 4ee3613887182414ea525618dc0b2584
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2151256579594707336
-    second: fist_0
+      213: -3652979813913695895
+    second: MosntersBodyParts_Pig_0
   - first:
-      213: 6702046700113486352
-    second: fist_1
+      213: 2633821811628023726
+    second: MosntersBodyParts_Pig_1
   - first:
-      213: -7520410724212831625
-    second: fist_2
+      213: -5983859366222257762
+    second: MosntersBodyParts_Pig_2
   - first:
-      213: 3409920162834939439
-    second: fist_3
-  - first:
-      213: 7600772318538998004
-    second: fist_4
-  - first:
-      213: 3023404003180316033
-    second: fist_5
-  - first:
-      213: 3473666218761104499
-    second: fist_6
+      213: 991109740943796959
+    second: MosntersBodyParts_Pig_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -64,7 +55,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -93,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -118,155 +109,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fist_0
+      name: Spr_Bp_nLeg
       rect:
         serializedVersion: 2
-        x: 4
-        y: 5
-        width: 77
-        height: 82
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 87e1988e9833522e0800000000000000
-      internalID: -2151256579594707336
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fist_1
-      rect:
-        serializedVersion: 2
-        x: 10
-        y: 70
-        width: 25
+        x: 0
+        y: 12
+        width: 16
         height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.375, y: 0.84}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 012e75cf6f3720d50800000000000000
-      internalID: 6702046700113486352
+      spriteID: 969600ca6320e4dc0800000000000000
+      internalID: -3652979813913695895
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fist_2
+      name: Spr_Bp_fLeg
       rect:
         serializedVersion: 2
-        x: 50
-        y: 79
-        width: 15
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 16
+        y: 12
+        width: 17
+        height: 25
+      alignment: 9
+      pivot: {x: 0.5294118, y: 0.84}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 77a814a8a4222a790800000000000000
-      internalID: -7520410724212831625
+      spriteID: eaf93cbabf63d8420800000000000000
+      internalID: 2633821811628023726
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fist_3
+      name: Spr_Bp_Torso
       rect:
         serializedVersion: 2
-        x: 61
-        y: 51
-        width: 24
-        height: 22
+        x: 33
+        y: 0
+        width: 41
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f2ef7325258725f20800000000000000
-      internalID: 3409920162834939439
+      spriteID: e91ad6a3c9f05fca0800000000000000
+      internalID: -5983859366222257762
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fist_4
+      name: Spr_Bp_Head
       rect:
         serializedVersion: 2
-        x: 70
-        y: 39
-        width: 21
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4f0a321372e5b7960800000000000000
-      internalID: 7600772318538998004
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fist_5
-      rect:
-        serializedVersion: 2
-        x: 65
-        y: 11
-        width: 29
-        height: 29
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1858e061ce945f920800000000000000
-      internalID: 3023404003180316033
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fist_6
-      rect:
-        serializedVersion: 2
-        x: 77
+        x: 78
         y: 9
-        width: 19
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 34
+        height: 28
+      alignment: 9
+      pivot: {x: 0.5882353, y: 0.21428573}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 37ca78d8501f43030800000000000000
-      internalID: 3473666218761104499
+      spriteID: fda626aee0121cd00800000000000000
+      internalID: 991109740943796959
       vertices: []
       indices: 
       edges: []
@@ -275,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 277a1f3b83a21e54fa30f7583528a1e6
     internalID: 0
     vertices: []
     indices: 
@@ -285,13 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      fist_0: -2151256579594707336
-      fist_1: 6702046700113486352
-      fist_2: -7520410724212831625
-      fist_3: 3409920162834939439
-      fist_4: 7600772318538998004
-      fist_5: 3023404003180316033
-      fist_6: 3473666218761104499
+      Spr_Bp_Head: 991109740943796959
+      Spr_Bp_Torso: -5983859366222257762
+      Spr_Bp_fLeg: 2633821811628023726
+      Spr_Bp_nLeg: -3652979813913695895
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
