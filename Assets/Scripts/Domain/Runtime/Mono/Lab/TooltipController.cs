@@ -9,8 +9,7 @@ namespace Project
     {
         [Header("UI Components")]
         public GameObject tooltipPanel;
-        public TMP_Text partNameText;
-        public TMP_Text detailsText;
+        public TMP_Text partText;
 
         [Header("Settings")]
         public Vector2 offset = new Vector2(20, 20);
@@ -45,8 +44,16 @@ namespace Project
             currentData = data;
             slotWorldPosition = worldPosition;
 
-            partNameText.text = data.partName;
-            detailsText.text = FormatDetails(data);
+            partText.text = FormatDetails(data);
+            
+            if (data.ability_name != null)
+            {
+                partText.text += $"Ability:" +
+                   $"Name: {data.ability_name}\n" +
+                   $"Desc: {data.ability_desc}\n" +
+                   $"Icon: {data.ability_icon}\n" +
+                   $"Shifts: {data.ability_shifts}\n";
+            }
 
             tooltipPanel.SetActive(true);
             UpdateTooltipPosition();
@@ -60,10 +67,13 @@ namespace Project
 
         private string FormatDetails(BodyPartData data)
         {
-            return $"{data.description}\n\n" +
+            return $"Name: {data.partName}\n" +
                    $"Type: {data.type}\n" +
-                   $"ID: {data.db_id}\n" +
-                   $"{GetAdditionalInfo(data)}";
+                   $"HP: {data.hp_amount}\n" +
+                   $"Speed: {data.speed_amount}\n" +
+                   $"Fire: {data.res_fire}\n" +
+                   $"Podion: {data.res_poison}\n" +
+                   $"Bleed: {data.res_bleed}\n";
         }
 
         private void UpdateTooltipPosition()
@@ -83,13 +93,52 @@ namespace Project
                 screenPosition.y += 250f;
             }
 
-            if (screenPosition.y + panelSize.y > Screen.height)
+            // ПРАВИЛЬНАЯ ПРОВЕРКА ЛЕВОЙ ГРАНИЦЫ:
+            // 1. Учитываем половину ширины тултипа + отступ для безопасности
+            float leftBoundary = panelSize.x * 0.5f + 20f;
+
+            // 2. Альтернативно: проверяем, будет ли тултип выходить за левый край
+            // если левый край тултипа (screenPosition.x - panelSize.x/2) будет меньше 0
+            bool willExitLeft = (screenPosition.x - panelSize.x * 0.5f) < 0;
+
+            // 3. Или проверяем текущую позицию относительно левого края
+            bool isTooCloseToLeft = screenPosition.x < leftBoundary;
+
+            if (isTooCloseToLeft)
             {
-                screenPosition.y = Screen.height - panelSize.y - 10f;
+                // Смещаем тултип вправо так, чтобы он не выходил за левый край
+                screenPosition.x = leftBoundary + 70f; // Добавляем дополнительный отступ
             }
-            else if (screenPosition.y < 0)
+            else
             {
-                screenPosition.y = 10f;
+                screenPosition.x += offset.x;
+            }
+
+            // ОГРАНИЧЕНИЯ ПО ГРАНИЦАМ ЭКРАНА:
+            // Вычисляем фактические границы тултипа
+            float halfWidth = panelSize.x * 0.5f;
+            float halfHeight = panelSize.y * 0.5f;
+
+            // Левый край
+            if (screenPosition.x - halfWidth < 0)
+            {
+                screenPosition.x = halfWidth + 10f;
+            }
+            // Правый край
+            else if (screenPosition.x + halfWidth > Screen.width)
+            {
+                screenPosition.x = Screen.width - halfWidth - 10f;
+            }
+
+            // Верхний край
+            if (screenPosition.y + halfHeight > Screen.height)
+            {
+                screenPosition.y = Screen.height - halfHeight - 10f;
+            }
+            // Нижний край
+            else if (screenPosition.y - halfHeight < 0)
+            {
+                screenPosition.y = halfHeight + 10f;
             }
 
             Vector2 localPoint;

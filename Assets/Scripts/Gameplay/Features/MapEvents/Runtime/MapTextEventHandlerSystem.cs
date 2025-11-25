@@ -153,14 +153,10 @@ namespace Gameplay.MapEvents.Systems
         {
             prefabedMainUI.SetActive(true);
 
-
-
             Vector3 cameraPosition = mainCamera.transform.position;
             Vector3 positionWithoutZ = new Vector3(cameraPosition.x, cameraPosition.y, 0f);
 
             ptr_whole.transform.position = positionWithoutZ;
-
-
 
 
             prefabed_choices = new List<GameObject>(); // Initialize the list
@@ -198,8 +194,17 @@ namespace Gameplay.MapEvents.Systems
                 count++;
             }
 
+
+            StartCoroutine(ForceLayoutUpdate());
         }
-        
+
+        private System.Collections.IEnumerator ForceLayoutUpdate()
+        {
+            yield return new WaitForEndOfFrame();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(ptr_choices as RectTransform);
+            Canvas.ForceUpdateCanvases();
+        }
+
         private void UpdateTextUI(string message)
         {
             ptr_message.text = message;
@@ -211,12 +216,17 @@ namespace Gameplay.MapEvents.Systems
 
             prefabed_choices.Clear();
 
+            LayoutRebuilder.ForceRebuildLayoutImmediate(ptr_choices as RectTransform);
+            Canvas.ForceUpdateCanvases();
 
             ptr_continue_button.gameObject.SetActive(true);
         }
 
         public void UnDrawTextUI()
         {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(ptr_choices as RectTransform);
+            Canvas.ForceUpdateCanvases();
+
             flag_ui_is_shown = false;
             SM.ExitState<MapTextEvState>();
             SM.EnterState<MapDefaultState>();

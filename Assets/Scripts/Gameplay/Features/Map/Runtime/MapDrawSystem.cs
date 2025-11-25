@@ -97,7 +97,7 @@ namespace Gameplay.Map.Systems
             icon_lab = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Lab");
             icon_battle = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Battle");
             icon_text = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Random");
-            icon_boss = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Boss");
+            icon_boss = Resources.Load<Sprite>("Map/EventIcons/UI_Map_Lab"); ///»—œ–¿¬»“‹
 
 
             nodePrefab = Resources.Load<GameObject>("Map/Prefabs/MapNodePrefab");
@@ -128,7 +128,7 @@ namespace Gameplay.Map.Systems
                             0),
                         Quaternion.identity);
 
-                    //prefabedNode.GetComponentInChildren<TextMeshPro>().text = nodeIdComponent.node_id.ToString() + "\n" + nodeEventId.event_id.ToString();
+                    prefabedNode.GetComponentInChildren<TextMeshPro>().text = nodeIdComponent.node_id.ToString() + "\n" + nodeEventId.event_id.ToString();
 
                     var pref_ent = prefabedNode.GetComponent<MapNodeBinderProvider>().Entity;
 

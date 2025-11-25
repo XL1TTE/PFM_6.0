@@ -39,7 +39,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 157, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1473459365231863902
 MonoBehaviour:
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     Offset: {x: 0, y: 0}
-    Size: {x: 80, y: 10}
+    Size: {x: 100, y: 20}
 --- !u!114 &1705828161572465999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 35600992782183576}
   - component: {fileID: 6187535363840044047}
   - component: {fileID: 3281550146201803992}
+  - component: {fileID: 8479764156023135918}
   m_Layer: 0
   m_Name: ChoiceText
   m_TagString: Untagged
@@ -145,7 +146,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 5}
+  m_SizeDelta: {x: 0, y: 11.9405}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &6187535363840044047
 MeshRenderer:
@@ -189,7 +190,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -681915847
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 30
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3281550146201803992
@@ -246,8 +247,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -286,3 +287,17 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 6187535363840044047}
   m_maskType: 0
+--- !u!114 &8479764156023135918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391254457603854267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 0
