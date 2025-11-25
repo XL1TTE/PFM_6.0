@@ -9,21 +9,25 @@ namespace Interactions
 {
     public interface IOnBurningApplied
     {
-        UniTask OnBurningApplied(Entity a_source, Entity a_target, int a_duration, int a_damagePerTick, World a_world);
+        UniTask OnBurningApplied(Entity a_source, Entity a_target, IStatusEffectComponent.Stack a_stack, World a_world);
+    }
+    public interface IOnBurningRemoved
+    {
+        UniTask OnBurningRemoved(Entity a_target, IStatusEffectComponent.Stack a_stack, World a_world);
     }
 
     public sealed class WeakenBleedingDamage : BaseInteraction, IOnBurningApplied
     {
-        public UniTask OnBurningApplied(Entity a_source, Entity a_target, int a_duration, int a_damagePerTick, World a_world)
+        public UniTask OnBurningApplied(Entity a_source, Entity a_target, IStatusEffectComponent.Stack a_stack, World a_world)
         {
             if (V.IsBleeding(a_target, a_world) == false) { return UniTask.CompletedTask; }
 
-            ref var t_poisons = ref a_world.GetStash<BleedingStatusComponent>().Get(a_target).m_Stacks;
+            var t_poisons = a_world.GetStash<BleedingStatusComponent>().Get(a_target).m_Stacks;
 
-            List<BleedingStatusComponent.Stack> t_toRemove = new();
+            List<IStatusEffectComponent.Stack> t_toRemove = new();
             for (int i = 0; i < t_poisons.Count; ++i)
             {
-                t_poisons[i].m_DamagePerTurn -= a_damagePerTick;
+                t_poisons[i].m_DamagePerTurn -= a_stack.m_DamagePerTurn;
                 if (t_poisons[i].m_DamagePerTurn <= 0)
                 {
                     t_toRemove.Add(t_poisons[i]);

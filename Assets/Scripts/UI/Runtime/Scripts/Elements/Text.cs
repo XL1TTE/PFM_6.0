@@ -11,7 +11,6 @@ namespace UI.Elements
         [SerializeField] private TextMeshProUGUI m_Text;
         [SerializeField] private ContentSizeFitter m_Fitter;
 
-        public event Action OnFree;
 
         public Text SetText(string a_text)
         {
@@ -52,12 +51,6 @@ namespace UI.Elements
         {
             base.Reset();
             FitContent(false);
-            Free();
-        }
-
-        public void Free()
-        {
-            OnFree?.Invoke();
         }
     }
 }

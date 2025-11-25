@@ -433,6 +433,8 @@ namespace Project
             if (storageSlot != null)
             {
                 storageSlot.ReturnResource();
+
+                AudioManager.Instance?.PlaySound(AudioManager.putSound);
             }
             CancelResourceHold();
         }
@@ -556,11 +558,14 @@ namespace Project
 
         public void CreateMonster()
         {
+            AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
             ref var monstersStorage = ref DataStorage.GetRecordFromFile<Inventory, MonstersStorage>();
             if (monstersStorage.storage_monsters.Count >= monstersStorage.max_capacity)
             {
                 return;
             }
+
 
             var monsterData = GetMonsterDataFromCraftSlots(false);
             if (monsterData == null) return;
@@ -590,6 +595,22 @@ namespace Project
         {
             ref var monstersStorage = ref DataStorage.GetRecordFromFile<Inventory, MonstersStorage>();
 
+            // Проверка на уникальность имени
+            if (IsMonsterNameExists(monsterName))
+            {
+                // Имя уже существует, показываем сообщение об ошибке
+                Debug.LogWarning($"Monster with name '{monsterName}' already exists!");
+
+                // Можно показать сообщение пользователю
+                if (labRef.namingPanel != null)
+                {
+                    labRef.namingPanel.ShowErrorMessage($"Monster with name '{monsterName}' already exists! Please choose a different name.");
+                }
+                return;
+            }
+
+            AudioManager.Instance?.PlaySound(AudioManager.createMonsterSound);
+
             monsterData.SetName(monsterName);
             SpendBodyPartsForMonster(monsterData);
 
@@ -602,6 +623,7 @@ namespace Project
             if (labRef.namingPanel != null)
             {
                 labRef.namingPanel.ClearInputField();
+                labRef.namingPanel.HideErrorMessage(); // Скрываем сообщение об ошибке если было показано
             }
 
             UpdateMonsterSlots();
@@ -613,6 +635,25 @@ namespace Project
             }
 
             LabReferences.Instance().tutorialController.ContinueSpecial();
+        }
+
+        // Метод для проверки существования имени монстра
+        public bool IsMonsterNameExists(string monsterName)
+        {
+            if (string.IsNullOrEmpty(monsterName))
+                return false;
+
+            ref var monstersStorage = ref DataStorage.GetRecordFromFile<Inventory, MonstersStorage>();
+
+            foreach (var monster in monstersStorage.storage_monsters)
+            {
+                if (monster.m_MonsterName != null && monster.m_MonsterName.Equals(monsterName, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
 

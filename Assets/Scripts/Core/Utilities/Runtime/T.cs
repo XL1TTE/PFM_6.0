@@ -75,7 +75,9 @@ namespace Core.Utilities
                     .SetColor("#8d781e".ToColor())
                     .FontSize(TEXT_SIZE_B2);
 
-                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_PHYSICAL_DMG);
+                var icon = IconPool.I().WarmupElement()
+                    .SetIcon(GR.SPR_UI_PHYSICAL_DMG)
+                    .MinSize(16);
 
                 t_physDmg.Insert(icon);
                 t_physDmg.Insert(text);
@@ -91,7 +93,7 @@ namespace Core.Utilities
                     .SetColor(Color.red)
                     .FontSize(TEXT_SIZE_B2);
 
-                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_EFFECT_BLOOD);
+                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_EFFECT_BLOOD).MinSize(16);
                 t_line.Insert(icon);
                 t_line.Insert(text);
                 t_lines.Add(t_line);
@@ -105,7 +107,7 @@ namespace Core.Utilities
                     .SetColor(Color.yellow)
                     .FontSize(TEXT_SIZE_B2);
 
-                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_EFFECT_FIRE);
+                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_EFFECT_FIRE).MinSize(16);
                 t_line.Insert(icon);
                 t_line.Insert(text);
                 t_lines.Add(t_line);
@@ -120,7 +122,7 @@ namespace Core.Utilities
                     .SetColor(Color.green)
                     .FontSize(TEXT_SIZE_B2);
 
-                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_EFFECT_POISON);
+                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_EFFECT_POISON).MinSize(16);
                 t_line.Insert(icon);
                 t_line.Insert(text);
                 t_lines.Add(t_line);
@@ -135,7 +137,7 @@ namespace Core.Utilities
                     .SetColor(Color.white)
                     .FontSize(TEXT_SIZE_B2);
 
-                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_PHYSICAL_DMG);
+                var icon = IconPool.I().WarmupElement().SetIcon(GR.SPR_UI_PHYSICAL_DMG).MinSize(16);
                 t_line.Insert(icon);
                 t_line.Insert(text);
                 t_lines.Add(t_line);

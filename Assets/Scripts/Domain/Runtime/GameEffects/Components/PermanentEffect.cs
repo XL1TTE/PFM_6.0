@@ -4,5 +4,6 @@ namespace Domain.GameEffects
     public struct PermanentEffect
     {
         public string m_EffectId;
+
     }
 }
