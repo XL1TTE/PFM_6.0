@@ -1,5 +1,4 @@
 using Domain.Extentions;
-using Game;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Providers;
 using UnityEditor;
@@ -41,11 +40,12 @@ namespace Domain.BattleField.Mono
             if (CellPrefab != null)
             {
 
+                // CANNOT BUILD HERE FIX FIX FIX IF IX IX XX I 
+#if UNITY_EDITOR
                 CellCache = (GameObject)PrefabUtility.InstantiatePrefab(CellPrefab.gameObject, transform);
                 //CellCache.transform.position = transform.position;
                 CellCache.name = "Cell";
 
-#if UNITY_EDITOR
 
 #endif
             }

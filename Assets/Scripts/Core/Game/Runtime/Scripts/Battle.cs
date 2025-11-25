@@ -45,7 +45,7 @@ namespace Game
 
             var storageMonsters = DataStorage.GetRecordFromFile<Inventory, MonstersStorage>().storage_monsters;
 
-            if (storageMonsters.Count == 0)
+            if (storageMonsters.Count > 0)
             {
                 MONSTERS_TO_SPAWN = storageMonsters;
             }
