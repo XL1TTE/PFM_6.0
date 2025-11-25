@@ -9,11 +9,11 @@ namespace Persistence.DB
         {
             ID("bp_rat-head");
 
-            With<LegSpritePath>(new LegSpritePath
+            With<HeadSprite>(new HeadSprite
             {
-                FarSprite = "Monsters/Sprites/test/Spr_Bodypart_Leg_Further_Test_1",
-                NearSprite = "Monsters/Sprites/test/Spr_Bodypart_Leg_Closer_Test_1"
+                m_Value = null
             });
+
             With<TagBodyPart>();
             With<TagHead>();
 

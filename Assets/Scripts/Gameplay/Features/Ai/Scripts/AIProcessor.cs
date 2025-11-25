@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.Abilities;
@@ -286,7 +287,12 @@ namespace Project.AI
             var t_distance = t_enemies.Min(enemy =>
                 Vector2Int.Distance(a_targetCell, GU.GetEntityPositionOnCell(enemy, a_context.m_World)));
 
-            return Math.Abs(t_distance) * m_Config.m_PointPerDistanceFromEnemy;
+            if (m_Config.m_PointPerDistanceFromEnemy < 0)
+            {
+                t_distance = 1 + (1.0f / (t_distance + 1.0f));
+            }
+
+            return Math.Abs(t_distance) * Math.Abs(m_Config.m_PointPerDistanceFromEnemy);
         }
 
         private async UniTask<float> CalculateAbilityWeight(AbilityData a_abilityData, Entity a_target, AIExecutionContext a_context, AgentState a_currentState)
@@ -307,9 +313,51 @@ namespace Project.AI
 
                         t_weight += t_expectedHeal * m_Config.m_PointsPerHeal;
                         break;
+                    case AbilityTags.DEBUFF:
+                        var t_debuffWeight = CalculateWeightForDebuff(a_abilityData, a_target, a_context);
+
+                        t_weight += t_debuffWeight;
+                        break;
                 }
             }
             return t_weight;
+        }
+
+        private float CalculateWeightForDebuff(AbilityData a_abilityData, Entity a_target, AIExecutionContext a_context)
+        {
+            var world = a_context.m_World;
+            float t_totalWeight = 0;
+
+            Entity cell;
+            if (F.IsCell(a_target, world))
+            {
+                cell = a_target;
+            }
+            else
+            {
+                cell = GU.GetOccupiedCell(a_target, world);
+            }
+
+            var enemies = GetAllEnemiesOnField(a_context);
+
+            foreach (var areaEffect in a_abilityData.m_Value.GetEffects<ApplyToAllEnemiesInArea>())
+            {
+                var cellsInArea = GU.GetCellsInArea(cell, areaEffect.m_Area, a_context.m_World).Where(x => F.IsOccupiedCell(x, world));
+
+                foreach (var e in cellsInArea)
+                {
+                    if (enemies.Any(x => x == GU.GetCellOccupier(e, world)))
+                    {
+                        t_totalWeight += 10;
+                    }
+                }
+            }
+
+            if (t_totalWeight == 0)
+            {
+                t_totalWeight = -1000;
+            }
+            return t_totalWeight;
         }
 
         private async UniTask<float> CalculateExpectedDamage(AbilityData a_abilityData, Entity a_target, AIExecutionContext a_context)

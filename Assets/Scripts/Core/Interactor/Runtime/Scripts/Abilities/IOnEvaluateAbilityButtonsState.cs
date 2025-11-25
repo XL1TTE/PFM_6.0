@@ -3,6 +3,7 @@ using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.Abilities.Components;
 using Domain.Abilities.Tags;
+using Domain.Extentions;
 using Scellecs.Morpeh;
 
 namespace Interactions
@@ -24,6 +25,8 @@ namespace Interactions
     {
         public UniTask OnEvaluate(Entity a_button, ref bool a_result, World a_world)
         {
+            if (a_button.isNullOrDisposed(a_world)) { return UniTask.CompletedTask; }
+
             var owner = F.GetAbilityButtonOwner(a_button, a_world);
             if (F.IsMonster(owner, a_world) == false)
             {

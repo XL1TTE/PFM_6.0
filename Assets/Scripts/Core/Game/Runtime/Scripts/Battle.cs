@@ -26,20 +26,12 @@ namespace Game
         private static List<MonsterData> MONSTERS_TO_SPAWN = new List<MonsterData>{
                     new MonsterData(
                         "Din",
-                        "mp_DinHead",
-                        "mp_DinArm",
-                        "mp_Din3Arm",
-                        "mp_DinTorso",
-                        "mp_DinLeg",
-                        "mp_DinLeg"),
-                    new MonsterData(
-                        "Robin",
-                        "mp_DinHead",
-                        "mp_Din2Arm",
-                        "mp_Din3Arm",
-                        "mp_DinTorso",
-                        "mp_DinLeg",
-                        "mp_DinLeg"),
+                        "bp_pig-head",
+                        "bp_rat-arm",
+                        "bp_cow-arm",
+                        "bp_pig-torso",
+                        "bp_pig-leg",
+                        "bp_rat-leg"),
                 };
         public static void SpawnMonstersOnLoad(World a_world)
         {

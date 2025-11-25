@@ -433,7 +433,11 @@ namespace Game
             {
                 var stash_stacks = a_world.GetStash<StunStatusComponent>();
                 ref var stacks = ref stash_stacks.Get(a_target);
+
                 stacks.m_Stacks.Remove(a_stack);
+
+                Interactor.CallAll<IOnStunRemoved>(async handler
+                    => await handler.OnStunRemoved(a_target, a_stack, a_world)).Forget();
 
                 if (stacks.m_Stacks.Count < 1)
                 {
@@ -486,18 +490,24 @@ namespace Game
 
             public static void ApplyStun(Entity a_source, Entity a_target, int a_duration, World a_world)
             {
+                ApplyStunAsync(a_source, a_target, a_duration, a_world).Forget();
+            }
+            public static async UniTask ApplyStunAsync(Entity a_source, Entity a_target, int a_duration, World a_world)
+            {
                 if (a_world.IsDisposed || a_world == null) { return; }
                 if (a_world.GetStash<StunStatusComponent>().Has(a_target)) { return; }
 
 
+                IStatusEffectComponent.Stack stack = new IStatusEffectComponent.Stack
+                {
+                    m_Duration = a_duration,
+                    m_TurnsLeft = a_duration
+                };
+
                 var stash_stun = a_world.GetStash<StunStatusComponent>();
                 if (stash_stun.Has(a_target))
                 {
-                    stash_stun.Get(a_target).m_Stacks.Add(new IStatusEffectComponent.Stack
-                    {
-                        m_Duration = a_duration,
-                        m_TurnsLeft = a_duration
-                    });
+                    stash_stun.Get(a_target).m_Stacks.Add(stack);
                 }
                 else
                 {
@@ -505,13 +515,14 @@ namespace Game
                     {
                         m_Stacks = new List<IStatusEffectComponent.Stack>
                         {
-                            new IStatusEffectComponent.Stack{
-                                m_Duration = a_duration,
-                                m_TurnsLeft = a_duration
-                            }
+                            stack
                         }
                     });
                 }
+                await UniTask.Yield();
+
+                Interactor.CallAll<IOnStunApplied>(async handler
+                    => await handler.OnStunApplied(a_source, a_target, stack, a_world)).Forget();
             }
 
             public static void ApplyBleeding(Entity a_source, Entity a_target, int a_duration, int a_damagePerTick, World a_world)
@@ -727,6 +738,14 @@ namespace Game
                     foreach (var stack in burns.m_Stacks)
                     {
                         healthBar.AddStatusEffect(GR.SPR_UI_EFFECT_FIRE, stack).Forget();
+                    }
+                }
+                if (V.IsStuned(a_entity, a_world))
+                {
+                    var stuns = a_world.GetComponent<StunStatusComponent>(a_entity);
+                    foreach (var stack in stuns.m_Stacks)
+                    {
+                        healthBar.AddStatusEffect(GR.SPR_UI_EFFECT_STUNNED, stack).Forget();
                     }
                 }
             }

@@ -12,7 +12,7 @@ namespace Persistence.Components
         public string NearSprite;
         public string FarSprite;
     }
-    
+
 }
 
 

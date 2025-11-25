@@ -11,7 +11,7 @@ namespace Persistence.Components
     {
         public string path;
     }
-    
+
 }
 
 

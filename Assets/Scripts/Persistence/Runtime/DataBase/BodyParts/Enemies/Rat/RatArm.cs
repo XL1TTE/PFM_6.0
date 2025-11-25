@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Domain.Extentions;
 using Persistence.Components;
 
 namespace Persistence.DB
@@ -10,10 +11,10 @@ namespace Persistence.DB
         {
             ID("bp_rat-arm");
 
-            With<ArmSpritePath>(new ArmSpritePath
+            With<ArmSprite>(new ArmSprite
             {
-                FarSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Further_Test_1",
-                NearSprite = "Monsters/Sprites/test/Spr_Bodypart_Arm_Closer_Test_1"
+                m_FarSprite = GR.SPR_BP_FARM_RAT,
+                m_NearSprite = GR.SPR_BP_NARM_RAT
             });
 
             With<TagBodyPart>();
