@@ -33,11 +33,15 @@ namespace Project
 
         public void OnClickAcceptTutorial()
         {
+            AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
             tutorialNotificationMessage.SetActive(false);
             BeginTutorial();
         }
         public void OnClickDenyTutorial()
         {
+            AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
             tutorialNotificationMessage.SetActive(false);
             EndTutorial();
         }
@@ -61,6 +65,8 @@ namespace Project
 
         public void ContinueTutorial()
         {
+            AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
             if (currentEnabledList != null)
             {
                 for (int i = 0; i < currentEnabledList.Count; i++)

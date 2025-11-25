@@ -1,3 +1,4 @@
+using Domain.Map;
 using Domain.Monster.Mono;
 using TMPro;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Project
         public TMP_Text titleText;
         public TMP_InputField nameInputField;
         public Button acceptButton;
+        public TMP_Text errorText; 
 
         private System.Action<string> onNameAccepted;
         private MonsterData currentMonsterData;
@@ -35,6 +37,10 @@ namespace Project
 
             nameInputField.characterLimit = 18;
             nameInputField.onValidateInput = ValidateEnglishInput;
+
+            nameInputField.onValueChanged.AddListener(OnNameInputChanged);
+
+            HideErrorMessage();
         }
 
         private char ValidateEnglishInput(string text, int charIndex, char addedChar)
@@ -45,8 +51,44 @@ namespace Project
                 {
                     return addedChar;
                 }
+                else
+                {
+                    ShowErrorMessage("Please use only English letters, numbers, spaces and underscores!");
+                    return '\0';
+                }
             }
             return '\0';
+        }
+
+        private void OnNameInputChanged(string newName)
+        {
+            HideErrorMessage();
+
+            if (!string.IsNullOrEmpty(newName) && ContainsRussianCharacters(newName))
+            {
+                ShowErrorMessage("Please use only English letters, numbers, spaces and underscores!");
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(newName))
+            {
+                if (IsMonsterNameExists(newName.Trim()))
+                {
+                    ShowErrorMessage($"Monster name '{newName.Trim()}' is already taken!");
+                }
+            }
+        }
+
+        private bool ContainsRussianCharacters(string text)
+        {
+            foreach (char c in text)
+            {
+                if ((c >= 'À' && c <= 'ß') || (c >= 'à' && c <= 'ÿ') || c == '¨' || c == '¸')
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void ShowNamingPanel(MonsterData monsterData, System.Action<string> onAcceptedCallback)
@@ -60,6 +102,8 @@ namespace Project
             currentMonsterData = monsterData;
             onNameAccepted = onAcceptedCallback;
             gameObject.SetActive(true);
+
+            HideErrorMessage();
 
             ForceVisualUpdate();
 
@@ -113,16 +157,94 @@ namespace Project
 
         private void OnAcceptClicked()
         {
+            AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
             string monsterName = nameInputField.text.Trim();
 
             if (string.IsNullOrEmpty(monsterName))
             {
+                ShowErrorMessage("Monster name cannot be empty!");
+                return;
+            }
+
+            if (ContainsRussianCharacters(monsterName))
+            {
+                ShowErrorMessage("Please use only English letters, numbers, spaces and underscor!");
+                return;
+            }
+
+            if (IsMonsterNameExists(monsterName))
+            {
+                ShowErrorMessage($"Monster with this name already exists! Please choose a different name.");
                 return;
             }
 
             onNameAccepted?.Invoke(monsterName);
-
             HideNamingPanel();
+        }
+
+        public void ShowErrorMessage(string message)
+        {
+            AudioManager.Instance?.PlaySound(AudioManager.buttonErrorSound);
+
+            if (errorText != null)
+            {
+                errorText.text = message;
+                errorText.gameObject.SetActive(true);
+
+                errorText.color = Color.red;
+            }
+
+            ShakePanel();
+        }
+
+        public void HideErrorMessage()
+        {
+            if (errorText != null)
+            {
+                errorText.gameObject.SetActive(false);
+            }
+        }
+
+        private void ShakePanel()
+        {
+            StartCoroutine(ShakeCoroutine());
+        }
+
+        private System.Collections.IEnumerator ShakeCoroutine()
+        {
+            RectTransform rectTransform = GetComponent<RectTransform>();
+            if (rectTransform == null) yield break;
+
+            Vector3 originalPosition = rectTransform.anchoredPosition;
+            float shakeDuration = 0.5f;
+            float shakeMagnitude = 2f;
+            float elapsed = 0f;
+
+            while (elapsed < shakeDuration)
+            {
+                float x = Random.Range(-1f, 1f) * shakeMagnitude;
+                float y = Random.Range(-1f, 1f) * shakeMagnitude;
+                rectTransform.anchoredPosition = originalPosition + new Vector3(x, y, 0);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            rectTransform.anchoredPosition = originalPosition;
+        }
+
+        private bool IsMonsterNameExists(string monsterName)
+        {
+            if (string.IsNullOrEmpty(monsterName))
+                return false;
+
+            var craftController = LabReferences.Instance()?.craftController;
+            if (craftController != null)
+            {
+                return craftController.IsMonsterNameExists(monsterName);
+            }
+
+            return false;
         }
 
         public void OnEndEdit(string value)
@@ -147,6 +269,7 @@ namespace Project
             {
                 nameInputField.text = "";
             }
+            HideErrorMessage();
         }
     }
 }

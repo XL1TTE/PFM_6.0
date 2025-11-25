@@ -22,6 +22,8 @@ public class LoadingScreen : MonoBehaviour
     private FadeController fadeController;
     private CanvasGroup loadingCanvasGroup;
 
+
+
     public static LoadingScreen Instance
     {
         get
@@ -91,6 +93,11 @@ public class LoadingScreen : MonoBehaviour
     private IEnumerator LoadSceneCoroutine(string sceneName)
     {
         isLoading = true;
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.StopMusic();
+        }
 
         yield return StartCoroutine(ShowLoadingScreen());
 
