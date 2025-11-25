@@ -209,6 +209,7 @@ namespace Project
 
             if (same)
             {
+                AudioManager.Instance?.PlaySound(AudioManager.buttonErrorSound);
                 Debug.Log($"Exact monster match: {a.m_MonsterName}");
             }
 

@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-using Domain.StateMachine.Mono;
-using Domain.StateMachine.Components;
 
 namespace Project
 {
@@ -16,12 +14,19 @@ namespace Project
         public Button backToMenuButton;
         public Button pauseButton;
 
+        [Header("Settings Panel")]
+        [SerializeField] private GameObject settingsPanel;
+        [SerializeField] private Button settingsBackButton;
+
         [Header("Canvas Settings")]
         [SerializeField] private int pauseMenuSortOrder = 10;
         [SerializeField] private int pauseButtonSortOrder = 5;
 
         [Header("Settings")]
         public string mainMenuSceneName = "MainMenu";
+
+        [Header("Sound Settings")]
+        [SerializeField] private string buttonClickSound = "ButtonClick";
 
         private bool isPaused = false;
         private string currentSceneName;
@@ -35,16 +40,25 @@ namespace Project
             currentSceneName = SceneManager.GetActiveScene().name;
             pauseMenuPanel.SetActive(false);
 
-            continueButton.onClick.AddListener(ContinueGame);
-            continueButton.onClick.AddListener(NotifyGameUnpaused);
+            if (settingsPanel != null)
+            {
+                settingsPanel.SetActive(false);
+            }
 
+            // Настройка кнопок основного меню паузы
+            continueButton.onClick.AddListener(ContinueGame);
             settingsButton.onClick.AddListener(OpenSettings);
             backToMenuButton.onClick.AddListener(BackToMainMenu);
+
+            // Настройка кнопки настроек
+            if (settingsBackButton != null)
+            {
+                settingsBackButton.onClick.AddListener(CloseSettings);
+            }
 
             if (pauseButton != null)
             {
                 pauseButton.onClick.AddListener(TogglePause);
-                pauseButton.onClick.AddListener(NotifyGamePaused);
             }
 
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -87,9 +101,7 @@ namespace Project
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             currentSceneName = scene.name;
-
             ForceHideMenu();
-
             UpdatePauseButtonVisibility();
         }
 
@@ -110,12 +122,19 @@ namespace Project
         void Update()
         {
             if (IsMainMenuScene()) return;
-
             if (IsLoadingScreenActive()) return;
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                TogglePause();
+                // Если открыты настройки - закрываем их, иначе пауза
+                if (settingsPanel != null && settingsPanel.activeInHierarchy)
+                {
+                    CloseSettings();
+                }
+                else
+                {
+                    TogglePause();
+                }
             }
         }
 
@@ -127,27 +146,15 @@ namespace Project
         private bool IsLoadingScreenActive()
         {
             LoadingScreen loadingScreen = LoadingScreen.Instance;
-            if (loadingScreen != null)
-            {
-                return loadingScreen.GetIsLoading();
-            }
-            return false;
-        }
-
-        private void NotifyGamePaused()
-        {
-            SM.EnterState<PauseState>();
-        }
-        private void NotifyGameUnpaused()
-        {
-            SM.ExitState<PauseState>();
+            return loadingScreen != null && loadingScreen.GetIsLoading();
         }
 
         public void TogglePause()
         {
             if (IsMainMenuScene()) return;
-
             if (IsLoadingScreenActive()) return;
+
+            AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
 
             isPaused = !isPaused;
 
@@ -163,6 +170,7 @@ namespace Project
 
         private void PauseGame()
         {
+            AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
             pauseMenuPanel.SetActive(true);
             Time.timeScale = 0f;
 
@@ -174,7 +182,12 @@ namespace Project
 
         public void ContinueGame()
         {
+            AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
             pauseMenuPanel.SetActive(false);
+            if (settingsPanel != null)
+            {
+                settingsPanel.SetActive(false);
+            }
             Time.timeScale = 1f;
             isPaused = false;
 
@@ -186,10 +199,25 @@ namespace Project
 
         private void OpenSettings()
         {
+            AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+            if (settingsPanel != null)
+            {
+                settingsPanel.SetActive(true);
+            }
+        }
+
+        private void CloseSettings()
+        {
+            AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+            if (settingsPanel != null)
+            {
+                settingsPanel.SetActive(false);
+            }
         }
 
         private void BackToMainMenu()
         {
+            AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
             Time.timeScale = 1f;
             isPaused = false;
 
@@ -206,7 +234,6 @@ namespace Project
         public void SetPaused(bool paused)
         {
             if (IsMainMenuScene()) return;
-
             if (IsLoadingScreenActive()) return;
 
             if (paused && !isPaused)
@@ -237,6 +264,10 @@ namespace Project
         public void ForceHideMenu()
         {
             pauseMenuPanel.SetActive(false);
+            if (settingsPanel != null)
+            {
+                settingsPanel.SetActive(false);
+            }
             isPaused = false;
             Time.timeScale = 1f;
 
