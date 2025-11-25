@@ -11,6 +11,12 @@ namespace Persistence.DB
 
             ID("mp_DinArm");
 
+
+            With<Name>(new Name("Din arm"));
+            With<Description>(new Description("smells like cheese"));
+
+
+
             With<ID>(new ID { m_Value = "mp_DinArm" });
             With<ArmSpritePath>(new ArmSpritePath
             {
@@ -35,6 +41,9 @@ namespace Persistence.DB
         {
 
             ID("mp_Din2Arm");
+            With<Name>(new Name("Din arm"));
+            With<Description>(new Description("smells like cheese"));
+
 
             With<ArmSpritePath>(new ArmSpritePath
             {
@@ -59,6 +68,9 @@ namespace Persistence.DB
         {
 
             ID("mp_Din3Arm");
+            With<Name>(new Name("Din arm"));
+            With<Description>(new Description("smells like cheese"));
+
 
             With<ArmSpritePath>(new ArmSpritePath
             {

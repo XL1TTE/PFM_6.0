@@ -14,7 +14,7 @@ namespace Project
         private Vector3 mouseDownPosition;
         private const float DRAG_THRESHOLD = 5f;
 
-        public string part_id;
+        //public string part_id;
         public BODYPART_TYPE part_type;
 
         public LabMonsterCraftController craftController;
