@@ -1191,8 +1191,6 @@ MonoBehaviour:
   skipTimerText: {fileID: 1270325628}
   debugFormURL: https://forms.gle/YkWVvVShqHxALxmk7
   feedbackFormURL: https://forms.gle/tDyD7v9ebDHfCBev8
-  buttonClickSound: ButtonClick
-  buttonHoverSound: ButtonHover
 --- !u!4 &344084005
 Transform:
   m_ObjectHideFlags: 0
@@ -2399,14 +2397,14 @@ MonoBehaviour:
     Zaitseva Evgenia - Animator
 
     Pylev Maksim - Music
-    & Sound Composer
+    Composer
 
 
     Special Thanks
 
 
-    Special thanks to those who joined
-    us for the initial prototype at the 2024 Game Jam:
+    Special thanks to those who joined us for
+    the initial prototype at the 2024 Game Jam:
 
     Stas Khudyshkin - Animator
 

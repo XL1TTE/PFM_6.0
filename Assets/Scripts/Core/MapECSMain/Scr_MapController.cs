@@ -1325,7 +1325,13 @@ namespace Domain.Map.Mono
         private string ChooseRandomEventFromList(Filter events, byte curr_coll, bool is_battle)
         {
             string result = "";
-            int ev_count = events.ArchetypesCount;
+            int ev_count = 0;
+
+            foreach (var ev in events)
+            {
+                ev_count++;
+            }
+
             int failsafe_count = -1;
 
 
@@ -1336,7 +1342,7 @@ namespace Domain.Map.Mono
                 {
                     if (is_battle)
                     {
-                        result = "ev_BattleDefault";
+                        result = "ev_BattleLevel_Village_1";
                     }
                     else
                     {
