@@ -1,5 +1,8 @@
+using System;
+
 namespace Domain.GameEffects
 {
+
     [System.Serializable]
     public class TemporalEffect
     {

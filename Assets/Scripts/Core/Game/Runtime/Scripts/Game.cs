@@ -429,7 +429,7 @@ namespace Game
 
         public static class Statuses
         {
-            public static void RemoveStunStack(Entity a_target, StunStatusComponent.Stack a_stack, World a_world)
+            public static void RemoveStunStack(Entity a_target, IStatusEffectComponent.Stack a_stack, World a_world)
             {
                 var stash_stacks = a_world.GetStash<StunStatusComponent>();
                 ref var stacks = ref stash_stacks.Get(a_target);
@@ -440,33 +440,43 @@ namespace Game
                     stash_stacks.Remove(a_target);
                 }
             }
-            public static void RemoveBleedingStack(Entity a_target, BleedingStatusComponent.Stack a_stack, World a_world)
+            public static void RemoveBleedingStack(Entity a_target, IStatusEffectComponent.Stack a_stack, World a_world)
             {
                 var stash_stacks = a_world.GetStash<BleedingStatusComponent>();
                 ref var stacks = ref stash_stacks.Get(a_target);
+
                 stacks.m_Stacks.Remove(a_stack);
+                Interactor.CallAll<IOnBleedRemoved>(async handler
+                    => await handler.OnOnBleedRemoved(a_target, a_stack, a_world)).Forget();
 
                 if (stacks.m_Stacks.Count < 1)
                 {
                     stash_stacks.Remove(a_target);
                 }
             }
-            public static void RemovePoisonStack(Entity a_target, PoisonStatusComponent.Stack a_stack, World a_world)
+            public static void RemovePoisonStack(Entity a_target, IStatusEffectComponent.Stack a_stack, World a_world)
             {
                 var stash_stacks = a_world.GetStash<PoisonStatusComponent>();
                 ref var stacks = ref stash_stacks.Get(a_target);
+
                 stacks.m_Stacks.Remove(a_stack);
+
+                Interactor.CallAll<IOnPoisonRemoved>(async handler
+                    => await handler.OnPoisonRemoved(a_target, a_stack, a_world)).Forget();
 
                 if (stacks.m_Stacks.Count < 1)
                 {
                     stash_stacks.Remove(a_target);
                 }
             }
-            public static void RemoveBurningStack(Entity a_target, BurningStatusComponent.Stack a_stack, World a_world)
+            public static void RemoveBurningStack(Entity a_target, IStatusEffectComponent.Stack a_stack, World a_world)
             {
                 var stash_stacks = a_world.GetStash<BurningStatusComponent>();
                 ref var stacks = ref stash_stacks.Get(a_target);
+
                 stacks.m_Stacks.Remove(a_stack);
+                Interactor.CallAll<IOnBurningRemoved>(async handler
+                    => await handler.OnBurningRemoved(a_target, a_stack, a_world)).Forget();
 
                 if (stacks.m_Stacks.Count < 1)
                 {
@@ -483,7 +493,7 @@ namespace Game
                 var stash_stun = a_world.GetStash<StunStatusComponent>();
                 if (stash_stun.Has(a_target))
                 {
-                    stash_stun.Get(a_target).m_Stacks.Add(new StunStatusComponent.Stack
+                    stash_stun.Get(a_target).m_Stacks.Add(new IStatusEffectComponent.Stack
                     {
                         m_Duration = a_duration,
                         m_TurnsLeft = a_duration
@@ -493,9 +503,9 @@ namespace Game
                 {
                     stash_stun.Set(a_target, new StunStatusComponent
                     {
-                        m_Stacks = new List<StunStatusComponent.Stack>
+                        m_Stacks = new List<IStatusEffectComponent.Stack>
                         {
-                            new StunStatusComponent.Stack{
+                            new IStatusEffectComponent.Stack{
                                 m_Duration = a_duration,
                                 m_TurnsLeft = a_duration
                             }
@@ -512,38 +522,32 @@ namespace Game
             {
                 if (V.IsBuring(a_target, a_world)) { return; } // burning netrolize bleeding.
 
-
-                if (a_world.GetStash<BleedingStatusComponent>().Has(a_target)) { return; }
-
+                IStatusEffectComponent.Stack stack = new IStatusEffectComponent.Stack
+                {
+                    m_DamagePerTurn = a_damagePerTick,
+                    m_Duration = a_duration,
+                    m_TurnsLeft = a_duration
+                };
 
                 var stash_bleeding = a_world.GetStash<BleedingStatusComponent>();
                 if (stash_bleeding.Has(a_target))
                 {
-                    stash_bleeding.Get(a_target).m_Stacks.Add(new BleedingStatusComponent.Stack
-                    {
-                        m_DamagePerTurn = a_damagePerTick,
-                        m_Duration = a_duration,
-                        m_TurnsLeft = a_duration
-                    });
+                    stash_bleeding.Get(a_target).m_Stacks.Add(stack);
                 }
                 else
                 {
                     stash_bleeding.Set(a_target, new BleedingStatusComponent
                     {
-                        m_Stacks = new List<BleedingStatusComponent.Stack>
+                        m_Stacks = new List<IStatusEffectComponent.Stack>
                         {
-                            new BleedingStatusComponent.Stack{
-                                m_DamagePerTurn = a_damagePerTick,
-                                m_Duration = a_duration,
-                                m_TurnsLeft = a_duration
-                            }
+                            stack
                         }
                     });
                 }
 
                 await UniTask.Yield();
                 Interactor.CallAll<IOnBleedApplied>(async handler
-                    => await handler.OnBleedApplied(a_source, a_target, a_duration, a_damagePerTick, a_world)).Forget();
+                    => await handler.OnBleedApplied(a_source, a_target, stack, a_world)).Forget();
             }
 
             public static void ApplyPoison(Entity a_source, Entity a_target, int a_duration, int a_damagePerTick, World a_world)
@@ -554,35 +558,32 @@ namespace Game
             {
                 if (V.IsBleeding(a_target, a_world)) { return; } // bleeding netrolize poison.
 
+                IStatusEffectComponent.Stack stack = new IStatusEffectComponent.Stack
+                {
+                    m_DamagePerTurn = a_damagePerTick,
+                    m_Duration = a_duration,
+                    m_TurnsLeft = a_duration
+                };
 
                 var stash_poison = a_world.GetStash<PoisonStatusComponent>();
                 if (stash_poison.Has(a_target))
                 {
-                    stash_poison.Get(a_target).m_Stacks.Add(new PoisonStatusComponent.Stack
-                    {
-                        m_DamagePerTurn = a_damagePerTick,
-                        m_Duration = a_duration,
-                        m_TurnsLeft = a_duration
-                    });
+                    stash_poison.Get(a_target).m_Stacks.Add(stack);
                 }
                 else
                 {
                     stash_poison.Set(a_target, new PoisonStatusComponent
                     {
-                        m_Stacks = new List<PoisonStatusComponent.Stack>
+                        m_Stacks = new List<IStatusEffectComponent.Stack>
                         {
-                            new PoisonStatusComponent.Stack{
-                                m_DamagePerTurn = a_damagePerTick,
-                                m_Duration = a_duration,
-                                m_TurnsLeft = a_duration
-                            }
+                            stack
                         }
                     });
                 }
 
                 await UniTask.Yield();
                 Interactor.CallAll<IOnPoisonApplied>(async handler
-                    => await handler.OnPoisonApplied(a_source, a_target, a_duration, a_damagePerTick, a_world)).Forget();
+                    => await handler.OnPoisonApplied(a_source, a_target, stack, a_world)).Forget();
             }
 
             public static void ApplyBurning(Entity a_source, Entity a_target, int a_duration, int a_damagePerTick, World a_world)
@@ -593,34 +594,33 @@ namespace Game
             {
                 if (V.IsPoisoned(a_target, a_world)) { return; } // poison netrolize burning.
 
+                IStatusEffectComponent.Stack stack = new IStatusEffectComponent.Stack
+                {
+                    m_DamagePerTurn = a_damagePerTick,
+                    m_Duration = a_duration,
+                    m_TurnsLeft = a_duration
+                };
+
                 var stash_poison = a_world.GetStash<BurningStatusComponent>();
+
                 if (stash_poison.Has(a_target))
                 {
-                    stash_poison.Get(a_target).m_Stacks.Add(new BurningStatusComponent.Stack
-                    {
-                        m_DamagePerTurn = a_damagePerTick,
-                        m_Duration = a_duration,
-                        m_TurnsLeft = a_duration
-                    });
+                    stash_poison.Get(a_target).m_Stacks.Add(stack);
                 }
                 else
                 {
                     stash_poison.Set(a_target, new BurningStatusComponent
                     {
-                        m_Stacks = new List<BurningStatusComponent.Stack>
+                        m_Stacks = new List<IStatusEffectComponent.Stack>
                         {
-                            new BurningStatusComponent.Stack{
-                                m_DamagePerTurn = a_damagePerTick,
-                                m_Duration = a_duration,
-                                m_TurnsLeft = a_duration
-                            }
+                            stack
                         }
                     });
                 }
 
                 await UniTask.Yield();
                 Interactor.CallAll<IOnBurningApplied>(async handler
-                    => await handler.OnBurningApplied(a_source, a_target, a_duration, a_damagePerTick, a_world)).Forget();
+                    => await handler.OnBurningApplied(a_source, a_target, stack, a_world)).Forget();
 
             }
 
@@ -693,6 +693,44 @@ namespace Game
                 Interactor.CallAll<IOnGameEffectApply>(
                     async handler => await handler.OnEffectApply(a_effectID, a_subject, a_world)).Forget();
             }
+        }
+
+        public static class gui
+        {
+            public static void UpdateEntityEffectsUI(Entity a_entity, World a_world)
+            {
+                var healthBar = F.GetActiveHealthBarFor(a_entity, a_world);
+
+                if (healthBar == null) { return; }
+
+                healthBar.ClearStatuses();
+
+                if (V.IsBleeding(a_entity, a_world))
+                {
+                    var bleed = a_world.GetComponent<BleedingStatusComponent>(a_entity);
+                    foreach (var stack in bleed.m_Stacks)
+                    {
+                        healthBar.AddStatusEffect(GR.SPR_UI_EFFECT_BLOOD, stack).Forget();
+                    }
+                }
+                if (V.IsPoisoned(a_entity, a_world))
+                {
+                    var poison = a_world.GetComponent<PoisonStatusComponent>(a_entity);
+                    foreach (var stack in poison.m_Stacks)
+                    {
+                        healthBar.AddStatusEffect(GR.SPR_UI_EFFECT_POISON, stack).Forget();
+                    }
+                }
+                if (V.IsBuring(a_entity, a_world))
+                {
+                    var burns = a_world.GetComponent<BurningStatusComponent>(a_entity);
+                    foreach (var stack in burns.m_Stacks)
+                    {
+                        healthBar.AddStatusEffect(GR.SPR_UI_EFFECT_FIRE, stack).Forget();
+                    }
+                }
+            }
+
         }
 
     }

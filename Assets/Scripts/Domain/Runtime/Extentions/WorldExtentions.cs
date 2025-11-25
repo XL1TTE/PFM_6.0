@@ -13,6 +13,8 @@ namespace Domain.Extentions
             component = stash.Get(entity);
             return true;
         }
+        public static T GetComponent<T>(this World world, Entity entity) where T : struct, IComponent
+            => world.GetStash<T>().Get(entity);
 
 
         public static void AddModule(this World world, IWorldModule module)

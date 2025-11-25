@@ -224,7 +224,7 @@ namespace Interactions
 
         private void ProcessStacksDisappear(Entity a_turnTaker, World a_world)
         {
-            List<StunStatusComponent.Stack> t_toRemove = new(4);
+            List<IStatusEffectComponent.Stack> t_toRemove = new(4);
 
             ref var t_stuns = ref a_world.GetStash<StunStatusComponent>().Get(a_turnTaker);
 
@@ -256,7 +256,7 @@ namespace Interactions
             var stash_bleed = a_world.GetStash<BleedingStatusComponent>();
             if (stash_bleed.Has(a_turnTaker) == false) { return UniTask.CompletedTask; }
 
-            List<BleedingStatusComponent.Stack> t_toRemove = new(4);
+            List<IStatusEffectComponent.Stack> t_toRemove = new(4);
 
             ref var t_bleed = ref stash_bleed.Get(a_turnTaker);
             for (int i = 0; i < t_bleed.m_Stacks.Count; ++i)
@@ -293,7 +293,7 @@ namespace Interactions
             var stash_poison = a_world.GetStash<PoisonStatusComponent>();
             if (stash_poison.Has(a_turnTaker) == false) { return UniTask.CompletedTask; }
 
-            List<PoisonStatusComponent.Stack> t_toRemove = new(4);
+            List<IStatusEffectComponent.Stack> t_toRemove = new(4);
 
             ref var t_poison = ref stash_poison.Get(a_turnTaker);
             for (int i = 0; i < t_poison.m_Stacks.Count; ++i)
@@ -329,7 +329,7 @@ namespace Interactions
             var stash_burning = a_world.GetStash<BurningStatusComponent>();
             if (stash_burning.Has(a_turnTaker) == false) { return UniTask.CompletedTask; }
 
-            List<BurningStatusComponent.Stack> t_toRemove = new(4);
+            List<IStatusEffectComponent.Stack> t_toRemove = new(4);
 
             ref var t_burn = ref stash_burning.Get(a_turnTaker);
             for (int i = 0; i < t_burn.m_Stacks.Count; ++i)

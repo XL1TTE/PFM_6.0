@@ -20,10 +20,10 @@ namespace Domain.Extentions
 
         public readonly static HorizontalLayoutElement p_ToolTipLine = "UI/ToolTipLine".LoadResource<HorizontalLayoutElement>();
 
-        public readonly static Sprite SPR_UI_PHYSICAL_DMG = "Art/Spr_UI_Effect_Debuff".LoadResource<Sprite>();
-        public readonly static Sprite SPR_UI_EFFECT_BLOOD = "Art/Spr_UI_Effect_Blood".LoadResource<Sprite>();
-        public readonly static Sprite SPR_UI_EFFECT_FIRE = "Art/Spr_UI_Effect_Fire".LoadResource<Sprite>();
-        public readonly static Sprite SPR_UI_EFFECT_POISON = "Art/Spr_UI_Effect_Poison".LoadResource<Sprite>();
+        public readonly static Sprite SPR_UI_PHYSICAL_DMG = "Art/Effects/Spr_UI_Effect_Debuff".LoadResource<Sprite>();
+        public readonly static Sprite SPR_UI_EFFECT_BLOOD = "Art/Effects/Spr_UI_Effect_Blood".LoadResource<Sprite>();
+        public readonly static Sprite SPR_UI_EFFECT_FIRE = "Art/Effects/Spr_UI_Effect_Fire".LoadResource<Sprite>();
+        public readonly static Sprite SPR_UI_EFFECT_POISON = "Art/Effects/Spr_UI_Effect_Poison".LoadResource<Sprite>();
 
 
         public readonly static Sprite SPR_UI_FIRE_RES_NONE

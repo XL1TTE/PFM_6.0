@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6974000965972876971}
   - component: {fileID: 591475117218151178}
-  - component: {fileID: 6599144389959241970}
+  - component: {fileID: 1358779035903454556}
   m_Layer: 0
   m_Name: MainBody
   m_TagString: Untagged
@@ -45,7 +45,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3715310476407994970}
   m_CullTransparentMesh: 1
---- !u!114 &6599144389959241970
+--- !u!114 &1358779035903454556
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -62,7 +62,7 @@ MonoBehaviour:
     m_Right: 5
     m_Top: 5
     m_Bottom: 5
-  m_ChildAlignment: 3
+  m_ChildAlignment: 0
   m_Spacing: 5
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
@@ -109,7 +109,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 10}
+  m_SizeDelta: {x: 47, y: 26}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2211399910393601653
 MonoBehaviour:
@@ -183,6 +183,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c856556948c88e48b2d3726b56a29b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalLayout: {fileID: 6599144389959241970}
-  m_IconPrototype: {fileID: 9105178828521974438, guid: 4bc93a7f2e638f14c94666dab4a2f939, type: 3}
-  m_TextPrototype: {fileID: 4399221802871185517, guid: 31f4ceb9f7734c643bccfe51f212bcaa, type: 3}
+  m_HorizontalLayout: {fileID: 1358779035903454556}
