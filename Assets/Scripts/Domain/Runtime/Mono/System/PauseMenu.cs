@@ -54,7 +54,6 @@ namespace Project
 
             backToMenuButton.onClick.AddListener(BackToMainMenu);
 
-
             if (settingsBackButton != null)
             {
                 settingsBackButton.onClick.AddListener(CloseSettings);
@@ -140,7 +139,6 @@ namespace Project
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-
                 if (settingsPanel != null && settingsPanel.activeInHierarchy)
                 {
                     CloseSettings();
