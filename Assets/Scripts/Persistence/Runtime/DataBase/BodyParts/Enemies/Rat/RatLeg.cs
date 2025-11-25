@@ -18,6 +18,11 @@ namespace Persistence.DB
                 m_FarSprite = GR.SPR_BP_FLEG_RAT,
                 m_NearSprite = GR.SPR_BP_NLEG_RAT
             });
+            With<IconUI>(new IconUI
+            {
+                m_Value = GR.SPR_UI_BP_LEG_RAT
+            });
+
             With<TagBodyPart>();
             With<TagLeg>();
 

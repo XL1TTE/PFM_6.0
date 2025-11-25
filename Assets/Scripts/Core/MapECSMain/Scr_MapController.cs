@@ -61,7 +61,7 @@ namespace Domain.Map.Mono
 
 
         // collumn_count does not include start and end nodes, only path in between
-        public byte collumn_count = 7;
+        public byte collumn_count = 20;
         // row_count represents maximum POSSIBLE amount of rows (including zero), but will try to be belowe that point
         public byte row_count = 3;
 
@@ -119,10 +119,6 @@ namespace Domain.Map.Mono
         public void OnAwake()
         {
             World = ECS_Main_Map.m_mapWorld;
-
-
-            all_events_text = DataBase.Filter.With<MapEvTextTag>().Build();
-            all_events_battle = DataBase.Filter.With<MapEvBattleTag>().Build();
 
 
             nodeCurrentStash = World.GetStash<TagMapNodeCurrent>();
@@ -948,6 +944,8 @@ namespace Domain.Map.Mono
             #endregion
 
 
+            all_events_text = DataBase.Filter.With<MapEvTextTag>().Build();
+            all_events_battle = DataBase.Filter.With<MapEvBattleTag>().Build();
             // ----------------------------------- Seventh walkthrough - give specific types of events to all nodes
             Debug.LogWarning("----------------------------------- Seventh walkthrough - give specific types of events to all nodes");
 
@@ -1327,7 +1325,7 @@ namespace Domain.Map.Mono
             string result = "";
             int ev_count = 0;
 
-            foreach (var evt in events)
+            foreach (var ent in events)
             {
                 ev_count++;
             }
@@ -1342,7 +1340,7 @@ namespace Domain.Map.Mono
                 {
                     if (is_battle)
                     {
-                        result = "ev_BattleLevel_Village_1";
+                        result = "ev_BattleDefault";
                     }
                     else
                     {

@@ -62,4 +62,25 @@ namespace Persistence.DB
             });
         }
     }
+    public sealed class SheepTorsoEffect : IDbRecord
+    {
+        public SheepTorsoEffect()
+        {
+            ID("effect_sheep-torso");
+
+            With<MaxHealthModifier>(new MaxHealthModifier
+            {
+                m_Flat = 5
+            });
+            With<SpeedModifier>(new SpeedModifier
+            {
+                m_Flat = 2
+            });
+
+            With<BleedResistanceModiffier>(new BleedResistanceModiffier
+            {
+                m_Stage = IResistanceModiffier.Stage.RESISTANT
+            });
+        }
+    }
 }
