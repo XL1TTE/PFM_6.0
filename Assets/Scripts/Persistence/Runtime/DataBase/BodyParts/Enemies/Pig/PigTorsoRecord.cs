@@ -18,18 +18,18 @@ namespace Persistence.DB
             });
             With<IconUI>(new IconUI
             {
-                m_Value = GR.SPR_UI_AVATAR_PIG
+                m_Value = GR.SPR_UI_BP_TORSO_PIG
             });
             With<TagBodyPart>();
             With<TagTorso>();
 
             With<PartsOffsets>(new PartsOffsets
             {
-                NearLegOffset = new Vector2(-7f, -13f),
-                FarLegOffset = new Vector2(4, -11f),
-                NearArmOffset = new Vector2(-11f, 6f),
-                FarArmOffset = new Vector2(12f, 10f),
-                HeadOffset = new Vector2(5f, 12f),
+                NearLegOffset = new Vector2(-2f, -13f),
+                FarLegOffset = new Vector2(2, -11f),
+                NearArmOffset = new Vector2(-8f, 2f),
+                FarArmOffset = new Vector2(9f, 2f),
+                HeadOffset = new Vector2(5f, 8f),
                 BodyOffset = new Vector2(0f, 21f)
             });
             With<EffectsProvider>(new EffectsProvider
