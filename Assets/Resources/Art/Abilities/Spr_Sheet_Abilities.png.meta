@@ -315,7 +315,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_5
+      name: spr_rooster-arm
       rect:
         serializedVersion: 2
         x: 135
@@ -1028,7 +1028,6 @@ TextureImporter:
       Spr_Sheet_Abilities_3: -424474800
       Spr_Sheet_Abilities_31: -1759124572
       Spr_Sheet_Abilities_4: -861445433
-      Spr_Sheet_Abilities_5: -1493523804
       Spr_Sheet_Abilities_6: 1255994671
       Spr_Sheet_Abilities_7: 2090384870
       Spr_Sheet_Abilities_8: -1183736678
@@ -1043,6 +1042,7 @@ TextureImporter:
       spr_radioactive: -189435186
       spr_ratArm: 1871027656
       spr_ratHead: -520751154
+      spr_rooster-arm: -1493523804
       spr_rotate: -191618522
       spr_sheep-arm: -2003324493
       spr_sheep-head: -922973201
