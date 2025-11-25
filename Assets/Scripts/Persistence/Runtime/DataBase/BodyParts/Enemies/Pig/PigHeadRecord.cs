@@ -14,6 +14,10 @@ namespace Persistence.DB
             {
                 m_Value = GR.SPR_BP_HEAD_PIG
             });
+            With<IconUI>(new IconUI
+            {
+                m_Value = GR.SPR_UI_BP_HEAD_PIG
+            });
 
             With<TagBodyPart>();
             With<TagHead>();
