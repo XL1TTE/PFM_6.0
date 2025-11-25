@@ -73,11 +73,12 @@ namespace Game
         {
             Dictionary<string, int> parts = new()
             {
-                { "mp_DinHead", 1 },
-                { "mp_DinArm", 2 },
-                { "mp_Din2Arm", 0 },
-                { "mp_DinLeg", 2 },
-                { "mp_DinTorso", 2 }
+                { "bp_pig-head", 1 },
+                { "bp_rat-arm", 2 },
+                { "bp_cockroach-arm", 4 },
+                { "bp_rat-leg", 2 },
+                { "bp_pig-leg", 2 },
+                { "bp_pig-torso", 2 }
             };
 
             return parts;

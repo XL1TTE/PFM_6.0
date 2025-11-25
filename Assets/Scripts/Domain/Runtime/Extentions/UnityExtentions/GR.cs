@@ -66,6 +66,12 @@ namespace Domain.Extentions
         public readonly static Sprite SPR_UI_AVATAR_SHEEP
             = "Monsters/Avatars/Spr_Sheet_MonsterAvatars".LoadFromSheet("spr_sheep");
 
+        #region BodyParts Icons
+
+        public readonly static Sprite SPR_UI_BP_HEAD_PIG
+            = "Art/BodyParts/Icons/Spr_Sheet_BodyParts".LoadFromSheet("spr_ui_bp_head_pig");
+        
+        #endregion
 
 
         #region BodyParts

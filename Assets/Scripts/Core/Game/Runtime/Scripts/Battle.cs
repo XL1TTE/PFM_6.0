@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using Domain.Abilities.Components;
@@ -13,9 +10,13 @@ using Interactions;
 using Persistence.Buiders;
 using Persistence.Components;
 using Persistence.DB;
+using Persistence.DS;
 using Persistence.Utilities;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Providers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 
 namespace Game
@@ -40,6 +41,14 @@ namespace Game
                 .Without<TagOccupiedCell>()
                 .With<PositionComponent>()
                 .Build();
+
+
+            var storageMonsters = DataStorage.GetRecordFromFile<Inventory, MonstersStorage>().storage_monsters;
+
+            if (storageMonsters != null)
+            {
+                MONSTERS_TO_SPAWN = storageMonsters;
+            }
 
             var t_spawnCells = F.FilterEmptyCells(t_filter.AsEnumerable(), a_world).ToArray();
             for (int i = 0; i < Math.Min(t_spawnCells.Length, MONSTERS_TO_SPAWN.Count); ++i)
