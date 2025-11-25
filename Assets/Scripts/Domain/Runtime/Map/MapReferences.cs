@@ -1,3 +1,4 @@
+using Project;
 using UnityEngine;
 
 namespace Domain.Map
@@ -27,5 +28,7 @@ namespace Domain.Map
         public GameObject textEvUI;
 
         public GameObject mapController;
+
+        public TutorialController tutorialController;
     }
 }

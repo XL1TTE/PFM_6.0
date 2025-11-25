@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 namespace Project
 {
@@ -369,14 +370,81 @@ namespace Project
             Gizmos.color = new Color(boundsColor.r, boundsColor.g, boundsColor.b, 0.1f);
             Gizmos.DrawCube(center, size);
         }
-
         // Method to set bounds programmatically
         public void SetBounds(Vector2 min, Vector2 max)
         {
+            if (cam == null) return;
+
+            // Calculate camera's viewport size in world units
+            float height = cam.orthographicSize * 2f;
+            float width = height * cam.aspect;
+            Vector2 halfSize = new Vector2(width / 2f, height / 2f);
+
+            // Calculate minimum required bounds based on camera size
+            float minRequiredWidth = halfSize.x * 2f;
+            float minRequiredHeight = halfSize.y * 2f;
+
+            // Store original values for comparison
+            Vector2 originalMin = boundsMin;
+            Vector2 originalMax = boundsMax;
+
+            // Apply new bounds
             if (min != null)
-            { boundsMin = min; }
+            {
+                boundsMin = min;
+            }
             if (max != null)
-            { boundsMax = max; }
+            {
+                boundsMax = max;
+            }
+
+            // Check if bounds are valid (not smaller than camera size)
+            bool horizontalBoundsValid = (boundsMax.x - boundsMin.x) >= minRequiredWidth;
+            bool verticalBoundsValid = (boundsMax.y - boundsMin.y) >= minRequiredHeight;
+
+            // Auto-disable movement if bounds are too small
+            if (!horizontalBoundsValid)
+            {
+                Debug.LogWarning($"Horizontal bounds are too small for camera (required: {minRequiredWidth}, actual: {boundsMax.x - boundsMin.x}). Horizontal movement disabled.");
+                allowHorizontalMovement = false;
+
+                // Restore previous valid horizontal bounds or adjust to minimum
+                if (originalMax.x - originalMin.x >= minRequiredWidth)
+                {
+                    boundsMin.x = originalMin.x;
+                    boundsMax.x = originalMax.x;
+                }
+                else
+                {
+                    // Center camera and set minimum bounds
+                    float centerX = (boundsMin.x + boundsMax.x) / 2f;
+                    boundsMin.x = centerX - halfSize.x;
+                    boundsMax.x = centerX + halfSize.x;
+                }
+            }
+
+            if (!verticalBoundsValid)
+            {
+                Debug.LogWarning($"Vertical bounds are too small for camera (required: {minRequiredHeight}, actual: {boundsMax.y - boundsMin.y}). Vertical movement disabled.");
+                allowVerticalMovement = false;
+
+                // Restore previous valid vertical bounds or adjust to minimum
+                if (originalMax.y - originalMin.y >= minRequiredHeight)
+                {
+                    boundsMin.y = originalMin.y;
+                    boundsMax.y = originalMax.y;
+                }
+                else
+                {
+                    // Center camera and set minimum bounds
+                    float centerY = (boundsMin.y + boundsMax.y) / 2f;
+                    boundsMin.y = centerY - halfSize.y;
+                    boundsMax.y = centerY + halfSize.y;
+                }
+            }
+
+            // Ensure camera is within new bounds
+            CheckAndEnforceBoundsImmediately();
         }
 
         // Method to get current bounds

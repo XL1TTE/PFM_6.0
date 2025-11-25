@@ -44,6 +44,7 @@ namespace Project
 
         public void BeginTutorial()
         {
+            tutorialScreen.SetActive(true);
             tutorial_active = true;
 
             tutorialCounter = -1;
@@ -85,6 +86,8 @@ namespace Project
             if (tutorialCounter >= allScreensWithWhatTheyEnable.Count) { EndTutorial(); return; }
 
             var currPart = allScreensWithWhatTheyEnable[tutorialCounter];
+
+            if (currPart.notification == null) { return; }
 
             await_special_continue = currPart.non_button_continue;
 

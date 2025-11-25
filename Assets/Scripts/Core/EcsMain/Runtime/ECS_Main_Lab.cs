@@ -35,6 +35,7 @@ namespace Game
             if (bodyPartsStorage.parts == null)
             {
                 bodyPartsStorage.parts = CreateStartParts();
+                LabReferences.Instance().tutorialController.ShowTutorialNotification();
             }
 
             ConfigureSystems();
@@ -76,7 +77,7 @@ namespace Game
                 { "mp_DinArm", 2 },
                 { "mp_Din2Arm", 0 },
                 { "mp_DinLeg", 2 },
-                { "mp_DinTorso", 1 }
+                { "mp_DinTorso", 2 }
             };
 
             return parts;

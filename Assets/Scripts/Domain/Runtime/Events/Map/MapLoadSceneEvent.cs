@@ -6,6 +6,7 @@ namespace Domain.Map.Events
     public struct MapLoadSceneEvent : IEventData
     {
         public bool is_first_load;
+        public bool is_tutorial_load;
     }
 
 }

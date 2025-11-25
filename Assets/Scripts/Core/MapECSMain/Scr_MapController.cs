@@ -151,7 +151,7 @@ namespace Domain.Map.Mono
         {
             if (first_load)
             {
-                GenerateMap(collumn_count, row_count);
+                GenerateMap(collumn_count, row_count, false);
             }
             else
             {
@@ -163,11 +163,18 @@ namespace Domain.Map.Mono
         {
             foreach (var evt in evt_LoadScene.publishedChanges)
             {
-                BeginMainFunctions(evt.is_first_load);
+                if (!evt.is_tutorial_load)
+                {
+                    BeginMainFunctions(evt.is_first_load);
+                }
+                else
+                {
+                    GenerateMap(2,3,true);
+                }
             }
         }
 
-        public void GenerateMap(byte collumns, byte rows)
+        public void GenerateMap(byte collumns, byte rows, bool is_tutorial)
         {
             World = ECS_Main_Map.m_mapWorld;
 
@@ -201,97 +208,93 @@ namespace Domain.Map.Mono
 
             byte temp_node_count = 1;
 
-            // temp array used for storing information about which rows are taken in past collumn.
-            // Needed to create actually viable paths.
-            byte[] temp_past_coll = new byte[rows];
-
-            List<byte> temp_past_coll_copy = new List<byte>();
-
-            // this is an initial loop that is used to fill past collumn with all rows. It is a crutch used to make 
-            // filling first row after initial starting node possible with all combinations.
-            for (byte i = 0; i < rows; i++)
-            {
-                temp_past_coll[i] = (byte)i;
-            }
-
             int temp_end_x = 0;
-            for (byte i = 1; i <= collumns; i++)
+
+            if (!is_tutorial)
             {
-                //Debug.Log\(" ------------------------------------------------ Making Collumn - " + i);
 
-                // rows + 1, since the end value is not inclusive and 2 at minimum, to avoid bottlenecks
-                int rowsInColumn = Random.Range(2, rows + 1);
-                //Debug.Log\(" will have this much rows = " + rowsInColumn);
+                // temp array used for storing information about which rows are taken in past collumn.
+                // Needed to create actually viable paths.
+                byte[] temp_past_coll = new byte[rows];
 
+                List<byte> temp_past_coll_copy = new List<byte>();
 
-                for (byte c = 0; c < rowsInColumn; c++)
+                // this is an initial loop that is used to fill past collumn with all rows. It is a crutch used to make 
+                // filling first row after initial starting node possible with all combinations.
+                for (byte i = 0; i < rows; i++)
                 {
-                    //Debug.Log\(" ___ creating node with ID   " + temp_node_count);
-
-                    // create random row that we want to occupy, using past collumn rows
-                    byte temp_curr_row = RollForCurrentRow(temp_past_coll, rows);
-
-                    // check to see if there already are occupied position of same value
-                    bool temp_flag_march = CheckForListCollision(temp_past_coll_copy, temp_curr_row);
-
-                    // if it is, then we need to march to find the next best position
-                    if (temp_flag_march)
-                    {
-                        var temp_buffer = MarchOnCollumn(temp_past_coll_copy, temp_curr_row, rows);
-                        temp_curr_row = temp_buffer;
-                    }
-
-                    // after that, add this row to temp collumn copy values
-                    temp_past_coll_copy.Add(temp_curr_row);
-
-                    //bool temp_found_same_value = List.Exists(temp_past_coll_copy, p => p == temp_curr_row);
-                    //
-                    //if (temp_found_same_value)
-                    //{
-                    //    byte temp_curr_row_found_id = Array.Find(temp_past_coll_copy, p => p == temp_curr_row);
-                    //}
-                    //else
-                    //{
-                    //    temp_past_coll_copy;
-                    //}
-
-
-                    // create the entity and set initial values
-                    var entity = World.CreateEntity();
-
-                    //var diff = (map_hor_end-map_hor_offset)-(map_hor_start + map_hor_offset);
-
-                    var temp_x = (int)(map_hor_start + map_hor_offset + map_hor_dist * i);
-                    temp_end_x = temp_x + map_hor_dist;
-                    //var temp_x = (int)(map_hor_start + map_hor_offset + (diff / collumns) * i);
-                    var temp_y = (int)(map_vert_start + map_vert_offset + ((map_vert_end - map_vert_offset * 2) / rows) * temp_curr_row);
-
-
-
-                    nodeIdStash.Set(entity, new MapNodeIdComponent { node_id = temp_node_count });
-
-                    nodePosStash.Set(entity, new MapNodePositionComponent
-                    {
-                        node_x = temp_x,
-                        node_y = temp_y,
-                        node_collumn = i,
-                        node_row = temp_curr_row
-                    });
-
-                    temp_node_count++;
+                    temp_past_coll[i] = (byte)i;
                 }
 
-                string debug_list = string.Join(",", temp_past_coll_copy);
-                //Debug.Log\("    !!!!!!!!!!!!!!!!!!!!!!!!    COLLUMN - " + i + " -   CREATED ROWS:  " + debug_list);
+                for (byte i = 1; i <= collumns; i++)
+                {
+                    //Debug.Log\(" ------------------------------------------------ Making Collumn - " + i);
+
+                    // rows + 1, since the end value is not inclusive and 2 at minimum, to avoid bottlenecks
+                    int rowsInColumn = Random.Range(2, rows + 1);
+                    //Debug.Log\(" will have this much rows = " + rowsInColumn);
 
 
-                Array.Clear(temp_past_coll, 0, temp_past_coll.Length);
+                    for (byte c = 0; c < rowsInColumn; c++)
+                    {
+                        //Debug.Log\(" ___ creating node with ID   " + temp_node_count);
 
-                temp_past_coll = temp_past_coll_copy.ToArray();
+                        // create random row that we want to occupy, using past collumn rows
+                        byte temp_curr_row = RollForCurrentRow(temp_past_coll, rows);
 
-                temp_past_coll_copy.Clear();
+                        // check to see if there already are occupied position of same value
+                        bool temp_flag_march = CheckForListCollision(temp_past_coll_copy, temp_curr_row);
+
+                        // if it is, then we need to march to find the next best position
+                        if (temp_flag_march)
+                        {
+                            var temp_buffer = MarchOnCollumn(temp_past_coll_copy, temp_curr_row, rows);
+                            temp_curr_row = temp_buffer;
+                        }
+
+                        // after that, add this row to temp collumn copy values
+                        temp_past_coll_copy.Add(temp_curr_row);
+
+                        //bool temp_found_same_value = List.Exists(temp_past_coll_copy, p => p == temp_curr_row);
+                        //
+                        //if (temp_found_same_value)
+                        //{
+                        //    byte temp_curr_row_found_id = Array.Find(temp_past_coll_copy, p => p == temp_curr_row);
+                        //}
+                        //else
+                        //{
+                        //    temp_past_coll_copy;
+                        //}
+
+                        CreateNodeAndGiveIDwithPos(ref temp_end_x,rows,temp_curr_row,temp_node_count,i);
+
+                        temp_node_count++;
+                    }
+
+                    string debug_list = string.Join(",", temp_past_coll_copy);
+                    //Debug.Log\("    !!!!!!!!!!!!!!!!!!!!!!!!    COLLUMN - " + i + " -   CREATED ROWS:  " + debug_list);
 
 
+                    Array.Clear(temp_past_coll, 0, temp_past_coll.Length);
+
+                    temp_past_coll = temp_past_coll_copy.ToArray();
+
+                    temp_past_coll_copy.Clear();
+
+
+                }
+                
+
+            }
+            else
+            {
+                // text tutorial 
+                CreateNodeAndGiveIDwithPos(ref temp_end_x, rows, 2, temp_node_count, 1);
+                temp_node_count++;
+
+                // battle tutorial 
+                CreateNodeAndGiveIDwithPos(ref temp_end_x, rows, 2, temp_node_count, 2);
+                temp_node_count++;
             }
 
             // generation of last node, without any offset
@@ -967,12 +970,25 @@ namespace Domain.Map.Mono
                     nodeEventIdStash.Set(start_collumn_node_entity, new MapNodeEventId { event_id = "ev_TextTest2" });
 
 
-                    foreach (var entity in current_collumn_entities)
+                    if (!is_tutorial)
                     {
-                        var tmp_rand_battle = ChooseRandomEventFromList(all_events_battle, i, true);
+                        // if its not a tutorial, then all events in first collumn are battle type
+                        foreach (var entity in current_collumn_entities)
+                        {
+                            var tmp_rand_battle = ChooseRandomEventFromList(all_events_battle, i, true);
 
-                        nodeEventTypeStash.Set(entity, new MapNodeEventType { event_type = EVENT_TYPE.BATTLE });
-                        nodeEventIdStash.Set(entity, new MapNodeEventId { event_id = tmp_rand_battle });
+                            nodeEventTypeStash.Set(entity, new MapNodeEventType { event_type = EVENT_TYPE.BATTLE });
+                            nodeEventIdStash.Set(entity, new MapNodeEventId { event_id = tmp_rand_battle });
+                        }
+                    }
+                    else
+                    {
+                        // if its a tutorial, then all events in first collumn are text event type
+                        foreach (var entity in current_collumn_entities)
+                        {
+                            nodeEventTypeStash.Set(entity, new MapNodeEventType { event_type = EVENT_TYPE.TEXT });
+                            nodeEventIdStash.Set(entity, new MapNodeEventId { event_id = "ev_TextFireRing" });
+                        }
                     }
                     continue;
                 }
@@ -988,21 +1004,36 @@ namespace Domain.Map.Mono
                     continue;
                 }
 
-                foreach (var entity in current_collumn_entities)
+                if (!is_tutorial)
                 {
-                    // this is reserved for functional of reading neighbours and giving higher chance to repeat the previous event type
+                    foreach (var entity in current_collumn_entities)
+                    {
+                        // this is reserved for functional of reading neighbours and giving higher chance to repeat the previous event type
 
-                    //var temp_ev_text_count = 0;
-                    //var temp_ev_battle_count = 0;
+                        //var temp_ev_text_count = 0;
+                        //var temp_ev_battle_count = 0;
 
-                    //foreach (var prev_entity in prev_collumn_entities)
-                    //{
-                    //
-                    //}
+                        //foreach (var prev_entity in prev_collumn_entities)
+                        //{
+                        //
+                        //}
 
-                    DecideAnEventForNode(entity, i);
+                        DecideAnEventForNode(entity, i);
 
+                    }
                 }
+                else
+                {
+                    // if its tutorial, then there should only be 2 non end-point events, this is the second collumn, so it should be battle
+                    foreach (var entity in current_collumn_entities)
+                    {
+                        var tmp_rand_battle = ChooseRandomEventFromList(all_events_battle, i, true);
+
+                        nodeEventTypeStash.Set(entity, new MapNodeEventType { event_type = EVENT_TYPE.BATTLE });
+                        nodeEventIdStash.Set(entity, new MapNodeEventId { event_id = "ev_BattleTutorial" });
+                    }
+                }
+
             }
 
 
@@ -1017,6 +1048,33 @@ namespace Domain.Map.Mono
 
 
         #region GenerateMapHelperFunctions
+
+
+        private void CreateNodeAndGiveIDwithPos(ref int temp_end_x, byte rows, int temp_curr_row, byte temp_node_count, byte temp_curr_coll)
+        {
+            // create the entity and set initial values
+            var entity = World.CreateEntity();
+
+            //var diff = (map_hor_end-map_hor_offset)-(map_hor_start + map_hor_offset);
+
+            var temp_x = (int)(map_hor_start + map_hor_offset + map_hor_dist * temp_curr_coll);
+            temp_end_x = temp_x + map_hor_dist;
+            //var temp_x = (int)(map_hor_start + map_hor_offset + (diff / collumns) * i);
+            var temp_y = (int)(map_vert_start + map_vert_offset + ((map_vert_end - map_vert_offset * 2) / rows) * temp_curr_row);
+
+
+
+            nodeIdStash.Set(entity, new MapNodeIdComponent { node_id = temp_node_count });
+
+            nodePosStash.Set(entity, new MapNodePositionComponent
+            {
+                node_x = temp_x,
+                node_y = temp_y,
+                node_collumn = temp_curr_coll,
+                node_row = temp_curr_row
+            });
+        }
+
 
         private void AddNeighbour(MapNodeIdComponent id_to_add, MapNodeNeighboursComponent NeighbComponent)
         {
@@ -1362,14 +1420,6 @@ namespace Domain.Map.Mono
 
         }
 
-        // This function is used to get an Array of all id`s from DB with some tag
-        // for now this is a dud
-        private List<string> GetEventsByTag(string tag)
-        {
-            var result = new List<string>();
-            return result;
-        }
-
         #endregion
 
 
@@ -1511,26 +1561,10 @@ namespace Domain.Map.Mono
         }
 
 
-
         public void Dispose()
         {
 
         }
-
-        //public void Update()
-        //{
-        //    //World.Update(Time.deltaTime);
-        //    //World.CleanupUpdate(Time.deltaTime);
-        //    //World.Commit();
-        //    SM.Update();
-        //}
-
-
-        //public void OnDestroy()
-        //{
-        //    World.Dispose();
-        //}
-
     }
 
 }

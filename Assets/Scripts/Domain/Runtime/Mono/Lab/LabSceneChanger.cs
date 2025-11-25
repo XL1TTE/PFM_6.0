@@ -18,7 +18,6 @@ namespace Project
         public void LoadPreparation()
         {
             LabReferences.Instance().tutorialController.ContinueSpecial();
-
             labRef.uiController?.ShowPreparationScreen();
         }
 
@@ -37,6 +36,7 @@ namespace Project
             var expeditionMonsters = labRef.expeditionController.GetExpeditionMonsters();
             ref var storageMonsters = ref DataStorage.GetRecordFromFile<Inventory, MonstersStorage>();
             ref var crusadeMonsters = ref DataStorage.GetRecordFromFile<Crusade, CrusadeMonsters>();
+            ref var crusadeState = ref DataStorage.GetRecordFromFile<Crusade, CrusadeState>();
 
             if (expeditionMonsters != null && expeditionMonsters.Count > 0)
             {
@@ -45,6 +45,11 @@ namespace Project
             else
             {
                 crusadeMonsters.crusade_monsters = storageMonsters.storage_monsters;
+            }
+
+            if (LabReferences.Instance().tutorialController.IsTutorialActive())
+            {
+                crusadeState.crusade_state = CRUSADE_STATE.TUTORIAL;
             }
 
             LoadingScreen.Instance.LoadScene("MapGeneration");

@@ -69,5 +69,8 @@ TagManager:
   - name: FloatingUI
     uniqueID: 3613051449
     locked: 0
+  - name: Tutorial
+    uniqueID: 3789186589
+    locked: 0
   m_RenderingLayers:
   - Default
