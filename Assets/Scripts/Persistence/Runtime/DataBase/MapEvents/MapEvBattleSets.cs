@@ -98,4 +98,20 @@ namespace Persistence.DB
             });
         }
     }
+    public sealed class ev_BattleTutorial : IDbRecord
+    {
+        public ev_BattleTutorial()
+        {
+            ID("ev_BattleTutorial");
+
+            With<MapEvUnavailableTag>(new MapEvUnavailableTag { });
+
+            With<MapEvBattleTag>(new MapEvBattleTag { });
+
+            With<PrefabComponent>(new PrefabComponent
+            {
+                Value = "Levels/lvl_Village".LoadResource<GameObject>()
+            });
+        }
+    }
 }

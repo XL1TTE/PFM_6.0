@@ -5,8 +5,6 @@ using Domain.Map.Requests;
 using Game;
 using Project;
 using Scellecs.Morpeh;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Gameplay.Map.Systems
@@ -234,7 +232,8 @@ namespace Gameplay.Map.Systems
 
 
                 GameObject cam = MapReferences.Instance().mainCameraContainer.gameObject;
-                cam.GetComponent<CameraEdgePan>().SetBounds(new Vector2(tmp_start_x,0), new Vector2(tmp_end_x,360));
+                var comp = cam.GetComponent<CameraEdgePan>();
+                comp.SetBounds(new Vector2(tmp_start_x,0), new Vector2(tmp_end_x,360));
 
 
                 UpdateVisuals();
