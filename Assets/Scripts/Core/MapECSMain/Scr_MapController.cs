@@ -1327,7 +1327,7 @@ namespace Domain.Map.Mono
             string result = "";
             int ev_count = 0;
 
-            foreach (var ev in events)
+            foreach (var evt in events)
             {
                 ev_count++;
             }
