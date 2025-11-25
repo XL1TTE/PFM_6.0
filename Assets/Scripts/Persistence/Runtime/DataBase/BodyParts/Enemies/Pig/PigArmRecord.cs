@@ -15,6 +15,10 @@ namespace Persistence.DB
                 m_FarSprite = GR.SPR_BP_FARM_COW,
                 m_NearSprite = GR.SPR_BP_NARM_COW
             });
+            With<IconUI>(new IconUI
+            {
+                m_Value = GR.SPR_UI_BP_ARM_PIG
+            });
 
             With<TagBodyPart>();
             With<TagArm>();

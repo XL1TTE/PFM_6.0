@@ -26,6 +26,7 @@ namespace Project
             bodyPartData = data;
             count = c;
             part_type = data.type;
+            part_sprite.sprite = data.icon;
 
             craftController = LabReferences.Instance().craftController;
 

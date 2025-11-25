@@ -330,7 +330,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_5
+      name: spr_ui_bp_arm_sheep
       rect:
         serializedVersion: 2
         x: 135
@@ -396,7 +396,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_8
+      name: spr_ui_bp_arm_rat
       rect:
         serializedVersion: 2
         x: 216
@@ -440,7 +440,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_10
+      name: spr_ui_bp_arm_cow
       rect:
         serializedVersion: 2
         x: 270
@@ -484,7 +484,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_12
+      name: spr_ui_bp_arm_cockroach
       rect:
         serializedVersion: 2
         x: 324
@@ -616,7 +616,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_18
+      name: spr_ui_bp_leg_sheep
       rect:
         serializedVersion: 2
         x: 135
@@ -660,7 +660,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_20
+      name: spr_ui_bp_leg_pig
       rect:
         serializedVersion: 2
         x: 189
@@ -704,7 +704,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_22
+      name: spr_ui_bp_leg_rat
       rect:
         serializedVersion: 2
         x: 243
@@ -836,7 +836,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_28
+      name: spr_ui_bp_torso_sheep
       rect:
         serializedVersion: 2
         x: 54
@@ -858,7 +858,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_29
+      name: spr_ui_bp_torso_pig
       rect:
         serializedVersion: 2
         x: 81
@@ -1100,7 +1100,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_40
+      name: spr_ui_bp_head_sheep
       rect:
         serializedVersion: 2
         x: 27
@@ -1136,26 +1136,19 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       Spr_Sheet_BodyParts_1: -1184218881
-      Spr_Sheet_BodyParts_10: -495077629
       Spr_Sheet_BodyParts_11: 517040650
-      Spr_Sheet_BodyParts_12: -974280291
       Spr_Sheet_BodyParts_14: 118183604
       Spr_Sheet_BodyParts_15: 519072740
       Spr_Sheet_BodyParts_16: 28888960
       Spr_Sheet_BodyParts_17: 736691794
-      Spr_Sheet_BodyParts_18: 1652296983
       Spr_Sheet_BodyParts_19: 1572929797
       Spr_Sheet_BodyParts_2: 1528423775
-      Spr_Sheet_BodyParts_20: -716756722
       Spr_Sheet_BodyParts_21: 114387525
-      Spr_Sheet_BodyParts_22: -657193710
       Spr_Sheet_BodyParts_23: 1531554736
       Spr_Sheet_BodyParts_24: -1958942308
       Spr_Sheet_BodyParts_25: -590735354
       Spr_Sheet_BodyParts_26: -1217491281
       Spr_Sheet_BodyParts_27: -220272782
-      Spr_Sheet_BodyParts_28: -1728543690
-      Spr_Sheet_BodyParts_29: 1369246691
       Spr_Sheet_BodyParts_3: -363147291
       Spr_Sheet_BodyParts_30: -798161788
       Spr_Sheet_BodyParts_31: -823238903
@@ -1167,15 +1160,22 @@ TextureImporter:
       Spr_Sheet_BodyParts_38: -1250632832
       Spr_Sheet_BodyParts_39: -2074321443
       Spr_Sheet_BodyParts_4: -1577473144
-      Spr_Sheet_BodyParts_40: -336343124
-      Spr_Sheet_BodyParts_5: 1562896904
       Spr_Sheet_BodyParts_6: -722459218
       Spr_Sheet_BodyParts_7: 2024883427
-      Spr_Sheet_BodyParts_8: -487021500
       Spr_Sheet_BodyParts_9: -203623101
+      spr_ui_bp_arm_cockroach: -974280291
+      spr_ui_bp_arm_cow: -495077629
+      spr_ui_bp_arm_rat: -487021500
       spr_ui_bp_arm_raven: -953073820
+      spr_ui_bp_arm_sheep: 1562896904
       spr_ui_bp_head_pig: -1568572208
+      spr_ui_bp_head_sheep: -336343124
+      spr_ui_bp_leg_pig: -716756722
+      spr_ui_bp_leg_rat: -657193710
       spr_ui_bp_leg_raven: -2030650078
+      spr_ui_bp_leg_sheep: 1652296983
+      spr_ui_bp_torso_pig: 1369246691
+      spr_ui_bp_torso_sheep: -1728543690
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

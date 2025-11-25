@@ -5,6 +5,7 @@ using Domain.Map.Requests;
 using Game;
 using Project;
 using Scellecs.Morpeh;
+using TMPro;
 using UnityEngine;
 
 namespace Gameplay.Map.Systems
@@ -127,7 +128,7 @@ namespace Gameplay.Map.Systems
                             0),
                         Quaternion.identity);
 
-                    //prefabedNode.GetComponentInChildren<TextMeshPro>().text = nodeIdComponent.node_id.ToString() + "\n" + nodeEventId.event_id.ToString();
+                    prefabedNode.GetComponentInChildren<TextMeshPro>().text = nodeIdComponent.node_id.ToString() + "\n" + nodeEventId.event_id.ToString();
 
                     var pref_ent = prefabedNode.GetComponent<MapNodeBinderProvider>().Entity;
 
