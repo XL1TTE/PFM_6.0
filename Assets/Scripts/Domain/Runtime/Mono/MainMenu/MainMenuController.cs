@@ -20,6 +20,10 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private string debugFormURL = "https://docs.google.com/forms/your-debug-form-link";
     [SerializeField] private string feedbackFormURL = "https://docs.google.com/forms/your-feedback-form-link";
 
+    [Header("Localization Keys")]
+    private string skipTimerKey = "MainMenu_Demo_SkipTimer";
+    private string skipReadyKey = "MainMenu_Demo_SkipReady";
+
     private bool demoMessageActive = true;
     private bool canSkipDemoMessage = false;
     private float demoMessageTimer = 0f;
@@ -55,6 +59,16 @@ public class MainMenuController : MonoBehaviour
         creditsPanel.SetActive(false);
     }
 
+    private void UpdateLocalizedTexts()
+    {
+        // Находим все LocalizedText компоненты и обновляем их
+        var localizedTexts = GetComponentsInChildren<LocalizedText>(true);
+        foreach (var text in localizedTexts)
+        {
+            text.UpdateText();
+        }
+    }
+
     private IEnumerator StartSequence()
     {
         yield return new WaitForSeconds(0.1f);
@@ -64,16 +78,24 @@ public class MainMenuController : MonoBehaviour
             yield return fadeController.FadeOutCoroutine();
         }
 
+        yield return new WaitUntil(() => LocalizationManager.Instance != null);
+
+        UpdateLocalizedTexts();
+
         demoMessageTimer = demoMessageDuration;
 
         while (demoMessageTimer > 0)
         {
             demoMessageTimer -= Time.deltaTime;
-            skipTimerText.text = $"You can skip in {demoMessageTimer:F1} seconds";
+
+            // Используем локализацию
+            string localizedTimer = LocalizationManager.Instance.GetLocalizedValue(skipTimerKey, "UI_Menu");
+            skipTimerText.text = string.Format(localizedTimer, demoMessageTimer.ToString("F1"));
+
             yield return null;
         }
 
-        skipTimerText.text = "Press any button to continue";
+        skipTimerText.text = LocalizationManager.Instance.GetLocalizedValue(skipReadyKey, "UI_Menu");
         canSkipDemoMessage = true;
 
         float autoSkipTimer = 10f;
@@ -123,20 +145,27 @@ public class MainMenuController : MonoBehaviour
         if (isTransitioning) yield break;
         isTransitioning = true;
 
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeInCoroutine();
-        //}
-
         mainMenuPanel.SetActive(false);
         settingsPanel.SetActive(true);
 
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeOutCoroutine();
-        //}
+        // ДОБАВЛЕНО: Обновляем локализацию в настройках
+        yield return null; // Ждем один кадр для активации объектов
+        UpdateLocalizedTextsInPanel(settingsPanel);
 
         isTransitioning = false;
+    }
+
+    private void UpdateLocalizedTextsInPanel(GameObject panel)
+    {
+        if (panel == null) return;
+
+        var localizedTexts = panel.GetComponentsInChildren<LocalizedText>(true);
+        Debug.Log($"Updating {localizedTexts.Length} localized texts in {panel.name}");
+
+        foreach (var text in localizedTexts)
+        {
+            text.UpdateText();
+        }
     }
 
     private IEnumerator TransitionFromSettingsToMainMenu()
