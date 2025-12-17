@@ -66,6 +66,7 @@ namespace Project.AI
     {
         [SerializeField] private AIConfig m_Config;
 
+        // ReSharper disable Unity.PerformanceAnalysis
         public async UniTask Process(Entity a_agent, World a_world)
         {
 

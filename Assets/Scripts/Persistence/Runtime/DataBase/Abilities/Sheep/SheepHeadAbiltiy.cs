@@ -37,6 +37,7 @@ namespace Persistence.DB
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
                     new Heal(4),
+                    new WaitForLastAnimationEnd()
                 }),
             });
         }
