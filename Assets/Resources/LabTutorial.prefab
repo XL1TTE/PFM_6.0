@@ -181,6 +181,7 @@ GameObject:
   - component: {fileID: 3447170056670514229}
   - component: {fileID: 7879461757347948373}
   - component: {fileID: 200308185363108722}
+  - component: {fileID: 4499790352950306286}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -240,7 +241,7 @@ MonoBehaviour:
     Want a guide?'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -308,6 +309,23 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4499790352950306286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3173529107774628484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe73686a0c5eca4f8894f88e0b0c094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: Tutorial_WantGuide
+  sheetName: UI_Menu
+  updateOnAwake: 1
+  updateOnLanguageChange: 1
+  formatArgs: []
 --- !u!1 &5322016072985005750
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,6 +337,7 @@ GameObject:
   - component: {fileID: 4731135078662492480}
   - component: {fileID: 77848072303458690}
   - component: {fileID: 5458904663007178679}
+  - component: {fileID: 3977704005325056811}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -376,7 +395,7 @@ MonoBehaviour:
   m_text: No
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -444,6 +463,23 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3977704005325056811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5322016072985005750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe73686a0c5eca4f8894f88e0b0c094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: Tutorial_No
+  sheetName: UI_Menu
+  updateOnAwake: 1
+  updateOnLanguageChange: 1
+  formatArgs: []
 --- !u!1 &5808527871835366597
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,6 +699,7 @@ GameObject:
   - component: {fileID: 6786403159317409750}
   - component: {fileID: 4092074177934120089}
   - component: {fileID: 1541178828626124255}
+  - component: {fileID: 7520778048373597948}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -720,7 +757,7 @@ MonoBehaviour:
   m_text: Yes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -788,6 +825,23 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7520778048373597948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8682291690641776744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe73686a0c5eca4f8894f88e0b0c094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: Tutorial_Yes
+  sheetName: UI_Menu
+  updateOnAwake: 1
+  updateOnLanguageChange: 1
+  formatArgs: []
 --- !u!1 &9091566244584827290
 GameObject:
   m_ObjectHideFlags: 0

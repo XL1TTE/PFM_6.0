@@ -123,16 +123,15 @@ public class LoadingScreen : MonoBehaviour
 
             currentDisplayProgress = Mathf.MoveTowards(currentDisplayProgress, realProgress, Time.deltaTime * 2f);
 
-            if (loadingText != null)
-                loadingText.text = $"Loading... {currentDisplayProgress * 100:F0}%";
+            // »спользуем новый метод дл€ обновлени€ текста
+            UpdateTextWithPercentage(currentDisplayProgress * 100);
 
             if (loadingOperation.progress >= 0.9f && !sceneActivated)
             {
                 while (currentDisplayProgress < 1f)
                 {
                     currentDisplayProgress = Mathf.MoveTowards(currentDisplayProgress, 1f, Time.deltaTime * 2f);
-                    if (loadingText != null)
-                        loadingText.text = $"Loading... {currentDisplayProgress * 100:F0}%";
+                    UpdateTextWithPercentage(currentDisplayProgress * 100);
                     yield return null;
                 }
 
@@ -166,8 +165,8 @@ public class LoadingScreen : MonoBehaviour
         if (loadingScreen != null)
         {
             loadingScreen.SetActive(true);
-            if (loadingText != null)
-                loadingText.text = "Loading... 0%";
+
+            UpdateTextWithPercentage(0);
 
             if (loadingCanvasGroup != null)
             {
@@ -206,6 +205,16 @@ public class LoadingScreen : MonoBehaviour
         else if (loadingScreen != null)
         {
             loadingScreen.SetActive(false);
+        }
+    }
+
+    private void UpdateTextWithPercentage(float percentage)
+    {
+        if (loadingText != null)
+        {
+            string localizedLoadingText = LocalizationManager.Instance.GetLocalizedValue("Loading_Text", "UI_Menu");
+
+            loadingText.text = $"{localizedLoadingText} {percentage:F0}%";
         }
     }
 }

@@ -20,10 +20,6 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private string debugFormURL = "https://docs.google.com/forms/your-debug-form-link";
     [SerializeField] private string feedbackFormURL = "https://docs.google.com/forms/your-feedback-form-link";
 
-    [Header("Localization Keys")]
-    private string skipTimerKey = "MainMenu_Demo_SkipTimer";
-    private string skipReadyKey = "MainMenu_Demo_SkipReady";
-
     private bool demoMessageActive = true;
     private bool canSkipDemoMessage = false;
     private float demoMessageTimer = 0f;
@@ -61,7 +57,6 @@ public class MainMenuController : MonoBehaviour
 
     private void UpdateLocalizedTexts()
     {
-        // Находим все LocalizedText компоненты и обновляем их
         var localizedTexts = GetComponentsInChildren<LocalizedText>(true);
         foreach (var text in localizedTexts)
         {
@@ -88,14 +83,13 @@ public class MainMenuController : MonoBehaviour
         {
             demoMessageTimer -= Time.deltaTime;
 
-            // Используем локализацию
-            string localizedTimer = LocalizationManager.Instance.GetLocalizedValue(skipTimerKey, "UI_Menu");
+            string localizedTimer = LocalizationManager.Instance.GetLocalizedValue("MainMenu_Demo_SkipTimer", "UI_Menu");
             skipTimerText.text = string.Format(localizedTimer, demoMessageTimer.ToString("F1"));
 
             yield return null;
         }
 
-        skipTimerText.text = LocalizationManager.Instance.GetLocalizedValue(skipReadyKey, "UI_Menu");
+        skipTimerText.text = LocalizationManager.Instance.GetLocalizedValue("MainMenu_Demo_SkipReady", "UI_Menu");
         canSkipDemoMessage = true;
 
         float autoSkipTimer = 10f;
@@ -148,8 +142,7 @@ public class MainMenuController : MonoBehaviour
         mainMenuPanel.SetActive(false);
         settingsPanel.SetActive(true);
 
-        // ДОБАВЛЕНО: Обновляем локализацию в настройках
-        yield return null; // Ждем один кадр для активации объектов
+        yield return null;
         UpdateLocalizedTextsInPanel(settingsPanel);
 
         isTransitioning = false;
@@ -173,18 +166,8 @@ public class MainMenuController : MonoBehaviour
         if (isTransitioning) yield break;
         isTransitioning = true;
 
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeInCoroutine();
-        //}
-
         settingsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
-
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeOutCoroutine();
-        //}
 
         isTransitioning = false;
     }
@@ -194,18 +177,8 @@ public class MainMenuController : MonoBehaviour
         if (isTransitioning) yield break;
         isTransitioning = true;
 
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeInCoroutine();
-        //}
-
         mainMenuPanel.SetActive(false);
         creditsPanel.SetActive(true);
-
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeOutCoroutine();
-        //}
 
         isTransitioning = false;
     }
@@ -215,18 +188,8 @@ public class MainMenuController : MonoBehaviour
         if (isTransitioning) yield break;
         isTransitioning = true;
 
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeInCoroutine();
-        //}
-
         creditsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
-
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeOutCoroutine();
-        //}
 
         isTransitioning = false;
     }

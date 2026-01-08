@@ -42,13 +42,10 @@ public class GoogleSheetsExporter : EditorWindow
             {
                 string csvData = client.DownloadString(sheetsUrl);
 
-                // Создаем структуру данных
                 LocalizationData data = new LocalizationData();
 
-                // Парсим CSV и конвертируем в JSON
                 ProcessCSVToJson(csvData, data);
 
-                // Сохраняем в файл
                 string json = JsonUtility.ToJson(data, true);
                 string fullPath = Path.Combine(outputPath, "localization_data.json");
 
@@ -68,8 +65,6 @@ public class GoogleSheetsExporter : EditorWindow
 
     private void ProcessCSVToJson(string csvData, LocalizationData data)
     {
-        // Реализация парсинга CSV в структуры данных
-        // (аналогично методу ProcessCSVData в LocalizationManager)
     }
 }
 #endif

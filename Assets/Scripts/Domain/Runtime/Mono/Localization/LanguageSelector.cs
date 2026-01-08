@@ -1,4 +1,3 @@
-// LanguageSelector.cs
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -19,12 +18,10 @@ public class LanguageSelector : MonoBehaviour
 
     private void Start()
     {
-        // Находим сохраненный язык
         string savedLang = PlayerPrefs.GetString("SelectedLanguage", Language.English.ToString());
         Language savedLanguage = Language.English;
         System.Enum.TryParse(savedLang, out savedLanguage);
 
-        // Находим индекс сохраненного языка
         for (int i = 0; i < availableLanguages.Length; i++)
         {
             if (availableLanguages[i] == savedLanguage)
@@ -37,11 +34,9 @@ public class LanguageSelector : MonoBehaviour
         InitializeUI();
         UpdateDisplay();
 
-        // Подписываемся на события
         previousButton.onClick.AddListener(PreviousLanguage);
         nextButton.onClick.AddListener(NextLanguage);
 
-        // Подписываемся на изменение языка для обновления текста
         if (LocalizationManager.Instance != null)
         {
             LocalizationManager.Instance.OnLanguageChanged += UpdateLocalizedTexts;
@@ -50,7 +45,6 @@ public class LanguageSelector : MonoBehaviour
 
     private void InitializeUI()
     {
-        // Настраиваем LocalizedText для label если он есть
         if (languageLabelText != null && languageLabelText.GetComponent<LocalizedText>() == null)
         {
             var localizedText = languageLabelText.gameObject.AddComponent<LocalizedText>();
@@ -63,7 +57,6 @@ public class LanguageSelector : MonoBehaviour
 
     private void UpdateLocalizedTexts()
     {
-        // Обновляем текст текущего языка
         UpdateCurrentLanguageText();
     }
 

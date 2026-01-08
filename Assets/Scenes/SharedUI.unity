@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 260451693}
   - component: {fileID: 260451695}
   - component: {fileID: 260451694}
+  - component: {fileID: 260451696}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -226,7 +227,7 @@ MonoBehaviour:
   m_text: Back To Main Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -302,6 +303,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 260451692}
   m_CullTransparentMesh: 1
+--- !u!114 &260451696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260451692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe73686a0c5eca4f8894f88e0b0c094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: Pause_Back
+  sheetName: UI_Menu
+  updateOnAwake: 1
+  updateOnLanguageChange: 1
+  formatArgs: []
 --- !u!1 &280249724
 GameObject:
   m_ObjectHideFlags: 0
@@ -1081,6 +1099,8 @@ MonoBehaviour:
   masterVolumeText: {fileID: 1098424950}
   musicVolumeText: {fileID: 1098424949}
   sfxVolumeText: {fileID: 1098424948}
+  languageSection: {fileID: 0}
+  languageSelector: {fileID: 0}
   resetToDefaultsButton: {fileID: 1098424947}
 --- !u!1001 &1027326593
 PrefabInstance:
@@ -1742,7 +1762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1027865248843897708, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -30.8004
+      value: -21.4207
       objectReference: {fileID: 0}
     - target: {fileID: 1519159834519213057, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1758,7 +1778,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1519159834519213057, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -63.5402
+      value: -54.1605
       objectReference: {fileID: 0}
     - target: {fileID: 2054014155071588252, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1774,7 +1794,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2054014155071588252, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -84.8593
+      value: -75.4796
       objectReference: {fileID: 0}
     - target: {fileID: 2207433361431922550, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1890,7 +1910,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2505503820991213330, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -106.1784
+      value: -96.7987
       objectReference: {fileID: 0}
     - target: {fileID: 3037054200589524672, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1966,7 +1986,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4838798975985761677, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -197.23204
+      value: -224.05864
       objectReference: {fileID: 0}
     - target: {fileID: 5338631671074097397, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1982,7 +2002,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5338631671074097397, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -127.4975
+      value: -118.1178
       objectReference: {fileID: 0}
     - target: {fileID: 5767177822824852030, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_Name
@@ -2014,7 +2034,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5972978085696701421, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -243.97435
+      value: -270.80096
       objectReference: {fileID: 0}
     - target: {fileID: 5984567612188942549, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2030,7 +2050,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5984567612188942549, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -148.8166
+      value: -139.4369
       objectReference: {fileID: 0}
     - target: {fileID: 6340640818054681434, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2064,6 +2084,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -11.3191
       objectReference: {fileID: 0}
+    - target: {fileID: 6771155605937999719, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771155605937999719, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771155605937999719, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 166
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771155605937999719, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -188.85915
+      objectReference: {fileID: 0}
     - target: {fileID: 7362059090747963464, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -2078,7 +2114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7362059090747963464, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -170.1357
+      value: -160.756
       objectReference: {fileID: 0}
     - target: {fileID: 8248125298878440614, guid: 992ba0dc1500fdc4eaacb22d281e4159, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2237,6 +2273,7 @@ GameObject:
   - component: {fileID: 1183727893}
   - component: {fileID: 1183727895}
   - component: {fileID: 1183727894}
+  - component: {fileID: 1183727896}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2288,7 +2325,7 @@ MonoBehaviour:
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2364,6 +2401,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183727892}
   m_CullTransparentMesh: 1
+--- !u!114 &1183727896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183727892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe73686a0c5eca4f8894f88e0b0c094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: Pause_Continue
+  sheetName: UI_Menu
+  updateOnAwake: 1
+  updateOnLanguageChange: 1
+  formatArgs: []
 --- !u!1 &1197542857
 GameObject:
   m_ObjectHideFlags: 0
@@ -2432,7 +2486,7 @@ MonoBehaviour:
   m_text: Loading...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2765,6 +2819,7 @@ GameObject:
   - component: {fileID: 1567664002}
   - component: {fileID: 1567664004}
   - component: {fileID: 1567664003}
+  - component: {fileID: 1567664005}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2814,7 +2869,7 @@ MonoBehaviour:
   m_text: Settings
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2890,6 +2945,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1567664001}
   m_CullTransparentMesh: 1
+--- !u!114 &1567664005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567664001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe73686a0c5eca4f8894f88e0b0c094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: Pause_Settings
+  sheetName: UI_Menu
+  updateOnAwake: 1
+  updateOnLanguageChange: 1
+  formatArgs: []
 --- !u!1 &1612273297
 GameObject:
   m_ObjectHideFlags: 0
@@ -3175,6 +3247,7 @@ GameObject:
   - component: {fileID: 1658671594}
   - component: {fileID: 1658671596}
   - component: {fileID: 1658671595}
+  - component: {fileID: 1658671597}
   m_Layer: 0
   m_Name: NameText
   m_TagString: Untagged
@@ -3224,7 +3297,7 @@ MonoBehaviour:
   m_text: Game Paused
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3300,6 +3373,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1658671593}
   m_CullTransparentMesh: 1
+--- !u!114 &1658671597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658671593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe73686a0c5eca4f8894f88e0b0c094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: Pause_Title
+  sheetName: UI_Menu
+  updateOnAwake: 1
+  updateOnLanguageChange: 1
+  formatArgs: []
 --- !u!1 &1675135980
 GameObject:
   m_ObjectHideFlags: 0
@@ -3733,6 +3823,7 @@ GameObject:
   - component: {fileID: 1969684355}
   - component: {fileID: 1969684357}
   - component: {fileID: 1969684356}
+  - component: {fileID: 1969684358}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -3782,7 +3873,7 @@ MonoBehaviour:
   m_text: Pause Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3858,6 +3949,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1969684354}
   m_CullTransparentMesh: 1
+--- !u!114 &1969684358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969684354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe73686a0c5eca4f8894f88e0b0c094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizationKey: Pause_Button
+  sheetName: UI_Menu
+  updateOnAwake: 1
+  updateOnLanguageChange: 1
+  formatArgs: []
 --- !u!1 &1980844720
 GameObject:
   m_ObjectHideFlags: 0
@@ -4054,6 +4162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14a628e3314f6b34d989f906556e9094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLanguage: 0
+  useGoogleSheets: 1
+  googleSheetsURL: https://docs.google.com/spreadsheets/d/1bQsGJFZ-rK9mrZmduIVEIq-D6W8D7AK6P4mv0x0Mexk/export?format=tsv
 --- !u!1 &2137790364
 GameObject:
   m_ObjectHideFlags: 0

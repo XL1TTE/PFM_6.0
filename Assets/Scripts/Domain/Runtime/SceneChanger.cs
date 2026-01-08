@@ -6,7 +6,7 @@ namespace Project
 {
     public class SceneChanger : MonoBehaviour
     {
-        private bool allow_cheats = false;
+        private bool allow_cheats = true;
 
         void Update()
         {
