@@ -19,8 +19,8 @@ namespace Persistence.DB
 
             With<IconUI>(new IconUI(GR.SPR_UI_ABT_COCKROACH_SPIT));
 
-            With<Name>(new Name("Cockroach spit"));
-            With<Description>(new Description("Spits acid that deals damage on contact to all enemies within a radius, and also poisons them."));
+            With<Name>(new Name("CockroachArmAbility_name"));
+            With<Description>(new Description("CockroachArmAbility_desc"));
 
 
             With<AbilityShiftsSprite>(new AbilityShiftsSprite() { m_Value = Resources.Load<Sprite>("Assets/Resources/Art/Abilities/Spr_Bodypart_Head_Test_1") });

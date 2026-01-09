@@ -1,10 +1,13 @@
-using UnityEngine;
-using System.Collections.Generic;
-using System.IO;
-using UnityEngine.Networking;
+using ExcelDataReader;
 using System;
-using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+using UnityEngine.Networking;
 
 public class LocalizationManager : MonoBehaviour
 {
@@ -13,10 +16,11 @@ public class LocalizationManager : MonoBehaviour
     [SerializeField] private Language currentLanguage = Language.English;
     [SerializeField] private bool useGoogleSheets = true;
 
-    private string googleSheetsURL = "https://docs.google.com/spreadsheets/d/1bQsGJFZ-rK9mrZmduIVEIq-D6W8D7AK6P4mv0x0Mexk/export?format=tsv";
+    private string googleSheetsURL = "https://docs.google.com/spreadsheets/d/1bQsGJFZ-rK9mrZmduIVEIq-D6W8D7AK6P4mv0x0Mexk/export?format=xlsx";
 
-    private Dictionary<string, Dictionary<string, string>> localizationDictionary =
-        new Dictionary<string, Dictionary<string, string>>();
+    // Замени словарь на трехмерную структуру
+    private Dictionary<string, Dictionary<string, Dictionary<string, string>>> localizationDictionary =
+        new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
 
     private Dictionary<Language, string> languageCodes = new Dictionary<Language, string>
     {
@@ -151,228 +155,115 @@ public class LocalizationManager : MonoBehaviour
 
     private IEnumerator LoadFromGoogleSheetsCoroutine()
     {
-        Debug.Log("Loading localization from Google Sheets (TSV)...");
+        Debug.Log("Loading localization from Google Sheets (Excel)...");
 
         UnityWebRequest webRequest = UnityWebRequest.Get(googleSheetsURL);
-
         yield return webRequest.SendWebRequest();
 
-        bool hasError = false;
-        string errorMessage = "";
-
-        try
+        if (webRequest.result == UnityWebRequest.Result.Success)
         {
-            if (webRequest.result == UnityWebRequest.Result.Success)
-            {
-                string tsvData = webRequest.downloadHandler.text;
-
-                Debug.Log($"First 100 chars: {tsvData.Substring(0, Mathf.Min(100, tsvData.Length))}");
-
-                ProcessTSVData(tsvData);
-                Debug.Log("Localization loaded from Google Sheets successfully");
-
-                SaveLocalCopy(tsvData);
-            }
-            else
-            {
-                hasError = true;
-                errorMessage = $"Failed to load Google Sheets: {webRequest.error}";
-            }
+            byte[] excelData = webRequest.downloadHandler.data;
+            ProcessExcelData(excelData);
         }
-        catch (System.Exception e)
+        else
         {
-            hasError = true;
-            errorMessage = $"Error loading from Google Sheets: {e.Message}";
-        }
-        finally
-        {
-            webRequest.Dispose();
-        }
-
-        if (hasError)
-        {
-            Debug.LogError(errorMessage);
+            Debug.LogError($"Failed to load Excel file: {webRequest.error}");
             LoadFromResources();
         }
 
-        isLocalizationLoaded = true;
-
-        OnLanguageChanged?.Invoke();
-
-        yield return new WaitForSeconds(0.1f);
-        ForceRegisterAllTexts();
-        UpdateAllLocalizedTexts();
+        webRequest.Dispose();
     }
 
-    private void ProcessTSVData(string tsvData)
+    private void ProcessExcelData(byte[] excelData)
     {
-        localizationDictionary.Clear();
+        // Критически важная строка!
+        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
-        if (string.IsNullOrEmpty(tsvData))
+        using (var stream = new MemoryStream(excelData))
         {
-            Debug.LogError("TSV data is empty!");
-            LoadFromResources();
-            return;
-        }
-
-        string[] lines = tsvData.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-
-        if (lines.Length < 2)
-        {
-            Debug.LogError($"TSV has insufficient lines! Only {lines.Length} lines.");
-            return;
-        }
-
-        Debug.Log($"Total lines in TSV: {lines.Length}");
-
-        string[] headers = ParseTSVLine(lines[0]);
-        Debug.Log($"Headers: {string.Join(", ", headers)}");
-
-        for (int i = 1; i < headers.Length; i++)
-        {
-            string language = headers[i].ToLower();
-            if (!localizationDictionary.ContainsKey(language))
+            using (var reader = ExcelReaderFactory.CreateReader(stream))
             {
-                localizationDictionary[language] = new Dictionary<string, string>();
-                Debug.Log($"Created dictionary for language: {language}");
-            }
-        }
-
-        int processedCount = 0;
-        for (int row = 1; row < lines.Length; row++)
-        {
-            if (string.IsNullOrWhiteSpace(lines[row])) continue;
-
-            string[] values = ParseTSVLine(lines[row]);
-            if (values.Length < 2) continue;
-
-            string key = values[0].Trim();
-
-            if (string.IsNullOrEmpty(key)) continue;
-
-            for (int col = 1; col < values.Length && col < headers.Length; col++)
-            {
-                string language = headers[col].ToLower();
-                string value = values[col];
-
-                if (!string.IsNullOrEmpty(value) && localizationDictionary.ContainsKey(language))
+                var result = reader.AsDataSet(new ExcelDataSetConfiguration()
                 {
-                    string fullKey = $"{key}||{language}";
-
-                    value = ReplaceNewlineMarkers(value);
-
-                    localizationDictionary[language][fullKey] = value;
-
-                    if (key.Contains("menu_") || key.Contains("settings_") || key.Contains("Demo"))
+                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
                     {
-                        Debug.Log($"Added: {fullKey}");
-                        Debug.Log($"Value (after newline replace): {value}");
+                        UseHeaderRow = true
                     }
-                }
-            }
+                });
 
-            processedCount++;
-        }
+                // Очищаем текущий словарь
+                localizationDictionary.Clear();
 
-        Debug.Log($"Processed {processedCount} localization entries");
-
-        foreach (var lang in localizationDictionary.Keys)
-        {
-            Debug.Log($"Language '{lang}': {localizationDictionary[lang].Count} entries");
-        }
-
-        DebugAvailableKeys();
-    }
-
-    private string ReplaceNewlineMarkers(string text)
-    {
-        if (string.IsNullOrEmpty(text))
-            return text;
-
-        string result = text;
-
-        result = result.Replace("\\n", "\n");
-
-        result = result.Replace("[NEWLINE]", "\n");
-        result = result.Replace("[newline]", "\n");
-
-        result = result.Replace("<br>", "\n");
-        result = result.Replace("<br/>", "\n");
-        result = result.Replace("<br />", "\n");
-
-        result = result.Replace("%%n%%", "\n");
-
-        result = result.Replace("\\\\n", "\\n");
-
-        return result;
-    }
-
-    private string[] ParseTSVLine(string line)
-    {
-        List<string> result = new List<string>();
-        bool inQuotes = false;
-        string current = "";
-        char lastChar = '\0';
-
-        for (int i = 0; i < line.Length; i++)
-        {
-            char c = line[i];
-
-            if (c == '"')
-            {
-                if (inQuotes && i + 1 < line.Length && line[i + 1] == '"')
+                // Проходим по всем таблицам (вкладкам)
+                foreach (DataTable table in result.Tables)
                 {
-                    current += '"';
-                    i++;
+                    string sheetName = table.TableName;
+
+                    // Инициализируем словарь для этой вкладки
+                    if (!localizationDictionary.ContainsKey(sheetName))
+                    {
+                        localizationDictionary[sheetName] = new Dictionary<string, Dictionary<string, string>>();
+                    }
+
+                    // Получаем заголовки столбцов (первая строка)
+                    List<string> columnHeaders = new List<string>();
+                    foreach (DataColumn column in table.Columns)
+                    {
+                        columnHeaders.Add(column.ColumnName.ToString());
+                    }
+
+                    // Если нет колонок, пропускаем таблицу
+                    if (columnHeaders.Count == 0)
+                    {
+                        Debug.LogWarning($"Sheet '{sheetName}' has no columns, skipping");
+                        continue;
+                    }
+
+                    // Проходим по всем строкам (начиная со второй, т.к. первая - заголовки)
+                    for (int rowIndex = 0; rowIndex < table.Rows.Count; rowIndex++)
+                    {
+                        DataRow row = table.Rows[rowIndex];
+
+                        // Получаем ключ из первого столбца
+                        string key = row[0]?.ToString();
+                        if (string.IsNullOrEmpty(key))
+                        {
+                            continue; // Пропускаем строки без ключа
+                        }
+
+                        // Проходим по всем языковым колонкам (начиная со второй)
+                        for (int colIndex = 1; colIndex < columnHeaders.Count; colIndex++)
+                        {
+                            string languageCode = columnHeaders[colIndex];
+                            string value = row[colIndex]?.ToString();
+
+                            // Инициализируем словарь для языка, если его еще нет
+                            if (!localizationDictionary[sheetName].ContainsKey(languageCode))
+                            {
+                                localizationDictionary[sheetName][languageCode] = new Dictionary<string, string>();
+                            }
+
+                            // Добавляем значение
+                            if (!string.IsNullOrEmpty(value))
+                            {
+                                localizationDictionary[sheetName][languageCode][key] = value;
+                            }
+                            else
+                            {
+                                // Для отладки: логируем пустые значения
+                                Debug.LogWarning($"Empty value for key '{key}' in sheet '{sheetName}', language '{languageCode}'");
+                            }
+                        }
+                    }
+
+                    Debug.Log($"Loaded sheet '{sheetName}' with {table.Rows.Count} rows and {table.Columns.Count} columns");
                 }
-                else
-                {
-                    inQuotes = !inQuotes;
-                }
-            }
-            else if (c == '\t' && !inQuotes)
-            {
-                if (current.StartsWith("\"") && current.EndsWith("\""))
-                {
-                    current = current.Substring(1, current.Length - 2);
-                }
 
-                result.Add(current.Trim());
-                current = "";
-            }
-            else
-            {
-                current += c;
-            }
+                Debug.Log($"Successfully loaded {result.Tables.Count} sheets");
+                isLocalizationLoaded = true;
 
-            lastChar = c;
-        }
-
-        if (current.StartsWith("\"") && current.EndsWith("\""))
-        {
-            current = current.Substring(1, current.Length - 2);
-        }
-
-        result.Add(current.Trim());
-
-        return result.ToArray();
-    }
-
-    private void DebugAvailableKeys()
-    {
-        Debug.Log("=== Available Localization Keys ===");
-
-        foreach (var language in localizationDictionary.Keys)
-        {
-            Debug.Log($"Language: {language}");
-            var keys = localizationDictionary[language].Keys.Take(10).ToList();
-            foreach (var key in keys)
-            {
-                Debug.Log($"  {key}");
-            }
-            if (localizationDictionary[language].Count > 10)
-            {
-                Debug.Log($"  ... and {localizationDictionary[language].Count - 10} more");
+                // После загрузки обновляем все тексты
+                UpdateAllLocalizedTexts();
             }
         }
     }
@@ -390,6 +281,7 @@ public class LocalizationManager : MonoBehaviour
         UpdateAllLocalizedTexts();
     }
 
+    // Обновленный GetLocalizedValue для работы с новой структурой
     public string GetLocalizedValue(string key, string sheetName = "UI_Menu")
     {
         if (!isLocalizationLoaded)
@@ -403,42 +295,43 @@ public class LocalizationManager : MonoBehaviour
             languageCode = "en";
         }
 
-        if (localizationDictionary.TryGetValue(languageCode, out var sheet))
+        // Пытаемся найти в указанной вкладке
+        if (!string.IsNullOrEmpty(sheetName) && localizationDictionary.ContainsKey(sheetName))
         {
-            string fullKey = $"{key}||{languageCode}";
-
-            if (sheet.TryGetValue(fullKey, out var value))
+            var sheet = localizationDictionary[sheetName];
+            if (sheet.TryGetValue(languageCode, out var langDict) && langDict.TryGetValue(key, out var value))
             {
                 return value;
             }
-            else
+        }
+
+        // Если не нашли, ищем во всех вкладках
+        foreach (var sheet in localizationDictionary.Values)
+        {
+            if (sheet.TryGetValue(languageCode, out var langDict) && langDict.TryGetValue(key, out var value))
             {
-                foreach (var kvp in sheet)
-                {
-                    if (kvp.Key.StartsWith(key + "||"))
-                    {
-                        return kvp.Value;
-                    }
-                }
+                Debug.LogWarning($"Key '{key}' not found in sheet '{sheetName}', using from another sheet");
+                return value;
             }
         }
 
-        if (languageCode != "en" && localizationDictionary.TryGetValue("en", out var enSheet))
+        // Английский фолбэк
+        if (languageCode != "en")
         {
-            foreach (var kvp in enSheet)
+            foreach (var sheet in localizationDictionary.Values)
             {
-                if (kvp.Key.StartsWith(key + "||"))
+                if (sheet.TryGetValue("en", out var langDict) && langDict.TryGetValue(key, out var value))
                 {
                     Debug.LogWarning($"Using English fallback for: {key}");
-                    return kvp.Value;
+                    return value;
                 }
             }
         }
 
-        Debug.LogWarning($"Localization key not found: '{key}' for language: {languageCode}");
+        Debug.LogWarning($"Localization key not found: '{key}' in sheet '{sheetName}' for language: {languageCode}");
         return $"[{key}]";
     }
-
+    
     public string GetFormattedValue(string key, params object[] args)
     {
         string text = GetLocalizedValue(key);
@@ -458,20 +351,6 @@ public class LocalizationManager : MonoBehaviour
         return GetLocalizedValue($"{eventId}_{field}", "TextEvents");
     }
 
-    private void SaveLocalCopy(string tsvData)
-    {
-        try
-        {
-            string path = Path.Combine(Application.persistentDataPath, "localization_backup.tsv");
-            File.WriteAllText(path, tsvData);
-            Debug.Log($"Localization backup saved to: {path}");
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Failed to save backup: {e.Message}");
-        }
-    }
-
     private void LoadFromResources()
     {
         TextAsset jsonFile = Resources.Load<TextAsset>("Localization/localization_data");
@@ -484,18 +363,23 @@ public class LocalizationManager : MonoBehaviour
 
                 foreach (var sheet in wrapper.sheets)
                 {
+                    string sheetName = sheet.name;
+                    if (!localizationDictionary.ContainsKey(sheetName))
+                    {
+                        localizationDictionary[sheetName] = new Dictionary<string, Dictionary<string, string>>();
+                    }
+
                     foreach (var entry in sheet.entries)
                     {
                         foreach (var translation in entry.translations)
                         {
                             string language = translation.language.ToLower();
-                            if (!localizationDictionary.ContainsKey(language))
+                            if (!localizationDictionary[sheetName].ContainsKey(language))
                             {
-                                localizationDictionary[language] = new Dictionary<string, string>();
+                                localizationDictionary[sheetName][language] = new Dictionary<string, string>();
                             }
 
-                            string fullKey = $"{entry.key}||{language}";
-                            localizationDictionary[language][fullKey] = translation.text;
+                            localizationDictionary[sheetName][language][entry.key] = translation.text;
                         }
                     }
                 }
@@ -514,7 +398,6 @@ public class LocalizationManager : MonoBehaviour
 
         isLocalizationLoaded = true;
     }
-
     public void DebugCurrentData()
     {
         Debug.Log($"=== Current Language: {currentLanguage} ===");
@@ -555,5 +438,9 @@ public class LocalizationManager : MonoBehaviour
     {
         public string language;
         public string text;
+    }
+    public List<string> GetAvailableSheets()
+    {
+        return localizationDictionary.Keys.ToList();
     }
 }

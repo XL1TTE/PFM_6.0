@@ -73,11 +73,13 @@ namespace Gameplay.TargetSelection
                         if (IsCellMeetType(t_clickedCell, a_cellOptions, a_type, a_world))
                         {
                             t_result.Add(t_clickedCell);
+
                         }
                         else
                         {
                             ProcessNotValidChoose(t_clickedCell, a_cellOptions, a_type, a_world);
                             // Play sound and stuff when invalid
+                            AudioManager.Instance.PlaySound(AudioManager.buttonErrorSound);
                             Debug.Log("Not valid choose.");
                         }
                     }
@@ -85,10 +87,12 @@ namespace Gameplay.TargetSelection
                     else if (Input.GetMouseButtonDown(1))
                     {
                         CancelSession();
+                        AudioManager.Instance.PlaySound(AudioManager.buttonErrorSound);
                     }
                     else if (!SM.IsStateActive<TargetSelectionState>(out var state))
                     {
                         CancelSession();
+                        AudioManager.Instance.PlaySound(AudioManager.buttonErrorSound);
                     }
                 }
 
@@ -109,21 +113,22 @@ namespace Gameplay.TargetSelection
         {
             if (a_cellOptions.Contains(t_clickedCell) == false)
             {
-                Game.GUI.NotifyUnderCursor("OUT OF RANGE", C.COLOR_WRONG_CELL_CHOICE_NOTIFICATION);
+                Game.GUI.NotifyUnderCursor(LocalizationManager.Instance.GetLocalizedValue("Battle_UI_UnderCursor_OutOfRange", "Battle")
+                    , C.COLOR_WRONG_CELL_CHOICE_NOTIFICATION);
                 return;
             }
 
-            string t_message = "NOT  ";
+            string t_message = $"{LocalizationManager.Instance.GetLocalizedValue("Battle_UI_UnderCursor_Not", "Battle")}  ";
             switch (a_expectedType)
             {
                 case TargetSelectionTypes.CELL_EMPTY:
-                    t_message += "EMPTY CELL";
+                    t_message += LocalizationManager.Instance.GetLocalizedValue("Battle_UI_UnderCursor_Empty", "Battle");
                     break;
                 case TargetSelectionTypes.CELL_WITH_ALLY:
-                    t_message += "CELL WITH ALLY";
+                    t_message += LocalizationManager.Instance.GetLocalizedValue("Battle_UI_UnderCursor_Ally", "Battle");
                     break;
                 case TargetSelectionTypes.CELL_WITH_ENEMY:
-                    t_message += "CELL WITH ENEMY";
+                    t_message += LocalizationManager.Instance.GetLocalizedValue("Battle_UI_UnderCursor_Enemy", "Battle");
                     break;
             }
 

@@ -124,7 +124,7 @@ namespace Gameplay.MapEvents.Systems
                         if (tmp_count == req.choice_id)
                         {
                             //choice.Value.
-                            UpdateTextUI(choice.Value.res_text);
+                            UpdateTextUI(LocalizationManager.Instance.GetLocalizedValue(choice.Value.res_text, "TextEvents"));
 
                             switch (choice.Value.type)
                             {
@@ -180,7 +180,7 @@ namespace Gameplay.MapEvents.Systems
                 // var tmp_curr_y = tmp_start_y - dist_between_options * count;
 
                 var prefabedChoice = Instantiate(textEvChoicePrefab); // , new Vector3(choices_x_pos, tmp_curr_y, 0), Quaternion.identity
-                prefabedChoice.GetComponentInChildren<TextMeshProUGUI>().text = choice.Key;
+                prefabedChoice.GetComponentInChildren<TextMeshProUGUI>().text = LocalizationManager.Instance.GetLocalizedValue(choice.Key, "TextEvents");
 
                 this.prefabed_choices.Add(prefabedChoice);
 
@@ -255,7 +255,7 @@ namespace Gameplay.MapEvents.Systems
                 if (DataBase.TryGetRecord<MapEvTextMessageComponent>(found_record, out var res_main_text))
                 {
                     //Debug.Log(res_main_text.string_message);
-                    string_message = res_main_text.string_message;
+                    string_message = LocalizationManager.Instance.GetLocalizedValue(res_main_text.string_message, "TextEvents");
                 }
 
                 // Get all of the choices available

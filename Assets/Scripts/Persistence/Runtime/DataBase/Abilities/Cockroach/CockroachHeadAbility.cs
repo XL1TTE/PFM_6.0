@@ -16,11 +16,11 @@ namespace Persistence.DB
         {
             ID("abt_cockroach-head");
 
-            With<Name>(new Name("Radioactivity"));
+            With<Name>(new Name("CockroachHeadAbility_name"));
 
             With<Description>(new Description
             {
-                m_Value = "Cockroach's radioactivity will decrease enemy poison resistance by 2."
+                m_Value = "CockroachHeadAbility_desc"
             });
 
             //With<AbilityShiftsSprite>(new AbilityShiftsSprite() { m_Value = Resources.Load<Sprite>("Assets/Resources/Art/Abilities/Spr_Bodypart_Head_Test_1") });

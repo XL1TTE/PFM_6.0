@@ -168,6 +168,8 @@ namespace Gameplay.Abilities.Systems
             {
                 if (!IsAbilityButtonClicked(evt)) { return; } // Ignore if not abiltiy button was clicked.
 
+                AudioManager.Instance.PlaySound(AudioManager.buttonClickSound);
+
                 var owner = stash_AbilityButtonTag.Get(evt.ClickedButton).m_ButtonOwner;
 
                 var ownerPos = GU.GetEntityPositionOnCell(owner, World);

@@ -52,7 +52,7 @@ namespace Gameplay.StateMachine.Systems
             /*              Change plate text             */
             /* ########################################## */
 
-            BattleUiRefs.Instance.InformationBoardWidget.ChangeText("Preparation");
+            BattleUiRefs.Instance.InformationBoardWidget.ChangeText(LocalizationManager.Instance.GetLocalizedValue("Battle_UI_State_Preparation", "Battle"));
 
 
             /* ########################################## */
