@@ -15,6 +15,17 @@ public class SoundSettings : MonoBehaviour
     [SerializeField] private TMP_Text musicVolumeText;
     [SerializeField] private TMP_Text sfxVolumeText;
 
+    [Header("Language Section")]
+    [SerializeField] private GameObject languageSection; // Вся секция языка
+    [SerializeField] private LanguageSelector languageSelector; // Компонент выбора языка
+
+    [Header("Localization Keys")]
+    //[SerializeField] private string masterVolumeKey = "settings_master_volume";
+    //[SerializeField] private string musicVolumeKey = "settings_music_volume";
+    //[SerializeField] private string sfxVolumeKey = "settings_sfx_volume";
+    //[SerializeField] private string resetButtonKey = "settings_reset_defaults";
+    //[SerializeField] private string backButtonKey = "settings_back";
+
     [Header("Reset Button")]
     [SerializeField] private Button resetToDefaultsButton;
 
@@ -43,12 +54,77 @@ public class SoundSettings : MonoBehaviour
                  $"SFX: {AudioManager.Instance.GetSFXVolumeDirect()}");
     }
 
+    private void InitializeLocalization()
+    {
+        // Добавляем LocalizedText компоненты к label'ам
+        //AddLocalizedText(masterVolumeText, masterVolumeKey);
+        //AddLocalizedText(musicVolumeText, musicVolumeKey);
+        //AddLocalizedText(sfxVolumeText, sfxVolumeKey);
+
+        //// Добавляем LocalizedText к кнопке сброса если есть текст
+        //if (resetToDefaultsButton != null)
+        //{
+        //    var resetText = resetToDefaultsButton.GetComponentInChildren<TMP_Text>();
+        //    if (resetText != null && resetText.GetComponent<LocalizedText>() == null)
+        //    {
+        //        var localizedText = resetText.gameObject.AddComponent<LocalizedText>();
+        //        localizedText.localizationKey = resetButtonKey;
+        //        localizedText.sheetName = "UI_Menu";
+        //    }
+        //}
+
+        // Добавляем LocalizedText к кнопке назад если есть текст
+        //if (backButton != null)
+        //{
+        //    var backText = backButton.GetComponentInChildren<TMP_Text>();
+        //    if (backText != null && backText.GetComponent<LocalizedText>() == null)
+        //    {
+        //        var localizedText = backText.gameObject.AddComponent<LocalizedText>();
+        //        localizedText.localizationKey = backButtonKey;
+        //        localizedText.sheetName = "UI_Menu";
+        //    }
+        //}
+    }
+
+    private void AddLocalizedText(TMP_Text textComponent, string key)
+    {
+        if (textComponent != null && textComponent.GetComponent<LocalizedText>() == null)
+        {
+            var localizedText = textComponent.gameObject.AddComponent<LocalizedText>();
+            localizedText.localizationKey = key;
+            localizedText.sheetName = "UI_Menu";
+            localizedText.updateOnAwake = true;
+            localizedText.updateOnLanguageChange = true;
+        }
+    }
+
+
     private void OnEnable()
     {
         if (isInitialized && AudioManager.Instance != null)
         {
             RefreshSliders();
         }
+
+        if (LocalizationManager.Instance != null)
+        {
+            LocalizationManager.Instance.OnLanguageChanged += OnLanguageChanged;
+        }
+    }
+
+    private void OnDisable()
+    {
+        // Отписываемся от событий
+        if (LocalizationManager.Instance != null)
+        {
+            LocalizationManager.Instance.OnLanguageChanged -= OnLanguageChanged;
+        }
+    }
+
+    private void OnLanguageChanged()
+    {
+        // Обновляем проценты (они не зависят от языка, но метод может понадобиться)
+        UpdateVolumeTexts();
     }
 
     private void InitializeSliders()

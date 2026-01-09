@@ -9,7 +9,7 @@ namespace Persistence.DB
         {
             ID("effect_pig-head-skill");
 
-            With<Name>(new Name("Power of svin."));
+            With<Name>(new Name("PigHeadSkillEffect_name"));
 
             With<MaxHealthModifier>(new MaxHealthModifier
             {

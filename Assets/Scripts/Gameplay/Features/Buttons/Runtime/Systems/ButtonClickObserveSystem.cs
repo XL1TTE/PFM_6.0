@@ -41,6 +41,7 @@ namespace UI.Buttons
 
             if (Input.GetMouseButtonDown(0))
             {
+                AudioManager.Instance.PlaySound(AudioManager.buttonClickSound);
                 evt_btnClicked.NextFrame(new ButtonClickedEvent
                 {
                     ClickedButton = clickedButton

@@ -54,11 +54,12 @@ namespace Gameplay.StateMachine.Systems
 
         private async UniTask Enter(Entity stateEntity)
         {
-            BattleUiRefs.Instance.InformationBoardWidget.ChangeText("Battle");
+            BattleUiRefs.Instance.InformationBoardWidget.ChangeText(LocalizationManager.Instance.GetLocalizedValue("Battle_UI_State_Battle", "Battle"));
 
-            await Game.GUI.NotifyFullScreenAsync("Battle stage",
-                UniTask.WaitUntil(() => Input.GetMouseButtonDown(0)), C.COLOR_NOTIFICATION_BG_DEFAULT, "Press LMB to continue...");
+            await Game.GUI.NotifyFullScreenAsync(LocalizationManager.Instance.GetLocalizedValue("Battle_UI_Notification_Battle", "Battle"),
+                UniTask.WaitUntil(() => Input.GetMouseButtonDown(0)), C.COLOR_NOTIFICATION_BG_DEFAULT, LocalizationManager.Instance.GetLocalizedValue("Battle_UI_Notification_Continue", "Battle"));
 
+            AudioManager.Instance.PlaySound(AudioManager.buttonClickSound);
             SM.ExitState<PreBattleNotificationState>();
             SM.EnterState<BattleState>();
         }

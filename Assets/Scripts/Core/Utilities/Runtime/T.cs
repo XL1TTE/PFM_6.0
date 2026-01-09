@@ -44,7 +44,7 @@ namespace Core.Utilities
                     HorizontalLayoutElement t_nameLine = CreateHorizontalLine().AlignStart();
                     var name =
                         TextPool.I().WarmupElement()
-                        .SetText(abilityName.m_Value)
+                        .SetText(LocalizationManager.Instance.GetLocalizedValue(abilityName.m_Value, "Parts"))
                         .SetColor(Color.white)
                         .Bold()
                         .FontSize(TEXT_SIZE_H3);
@@ -57,7 +57,7 @@ namespace Core.Utilities
                     HorizontalLayoutElement t_descLine = CreateHorizontalLine().AlignStart();
                     var text =
                         TextPool.I().WarmupElement()
-                        .SetText(abilityDesc.m_Value)
+                        .SetText(LocalizationManager.Instance.GetLocalizedValue(abilityDesc.m_Value, "Parts"))
                         .SetColor(Color.white)
                         .FontSize(TEXT_SIZE_B2);
 
@@ -72,7 +72,7 @@ namespace Core.Utilities
                 HorizontalLayoutElement t_physDmg = CreateHorizontalLine().AlignStart();
                 var text =
                     TextPool.I().WarmupElement()
-                    .SetText($"{phys_dmg} DMG.")
+                    .SetText($"{phys_dmg} {LocalizationManager.Instance.GetLocalizedValue("Battle_Tooltip_DMG", "Battle")}")
                     .SetColor("#8d781e".ToColor())
                     .FontSize(TEXT_SIZE_B2);
 
@@ -134,7 +134,9 @@ namespace Core.Utilities
                 HorizontalLayoutElement t_line = CreateHorizontalLine().AlignStart();
                 var text =
                     TextPool.I().WarmupElement()
-                    .SetText($"STUNS FOR {status.m_Duration} TURNS.")
+                    .SetText($"{LocalizationManager.Instance.GetLocalizedValue("Battle_Tooltip_STUNSFOR", "Battle")} " +
+                    $"{status.m_Duration} " +
+                    $"{LocalizationManager.Instance.GetLocalizedValue("Battle_Tooltip_TURNS", "Battle")}")
                     .SetColor(Color.white)
                     .FontSize(TEXT_SIZE_B2);
 
@@ -148,7 +150,9 @@ namespace Core.Utilities
                 HorizontalLayoutElement t_line = CreateHorizontalLine().AlignStart();
                 var text =
                     TextPool.I().WarmupElement()
-                    .SetText($"HEALS TARGET FOR {status.m_Amount} HP.")
+                    .SetText($"{LocalizationManager.Instance.GetLocalizedValue("Battle_Tooltip_HEALSTARGETFOR", "Battle")} " +
+                    $"{status.m_Amount} " +
+                    $"{LocalizationManager.Instance.GetLocalizedValue("Battle_Tooltip_HP", "Battle")}")
                     .SetColor(C.COLOR_HEALING)
                     .FontSize(TEXT_SIZE_B2);
 
@@ -162,7 +166,11 @@ namespace Core.Utilities
                 HorizontalLayoutElement t_line = CreateHorizontalLine().AlignStart();
                 var text =
                     TextPool.I().WarmupElement()
-                    .SetText($"HEALS ALL TARGET IN RADIUS OF {status.m_Area} FOR {status.m_Amount} HP.")
+                    .SetText($"{LocalizationManager.Instance.GetLocalizedValue("Battle_Tooltip_HEALSTARGETFOR", "Battle")} " +
+                    $"{status.m_Area} " +
+                    $"{LocalizationManager.Instance.GetLocalizedValue("Battle_Tooltip_HEALSTARGETFOR", "Battle")}" +
+                    $"{status.m_Amount} " +
+                    $"{LocalizationManager.Instance.GetLocalizedValue("Battle_Tooltip_HEALSTARGETFOR", "Battle")}")
                     .SetColor(C.COLOR_HEALING)
                     .FontSize(TEXT_SIZE_B2);
 
@@ -174,13 +182,15 @@ namespace Core.Utilities
 
             foreach (var effect in a_ability.GetEffects<ApplyToAllAlliesInArea>())
             {
-                var t_text = $"For every ally in area of {effect.m_Area}:\n";
+                var t_text = $"{LocalizationManager.Instance.GetLocalizedValue("Battle_Tooltip_ForEveryAllyInAreaOf", "Battle")} " +
+                    $"{effect.m_Area}:\n";
 
                 var applyEffects = effect.m_Nodes.GetAll<ApplyEffect>();
                 foreach (var e in applyEffects)
                 {
                     var name = DbUtility.GetNameFromRecordWithID(e.m_EffectID);
-                    t_text += $" Apply effect - {name}";
+                    t_text += $" {LocalizationManager.Instance.GetLocalizedValue("Battle_Tooltip_ApplyEffect", "Battle")} " +
+                        $"- {LocalizationManager.Instance.GetLocalizedValue(name, "Parts")}";
                 }
 
                 HorizontalLayoutElement t_line = CreateHorizontalLine().AlignStart();
@@ -200,7 +210,10 @@ namespace Core.Utilities
         private static string GetTextForStatusEffects<T>(T a_status)
             where T : struct, IApplyDamageStatusEffect
         {
-            return $"{a_status.m_DamagePerTick} DMG FOR {a_status.m_Duration} TURNS.";
+            return $"{a_status.m_DamagePerTick} " +
+                $"{LocalizationManager.Instance.GetLocalizedValue("Battle_Tooltip_DMGFOR", "Battle")} " +
+                $"{a_status.m_Duration} " +
+                $"{LocalizationManager.Instance.GetLocalizedValue("Battle_Tooltip_TURNS", "Battle")}";
         }
 
         private static int GetDamageForAbiltiy(Ability a_ability, DamageType a_type)

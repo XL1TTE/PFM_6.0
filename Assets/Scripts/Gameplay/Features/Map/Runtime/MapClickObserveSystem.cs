@@ -86,6 +86,8 @@ namespace Gameplay.Map.Systems
                     && choicesUnderCursorFilter.IsEmpty()) { return; }
 
 
+                AudioManager.Instance.PlaySound(AudioManager.buttonClickSound);
+
                 // IF NEED BE, THIS SYSTEM CAN BE REBUILD TO WORK WITH STATEMACHINE WORLD... if only it worked in general
                 if (!choicesUnderCursorFilter.IsEmpty() && SM.IsStateActive<MapTextEvState>(out var state_text))
                 {
@@ -96,6 +98,7 @@ namespace Gameplay.Map.Systems
                     {
                         choice_id = actualChoiceId,
                     });
+
                     return;
                 }
                 if (!nodesUnderCursorFilter.IsEmpty() && SM.IsStateActive<MapDefaultState>(out var state_def))

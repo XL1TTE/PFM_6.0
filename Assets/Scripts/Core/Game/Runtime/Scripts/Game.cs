@@ -314,6 +314,41 @@ namespace Game
             await Interactor.CallAll<IOnAbiltiyExecutionStart>(
                 async h => await h.OnExecutionStart(abilityData, a_caster, a_target, a_world));
 
+            switch (abilityData.m_AbilityType)
+            {
+                case AbilityType.MOVEMENT:
+                    AudioManager.Instance.PlaySound(AudioManager.moveSound);
+                    break;
+                case AbilityType.ROTATE:
+                    AudioManager.Instance.PlaySound(AudioManager.turnSound);
+                    break;
+                case AbilityType.INTERACTION:
+                    switch (abilityData.m_AbilityType)
+                    {
+                        case AbilityType.MOVEMENT:
+                            AudioManager.Instance.PlaySound(AudioManager.moveSound);
+                            break;
+                        case AbilityType.ROTATE:
+                            AudioManager.Instance.PlaySound(AudioManager.turnSound);
+                            break;
+                        // For future use, if additional sounds get added
+                        //case AbilityType.INTERACTION:
+                        //    foreach (var i in abilityData.m_Tags)
+                        //    {
+                        //        switch (i)
+                        //        {
+                        //            case AbilityTags.DAMAGE:
+
+                        //                break;
+                        //        }
+                        //    }
+                        //    AudioManager.Instance.PlaySound(AudioManager.turnSound);
+                        //    break;
+                    }
+                    AudioManager.Instance.PlaySound(AudioManager.turnSound);
+                    break;
+            }
+
             await abilityData.m_Value.Execute(a_caster, a_target, a_world);
 
             Interactor.CallAll<IOnAbiltiyExecutionEnd>(

@@ -49,11 +49,11 @@ namespace Gameplay.TurnSystem.Systems
 
             if (stash_monsterTag.Has(turnTaker))
             {
-                BattleUiRefs.Instance.InformationBoardWidget.ChangeText("Player's turn");
+                BattleUiRefs.Instance.InformationBoardWidget.ChangeText(LocalizationManager.Instance.GetLocalizedValue("Battle_UI_Notification_TurnPlayer", "Battle"));
             }
             else if (stash_enemyTag.Has(turnTaker))
             {
-                BattleUiRefs.Instance.InformationBoardWidget.ChangeText("Enemy's turn");
+                BattleUiRefs.Instance.InformationBoardWidget.ChangeText(LocalizationManager.Instance.GetLocalizedValue("Battle_UI_Notification_TurnEnemy", "Battle"));
             }
         }
 

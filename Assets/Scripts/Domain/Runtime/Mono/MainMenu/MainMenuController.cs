@@ -55,6 +55,15 @@ public class MainMenuController : MonoBehaviour
         creditsPanel.SetActive(false);
     }
 
+    private void UpdateLocalizedTexts()
+    {
+        var localizedTexts = GetComponentsInChildren<LocalizedText>(true);
+        foreach (var text in localizedTexts)
+        {
+            text.UpdateText();
+        }
+    }
+
     private IEnumerator StartSequence()
     {
         yield return new WaitForSeconds(0.1f);
@@ -64,16 +73,23 @@ public class MainMenuController : MonoBehaviour
             yield return fadeController.FadeOutCoroutine();
         }
 
+        yield return new WaitUntil(() => LocalizationManager.Instance != null);
+
+        UpdateLocalizedTexts();
+
         demoMessageTimer = demoMessageDuration;
 
         while (demoMessageTimer > 0)
         {
             demoMessageTimer -= Time.deltaTime;
-            skipTimerText.text = $"You can skip in {demoMessageTimer:F1} seconds";
+
+            string localizedTimer = LocalizationManager.Instance.GetLocalizedValue("MainMenu_Demo_SkipTimer", "UI_Menu");
+            skipTimerText.text = string.Format(localizedTimer, demoMessageTimer.ToString("F1"));
+
             yield return null;
         }
 
-        skipTimerText.text = "Press any button to continue";
+        skipTimerText.text = LocalizationManager.Instance.GetLocalizedValue("MainMenu_Demo_SkipReady", "UI_Menu");
         canSkipDemoMessage = true;
 
         float autoSkipTimer = 10f;
@@ -123,20 +139,26 @@ public class MainMenuController : MonoBehaviour
         if (isTransitioning) yield break;
         isTransitioning = true;
 
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeInCoroutine();
-        //}
-
         mainMenuPanel.SetActive(false);
         settingsPanel.SetActive(true);
 
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeOutCoroutine();
-        //}
+        yield return null;
+        UpdateLocalizedTextsInPanel(settingsPanel);
 
         isTransitioning = false;
+    }
+
+    private void UpdateLocalizedTextsInPanel(GameObject panel)
+    {
+        if (panel == null) return;
+
+        var localizedTexts = panel.GetComponentsInChildren<LocalizedText>(true);
+        Debug.Log($"Updating {localizedTexts.Length} localized texts in {panel.name}");
+
+        foreach (var text in localizedTexts)
+        {
+            text.UpdateText();
+        }
     }
 
     private IEnumerator TransitionFromSettingsToMainMenu()
@@ -144,18 +166,8 @@ public class MainMenuController : MonoBehaviour
         if (isTransitioning) yield break;
         isTransitioning = true;
 
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeInCoroutine();
-        //}
-
         settingsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
-
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeOutCoroutine();
-        //}
 
         isTransitioning = false;
     }
@@ -165,18 +177,8 @@ public class MainMenuController : MonoBehaviour
         if (isTransitioning) yield break;
         isTransitioning = true;
 
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeInCoroutine();
-        //}
-
         mainMenuPanel.SetActive(false);
         creditsPanel.SetActive(true);
-
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeOutCoroutine();
-        //}
 
         isTransitioning = false;
     }
@@ -186,18 +188,8 @@ public class MainMenuController : MonoBehaviour
         if (isTransitioning) yield break;
         isTransitioning = true;
 
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeInCoroutine();
-        //}
-
         creditsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
-
-        //if (fadeController != null)
-        //{
-        //    yield return fadeController.FadeOutCoroutine();
-        //}
 
         isTransitioning = false;
     }

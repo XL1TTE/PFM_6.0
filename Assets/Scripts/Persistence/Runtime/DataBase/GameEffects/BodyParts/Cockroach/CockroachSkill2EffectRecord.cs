@@ -9,7 +9,7 @@ namespace Persistence.DB
         {
             ID("effect_cockroach-skill2");
 
-            With<Name>(new Name("Intoxication"));
+            With<Name>(new Name("CockroachSkill2EffectRecord_name"));
 
             With<MaxHealthModifier>(
                 new MaxHealthModifier

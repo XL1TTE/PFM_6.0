@@ -18,6 +18,7 @@ namespace Domain
         [ContextMenu("click")]
         public void ClickedContinue()
         {
+            AudioManager.Instance.PlaySound(AudioManager.buttonClickSound);
             textHandler.UnDrawTextUI();
         }
     }

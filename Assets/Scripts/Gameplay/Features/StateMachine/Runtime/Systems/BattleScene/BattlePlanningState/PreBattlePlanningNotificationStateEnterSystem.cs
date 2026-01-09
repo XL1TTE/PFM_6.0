@@ -53,9 +53,10 @@ namespace Gameplay.StateMachine.Systems
 
         private void Enter(Entity stateEntity)
         {
-            Game.GUI.NotifyFullScreen("Planning stage",
-                UniTask.WaitUntil(() => Input.GetMouseButtonDown(0)), C.COLOR_NOTIFICATION_BG_DEFAULT, "Press LMB to continue...");
+            Game.GUI.NotifyFullScreen(LocalizationManager.Instance.GetLocalizedValue("Battle_UI_Notification_Plan", "Battle"),
+                UniTask.WaitUntil(() => Input.GetMouseButtonDown(0)), C.COLOR_NOTIFICATION_BG_DEFAULT, LocalizationManager.Instance.GetLocalizedValue("Battle_UI_Notification_Continue", "Battle"));
 
+            AudioManager.Instance.PlaySound(AudioManager.buttonClickSound);
             SM.ExitState<PreBattlePlanningNotificationState>();
             SM.EnterState<BattlePlanningState>();
         }
