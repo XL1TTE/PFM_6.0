@@ -17,6 +17,7 @@ namespace Persistence.DB
             ID("abt_pig-arm");
 
             With<Name>(new Name("PigArmAbility_name"));
+            With<Description>(new Description("PigArmAbility_desc"));
 
             With<IconUI>(new IconUI(GR.SPR_UI_ABT_PIG_ARM));
 

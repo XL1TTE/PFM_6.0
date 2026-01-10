@@ -15,6 +15,7 @@ namespace Project
         public TMP_Text hpText;
         public TMP_Text speedText;
         public TMP_Text abilityText;
+        public Image abilityIcon;
 
         public Image bleedResistanceIcon;
         public Image poisonResistanceIcon;
@@ -220,6 +221,12 @@ namespace Project
             if (abilitySection != null)
                 abilitySection.SetActive(hasAbility);
 
+            // Обновляем иконку если есть
+            if (hasAbility && data.ability_icon != null)
+            {
+                abilityIcon.sprite = data.ability_icon;
+            }
+
             // Обновляем текст навыка если есть
             if (hasAbility && abilityText != null)
             {
@@ -243,7 +250,14 @@ namespace Project
 
         private string FormatAbility(BodyPartData data)
         {
-            string abilityInfo = $"<b>{LocalizationManager.Instance.GetLocalizedValue(data.ability_name, "Parts")}</b>\n";
+            string abilityInfo = $"<b>{LocalizationManager.Instance.GetLocalizedValue("AbilityMovement_Name", "Parts")}</b>\n";
+
+            if (data.type == BODYPART_TYPE.LEG)
+            {
+                return abilityInfo;
+            }
+
+            abilityInfo = $"<b>{LocalizationManager.Instance.GetLocalizedValue(data.ability_name, "Parts")}</b>\n";
 
             if (!string.IsNullOrEmpty(data.ability_desc))
             {
