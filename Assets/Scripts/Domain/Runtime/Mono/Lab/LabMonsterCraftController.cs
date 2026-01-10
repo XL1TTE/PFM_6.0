@@ -130,7 +130,8 @@ namespace Project
                 string abt_name = "";
                 string abt_desc = "";
                 Sprite abt_icon = null;
-                Sprite abt_shifts = null;
+                //Sprite abt_shifts = null;
+                Vector2Int[] abt_shifts = null;
 
                 if (DataBase.TryFindRecordByID(part.Key, out var e_record))
                 {
@@ -172,11 +173,11 @@ namespace Project
                     // part name and descr
                     if (DataBase.TryGetRecord<Name>(e_record, out var e_name))
                     {
-                        part_name = e_name.m_Value;
+                        part_name = LocalizationManager.Instance.GetLocalizedValue(e_name.m_Value, "Parts");
                     }
                     if (DataBase.TryGetRecord<Description>(e_record, out var e_desc))
                     {
-                        part_desc = e_desc.m_Value;
+                        part_desc = LocalizationManager.Instance.GetLocalizedValue(e_desc.m_Value, "Parts");
                     }
 
 
@@ -218,19 +219,23 @@ namespace Project
                         {
                             if (DataBase.TryGetRecord<Name>(e_abt_record, out var e_abt_name))
                             {
-                                abt_name = e_abt_name.m_Value;
+                                abt_name = LocalizationManager.Instance.GetLocalizedValue(e_abt_name.m_Value, "Parts");
                             }
                             if (DataBase.TryGetRecord<Description>(e_abt_record, out var e_abt_desc))
                             {
-                                abt_desc = e_abt_desc.m_Value;
+                                abt_desc = LocalizationManager.Instance.GetLocalizedValue(e_abt_desc.m_Value, "Parts");
                             }
                             if (DataBase.TryGetRecord<IconUI>(e_abt_record, out var e_abt_icon))
                             {
                                 abt_icon = e_abt_icon.m_Value;
                             }
-                            if (DataBase.TryGetRecord<AbilityShiftsSprite>(e_abt_record, out var e_abt_shifts))
+                            //if (DataBase.TryGetRecord<AbilityShiftsSprite>(e_abt_record, out var e_abt_shifts))
+                            //{
+                            //    abt_shifts = e_abt_shifts.m_Value;
+                            //}
+                            if (DataBase.TryGetRecord<AbilityDefenition>(e_abt_record, out var e_abt_definitions))
                             {
-                                abt_shifts = e_abt_shifts.m_Value;
+                                abt_shifts = e_abt_definitions.m_Shifts;
                             }
                         }
                     }
