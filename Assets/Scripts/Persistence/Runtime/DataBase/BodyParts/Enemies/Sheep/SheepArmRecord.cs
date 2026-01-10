@@ -46,7 +46,7 @@ namespace Persistence.DB
         {
             ID("bp_sheep-head");
 
-            With<Name>(new Name { m_Value = "Sheep's Head" });
+            With<Name>(new Name ("SheepHeadRecord_name"));
 
             With<HeadSprite>(new HeadSprite
             {

@@ -99,7 +99,7 @@ namespace Project
 
         private void UpdateTextFields(BodyPartData data)
         {
-            partNameText.text = data.partName ?? "Неизвестная часть";
+            partNameText.text = LocalizationManager.Instance.GetLocalizedValue(data.partName, "Parts") ?? "Неизвестная часть";
             hpText.text = FormatHP(data);
             speedText.text = FormatSpeed(data);
         }
@@ -243,11 +243,11 @@ namespace Project
 
         private string FormatAbility(BodyPartData data)
         {
-            string abilityInfo = $"<b>{data.ability_name}</b>\n";
+            string abilityInfo = $"<b>{LocalizationManager.Instance.GetLocalizedValue(data.ability_name, "Parts")}</b>\n";
 
             if (!string.IsNullOrEmpty(data.ability_desc))
             {
-                abilityInfo += $"{data.ability_desc}";
+                abilityInfo += $"{LocalizationManager.Instance.GetLocalizedValue(data.ability_desc, "Parts")}";
             }
 
             return abilityInfo;
