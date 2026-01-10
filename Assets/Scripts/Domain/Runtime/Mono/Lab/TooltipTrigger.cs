@@ -8,31 +8,39 @@ namespace Project
     {
         private BodyPartData partData;
         private TooltipController tooltipController;
-        private bool isPointerOver;
+        private bool isHovering = false;
 
         public void Initialize(BodyPartData data)
         {
             partData = data;
             tooltipController = LabReferences.Instance().tooltipController;
-            isPointerOver = false;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            tooltipController.ShowTooltip(partData, transform.position);
+            if (!isHovering && partData != null)
+            {
+                isHovering = true;
+                tooltipController.ShowTooltip(partData, transform.position);
+            }
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            tooltipController.HideTooltip();
+            if (isHovering)
+            {
+                isHovering = false;
+                tooltipController.HideTooltip();
+            }
         }
 
         private void OnDisable()
         {
-            isPointerOver = false;
-            if (tooltipController != null)
+            if (isHovering)
             {
-                tooltipController.HideTooltip();
+                isHovering = false;
+                if (tooltipController != null)
+                    tooltipController.HideTooltip();
             }
         }
     }

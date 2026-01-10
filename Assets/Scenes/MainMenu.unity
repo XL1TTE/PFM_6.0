@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 61286860}
   - component: {fileID: 61286859}
   - component: {fileID: 61286858}
+  - component: {fileID: 61286861}
   m_Layer: 0
   m_Name: PlayButton
   m_TagString: Untagged
@@ -329,6 +330,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 61286856}
   m_CullTransparentMesh: 1
+--- !u!114 &61286861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 61286856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fedba8a0517f14a900cd2723de0d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  englishSprite: {fileID: 7829123752839991994, guid: 630779d33a4c7ab40a8074668ce58a27, type: 3}
+  russianSprite: {fileID: 5852985087563864367, guid: 1d749adef028d4649be7453605670066, type: 3}
+  updateOnStart: 1
+  updateOnLanguageChange: 1
 --- !u!1 &65607456
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,6 +1373,7 @@ GameObject:
   - component: {fileID: 441004897}
   - component: {fileID: 441004896}
   - component: {fileID: 441004895}
+  - component: {fileID: 441004898}
   m_Layer: 0
   m_Name: SettingsButton
   m_TagString: Untagged
@@ -1477,6 +1495,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 441004893}
   m_CullTransparentMesh: 1
+--- !u!114 &441004898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441004893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fedba8a0517f14a900cd2723de0d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  englishSprite: {fileID: 7829123752839991994, guid: 630779d33a4c7ab40a8074668ce58a27, type: 3}
+  russianSprite: {fileID: 5852985087563864367, guid: 1d749adef028d4649be7453605670066, type: 3}
+  updateOnStart: 1
+  updateOnLanguageChange: 1
 --- !u!1 &473512730
 GameObject:
   m_ObjectHideFlags: 0
@@ -1874,6 +1908,7 @@ GameObject:
   - component: {fileID: 589271431}
   - component: {fileID: 589271430}
   - component: {fileID: 589271429}
+  - component: {fileID: 589271432}
   m_Layer: 0
   m_Name: ExitButton
   m_TagString: Untagged
@@ -1995,6 +2030,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 589271427}
   m_CullTransparentMesh: 1
+--- !u!114 &589271432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589271427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fedba8a0517f14a900cd2723de0d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  englishSprite: {fileID: 7829123752839991994, guid: 630779d33a4c7ab40a8074668ce58a27, type: 3}
+  russianSprite: {fileID: 5852985087563864367, guid: 1d749adef028d4649be7453605670066, type: 3}
+  updateOnStart: 1
+  updateOnLanguageChange: 1
 --- !u!1 &597313436
 GameObject:
   m_ObjectHideFlags: 0
@@ -2295,6 +2346,7 @@ GameObject:
   - component: {fileID: 823732219}
   - component: {fileID: 823732218}
   - component: {fileID: 823732217}
+  - component: {fileID: 823732220}
   m_Layer: 0
   m_Name: CreditsButton
   m_TagString: Untagged
@@ -2416,6 +2468,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 823732215}
   m_CullTransparentMesh: 1
+--- !u!114 &823732220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 823732215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fedba8a0517f14a900cd2723de0d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  englishSprite: {fileID: 7829123752839991994, guid: 630779d33a4c7ab40a8074668ce58a27, type: 3}
+  russianSprite: {fileID: 5852985087563864367, guid: 1d749adef028d4649be7453605670066, type: 3}
+  updateOnStart: 1
+  updateOnLanguageChange: 1
 --- !u!1 &842727252
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,8 @@ namespace Persistence.DB
         {
             ID("bp_cow-arm");
 
+            With<Name>(new Name { m_Value = "Cow's Arm" });
+
             With<ArmSprite>(new ArmSprite
             {
                 m_FarSprite = GR.SPR_BP_FARM_COW,

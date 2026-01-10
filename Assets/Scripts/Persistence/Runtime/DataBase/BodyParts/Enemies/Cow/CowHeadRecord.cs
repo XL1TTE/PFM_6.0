@@ -8,6 +8,8 @@ namespace Persistence.DB
         {
             ID("bp_cow-head"); // <-- Обязательный идентификатор.
 
+            With<Name>(new Name { m_Value = "Cow's Head" });
+
             With<TagBodyPart>(); // <-- Идентификатор, при помощи которого, можно будет найти
                                  //     эту запись через фильтр по частям тел.
 

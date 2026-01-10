@@ -8,6 +8,8 @@ namespace Persistence.DB
         {
             ID("bp_cockroach-head");
 
+            With<Name>(new Name { m_Value = "Cockroach's Head" });
+
             With<TagBodyPart>();
 
             With<TagHead>();

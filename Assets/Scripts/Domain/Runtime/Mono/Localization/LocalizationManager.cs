@@ -443,4 +443,8 @@ public class LocalizationManager : MonoBehaviour
     {
         return localizationDictionary.Keys.ToList();
     }
+    public Language CurrentLanguage
+    {
+        get { return currentLanguage; }
+    }
 }

@@ -12,6 +12,8 @@ namespace Persistence.DB
         {
             ID("bp_pig-torso");
 
+            With<Name>(new Name { m_Value = "Pig's Body" });
+
             With<BodySprite>(new BodySprite
             {
                 m_Value = GR.SPR_BP_TORSO_PIG

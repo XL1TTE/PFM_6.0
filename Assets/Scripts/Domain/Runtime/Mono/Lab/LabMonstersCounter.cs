@@ -26,11 +26,6 @@ namespace Project
         [Header("Counter Settings")]
         [SerializeField] private List<CounterEntry> counters = new List<CounterEntry>();
 
-        [Header("Localization Keys")]
-        [SerializeField] private string monstersKey = "Laboratory_MonstersCounter";
-        [SerializeField] private string hikeKey = "Laboratory_HikeCounter";
-        [SerializeField] private string counterFormatKey = "lab_counter_format";
-
         private LabReferences labRef;
         private bool isInitialized = false;
 
@@ -38,16 +33,13 @@ namespace Project
         {
             labRef = LabReferences.Instance();
 
-            // Ждем инициализации LocalizationManager
             StartCoroutine(InitializeAfterLocalization());
         }
 
         private System.Collections.IEnumerator InitializeAfterLocalization()
         {
-            // Ждем, пока LocalizationManager будет готов
             yield return new WaitUntil(() => LocalizationManager.Instance != null);
 
-            // Дополнительная проверка, что локализация загружена
             int maxFrames = 60;
             int frameCount = 0;
 
@@ -59,7 +51,6 @@ namespace Project
                     UpdateAllCounters();
                     isInitialized = true;
 
-                    // Подписываемся на изменение языка
                     LocalizationManager.Instance.OnLanguageChanged += OnLanguageChanged;
                     break;
                 }
@@ -145,24 +136,18 @@ namespace Project
             int currentMonsters = monstersStorage.storage_monsters?.Count ?? 0;
             int maxMonsters = monstersStorage.max_capacity;
 
-            // Получаем локализованный текст
-            string localizedLabel = LocalizationManager.Instance.GetLocalizedValue(monstersKey, "UI_Menu");
-            string localizedFormat = LocalizationManager.Instance.GetLocalizedValue(counterFormatKey, "UI_Menu");
+            string localizedLabel = LocalizationManager.Instance.GetLocalizedValue("Laboratory_MonstersCounter", "UI_Menu");
 
-            // Используем форматирование: "{0} {1}/{2}" где 0 - метка, 1 - текущее, 2 - максимум
-            counter.counterText.text = string.Format(localizedFormat, localizedLabel, currentMonsters, maxMonsters);
+            counter.counterText.text = string.Format("{0} {1}/{2}", localizedLabel, currentMonsters, maxMonsters);
         }
 
         private void UpdateExpeditionMonstersCounter(CounterEntry counter)
         {
             int currentExpeditionMonsters = labRef.expeditionController?.GetExpeditionMonsterCount() ?? 0;
 
-            // Получаем локализованный текст
-            string localizedLabel = LocalizationManager.Instance.GetLocalizedValue(hikeKey, "UI_Menu");
-            string localizedFormat = LocalizationManager.Instance.GetLocalizedValue(counterFormatKey, "UI_Menu");
+            string localizedLabel = LocalizationManager.Instance.GetLocalizedValue("Laboratory_HikeCounter", "UI_Menu");
 
-            // Используем форматирование
-            counter.counterText.text = string.Format(localizedFormat, localizedLabel, currentExpeditionMonsters, counter.maxCount);
+            counter.counterText.text = string.Format("{0} {1}/{2}", localizedLabel, currentExpeditionMonsters, counter.maxCount);
         }
 
         public void AddCounter(CounterType type, TextMeshProUGUI text, int maxCount = 3)
@@ -238,17 +223,6 @@ namespace Project
         void OnDestroy()
         {
             UnsubscribeFromEvents();
-        }
-
-        // Вспомогательный метод для отладки
-        public void DebugLocalizationInfo()
-        {
-            if (LocalizationManager.Instance != null)
-            {
-                Debug.Log($"Monsters key: {LocalizationManager.Instance.GetLocalizedValue(monstersKey, "UI_Menu")}");
-                Debug.Log($"Hike key: {LocalizationManager.Instance.GetLocalizedValue(hikeKey, "UI_Menu")}");
-                Debug.Log($"Format key: {LocalizationManager.Instance.GetLocalizedValue(counterFormatKey, "UI_Menu")}");
-            }
         }
     }
 }

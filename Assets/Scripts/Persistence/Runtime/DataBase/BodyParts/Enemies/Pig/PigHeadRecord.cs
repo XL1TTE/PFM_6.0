@@ -10,6 +10,8 @@ namespace Persistence.DB
         {
             ID("bp_pig-head");
 
+            With<Name>(new Name { m_Value = "Pig's Head" });
+
             With<HeadSprite>(new HeadSprite
             {
                 m_Value = GR.SPR_BP_HEAD_PIG

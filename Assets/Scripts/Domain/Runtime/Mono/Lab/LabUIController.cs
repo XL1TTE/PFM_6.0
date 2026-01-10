@@ -86,7 +86,7 @@ namespace Project
             }
 
             LabReferences.Instance().tutorialController.ContinueSpecial();
-
+            Debug.Log("!!!!5");
         }
 
         private IEnumerator SlideToMain()

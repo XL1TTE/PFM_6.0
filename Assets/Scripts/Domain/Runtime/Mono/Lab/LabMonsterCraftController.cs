@@ -544,6 +544,7 @@ namespace Project
             monstTransf.parent = monsterPreviewContainer;
 
             LabReferences.Instance().tutorialController.ContinueSpecial();
+            Debug.Log("!!!!1");
         }
 
         public void DeviewMonsterUpdate()
@@ -635,6 +636,7 @@ namespace Project
             }
 
             LabReferences.Instance().tutorialController.ContinueSpecial();
+            Debug.Log("!!!!2");
         }
 
         // ћетод дл€ проверки существовани€ имени монстра

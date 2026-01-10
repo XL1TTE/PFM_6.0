@@ -130,7 +130,6 @@ namespace Project
                 if (placedAutomatically)
                 {
                     count--;
-                    Debug.Log($"Auto-placed {bodyPartData.partName} via single click");
 
                     AudioManager.Instance?.PlaySound(AudioManager.putSound);
                 }
@@ -138,16 +137,11 @@ namespace Project
                 {
                     count--;
                     craftController.PickResourceFromStorage(this);
-                    Debug.Log($"Picked {bodyPartData.partName} to hand via single click");
 
                     AudioManager.Instance?.PlaySound(AudioManager.whooshSound);
                 }
 
                 UpdateDisplay();
-            }
-            else
-            {
-                Debug.Log("No parts available to pick");
             }
         }
     }

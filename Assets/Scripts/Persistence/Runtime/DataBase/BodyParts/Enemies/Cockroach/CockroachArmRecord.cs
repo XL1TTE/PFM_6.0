@@ -10,6 +10,8 @@ namespace Persistence.DB
         {
             ID("bp_cockroach-arm");
 
+            With<Name>(new Name { m_Value = "Cockroach's Arm" });
+
             With<ArmSprite>(new ArmSprite
             {
                 m_NearSprite = GR.SPR_BP_NARM_COCKROACH,
