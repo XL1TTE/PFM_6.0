@@ -41,6 +41,23 @@ public class MainMenuController : MonoBehaviour
         {
             SkipDemoMessage();
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !isTransitioning && !demoMessageActive)
+        {
+            HandleEscapeKey();
+        }
+    }
+
+    private void HandleEscapeKey()
+    {
+        if (creditsPanel != null && creditsPanel.activeSelf)
+        {
+            OnBackButtonClicked();
+        }
+        else if (settingsPanel != null && settingsPanel.activeSelf)
+        {
+            OnBackSettingsButtonClicked();
+        }
     }
 
     private void InitializeUI()
@@ -53,6 +70,7 @@ public class MainMenuController : MonoBehaviour
         demoMessagePanel.SetActive(true);
         mainMenuPanel.SetActive(false);
         creditsPanel.SetActive(false);
+        settingsPanel.SetActive(false);
     }
 
     private void UpdateLocalizedTexts()

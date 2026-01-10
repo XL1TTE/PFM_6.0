@@ -1,4 +1,6 @@
 using Domain.Map;
+using Domain.Stats.Components;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,10 +11,17 @@ namespace Project
     {
         [Header("UI Components")]
         public GameObject tooltipPanel;
-        public TMP_Text partText;
+        public TMP_Text partNameText;
+        public TMP_Text hpText;
+        public TMP_Text speedText;
+        public TMP_Text abilityText;
+
+        public Image bleedResistanceIcon;
+        public Image poisonResistanceIcon;
+        public Image fireResistanceIcon;
 
         [Header("Settings")]
-        public Vector2 offset = new Vector2(20, 20);
+        [HideInInspector] public Vector2 offset = new Vector2(0, 20);
 
         private LabReferences labRef;
         private RectTransform tooltipRect;
@@ -20,18 +29,43 @@ namespace Project
         private BodyPartData currentData;
         private Vector3 slotWorldPosition;
 
+        [SerializeField] private Sprite bleedImmunedSprite;
+        [SerializeField] private Sprite bleedNoneSprite;
+        [SerializeField] private Sprite bleedResistantSprite;
+
+        [SerializeField] private Sprite poisonImmunedSprite;
+        [SerializeField] private Sprite poisonNoneSprite;
+        [SerializeField] private Sprite poisonResistantSprite;
+
+        [SerializeField] private Sprite fireImmunedSprite;
+        [SerializeField] private Sprite fireNoneSprite;
+        [SerializeField] private Sprite fireResistantSprite;
+
+        public GameObject BodyPartBack;
+        public GameObject BodyPartBack2;
+        public GridLayoutGroup shiftsGrid;
+        public Image shiftCellPrefab;
+        public GameObject abilitySection;
+
+        private List<Image> shiftCells = new List<Image>();
+        private bool isShowing = false;
+        private Transform gridTransform;
+
         private void Awake()
         {
             labRef = LabReferences.Instance();
+            Transform gridTransform = shiftsGrid.transform;
 
             tooltipRect = tooltipPanel.GetComponent<RectTransform>();
             parentCanvas = GetComponentInParent<Canvas>();
             tooltipPanel.SetActive(false);
+
+            //ClearShiftGrid();
         }
 
         private void Update()
         {
-            if (tooltipPanel.activeInHierarchy)
+            if (isShowing)
             {
                 UpdateTooltipPosition();
             }
@@ -39,21 +73,15 @@ namespace Project
 
         public void ShowTooltip(BodyPartData data, Vector3 worldPosition)
         {
-            if (data == null) return;
+            if (data == null || isShowing) return;
 
             currentData = data;
             slotWorldPosition = worldPosition;
+            isShowing = true;
 
-            partText.text = FormatDetails(data);
-            
-            if (data.ability_name != null)
-            {
-                partText.text += $"Ability:" +
-                   $"Name: {data.ability_name}\n" +
-                   $"Desc: {data.ability_desc}\n" +
-                   $"Icon: {data.ability_icon}\n" +
-                   $"Shifts: {data.ability_shifts}\n";
-            }
+            UpdateTextFields(data);
+            UpdateAbilityUI(data);
+            UpdateResistanceIcons(data);
 
             tooltipPanel.SetActive(true);
             UpdateTooltipPosition();
@@ -61,85 +89,98 @@ namespace Project
 
         public void HideTooltip()
         {
+            if (!isShowing) return;
+
+            isShowing = false;
             tooltipPanel.SetActive(false);
             currentData = null;
+            //ClearShiftGrid();
         }
 
-        private string FormatDetails(BodyPartData data)
+        private void UpdateTextFields(BodyPartData data)
         {
-            return $"Name: {data.partName}\n" +
-                   $"Type: {data.type}\n" +
-                   $"HP: {data.hp_amount}\n" +
-                   $"Speed: {data.speed_amount}\n" +
-                   $"Fire: {data.res_fire}\n" +
-                   $"Podion: {data.res_poison}\n" +
-                   $"Bleed: {data.res_bleed}\n";
+            partNameText.text = data.partName ?? "Неизвестная часть";
+            hpText.text = FormatHP(data);
+            speedText.text = FormatSpeed(data);
+        }
+
+        private void UpdateResistanceIcons(BodyPartData data)
+        {
+            SetResistanceSprite(bleedResistanceIcon, GetBleedSprite(data.res_bleed));
+            SetResistanceSprite(poisonResistanceIcon, GetPoisonSprite(data.res_poison));
+            SetResistanceSprite(fireResistanceIcon, GetFireSprite(data.res_fire));
+        }
+
+        private void SetResistanceSprite(Image image, Sprite sprite)
+        {
+            if (image == null) return;
+            image.sprite = sprite;
+            image.enabled = sprite != null;
+        }
+
+        private Sprite GetBleedSprite(IResistanceModiffier.Stage stage)
+        {
+            return stage switch
+            {
+                IResistanceModiffier.Stage.IMMUNE => bleedImmunedSprite,
+                IResistanceModiffier.Stage.RESISTANT => bleedResistantSprite,
+                _ => bleedNoneSprite
+            };
+        }
+
+        private Sprite GetPoisonSprite(IResistanceModiffier.Stage stage)
+        {
+            return stage switch
+            {
+                IResistanceModiffier.Stage.IMMUNE => poisonImmunedSprite,
+                IResistanceModiffier.Stage.RESISTANT => poisonResistantSprite,
+                _ => poisonNoneSprite
+            };
+        }
+
+        private Sprite GetFireSprite(IResistanceModiffier.Stage stage)
+        {
+            return stage switch
+            {
+                IResistanceModiffier.Stage.IMMUNE => fireImmunedSprite,
+                IResistanceModiffier.Stage.RESISTANT => fireResistantSprite,
+                _ => fireNoneSprite
+            };
+        }
+
+        private string FormatHP(BodyPartData data)
+        {
+            return $"{data.hp_amount}";
+        }
+
+        private string FormatSpeed(BodyPartData data)
+        {
+            return $"{data.speed_amount}";
         }
 
         private void UpdateTooltipPosition()
         {
             Vector2 panelSize = tooltipRect.sizeDelta;
-
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(slotWorldPosition);
 
             bool isInUpperThird = screenPosition.y > Screen.height * 2f / 3f;
+            screenPosition.y += isInUpperThird ? -150f : 150f;
 
-            if (isInUpperThird)
-            {
-                screenPosition.y -= 250f;
-            }
-            else
-            {
-                screenPosition.y += 250f;
-            }
-
-            // ПРАВИЛЬНАЯ ПРОВЕРКА ЛЕВОЙ ГРАНИЦЫ:
-            // 1. Учитываем половину ширины тултипа + отступ для безопасности
             float leftBoundary = panelSize.x * 0.5f + 20f;
-
-            // 2. Альтернативно: проверяем, будет ли тултип выходить за левый край
-            // если левый край тултипа (screenPosition.x - panelSize.x/2) будет меньше 0
-            bool willExitLeft = (screenPosition.x - panelSize.x * 0.5f) < 0;
-
-            // 3. Или проверяем текущую позицию относительно левого края
-            bool isTooCloseToLeft = screenPosition.x < leftBoundary;
-
-            if (isTooCloseToLeft)
+            if (screenPosition.x < leftBoundary)
             {
-                // Смещаем тултип вправо так, чтобы он не выходил за левый край
-                screenPosition.x = leftBoundary + 70f; // Добавляем дополнительный отступ
+                screenPosition.x = leftBoundary + 70f;
             }
             else
             {
                 screenPosition.x += offset.x;
             }
 
-            // ОГРАНИЧЕНИЯ ПО ГРАНИЦАМ ЭКРАНА:
-            // Вычисляем фактические границы тултипа
             float halfWidth = panelSize.x * 0.5f;
             float halfHeight = panelSize.y * 0.5f;
 
-            // Левый край
-            if (screenPosition.x - halfWidth < 0)
-            {
-                screenPosition.x = halfWidth + 10f;
-            }
-            // Правый край
-            else if (screenPosition.x + halfWidth > Screen.width)
-            {
-                screenPosition.x = Screen.width - halfWidth - 10f;
-            }
-
-            // Верхний край
-            if (screenPosition.y + halfHeight > Screen.height)
-            {
-                screenPosition.y = Screen.height - halfHeight - 10f;
-            }
-            // Нижний край
-            else if (screenPosition.y - halfHeight < 0)
-            {
-                screenPosition.y = halfHeight + 10f;
-            }
+            screenPosition.x = Mathf.Clamp(screenPosition.x, halfWidth + 10f, Screen.width - halfWidth - 10f);
+            screenPosition.y = Mathf.Clamp(screenPosition.y, halfHeight + 10f, Screen.height - halfHeight - 10f);
 
             Vector2 localPoint;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -152,9 +193,177 @@ namespace Project
             LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipRect);
         }
 
-        private string GetAdditionalInfo(BodyPartData data)
+        private void UpdateAbilityUI(BodyPartData data)
         {
-            return "Additional effects: None";
+            bool hasAbility = !string.IsNullOrEmpty(data.ability_name);
+
+            // Активируем соответствующий фон
+            if (BodyPartBack != null)
+                BodyPartBack.SetActive(!hasAbility);
+
+            if (BodyPartBack2 != null)
+                BodyPartBack2.SetActive(hasAbility);
+
+            // Скрываем/показываем секцию навыка
+            if (abilitySection != null)
+                abilitySection.SetActive(hasAbility);
+
+            // Обновляем текст навыка если есть
+            if (hasAbility && abilityText != null)
+            {
+                abilityText.text = FormatAbility(data);
+            }
+            else if (abilityText != null)
+            {
+                abilityText.text = "";
+            }
+
+            // Обновляем сетку shifts если есть
+            //if (hasAbility && shiftsGrid != null)
+            //{
+            //    UpdateShiftGrid(data.ability_shifts);
+            //}
+            //else
+            //{
+            //    ClearShiftGrid();
+            //}
         }
+
+        private string FormatAbility(BodyPartData data)
+        {
+            string abilityInfo = $"<b>{data.ability_name}</b>\n";
+
+            if (!string.IsNullOrEmpty(data.ability_desc))
+            {
+                abilityInfo += $"{data.ability_desc}";
+            }
+
+            return abilityInfo;
+        }
+
+        private void UpdateShiftGrid(Vector2Int[] ability_shifts)
+        {
+            //ClearShiftGrid();
+
+            if (shiftsGrid == null || shiftCellPrefab == null) return;
+
+            foreach (Vector2Int shift in ability_shifts)
+            {
+                if (shift == new Vector2Int(-2, 2))
+                {
+                    gridTransform.GetChild(0).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(-1, 2))
+                {
+                    gridTransform.GetChild(1).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(0, 2))
+                {
+                    gridTransform.GetChild(2).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(1, 2))
+                {
+                    gridTransform.GetChild(3).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(2, 2))
+                {
+                    gridTransform.GetChild(4).gameObject.SetActive(true);
+                }
+
+                if (shift == new Vector2Int(-2, 1))
+                {
+                    gridTransform.GetChild(5).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(-1, 1))
+                {
+                    gridTransform.GetChild(6).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(0, 1))
+                {
+                    gridTransform.GetChild(7).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(1, 1))
+                {
+                    gridTransform.GetChild(8).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(2, 1))
+                {
+                    gridTransform.GetChild(9).gameObject.SetActive(true);
+                }
+
+                if (shift == new Vector2Int(-2, 0))
+                {
+                    gridTransform.GetChild(10).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(-1, 0))
+                {
+                    gridTransform.GetChild(11).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(0, 0))
+                {
+                    gridTransform.GetChild(12).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(1, 0))
+                {
+                    gridTransform.GetChild(13).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(2, 0))
+                {
+                    gridTransform.GetChild(14).gameObject.SetActive(true);
+                }
+
+                if (shift == new Vector2Int(-2, -1))
+                {
+                    gridTransform.GetChild(15).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(-1, -1))
+                {
+                    gridTransform.GetChild(16).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(0, -1))
+                {
+                    gridTransform.GetChild(17).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(1, -1))
+                {
+                    gridTransform.GetChild(18).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(2, -1))
+                {
+                    gridTransform.GetChild(19).gameObject.SetActive(true);
+                }
+
+                if (shift == new Vector2Int(-2, -2))
+                {
+                    gridTransform.GetChild(20).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(-1, -2))
+                {
+                    gridTransform.GetChild(21).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(0, -2))
+                {
+                    gridTransform.GetChild(22).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(1, -2))
+                {
+                    gridTransform.GetChild(23).gameObject.SetActive(true);
+                }
+                if (shift == new Vector2Int(2, -2))
+                {
+                    gridTransform.GetChild(24).gameObject.SetActive(true);
+                }
+
+
+            }
+        }
+
+        //private void ClearShiftGrid()
+        //{
+        //    for (int i = 0; i < gridTransform.childCount; i++)
+        //    {
+        //        gridTransform.GetChild(0).gameObject.SetActive(false);
+        //    }
+        //}
     }
 }

@@ -9,6 +9,8 @@ namespace Persistence.DB
         {
             ID("bp_rat-head");
 
+            With<Name>(new Name { m_Value = "Rat's Head" });
+
             With<HeadSprite>(new HeadSprite
             {
                 m_Value = null

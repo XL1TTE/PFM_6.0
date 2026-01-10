@@ -10,6 +10,8 @@ namespace Persistence.DB
         {
             ID("bp_cockroach-leg");
 
+            With<Name>(new Name { m_Value = "Cockroach's Leg" });
+
             With<LegSpritePath>(new LegSpritePath
             {
                 FarSprite = "Monsters/Sprites/test/Spr_Bodypart_Leg_Further_Test_1",

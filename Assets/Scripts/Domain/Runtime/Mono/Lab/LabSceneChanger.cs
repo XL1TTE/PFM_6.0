@@ -20,6 +20,7 @@ namespace Project
             AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
 
             LabReferences.Instance().tutorialController.ContinueSpecial();
+            Debug.Log("!!!!4");
             labRef.uiController?.ShowPreparationScreen();
         }
 

@@ -20,7 +20,9 @@ public class BodyPartData
     public string ability_name;
     public string ability_desc;
     public Sprite ability_icon;
+
     public Sprite ability_shifts;
+    //public Vector2Int[] ability_shifts;
 }
 
 
