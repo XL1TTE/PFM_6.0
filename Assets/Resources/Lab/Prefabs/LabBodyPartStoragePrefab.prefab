@@ -403,7 +403,7 @@ SpriteRenderer:
   m_SortingLayerID: -1740462501
   m_SortingLayer: 7
   m_SortingOrder: 2
-  m_Sprite: {fileID: -5337378802101249713, guid: 932587949f899d44bb49bd77e7448b46, type: 3}
+  m_Sprite: {fileID: -1184218881, guid: 6a9c0bffef49dfd46a5de08fd48febc0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -442,7 +442,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -5337378802101249713, guid: 932587949f899d44bb49bd77e7448b46, type: 3}
+  m_Sprite: {fileID: 1528423775, guid: 6a9c0bffef49dfd46a5de08fd48febc0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -484,10 +484,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7971016113649966513}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 6.4178}
-  m_SizeDelta: {x: 0, y: 12.8356}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -1.5, y: -7.5}
+  m_SizeDelta: {x: 27.1, y: 13.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5639242403065376109
 CanvasRenderer:
@@ -582,7 +582,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0.04638672, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

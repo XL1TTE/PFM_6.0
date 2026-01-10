@@ -4,6 +4,7 @@ using TMPro;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Collections;
+using System.Text;
 
 [RequireComponent(typeof(TMP_Text))]
 public class TMPAnimator : MonoBehaviour
@@ -21,6 +22,11 @@ public class TMPAnimator : MonoBehaviour
     [SerializeField] private bool useLocalization = true;
     [SerializeField] private string localizationKey = "";
     [SerializeField] private string sheetName = "UI_Menu";
+
+    // Настройки для эффекта capitals
+    [Header("Capitals Effect Settings")]
+    private string capitalsFontName = "MedievalDropCapFont";
+    [SerializeField] private float capitalsFontSizeMultiplier = 1.5f;
 
     // Глобальные настройки по умолчанию для эффектов
     [Header("Wave Effect Defaults")]
@@ -40,6 +46,7 @@ public class TMPAnimator : MonoBehaviour
     {
         public Dictionary<int, WaveEffect> waveEffects = new Dictionary<int, WaveEffect>();
         public Dictionary<int, ShakeEffect> shakeEffects = new Dictionary<int, ShakeEffect>();
+        // capitalsEffects больше не нужен, так как мы меняем текст напрямую
     }
 
     [System.Serializable]
@@ -50,7 +57,6 @@ public class TMPAnimator : MonoBehaviour
         public float frequency;
         public float offset;
 
-        // Конструктор с параметрами по умолчанию
         public WaveEffect(float defaultSpeed, float defaultAmplitude, float defaultFrequency, float defaultOffset)
         {
             speed = defaultSpeed;
@@ -67,7 +73,6 @@ public class TMPAnimator : MonoBehaviour
         public float speed;
         public float randomness;
 
-        // Конструктор с параметрами по умолчанию
         public ShakeEffect(float defaultIntensity, float defaultSpeed, float defaultRandomness)
         {
             intensity = defaultIntensity;
@@ -94,7 +99,6 @@ public class TMPAnimator : MonoBehaviour
     {
         textComponent = GetComponent<TMP_Text>();
 
-        // Если sourceTextWithTags пустой, берем из TMP_Text
         if (string.IsNullOrEmpty(sourceTextWithTags))
         {
             sourceTextWithTags = textComponent.text;
@@ -105,30 +109,23 @@ public class TMPAnimator : MonoBehaviour
 
     private IEnumerator Initialize()
     {
-        // Ждем инициализации LocalizationManager
         yield return StartCoroutine(WaitForLocalizationManager());
 
         if (useLocalization && !string.IsNullOrEmpty(localizationKey))
         {
             isLocalized = true;
 
-            // Подписываемся на изменение языка
             if (LocalizationManager.Instance != null)
             {
                 LocalizationManager.Instance.OnLanguageChanged += OnLanguageChanged;
                 isSubscribed = true;
-                Debug.Log($"{gameObject.name}: Subscribed to language change for TMPAnimator");
             }
 
-            // Ждем загрузки локализации
             yield return StartCoroutine(WaitForLocalizationData());
-
-            // Обновляем текст из локализации
             UpdateTextFromLocalization();
         }
         else
         {
-            // Если не используем локализацию, парсим как есть
             ParseTextFromSource();
         }
 
@@ -137,7 +134,7 @@ public class TMPAnimator : MonoBehaviour
 
     private IEnumerator WaitForLocalizationManager()
     {
-        int maxWaitFrames = 120; // Ждем максимум 2 секунды
+        int maxWaitFrames = 120;
         int frameCount = 0;
 
         while (LocalizationManager.Instance == null && frameCount < maxWaitFrames)
@@ -160,19 +157,13 @@ public class TMPAnimator : MonoBehaviour
             yield break;
         }
 
-        // Проверяем, что локализация загружена
         int maxWaitFrames = 120;
         int frameCount = 0;
 
-        // Ждем пока локализация загрузится
-        // В вашем LocalizationManager должно быть свойство isLocalizationLoaded
         while (frameCount < maxWaitFrames)
         {
-            // Проверяем через рефлексию или добавьте свойство в LocalizationManager
-            // Для простоты ждем 5 кадров после создания менеджера
             if (LocalizationManager.Instance != null)
             {
-                // Ждем еще немного для гарантии загрузки данных
                 yield return new WaitForSeconds(0.1f);
                 break;
             }
@@ -183,7 +174,6 @@ public class TMPAnimator : MonoBehaviour
 
     private void Start()
     {
-        // Если еще не инициализировались, запускаем инициализацию
         if (!isInitialized)
         {
             StartCoroutine(Initialize());
@@ -194,7 +184,6 @@ public class TMPAnimator : MonoBehaviour
     {
         if (useLocalization && !string.IsNullOrEmpty(localizationKey) && isInitialized)
         {
-            Debug.Log($"{gameObject.name}: Language changed, updating TMPAnimator text");
             UpdateTextFromLocalization();
         }
     }
@@ -207,21 +196,16 @@ public class TMPAnimator : MonoBehaviour
             return;
         }
 
-        // Получаем локализованный текст
         string localizedText = LocalizationManager.Instance.GetLocalizedValue(localizationKey, sheetName);
-
-        Debug.Log($"{gameObject.name}: Getting localization for key '{localizationKey}', result: '{localizedText}'");
 
         if (!string.IsNullOrEmpty(localizedText) && localizedText != $"[{localizationKey}]")
         {
             sourceTextWithTags = localizedText;
             ParseTextFromSource();
-            Debug.Log($"{gameObject.name}: Updated text from localization: {localizationKey}");
         }
         else
         {
             Debug.LogWarning($"{gameObject.name}: Failed to get localized text for key: {localizationKey}");
-            // Можно отобразить fallback текст
             if (!string.IsNullOrEmpty(sourceTextWithTags))
             {
                 ParseTextFromSource();
@@ -241,13 +225,13 @@ public class TMPAnimator : MonoBehaviour
 
         Stack<WaveEffect> waveStack = new Stack<WaveEffect>();
         Stack<ShakeEffect> shakeStack = new Stack<ShakeEffect>();
+        Stack<bool> capitalsStack = new Stack<bool>();
 
         int parsedIndex = 0;
         int i = 0;
 
         while (i < originalText.Length)
         {
-            // Если находим тег
             if (originalText[i] == '<')
             {
                 int endTag = originalText.IndexOf('>', i);
@@ -256,7 +240,6 @@ public class TMPAnimator : MonoBehaviour
                     string fullTag = originalText.Substring(i, endTag - i + 1);
                     string tagContent = originalText.Substring(i + 1, endTag - i - 1).ToLower();
 
-                    // Проверяем, является ли это нашим тегом wave
                     if (tagContent.StartsWith("wave"))
                     {
                         WaveEffect effect = ParseWaveTag(fullTag);
@@ -264,8 +247,6 @@ public class TMPAnimator : MonoBehaviour
                         i = endTag + 1;
                         continue;
                     }
-
-                    // Проверяем, является ли это нашим тегом shake
                     else if (tagContent.StartsWith("shake"))
                     {
                         ShakeEffect effect = ParseShakeTag(fullTag);
@@ -273,30 +254,30 @@ public class TMPAnimator : MonoBehaviour
                         i = endTag + 1;
                         continue;
                     }
-
-                    // Проверяем, является ли это закрывающим тегом wave
+                    else if (tagContent.StartsWith("capitals"))
+                    {
+                        capitalsStack.Push(true);
+                        i = endTag + 1;
+                        continue;
+                    }
                     else if (tagContent == "/wave")
                     {
-                        if (waveStack.Count > 0)
-                        {
-                            waveStack.Pop();
-                        }
+                        if (waveStack.Count > 0) waveStack.Pop();
                         i = endTag + 1;
                         continue;
                     }
-
-                    // Проверяем, является ли это закрывающим тегом shake
                     else if (tagContent == "/shake")
                     {
-                        if (shakeStack.Count > 0)
-                        {
-                            shakeStack.Pop();
-                        }
+                        if (shakeStack.Count > 0) shakeStack.Pop();
                         i = endTag + 1;
                         continue;
                     }
-
-                    // Если это стандартный тег TMPro - сохраняем его как есть
+                    else if (tagContent == "/capitals")
+                    {
+                        if (capitalsStack.Count > 0) capitalsStack.Pop();
+                        i = endTag + 1;
+                        continue;
+                    }
                     else if (IsStandardTmProTag(tagContent))
                     {
                         parsedText += fullTag;
@@ -306,10 +287,27 @@ public class TMPAnimator : MonoBehaviour
                 }
             }
 
-            // Добавляем символ в очищенный текст
-            parsedText += originalText[i];
+            // Обрабатываем capitals эффект - вставляем тег <font> для заглавных букв
+            if (capitalsStack.Count > 0)
+            {
+                char currentChar = originalText[i];
+                if (char.IsLetter(currentChar) && char.IsUpper(currentChar))
+                {
+                    // Вставляем тег для изменения шрифта заглавной буквы
+                    parsedText += $"<font=\"{capitalsFontName}\">";
+                    parsedText += currentChar;
+                    parsedText += "</font>";
+                }
+                else
+                {
+                    parsedText += originalText[i];
+                }
+            }
+            else
+            {
+                parsedText += originalText[i];
+            }
 
-            // Применяем активные эффекты к текущему символу
             if (waveStack.Count > 0)
             {
                 effectData.waveEffects[parsedIndex] = waveStack.Peek();
@@ -324,24 +322,172 @@ public class TMPAnimator : MonoBehaviour
             i++;
         }
 
-        // Устанавливаем очищенный текст в TMP_Text
         textComponent.text = parsedText;
         textComponent.ForceMeshUpdate();
-
-        Debug.Log($"{gameObject.name}: Parsed text: '{parsedText}'");
     }
 
-    // Проверяем, является ли тег стандартным тегом TMPro
+    // Альтернативный метод, который обрабатывает целые слова
+    public void ParseTextFromSourceWithWordProcessing()
+    {
+        if (textComponent == null) return;
+
+        string originalText = sourceTextWithTags;
+        StringBuilder parsedText = new StringBuilder();
+
+        effectData.waveEffects.Clear();
+        effectData.shakeEffects.Clear();
+
+        Stack<WaveEffect> waveStack = new Stack<WaveEffect>();
+        Stack<ShakeEffect> shakeStack = new Stack<ShakeEffect>();
+        Stack<bool> capitalsStack = new Stack<bool>();
+
+        int parsedIndex = 0;
+        int i = 0;
+
+        while (i < originalText.Length)
+        {
+            if (originalText[i] == '<')
+            {
+                int endTag = originalText.IndexOf('>', i);
+                if (endTag != -1)
+                {
+                    string fullTag = originalText.Substring(i, endTag - i + 1);
+                    string tagContent = originalText.Substring(i + 1, endTag - i - 1).ToLower();
+
+                    if (tagContent.StartsWith("wave"))
+                    {
+                        WaveEffect effect = ParseWaveTag(fullTag);
+                        waveStack.Push(effect);
+                        i = endTag + 1;
+                        parsedText.Append(fullTag);
+                        continue;
+                    }
+                    else if (tagContent.StartsWith("shake"))
+                    {
+                        ShakeEffect effect = ParseShakeTag(fullTag);
+                        shakeStack.Push(effect);
+                        i = endTag + 1;
+                        parsedText.Append(fullTag);
+                        continue;
+                    }
+                    else if (tagContent.StartsWith("capitals"))
+                    {
+                        capitalsStack.Push(true);
+                        i = endTag + 1;
+                        continue;
+                    }
+                    else if (tagContent == "/wave")
+                    {
+                        if (waveStack.Count > 0) waveStack.Pop();
+                        i = endTag + 1;
+                        parsedText.Append(fullTag);
+                        continue;
+                    }
+                    else if (tagContent == "/shake")
+                    {
+                        if (shakeStack.Count > 0) shakeStack.Pop();
+                        i = endTag + 1;
+                        parsedText.Append(fullTag);
+                        continue;
+                    }
+                    else if (tagContent == "/capitals")
+                    {
+                        if (capitalsStack.Count > 0) capitalsStack.Pop();
+                        i = endTag + 1;
+                        continue;
+                    }
+                    else if (IsStandardTmProTag(tagContent))
+                    {
+                        parsedText.Append(fullTag);
+                        i = endTag + 1;
+                        continue;
+                    }
+                }
+            }
+
+            // Если внутри тега <capitals>, обрабатываем текст по-особому
+            if (capitalsStack.Count > 0)
+            {
+                // Собираем слово до пробела или конца текста
+                StringBuilder wordBuilder = new StringBuilder();
+                int wordStart = i;
+
+                while (i < originalText.Length && originalText[i] != ' ' && originalText[i] != '<')
+                {
+                    wordBuilder.Append(originalText[i]);
+                    i++;
+                }
+
+                string word = wordBuilder.ToString();
+
+                // Обрабатываем слово: первую заглавную букву оформляем особым шрифтом
+                if (word.Length > 0)
+                {
+                    bool hasCapital = false;
+                    for (int j = 0; j < word.Length; j++)
+                    {
+                        if (char.IsLetter(word[j]) && char.IsUpper(word[j]))
+                        {
+                            parsedText.Append($"<font=\"{capitalsFontName}\">");
+                            parsedText.Append(word[j]);
+                            parsedText.Append("</font>");
+                            hasCapital = true;
+                        }
+                        else
+                        {
+                            parsedText.Append(word[j]);
+                        }
+
+                        // Применяем другие эффекты к этому символу
+                        if (waveStack.Count > 0)
+                        {
+                            effectData.waveEffects[parsedIndex] = waveStack.Peek();
+                        }
+                        if (shakeStack.Count > 0)
+                        {
+                            effectData.shakeEffects[parsedIndex] = shakeStack.Peek();
+                        }
+                        parsedIndex++;
+                    }
+
+                    // Добавляем пробел, если он был
+                    if (i < originalText.Length && originalText[i] == ' ')
+                    {
+                        parsedText.Append(' ');
+                        i++;
+                    }
+                }
+            }
+            else
+            {
+                // Вне тега <capitals> - просто добавляем символ
+                parsedText.Append(originalText[i]);
+
+                if (waveStack.Count > 0)
+                {
+                    effectData.waveEffects[parsedIndex] = waveStack.Peek();
+                }
+                if (shakeStack.Count > 0)
+                {
+                    effectData.shakeEffects[parsedIndex] = shakeStack.Peek();
+                }
+
+                parsedIndex++;
+                i++;
+            }
+        }
+
+        textComponent.text = parsedText.ToString();
+        textComponent.ForceMeshUpdate();
+    }
+
     private bool IsStandardTmProTag(string tagContent)
     {
-        // Убираем / если есть закрывающий тег
         string cleanTag = tagContent.StartsWith("/") ? tagContent.Substring(1) : tagContent;
 
-        // Проверяем основные теги
         if (standardTmProTags.Contains(cleanTag))
             return true;
 
-        // Проверяем теги с параметрами (color=, size= и т.д.)
         foreach (var tag in standardTmProTags)
         {
             if (cleanTag.StartsWith(tag))
@@ -353,7 +499,6 @@ public class TMPAnimator : MonoBehaviour
 
     private WaveEffect ParseWaveTag(string tag)
     {
-        // Создаем эффект с параметрами по умолчанию
         WaveEffect effect = new WaveEffect(
             defaultWaveSpeed,
             defaultWaveAmplitude,
@@ -361,13 +506,10 @@ public class TMPAnimator : MonoBehaviour
             defaultWaveOffset
         );
 
-        // Убираем < и >
         tag = tag.Substring(1, tag.Length - 2);
-
-        // Разделяем параметры
         string[] parts = tag.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries);
 
-        for (int i = 1; i < parts.Length; i++) // начинаем с 1, чтобы пропустить "wave"
+        for (int i = 1; i < parts.Length; i++)
         {
             string[] paramParts = parts[i].Split('=');
             if (paramParts.Length == 2)
@@ -375,7 +517,6 @@ public class TMPAnimator : MonoBehaviour
                 string paramName = paramParts[0].ToLower();
                 string paramValue = paramParts[1];
 
-                // Пытаемся распарсить значение
                 if (float.TryParse(paramValue, NumberStyles.Float, CultureInfo.InvariantCulture, out float value))
                 {
                     switch (paramName)
@@ -394,14 +535,7 @@ public class TMPAnimator : MonoBehaviour
                         case "offset":
                             effect.offset = value;
                             break;
-                        default:
-                            Debug.LogWarning($"Неизвестный параметр wave эффекта: {paramName}");
-                            break;
                     }
-                }
-                else
-                {
-                    Debug.LogWarning($"Не удалось распарсить значение параметра {paramName}: {paramValue}");
                 }
             }
         }
@@ -411,20 +545,16 @@ public class TMPAnimator : MonoBehaviour
 
     private ShakeEffect ParseShakeTag(string tag)
     {
-        // Создаем эффект с параметрами по умолчанию
         ShakeEffect effect = new ShakeEffect(
             defaultShakeIntensity,
             defaultShakeSpeed,
             defaultShakeRandomness
         );
 
-        // Убираем < и >
         tag = tag.Substring(1, tag.Length - 2);
-
-        // Разделяем параметры
         string[] parts = tag.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries);
 
-        for (int i = 1; i < parts.Length; i++) // начинаем с 1, чтобы пропустить "shake"
+        for (int i = 1; i < parts.Length; i++)
         {
             string[] paramParts = parts[i].Split('=');
             if (paramParts.Length == 2)
@@ -446,14 +576,7 @@ public class TMPAnimator : MonoBehaviour
                         case "randomness":
                             effect.randomness = value;
                             break;
-                        default:
-                            Debug.LogWarning($"Неизвестный параметр shake эффекта: {paramName}");
-                            break;
                     }
-                }
-                else
-                {
-                    Debug.LogWarning($"Не удалось распарсить значение параметра {paramName}: {paramValue}");
                 }
             }
         }
@@ -484,11 +607,9 @@ public class TMPAnimator : MonoBehaviour
 
             int vertexIndex = charInfo.vertexIndex;
 
-            // Вычисляем смещение волны
             float offsetY = Mathf.Sin(Time.time * effect.speed +
                                      charIndex * effect.frequency + effect.offset) * effect.amplitude;
 
-            // Применяем ко всем 4 вершинам символа
             for (int j = 0; j < 4; j++)
             {
                 vertices[vertexIndex + j].y += offsetY;
@@ -508,7 +629,6 @@ public class TMPAnimator : MonoBehaviour
 
             int vertexIndex = charInfo.vertexIndex;
 
-            // Вычисляем тряску (разная для каждой вершины)
             for (int j = 0; j < 4; j++)
             {
                 float time = Time.time * effect.speed;
@@ -524,25 +644,21 @@ public class TMPAnimator : MonoBehaviour
             }
         }
 
-        // Обновляем меш
         mesh.vertices = vertices;
         textComponent.canvasRenderer.SetMesh(mesh);
     }
 
-    // Метод для обновления текста (например, через локализацию)
     public void UpdateText(string newTextWithTags)
     {
         sourceTextWithTags = newTextWithTags;
         ParseTextFromSource();
     }
 
-    // Метод для принудительного обновления текущего текста
     public void RefreshText()
     {
         ParseTextFromSource();
     }
 
-    // Методы для работы с локализацией
     public void SetLocalizationKey(string key, string sheet = null)
     {
         useLocalization = true;
@@ -567,18 +683,20 @@ public class TMPAnimator : MonoBehaviour
         }
         else if (!enable && isInitialized)
         {
-            // Если отключаем локализацию, парсим текущий sourceTextWithTags
             ParseTextFromSource();
         }
     }
 
+    public void SetCapitalsFontName(string fontName)
+    {
+        capitalsFontName = fontName;
+    }
+
     private void OnDestroy()
     {
-        // Отписываемся от события при уничтожении объекта
         if (isSubscribed && LocalizationManager.Instance != null)
         {
             LocalizationManager.Instance.OnLanguageChanged -= OnLanguageChanged;
-            Debug.Log($"{gameObject.name}: Unsubscribed from language change");
         }
     }
 
@@ -590,13 +708,11 @@ public class TMPAnimator : MonoBehaviour
 
         if (textComponent != null)
         {
-            // Если sourceTextWithTags пустой, инициализируем из TMP_Text
             if (string.IsNullOrEmpty(sourceTextWithTags))
             {
                 sourceTextWithTags = textComponent.text;
             }
 
-            // В режиме редактирования нужно очистить только наши теги, оставив стандартные
             if (!Application.isPlaying)
             {
                 string cleanText = CleanOnlyCustomTags(sourceTextWithTags);
@@ -605,12 +721,11 @@ public class TMPAnimator : MonoBehaviour
         }
     }
 
-    // Очищает только наши кастомные теги, оставляя стандартные TMPro теги
     private string CleanOnlyCustomTags(string text)
     {
-        // Удаляем только теги wave и shake, оставляя остальные
         string result = Regex.Replace(text, @"<\/?wave[^>]*>", "", RegexOptions.IgnoreCase);
         result = Regex.Replace(result, @"<\/?shake[^>]*>", "", RegexOptions.IgnoreCase);
+        result = Regex.Replace(result, @"<\/?capitals[^>]*>", "", RegexOptions.IgnoreCase);
         return result;
     }
 #endif

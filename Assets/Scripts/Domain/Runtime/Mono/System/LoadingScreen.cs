@@ -212,9 +212,7 @@ public class LoadingScreen : MonoBehaviour
     {
         if (loadingText != null)
         {
-            string localizedLoadingText = LocalizationManager.Instance.GetLocalizedValue("Loading_Text", "UI_Menu");
-
-            loadingText.text = $"{localizedLoadingText} {percentage:F0}%";
+            loadingText.text =$"{percentage:F0}%";
         }
     }
 }
