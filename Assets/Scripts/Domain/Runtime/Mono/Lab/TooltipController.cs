@@ -54,13 +54,13 @@ namespace Project
         private void Awake()
         {
             labRef = LabReferences.Instance();
-            Transform gridTransform = shiftsGrid.transform;
+            gridTransform = shiftsGrid.transform;
 
             tooltipRect = tooltipPanel.GetComponent<RectTransform>();
             parentCanvas = GetComponentInParent<Canvas>();
             tooltipPanel.SetActive(false);
 
-            //ClearShiftGrid();
+            ClearShiftGrid();
         }
 
         private void Update()
@@ -94,7 +94,7 @@ namespace Project
             isShowing = false;
             tooltipPanel.SetActive(false);
             currentData = null;
-            //ClearShiftGrid();
+            ClearShiftGrid();
         }
 
         private void UpdateTextFields(BodyPartData data)
@@ -164,7 +164,19 @@ namespace Project
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(slotWorldPosition);
 
             bool isInUpperThird = screenPosition.y > Screen.height * 2f / 3f;
-            screenPosition.y += isInUpperThird ? -150f : 150f;
+
+
+
+            float tmp_offset = 240f;
+
+            if (currentData.type == BODYPART_TYPE.TORSO)
+            {
+                tmp_offset = 70f;
+            }
+
+            screenPosition.y += isInUpperThird ? -tmp_offset : tmp_offset;
+
+
 
             float leftBoundary = panelSize.x * 0.5f + 20f;
             if (screenPosition.x < leftBoundary)
@@ -195,7 +207,7 @@ namespace Project
 
         private void UpdateAbilityUI(BodyPartData data)
         {
-            bool hasAbility = !string.IsNullOrEmpty(data.ability_name);
+            bool hasAbility = (data.type != BODYPART_TYPE.TORSO);
 
             // Активируем соответствующий фон
             if (BodyPartBack != null)
@@ -219,14 +231,14 @@ namespace Project
             }
 
             // Обновляем сетку shifts если есть
-            //if (hasAbility && shiftsGrid != null)
-            //{
-            //    UpdateShiftGrid(data.ability_shifts);
-            //}
-            //else
-            //{
-            //    ClearShiftGrid();
-            //}
+            if (hasAbility && shiftsGrid != null)
+            {
+                UpdateShiftGrid(data.ability_shifts);
+            }
+            else
+            {
+                ClearShiftGrid();
+            }
         }
 
         private string FormatAbility(BodyPartData data)
@@ -243,127 +255,132 @@ namespace Project
 
         private void UpdateShiftGrid(Vector2Int[] ability_shifts)
         {
-            //ClearShiftGrid();
-
-            if (shiftsGrid == null || shiftCellPrefab == null) return;
+            ClearShiftGrid();
 
             foreach (Vector2Int shift in ability_shifts)
             {
                 if (shift == new Vector2Int(-2, 2))
                 {
-                    gridTransform.GetChild(0).gameObject.SetActive(true);
+                    ActivateShift(0);
                 }
                 if (shift == new Vector2Int(-1, 2))
                 {
-                    gridTransform.GetChild(1).gameObject.SetActive(true);
+                    ActivateShift(1);
                 }
                 if (shift == new Vector2Int(0, 2))
                 {
-                    gridTransform.GetChild(2).gameObject.SetActive(true);
+                    ActivateShift(2);
                 }
                 if (shift == new Vector2Int(1, 2))
                 {
-                    gridTransform.GetChild(3).gameObject.SetActive(true);
+                    ActivateShift(3);
                 }
                 if (shift == new Vector2Int(2, 2))
                 {
-                    gridTransform.GetChild(4).gameObject.SetActive(true);
+                    ActivateShift(4);
                 }
 
                 if (shift == new Vector2Int(-2, 1))
                 {
-                    gridTransform.GetChild(5).gameObject.SetActive(true);
+                    ActivateShift(5);
                 }
                 if (shift == new Vector2Int(-1, 1))
                 {
-                    gridTransform.GetChild(6).gameObject.SetActive(true);
+                    ActivateShift(6);
                 }
                 if (shift == new Vector2Int(0, 1))
                 {
-                    gridTransform.GetChild(7).gameObject.SetActive(true);
+                    ActivateShift(7);
                 }
                 if (shift == new Vector2Int(1, 1))
                 {
-                    gridTransform.GetChild(8).gameObject.SetActive(true);
+                    ActivateShift(8);
                 }
                 if (shift == new Vector2Int(2, 1))
                 {
-                    gridTransform.GetChild(9).gameObject.SetActive(true);
+                    ActivateShift(9);
                 }
 
                 if (shift == new Vector2Int(-2, 0))
                 {
-                    gridTransform.GetChild(10).gameObject.SetActive(true);
+                    ActivateShift(10);
                 }
                 if (shift == new Vector2Int(-1, 0))
                 {
-                    gridTransform.GetChild(11).gameObject.SetActive(true);
+                    ActivateShift(11);
                 }
                 if (shift == new Vector2Int(0, 0))
                 {
-                    gridTransform.GetChild(12).gameObject.SetActive(true);
+                    ActivateShift(12);
                 }
                 if (shift == new Vector2Int(1, 0))
                 {
-                    gridTransform.GetChild(13).gameObject.SetActive(true);
+                    ActivateShift(13);
                 }
                 if (shift == new Vector2Int(2, 0))
                 {
-                    gridTransform.GetChild(14).gameObject.SetActive(true);
+                    ActivateShift(14);
                 }
 
                 if (shift == new Vector2Int(-2, -1))
                 {
-                    gridTransform.GetChild(15).gameObject.SetActive(true);
+                    ActivateShift(15);
                 }
                 if (shift == new Vector2Int(-1, -1))
                 {
-                    gridTransform.GetChild(16).gameObject.SetActive(true);
+                    ActivateShift(16);
                 }
                 if (shift == new Vector2Int(0, -1))
                 {
-                    gridTransform.GetChild(17).gameObject.SetActive(true);
+                    ActivateShift(17);
                 }
                 if (shift == new Vector2Int(1, -1))
                 {
-                    gridTransform.GetChild(18).gameObject.SetActive(true);
+                    ActivateShift(18);
                 }
                 if (shift == new Vector2Int(2, -1))
                 {
-                    gridTransform.GetChild(19).gameObject.SetActive(true);
+                    ActivateShift(19);
                 }
 
                 if (shift == new Vector2Int(-2, -2))
                 {
-                    gridTransform.GetChild(20).gameObject.SetActive(true);
+                    ActivateShift(20);
                 }
                 if (shift == new Vector2Int(-1, -2))
                 {
-                    gridTransform.GetChild(21).gameObject.SetActive(true);
+                    ActivateShift(21);
                 }
                 if (shift == new Vector2Int(0, -2))
                 {
-                    gridTransform.GetChild(22).gameObject.SetActive(true);
+                    ActivateShift(22);
                 }
                 if (shift == new Vector2Int(1, -2))
                 {
-                    gridTransform.GetChild(23).gameObject.SetActive(true);
+                    ActivateShift(23);
                 }
                 if (shift == new Vector2Int(2, -2))
                 {
-                    gridTransform.GetChild(24).gameObject.SetActive(true);
+                    ActivateShift(24);
                 }
 
 
             }
         }
 
-        //private void ClearShiftGrid()
-        //{
-        //    for (int i = 0; i < gridTransform.childCount; i++)
-        //    {
-        //        gridTransform.GetChild(0).gameObject.SetActive(false);
-        //    }
-        //}
+        private void ActivateShift(int ind)
+        {
+            gridTransform.GetChild(ind).GetComponent<Image>().color = Color.red;
+        }
+
+
+        private void ClearShiftGrid()
+        {
+            for (int i = 0; i < gridTransform.childCount; i++)
+            {
+                //gridTransform.GetChild(i).gameObject.SetActive(false);
+                gridTransform.GetChild(i).GetComponent<Image>().color = Color.green;
+            }
+        }
     }
 }

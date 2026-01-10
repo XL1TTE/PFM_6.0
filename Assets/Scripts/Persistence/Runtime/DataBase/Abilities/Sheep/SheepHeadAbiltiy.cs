@@ -18,6 +18,7 @@ namespace Persistence.DB
             ID("abt_sheep-head");
 
             With<Name>(new Name("SheepHeadAbiltiy_name"));
+            With<Description>(new Description("SheepHeadAbiltiy_desc"));
 
             With<IconUI>(new IconUI(GR.SPR_UI_ABT_SHEEP_HEAD));
             With(new AbilityDefenition
