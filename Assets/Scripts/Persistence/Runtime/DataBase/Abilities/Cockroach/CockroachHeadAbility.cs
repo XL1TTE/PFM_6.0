@@ -17,11 +17,7 @@ namespace Persistence.DB
             ID("abt_cockroach-head");
 
             With<Name>(new Name("CockroachHeadAbility_name"));
-
-            With<Description>(new Description
-            {
-                m_Value = "CockroachHeadAbility_desc"
-            });
+            With<Description>(new Description("CockroachHeadAbility_desc"));
 
             //With<AbilityShiftsSprite>(new AbilityShiftsSprite() { m_Value = Resources.Load<Sprite>("Assets/Resources/Art/Abilities/Spr_Bodypart_Head_Test_1") });
 

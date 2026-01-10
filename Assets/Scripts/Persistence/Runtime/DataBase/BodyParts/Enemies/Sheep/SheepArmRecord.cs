@@ -12,7 +12,7 @@ namespace Persistence.DB
         {
             ID("bp_sheep-arm");
 
-            With<Name>(new Name { m_Value = "Sheep's Arm" });
+            With<Name>(new Name("SheepArmRecord_name"));
 
             With<ArmSprite>(new ArmSprite
             {
@@ -46,8 +46,7 @@ namespace Persistence.DB
         {
             ID("bp_sheep-head");
 
-            //With<Name>(new Name { m_Value = "Sheep's Head" });
-            With<Name>(new Name("SheepHeadRecord_name"));
+            With<Name>(new Name ("SheepHeadRecord_name"));
 
             With<HeadSprite>(new HeadSprite
             {
@@ -78,7 +77,7 @@ namespace Persistence.DB
         {
             ID("bp_sheep-torso");
 
-            With<Name>(new Name { m_Value = "Sheep's Body" });
+            With<Name>(new Name("SheepTorsoRecord_name"));
 
             With<BodySprite>(new BodySprite
             {
@@ -116,7 +115,7 @@ namespace Persistence.DB
 
             ID("bp_sheep-leg");
 
-            With<Name>(new Name { m_Value = "Sheep's Leg" });
+            With<Name>(new Name("SheepLegRecord_name"));
 
             With<LegSprite>(new LegSprite
             {

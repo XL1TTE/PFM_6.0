@@ -15,6 +15,7 @@ namespace Project
         public TMP_Text hpText;
         public TMP_Text speedText;
         public TMP_Text abilityText;
+        public Image abilityIcon;
 
         public Image bleedResistanceIcon;
         public Image poisonResistanceIcon;
@@ -99,7 +100,7 @@ namespace Project
 
         private void UpdateTextFields(BodyPartData data)
         {
-            partNameText.text = data.partName ?? "Неизвестная часть";
+            partNameText.text = LocalizationManager.Instance.GetLocalizedValue(data.partName, "Parts") ?? "Неизвестная часть";
             hpText.text = FormatHP(data);
             speedText.text = FormatSpeed(data);
         }
@@ -220,6 +221,12 @@ namespace Project
             if (abilitySection != null)
                 abilitySection.SetActive(hasAbility);
 
+            // Обновляем иконку если есть
+            if (hasAbility && data.ability_icon != null)
+            {
+                abilityIcon.sprite = data.ability_icon;
+            }
+
             // Обновляем текст навыка если есть
             if (hasAbility && abilityText != null)
             {
@@ -243,11 +250,18 @@ namespace Project
 
         private string FormatAbility(BodyPartData data)
         {
-            string abilityInfo = $"<b>{data.ability_name}</b>\n";
+            string abilityInfo = $"<b>{LocalizationManager.Instance.GetLocalizedValue("AbilityMovement_Name", "Parts")}</b>\n";
+
+            if (data.type == BODYPART_TYPE.LEG)
+            {
+                return abilityInfo;
+            }
+
+            abilityInfo = $"<b>{LocalizationManager.Instance.GetLocalizedValue(data.ability_name, "Parts")}</b>\n";
 
             if (!string.IsNullOrEmpty(data.ability_desc))
             {
-                abilityInfo += $"{data.ability_desc}";
+                abilityInfo += $"{LocalizationManager.Instance.GetLocalizedValue(data.ability_desc, "Parts")}";
             }
 
             return abilityInfo;
