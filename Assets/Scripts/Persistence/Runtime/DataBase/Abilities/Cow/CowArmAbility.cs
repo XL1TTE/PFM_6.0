@@ -17,6 +17,9 @@ namespace Persistence.DB
         {
             ID("abt_cow-arm");
 
+            With<Name>(new Name("CowArmAbility_name"));
+            With<Description>(new Description("CowArmAbility_desc"));
+
             With<IconUI>(new IconUI(GR.SPR_UI_ABT_ATTACK));
 
             With<AbilityShiftsSprite>(new AbilityShiftsSprite() { m_Value = Resources.Load<Sprite>("Assets/Resources/Art/Abilities/Spr_Bodypart_Head_Test_1") });

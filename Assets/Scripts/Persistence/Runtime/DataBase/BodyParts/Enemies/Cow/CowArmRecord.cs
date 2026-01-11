@@ -10,7 +10,7 @@ namespace Persistence.DB
         {
             ID("bp_cow-arm");
 
-            With<Name>(new Name { m_Value = "Cow's Arm" });
+            With<Name>(new Name("CowArmRecord_name"));
 
             With<ArmSprite>(new ArmSprite
             {

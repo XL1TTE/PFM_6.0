@@ -173,11 +173,11 @@ namespace Project
                     // part name and descr
                     if (DataBase.TryGetRecord<Name>(e_record, out var e_name))
                     {
-                        part_name = LocalizationManager.Instance.GetLocalizedValue(e_name.m_Value, "Parts");
+                        part_name = e_name.m_Value;
                     }
                     if (DataBase.TryGetRecord<Description>(e_record, out var e_desc))
                     {
-                        part_desc = LocalizationManager.Instance.GetLocalizedValue(e_desc.m_Value, "Parts");
+                        part_desc = e_desc.m_Value;
                     }
 
 
@@ -219,11 +219,11 @@ namespace Project
                         {
                             if (DataBase.TryGetRecord<Name>(e_abt_record, out var e_abt_name))
                             {
-                                abt_name = LocalizationManager.Instance.GetLocalizedValue(e_abt_name.m_Value, "Parts");
+                                abt_name = e_abt_name.m_Value;
                             }
                             if (DataBase.TryGetRecord<Description>(e_abt_record, out var e_abt_desc))
                             {
-                                abt_desc = LocalizationManager.Instance.GetLocalizedValue(e_abt_desc.m_Value, "Parts");
+                                abt_desc = e_abt_desc.m_Value;
                             }
                             if (DataBase.TryGetRecord<IconUI>(e_abt_record, out var e_abt_icon))
                             {

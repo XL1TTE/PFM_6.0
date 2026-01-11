@@ -13,7 +13,7 @@ namespace Persistence.DB
 
             ID("bp_rat-leg");
 
-            With<Name>(new Name { m_Value = "Rat's Leg" });
+            With<Name>(new Name("RatLegRecord_name"));
 
             With<LegSprite>(new LegSprite
             {
