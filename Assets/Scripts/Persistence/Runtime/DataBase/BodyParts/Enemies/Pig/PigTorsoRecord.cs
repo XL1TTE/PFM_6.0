@@ -27,11 +27,11 @@ namespace Persistence.DB
 
             With<PartsOffsets>(new PartsOffsets
             {
-                NearLegOffset = new Vector2(-2f, -13f),
-                FarLegOffset = new Vector2(2, -11f),
-                NearArmOffset = new Vector2(-8f, 2f),
-                FarArmOffset = new Vector2(9f, 2f),
-                HeadOffset = new Vector2(5f, 8f),
+                NearLegOffset = new Vector2(-12f, -13f),
+                FarLegOffset = new Vector2(8, -11f),
+                NearArmOffset = new Vector2(-15f, 2f),
+                FarArmOffset = new Vector2(11f, 4f),
+                HeadOffset = new Vector2(0f, 10f),
                 BodyOffset = new Vector2(0f, 21f)
             });
             With<EffectsProvider>(new EffectsProvider

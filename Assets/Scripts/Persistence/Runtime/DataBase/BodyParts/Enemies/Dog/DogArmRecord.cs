@@ -4,34 +4,35 @@ using Persistence.Components;
 
 namespace Persistence.DB
 {
-    public class PigArmRecord : BodyPartRecord
+    public class DogArmRecord : BodyPartRecord
     {
-        public PigArmRecord()
+        public DogArmRecord()
         {
-            ID("bp_pig-arm");
+            ID("bp_dog-arm");
 
-            With<Name>(new Name { m_Value = "Pig's Arm" });
+            With<Name>(new Name("DogArmRecord_name"));
 
             With<ArmSprite>(new ArmSprite
             {
                 m_FarSprite = GR.SPR_BP_FARM_COW,
                 m_NearSprite = GR.SPR_BP_NARM_COW
             });
-            //With<IconUI>(new IconUI
-            //{
-            //    m_Value = GR.SPR_UI_BP_ARM_PIG
-            //});
+            With<IconUI>(new IconUI
+            {
+                m_Value = GR.SPR_UI_BP_ARM_COCKROACH
+            });
+
             With<TagBodyPart>();
             With<TagArm>();
 
             With<EffectsProvider>(new EffectsProvider
             {
-                m_Effects = Enumerable.Repeat("effect_pig-arm", 1).ToArray()
+                m_Effects = Enumerable.Repeat("effect_DogArm", 1).ToArray()
             });
 
             With<AbilityProvider>(new AbilityProvider
             {
-                m_AbilityTemplateID = "abt_pig-arm"
+                m_AbilityTemplateID = "abt_dog-arm"
             });
         }
     }

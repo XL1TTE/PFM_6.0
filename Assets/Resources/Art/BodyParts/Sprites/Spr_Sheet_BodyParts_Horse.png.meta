@@ -1,25 +1,16 @@
 fileFormatVersion: 2
-guid: c600a440877d0bf42ac59c0dfa710428
+guid: 322379d255a5c5b4f979de3e5f275443
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 712833588502269163
-    second: MosntersBodyParts_Sheep_0
+      213: -3431069723891419244
+    second: MosntersBodyParts_Horse_0
   - first:
-      213: -6559258352833500576
-    second: MosntersBodyParts_Sheep_1
+      213: 8281787397381819143
+    second: MosntersBodyParts_Horse_1
   - first:
-      213: 9153950954656222348
-    second: MosntersBodyParts_Sheep_2
-  - first:
-      213: 3606932859442831743
-    second: MosntersBodyParts_Sheep_3
-  - first:
-      213: 3552693046592957952
-    second: MosntersBodyParts_Sheep_4
-  - first:
-      213: 4280100402626309487
-    second: MosntersBodyParts_Sheep_5
+      213: 2610899480931597213
+    second: MosntersBodyParts_Horse_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -116,7 +107,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -128,45 +119,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spr_Bp_Torso
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 37
-        height: 29
-      alignment: 9
-      pivot: {x: 0.5135135, y: 0.4827586}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bec05aa3f5e74e900800000000000000
-      internalID: 712833588502269163
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Spr_Bp_nLeg
       rect:
         serializedVersion: 2
-        x: 36
-        y: 5
-        width: 11
+        x: 0
+        y: 35
+        width: 16
         height: 24
-      alignment: 9
-      pivot: {x: 0.36363637, y: 0.875}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 06a6851d745d8f4a0800000000000000
-      internalID: -6559258352833500576
+      spriteID: 497bad3c3446260d0800000000000000
+      internalID: -3431069723891419244
       vertices: []
       indices: 
       edges: []
@@ -175,64 +144,20 @@ TextureImporter:
       name: Spr_Bp_fLeg
       rect:
         serializedVersion: 2
-        x: 46
-        y: 6
-        width: 11
-        height: 23
-      alignment: 9
-      pivot: {x: 0.6363636, y: 0.8695652}
+        x: 18
+        y: 35
+        width: 15
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c8cc1afb4ed590f70800000000000000
-      internalID: 9153950954656222348
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Spr_Bp_nArm
-      rect:
-        serializedVersion: 2
-        x: 56
-        y: 18
-        width: 9
-        height: 11
-      alignment: 9
-      pivot: {x: 0.2786556, y: 0.26620656}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f7126c743566e0230800000000000000
-      internalID: 3606932859442831743
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Spr_Bp_fArm
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 18
-        width: 9
-        height: 11
-      alignment: 9
-      pivot: {x: 0.7454961, y: 0.26620656}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 00e6c2eb083bd4130800000000000000
-      internalID: 3552693046592957952
+      spriteID: 70b004652c1dee270800000000000000
+      internalID: 8281787397381819143
       vertices: []
       indices: 
       edges: []
@@ -241,20 +166,20 @@ TextureImporter:
       name: Spr_Bp_Head
       rect:
         serializedVersion: 2
-        x: 74
-        y: 11
-        width: 34
-        height: 18
+        x: 34
+        y: 0
+        width: 27
+        height: 59
       alignment: 9
-      pivot: {x: 0.5294118, y: 0.11111111}
+      pivot: {x: 0.4086561, y: 0.85463876}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f6d2c85a3a8f56b30800000000000000
-      internalID: 4280100402626309487
+      spriteID: d9bfd29ae37cb3420800000000000000
+      internalID: 2610899480931597213
       vertices: []
       indices: 
       edges: []
@@ -263,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: a37d676784cdd8547831b1d61abf17d1
+    spriteID: ea0fbc33f87449643bf29cd15b8195cf
     internalID: 0
     vertices: []
     indices: 
@@ -273,12 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Spr_Bp_Head: 4280100402626309487
-      Spr_Bp_Torso: 712833588502269163
-      Spr_Bp_fArm: 3552693046592957952
-      Spr_Bp_fLeg: 9153950954656222348
-      Spr_Bp_nArm: 3606932859442831743
-      Spr_Bp_nLeg: -6559258352833500576
+      Spr_Bp_Head: 2610899480931597213
+      Spr_Bp_fLeg: 8281787397381819143
+      Spr_Bp_nLeg: -3431069723891419244
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
