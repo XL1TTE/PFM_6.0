@@ -9,20 +9,38 @@ namespace Project
 {
     public class TooltipController : MonoBehaviour
     {
-        [Header("UI Components")]
+        [Header("General")]
         public GameObject tooltipPanel;
-        public TMP_Text partNameText;
+        public GameObject generalPanel;
+        public TMP_Text nameText;
         public TMP_Text hpText;
         public TMP_Text speedText;
-        public TMP_Text abilityText;
-        public Image abilityIcon;
-
         public Image bleedResistanceIcon;
         public Image poisonResistanceIcon;
         public Image fireResistanceIcon;
 
+        [Header("Ability")]
+        public GameObject abilityPanel;
+        public TMP_Text abilityNameText;
+        public TMP_Text abilityDescText;
+        public Image abilityIcon;
+
+        public TMP_Text abilityPanel_nameText;
+        public TMP_Text abilityPanel_hpText;
+        public TMP_Text abilityPanel_speedText;
+        public Image abilityPanel_bleedResistanceIcon;
+        public Image abilityPanel_poisonResistanceIcon;
+        public Image abilityPanel_fireResistanceIcon;
+
+        public GridLayoutGroup shiftsGrid;
+        public GameObject abilitySection;
+
         [Header("Settings")]
         [HideInInspector] public Vector2 offset = new Vector2(0, 20);
+
+        public Color activeCellColor = Color.red;
+        public Color inactiveCellColor = Color.green;
+        public Color centerCellColor = new Color(1f, 0.5f, 0.8f);
 
         private LabReferences labRef;
         private RectTransform tooltipRect;
@@ -41,12 +59,6 @@ namespace Project
         [SerializeField] private Sprite fireImmunedSprite;
         [SerializeField] private Sprite fireNoneSprite;
         [SerializeField] private Sprite fireResistantSprite;
-
-        public GameObject BodyPartBack;
-        public GameObject BodyPartBack2;
-        public GridLayoutGroup shiftsGrid;
-        public Image shiftCellPrefab;
-        public GameObject abilitySection;
 
         private List<Image> shiftCells = new List<Image>();
         private bool isShowing = false;
@@ -80,9 +92,8 @@ namespace Project
             slotWorldPosition = worldPosition;
             isShowing = true;
 
-            UpdateTextFields(data);
+            UpdateGeneralPart(data, nameText, hpText, speedText, bleedResistanceIcon, poisonResistanceIcon, fireResistanceIcon);
             UpdateAbilityUI(data);
-            UpdateResistanceIcons(data);
 
             tooltipPanel.SetActive(true);
             UpdateTooltipPosition();
@@ -98,18 +109,14 @@ namespace Project
             ClearShiftGrid();
         }
 
-        private void UpdateTextFields(BodyPartData data)
+        private void UpdateGeneralPart(BodyPartData data, TMP_Text bodyText, TMP_Text healthText, TMP_Text spdText, Image bleedIcon, Image poisonIcon, Image fireIcon)
         {
-            partNameText.text = LocalizationManager.Instance.GetLocalizedValue(data.partName, "Parts") ?? "Неизвестная часть";
-            hpText.text = FormatHP(data);
-            speedText.text = FormatSpeed(data);
-        }
-
-        private void UpdateResistanceIcons(BodyPartData data)
-        {
-            SetResistanceSprite(bleedResistanceIcon, GetBleedSprite(data.res_bleed));
-            SetResistanceSprite(poisonResistanceIcon, GetPoisonSprite(data.res_poison));
-            SetResistanceSprite(fireResistanceIcon, GetFireSprite(data.res_fire));
+            bodyText.text = LocalizationManager.Instance.GetLocalizedValue(data.partName, "Parts") ?? "Неизвестная часть";
+            healthText.text = FormatHP(data);
+            spdText.text = FormatSpeed(data);
+            SetResistanceSprite(bleedIcon, GetBleedSprite(data.res_bleed));
+            SetResistanceSprite(poisonIcon, GetPoisonSprite(data.res_poison));
+            SetResistanceSprite(fireIcon, GetFireSprite(data.res_fire));
         }
 
         private void SetResistanceSprite(Image image, Sprite sprite)
@@ -166,23 +173,17 @@ namespace Project
 
             bool isInUpperThird = screenPosition.y > Screen.height * 2f / 3f;
 
-
-
-            float tmp_offset = 240f;
-
-            if (currentData.type == BODYPART_TYPE.TORSO)
-            {
-                tmp_offset = 70f;
-            }
-
-            screenPosition.y += isInUpperThird ? -tmp_offset : tmp_offset;
-
-
+            screenPosition.y += isInUpperThird ? -180f : 180f;
 
             float leftBoundary = panelSize.x * 0.5f + 20f;
-            if (screenPosition.x < leftBoundary)
+
+            if (currentData.type != BODYPART_TYPE.TORSO && screenPosition.x - 300 < leftBoundary)
             {
-                screenPosition.x = leftBoundary + 70f;
+                screenPosition.x = leftBoundary + 220f;
+            }
+            else if (screenPosition.x < leftBoundary)
+            {
+                screenPosition.x = leftBoundary + 50f;
             }
             else
             {
@@ -210,34 +211,26 @@ namespace Project
         {
             bool hasAbility = (data.type != BODYPART_TYPE.TORSO);
 
-            // Активируем соответствующий фон
-            if (BodyPartBack != null)
-                BodyPartBack.SetActive(!hasAbility);
+            generalPanel.SetActive(!hasAbility);
 
-            if (BodyPartBack2 != null)
-                BodyPartBack2.SetActive(hasAbility);
+            abilityPanel.SetActive(hasAbility);
 
-            // Скрываем/показываем секцию навыка
-            if (abilitySection != null)
-                abilitySection.SetActive(hasAbility);
+            UpdateGeneralPart(data, abilityPanel_nameText, abilityPanel_hpText, abilityPanel_speedText, abilityPanel_bleedResistanceIcon, abilityPanel_poisonResistanceIcon, abilityPanel_fireResistanceIcon);
 
-            // Обновляем иконку если есть
             if (hasAbility && data.ability_icon != null)
             {
                 abilityIcon.sprite = data.ability_icon;
             }
 
-            // Обновляем текст навыка если есть
-            if (hasAbility && abilityText != null)
+            if (hasAbility && abilityNameText != null)
             {
-                abilityText.text = FormatAbility(data);
+                FormatAbility(data);
             }
-            else if (abilityText != null)
+            else if (abilityNameText != null)
             {
-                abilityText.text = "";
+                abilityNameText.text = "";
             }
 
-            // Обновляем сетку shifts если есть
             if (hasAbility && shiftsGrid != null)
             {
                 UpdateShiftGrid(data.ability_shifts);
@@ -248,143 +241,74 @@ namespace Project
             }
         }
 
-        private string FormatAbility(BodyPartData data)
+        private void FormatAbility(BodyPartData data)
         {
-            string abilityInfo = $"<b>{LocalizationManager.Instance.GetLocalizedValue("AbilityMovement_Name", "Parts")}</b>\n";
-
             if (data.type == BODYPART_TYPE.LEG)
             {
-                return abilityInfo;
+                abilityNameText.text = $"<b>{LocalizationManager.Instance.GetLocalizedValue("AbilityMovement_Name", "Parts")}</b>\n";
             }
-
-            abilityInfo = $"<b>{LocalizationManager.Instance.GetLocalizedValue(data.ability_name, "Parts")}</b>\n";
-
-            if (!string.IsNullOrEmpty(data.ability_desc))
+            else
             {
-                abilityInfo += $"{LocalizationManager.Instance.GetLocalizedValue(data.ability_desc, "Parts")}";
+                abilityNameText.text = $"<b>{LocalizationManager.Instance.GetLocalizedValue(data.ability_name, "Parts")}</b>\n";
+
+                abilityDescText.text = $"{LocalizationManager.Instance.GetLocalizedValue(data.ability_desc, "Parts")}";
             }
 
-            return abilityInfo;
         }
-
         private void UpdateShiftGrid(Vector2Int[] ability_shifts)
         {
             ClearShiftGrid();
 
             foreach (Vector2Int shift in ability_shifts)
             {
-                if (shift == new Vector2Int(-2, 2))
-                {
-                    ActivateShift(0);
-                }
-                if (shift == new Vector2Int(-1, 2))
-                {
-                    ActivateShift(1);
-                }
-                if (shift == new Vector2Int(0, 2))
-                {
-                    ActivateShift(2);
-                }
-                if (shift == new Vector2Int(1, 2))
-                {
-                    ActivateShift(3);
-                }
-                if (shift == new Vector2Int(2, 2))
-                {
-                    ActivateShift(4);
-                }
+                int index = -1;
 
-                if (shift == new Vector2Int(-2, 1))
-                {
-                    ActivateShift(5);
-                }
-                if (shift == new Vector2Int(-1, 1))
-                {
-                    ActivateShift(6);
-                }
-                if (shift == new Vector2Int(0, 1))
-                {
-                    ActivateShift(7);
-                }
-                if (shift == new Vector2Int(1, 1))
-                {
-                    ActivateShift(8);
-                }
-                if (shift == new Vector2Int(2, 1))
-                {
-                    ActivateShift(9);
-                }
+                // Определяем индекс клетки на основе координат
+                if (shift == new Vector2Int(-2, 2)) index = 0;
+                if (shift == new Vector2Int(-1, 2)) index = 1;
+                if (shift == new Vector2Int(0, 2)) index = 2;
+                if (shift == new Vector2Int(1, 2)) index = 3;
+                if (shift == new Vector2Int(2, 2)) index = 4;
 
-                if (shift == new Vector2Int(-2, 0))
-                {
-                    ActivateShift(10);
-                }
-                if (shift == new Vector2Int(-1, 0))
-                {
-                    ActivateShift(11);
-                }
-                if (shift == new Vector2Int(0, 0))
-                {
-                    ActivateShift(12);
-                }
-                if (shift == new Vector2Int(1, 0))
-                {
-                    ActivateShift(13);
-                }
-                if (shift == new Vector2Int(2, 0))
-                {
-                    ActivateShift(14);
-                }
+                if (shift == new Vector2Int(-2, 1)) index = 5;
+                if (shift == new Vector2Int(-1, 1)) index = 6;
+                if (shift == new Vector2Int(0, 1)) index = 7;
+                if (shift == new Vector2Int(1, 1)) index = 8;
+                if (shift == new Vector2Int(2, 1)) index = 9;
 
-                if (shift == new Vector2Int(-2, -1))
-                {
-                    ActivateShift(15);
-                }
-                if (shift == new Vector2Int(-1, -1))
-                {
-                    ActivateShift(16);
-                }
-                if (shift == new Vector2Int(0, -1))
-                {
-                    ActivateShift(17);
-                }
-                if (shift == new Vector2Int(1, -1))
-                {
-                    ActivateShift(18);
-                }
-                if (shift == new Vector2Int(2, -1))
-                {
-                    ActivateShift(19);
-                }
+                if (shift == new Vector2Int(-2, 0)) index = 10;
+                if (shift == new Vector2Int(-1, 0)) index = 11;
+                if (shift == new Vector2Int(0, 0)) index = 12; // Центральная клетка
+                if (shift == new Vector2Int(1, 0)) index = 13;
+                if (shift == new Vector2Int(2, 0)) index = 14;
 
-                if (shift == new Vector2Int(-2, -2))
-                {
-                    ActivateShift(20);
-                }
-                if (shift == new Vector2Int(-1, -2))
-                {
-                    ActivateShift(21);
-                }
-                if (shift == new Vector2Int(0, -2))
-                {
-                    ActivateShift(22);
-                }
-                if (shift == new Vector2Int(1, -2))
-                {
-                    ActivateShift(23);
-                }
-                if (shift == new Vector2Int(2, -2))
-                {
-                    ActivateShift(24);
-                }
+                if (shift == new Vector2Int(-2, -1)) index = 15;
+                if (shift == new Vector2Int(-1, -1)) index = 16;
+                if (shift == new Vector2Int(0, -1)) index = 17;
+                if (shift == new Vector2Int(1, -1)) index = 18;
+                if (shift == new Vector2Int(2, -1)) index = 19;
 
+                if (shift == new Vector2Int(-2, -2)) index = 20;
+                if (shift == new Vector2Int(-1, -2)) index = 21;
+                if (shift == new Vector2Int(0, -2)) index = 22;
+                if (shift == new Vector2Int(1, -2)) index = 23;
+                if (shift == new Vector2Int(2, -2)) index = 24;
 
+                if (index >= 0)
+                {
+                    // Проверяем, является ли это центральной клеткой (0,0)
+                    if (shift == Vector2Int.zero)
+                    {
+                        // Центральная клетка - розовый цвет
+                        gridTransform.GetChild(index).GetComponent<Image>().color = centerCellColor;
+                    }
+                    else
+                    {
+                        // Остальные клетки - красный цвет
+                        gridTransform.GetChild(index).GetComponent<Image>().color = activeCellColor;
+                    }
+                }
             }
-        }
-
-        private void ActivateShift(int ind)
-        {
-            gridTransform.GetChild(ind).GetComponent<Image>().color = Color.red;
         }
 
 
@@ -393,7 +317,14 @@ namespace Project
             for (int i = 0; i < gridTransform.childCount; i++)
             {
                 //gridTransform.GetChild(i).gameObject.SetActive(false);
-                gridTransform.GetChild(i).GetComponent<Image>().color = Color.green;
+                if (i == 12)
+                {
+                    gridTransform.GetChild(i).GetComponent<Image>().color = Color.red;
+                }
+                else
+                {
+                    gridTransform.GetChild(i).GetComponent<Image>().color = inactiveCellColor; // Зеленый
+                }
             }
         }
     }

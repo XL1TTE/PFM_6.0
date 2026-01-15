@@ -15,14 +15,12 @@ namespace Project
 
         [SerializeField]
         public List<TutorialPartWrapper> allScreensWithWhatTheyEnable;
-        //public List<MyKeyValuePair<GameObject,List<GameObject>>> allScreensWithWhatTheyEnable;
-
-        //public Vector2(GameObject obj, List<GameObject> enabled) allScreensWithWhatTheyEnable;
 
         private int tutorialCounter;
         private GameObject currentNotification;
         private List<GameObject> currentEnabledList;
         private List<EnabledPrevInfoWrapper> currentEnabledPrevParentAndIndex = new List<EnabledPrevInfoWrapper>();
+        private bool isDisableColliders = false;
 
         public void ShowTutorialNotification()
         {
@@ -67,6 +65,21 @@ namespace Project
         {
             AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
 
+            if (tutorialCounter >= 0 && tutorialCounter < allScreensWithWhatTheyEnable.Count)
+            {
+                var currentPart = allScreensWithWhatTheyEnable[tutorialCounter];
+                if (currentPart.isSpecialForBodyParInventory == true && isDisableColliders == false)
+                {
+                    DisableAllLabMonsterSlotColliders();
+                    isDisableColliders = true;
+                }
+                else if (isDisableColliders == true)
+                {
+                    EnableAllLabMonsterSlotColliders();
+                    isDisableColliders = false;
+                }
+            }
+
             if (currentEnabledList != null)
             {
                 for (int i = 0; i < currentEnabledList.Count; i++)
@@ -76,27 +89,31 @@ namespace Project
 
                     Vector3 pos = currentEnabledList[i].transform.position;
                     pos.z = (currentEnabledPrevParentAndIndex[i].z_ind);
-
                     currentEnabledList[i].transform.position = pos;
                 }
-
                 currentEnabledList.Clear();
+                currentEnabledPrevParentAndIndex.Clear();
             }
-            if (currentNotification != null) {
+
+            if (currentNotification != null)
+            {
                 currentNotification.SetActive(false);
             }
+
             await_special_continue = false;
+            tutorialCounter++;
 
-            tutorialCounter ++;
-
-            if (tutorialCounter >= allScreensWithWhatTheyEnable.Count) { EndTutorial(); return; }
+            if (tutorialCounter >= allScreensWithWhatTheyEnable.Count)
+            {
+                EndTutorial();
+                return;
+            }
 
             var currPart = allScreensWithWhatTheyEnable[tutorialCounter];
 
             if (currPart.notification == null) { return; }
 
             await_special_continue = currPart.non_button_continue;
-
             currentNotification = currPart.notification;
             currentEnabledList = currPart.enable_list;
 
@@ -104,26 +121,82 @@ namespace Project
             {
                 foreach (var obj in currentEnabledList)
                 {
-                    EnabledPrevInfoWrapper res = new(obj.transform.parent.gameObject, 
+                    EnabledPrevInfoWrapper res = new(obj.transform.parent.gameObject,
                         obj.transform.GetSiblingIndex(),
                         obj.transform.position.z);
-
                     currentEnabledPrevParentAndIndex.Add(res);
-
 
                     obj.transform.SetParent(tutorialScreen.transform);
 
                     Vector3 pos = obj.transform.position;
                     pos.z = 0;
-
                     obj.transform.position = pos;
                 }
             }
 
             currentNotification.SetActive(true);
         }
-    
-        
+
+        public void GoBackTutorial()
+        {
+            AudioManager.Instance?.PlaySound(AudioManager.buttonClickSound);
+
+            if (tutorialCounter <= 0)
+            {
+                return;
+            }
+
+            if (currentEnabledList != null)
+            {
+                for (int i = 0; i < currentEnabledList.Count; i++)
+                {
+                    currentEnabledList[i].transform.SetParent(currentEnabledPrevParentAndIndex[i].parent.transform);
+                    currentEnabledList[i].transform.SetSiblingIndex(currentEnabledPrevParentAndIndex[i].sibling_pos);
+
+                    Vector3 pos = currentEnabledList[i].transform.position;
+                    pos.z = (currentEnabledPrevParentAndIndex[i].z_ind);
+                    currentEnabledList[i].transform.position = pos;
+                }
+                currentEnabledList.Clear();
+                currentEnabledPrevParentAndIndex.Clear();
+            }
+
+            if (currentNotification != null)
+            {
+                currentNotification.SetActive(false);
+            }
+
+            tutorialCounter--;
+
+            var currPart = allScreensWithWhatTheyEnable[tutorialCounter];
+
+            if (currPart.notification == null) { return; }
+
+            await_special_continue = currPart.non_button_continue;
+            currentNotification = currPart.notification;
+            currentEnabledList = currPart.enable_list;
+
+            if (currentEnabledList != null)
+            {
+                foreach (var obj in currentEnabledList)
+                {
+                    EnabledPrevInfoWrapper res = new(obj.transform.parent.gameObject,
+                        obj.transform.GetSiblingIndex(),
+                        obj.transform.position.z);
+                    currentEnabledPrevParentAndIndex.Add(res);
+
+                    obj.transform.SetParent(tutorialScreen.transform);
+
+                    Vector3 pos = obj.transform.position;
+                    pos.z = 0;
+                    obj.transform.position = pos;
+                }
+            }
+
+            currentNotification.SetActive(true);
+        }
+
+
         public void EndTutorial()
         {
             tutorial_active = false;
@@ -142,6 +215,34 @@ namespace Project
         public bool IsTutorialActive()
         {
             return tutorial_active;
+        }
+
+        public void DisableAllLabMonsterSlotColliders()
+        {
+            LabBodyPartStorageMono[] allSlots = FindObjectsOfType<LabBodyPartStorageMono>();
+
+            foreach (var slot in allSlots)
+            {
+                BoxCollider2D collider = slot.GetComponent<BoxCollider2D>();
+                if (collider != null)
+                {
+                    collider.enabled = false;
+                }
+            }
+        }
+
+        public void EnableAllLabMonsterSlotColliders()
+        {
+            LabBodyPartStorageMono[] allSlots = FindObjectsOfType<LabBodyPartStorageMono>();
+
+            foreach (var slot in allSlots)
+            {
+                BoxCollider2D collider = slot.GetComponent<BoxCollider2D>();
+                if (collider != null)
+                {
+                    collider.enabled = true;
+                }
+            }
         }
     }
 
@@ -164,12 +265,14 @@ namespace Project
         public GameObject notification;
         public bool non_button_continue = false;
         public List<GameObject> enable_list;
+        public bool isSpecialForBodyParInventory = false;
 
-        public TutorialPartWrapper(GameObject g, List<GameObject> l, bool n)
+        public TutorialPartWrapper(GameObject g, List<GameObject> l, bool n, bool m)
         {
             notification = g;
             enable_list = l;
             non_button_continue = n;
+            isSpecialForBodyParInventory = m;
         }
     }
 

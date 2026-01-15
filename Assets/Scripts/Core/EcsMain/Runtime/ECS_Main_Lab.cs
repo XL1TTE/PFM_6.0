@@ -73,6 +73,13 @@ namespace Game
         {
             Dictionary<string, int> parts = new()
             {
+                ///new
+                ///
+                { "bp_dog-leg", 2 },
+                { "bp_dog-torso", 2 },
+                { "bp_dog-head", 2 },
+
+                ///old
                 { "bp_pig-head", 2 },
                 { "bp_sheep-head", 2 },
                 { "bp_rat-arm", 2 },
