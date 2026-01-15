@@ -27,6 +27,10 @@ namespace Project
         private GameObject dragCopy;
         private bool isDragging = false;
         private LabReferences labRef;
+        private MonsterTooltipController monsterTooltipController;
+
+        private float lastClickTime = 0f;
+        private const float doubleClickTime = 0.3f;
 
         public void Initialize()
         {
@@ -75,13 +79,52 @@ namespace Project
         {
             if (eventData.button == PointerEventData.InputButton.Left && !isDragging)
             {
-                HandleSingleClick();
+                float timeSinceLastClick = Time.time - lastClickTime;
+
+                // Проверяем двойной клик
+                if (timeSinceLastClick <= doubleClickTime)
+                {
+                    // Двойной клик - обрабатываем как обычно
+                    HandleSingleClick();
+                }
+                else
+                {
+                    // Одиночный клик - только для фиксации тултипа
+                    lastClickTime = Time.time;
+
+                    // Проверяем, включена ли фиксация и есть ли тултип
+                    if (monsterTooltipController != null &&
+                        monsterTooltipController.isFixedByClick &&
+                        is_occupied && currentMonsterData != null)
+                    {
+                        // Показываем/фиксируем тултип
+                        if (!monsterTooltipController.IsTooltipShowing())
+                        {
+                            monsterTooltipController.ShowMonsterTooltip(currentMonsterData, transform.position);
+                        }
+                        else if (monsterTooltipController.IsTooltipFixed())
+                        {
+                            // Если уже зафиксирован - разфиксируем
+                            monsterTooltipController.ToggleFix();
+                        }
+                        else
+                        {
+                            // Если показывается но не зафиксирован - фиксируем
+                            monsterTooltipController.ToggleFix();
+                        }
+                    }
+                }
             }
         }
 
         private void HandleSingleClick()
         {
             if (!is_occupied || currentMonsterData == null) return;
+
+            if (labRef.uiController != null && !labRef.uiController.IsPreparationScreenActive())
+            {
+                return;
+            }
 
             LabMonsterExpeditionSlotMono freeExpeditionSlot = FindFirstFreeExpeditionSlot();
             if (freeExpeditionSlot != null)
@@ -203,10 +246,6 @@ namespace Project
             copySprite.sortingLayerName = "UI";
             copySprite.sortingOrder = 12;
             copySprite.color = new Color(1f, 1f, 1f, 0.8f);
-
-            //Image copySpriteIMAGE = dragCopy.AddComponent<Image>();
-            //copySpriteIMAGE.sprite = sprite_renderer.sprite;
-            //copySpriteIMAGE.color = new Color(1f, 1f, 1f, 0.8f);
 
             dragCopy.transform.localScale = transform.localScale;
             dragCopy.transform.position = transform.position;

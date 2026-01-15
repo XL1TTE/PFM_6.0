@@ -131,7 +131,7 @@ namespace Project
                 if (clickCollider != null)
                     clickCollider.enabled = true;
 
-                //LabReferences.Instance().tutorialController.ContinueSpecial();
+                LabReferences.Instance().tutorialController.ContinueSpecial();
                 //Debug.Log("!!!!3");
             }
         }

@@ -12,7 +12,7 @@ namespace Project
         public TMP_Text titleText;
         public TMP_InputField nameInputField;
         public Button acceptButton;
-        public TMP_Text errorText; 
+        public TMP_Text errorText;
 
         private System.Action<string> onNameAccepted;
         private MonsterData currentMonsterData;
@@ -36,27 +36,21 @@ namespace Project
             acceptButton.onClick.AddListener(OnAcceptClicked);
 
             nameInputField.characterLimit = 18;
-            nameInputField.onValidateInput = ValidateEnglishInput;
+
+            nameInputField.onValidateInput = ValidateInput;
 
             nameInputField.onValueChanged.AddListener(OnNameInputChanged);
 
             HideErrorMessage();
         }
 
-        private char ValidateEnglishInput(string text, int charIndex, char addedChar)
+        private char ValidateInput(string text, int charIndex, char addedChar)
         {
-            if (char.IsLetterOrDigit(addedChar) || addedChar == ' ' || addedChar == '_')
+            if (char.IsLetterOrDigit(addedChar) || addedChar == ' ' || addedChar == '_' || addedChar == '-')
             {
-                if (System.Text.RegularExpressions.Regex.IsMatch(addedChar.ToString(), @"^[a-zA-Z0-9 _]+$"))
-                {
-                    return addedChar;
-                }
-                else
-                {
-                    ShowErrorMessage("Please use only English letters, numbers, spaces and underscores!");
-                    return '\0';
-                }
+                return addedChar;
             }
+
             return '\0';
         }
 
@@ -64,26 +58,27 @@ namespace Project
         {
             HideErrorMessage();
 
-            if (!string.IsNullOrEmpty(newName) && ContainsRussianCharacters(newName))
-            {
-                ShowErrorMessage("Please use only English letters, numbers, spaces and underscores!");
-                return;
-            }
-
             if (!string.IsNullOrEmpty(newName))
             {
+                if (ContainsInvalidCharacters(newName))
+                {
+                    ShowErrorMessage(LocalizationManager.Instance.GetLocalizedValue("Laboratory_MonsterNaming_Erorr_Characters", "UI_Menu"));
+                    return;
+                }
+
                 if (IsMonsterNameExists(newName.Trim()))
                 {
-                    ShowErrorMessage($"Monster name '{newName.Trim()}' is already taken!");
+                    ShowErrorMessage(LocalizationManager.Instance.GetLocalizedValue("Laboratory_MonsterNaming_Erorr_SameName", "UI_Menu"));
                 }
             }
         }
 
-        private bool ContainsRussianCharacters(string text)
+        private bool ContainsInvalidCharacters(string text)
         {
             foreach (char c in text)
             {
-                if ((c >= 'А' && c <= 'Я') || (c >= 'а' && c <= 'я') || c == 'Ё' || c == 'ё')
+                // Разрешаем: буквы (любые), цифры, пробел, подчеркивание, дефис
+                if (!(char.IsLetterOrDigit(c) || c == ' ' || c == '_' || c == '-'))
                 {
                     return true;
                 }
@@ -163,19 +158,19 @@ namespace Project
 
             if (string.IsNullOrEmpty(monsterName))
             {
-                ShowErrorMessage("Monster name cannot be empty!");
+                ShowErrorMessage(LocalizationManager.Instance.GetLocalizedValue("Laboratory_MonsterNaming_Erorr_NameEmpty", "UI_Menu"));
                 return;
             }
 
-            if (ContainsRussianCharacters(monsterName))
+            if (ContainsInvalidCharacters(monsterName))
             {
-                ShowErrorMessage("Please use only English letters, numbers, spaces and underscor!");
+                ShowErrorMessage(LocalizationManager.Instance.GetLocalizedValue("Laboratory_MonsterNaming_Erorr_Characters", "UI_Menu"));
                 return;
             }
 
             if (IsMonsterNameExists(monsterName))
             {
-                ShowErrorMessage($"Monster with this name already exists! Please choose a different name.");
+                ShowErrorMessage(LocalizationManager.Instance.GetLocalizedValue("Laboratory_MonsterNaming_Erorr_SameName", "UI_Menu"));
                 return;
             }
 

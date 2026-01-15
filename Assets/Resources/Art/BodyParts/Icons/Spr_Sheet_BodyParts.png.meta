@@ -255,7 +255,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_1
+      name: spr_ui_bp_arm_goat
       rect:
         serializedVersion: 2
         x: 27
@@ -277,7 +277,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_2
+      name: spr_ui_bp_arm_cat
       rect:
         serializedVersion: 2
         x: 54
@@ -299,7 +299,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_3
+      name: spr_ui_bp_arm_bee
       rect:
         serializedVersion: 2
         x: 81
@@ -321,7 +321,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_4
+      name: spr_ui_bp_arm_raccoon
       rect:
         serializedVersion: 2
         x: 108
@@ -365,7 +365,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_6
+      name: spr_ui_bp_arm_rooster
       rect:
         serializedVersion: 2
         x: 162
@@ -387,7 +387,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_7
+      name: spr_ui_bp_arm_dove
       rect:
         serializedVersion: 2
         x: 189
@@ -431,7 +431,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_9
+      name: spr_ui_bp_arm_ladybug
       rect:
         serializedVersion: 2
         x: 243
@@ -475,7 +475,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_11
+      name: spr_ui_bp_arm_bear
       rect:
         serializedVersion: 2
         x: 297
@@ -541,7 +541,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_14
+      name: spr_ui_bp_leg_goat
       rect:
         serializedVersion: 2
         x: 27
@@ -563,7 +563,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_15
+      name: spr_ui_bp_leg_cat
       rect:
         serializedVersion: 2
         x: 54
@@ -585,7 +585,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_16
+      name: spr_ui_bp_leg_raccoon
       rect:
         serializedVersion: 2
         x: 81
@@ -607,7 +607,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_17
+      name: spr_ui_bp_leg_rooster
       rect:
         serializedVersion: 2
         x: 108
@@ -651,7 +651,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_19
+      name: spr_ui_bp_leg_dog
       rect:
         serializedVersion: 2
         x: 162
@@ -695,7 +695,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_21
+      name: spr_ui_bp_leg_horse
       rect:
         serializedVersion: 2
         x: 216
@@ -739,7 +739,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_23
+      name: spr_ui_bp_leg_goose
       rect:
         serializedVersion: 2
         x: 270
@@ -761,7 +761,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_24
+      name: spr_ui_bp_leg_bear
       rect:
         serializedVersion: 2
         x: 297
@@ -783,7 +783,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_25
+      name: spr_ui_bp_leg_ladybug
       rect:
         serializedVersion: 2
         x: 324
@@ -805,7 +805,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_26
+      name: spr_ui_bp_torso_raven
       rect:
         serializedVersion: 2
         x: 0
@@ -827,7 +827,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_27
+      name: spr_ui_bp_torso_dog
       rect:
         serializedVersion: 2
         x: 27
@@ -893,7 +893,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_30
+      name: spr_ui_bp_torso_rooster
       rect:
         serializedVersion: 2
         x: 108
@@ -915,7 +915,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_31
+      name: spr_ui_bp_torso_bee
       rect:
         serializedVersion: 2
         x: 135
@@ -937,7 +937,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_32
+      name: spr_ui_bp_torso_raccoon
       rect:
         serializedVersion: 2
         x: 162
@@ -959,7 +959,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_33
+      name: spr_ui_bp_head_goat
       rect:
         serializedVersion: 2
         x: 189
@@ -1003,7 +1003,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_35
+      name: spr_ui_bp_head_cat
       rect:
         serializedVersion: 2
         x: 243
@@ -1025,7 +1025,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_36
+      name: spr_ui_bp_head_rooster
       rect:
         serializedVersion: 2
         x: 270
@@ -1047,7 +1047,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_37
+      name: spr_ui_bp_head_goose
       rect:
         serializedVersion: 2
         x: 297
@@ -1069,7 +1069,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_38
+      name: spr_ui_bp_head_horse
       rect:
         serializedVersion: 2
         x: 324
@@ -1091,7 +1091,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_BodyParts_39
+      name: spr_ui_bp_head_dog
       rect:
         serializedVersion: 2
         x: 0
@@ -1148,46 +1148,46 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Spr_Sheet_BodyParts_1: -1184218881
-      Spr_Sheet_BodyParts_11: 517040650
-      Spr_Sheet_BodyParts_14: 118183604
-      Spr_Sheet_BodyParts_15: 519072740
-      Spr_Sheet_BodyParts_16: 28888960
-      Spr_Sheet_BodyParts_17: 736691794
-      Spr_Sheet_BodyParts_19: 1572929797
-      Spr_Sheet_BodyParts_2: 1528423775
-      Spr_Sheet_BodyParts_21: 114387525
-      Spr_Sheet_BodyParts_23: 1531554736
-      Spr_Sheet_BodyParts_24: -1958942308
-      Spr_Sheet_BodyParts_25: -590735354
-      Spr_Sheet_BodyParts_26: -1217491281
-      Spr_Sheet_BodyParts_27: -220272782
-      Spr_Sheet_BodyParts_3: -363147291
-      Spr_Sheet_BodyParts_30: -798161788
-      Spr_Sheet_BodyParts_31: -823238903
-      Spr_Sheet_BodyParts_32: -1871507794
-      Spr_Sheet_BodyParts_33: -312672521
-      Spr_Sheet_BodyParts_35: 1218713601
-      Spr_Sheet_BodyParts_36: 592058582
-      Spr_Sheet_BodyParts_37: 1575364822
-      Spr_Sheet_BodyParts_38: -1250632832
-      Spr_Sheet_BodyParts_39: -2074321443
-      Spr_Sheet_BodyParts_4: -1577473144
-      Spr_Sheet_BodyParts_6: -722459218
-      Spr_Sheet_BodyParts_7: 2024883427
-      Spr_Sheet_BodyParts_9: -203623101
+      spr_ui_bp_arm_bear: 517040650
+      spr_ui_bp_arm_bee: -363147291
+      spr_ui_bp_arm_cat: 1528423775
       spr_ui_bp_arm_cockroach: -974280291
       spr_ui_bp_arm_cow: -495077629
+      spr_ui_bp_arm_dove: 2024883427
+      spr_ui_bp_arm_goat: -1184218881
+      spr_ui_bp_arm_ladybug: -203623101
+      spr_ui_bp_arm_raccoon: -1577473144
       spr_ui_bp_arm_rat: -487021500
       spr_ui_bp_arm_raven: -953073820
+      spr_ui_bp_arm_rooster: -722459218
       spr_ui_bp_arm_sheep: 1562896904
+      spr_ui_bp_head_cat: 1218713601
+      spr_ui_bp_head_dog: -2074321443
+      spr_ui_bp_head_goat: -312672521
+      spr_ui_bp_head_goose: 1575364822
+      spr_ui_bp_head_horse: -1250632832
       spr_ui_bp_head_pig: -1568572208
+      spr_ui_bp_head_rooster: 592058582
       spr_ui_bp_head_sheep: -336343124
+      spr_ui_bp_leg_bear: -1958942308
+      spr_ui_bp_leg_cat: 519072740
+      spr_ui_bp_leg_dog: 1572929797
+      spr_ui_bp_leg_goat: 118183604
+      spr_ui_bp_leg_goose: 1531554736
+      spr_ui_bp_leg_horse: 114387525
+      spr_ui_bp_leg_ladybug: -590735354
       spr_ui_bp_leg_pig: -716756722
+      spr_ui_bp_leg_raccoon: 28888960
       spr_ui_bp_leg_rat: -657193710
       spr_ui_bp_leg_raven: -2030650078
+      spr_ui_bp_leg_rooster: 736691794
       spr_ui_bp_leg_sheep: 1652296983
+      spr_ui_bp_torso_bee: -823238903
+      spr_ui_bp_torso_dog: -220272782
       spr_ui_bp_torso_pig: 1369246691
+      spr_ui_bp_torso_raccoon: -1871507794
+      spr_ui_bp_torso_raven: -1217491281
+      spr_ui_bp_torso_rooster: -798161788
       spr_ui_bp_torso_sheep: -1728543690
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

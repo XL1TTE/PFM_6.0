@@ -140,16 +140,12 @@ public class AudioManager : MonoBehaviour
 
         if (hasSavedSettings)
         {
-            Debug.Log("��������� ����������� ���������");
             currentMasterVolume = PlayerPrefs.GetFloat(MASTER_VOLUME_KEY, defaultMasterVolume);
             currentMusicVolume = PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, defaultMusicVolume);
             currentSFXVolume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, defaultSFXVolume);
-
-            Debug.Log($"Loaded from PlayerPrefs - Master: {currentMasterVolume}, Music: {currentMusicVolume}, SFX: {currentSFXVolume}");
         }
         else
         {
-            Debug.Log("���������� �������� �� ���������");
             currentMasterVolume = defaultMasterVolume;
             currentMusicVolume = defaultMusicVolume;
             currentSFXVolume = defaultSFXVolume;
@@ -161,8 +157,6 @@ public class AudioManager : MonoBehaviour
         }
 
         ApplyVolumeSettings();
-
-        Debug.Log($"AudioManager initialized - Master: {currentMasterVolume}, Music: {currentMusicVolume}, SFX: {currentSFXVolume}");
     }
 
     private void ApplyVolumeSettings()
@@ -180,11 +174,8 @@ public class AudioManager : MonoBehaviour
         if (audioMixer.GetFloat(MASTER_VOLUME_PARAM, out float volumeDb))
         {
             float linear = ConvertDbToLinear(volumeDb);
-            Debug.Log($"GetMasterVolumeLinear: {volumeDb}dB -> {linear}");
             return linear;
         }
-
-        Debug.LogWarning("Failed to get master volume from AudioMixer, using cached value");
         return currentMasterVolume;
     }
 
@@ -193,11 +184,8 @@ public class AudioManager : MonoBehaviour
         if (audioMixer.GetFloat(MUSIC_VOLUME_PARAM, out float volumeDb))
         {
             float linear = ConvertDbToLinear(volumeDb);
-            Debug.Log($"GetMusicVolumeLinear: {volumeDb}dB -> {linear}");
             return linear;
         }
-
-        Debug.LogWarning("Failed to get music volume from AudioMixer, using cached value");
         return currentMusicVolume;
     }
 
@@ -206,32 +194,26 @@ public class AudioManager : MonoBehaviour
         if (audioMixer.GetFloat(SFX_VOLUME_PARAM, out float volumeDb))
         {
             float linear = ConvertDbToLinear(volumeDb);
-            Debug.Log($"GetSFXVolumeLinear: {volumeDb}dB -> {linear}");
             return linear;
         }
-
-        Debug.LogWarning("Failed to get SFX volume from AudioMixer, using cached value");
         return currentSFXVolume;
     }
     private void SetMasterVolumeImmediate(float linearVolume)
     {
         float dbVolume = ConvertLinearToDb(linearVolume);
         audioMixer.SetFloat(MASTER_VOLUME_PARAM, dbVolume);
-        Debug.Log($"SetMasterVolumeImmediate: {linearVolume} -> {dbVolume}dB");
     }
 
     private void SetMusicVolumeImmediate(float linearVolume)
     {
         float dbVolume = ConvertLinearToDb(linearVolume);
         audioMixer.SetFloat(MUSIC_VOLUME_PARAM, dbVolume);
-        Debug.Log($"SetMusicVolumeImmediate: {linearVolume} -> {dbVolume}dB");
     }
 
     private void SetSFXVolumeImmediate(float linearVolume)
     {
         float dbVolume = ConvertLinearToDb(linearVolume);
         audioMixer.SetFloat(SFX_VOLUME_PARAM, dbVolume);
-        Debug.Log($"SetSFXVolumeImmediate: {linearVolume} -> {dbVolume}dB");
     }
 
     private void SaveVolumeSettings()
@@ -244,8 +226,6 @@ public class AudioManager : MonoBehaviour
         PlayerPrefs.SetFloat(MUSIC_VOLUME_KEY, musicVolume);
         PlayerPrefs.SetFloat(SFX_VOLUME_KEY, sfxVolume);
         PlayerPrefs.Save();
-
-        Debug.Log($"Settings saved - Master: {masterVolume}, Music: {musicVolume}, SFX: {sfxVolume}");
     }
 
     public void PlaySound(string soundName)
@@ -253,10 +233,6 @@ public class AudioManager : MonoBehaviour
         if (soundDictionary.ContainsKey(soundName))
         {
             soundDictionary[soundName].source.Play();
-        }
-        else
-        {
-            Debug.LogWarning($"Sound '{soundName}' not found!");
         }
     }
 
@@ -266,17 +242,12 @@ public class AudioManager : MonoBehaviour
         {
             AudioSource.PlayClipAtPoint(soundDictionary[soundName].clip, position);
         }
-        else
-        {
-            Debug.LogWarning($"Sound '{soundName}' not found!");
-        }
     }
 
     public void PlayMusic(string musicName, bool forceRestart = false, bool resumeFromLastPosition = false, bool waitForSceneLoad = false)
     {
         if (!musicDictionary.ContainsKey(musicName))
         {
-            Debug.LogWarning($"Music '{musicName}' not found!");
             return;
         }
 
@@ -355,27 +326,6 @@ public class AudioManager : MonoBehaviour
         audioMixer.SetFloat(MUSIC_VOLUME_PARAM, targetVolumeDb);
     }
 
-    public void DuckMusic(bool duck)
-    {
-        float targetVolumeDb = duck ? ConvertLinearToDb(musicDuckVolume * currentMusicVolume) : ConvertLinearToDb(currentMusicVolume);
-        StartCoroutine(FadeMusicViaMixer(null, targetVolumeDb, musicFadeDuration * 0.5f));
-    }
-
-    private IEnumerator FadeMusic(Sound music, float targetVolume, float duration)
-    {
-        float startVolume = music.source.volume;
-        float timer = 0f;
-
-        while (timer < duration)
-        {
-            timer += Time.deltaTime;
-            music.source.volume = Mathf.Lerp(startVolume, targetVolume, timer / duration);
-            yield return null;
-        }
-
-        music.source.volume = targetVolume;
-    }
-
     public void UpdateCurrentMusicVolume()
     {
         if (currentMusic != null && currentMusic.source != null)
@@ -447,24 +397,11 @@ public class AudioManager : MonoBehaviour
 
     private void CheckAudioMixerConnection()
     {
-        Debug.Log("=== AudioMixer Check ===");
-
-        var groups = audioMixer.FindMatchingGroups("");
-        Debug.Log($"Available AudioMixer groups: {groups.Length}");
-        foreach (var group in groups)
-        {
-            Debug.Log($" - {group.name}");
-        }
+        var groups = audioMixer.FindMatchingGroups("");;
 
         audioMixer.GetFloat(MASTER_VOLUME_PARAM, out float masterDb);
         audioMixer.GetFloat(MUSIC_VOLUME_PARAM, out float musicDb);
         audioMixer.GetFloat(SFX_VOLUME_PARAM, out float sfxDb);
-
-        Debug.Log($"Master: {masterDb}dB -> {ConvertDbToLinear(masterDb)}");
-        Debug.Log($"Music: {musicDb}dB -> {ConvertDbToLinear(musicDb)}");
-        Debug.Log($"SFX: {sfxDb}dB -> {ConvertDbToLinear(sfxDb)}");
-
-        Debug.Log("=== End AudioMixer Check ===");
     }
     public void PauseMusic()
     {

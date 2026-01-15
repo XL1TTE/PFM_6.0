@@ -58,7 +58,7 @@ namespace Domain.Map
 
         [Header("Tooltips")]
         public MonsterTooltipController monsterTooltipController;
-        public MonsterTooltipController preparationTooltipController;
+        public MonsterTooltipController preparationMonsterTooltipController;
         public TooltipController tooltipController;
 
         [Header("UI Elements")]
