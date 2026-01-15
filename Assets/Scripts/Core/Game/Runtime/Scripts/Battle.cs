@@ -12,6 +12,7 @@ using Persistence.Components;
 using Persistence.DB;
 using Persistence.DS;
 using Persistence.Utilities;
+using Project;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Providers;
 using System;
@@ -46,9 +47,12 @@ namespace Game
 
             var storageMonsters = DataStorage.GetRecordFromFile<Crusade, CrusadeMonsters>().crusade_monsters;
 
-            if (storageMonsters.Count > 0)
+            if (storageMonsters != null)
             {
-                MONSTERS_TO_SPAWN = storageMonsters;
+                if (storageMonsters.Count > 0)
+                {
+                    MONSTERS_TO_SPAWN = storageMonsters;
+                }
             }
 
             var t_spawnCells = F.FilterEmptyCells(t_filter.AsEnumerable(), a_world).ToArray();
@@ -131,6 +135,8 @@ namespace Game
                         G.OccupyCell(t_enemyEntity, a_cell, a_world);
                         SetupAbilities(t_enemyEntity, a_world);
 
+                        BattleReward.AddRewardsToPool(GetLootRewards(t_enemyEntity, a_world));
+
                         Interactor.CallAll<IOnEntityCellPositionChanged>(async handler =>
                         {
                             await handler.OnPositionChanged(a_cell, a_cell, t_enemyEntity, a_world);
@@ -147,6 +153,14 @@ namespace Game
 
             ref var enemyTransform = ref t_transform.Get(a_entity).Value;
             enemyTransform.position = cellPos;
+        }
+
+        private static EnemyLootWrapper[] GetLootRewards(Entity a_enemyEntity, World a_world)
+        {
+            var stash_enemyLoot = a_world.GetStash<EnemyLootComponent>();
+            var t_loot = stash_enemyLoot.Get(a_enemyEntity);
+
+            return t_loot.loot;
         }
 
         private static void SetupAbilities(Entity a_enemyEntity, World a_world)

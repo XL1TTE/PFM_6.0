@@ -25,26 +25,32 @@ namespace Project
         //// should be 0 < loot_chance < 1;
         //public float loot_chance = 0f;
 
+
         [Header("ID of loot to spawn")]
         public string loot_id;
 
+
+        // This specifies the amount of rolls that will be made
         [Space(1)]
         [Header("Rolls values")]
-        public bool use_fixed_rolls;
-        public int loot_rolls;
+        public bool use_fixed_rolls = true;
+        public int loot_rolls = 1;
 
-        public bool use_random_rools;
+        public bool use_random_rools = false;
         public int loot_min_rolls;
         public int loot_max_rolls;
 
+
+        // Each time a roll succedes the check - the amount will be added to the total
         [Space(1)]
         [Header("Amount values")]
-        public bool use_fixed_amount;
+        public bool use_fixed_amount = true;
         public int loot_amount;
 
-        public bool use_random_amount;
+        public bool use_random_amount = false;
         public int loot_min_amount;
         public int loot_max_amount;
+
 
         // should be 0 < loot_chance < 1;
         [Range(0.0f, 1.0f)]
