@@ -21,12 +21,16 @@ namespace Interactions
         public override Priority m_Priority => Priority.NORMAL;
         public async UniTask OnPlayerLost(World a_world)
         {
-            await GUI.NotifyFullScreenAsync("You have lost!", UniTask.WaitForSeconds(3.0f), C.COLOR_LOST_NOTIFICATION);
+            string tip_message = LocalizationManager.Instance.GetLocalizedValue("Battle_UI_Notification_LoseTip", "Parts");
+
+            await GUI.NotifyFullScreenAsync(LocalizationManager.Instance.GetLocalizedValue("Battle_UI_Notification_Lose", "Parts"), UniTask.WaitForSeconds(3.0f), C.COLOR_LOST_NOTIFICATION, tip_message);
         }
 
         public async UniTask OnPlayerWon(World a_world)
         {
-            await GUI.NotifyFullScreenAsync("You have won!", UniTask.WaitForSeconds(3.0f), C.COLOR_WIN_NOTIFICATION);
+            string tip_message = LocalizationManager.Instance.GetLocalizedValue("Battle_UI_Notification_WinTip", "Parts");
+
+            await GUI.NotifyFullScreenAsync(LocalizationManager.Instance.GetLocalizedValue("Battle_UI_Notification_Win", "Parts"), UniTask.WaitForSeconds(3.0f), C.COLOR_WIN_NOTIFICATION);
 
         }
     }

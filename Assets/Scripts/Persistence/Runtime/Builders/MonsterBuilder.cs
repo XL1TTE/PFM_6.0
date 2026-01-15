@@ -43,6 +43,7 @@ namespace Persistence.Buiders
             stash_interactions = _ecsWorld.GetStash<InteractionsComponent>();
 
             stash_Speed = _ecsWorld.GetStash<Speed>();
+            stash_CurrHealth = _ecsWorld.GetStash<CurrHealth>();
             stash_Health = _ecsWorld.GetStash<Health>();
             stash_MaxHealt = _ecsWorld.GetStash<MaxHealth>();
 
@@ -81,6 +82,7 @@ namespace Persistence.Buiders
 
 
         private string m_MonsterName;
+        private int m_currentHealth;
 
         #region Part_Ids
         private string id_head;
@@ -89,6 +91,7 @@ namespace Persistence.Buiders
         private string id_farArm;
         private string id_nearLeg;
         private string id_farLeg;
+        private Stash<CurrHealth> stash_CurrHealth;
         private Stash<Health> stash_Health;
         private readonly Stash<MaxHealth> stash_MaxHealt;
         #endregion
@@ -296,6 +299,8 @@ namespace Persistence.Buiders
                 m_Value = m_MonsterName
             });
 
+            stash_CurrHealth.Set(monster_entity, new CurrHealth { m_Value = m_currentHealth });
+
             return monster_entity;
 
         }
@@ -334,6 +339,11 @@ namespace Persistence.Buiders
         public MonsterBuilder AttachFarLeg(string farLeg_id)
         {
             id_farLeg = farLeg_id;
+            return this;
+        }
+        public MonsterBuilder SetHealth(int amount)
+        {
+            m_currentHealth = amount;
             return this;
         }
     }

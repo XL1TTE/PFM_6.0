@@ -716,6 +716,8 @@ namespace Project
         {
             string data_head = "", data_torso = "", data_arml = "", data_armr = "", data_legl = "", data_legr = "";
 
+            int max_possible_hp = 0;
+
             var craftingSlotsContainer = labRef.GetCraftSlotsContainer();
             if (craftingSlotsContainer == null) return null;
 
@@ -724,7 +726,12 @@ namespace Project
                 LabCraftSlotMono slot = child.GetComponent<LabCraftSlotMono>();
                 if (slot != null && slot.IsOccupied())
                 {
-                    string res = slot.GetContainedResource().db_id;
+                    BodyPartData partData = slot.GetContainedResource();
+
+                    string res = partData.db_id;
+
+                    max_possible_hp += partData.hp_amount;
+
                     switch (slot.requiredType)
                     {
                         case BODYPART_TYPE.HEAD:
@@ -758,7 +765,9 @@ namespace Project
                 ClearAllCraftSlots();
             }
 
-            return new MonsterData(data_head, data_arml, data_armr, data_torso, data_legl, data_legr);
+            max_possible_hp = Mathf.Clamp(max_possible_hp, 1, 99999);
+
+            return new MonsterData(data_head, data_arml, data_armr, data_torso, data_legl, data_legr, max_possible_hp);
         }
 
 

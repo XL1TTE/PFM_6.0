@@ -26,13 +26,14 @@ namespace Game
 
         private static List<MonsterData> MONSTERS_TO_SPAWN = new List<MonsterData>{
                     new MonsterData(
-                        "Din",
                         "bp_pig-head",
                         "bp_rat-arm",
                         "bp_cow-arm",
                         "bp_pig-torso",
                         "bp_pig-leg",
-                        "bp_rat-leg"),
+                        "bp_rat-leg",
+                        4,
+                        "Nikita"),
                 };
         public static void SpawnMonstersOnLoad(World a_world)
         {
@@ -43,7 +44,7 @@ namespace Game
                 .Build();
 
 
-            var storageMonsters = DataStorage.GetRecordFromFile<Inventory, MonstersStorage>().storage_monsters;
+            var storageMonsters = DataStorage.GetRecordFromFile<Crusade, CrusadeMonsters>().crusade_monsters;
 
             if (storageMonsters.Count > 0)
             {
@@ -84,7 +85,8 @@ namespace Game
                 .AttachFarArm(mosnterData.FarArm_id)
                 .AttachNearArm(mosnterData.NearArm_id)
                 .AttachNearLeg(mosnterData.NearLeg_id)
-                .AttachFarLeg(mosnterData.FarLeg_id);
+                .AttachFarLeg(mosnterData.FarLeg_id)
+                .SetHealth(mosnterData.current_hp);
             return builder;
         }
 
