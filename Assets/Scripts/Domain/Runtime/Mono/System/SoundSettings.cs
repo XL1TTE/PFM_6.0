@@ -47,57 +47,7 @@ public class SoundSettings : MonoBehaviour
         InitializeSliders();
         SetupCallbacks();
         isInitialized = true;
-
-        Debug.Log("SoundSettings initialized with current volumes: " +
-                 $"Master: {AudioManager.Instance.GetMasterVolumeDirect()}, " +
-                 $"Music: {AudioManager.Instance.GetMusicVolumeDirect()}, " +
-                 $"SFX: {AudioManager.Instance.GetSFXVolumeDirect()}");
     }
-
-    private void InitializeLocalization()
-    {
-        // Добавляем LocalizedText компоненты к label'ам
-        //AddLocalizedText(masterVolumeText, masterVolumeKey);
-        //AddLocalizedText(musicVolumeText, musicVolumeKey);
-        //AddLocalizedText(sfxVolumeText, sfxVolumeKey);
-
-        //// Добавляем LocalizedText к кнопке сброса если есть текст
-        //if (resetToDefaultsButton != null)
-        //{
-        //    var resetText = resetToDefaultsButton.GetComponentInChildren<TMP_Text>();
-        //    if (resetText != null && resetText.GetComponent<LocalizedText>() == null)
-        //    {
-        //        var localizedText = resetText.gameObject.AddComponent<LocalizedText>();
-        //        localizedText.localizationKey = resetButtonKey;
-        //        localizedText.sheetName = "UI_Menu";
-        //    }
-        //}
-
-        // Добавляем LocalizedText к кнопке назад если есть текст
-        //if (backButton != null)
-        //{
-        //    var backText = backButton.GetComponentInChildren<TMP_Text>();
-        //    if (backText != null && backText.GetComponent<LocalizedText>() == null)
-        //    {
-        //        var localizedText = backText.gameObject.AddComponent<LocalizedText>();
-        //        localizedText.localizationKey = backButtonKey;
-        //        localizedText.sheetName = "UI_Menu";
-        //    }
-        //}
-    }
-
-    private void AddLocalizedText(TMP_Text textComponent, string key)
-    {
-        if (textComponent != null && textComponent.GetComponent<LocalizedText>() == null)
-        {
-            var localizedText = textComponent.gameObject.AddComponent<LocalizedText>();
-            localizedText.localizationKey = key;
-            localizedText.sheetName = "UI_Menu";
-            localizedText.updateOnAwake = true;
-            localizedText.updateOnLanguageChange = true;
-        }
-    }
-
 
     private void OnEnable()
     {
@@ -114,7 +64,6 @@ public class SoundSettings : MonoBehaviour
 
     private void OnDisable()
     {
-        // Отписываемся от событий
         if (LocalizationManager.Instance != null)
         {
             LocalizationManager.Instance.OnLanguageChanged -= OnLanguageChanged;
@@ -123,7 +72,6 @@ public class SoundSettings : MonoBehaviour
 
     private void OnLanguageChanged()
     {
-        // Обновляем проценты (они не зависят от языка, но метод может понадобиться)
         UpdateVolumeTexts();
     }
 

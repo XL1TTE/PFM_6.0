@@ -17,7 +17,6 @@ namespace Project
         public List<Transform> monsterPreviewSlots;
 
         private LabReferences labRef;
-        private MonsterTooltipController preparationTooltipController;
 
         private List<GameObject> currentPreviews = new List<GameObject>();
         private Dictionary<string, GameObject> slotPreviewMap = new Dictionary<string, GameObject>();
@@ -26,23 +25,8 @@ namespace Project
         {
             labRef = LabReferences.Instance();
             InitializePreviewSlots();
-
-            if (labRef != null)
-            {
-                preparationTooltipController = labRef.preparationTooltipController;
-            }
         }
 
-        private void AddTooltipToPreview(GameObject previewObject, MonsterData monsterData)
-        {
-            if (preparationTooltipController == null) return;
-
-            var tooltipTrigger = previewObject.AddComponent<MonsterTooltipTrigger>();
-            if (tooltipTrigger != null)
-            {
-                tooltipTrigger.InitializeForPreparation(monsterData, preparationTooltipController);
-            }
-        }
 
         private void InitializePreviewSlots()
         {
@@ -106,7 +90,6 @@ namespace Project
 
             currentPreviews.Add(previewContainer);
             slotPreviewMap[preparationSlotName] = previewContainer;
-            AddTooltipToPreview(previewContainer, monsterData);
         }
 
         public void OnPreparationScreenOpened()

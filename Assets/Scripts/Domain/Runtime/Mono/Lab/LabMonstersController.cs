@@ -139,6 +139,10 @@ namespace Project
                     if (slotMonster.monsterData != null)
                     {
                         slot.OccupySelf(slotMonster.monsterData);
+                        if (screenName == "Preparation" && slot.tooltipTrigger != null)
+                        {
+                            slot.tooltipTrigger.InitializeForPreparation(slotMonster.monsterData);
+                        }
                     }
                 }
             }

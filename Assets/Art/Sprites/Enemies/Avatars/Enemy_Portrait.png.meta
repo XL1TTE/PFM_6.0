@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -96,19 +96,32 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Enemy_Portrait_0
+      name: Enemy_Portrait_Crow
       rect:
         serializedVersion: 2
         x: 0
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 31
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -122,15 +135,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_1
+      name: Enemy_Portrait_Dove
       rect:
         serializedVersion: 2
-        x: 32
-        y: 1
-        width: 30
-        height: 30
+        x: 31
+        y: 0
+        width: 33
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -144,15 +157,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_2
+      name: Enemy_Portrait_Horse
       rect:
         serializedVersion: 2
         x: 64
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -166,15 +179,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_3
+      name: Enemy_Portrait_Dog
       rect:
         serializedVersion: 2
         x: 96
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -188,15 +201,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_4
+      name: Enemy_Portrait_Cat
       rect:
         serializedVersion: 2
         x: 128
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -210,15 +223,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_5
+      name: Enemy_Portrait_Bee
       rect:
         serializedVersion: 2
         x: 160
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -232,15 +245,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_6
+      name: Enemy_Portrait_Bear
       rect:
         serializedVersion: 2
         x: 192
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -254,15 +267,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_7
+      name: Enemy_Portrait_Raccoon
       rect:
         serializedVersion: 2
         x: 224
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -276,15 +289,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_8
+      name: Enemy_Portrait_Sheep
       rect:
         serializedVersion: 2
         x: 256
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -298,15 +311,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_9
+      name: Enemy_Portrait_Pig
       rect:
         serializedVersion: 2
         x: 288
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -320,15 +333,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_10
+      name: Enemy_Portrait_Cow
       rect:
         serializedVersion: 2
         x: 320
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -342,15 +355,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_11
+      name: Enemy_Portrait_Goose
       rect:
         serializedVersion: 2
         x: 352
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -364,15 +377,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_12
+      name: Enemy_Portrait_Rooster
       rect:
         serializedVersion: 2
         x: 384
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -386,15 +399,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_13
+      name: Enemy_Portrait_Goat
       rect:
         serializedVersion: 2
         x: 416
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -408,15 +421,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_14
+      name: Enemy_Portrait_Rat
       rect:
         serializedVersion: 2
         x: 448
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -430,15 +443,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_15
+      name: Enemy_Portrait_Ladubug
       rect:
         serializedVersion: 2
         x: 480
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -452,15 +465,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Portrait_16
+      name: Enemy_Portrait_Cockroach
       rect:
         serializedVersion: 2
         x: 512
-        y: 1
-        width: 30
-        height: 30
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -487,23 +500,24 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Enemy_Portrait_0: -8926551453916993016
-      Enemy_Portrait_1: 1372673346
-      Enemy_Portrait_10: -697223095
-      Enemy_Portrait_11: -1245113278
-      Enemy_Portrait_12: -1066580789
-      Enemy_Portrait_13: 494962664
-      Enemy_Portrait_14: 1075773077
-      Enemy_Portrait_15: 1873247489
-      Enemy_Portrait_16: -813842757
-      Enemy_Portrait_2: -350632694
-      Enemy_Portrait_3: 586550217
-      Enemy_Portrait_4: 878719067
-      Enemy_Portrait_5: -216582409
-      Enemy_Portrait_6: 226263556
-      Enemy_Portrait_7: -77240344
-      Enemy_Portrait_8: -69542915
-      Enemy_Portrait_9: -981539599
+      Enemy_D: 1372673346
+      Enemy_Portrait_Bear: 226263556
+      Enemy_Portrait_Bee: -216582409
+      Enemy_Portrait_Cat: 878719067
+      Enemy_Portrait_Cockroach: -813842757
+      Enemy_Portrait_Cow: -697223095
+      Enemy_Portrait_Crow: -8926551453916993016
+      Enemy_Portrait_Dog: 586550217
+      Enemy_Portrait_Dove: 1372673346
+      Enemy_Portrait_Goat: 494962664
+      Enemy_Portrait_Goose: -1245113278
+      Enemy_Portrait_Horse: -350632694
+      Enemy_Portrait_Ladubug: 1873247489
+      Enemy_Portrait_Pig: -981539599
+      Enemy_Portrait_Raccoon: -77240344
+      Enemy_Portrait_Rat: 1075773077
+      Enemy_Portrait_Rooster: -1066580789
+      Enemy_Portrait_Sheep: -69542915
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

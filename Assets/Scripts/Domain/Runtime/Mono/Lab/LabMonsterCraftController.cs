@@ -36,6 +36,10 @@ namespace Project
         public int currentPreviewPoints;
         private bool isShowingPreview;
 
+        public CraftingMonsterTooltipController craftingTooltipController;
+
+        private int countTutorial = 0;
+
 
         //private Transform monsterPreviewContainer;
         //private Transform monsterSlotsContainer;
@@ -416,6 +420,11 @@ namespace Project
 
             storageSlot = null;
             UpdateCreateButtonState();
+
+            if (craftingTooltipController != null)
+            {
+                craftingTooltipController.ForceUpdate();
+            }
         }
 
         public void MoveResourceFromToSlot(LabCraftSlotMono from_slot, LabCraftSlotMono to_slot)
@@ -424,6 +433,11 @@ namespace Project
             to_slot.UpdatePartData(from_slot.GetContainedResource());
             from_slot.ClearSlot();
             UpdateCreateButtonState();
+
+            if (craftingTooltipController != null)
+            {
+                craftingTooltipController.ForceUpdate();
+            }
         }
 
         #endregion
@@ -442,6 +456,11 @@ namespace Project
                 AudioManager.Instance?.PlaySound(AudioManager.putSound);
             }
             CancelResourceHold();
+
+            if (craftingTooltipController != null)
+            {
+                craftingTooltipController.ForceUpdate();
+            }
         }
 
         public void CancelResourceHold()
@@ -453,6 +472,11 @@ namespace Project
             ResetAllSlotsHighlight();
             storageSlot = null;
             UpdateCreateButtonState();
+
+            if (craftingTooltipController != null)
+            {
+                craftingTooltipController.ForceUpdate();
+            }
         }
 
         #endregion
@@ -548,8 +572,13 @@ namespace Project
             monstTransf.position = monsterPreviewContainer.position;
             monstTransf.parent = monsterPreviewContainer;
 
-            LabReferences.Instance().tutorialController.ContinueSpecial();
-            Debug.Log("!!!!1");
+            if (countTutorial==0)
+            {
+                Debug.Log("akldajdo12o1!!!!!!");
+                LabReferences.Instance().tutorialController.ContinueSpecial();
+                countTutorial +=1;
+
+            }
         }
 
         public void DeviewMonsterUpdate()
@@ -576,6 +605,11 @@ namespace Project
             var monsterData = GetMonsterDataFromCraftSlots(false);
             if (monsterData == null) return;
 
+            if (craftingTooltipController != null)
+            {
+                craftingTooltipController.HideTooltip();
+            }
+
             if (labRef.namingPanel != null)
             {
                 labRef.namingPanel.ShowNamingPanel(monsterData, OnMonsterNamed);
@@ -601,13 +635,8 @@ namespace Project
         {
             ref var monstersStorage = ref DataStorage.GetRecordFromFile<Inventory, MonstersStorage>();
 
-            // Проверка на уникальность имени
             if (IsMonsterNameExists(monsterName))
             {
-                // Имя уже существует, показываем сообщение об ошибке
-                Debug.LogWarning($"Monster with name '{monsterName}' already exists!");
-
-                // Можно показать сообщение пользователю
                 if (labRef.namingPanel != null)
                 {
                     labRef.namingPanel.ShowErrorMessage($"Monster with name '{monsterName}' already exists! Please choose a different name.");
@@ -629,7 +658,7 @@ namespace Project
             if (labRef.namingPanel != null)
             {
                 labRef.namingPanel.ClearInputField();
-                labRef.namingPanel.HideErrorMessage(); // Скрываем сообщение об ошибке если было показано
+                labRef.namingPanel.HideErrorMessage();
             }
 
             UpdateMonsterSlots();
@@ -643,8 +672,6 @@ namespace Project
             LabReferences.Instance().tutorialController.ContinueSpecial();
             Debug.Log("!!!!2");
         }
-
-        // Метод для проверки существования имени монстра
         public bool IsMonsterNameExists(string monsterName)
         {
             if (string.IsNullOrEmpty(monsterName))
@@ -666,8 +693,6 @@ namespace Project
 
         private void SpendBodyPartsForMonster(MonsterData monsterData)
         {
-            Debug.Log($"Spending body parts for monster creation: {monsterData.m_MonsterName}");
-
             SpendBodyPart(monsterData.Head_id);
             SpendBodyPart(monsterData.Body_id);
             SpendBodyPart(monsterData.NearArm_id);
@@ -709,6 +734,11 @@ namespace Project
             }
             currentPreviewPoints = 0;
             DeviewMonsterUpdate();
+
+            if (craftingTooltipController != null)
+            {
+                craftingTooltipController.ForceUpdate();
+            }
         }
 
 
@@ -718,6 +748,8 @@ namespace Project
 
             var craftingSlotsContainer = labRef.GetCraftSlotsContainer();
             if (craftingSlotsContainer == null) return null;
+
+            bool hasAnyPart = false;
 
             foreach (Transform child in craftingSlotsContainer)
             {
@@ -729,36 +761,51 @@ namespace Project
                     {
                         case BODYPART_TYPE.HEAD:
                             data_head = res;
+                            hasAnyPart = true;
                             break;
                         case BODYPART_TYPE.TORSO:
                             data_torso = res;
+                            hasAnyPart = true;
                             break;
                         case BODYPART_TYPE.ARM:
                             if (slot.gameObject == labRef.armLCraftSlotRef)
+                            {
                                 data_arml = res;
+                                hasAnyPart = true;
+                            }
                             else
+                            {
                                 data_armr = res;
+                                hasAnyPart = true;
+                            }
                             break;
                         case BODYPART_TYPE.LEG:
                             if (slot.gameObject == labRef.legLCraftSlotRef)
+                            {
                                 data_legl = res;
+                                hasAnyPart = true;
+                            }
                             else
+                            {
                                 data_legr = res;
+                                hasAnyPart = true;
+                            }
                             break;
                     }
                 }
-                else
-                {
-                    return null;
-                }
             }
 
-            if (need_clear)
+            if (hasAnyPart)
             {
-                ClearAllCraftSlots();
+                if (need_clear)
+                {
+                    ClearAllCraftSlots();
+                }
+
+                return new MonsterData(data_head, data_arml, data_armr, data_torso, data_legl, data_legr);
             }
 
-            return new MonsterData(data_head, data_arml, data_armr, data_torso, data_legl, data_legr);
+            return null;
         }
 
 
@@ -846,6 +893,72 @@ namespace Project
                     Destroy(child.gameObject);
                 }
             }
+        }
+        public bool HasAnyPartInCraftSlots()
+        {
+            var craftingSlotsContainer = labRef.GetCraftSlotsContainer();
+            if (craftingSlotsContainer == null)
+            {
+                return false;
+            }
+
+            int occupiedCount = 0;
+
+            foreach (Transform child in craftingSlotsContainer)
+            {
+                LabCraftSlotMono slot = child.GetComponent<LabCraftSlotMono>();
+                if (slot != null)
+                {
+                    bool isOccupied = slot.IsOccupied();
+                    if (isOccupied)
+                    {
+                        occupiedCount++;
+                        var part = slot.GetContainedResource();
+                    }
+                }
+            }
+
+            return occupiedCount > 0;
+        }
+
+        public MonsterData GetMonsterDataForCraftingTooltip()
+        {
+            string data_head = "", data_torso = "", data_arml = "", data_armr = "", data_legl = "", data_legr = "";
+
+            var craftingSlotsContainer = labRef.GetCraftSlotsContainer();
+            if (craftingSlotsContainer == null) return null;
+
+            foreach (Transform child in craftingSlotsContainer)
+            {
+                LabCraftSlotMono slot = child.GetComponent<LabCraftSlotMono>();
+                if (slot != null && slot.IsOccupied())
+                {
+                    string res = slot.GetContainedResource().db_id;
+                    switch (slot.requiredType)
+                    {
+                        case BODYPART_TYPE.HEAD:
+                            data_head = res;
+                            break;
+                        case BODYPART_TYPE.TORSO:
+                            data_torso = res;
+                            break;
+                        case BODYPART_TYPE.ARM:
+                            if (slot.gameObject == labRef.armLCraftSlotRef)
+                                data_arml = res;
+                            else
+                                data_armr = res;
+                            break;
+                        case BODYPART_TYPE.LEG:
+                            if (slot.gameObject == labRef.legLCraftSlotRef)
+                                data_legl = res;
+                            else
+                                data_legr = res;
+                            break;
+                    }
+                }
+            }
+
+            return new MonsterData(data_head, data_arml, data_armr, data_torso, data_legl, data_legr);
         }
     }
 }

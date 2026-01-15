@@ -33,8 +33,6 @@ namespace Project
             int expeditionMonsterCount = labRef.expeditionController.GetExpeditionMonsterCount();
             if (expeditionMonsterCount == 0)
             {
-                Debug.LogWarning("Cannot start expedition: no monsters selected!");
-                ShowExpeditionWarning();
                 return;
             }
 
@@ -58,11 +56,6 @@ namespace Project
             }
 
             LoadingScreen.Instance.LoadScene("MapGeneration");
-        }
-
-        private void ShowExpeditionWarning()
-        {
-            Debug.Log("Пожалуйста, выберите хотя бы одного монстра для экспедиции!");
         }
 
         public void ReturnToMainLab()

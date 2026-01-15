@@ -1,11 +1,12 @@
 using Domain.Map;
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Project
 {
-    public class LabCraftSlotMono : MonoBehaviour
+    public class LabCraftSlotMono : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [Header("Refs")]
         public SpriteRenderer slotImage;
@@ -36,11 +37,14 @@ namespace Project
         private bool isBlinking = false;
         private Coroutine blinkCoroutine;
 
+        private TooltipController tooltipController;
+        private bool isHovering = false;
+
         public void Initialize()
         {
             pairCraftSlot = null;
-
             craftController = LabReferences.Instance().craftController;
+            tooltipController = LabReferences.Instance().tooltipController;
 
             partIcon.color = Color.clear;
             partIconIMAGE.color = Color.clear;
@@ -71,6 +75,36 @@ namespace Project
                         pairCraftSlot = labRef.legLCraftSlotRef.GetComponent<LabCraftSlotMono>();
                     }
                     break;
+            }
+        }
+
+        // Обработчик наведения мыши
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (IsOccupied() && tooltipController != null)
+            {
+                isHovering = true;
+                tooltipController.ShowTooltip(containedPart, transform.position);
+            }
+        }
+
+        // Обработчик выхода мыши
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if (isHovering && tooltipController != null)
+            {
+                isHovering = false;
+                tooltipController.HideTooltip();
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (isHovering)
+            {
+                isHovering = false;
+                if (tooltipController != null)
+                    tooltipController.HideTooltip();
             }
         }
 
@@ -249,6 +283,13 @@ namespace Project
 
         public void ClearSlot()
         {
+            // Скрываем тултип если он показывался для этого слота
+            if (isHovering && tooltipController != null)
+            {
+                isHovering = false;
+                tooltipController.HideTooltip();
+            }
+
             containedPart = null;
 
             partIcon.color = Color.clear;
@@ -280,6 +321,11 @@ namespace Project
         private void OnDestroy()
         {
             StopHighlightBlink();
+
+            if (isHovering && tooltipController != null)
+            {
+                tooltipController.HideTooltip();
+            }
         }
     }
 }
