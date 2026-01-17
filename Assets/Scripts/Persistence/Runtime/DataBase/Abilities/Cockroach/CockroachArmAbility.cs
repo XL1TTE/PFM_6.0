@@ -17,7 +17,7 @@ namespace Persistence.DB
         {
             ID("abt_cockroach-arm");
 
-            With<IconUI>(new IconUI(GR.SPR_UI_ABT_COCKROACH_SPIT));
+            With<IconUI>(new IconUI(GR.SPR_UI_ABT_COCKROACH_ARM));
 
             With<Name>(new Name("CockroachArmAbility_name"));
             With<Description>(new Description("CockroachArmAbility_desc"));

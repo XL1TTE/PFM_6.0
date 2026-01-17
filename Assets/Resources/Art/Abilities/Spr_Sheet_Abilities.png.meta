@@ -218,7 +218,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: spr_attack
+      name: spr_dog-head
       rect:
         serializedVersion: 2
         x: 0
@@ -240,7 +240,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_1
+      name: spr_raven-head
       rect:
         serializedVersion: 2
         x: 27
@@ -262,7 +262,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_2
+      name: spr_raven-arm
       rect:
         serializedVersion: 2
         x: 54
@@ -284,7 +284,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_3
+      name: spr_cat-arm
       rect:
         serializedVersion: 2
         x: 81
@@ -306,7 +306,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_4
+      name: spr_goose-head
       rect:
         serializedVersion: 2
         x: 108
@@ -350,7 +350,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_6
+      name: spr_horse-head
       rect:
         serializedVersion: 2
         x: 0
@@ -372,7 +372,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_7
+      name: spr_horse-arm
       rect:
         serializedVersion: 2
         x: 27
@@ -394,7 +394,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_8
+      name: spr_goat-head
       rect:
         serializedVersion: 2
         x: 54
@@ -416,7 +416,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_9
+      name: spr_goat-arm
       rect:
         serializedVersion: 2
         x: 81
@@ -438,7 +438,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spr_cockroach-spit
+      name: spr_cockroach-head
       rect:
         serializedVersion: 2
         x: 108
@@ -460,7 +460,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_11
+      name: spr_cat-head
       rect:
         serializedVersion: 2
         x: 135
@@ -482,7 +482,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_12
+      name: spr_cow-head
       rect:
         serializedVersion: 2
         x: 0
@@ -504,7 +504,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_13
+      name: spr_bee-arm
       rect:
         serializedVersion: 2
         x: 27
@@ -526,7 +526,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spr_pigHead
+      name: spr_pig-ar
       rect:
         serializedVersion: 2
         x: 54
@@ -548,7 +548,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_15
+      name: spr_raccoon-arm
       rect:
         serializedVersion: 2
         x: 81
@@ -570,7 +570,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_16
+      name: spr_bear-arm
       rect:
         serializedVersion: 2
         x: 108
@@ -592,7 +592,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spr_pig-arm
+      name: spr_cow-arm
       rect:
         serializedVersion: 2
         x: 135
@@ -614,7 +614,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_18
+      name: spr_dog-arm
       rect:
         serializedVersion: 2
         x: 0
@@ -636,7 +636,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_19
+      name: spr_rooster-head
       rect:
         serializedVersion: 2
         x: 27
@@ -658,7 +658,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_20
+      name: spr_pig-head
       rect:
         serializedVersion: 2
         x: 54
@@ -680,7 +680,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_21
+      name: spr_bee-head
       rect:
         serializedVersion: 2
         x: 81
@@ -702,7 +702,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spr_ratArm
+      name: spr_rat-arm
       rect:
         serializedVersion: 2
         x: 108
@@ -724,7 +724,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spr_ratHead
+      name: spr_rat-head
       rect:
         serializedVersion: 2
         x: 135
@@ -746,7 +746,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spr_effect
+      name: spr_ladybug-arm
       rect:
         serializedVersion: 2
         x: 0
@@ -768,7 +768,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_25
+      name: spr_ladybug-head
       rect:
         serializedVersion: 2
         x: 27
@@ -790,7 +790,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spr_radioactive
+      name: spr_cockroach-arm
       rect:
         serializedVersion: 2
         x: 54
@@ -812,7 +812,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_27
+      name: spr_goose-arm
       rect:
         serializedVersion: 2
         x: 81
@@ -834,7 +834,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_28
+      name: spr_raccoon-head
       rect:
         serializedVersion: 2
         x: 108
@@ -856,7 +856,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_29
+      name: spr_bear-head
       rect:
         serializedVersion: 2
         x: 135
@@ -878,7 +878,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spr_heal
+      name: spr_sheep-head
       rect:
         serializedVersion: 2
         x: 0
@@ -900,7 +900,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Sheet_Abilities_31
+      name: spr_sheep-arm
       rect:
         serializedVersion: 2
         x: 27
@@ -922,7 +922,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spr_sheep-head
+      name: spr_dove-head
       rect:
         serializedVersion: 2
         x: 54
@@ -944,7 +944,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spr_sheep-arm
+      name: spr_dove-arm
       rect:
         serializedVersion: 2
         x: 81
@@ -1023,42 +1023,42 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Spr_Sheet_Abilities_1: -274541523
-      Spr_Sheet_Abilities_11: 629718720
-      Spr_Sheet_Abilities_12: -1517465742
-      Spr_Sheet_Abilities_13: 1031629351
-      Spr_Sheet_Abilities_15: 231616533
-      Spr_Sheet_Abilities_16: 1979190553
-      Spr_Sheet_Abilities_18: 91515957
-      Spr_Sheet_Abilities_19: 439996167
-      Spr_Sheet_Abilities_2: 70454956
-      Spr_Sheet_Abilities_20: -1031214024
-      Spr_Sheet_Abilities_21: 1711046527
-      Spr_Sheet_Abilities_25: -506218144
-      Spr_Sheet_Abilities_27: -1604915832
-      Spr_Sheet_Abilities_28: 671860842
-      Spr_Sheet_Abilities_29: 1723046751
-      Spr_Sheet_Abilities_3: -424474800
-      Spr_Sheet_Abilities_31: -1759124572
-      Spr_Sheet_Abilities_4: -861445433
-      Spr_Sheet_Abilities_6: 1255994671
-      Spr_Sheet_Abilities_7: 2090384870
-      Spr_Sheet_Abilities_8: -1183736678
-      Spr_Sheet_Abilities_9: 370607554
-      spr_attack: -1496569039
-      spr_cockroach-spit: -1331348198
-      spr_effect: 701033466
-      spr_heal: -268585427
+      spr_bear-arm: 1979190553
+      spr_bear-head: 1723046751
+      spr_bee-arm: 1031629351
+      spr_bee-head: 1711046527
+      spr_cat-arm: -424474800
+      spr_cat-head: 629718720
+      spr_cockroach-arm: -189435186
+      spr_cockroach-head: -1331348198
+      spr_cow-arm: 2106663383
+      spr_cow-head: -1517465742
+      spr_dog-arm: 91515957
+      spr_dog-head: -1496569039
+      spr_dove-arm: -2003324493
+      spr_dove-head: -922973201
+      spr_goat-arm: 370607554
+      spr_goat-head: -1183736678
+      spr_goose-arm: -1604915832
+      spr_goose-head: -861445433
+      spr_horse-arm: 2090384870
+      spr_horse-head: 1255994671
+      spr_ladybug-arm: 701033466
+      spr_ladybug-head: -506218144
       spr_move: -32962102
-      spr_pig-arm: 2106663383
-      spr_pigHead: 1716419296
-      spr_radioactive: -189435186
-      spr_ratArm: 1871027656
-      spr_ratHead: -520751154
+      spr_pig-ar: 1716419296
+      spr_pig-head: -1031214024
+      spr_raccoon-arm: 231616533
+      spr_raccoon-head: 671860842
+      spr_rat-arm: 1871027656
+      spr_rat-head: -520751154
+      spr_raven-arm: 70454956
+      spr_raven-head: -274541523
       spr_rooster-arm: -1493523804
+      spr_rooster-head: 439996167
       spr_rotate: -191618522
-      spr_sheep-arm: -2003324493
-      spr_sheep-head: -922973201
+      spr_sheep-arm: -1759124572
+      spr_sheep-head: -268585427
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

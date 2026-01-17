@@ -22,7 +22,7 @@ namespace Persistence.DB
             With<Name>(new Name("RatArmAbility_name"));
             With<Description>(new Description("RatArmAbility_desc"));
 
-            With<IconUI>(new IconUI(GR.SPR_UI_ABT_ATTACK));
+            With<IconUI>(new IconUI(GR.SPR_UI_ABT_RAT_ARM));
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{

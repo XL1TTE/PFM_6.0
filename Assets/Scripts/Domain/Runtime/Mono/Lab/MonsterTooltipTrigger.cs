@@ -11,37 +11,32 @@ namespace Project
         private MonsterTooltipController monsterTooltipController;
         private bool isHovering = false;
         private bool isInitialized = false;
-        private bool isPreparationScreen = false;
+        public bool isPreparationScreen = false;
 
-        // Основной метод инициализации
         public void Initialize(MonsterData data)
         {
             monsterData = data;
-            isPreparationScreen = false; // По умолчанию основной экран
+            isPreparationScreen = false;
 
             var labRef = LabReferences.Instance();
             if (labRef != null)
             {
-                // Автоматически определяем, какой контроллер использовать
                 monsterTooltipController = GetAppropriateTooltipController();
                 isInitialized = monsterTooltipController != null;
             }
         }
 
-        // Метод для подготовки (можно передать контроллер явно)
         public void InitializeForPreparation(MonsterData data, MonsterTooltipController customController = null)
         {
             monsterData = data;
-            isPreparationScreen = true; // Это экран подготовки
+            isPreparationScreen = true;
 
             if (customController != null)
             {
-                // Используем переданный контроллер
                 monsterTooltipController = customController;
             }
             else
             {
-                // Или получаем из LabReferences
                 var labRef = LabReferences.Instance();
                 if (labRef != null && labRef.preparationMonsterTooltipController != null)
                 {
@@ -52,31 +47,26 @@ namespace Project
             isInitialized = monsterTooltipController != null;
         }
 
-        // Метод для автоматического определения контроллера
         private MonsterTooltipController GetAppropriateTooltipController()
         {
             var labRef = LabReferences.Instance();
             if (labRef == null) return null;
 
-            // ПРЯМАЯ проверка: если это экран подготовки, используем preparation контроллер
             if (IsOnPreparationScreen())
             {
                 isPreparationScreen = true;
                 return labRef.preparationMonsterTooltipController ?? labRef.monsterTooltipController;
             }
 
-            // Иначе основной
             isPreparationScreen = false;
             return labRef.monsterTooltipController;
         }
 
         private bool IsOnPreparationScreen()
         {
-            // Проверяем по имени или по родительской иерархии
             if (transform.name.Contains("Preparation", System.StringComparison.OrdinalIgnoreCase))
                 return true;
 
-            // Или проверяем родительскую панель
             Transform parent = transform;
             while (parent != null)
             {
@@ -99,8 +89,7 @@ namespace Project
             {
                 if (!monsterTooltipController.IsTooltipShowing())
                 {
-                    // Для карты используем специальную логику позиционирования
-                    monsterTooltipController.ShowMonsterTooltip(monsterData, transform.position, false);
+                    monsterTooltipController.ShowMonsterTooltip(monsterData, transform.position, isPreparationScreen);
                 }
                 else if (monsterTooltipController.IsTooltipFixed())
                 {
@@ -112,7 +101,6 @@ namespace Project
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            // Важно: сбрасываем isHovering только если тултип не зафиксирован
             if (isHovering && monsterTooltipController != null)
             {
                 if (!monsterTooltipController.IsTooltipFixed())
@@ -120,13 +108,11 @@ namespace Project
                     isHovering = false;
                     monsterTooltipController.HideMonsterTooltip();
                 }
-                // Если тултип зафиксирован, не сбрасываем isHovering
             }
         }
 
         public void OnDisable()
         {
-            // При отключении объекта сбрасываем состояние
             if (isHovering)
             {
                 isHovering = false;
@@ -157,7 +143,7 @@ namespace Project
         {
             monsterData = data;
             monsterTooltipController = mapController;
-            isPreparationScreen = false; // Это не экран подготовки
+            isPreparationScreen = false;
             isInitialized = monsterTooltipController != null;
 
             if (isInitialized)

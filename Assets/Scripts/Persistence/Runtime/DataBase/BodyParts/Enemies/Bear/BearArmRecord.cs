@@ -1,0 +1,39 @@
+using System.Linq;
+using Domain.Extentions;
+using Persistence.Components;
+
+namespace Persistence.DB
+{
+    public class BearArmRecord : BodyPartRecord
+    {
+        public BearArmRecord()
+        {
+            ID("bp_bear-arm");
+
+            With<Name>(new Name("BearArmRecord_name"));
+
+            With<ArmSprite>(new ArmSprite
+            {
+                m_FarSprite = GR.SPR_BP_FARM_BEAR,
+                m_NearSprite = GR.SPR_BP_NARM_BEAR
+            });
+            With<IconUI>(new IconUI
+            {
+                m_Value = GR.SPR_UI_BP_ARM_BEAR
+            });
+
+            With<TagBodyPart>();
+            With<TagArm>();
+
+            With<EffectsProvider>(new EffectsProvider
+            {
+                m_Effects = Enumerable.Repeat("effect_bear-arm", 1).ToArray()
+            });
+
+            With<AbilityProvider>(new AbilityProvider
+            {
+                m_AbilityTemplateID = "abt_bear-arm"
+            });
+        }
+    }
+}

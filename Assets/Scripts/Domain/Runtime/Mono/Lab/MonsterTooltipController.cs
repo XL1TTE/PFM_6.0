@@ -114,7 +114,6 @@ namespace Project
 
                 monsterTooltipPanel.SetActive(false);
 
-                // ��������� ��������� ��� ��������� ������ �� ������
                 if (monsterTooltipPanel.GetComponent<PointerClickHandler>() == null)
                 {
                     monsterTooltipPanel.AddComponent<PointerClickHandler>();
@@ -128,13 +127,6 @@ namespace Project
         {
             if (isShowing)
             {
-                //// ��������� ������� ������ ���� ������ �� ������������
-                //if (!isFixed)
-                //{
-                //    UpdateTooltipPosition();
-                //}
-
-                // ��������� ���� ��� �������, ���� �� ������������
                 if (isFixed && Input.GetMouseButtonDown(0))
                 {
                     CheckClickOutsideTooltip();
@@ -155,13 +147,12 @@ namespace Project
             currentMonsterData = monsterData;
             slotWorldPosition = worldPosition;
             isShowing = true;
-            isFixed = false; // ���������� �������� ��� ����� ������
+            isFixed = false;
 
             UpdateMonsterInfo(monsterData);
             UpdateResistanceIcons(monsterData);
             UpdateAbilityIcons(monsterData);
 
-            // ������� ������ �������
             CreateMonsterPreview(monsterData);
 
             monsterTooltipPanel.SetActive(true);
@@ -192,31 +183,23 @@ namespace Project
                 {
                     Debug.Log($"=== PREPARATION TOOLTIP POSITIONING ===");
 
-                    // �������� ������� ������ � ������� �����������
                     Vector3 iconWorldPosition = slotWorldPosition;
 
-                    // ������������ � �������� ����������
                     Vector3 iconScreenPosition = Camera.main.WorldToScreenPoint(iconWorldPosition);
 
-                    // �������� ������� �������
                     Vector2 tooltipSize = tooltipRect.rect.size;
 
-                    // ������������� ������ ����� �� ������
-                    // �������� �� Y: �������� ������ ������� ���� ��������� ������
                     Vector3 screenPosition = new Vector3(
                         iconScreenPosition.x,
-                        iconScreenPosition.y - tooltipSize.y + 40f, // 20f - ������ �����
+                        iconScreenPosition.y - tooltipSize.y + 40f,
                         iconScreenPosition.z
                     );
 
-                    // ���� ������ �� ���������� ����� (������� �� ������ ������� ������),
-                    // ���������� ��� ������
                     if (screenPosition.y - 100f < tooltipSize.y)
                     {
-                        screenPosition.y = iconScreenPosition.y + 380f; // ���������� ������
+                        screenPosition.y = iconScreenPosition.y + 380f;
                     }
 
-                    // ������������ �������� ���������� � ��������� ���������� �������
                     Vector2 localPoint;
                     if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
                         parentCanvas.GetComponent<RectTransform>(),
@@ -224,14 +207,12 @@ namespace Project
                         parentCanvas.worldCamera,
                         out localPoint))
                     {
-                        // ������������� anchor � ����� ��� �������� ����������������
                         tooltipRect.anchorMin = new Vector2(0.5f, 0.5f);
                         tooltipRect.anchorMax = new Vector2(0.5f, 0.5f);
-                        tooltipRect.pivot = new Vector2(0.5f, 1f); // Pivot ������, ����� ������ "��������" ����
+                        tooltipRect.pivot = new Vector2(0.5f, 1f);
 
                         tooltipRect.anchoredPosition = localPoint;
 
-                        // ������������� ��������� Layout
                         LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipRect);
 
                         Debug.Log($"Tooltip positioned below icon. Icon screen: {iconScreenPosition}, Tooltip screen: {screenPosition}");
@@ -255,18 +236,15 @@ namespace Project
 
         private void CreateMonsterPreview(MonsterData monsterData)
         {
-            // ������� ���������� ������
             ClearMonsterPreview();
 
             if (monsterPreviewContainer == null) return;
 
-            // ������� ��������� ��� ������
             GameObject previewContainer = new GameObject($"MonsterPreview_{monsterData.m_MonsterName}");
             previewContainer.transform.SetParent(monsterPreviewContainer);
             previewContainer.transform.localPosition = Vector3.zero;
             previewContainer.transform.localScale = Vector3.one * monsterPreviewScale;
 
-            // ������� ������� ����� MonsterBuilder (��� � PreparationMonsterPreviewController)
             try
             {
                 var builder = new MonsterBuilder(ECS_Main_Lab.m_labWorld)
@@ -286,7 +264,6 @@ namespace Project
                     monsterTransform.position = monsterPreviewContainer.position;
                     monsterTransform.parent = previewContainer.transform;
 
-                    // ����������� ���� ��� ����������� �����������
                     var spriteRenderers = previewContainer.GetComponentsInChildren<SpriteRenderer>();
                     foreach (var renderer in spriteRenderers)
                     {
@@ -312,7 +289,6 @@ namespace Project
                 currentMonsterPreview = null;
             }
 
-            // ����� ������� ���������
             if (monsterPreviewContainer != null)
             {
                 foreach (Transform child in monsterPreviewContainer)
@@ -332,7 +308,6 @@ namespace Project
             List<RaycastResult> results = new List<RaycastResult>();
             graphicRaycaster.Raycast(eventData, results);
 
-            // ���������, ��� �� ���� �� ������� ��� ��� �������� ���������
             bool clickedOnTooltip = false;
             foreach (var result in results)
             {
@@ -344,7 +319,6 @@ namespace Project
                 }
             }
 
-            // ���� ���� ��� ��� ������� - �������� ���
             if (!clickedOnTooltip)
             {
                 isFixed = false;
@@ -352,20 +326,17 @@ namespace Project
             }
         }
 
-        // ���������� ����� �� ������� (��� ��������)
         public void OnPointerClick(PointerEventData eventData)
         {
             eventData.Use();
 
             if (eventData.button == PointerEventData.InputButton.Left && isShowing)
             {
-                // ���� �������� �������� �� �����, �� ���������/������������
                 if (isFixedByClick)
                 {
                     isFixed = !isFixed;
                     Debug.Log($"Tooltip {(isFixed ? "fixed at position" : "unfixed")}: {tooltipRect.anchoredPosition}");
 
-                    // ��������� ������� ��� ��������
                     if (isFixed)
                     {
                         lastTooltipPosition = tooltipRect.anchoredPosition;
@@ -388,13 +359,11 @@ namespace Project
             isFixed = false;
             monsterTooltipPanel.SetActive(false);
 
-            // ������� ������
             ClearMonsterPreview();
 
             currentMonsterData = null;
         }
 
-        // ��� ��������������� ������� (��������, ��� ����� ��� �������)
         public void ForceHideTooltip()
         {
             HideMonsterTooltip();
@@ -561,7 +530,6 @@ namespace Project
             {
                 if (leftLegData != null && rightLegData != null)
                 {
-                    // ��� ���� ������������
                     if (leftLegData.ability_icon != null)
                     {
                         legAbilityIcon.sprite = leftLegData.ability_icon;
@@ -572,7 +540,6 @@ namespace Project
                     }
                     legAbilityIcon.enabled = true;
 
-                    // ����������� ������� ��� ��������������� ���
                     var trigger = legAbilityIcon.GetComponent<AbilityTooltipTrigger>();
                     if (trigger == null)
                     {
@@ -582,7 +549,6 @@ namespace Project
                 }
                 else if (leftLegData != null)
                 {
-                    // ������ ����� ����
                     if (leftLegData.ability_icon != null)
                     {
                         legAbilityIcon.sprite = leftLegData.ability_icon;
@@ -595,7 +561,6 @@ namespace Project
                 }
                 else if (rightLegData != null)
                 {
-                    // ������ ������ ����
                     if (rightLegData.ability_icon != null)
                     {
                         legAbilityIcon.sprite = rightLegData.ability_icon;
@@ -692,6 +657,10 @@ namespace Project
                         if (Persistence.DB.DataBase.TryGetRecord<Name>(e_abt_record, out var e_abt_name))
                         {
                             data.ability_name = e_abt_name.m_Value;
+                        }
+                        if (Persistence.DB.DataBase.TryGetRecord<Description>(e_abt_record, out var e_abt_desc))
+                        {
+                            data.ability_desc = e_abt_desc.m_Value;
                         }
                         if (Persistence.DB.DataBase.TryGetRecord<IconUI>(e_abt_record, out var e_abt_icon))
                         {
@@ -828,7 +797,6 @@ namespace Project
 
         private void KeepTooltipOnScreen()
         {
-            // ������ ���������, ��� ������ �� ������� �� �����
             Vector2 anchoredPos = tooltipRect.anchoredPosition;
             Vector2 sizeDelta = tooltipRect.sizeDelta;
 
@@ -836,7 +804,6 @@ namespace Project
             float canvasWidth = canvasRect.rect.width;
             float canvasHeight = canvasRect.rect.height;
 
-            // ��������� �������
             float minX = sizeDelta.x * 0.5f;
             float maxX = canvasWidth - sizeDelta.x * 0.5f;
             float minY = sizeDelta.y * 0.5f;
@@ -850,8 +817,6 @@ namespace Project
 
     }
 
-
-    // ��������������� ����� ��� ��������� ������ �� �������
     public class PointerClickHandler : MonoBehaviour, IPointerClickHandler
     {
         private MonsterTooltipController parentController;

@@ -188,6 +188,8 @@ namespace Domain.Extentions
             = "Art/BodyParts/Icons/Spr_Sheet_BodyParts".LoadFromSheet("spr_ui_bp_head_rooster");
         public readonly static Sprite SPR_UI_BP_TORSO_ROOSTER
             = "Art/BodyParts/Icons/Spr_Sheet_BodyParts".LoadFromSheet("spr_ui_bp_torso_rooster");
+        public readonly static Sprite SPR_UI_BP_ARM_ROOSTER
+           = "Art/BodyParts/Icons/Spr_Sheet_BodyParts".LoadFromSheet("spr_ui_bp_arm_rooster");
         public readonly static Sprite SPR_UI_BP_LEG_ROOSTER
             = "Art/BodyParts/Icons/Spr_Sheet_BodyParts".LoadFromSheet("spr_ui_bp_leg_rooster");
         #endregion
@@ -214,18 +216,18 @@ namespace Domain.Extentions
         public readonly static Sprite SPR_BP_NLEG_BEAR
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Bear".LoadFromSheet("Spr_Bp_nLeg");
         public readonly static Sprite SPR_BP_FARM_BEAR
-            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Bear".LoadFromSheet("Spr_Bp_nArm");
-        public readonly static Sprite SPR_BP_NARM_BEAR
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Bear".LoadFromSheet("Spr_Bp_fArm");
+        public readonly static Sprite SPR_BP_NARM_BEAR
+            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Bear".LoadFromSheet("Spr_Bp_nArm");
         #endregion
 
         #region Bee
         public readonly static Sprite SPR_BP_TORSO_BEE
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Bee".LoadFromSheet("Spr_Bp_Torso");
         public readonly static Sprite SPR_BP_FARM_BEE
-            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Bee".LoadFromSheet("Spr_Bp_nArm");
-        public readonly static Sprite SPR_BP_NARM_BEE
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Bee".LoadFromSheet("Spr_Bp_fArm");
+        public readonly static Sprite SPR_BP_NARM_BEE
+            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Bee".LoadFromSheet("Spr_Bp_nArm");
         #endregion
 
         #region Cat
@@ -236,9 +238,9 @@ namespace Domain.Extentions
         public readonly static Sprite SPR_BP_NLEG_CAT
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Cat".LoadFromSheet("Spr_Bp_nLeg");
         public readonly static Sprite SPR_BP_FARM_CAT
-            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Cat".LoadFromSheet("Spr_Bp_nArm");
-        public readonly static Sprite SPR_BP_NARM_CAT
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Cat".LoadFromSheet("Spr_Bp_fArm");
+        public readonly static Sprite SPR_BP_NARM_CAT
+            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Cat".LoadFromSheet("Spr_Bp_nArm");
         #endregion
 
         #region Cockroach
@@ -248,7 +250,7 @@ namespace Domain.Extentions
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Cockroach".LoadFromSheet("Spr_Bp_fArm");
         #endregion
 
-        #region Cockroach
+        #region Cow
         public readonly static Sprite SPR_BP_NARM_COW
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Cow".LoadFromSheet("Spr_Bp_nArm");
         public readonly static Sprite SPR_BP_FARM_COW
@@ -268,9 +270,9 @@ namespace Domain.Extentions
 
         #region Dove
         public readonly static Sprite SPR_BP_FARM_DOVE
-            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Dove".LoadFromSheet("Spr_Bp_nArm");
-        public readonly static Sprite SPR_BP_NARM_DOVE
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Dove".LoadFromSheet("Spr_Bp_fArm");
+        public readonly static Sprite SPR_BP_NARM_DOVE
+            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Dove".LoadFromSheet("Spr_Bp_nArm");
         #endregion
 
         #region Goat
@@ -281,9 +283,9 @@ namespace Domain.Extentions
         public readonly static Sprite SPR_BP_NLEG_GOAT
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Goat".LoadFromSheet("Spr_Bp_nLeg");
         public readonly static Sprite SPR_BP_FARM_GOAT
-            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Goat".LoadFromSheet("Spr_Bp_nArm");
-        public readonly static Sprite SPR_BP_NARM_GOAT
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Goat".LoadFromSheet("Spr_Bp_fArm");
+        public readonly static Sprite SPR_BP_NARM_GOAT
+            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Goat".LoadFromSheet("Spr_Bp_nArm");
         #endregion
 
         #region Goose
@@ -310,9 +312,9 @@ namespace Domain.Extentions
         public readonly static Sprite SPR_BP_NLEG_LADYBUG
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_LadyBug".LoadFromSheet("Spr_Bp_nLeg");
         public readonly static Sprite SPR_BP_FARM_LADYBUG
-            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_LadyBug".LoadFromSheet("Spr_Bp_nArm");
-        public readonly static Sprite SPR_BP_NARM_LADYBUG
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_LadyBug".LoadFromSheet("Spr_Bp_fArm");
+        public readonly static Sprite SPR_BP_NARM_LADYBUG
+            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_LadyBug".LoadFromSheet("Spr_Bp_nArm");
         #endregion
 
         #region Pig
@@ -334,9 +336,9 @@ namespace Domain.Extentions
         public readonly static Sprite SPR_BP_NLEG_RACCOON
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Raccoon".LoadFromSheet("Spr_Bp_nLeg");
         public readonly static Sprite SPR_BP_FARM_RACCOON
-            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Raccoon".LoadFromSheet("Spr_Bp_nArm");
-        public readonly static Sprite SPR_BP_NARM_RACCOON
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Raccoon".LoadFromSheet("Spr_Bp_fArm");
+        public readonly static Sprite SPR_BP_NARM_RACCOON
+            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Raccoon".LoadFromSheet("Spr_Bp_nArm");
         #endregion
 
         #region Rat
@@ -358,9 +360,9 @@ namespace Domain.Extentions
         public readonly static Sprite SPR_BP_NLEG_RAVEN
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Raven".LoadFromSheet("Spr_Bp_nLeg");
         public readonly static Sprite SPR_BP_FARM_RAVEN
-            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Raven".LoadFromSheet("Spr_Bp_nArm");
-        public readonly static Sprite SPR_BP_NARM_RAVEN
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Raven".LoadFromSheet("Spr_Bp_fArm");
+        public readonly static Sprite SPR_BP_NARM_RAVEN
+            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Raven".LoadFromSheet("Spr_Bp_nArm");
         #endregion
 
         #region Rooster
@@ -373,9 +375,9 @@ namespace Domain.Extentions
         public readonly static Sprite SPR_BP_NLEG_ROOSTER
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Rooster".LoadFromSheet("Spr_Bp_nLeg");
         public readonly static Sprite SPR_BP_FARM_ROOSTER
-            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Rooster".LoadFromSheet("Spr_Bp_nArm");
-        public readonly static Sprite SPR_BP_NARM_ROOSTER
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Rooster".LoadFromSheet("Spr_Bp_fArm");
+        public readonly static Sprite SPR_BP_NARM_ROOSTER
+            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Rooster".LoadFromSheet("Spr_Bp_nArm");
         #endregion
 
         #region Sheep
@@ -388,9 +390,9 @@ namespace Domain.Extentions
         public readonly static Sprite SPR_BP_NLEG_SHEEP
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Sheep".LoadFromSheet("Spr_Bp_nLeg");
         public readonly static Sprite SPR_BP_FARM_SHEEP
-            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Sheep".LoadFromSheet("Spr_Bp_nArm");
-        public readonly static Sprite SPR_BP_NARM_SHEEP
             = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Sheep".LoadFromSheet("Spr_Bp_fArm");
+        public readonly static Sprite SPR_BP_NARM_SHEEP
+            = "Art/BodyParts/Sprites/Spr_Sheet_BodyParts_Sheep".LoadFromSheet("Spr_Bp_nArm");
         #endregion
 
         #endregion
@@ -408,28 +410,125 @@ namespace Domain.Extentions
             = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_move");
         public readonly static Sprite SPR_UI_ABT_HEAL
             = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_heal");
-        public readonly static Sprite SPR_UI_ABT_COCKROACH_SPIT
-            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_cockroach-spit");
-        public readonly static Sprite SPR_UI_ABT_COCKROACH_RADIOACTIVE
-            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_radioactive");
-        public readonly static Sprite SPR_UI_ABT_SHEEP_ARM
-            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_sheep-arm");
+
+        #region Bear
+        public readonly static Sprite SPR_UI_ABT_BEAR_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_bear-head");
+        public readonly static Sprite SPR_UI_ABT_BEAR_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_bear-arm");
+        #endregion
+
+        #region Bee
+        public readonly static Sprite SPR_UI_ABT_BEE_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_bee-head");
+        public readonly static Sprite SPR_UI_ABT_BEE_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_bee-arm");
+        #endregion
+
+        #region Cat
+        public readonly static Sprite SPR_UI_ABT_CAT_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_cat-head");
+        public readonly static Sprite SPR_UI_ABT_CAT_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_cat-arm");
+        #endregion
+
+        #region Cockroach
+        public readonly static Sprite SPR_UI_ABT_COCKROACH_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_cockroach-head");
+        public readonly static Sprite SPR_UI_ABT_COCKROACH_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_cockroach-arm");
+        #endregion
+
+        #region Cow
+        public readonly static Sprite SPR_UI_ABT_COW_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_cow-head");
+        public readonly static Sprite SPR_UI_ABT_COW_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_cow-arm");
+        #endregion
+
+        #region Dog
+        public readonly static Sprite SPR_UI_ABT_DOG_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_dog-head");
+        public readonly static Sprite SPR_UI_ABT_DOG_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_dog-arm");
+        #endregion
+
+        #region Dove
+        public readonly static Sprite SPR_UI_ABT_DOVE_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_dove-head");
+        public readonly static Sprite SPR_UI_ABT_DOVE_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_dove-arm");
+        #endregion
+
+        #region Goat
+        public readonly static Sprite SPR_UI_ABT_GOAT_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_goat-head");
+        public readonly static Sprite SPR_UI_ABT_GOAT_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_goat-arm");
+        #endregion
+
+        #region Goose
+        public readonly static Sprite SPR_UI_ABT_GOOSE_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_goose-head");
+        public readonly static Sprite SPR_UI_ABT_GOOSE_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_goose-arm");
+        #endregion
+
+        #region Horse
+        public readonly static Sprite SPR_UI_ABT_HORSE_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_horse-head");
+        public readonly static Sprite SPR_UI_ABT_HORSE_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_horse-arm");
+        #endregion
+
+        #region Ladybug
+        public readonly static Sprite SPR_UI_ABT_LADYBUG_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_ladybug-head");
+        public readonly static Sprite SPR_UI_ABT_LADYBUG_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_ladybug-arm");
+        #endregion
+
+        #region Pig
+        public readonly static Sprite SPR_UI_ABT_PIG_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_pig-head");
+        public readonly static Sprite SPR_UI_ABT_PIG_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_pig-arm");
+        #endregion
+
+        #region Raccoon
+        public readonly static Sprite SPR_UI_ABT_RACCOON_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_raccoon-head");
+        public readonly static Sprite SPR_UI_ABT_RACCOON_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_raccoon-arm");
+        #endregion
+
+        #region Rat
+        public readonly static Sprite SPR_UI_ABT_RAT_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_rat-head");
+        public readonly static Sprite SPR_UI_ABT_RAT_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_rat-arm");
+        #endregion
+
+        #region Raven
+        public readonly static Sprite SPR_UI_ABT_RAVEN_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_raven-head");
+        public readonly static Sprite SPR_UI_ABT_RAVEN_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_raven-arm");
+        #endregion
+
+        #region Rooster
+        public readonly static Sprite SPR_UI_ABT_ROOSTER_HEAD
+            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_rooster-head");
+        public readonly static Sprite SPR_UI_ABT_ROOSTER_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_rooster-arm");
+        #endregion
+
+        #region Sheep
         public readonly static Sprite SPR_UI_ABT_SHEEP_HEAD
             = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_sheep-head");
-
-        public readonly static Sprite SPR_UI_ABT_RAT_ARM
-            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_ratArm");
-        public readonly static Sprite SPR_UI_ABT_RAT_HEAD
-            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_ratHead");
-        public readonly static Sprite SPR_UI_ABT_PIG_HEAD
-            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_pigHead");
-        public readonly static Sprite SPR_UI_ABT_PIG_ARM
-            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_rooster-arm"); // should actually be spr_pig-arm
-
-
-
-        public readonly static Sprite SPR_UI_ABT_COCKROACH_SPIT_SHIFTS
-            = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_attack");
+        public readonly static Sprite SPR_UI_ABT_SHEEP_ARM
+           = "Art/Abilities/Spr_Sheet_Abilities".LoadFromSheet("spr_sheep-arm");
+        #endregion
 
         #endregion
     }

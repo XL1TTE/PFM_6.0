@@ -120,11 +120,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 6
-        width: 33
-        height: 19
+        y: 7
+        width: 32
+        height: 18
       alignment: 9
-      pivot: {x: 0.7917565, y: 0.7597336}
+      pivot: {x: 0.796875, y: 0.75}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -141,12 +141,12 @@ TextureImporter:
       name: Spr_Bp_fArm
       rect:
         serializedVersion: 2
-        x: 32
+        x: 33
         y: 0
-        width: 26
+        width: 25
         height: 25
       alignment: 9
-      pivot: {x: 0.75865626, y: 0.83480155}
+      pivot: {x: 0.78, y: 0.82}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
