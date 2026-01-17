@@ -218,7 +218,7 @@ namespace Gameplay.TargetSelection.Systems
             }
 
             // if target selection state was force removed, we shoud exit target selection.
-            if (SM.IsStateActive<TargetSelectionState>(out var state) == false)
+            if (SM.IsIt<TargetSelectionState>(out var state) == false)
             {
                 CompleteSelection(sessionOwner, TargetSelectionStatus.Failed);
                 return;

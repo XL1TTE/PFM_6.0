@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -8,6 +9,8 @@ using Domain.Enemies.Tags;
 using Domain.Extentions;
 using Domain.HealthBars.Components;
 using Domain.Monster.Tags;
+using Domain.StateMachine.Components;
+using Domain.StateMachine.Mono;
 using Domain.TurnSystem.Tags;
 using Domain.UI.Mono;
 using DS.Files;
@@ -42,6 +45,8 @@ namespace Interactions.IOnEntityDiedInteraction
         public override Priority m_Priority => Priority.VERY_HIGH;
         public UniTask OnEntityDied(Entity a_entity, Entity a_cause, World a_world)
         {
+            if (F.IsAiControlled(a_entity, a_world)) { return UniTask.CompletedTask; }
+
             BattleUiRefs.Instance.m_NextTurnButton.Hide();
             return UniTask.CompletedTask;
         }

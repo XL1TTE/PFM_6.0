@@ -36,7 +36,7 @@ namespace Interactions
         public override Priority m_Priority => Priority.VERY_LOW;
         public UniTask OnEffectApply(string a_EffectID, Entity a_Target, World a_world)
         {
-            if (SM.IsStateActive<BattleState>(out _) == false) { return UniTask.CompletedTask; }
+            if (SM.IsIt<BattleState>(out _) == false) { return UniTask.CompletedTask; }
 
             if (F.IsTakingTurn(a_Target, a_world) == false) { return UniTask.CompletedTask; }
             G.Battle.UpdateTurnTakerPageInBook(a_Target, a_world);
@@ -45,7 +45,7 @@ namespace Interactions
 
         public UniTask OnEffectRemove(string a_EffectID, Entity a_Target, World a_world)
         {
-            if (SM.IsStateActive<BattleState>(out _) == false) { return UniTask.CompletedTask; }
+            if (SM.IsIt<BattleState>(out _) == false) { return UniTask.CompletedTask; }
 
             if (F.IsTakingTurn(a_Target, a_world) == false) { return UniTask.CompletedTask; }
 
@@ -58,7 +58,7 @@ namespace Interactions
         public override Priority m_Priority => Priority.VERY_LOW;
         public UniTask OnEffectApply(string a_EffectID, Entity a_Target, World a_world)
         {
-            if (SM.IsStateActive<BattleState>(out _) == false) { return UniTask.CompletedTask; }
+            if (SM.IsIt<BattleState>(out _) == false) { return UniTask.CompletedTask; }
             if (BattleUiRefs.Instance.BookWidget.m_PinnedEntity != a_Target) { return UniTask.CompletedTask; }
 
             G.Battle.UpdateHoveredActorPageInBook(a_Target, a_world);
@@ -68,7 +68,7 @@ namespace Interactions
 
         public UniTask OnEffectRemove(string a_EffectID, Entity a_Target, World a_world)
         {
-            if (SM.IsStateActive<BattleState>(out _) == false) { return UniTask.CompletedTask; }
+            if (SM.IsIt<BattleState>(out _) == false) { return UniTask.CompletedTask; }
 
             if (BattleUiRefs.Instance.BookWidget.m_PinnedEntity != a_Target) { return UniTask.CompletedTask; }
 
@@ -83,7 +83,7 @@ namespace Interactions
         public override Priority m_Priority => Priority.HIGH;
         public UniTask OnEffectApply(string a_EffectID, Entity a_Target, World a_world)
         {
-            if (SM.IsStateActive<BattleState>(out _) == false) { return UniTask.CompletedTask; }
+            if (SM.IsIt<BattleState>(out _) == false) { return UniTask.CompletedTask; }
 
             var position = GU.GetTransform(a_Target, a_world).position;
             var notification = DbUtility.GetNameFromRecordWithID(a_EffectID);
