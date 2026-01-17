@@ -1,5 +1,6 @@
 using System.Linq;
 using Domain.Extentions;
+using Domain.TurnSystem.Components;
 using Persistence.Components;
 
 namespace Persistence.DB
@@ -10,12 +11,18 @@ namespace Persistence.DB
         {
             ID("bp_pig-head");
 
-            With<Name>(new Name ("PigHeadRecord_name"));
+            With<Name>(new Name("PigHeadRecord_name"));
 
             With<HeadSprite>(new HeadSprite
             {
                 m_Value = GR.SPR_BP_HEAD_PIG
             });
+
+            With<AvatarUI>(new AvatarUI
+            {
+                m_Value = GR.SPR_UI_AVATAR_PIG
+            });
+
             With<IconUI>(new IconUI
             {
                 m_Value = GR.SPR_UI_BP_HEAD_PIG
