@@ -72,7 +72,6 @@ namespace Persistence.DB
             {
                 choices = new Dictionary<string, MapChoiceWrapper>
                 {
-                    /*
                     { "This is a default option 1",
                         new MapChoiceWrapper() {
                             request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
@@ -109,7 +108,6 @@ namespace Persistence.DB
                             res_text = "This is a default RESULT" 
                         }
                     },
-                    */
                     { "This is a default option 2!!!!",
                         new MapChoiceWrapper() {
                             request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
