@@ -1158,8 +1158,16 @@ PrefabInstance:
       value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 1941741234843912986, guid: 0daad1849db41514984db030d9ddd507, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+    - target: {fileID: 1941741234843912986, guid: 0daad1849db41514984db030d9ddd507, type: 3}
       propertyPath: m_enableAutoSizing
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1941741234843912986, guid: 0daad1849db41514984db030d9ddd507, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 1024
       objectReference: {fileID: 0}
     - target: {fileID: 5697856303074350742, guid: 0daad1849db41514984db030d9ddd507, type: 3}
       propertyPath: m_AnchorMax.y

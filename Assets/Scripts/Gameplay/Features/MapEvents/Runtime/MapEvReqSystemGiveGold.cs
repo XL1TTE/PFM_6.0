@@ -1,7 +1,7 @@
 using Domain.MapEvents.Requests;
+using Persistence.DS;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
-using UnityEngine;
 
 
 namespace Gameplay.MapEvents.Systems
@@ -34,11 +34,8 @@ namespace Gameplay.MapEvents.Systems
         }
         private void ProcessRequest(GiveGoldRequest req)
         {
-            //ref var resourcesStorage = ref DataStorage.GetRecordFromFile<Inventory, ResourcesStorage>(); //DataStorage - вся изменяемая инфа об игроке
-            //в инвентаре ищем штуку 2
-            //resourcesStorage.gold += req.amount;
-
-            Debug.Log($"Give gold request is processed, gave {req.amount}");
+            ref var bodyResourcesStorage = ref DataStorage.GetRecordFromFile<Inventory, ResourcesStorage>();
+            bodyResourcesStorage.gold += (int)req.amount;
         }
     }
 

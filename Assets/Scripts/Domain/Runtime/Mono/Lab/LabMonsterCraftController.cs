@@ -802,6 +802,8 @@ namespace Project
                 }
             }
 
+            max_possible_hp = Mathf.Clamp(max_possible_hp, 1, 99999);
+
             if (hasAnyPart)
             {
                 if (need_clear)
@@ -809,9 +811,8 @@ namespace Project
                     ClearAllCraftSlots();
                 }
 
-                return new MonsterData(data_head, data_arml, data_armr, data_torso, data_legl, data_legr);
+                return new MonsterData(data_head, data_arml, data_armr, data_torso, data_legl, data_legr, max_possible_hp);
             }
-            max_possible_hp = Mathf.Clamp(max_possible_hp, 1, 99999);
 
             return new MonsterData(data_head, data_arml, data_armr, data_torso, data_legl, data_legr, max_possible_hp);
         }
@@ -932,6 +933,7 @@ namespace Project
         public MonsterData GetMonsterDataForCraftingTooltip()
         {
             string data_head = "", data_torso = "", data_arml = "", data_armr = "", data_legl = "", data_legr = "";
+            int max_possible_hp = 0;
 
             var craftingSlotsContainer = labRef.GetCraftSlotsContainer();
             if (craftingSlotsContainer == null) return null;
@@ -942,6 +944,9 @@ namespace Project
                 if (slot != null && slot.IsOccupied())
                 {
                     string res = slot.GetContainedResource().db_id;
+
+                    max_possible_hp += slot.GetContainedResource().hp_amount;
+
                     switch (slot.requiredType)
                     {
                         case BODYPART_TYPE.HEAD:
@@ -965,8 +970,9 @@ namespace Project
                     }
                 }
             }
+            max_possible_hp = Mathf.Clamp(max_possible_hp, 1, 99999);
 
-            return new MonsterData(data_head, data_arml, data_armr, data_torso, data_legl, data_legr);
+            return new MonsterData(data_head, data_arml, data_armr, data_torso, data_legl, data_legr, max_possible_hp);
         }
     }
 }

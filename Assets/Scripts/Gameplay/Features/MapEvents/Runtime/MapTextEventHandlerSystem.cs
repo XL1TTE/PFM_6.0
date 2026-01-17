@@ -30,6 +30,12 @@ namespace Gameplay.MapEvents.Systems
 
         private Request<GiveGoldRequest> req_give_gold;
         private Request<TakeGoldRequest> req_take_gold;
+        private Request<GivePartsRequest> req_give_parts;
+        private Request<SwapPartsRequest> req_swap_parts;
+        private Request<SwapPartsBetweenMonstersRequest> req_swap_parts_between;
+        private Request<GiveHPRequest> req_give_hp;
+        private Request<TakeHPRequest> req_take_hp;
+
 
         private GameObject prefabedMainUI;
 
@@ -63,6 +69,11 @@ namespace Gameplay.MapEvents.Systems
 
             req_give_gold = World.GetRequest<GiveGoldRequest>();
             req_take_gold = World.GetRequest<TakeGoldRequest>();
+            req_give_parts = World.GetRequest<GivePartsRequest>();
+            req_swap_parts = World.GetRequest<SwapPartsRequest>();
+            req_swap_parts_between = World.GetRequest<SwapPartsBetweenMonstersRequest>();
+            req_give_hp = World.GetRequest<GiveHPRequest>();
+            req_take_hp = World.GetRequest<TakeHPRequest>();
 
 
             prefabedMainUI = MapReferences.Instance().textEvUI;
@@ -126,14 +137,33 @@ namespace Gameplay.MapEvents.Systems
                             //choice.Value.
                             UpdateTextUI(LocalizationManager.Instance.GetLocalizedValue(choice.Value.res_text, "TextEvents"));
 
-                            switch (choice.Value.type)
+
+                            foreach(var request in choice.Value.request_type_data)
                             {
-                                case CHOICE_SCRIPT_TYPE.GIVE_GOLD:
-                                    req_give_gold.Publish((GiveGoldRequest)choice.Value.request);
-                                    break;
-                                case CHOICE_SCRIPT_TYPE.TAKE_GOLD:
-                                    req_take_gold.Publish((TakeGoldRequest)choice.Value.request);
-                                    break;
+                                switch (request.Key)
+                                {
+                                    case CHOICE_SCRIPT_TYPE.GIVE_GOLD:
+                                        req_give_gold.Publish((GiveGoldRequest)request.Value);
+                                        break;
+                                    case CHOICE_SCRIPT_TYPE.TAKE_GOLD:
+                                        req_take_gold.Publish((TakeGoldRequest)request.Value);
+                                        break;
+                                    case CHOICE_SCRIPT_TYPE.GIVE_PARTS:
+                                        req_give_parts.Publish((GivePartsRequest)request.Value);
+                                        break;
+                                    case CHOICE_SCRIPT_TYPE.SWAP_PARTS:
+                                        req_swap_parts.Publish((SwapPartsRequest)request.Value);
+                                        break;
+                                    case CHOICE_SCRIPT_TYPE.SWAP_PARTS_BETWEEN:
+                                        req_swap_parts_between.Publish((SwapPartsBetweenMonstersRequest)request.Value);
+                                        break;
+                                    case CHOICE_SCRIPT_TYPE.GIVE_HP:
+                                        req_give_hp.Publish((GiveHPRequest)request.Value);
+                                        break;
+                                    case CHOICE_SCRIPT_TYPE.TAKE_HP:
+                                        req_take_hp.Publish((TakeHPRequest)request.Value);
+                                        break;
+                                }
                             }
 
                             //ev_clicked_node.NextFrame(new MapNodeClickedEvent

@@ -33,7 +33,7 @@ namespace Game
                         "bp_pig-torso",
                         "bp_pig-leg",
                         "bp_rat-leg",
-                        4,
+                        44,
                         "Nikita"),
                 };
         public static void SpawnMonstersOnLoad(World a_world)

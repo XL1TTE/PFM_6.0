@@ -1,6 +1,5 @@
-using Domain.Map.Mono;
 using Scellecs.Morpeh;
-using System;
+using System.Collections.Generic;
 using Unity.IL2CPP.CompilerServices;
 
 namespace Domain.MapEvents.Requests
@@ -9,14 +8,9 @@ namespace Domain.MapEvents.Requests
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct GiveGoldRequest : IRequestData
+    public struct SwapPartsBetweenMonstersRequest : IRequestData
     {
-        public uint amount;
-
-        public static explicit operator GiveGoldRequest(CHOICE_SCRIPT_TYPE v)
-        {
-            throw new NotImplementedException();
-        }
+        public List<BODYPART_SPECIFIED_TYPE> parts_types;
     }
 }
 

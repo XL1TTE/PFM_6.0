@@ -22,9 +22,21 @@ namespace Domain.Monster.Mono
             NearLeg_id = data_legl;
             FarLeg_id = data_legr;
             current_hp = data_hp;
+            max_hp = data_hp;
+
+            all_parts_list = new List<string>() {
+                Head_id,
+                NearArm_id,
+                FarArm_id,
+                Body_id,
+                NearLeg_id,
+                FarLeg_id
+            };
         }
 
         public string m_MonsterName;
+
+        public List<string> all_parts_list;
 
         public string Head_id;
         public string NearArm_id;
@@ -34,11 +46,8 @@ namespace Domain.Monster.Mono
         public string FarLeg_id;
 
         public int current_hp;
+        public int max_hp;
 
-        public void SetHP(int hp)
-        {
-            current_hp = hp;
-        }
         public void SetName(string name)
         {
             m_MonsterName = name;

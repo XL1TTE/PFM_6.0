@@ -30,15 +30,16 @@ namespace Project
         public string loot_id;
 
 
+        // UNUSED, SINCE TOO COMPLICATED
         // This specifies the amount of rolls that will be made
-        [Space(1)]
-        [Header("Rolls values")]
-        public bool use_fixed_rolls = true;
-        public int loot_rolls = 1;
+        //[Space(1)]
+        //[Header("Rolls values")]
+        //public bool use_fixed_rolls = true;
+        //public int loot_rolls = 1;
 
-        public bool use_random_rools = false;
-        public int loot_min_rolls;
-        public int loot_max_rolls;
+        //public bool use_random_rools = false;
+        //public int loot_min_rolls;
+        //public int loot_max_rolls;
 
 
         // Each time a roll succedes the check - the amount will be added to the total

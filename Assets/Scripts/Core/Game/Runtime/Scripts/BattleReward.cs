@@ -20,27 +20,35 @@ namespace Game
                 loot_amount_end = 0;
 
                 // get the amount of rolls that will be made
-                int rolls = loot.loot_rolls;
-                if (loot.use_random_rools)
-                {
-                    rolls = Random.Range(loot.loot_min_rolls, loot.loot_max_rolls);
-                }
+                // UNUSED, SINCE TOO COMPLICATED
+                //int rolls = loot.loot_rolls;
+                //if (loot.use_random_rools)
+                //{
+                //    rolls = Random.Range(loot.loot_min_rolls, loot.loot_max_rolls);
+                //}
 
 
                 // get the amount of loot that will be made from each roll
                 int loot_amount = loot.loot_amount;
                 if (loot.use_random_amount)
                 {
-                    loot_amount = Random.Range(loot.loot_min_amount, loot.loot_max_amount);
+                    loot_amount = Random.Range(loot.loot_min_amount, loot.loot_max_amount + 1);
                 }
 
                 // roll for loot with chance check
-                for (int i = 0; i < rolls; i++)
+                // UNUSED, SINCE TOO COMPLICATED
+                //for (int i = 0; i < rolls; i++)
+                //{
+                //    if (Random.Range(0f,1f) <= loot.loot_chance)
+                //    {
+                //        loot_amount_end += loot_amount;
+                //    }
+                //}
+
+                // roll for loot with chance check
+                if (Random.Range(0f, 1f) <= loot.loot_chance)
                 {
-                    if (Random.Range(0f,1f) <= loot.loot_chance)
-                    {
-                        loot_amount_end += loot_amount;
-                    }
+                    loot_amount_end += loot_amount;
                 }
 
                 // add the loot to total table
