@@ -89,7 +89,7 @@ namespace Gameplay.TargetSelection
                         CancelSession();
                         AudioManager.Instance.PlaySound(AudioManager.buttonErrorSound);
                     }
-                    else if (!SM.IsStateActive<TargetSelectionState>(out var state))
+                    else if (!SM.IsIt<TargetSelectionState>(out var state))
                     {
                         CancelSession();
                         AudioManager.Instance.PlaySound(AudioManager.buttonErrorSound);

@@ -41,7 +41,7 @@ namespace Domain.StateMachine.Mono
             m_World.CleanupUpdate(Time.deltaTime);
         }
 
-        public static bool IsStateActive<T>(out T state) where T : struct, IState
+        public static bool IsIt<T>(out T state) where T : struct, IState
         {
             var states = m_World.Filter.With<T>().Build();
             if (states.IsEmpty()) { state = default; return false; }

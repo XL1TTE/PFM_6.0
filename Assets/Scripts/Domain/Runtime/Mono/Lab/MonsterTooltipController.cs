@@ -6,10 +6,8 @@ using Game;
 using Persistence.Buiders;
 using Persistence.Components;
 using Persistence.DB;
-using Persistence.DS;
 using Scellecs.Morpeh;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -116,7 +114,7 @@ namespace Project
 
                 monsterTooltipPanel.SetActive(false);
 
-                // Добавляем компонент для обработки кликов на тултип
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 if (monsterTooltipPanel.GetComponent<PointerClickHandler>() == null)
                 {
                     monsterTooltipPanel.AddComponent<PointerClickHandler>();
@@ -130,13 +128,13 @@ namespace Project
         {
             if (isShowing)
             {
-                //// Обновляем позицию только если тултип НЕ зафиксирован
+                //// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 //if (!isFixed)
                 //{
                 //    UpdateTooltipPosition();
                 //}
 
-                // Проверяем клик вне тултипа, если он зафиксирован
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 if (isFixed && Input.GetMouseButtonDown(0))
                 {
                     CheckClickOutsideTooltip();
@@ -157,13 +155,13 @@ namespace Project
             currentMonsterData = monsterData;
             slotWorldPosition = worldPosition;
             isShowing = true;
-            isFixed = false; // Сбрасываем фиксацию при новом показе
+            isFixed = false; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
             UpdateMonsterInfo(monsterData);
             UpdateResistanceIcons(monsterData);
             UpdateAbilityIcons(monsterData);
 
-            // Создаем превью монстра
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             CreateMonsterPreview(monsterData);
 
             monsterTooltipPanel.SetActive(true);
@@ -194,31 +192,31 @@ namespace Project
                 {
                     Debug.Log($"=== PREPARATION TOOLTIP POSITIONING ===");
 
-                    // Получаем позицию иконки в мировых координатах
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     Vector3 iconWorldPosition = slotWorldPosition;
 
-                    // Конвертируем в экранные координаты
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     Vector3 iconScreenPosition = Camera.main.WorldToScreenPoint(iconWorldPosition);
 
-                    // Получаем размеры тултипа
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     Vector2 tooltipSize = tooltipRect.rect.size;
 
-                    // Позиционируем тултип СНИЗУ от иконки
-                    // Смещение по Y: отнимаем высоту тултипа плюс небольшой отступ
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ Y: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     Vector3 screenPosition = new Vector3(
                         iconScreenPosition.x,
-                        iconScreenPosition.y - tooltipSize.y + 40f, // 20f - отступ снизу
+                        iconScreenPosition.y - tooltipSize.y + 40f, // 20f - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
                         iconScreenPosition.z
                     );
 
-                    // Если тултип не помещается снизу (выходит за нижнюю границу экрана),
-                    // показываем его сверху
+                    // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ),
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     if (screenPosition.y - 100f < tooltipSize.y)
                     {
-                        screenPosition.y = iconScreenPosition.y + 380f; // Показываем сверху
+                        screenPosition.y = iconScreenPosition.y + 380f; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     }
 
-                    // Конвертируем экранные координаты в локальные координаты канваса
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     Vector2 localPoint;
                     if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
                         parentCanvas.GetComponent<RectTransform>(),
@@ -226,14 +224,14 @@ namespace Project
                         parentCanvas.worldCamera,
                         out localPoint))
                     {
-                        // Устанавливаем anchor в центр для удобного позиционирования
+                        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ anchor пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                         tooltipRect.anchorMin = new Vector2(0.5f, 0.5f);
                         tooltipRect.anchorMax = new Vector2(0.5f, 0.5f);
-                        tooltipRect.pivot = new Vector2(0.5f, 1f); // Pivot сверху, чтобы тултип "вырастал" вниз
+                        tooltipRect.pivot = new Vector2(0.5f, 1f); // Pivot пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ" пїЅпїЅпїЅпїЅ
 
                         tooltipRect.anchoredPosition = localPoint;
 
-                        // Принудительно обновляем Layout
+                        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Layout
                         LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipRect);
 
                         Debug.Log($"Tooltip positioned below icon. Icon screen: {iconScreenPosition}, Tooltip screen: {screenPosition}");
@@ -257,18 +255,18 @@ namespace Project
 
         private void CreateMonsterPreview(MonsterData monsterData)
         {
-            // Очищаем предыдущее превью
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             ClearMonsterPreview();
 
             if (monsterPreviewContainer == null) return;
 
-            // Создаем контейнер для превью
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             GameObject previewContainer = new GameObject($"MonsterPreview_{monsterData.m_MonsterName}");
             previewContainer.transform.SetParent(monsterPreviewContainer);
             previewContainer.transform.localPosition = Vector3.zero;
             previewContainer.transform.localScale = Vector3.one * monsterPreviewScale;
 
-            // Создаем монстра через MonsterBuilder (как в PreparationMonsterPreviewController)
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ MonsterBuilder (пїЅпїЅпїЅ пїЅ PreparationMonsterPreviewController)
             try
             {
                 var builder = new MonsterBuilder(ECS_Main_Lab.m_labWorld)
@@ -288,7 +286,7 @@ namespace Project
                     monsterTransform.position = monsterPreviewContainer.position;
                     monsterTransform.parent = previewContainer.transform;
 
-                    // Настраиваем слой для корректного отображения
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     var spriteRenderers = previewContainer.GetComponentsInChildren<SpriteRenderer>();
                     foreach (var renderer in spriteRenderers)
                     {
@@ -314,7 +312,7 @@ namespace Project
                 currentMonsterPreview = null;
             }
 
-            // Также очищаем контейнер
+            // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             if (monsterPreviewContainer != null)
             {
                 foreach (Transform child in monsterPreviewContainer)
@@ -334,7 +332,7 @@ namespace Project
             List<RaycastResult> results = new List<RaycastResult>();
             graphicRaycaster.Raycast(eventData, results);
 
-            // Проверяем, был ли клик на тултипе или его дочерних элементах
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             bool clickedOnTooltip = false;
             foreach (var result in results)
             {
@@ -346,7 +344,7 @@ namespace Project
                 }
             }
 
-            // Если клик был вне тултипа - скрываем его
+            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
             if (!clickedOnTooltip)
             {
                 isFixed = false;
@@ -354,20 +352,20 @@ namespace Project
             }
         }
 
-        // Обработчик клика по тултипу (для фиксации)
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
         public void OnPointerClick(PointerEventData eventData)
         {
             eventData.Use();
 
             if (eventData.button == PointerEventData.InputButton.Left && isShowing)
             {
-                // Если включена фиксация по клику, то фиксируем/разфиксируем
+                // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 if (isFixedByClick)
                 {
                     isFixed = !isFixed;
                     Debug.Log($"Tooltip {(isFixed ? "fixed at position" : "unfixed")}: {tooltipRect.anchoredPosition}");
 
-                    // Сохраняем позицию при фиксации
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     if (isFixed)
                     {
                         lastTooltipPosition = tooltipRect.anchoredPosition;
@@ -390,13 +388,13 @@ namespace Project
             isFixed = false;
             monsterTooltipPanel.SetActive(false);
 
-            // Очищаем превью
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             ClearMonsterPreview();
 
             currentMonsterData = null;
         }
 
-        // Для принудительного скрытия (например, при клике вне тултипа)
+        // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
         public void ForceHideTooltip()
         {
             HideMonsterTooltip();
@@ -563,7 +561,7 @@ namespace Project
             {
                 if (leftLegData != null && rightLegData != null)
                 {
-                    // Обе ноги присутствуют
+                    // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     if (leftLegData.ability_icon != null)
                     {
                         legAbilityIcon.sprite = leftLegData.ability_icon;
@@ -574,7 +572,7 @@ namespace Project
                     }
                     legAbilityIcon.enabled = true;
 
-                    // Настраиваем триггер для комбинированных ног
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
                     var trigger = legAbilityIcon.GetComponent<AbilityTooltipTrigger>();
                     if (trigger == null)
                     {
@@ -584,7 +582,7 @@ namespace Project
                 }
                 else if (leftLegData != null)
                 {
-                    // Только левая нога
+                    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                     if (leftLegData.ability_icon != null)
                     {
                         legAbilityIcon.sprite = leftLegData.ability_icon;
@@ -597,7 +595,7 @@ namespace Project
                 }
                 else if (rightLegData != null)
                 {
-                    // Только правая нога
+                    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                     if (rightLegData.ability_icon != null)
                     {
                         legAbilityIcon.sprite = rightLegData.ability_icon;
@@ -830,7 +828,7 @@ namespace Project
 
         private void KeepTooltipOnScreen()
         {
-            // Просто проверяем, что тултип не выходит за экран
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             Vector2 anchoredPos = tooltipRect.anchoredPosition;
             Vector2 sizeDelta = tooltipRect.sizeDelta;
 
@@ -838,7 +836,7 @@ namespace Project
             float canvasWidth = canvasRect.rect.width;
             float canvasHeight = canvasRect.rect.height;
 
-            // Проверяем границы
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             float minX = sizeDelta.x * 0.5f;
             float maxX = canvasWidth - sizeDelta.x * 0.5f;
             float minY = sizeDelta.y * 0.5f;
@@ -853,7 +851,7 @@ namespace Project
     }
 
 
-    // Вспомогательный класс для обработки кликов на тултипе
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     public class PointerClickHandler : MonoBehaviour, IPointerClickHandler
     {
         private MonsterTooltipController parentController;

@@ -89,7 +89,7 @@ namespace Gameplay.Map.Systems
                 AudioManager.Instance.PlaySound(AudioManager.buttonClickSound);
 
                 // IF NEED BE, THIS SYSTEM CAN BE REBUILD TO WORK WITH STATEMACHINE WORLD... if only it worked in general
-                if (!choicesUnderCursorFilter.IsEmpty() && SM.IsStateActive<MapTextEvState>(out var state_text))
+                if (!choicesUnderCursorFilter.IsEmpty() && SM.IsIt<MapTextEvState>(out var state_text))
                 {
                     var clickedChoice = choicesUnderCursorFilter.First();
                     var actualChoiceId = mapChoicesStash.Get(clickedChoice).count_id;
@@ -101,7 +101,7 @@ namespace Gameplay.Map.Systems
 
                     return;
                 }
-                if (!nodesUnderCursorFilter.IsEmpty() && SM.IsStateActive<MapDefaultState>(out var state_def))
+                if (!nodesUnderCursorFilter.IsEmpty() && SM.IsIt<MapDefaultState>(out var state_def))
                 {
                     var clickedNodeBinder = nodesUnderCursorFilter.First();
 

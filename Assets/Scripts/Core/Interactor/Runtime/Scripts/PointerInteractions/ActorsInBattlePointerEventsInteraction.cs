@@ -51,7 +51,7 @@ namespace Interactions
 
         private bool ValidateExecution(Entity entity, World a_world)
         {
-            if (SM.IsStateActive<BattleState>(out _) == false) { return false; }
+            if (SM.IsIt<BattleState>(out _) == false) { return false; }
             if (F.IsOccupiedCell(entity, a_world) == false) { return false; }
             var occupier = GU.GetCellOccupier(entity, a_world);
             if ((F.IsEnemy(occupier, a_world) | F.IsMonster(occupier, a_world)) == false) { return false; }

@@ -820,6 +820,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: BattleFieldUIRefs
       objectReference: {fileID: 0}
+    - target: {fileID: 8797215994343567060, guid: 12971f68514111c499f017b8f5282901, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8969927224922932998, guid: 12971f68514111c499f017b8f5282901, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 8969927224922932998, guid: 12971f68514111c499f017b8f5282901, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 8969927224922932998, guid: 12971f68514111c499f017b8f5282901, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

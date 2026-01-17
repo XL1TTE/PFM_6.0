@@ -15,10 +15,6 @@ namespace Interactions
     {
         UniTask OnStateEnter(Entity a_state);
     }
-    public interface IOnStateExitInteraction
-    {
-        UniTask OnStateExit(Entity a_state);
-    }
 
     public sealed class ShowBookInfoOnBattleState : BaseInteraction, IOnStateEnterInteraction
     {
@@ -49,7 +45,7 @@ namespace Interactions
     {
         public UniTask OnStateEnter(Entity a_state)
         {
-            if (SM.IsStateActive<BattleScene>(out _) == false) { return UniTask.CompletedTask; }
+            if (SM.IsIt<BattleScene>(out _) == false) { return UniTask.CompletedTask; }
             if (SM.IsIt<PauseState>(a_state))
             {
                 BattleECS.Stop();
@@ -57,24 +53,13 @@ namespace Interactions
             return UniTask.CompletedTask;
         }
     }
-    public sealed class ContinueBattleOnUnpause : BaseInteraction, IOnStateExitInteraction
-    {
-        public UniTask OnStateExit(Entity a_state)
-        {
-            if (SM.IsStateActive<BattleScene>(out _) == false) { return UniTask.CompletedTask; }
-            if (SM.IsIt<PauseState>(a_state))
-            {
-                BattleECS.Run();
-            }
-            return UniTask.CompletedTask;
-        }
-    }
+
 
     public sealed class StopMapOnPause : BaseInteraction, IOnStateEnterInteraction
     {
         public UniTask OnStateEnter(Entity a_state)
         {
-            if (SM.IsStateActive<MapSceneState>(out _) == false) { return UniTask.CompletedTask; }
+            if (SM.IsIt<MapSceneState>(out _) == false) { return UniTask.CompletedTask; }
             if (SM.IsIt<PauseState>(a_state))
             {
                 ECS_Main_Map.Pause();
@@ -82,15 +67,23 @@ namespace Interactions
             return UniTask.CompletedTask;
         }
     }
-    public sealed class ContinueMapOnUnpause : BaseInteraction, IOnStateExitInteraction
+
+    public sealed class UpdateBattleBoardText : BaseInteraction, IOnStateEnterInteraction
     {
-        public UniTask OnStateExit(Entity a_state)
+        public UniTask OnStateEnter(Entity a_state)
         {
-            if (SM.IsStateActive<MapSceneState>(out _) == false) { return UniTask.CompletedTask; }
-            if (SM.IsIt<PauseState>(a_state))
+            if (SM.IsIt<PlayerTurnState>(a_state))
             {
-                ECS_Main_Map.Unpause();
+                BattleUiRefs.Instance.InformationBoardWidget.ChangeText("Player's Turn");
+                return UniTask.CompletedTask;
             }
+
+            else if (SM.IsIt<EnemyTurnState>(a_state))
+            {
+                BattleUiRefs.Instance.InformationBoardWidget.ChangeText("Enemy's Turn");
+                return UniTask.CompletedTask;
+            }
+
             return UniTask.CompletedTask;
         }
     }

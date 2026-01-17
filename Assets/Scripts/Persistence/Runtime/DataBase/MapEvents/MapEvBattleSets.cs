@@ -5,44 +5,44 @@ using UnityEngine;
 
 namespace Persistence.DB
 {
-    public sealed class ev_BattleLevel_Village_1 : IDbRecord
-    {
-        public ev_BattleLevel_Village_1()
-        {
-            ID("ev_BattleLevel_Village_1");
+    // public sealed class ev_BattleLevel_Village_1 : IDbRecord
+    // {
+    //     public ev_BattleLevel_Village_1()
+    //     {
+    //         ID("ev_BattleLevel_Village_1");
 
-            With<MapEvBattleTag>(new MapEvBattleTag { });
+    //         With<MapEvBattleTag>(new MapEvBattleTag { });
 
-            With<PrefabComponent>(new PrefabComponent
-            {
-                Value = "Levels/Level_Village_1".LoadResource<GameObject>()
-            });
+    //         With<PrefabComponent>(new PrefabComponent
+    //         {
+    //             Value = "Levels/Level_Village_1".LoadResource<GameObject>()
+    //         });
 
-            With<EnemiesCount>(new EnemiesCount
-            {
-                amount = 4
-            });
-        }
-    }
-    public sealed class ev_BattleLevel_Village_1_1 : IDbRecord
-    {
-        public ev_BattleLevel_Village_1_1()
-        {
-            ID("ev_BattleLevel_Village_1_1");
+    //         With<EnemiesCount>(new EnemiesCount
+    //         {
+    //             amount = 4
+    //         });
+    //     }
+    // }
+    // public sealed class ev_BattleLevel_Village_1_1 : IDbRecord
+    // {
+    //     public ev_BattleLevel_Village_1_1()
+    //     {
+    //         ID("ev_BattleLevel_Village_1_1");
 
-            With<MapEvBattleTag>(new MapEvBattleTag { });
+    //         With<MapEvBattleTag>(new MapEvBattleTag { });
 
-            With<PrefabComponent>(new PrefabComponent
-            {
-                Value = "Levels/Level_Village_1_1".LoadResource<GameObject>()
-            });
+    //         With<PrefabComponent>(new PrefabComponent
+    //         {
+    //             Value = "Levels/Level_Village_1_1".LoadResource<GameObject>()
+    //         });
 
-            With<EnemiesCount>(new EnemiesCount
-            {
-                amount = 4
-            });
-        }
-    }
+    //         With<EnemiesCount>(new EnemiesCount
+    //         {
+    //             amount = 4
+    //         });
+    //     }
+    // }
     public sealed class ev_BattleLevel_Village_2 : IDbRecord
     {
         public ev_BattleLevel_Village_2()
@@ -53,7 +53,7 @@ namespace Persistence.DB
 
             With<PrefabComponent>(new PrefabComponent
             {
-                Value = "Levels/Level_Village_2".LoadResource<GameObject>()
+                Value = "Levels/lvl_Village 3".LoadResource<GameObject>()
             });
 
             With<EnemiesCount>(new EnemiesCount
@@ -62,139 +62,139 @@ namespace Persistence.DB
             });
         }
     }
-    public sealed class ev_BattleLevel_Village_2_1 : IDbRecord
-    {
-        public ev_BattleLevel_Village_2_1()
-        {
-            ID("ev_BattleLevel_Village_2_1");
+    // public sealed class ev_BattleLevel_Village_2_1 : IDbRecord
+    // {
+    //     public ev_BattleLevel_Village_2_1()
+    //     {
+    //         ID("ev_BattleLevel_Village_2_1");
 
-            With<MapEvBattleTag>(new MapEvBattleTag { });
+    //         With<MapEvBattleTag>(new MapEvBattleTag { });
 
-            With<PrefabComponent>(new PrefabComponent
-            {
-                Value = "Levels/Level_Village_2_1".LoadResource<GameObject>()
-            });
+    //         With<PrefabComponent>(new PrefabComponent
+    //         {
+    //             Value = "Levels/Level_Village_2_1".LoadResource<GameObject>()
+    //         });
 
-            With<EnemiesCount>(new EnemiesCount
-            {
-                amount = 4
-            });
-        }
-    }
-    public sealed class ev_BattleLevel_Village_3 : IDbRecord
-    {
-        public ev_BattleLevel_Village_3()
-        {
-            ID("ev_BattleLevel_Village_3");
+    //         With<EnemiesCount>(new EnemiesCount
+    //         {
+    //             amount = 4
+    //         });
+    //     }
+    // }
+    // public sealed class ev_BattleLevel_Village_3 : IDbRecord
+    // {
+    //     public ev_BattleLevel_Village_3()
+    //     {
+    //         ID("ev_BattleLevel_Village_3");
 
-            With<MapEvBattleTag>(new MapEvBattleTag { });
+    //         With<MapEvBattleTag>(new MapEvBattleTag { });
 
-            With<PrefabComponent>(new PrefabComponent
-            {
-                Value = "Levels/Level_Village_3".LoadResource<GameObject>()
-            });
+    //         With<PrefabComponent>(new PrefabComponent
+    //         {
+    //             Value = "Levels/Level_Village_3".LoadResource<GameObject>()
+    //         });
 
-            With<EnemiesCount>(new EnemiesCount
-            {
-                amount = 3
-            });
-        }
-    }
-    public sealed class ev_BattleLevel_Village_4 : IDbRecord
-    {
-        public ev_BattleLevel_Village_4()
-        {
-            ID("ev_BattleLevel_Village_4");
+    //         With<EnemiesCount>(new EnemiesCount
+    //         {
+    //             amount = 3
+    //         });
+    //     }
+    // }
+    // public sealed class ev_BattleLevel_Village_4 : IDbRecord
+    // {
+    //     public ev_BattleLevel_Village_4()
+    //     {
+    //         ID("ev_BattleLevel_Village_4");
 
-            With<MapEvBattleTag>(new MapEvBattleTag { });
+    //         With<MapEvBattleTag>(new MapEvBattleTag { });
 
-            With<PrefabComponent>(new PrefabComponent
-            {
-                Value = "Levels/Level_Village_4".LoadResource<GameObject>()
-            });
+    //         With<PrefabComponent>(new PrefabComponent
+    //         {
+    //             Value = "Levels/Level_Village_4".LoadResource<GameObject>()
+    //         });
 
-            With<EnemiesCount>(new EnemiesCount
-            {
-                amount = 2
-            });
-        }
-    }
-    public sealed class ev_BattleLevel_Village_5 : IDbRecord
-    {
-        public ev_BattleLevel_Village_5()
-        {
-            ID("ev_BattleLevel_Village_5");
+    //         With<EnemiesCount>(new EnemiesCount
+    //         {
+    //             amount = 2
+    //         });
+    //     }
+    // }
+    // public sealed class ev_BattleLevel_Village_5 : IDbRecord
+    // {
+    //     public ev_BattleLevel_Village_5()
+    //     {
+    //         ID("ev_BattleLevel_Village_5");
 
-            With<MapEvBattleTag>(new MapEvBattleTag { });
+    //         With<MapEvBattleTag>(new MapEvBattleTag { });
 
-            With<PrefabComponent>(new PrefabComponent
-            {
-                Value = "Levels/Level_Village_5".LoadResource<GameObject>()
-            });
+    //         With<PrefabComponent>(new PrefabComponent
+    //         {
+    //             Value = "Levels/Level_Village_5".LoadResource<GameObject>()
+    //         });
 
-            With<EnemiesCount>(new EnemiesCount
-            {
-                amount = 1
-            });
-        }
-    }
-    public sealed class ev_BattleLevel_Village_6 : IDbRecord
-    {
-        public ev_BattleLevel_Village_6()
-        {
-            ID("ev_BattleLevel_Village_6");
+    //         With<EnemiesCount>(new EnemiesCount
+    //         {
+    //             amount = 1
+    //         });
+    //     }
+    // }
+    // public sealed class ev_BattleLevel_Village_6 : IDbRecord
+    // {
+    //     public ev_BattleLevel_Village_6()
+    //     {
+    //         ID("ev_BattleLevel_Village_6");
 
-            With<MapEvBattleTag>(new MapEvBattleTag { });
+    //         With<MapEvBattleTag>(new MapEvBattleTag { });
 
-            With<PrefabComponent>(new PrefabComponent
-            {
-                Value = "Levels/Level_Village_6".LoadResource<GameObject>()
-            });
+    //         With<PrefabComponent>(new PrefabComponent
+    //         {
+    //             Value = "Levels/Level_Village_6".LoadResource<GameObject>()
+    //         });
 
-            With<EnemiesCount>(new EnemiesCount
-            {
-                amount = 3
-            });
-        }
-    }
-    public sealed class ev_BattleLevel_Village_7 : IDbRecord
-    {
-        public ev_BattleLevel_Village_7()
-        {
-            ID("ev_BattleLevel_Village_7");
+    //         With<EnemiesCount>(new EnemiesCount
+    //         {
+    //             amount = 3
+    //         });
+    //     }
+    // }
+    // public sealed class ev_BattleLevel_Village_7 : IDbRecord
+    // {
+    //     public ev_BattleLevel_Village_7()
+    //     {
+    //         ID("ev_BattleLevel_Village_7");
 
-            With<MapEvBattleTag>(new MapEvBattleTag { });
+    //         With<MapEvBattleTag>(new MapEvBattleTag { });
 
-            With<PrefabComponent>(new PrefabComponent
-            {
-                Value = "Levels/Level_Village_7".LoadResource<GameObject>()
-            });
+    //         With<PrefabComponent>(new PrefabComponent
+    //         {
+    //             Value = "Levels/Level_Village_7".LoadResource<GameObject>()
+    //         });
 
-            With<EnemiesCount>(new EnemiesCount
-            {
-                amount = 2
-            });
-        }
-    }
-    public sealed class ev_BattleLevel_Village_8 : IDbRecord
-    {
-        public ev_BattleLevel_Village_8()
-        {
-            ID("ev_BattleLevel_Village_8");
+    //         With<EnemiesCount>(new EnemiesCount
+    //         {
+    //             amount = 2
+    //         });
+    //     }
+    // }
+    // public sealed class ev_BattleLevel_Village_8 : IDbRecord
+    // {
+    //     public ev_BattleLevel_Village_8()
+    //     {
+    //         ID("ev_BattleLevel_Village_8");
 
-            With<MapEvBattleTag>(new MapEvBattleTag { });
+    //         With<MapEvBattleTag>(new MapEvBattleTag { });
 
-            With<PrefabComponent>(new PrefabComponent
-            {
-                Value = "Levels/Level_Village_8".LoadResource<GameObject>()
-            });
+    //         With<PrefabComponent>(new PrefabComponent
+    //         {
+    //             Value = "Levels/Level_Village_8".LoadResource<GameObject>()
+    //         });
 
-            With<EnemiesCount>(new EnemiesCount
-            {
-                amount = 3
-            });
-        }
-    }
+    //         With<EnemiesCount>(new EnemiesCount
+    //         {
+    //             amount = 3
+    //         });
+    //     }
+    // }
     public sealed class ev_BattleTest1 : IDbRecord
     {
         public ev_BattleTest1()

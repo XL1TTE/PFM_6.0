@@ -34,7 +34,7 @@ namespace Interactions
 
         public UniTask OnTurnEnd(Entity a_turnTaker, World a_world)
         {
-            if (SM.IsStateActive<TargetSelectionState>(out _))
+            if (SM.IsIt<TargetSelectionState>(out _))
             {
                 SM.ExitState<TargetSelectionState>();
             }
