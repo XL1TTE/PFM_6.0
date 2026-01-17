@@ -144,8 +144,8 @@ namespace Game
         void OnDestroy()
         {
 
-            if (SM.IsStateActive<MapDefaultState>(out var d_state)) { SM.ExitState<MapDefaultState>(); }
-            if (SM.IsStateActive<MapTextEvState>(out var t_state)) { SM.ExitState<MapTextEvState>(); }
+            if (SM.IsIt<MapDefaultState>(out var d_state)) { SM.ExitState<MapDefaultState>(); }
+            if (SM.IsIt<MapTextEvState>(out var t_state)) { SM.ExitState<MapTextEvState>(); }
 
             SM.Dispose();
 

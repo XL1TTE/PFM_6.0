@@ -37,7 +37,9 @@ namespace Persistence.DB
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
+                    new WaitForTweenActionFrame(),
                     new Heal(4),
+                    new WaitForLastAnimationEnd()
                 }),
             });
         }

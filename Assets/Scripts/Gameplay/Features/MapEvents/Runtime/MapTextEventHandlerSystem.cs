@@ -87,7 +87,7 @@ namespace Gameplay.MapEvents.Systems
         {
             foreach (var req in req_draw_text_ui.Consume())
             {
-                if (SM.IsStateActive<MapDefaultState>(out var state))
+                if (SM.IsIt<MapDefaultState>(out var state))
                 //if (!flag_ui_is_shown)
                 {
                     SM.ExitState<MapDefaultState>();
@@ -105,7 +105,7 @@ namespace Gameplay.MapEvents.Systems
             }
             foreach (var req in req_exe_choice.Consume())
             {
-                if (SM.IsStateActive<MapTextEvState>(out var state))
+                if (SM.IsIt<MapTextEvState>(out var state))
                 //if (flag_ui_is_shown)
                 {
 

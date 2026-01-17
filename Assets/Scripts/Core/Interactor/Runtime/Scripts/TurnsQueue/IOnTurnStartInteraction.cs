@@ -6,6 +6,8 @@ using Domain.BattleField.Components;
 using Domain.BattleField.Tags;
 using Domain.Extentions;
 using Domain.GameEffects;
+using Domain.StateMachine.Components;
+using Domain.StateMachine.Mono;
 using Domain.TurnSystem.Events;
 using Domain.TurnSystem.Tags;
 using Domain.UI.Mono;
@@ -359,4 +361,22 @@ namespace Interactions
         }
     }
 
+    public sealed class TryAddPlayerTurnState : BaseInteraction, IOnTurnStartInteraction
+    {
+        public override Priority m_Priority => Priority.VERY_LOW;
+        public UniTask OnTurnStart(Entity a_turnTaker, World a_world)
+        {
+            if (F.IsEnemy(a_turnTaker, a_world))
+            {
+                SM.EnterState<EnemyTurnState>();
+            }
+            else if (F.IsMonster(a_turnTaker, a_world))
+            {
+                SM.EnterState<PlayerTurnState>();
+            }
+            return UniTask.CompletedTask;
+
+        }
+
+    }
 }
