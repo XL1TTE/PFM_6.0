@@ -12,6 +12,7 @@ using Persistence.Components;
 using Persistence.DB;
 using Persistence.DS;
 using Persistence.Utilities;
+using Project;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Providers;
 using System;
@@ -26,13 +27,14 @@ namespace Game
 
         private static List<MonsterData> MONSTERS_TO_SPAWN = new List<MonsterData>{
                     new MonsterData(
-                        "Din",
                         "bp_pig-head",
                         "bp_rat-arm",
                         "bp_cow-arm",
                         "bp_pig-torso",
                         "bp_pig-leg",
-                        "bp_rat-leg"),
+                        "bp_rat-leg",
+                        44,
+                        "Nikita"),
                 };
         public static void SpawnMonstersOnLoad(World a_world)
         {
@@ -43,11 +45,14 @@ namespace Game
                 .Build();
 
 
-            var storageMonsters = DataStorage.GetRecordFromFile<Inventory, MonstersStorage>().storage_monsters;
+            var storageMonsters = DataStorage.GetRecordFromFile<Crusade, CrusadeMonsters>().crusade_monsters;
 
-            if (storageMonsters.Count > 0)
+            if (storageMonsters != null)
             {
-                MONSTERS_TO_SPAWN = storageMonsters;
+                if (storageMonsters.Count > 0)
+                {
+                    MONSTERS_TO_SPAWN = storageMonsters;
+                }
             }
 
             var t_spawnCells = F.FilterEmptyCells(t_filter.AsEnumerable(), a_world).ToArray();
@@ -84,7 +89,8 @@ namespace Game
                 .AttachFarArm(mosnterData.FarArm_id)
                 .AttachNearArm(mosnterData.NearArm_id)
                 .AttachNearLeg(mosnterData.NearLeg_id)
-                .AttachFarLeg(mosnterData.FarLeg_id);
+                .AttachFarLeg(mosnterData.FarLeg_id)
+                .SetHealth(mosnterData.current_hp);
             return builder;
         }
 
@@ -129,6 +135,8 @@ namespace Game
                         G.OccupyCell(t_enemyEntity, a_cell, a_world);
                         SetupAbilities(t_enemyEntity, a_world);
 
+                        BattleReward.AddRewardsToPool(GetLootRewards(t_enemyEntity, a_world));
+
                         Interactor.CallAll<IOnEntityCellPositionChanged>(async handler =>
                         {
                             await handler.OnPositionChanged(a_cell, a_cell, t_enemyEntity, a_world);
@@ -145,6 +153,14 @@ namespace Game
 
             ref var enemyTransform = ref t_transform.Get(a_entity).Value;
             enemyTransform.position = cellPos;
+        }
+
+        private static EnemyLootWrapper[] GetLootRewards(Entity a_enemyEntity, World a_world)
+        {
+            var stash_enemyLoot = a_world.GetStash<EnemyLootComponent>();
+            var t_loot = stash_enemyLoot.Get(a_enemyEntity);
+
+            return t_loot.loot;
         }
 
         private static void SetupAbilities(Entity a_enemyEntity, World a_world)

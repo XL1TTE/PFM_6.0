@@ -52,7 +52,7 @@ namespace Persistence.DB
 
             // -------------------------------------------------- ID and TAG
             //With<ID>(new ID { m_Value = "ev_TextDefault" });
-            With<MapEvUnavailableTag>(new MapEvUnavailableTag { });
+            //With<MapEvUnavailableTag>(new MapEvUnavailableTag { });
             With<MapEvTextTag>(new MapEvTextTag { });
 
             // -------------------------------------------------- Required components
@@ -72,12 +72,65 @@ namespace Persistence.DB
             {
                 choices = new Dictionary<string, MapChoiceWrapper>
                 {
-
-                    { "This is a default option",
+                    { "This is a default option 1",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 10 },
-                            res_text = "This is a default RESULT" } }
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                                new GiveGoldRequest() { amount = 10 } },
+
+                                {CHOICE_SCRIPT_TYPE.TAKE_GOLD,
+                                new TakeGoldRequest() { amount = 1 } },
+
+                                {CHOICE_SCRIPT_TYPE.GIVE_PARTS,
+                                new GivePartsRequest() {
+                                    parts_id_and_amount = new Dictionary<string, int>()
+                                    {
+                                        {"bp_pig-head",99},
+                                        {"bp_cow-arm",99}
+                                    }
+                                }},
+
+                                {CHOICE_SCRIPT_TYPE.GIVE_HP,
+                                new GiveHPRequest() {
+                                    use_percent = true,
+                                    amount_percent = 0.2f,
+                                    monster_count = 3
+                                }},
+
+                                {CHOICE_SCRIPT_TYPE.TAKE_HP,
+                                new TakeHPRequest() {
+                                    use_percent = false,
+                                    amount_flat = 1,
+                                    monster_count = 3
+                                }}
+                            },
+                            res_text = "This is a default RESULT" 
+                        }
+                    },
+                    { "This is a default option 2!!!!",
+                        new MapChoiceWrapper() {
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.SWAP_PARTS,
+                                new SwapPartsRequest() { 
+                                    parts_type_with_id = new Dictionary<BODYPART_SPECIFIED_TYPE, string>()
+                                    {
+                                        {BODYPART_SPECIFIED_TYPE.HEAD, "bp_pig-head" }
+                                    }
+                                }},
+
+                                {CHOICE_SCRIPT_TYPE.SWAP_PARTS_BETWEEN,
+                                new SwapPartsBetweenMonstersRequest() {
+                                    parts_types = new List<BODYPART_SPECIFIED_TYPE>()
+                                    {
+                                        BODYPART_SPECIFIED_TYPE.RARM,BODYPART_SPECIFIED_TYPE.LARM
+                                    }
+                                }}
+                            },
+                            res_text = "This is a default RESULT 2!!!!"
+                        }
+                    }
 
                 }
             });
@@ -158,6 +211,10 @@ namespace Persistence.DB
 
     //     }
     // }
+
+
+    /*
+
     public sealed class ev_TextFireRing : IDbRecord
     {
         public ev_TextFireRing()
@@ -734,5 +791,8 @@ namespace Persistence.DB
             });
         }
     }
+
+
+    */
 
 }

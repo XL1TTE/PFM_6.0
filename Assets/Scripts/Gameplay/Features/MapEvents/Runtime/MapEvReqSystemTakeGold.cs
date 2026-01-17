@@ -1,15 +1,9 @@
-
-using Domain.CursorDetection.Components;
-using Domain.Events;
-using Domain.Extentions;
-using Domain.Map.Components;
 using Domain.MapEvents.Requests;
-using Domain.Requests;
+using Persistence.DS;
 using Scellecs.Morpeh;
-using Scellecs.Morpeh.Providers;
-using System;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
+//using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 
 namespace Gameplay.MapEvents.Systems
@@ -42,7 +36,9 @@ namespace Gameplay.MapEvents.Systems
         }
         private void ProcessRequest(TakeGoldRequest req)
         {
-            Debug.Log($"Take gold request is processed, took {req.amount}");
+            ref var bodyResourcesStorage = ref DataStorage.GetRecordFromFile<Inventory, ResourcesStorage>();
+            bodyResourcesStorage.gold -= (int)req.amount;
+            bodyResourcesStorage.gold = Mathf.Max(0, bodyResourcesStorage.gold);
         }
     }
 

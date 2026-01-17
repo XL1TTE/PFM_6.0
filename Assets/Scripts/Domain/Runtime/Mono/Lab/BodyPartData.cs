@@ -33,3 +33,12 @@ public enum BODYPART_TYPE
     ARM,
     LEG
 }
+public enum BODYPART_SPECIFIED_TYPE
+{
+    HEAD,
+    TORSO,
+    LARM,
+    RARM,
+    LLEG,
+    RLEG
+}

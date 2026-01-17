@@ -15,7 +15,7 @@ namespace Interactions
 
             await base.OnEffectApply(a_EffectID, a_Target, a_world);
             await UniTask.Yield();
-            ScaleHealthWithMaxHealth(a_Target, oldMaxHealth, a_world);
+            //ScaleHealthWithMaxHealth(a_Target, oldMaxHealth, a_world);
         }
 
         public override async UniTask OnEffectRemove(string a_EffectID, Entity a_Target, World a_world)
@@ -25,7 +25,7 @@ namespace Interactions
 
             await base.OnEffectRemove(a_EffectID, a_Target, a_world);
             await UniTask.Yield();
-            ScaleHealthWithMaxHealth(a_Target, oldMaxHealth, a_world);
+            //ScaleHealthWithMaxHealth(a_Target, oldMaxHealth, a_world);
         }
 
         private void ScaleHealthWithMaxHealth(Entity a_target, int oldMaxHealth, World a_world)

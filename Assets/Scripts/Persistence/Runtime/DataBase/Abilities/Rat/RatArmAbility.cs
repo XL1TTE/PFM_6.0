@@ -35,11 +35,20 @@ namespace Persistence.DB
                     new Vector2Int(0, 1),
                     new Vector2Int(0, -1)
                 },
+                //m_Shifts = new Vector2Int[6] {
+                //    new Vector2Int(1, 0),
+                //    new Vector2Int(0, 1),
+                //    new Vector2Int(0, -1),
+                //    new Vector2Int(2, 0),
+                //    new Vector2Int(0, 2),
+                //    new Vector2Int(0, -2)
+                //},
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
                     new WaitForTweenActionFrame(),
                     new DealDamage(3, DamageType.PHYSICAL_DAMAGE),
+                    //new DealDamage(20, DamageType.PHYSICAL_DAMAGE),
                     new ApplyPoison(3, 4),
                     new WaitForLastAnimationEnd()
                 }),

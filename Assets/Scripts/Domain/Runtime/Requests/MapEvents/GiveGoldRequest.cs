@@ -1,4 +1,6 @@
+using Domain.Map.Mono;
 using Scellecs.Morpeh;
+using System;
 using Unity.IL2CPP.CompilerServices;
 
 namespace Domain.MapEvents.Requests
@@ -10,6 +12,11 @@ namespace Domain.MapEvents.Requests
     public struct GiveGoldRequest : IRequestData
     {
         public uint amount;
+
+        public static explicit operator GiveGoldRequest(CHOICE_SCRIPT_TYPE v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

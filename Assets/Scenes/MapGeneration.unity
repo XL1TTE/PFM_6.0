@@ -5042,7 +5042,7 @@ MonoBehaviour:
   enableEdgeMovement: 1
   edgeMovementSpeed: 28000
   edgeDetectionMode: 0
-  edgeThreshold: 0.2
+  edgeThreshold: 0.1
   edgeThresholdPixels: 40
   allowHorizontalMovement: 1
   allowVerticalMovement: 0

@@ -9,7 +9,9 @@ namespace Gameplay.GameStats.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class HealthStatSystem : ISystem
     {
+        private Filter f_InitCurrHealth;
         private Filter f_InitHealth;
+        private Stash<CurrHealth> stash_CurrHealth;
         private Stash<Health> stash_Health;
         private Stash<MaxHealth> stash_MaxHealth;
 
@@ -20,9 +22,16 @@ namespace Gameplay.GameStats.Systems
         {
             f_InitHealth = World.Filter
                 .With<MaxHealth>()
+                .Without<CurrHealth>()
                 .Without<Health>()
                 .Build();
 
+            f_InitCurrHealth = World.Filter
+                .With<CurrHealth>()
+                .Without<Health>()
+                .Build();
+
+            stash_CurrHealth = World.GetStash<CurrHealth>();
             stash_Health = World.GetStash<Health>();
             stash_MaxHealth = World.GetStash<MaxHealth>();
         }
@@ -32,6 +41,10 @@ namespace Gameplay.GameStats.Systems
             foreach (var e in f_InitHealth)
             {
                 stash_Health.Set(e, new Health(stash_MaxHealth.Get(e).m_Value));
+            }
+            foreach (var e in f_InitCurrHealth)
+            {
+                stash_Health.Set(e, new Health(stash_CurrHealth.Get(e).m_Value));
             }
         }
 
