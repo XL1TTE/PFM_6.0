@@ -31,17 +31,19 @@ namespace Persistence.DB
                 },
                 m_AbilityType = AbilityType.INTERACTION,
                 m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
-                m_Shifts = new Vector2Int[2] { new Vector2Int(1, 0), new Vector2Int(2, 0) },
+                m_Shifts = new Vector2Int[4]
+                {
+                    new Vector2Int(0, 1),
+                    new Vector2Int(0, -1),
+                    new Vector2Int(0, 2),
+                    new Vector2Int(0, -2),
+                },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
-                    // new PlayTweenAnimation(TweenAnimations.ATTACK),
-                    // new WaitForTweenActionFrame(),
-                    // new DealDamage(4, DamageType.PHYSICAL_DAMAGE),
-                    // // Stun
-                    // new WaitForLastAnimationEnd()
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
                     new WaitForTweenActionFrame(),
-                    new ApplyStun(1),
+                    new DealDamage(3, DamageType.PHYSICAL_DAMAGE),
+                    new ApplyStun(2),
                     new WaitForLastAnimationEnd()
                 }),
             });

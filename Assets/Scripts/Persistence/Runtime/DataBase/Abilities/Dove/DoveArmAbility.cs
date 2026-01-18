@@ -24,27 +24,21 @@ namespace Persistence.DB
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
-                    AbilityTags.EFFECT
+                    AbilityTags.HEAL
                 },
                 m_AbilityType = AbilityType.INTERACTION,
-                m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
-                m_Shifts = new Vector2Int[9] {
-                    new Vector2Int(1, 0),
-                    new Vector2Int(-1, 0),
-                    new Vector2Int(0, 1),
+                m_TargetType = TargetSelectionTypes.CELL_WITH_ALLY,
+                m_Shifts = new Vector2Int[4] {
                     new Vector2Int(0, -1),
-                    new Vector2Int(1, -1),
-                    new Vector2Int(-1, 1),
+                    new Vector2Int(0, 1),
                     new Vector2Int(1, 1),
-                    new Vector2Int(-1, -1),
-                    new Vector2Int(0, 0),
+                    new Vector2Int(1, -1),
                 },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
-                    new ApplyToAllAlliesInArea(new List<IAbilityNode>{
-                        new ApplyEffect(2, "effect_dove-arm-skill"),
-                    }, 1),
+                    new WaitForTweenActionFrame(),
+                    new Heal(7),
                     new WaitForLastAnimationEnd()
                 }),
             });

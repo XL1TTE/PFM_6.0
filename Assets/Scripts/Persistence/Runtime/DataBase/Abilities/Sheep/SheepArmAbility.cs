@@ -29,14 +29,18 @@ namespace Persistence.DB
                 },
                 m_AbilityType = AbilityType.INTERACTION,
                 m_TargetType = TargetSelectionTypes.CELL_WITH_ALLY,
-                m_Shifts = new Vector2Int[1] {
-                    new Vector2Int(0, 0),
+                m_Shifts = new Vector2Int[3] {
+                    new Vector2Int(2, 0),
+                    new Vector2Int(1, 1),
+                    new Vector2Int(1, -1),
                 },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
                     new WaitForTweenActionFrame(),
-                    new HealInArea(6, 1),
+                    new ApplyToAllAlliesInArea(new List<IAbilityNode>{
+                         new Heal(3),
+                    }, 1),
                     new WaitForLastAnimationEnd()
                 }),
             });

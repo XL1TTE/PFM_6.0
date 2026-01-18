@@ -24,24 +24,21 @@ namespace Persistence.DB
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
-                     AbilityTags.DAMAGE,
-                     AbilityTags.EFFECT
+                     AbilityTags.DAMAGE
                 },
                 m_AbilityType = AbilityType.INTERACTION,
                 m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
-                m_Shifts = new Vector2Int[5] {
+                m_Shifts = new Vector2Int[4] {
                     new Vector2Int(2, 0),
-                    new Vector2Int(0, 1),
+                    new Vector2Int(1, 0),
                     new Vector2Int(0, -1),
-                    new Vector2Int(1, 1),
-                    new Vector2Int(1, -1),
+                    new Vector2Int(0, 1),
                 },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(Domain.Services.TweenAnimations.ATTACK),
                     new WaitForTweenActionFrame(),
-                    new DealDamage(3, DamageType.PHYSICAL_DAMAGE),
-                    new ApplyEffect(3, "effect_pig_skill1"),
+                    new DealDamage(5, DamageType.PHYSICAL_DAMAGE),
                     new WaitForLastAnimationEnd()
                 }),
             });
