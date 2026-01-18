@@ -11,7 +11,7 @@ namespace Persistence.DB
             With<MaxHealthModifier>( // <-- Модификатор, который добавит 13 ед. здоровья.
                 new MaxHealthModifier
                 {
-                    m_Flat = 13
+                    m_Flat = 7
                 });
             With<SpeedModifier>( // <-- Добавляем 16 ед. скорости.
                 new SpeedModifier
