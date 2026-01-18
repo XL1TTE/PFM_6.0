@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using Persistence.DB;
 using Persistence.Components;
 using UnityEngine.UI;
+using Domain.TurnSystem.Components;
 
 namespace Project
 {
@@ -144,7 +145,7 @@ namespace Project
             {
                 if (DataBase.TryFindRecordByID(monsterData.Head_id, out var e_record))
                 {
-                    if (DataBase.TryGetRecord<IconUI>(e_record, out var e_icon))
+                    if (DataBase.TryGetRecord<AvatarUI>(e_record, out var e_icon))
                     {
                         sprite = e_icon.m_Value;
                         return true;

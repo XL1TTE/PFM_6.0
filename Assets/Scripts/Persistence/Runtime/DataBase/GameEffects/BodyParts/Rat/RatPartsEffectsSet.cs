@@ -6,7 +6,7 @@ namespace Persistence.DB
     {
         public RatArmEffect()
         {
-            ID("effect_RatArm");
+            ID("effect_rat-arm");
 
             With<MaxHealthModifier>(new MaxHealthModifier
             {
@@ -27,7 +27,7 @@ namespace Persistence.DB
     {
         public RatLegEffect()
         {
-            ID("effect_RatLeg");
+            ID("effect_rat-leg");
 
             With<MaxHealthModifier>(new MaxHealthModifier
             {

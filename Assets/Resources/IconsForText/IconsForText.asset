@@ -83,48 +83,48 @@ MonoBehaviour:
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 0
-    m_Scale: 1
-    m_Name: IconsForText_0
+    m_Scale: 1.2
+    m_Name: fire
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 1
-    m_Scale: 1
-    m_Name: IconsForText_9
+    m_Scale: 1.2
+    m_Name: bleed
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 2
-    m_Scale: 1
-    m_Name: IconsForText_10
+    m_Scale: 1.2
+    m_Name: poison
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 3
-    m_Scale: 1
-    m_Name: IconsForText_1
+    m_Scale: 1.2
+    m_Name: stun
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 4
-    m_Scale: 1
-    m_Name: IconsForText_8
+    m_Scale: 1.2
+    m_Name: no
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 5
-    m_Scale: 1
-    m_Name: IconsForText_2
+    m_Scale: 1.2
+    m_Name: yes
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 6
-    m_Scale: 1
-    m_Name: IconsForText_14
+    m_Scale: 1.2
+    m_Name: debuff
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 7
-    m_Scale: 1
-    m_Name: IconsForText_13
+    m_Scale: 1.2
+    m_Name: buff
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 8
     m_Scale: 1
-    m_Name: IconsForText_12
+    m_Name: move
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 9
@@ -133,35 +133,35 @@ MonoBehaviour:
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 10
-    m_Scale: 1
-    m_Name: IconsForText_3
+    m_Scale: 1.2
+    m_Name: resfire
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 11
-    m_Scale: 1
-    m_Name: IconsForText_4
+    m_Scale: 1.2
+    m_Name: resbleed
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 12
-    m_Scale: 1
-    m_Name: IconsForText_5
+    m_Scale: 1.2
+    m_Name: respoison
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 13
-    m_Scale: 1
-    m_Name: IconsForText_6
+    m_Scale: 1.2
+    m_Name: hp
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 14
-    m_Scale: 1
-    m_Name: IconsForText_7
+    m_Scale: 1.2
+    m_Name: speed
   m_GlyphTable:
   - m_Index: 0
     m_Metrics:
       m_Width: 7
       m_Height: 8
       m_HorizontalBearingX: -0
-      m_HorizontalBearingY: 8
+      m_HorizontalBearingY: 6
       m_HorizontalAdvance: 7
     m_GlyphRect:
       m_X: 3
@@ -177,7 +177,7 @@ MonoBehaviour:
       m_Width: 7
       m_Height: 8
       m_HorizontalBearingX: -0
-      m_HorizontalBearingY: 8
+      m_HorizontalBearingY: 6
       m_HorizontalAdvance: 7
     m_GlyphRect:
       m_X: 13
@@ -193,7 +193,7 @@ MonoBehaviour:
       m_Width: 7
       m_Height: 8
       m_HorizontalBearingX: -0
-      m_HorizontalBearingY: 8
+      m_HorizontalBearingY: 6
       m_HorizontalAdvance: 7
     m_GlyphRect:
       m_X: 23
@@ -209,7 +209,7 @@ MonoBehaviour:
       m_Width: 7
       m_Height: 8
       m_HorizontalBearingX: -0
-      m_HorizontalBearingY: 8
+      m_HorizontalBearingY: 6
       m_HorizontalAdvance: 7
     m_GlyphRect:
       m_X: 33
@@ -224,8 +224,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 11
       m_Height: 11
-      m_HorizontalBearingX: -5.5
-      m_HorizontalBearingY: 5.5
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 8
       m_HorizontalAdvance: 11
     m_GlyphRect:
       m_X: 43
@@ -241,7 +241,7 @@ MonoBehaviour:
       m_Width: 11
       m_Height: 11
       m_HorizontalBearingX: -0
-      m_HorizontalBearingY: 11
+      m_HorizontalBearingY: 8
       m_HorizontalAdvance: 11
     m_GlyphRect:
       m_X: 57
@@ -257,7 +257,7 @@ MonoBehaviour:
       m_Width: 7
       m_Height: 8
       m_HorizontalBearingX: -0
-      m_HorizontalBearingY: 8
+      m_HorizontalBearingY: 6
       m_HorizontalAdvance: 7
     m_GlyphRect:
       m_X: 3
@@ -273,7 +273,7 @@ MonoBehaviour:
       m_Width: 7
       m_Height: 8
       m_HorizontalBearingX: -0
-      m_HorizontalBearingY: 8
+      m_HorizontalBearingY: 6
       m_HorizontalAdvance: 7
     m_GlyphRect:
       m_X: 13
@@ -321,7 +321,7 @@ MonoBehaviour:
       m_Width: 11
       m_Height: 11
       m_HorizontalBearingX: -0
-      m_HorizontalBearingY: 11
+      m_HorizontalBearingY: 8
       m_HorizontalAdvance: 11
     m_GlyphRect:
       m_X: 3
@@ -337,7 +337,7 @@ MonoBehaviour:
       m_Width: 11
       m_Height: 11
       m_HorizontalBearingX: -0
-      m_HorizontalBearingY: 11
+      m_HorizontalBearingY: 8
       m_HorizontalAdvance: 11
     m_GlyphRect:
       m_X: 17
@@ -353,7 +353,7 @@ MonoBehaviour:
       m_Width: 11
       m_Height: 11
       m_HorizontalBearingX: -0
-      m_HorizontalBearingY: 11
+      m_HorizontalBearingY: 8
       m_HorizontalAdvance: 11
     m_GlyphRect:
       m_X: 31

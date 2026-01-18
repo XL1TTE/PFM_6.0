@@ -27,7 +27,7 @@ namespace Persistence.DB
 
             With<EffectsProvider>(new EffectsProvider
             {
-                m_Effects = Enumerable.Repeat("effect_CockroachArm", 1).ToArray()
+                m_Effects = Enumerable.Repeat("effect_cockroach-arm", 1).ToArray()
             });
 
             With<AbilityProvider>(new AbilityProvider

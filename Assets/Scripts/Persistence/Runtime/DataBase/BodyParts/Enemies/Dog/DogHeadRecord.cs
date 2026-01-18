@@ -1,4 +1,5 @@
 using Domain.Extentions;
+using Domain.TurnSystem.Components;
 using Persistence.Components;
 using System.Linq;
 
@@ -15,6 +16,10 @@ namespace Persistence.DB
             With<HeadSprite>(new HeadSprite
             {
                 m_Value = GR.SPR_BP_HEAD_DOG
+            });
+            With<AvatarUI>(new AvatarUI
+            {
+                m_Value = GR.SPR_UI_AVATAR_DOG
             });
             With<IconUI>(new IconUI
             {

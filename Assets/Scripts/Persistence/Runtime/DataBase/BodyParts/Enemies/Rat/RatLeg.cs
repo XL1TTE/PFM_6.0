@@ -30,7 +30,7 @@ namespace Persistence.DB
 
             With<EffectsProvider>(new EffectsProvider
             {
-                m_Effects = Enumerable.Repeat("effect_RatLeg", 1).ToArray()
+                m_Effects = Enumerable.Repeat("effect_rat-leg", 1).ToArray()
             });
 
             With<AbilityProvider>(new AbilityProvider

@@ -28,7 +28,7 @@ namespace Persistence.DB
     {
         public SheepLegEffect()
         {
-            ID("effect_sheep-arm");
+            ID("effect_sheep-leg");
 
             With<MaxHealthModifier>(new MaxHealthModifier
             {

@@ -24,7 +24,7 @@ namespace Persistence.DB
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
-                    AbilityTags.EFFECT
+                   AbilityTags.DAMAGE
                 },
                 m_AbilityType = AbilityType.INTERACTION,
                 m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
@@ -36,9 +36,9 @@ namespace Persistence.DB
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
-                    new ApplyToAllAlliesInArea(new List<IAbilityNode>{
-                        new ApplyEffect(2, "effect_bee-arm-skill"),
-                    }, 1),
+                    new WaitForTweenActionFrame(),
+                    new DealDamage(2, DamageType.PHYSICAL_DAMAGE),
+                    new ApplyBurning(5, 5),
                     new WaitForLastAnimationEnd()
                 }),
             });

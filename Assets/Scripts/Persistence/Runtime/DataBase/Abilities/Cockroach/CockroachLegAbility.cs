@@ -23,12 +23,10 @@ namespace Persistence.DB
             {
                 m_AbilityType = AbilityType.MOVEMENT,
                 m_TargetType = TargetSelectionTypes.CELL_EMPTY,
-                m_Shifts = new Vector2Int[4]
+                m_Shifts = new Vector2Int[2]
                 {
-                    new Vector2Int(1, 0),
-                    new Vector2Int(-1, 0),
-                    new Vector2Int(0, -1),
-                    new Vector2Int(0, 1),
+                    new Vector2Int(1, 1),
+                    new Vector2Int(-1, -1),
                 },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {

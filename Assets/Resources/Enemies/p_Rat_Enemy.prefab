@@ -340,11 +340,6 @@ MonoBehaviour:
   serializedData:
     loot:
     - loot_id: gold
-      use_fixed_rolls: 1
-      loot_rolls: 1
-      use_random_rools: 0
-      loot_min_rolls: 0
-      loot_max_rolls: 0
       use_fixed_amount: 0
       loot_amount: 0
       use_random_amount: 1
@@ -352,11 +347,6 @@ MonoBehaviour:
       loot_max_amount: 20
       loot_chance: 1
     - loot_id: bp_rat-arm
-      use_fixed_rolls: 1
-      loot_rolls: 2
-      use_random_rools: 0
-      loot_min_rolls: 0
-      loot_max_rolls: 0
       use_fixed_amount: 1
       loot_amount: 1
       use_random_amount: 0
@@ -364,11 +354,6 @@ MonoBehaviour:
       loot_max_amount: 0
       loot_chance: 0.5
     - loot_id: bp_rat-leg
-      use_fixed_rolls: 0
-      loot_rolls: 0
-      use_random_rools: 1
-      loot_min_rolls: 1
-      loot_max_rolls: 2
       use_fixed_amount: 0
       loot_amount: 0
       use_random_amount: 1

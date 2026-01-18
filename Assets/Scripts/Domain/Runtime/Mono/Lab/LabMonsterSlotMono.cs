@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Domain.TurnSystem.Components;
 
 namespace Project
 {
@@ -262,7 +263,7 @@ namespace Project
                 currentMonsterData = data;
                 if (DataBase.TryFindRecordByID(data.Head_id, out var e_record))
                 {
-                    if (DataBase.TryGetRecord<IconUI>(e_record, out var e_icon))
+                    if (DataBase.TryGetRecord<AvatarUI>(e_record, out var e_icon))
                     {
                         sprite_renderer.sprite = e_icon.m_Value;
                         sprite_renderer.color = Color.white;

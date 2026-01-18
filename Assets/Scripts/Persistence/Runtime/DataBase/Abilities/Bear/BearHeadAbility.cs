@@ -19,7 +19,7 @@ namespace Persistence.DB
             With<Name>(new Name("BearHeadAbility_name"));
             With<Description>(new Description("BearHeadAbility_desc"));
 
-            With<IconUI>(new IconUI(GR.SPR_UI_ABT_DOG_HEAD));
+            With<IconUI>(new IconUI(GR.SPR_UI_ABT_BEAR_HEAD));
 
             With(new AbilityDefenition
             {
@@ -28,18 +28,15 @@ namespace Persistence.DB
                 },
                 m_AbilityType = AbilityType.INTERACTION,
                 m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
-                m_Shifts = new Vector2Int[3]
+                m_Shifts = new Vector2Int[1]
                 {
                      new Vector2Int(1, 0),
-                     new Vector2Int(1, 1),
-                     new Vector2Int(1, -1),
                 },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
                     new WaitForTweenActionFrame(),
-                    new DealDamage(4, DamageType.PHYSICAL_DAMAGE),
-                    new ApplyBleeding(3, 2),
+                    new DealDamage(7, DamageType.PHYSICAL_DAMAGE),
                     new WaitForLastAnimationEnd()
                 }),
             });

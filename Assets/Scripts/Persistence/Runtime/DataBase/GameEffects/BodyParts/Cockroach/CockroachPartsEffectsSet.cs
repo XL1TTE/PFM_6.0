@@ -6,7 +6,7 @@ namespace Persistence.DB
     {
         public CockroachArmEffect()
         {
-            ID("effect_CockroachArm");
+            ID("effect_cockroach-arm");
 
             With<MaxHealthModifier>(new MaxHealthModifier
             {
@@ -20,11 +20,11 @@ namespace Persistence.DB
             {
                 m_Stage = IResistanceModiffier.Stage.IMMUNE
             });
-            With<BurningResistanceModiffier>(new BurningResistanceModiffier
+            With<BleedResistanceModiffier>(new BleedResistanceModiffier
             {
                 m_Stage = IResistanceModiffier.Stage.IMMUNE
             });
-            With<BleedResistanceModiffier>(new BleedResistanceModiffier
+            With<BurningResistanceModiffier>(new BurningResistanceModiffier
             {
                 m_Stage = IResistanceModiffier.Stage.IMMUNE
             });
