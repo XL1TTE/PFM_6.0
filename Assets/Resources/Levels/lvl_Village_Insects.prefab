@@ -2095,11 +2095,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1551709791309904439, guid: 4647c9a5a8a290e4bb59bc4f4dde7fbe, type: 3}
       propertyPath: managedReferences[6303632354044019047].m_Pool.Array.data[0].m_weight
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1551709791309904439, guid: 4647c9a5a8a290e4bb59bc4f4dde7fbe, type: 3}
       propertyPath: managedReferences[6303632354044019047].m_Pool.Array.data[1].m_weight
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1551709791309904439, guid: 4647c9a5a8a290e4bb59bc4f4dde7fbe, type: 3}
       propertyPath: managedReferences[6303632354044019047].m_Pool.Array.data[0].m_enemyID
@@ -2454,7 +2454,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1551709791309904439, guid: 4647c9a5a8a290e4bb59bc4f4dde7fbe, type: 3}
       propertyPath: managedReferences[6303632354044019047].m_Pool.Array.data[1].m_weight
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1551709791309904439, guid: 4647c9a5a8a290e4bb59bc4f4dde7fbe, type: 3}
       propertyPath: managedReferences[6303632354044019047].m_Pool.Array.data[0].m_enemyID
@@ -2604,11 +2604,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1551709791309904439, guid: 4647c9a5a8a290e4bb59bc4f4dde7fbe, type: 3}
       propertyPath: managedReferences[6303632354044019047].m_Pool.Array.data[0].m_weight
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1551709791309904439, guid: 4647c9a5a8a290e4bb59bc4f4dde7fbe, type: 3}
       propertyPath: managedReferences[6303632354044019047].m_Pool.Array.data[1].m_weight
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1551709791309904439, guid: 4647c9a5a8a290e4bb59bc4f4dde7fbe, type: 3}
       propertyPath: managedReferences[6303632354044019047].m_Pool.Array.data[0].m_enemyID

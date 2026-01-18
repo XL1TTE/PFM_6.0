@@ -10,15 +10,16 @@ namespace Project
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.B))
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Keypad1))
             {
+                //SceneManager.LoadScene("Laboratory");
                 if (allow_cheats)
                 {
-                    LoadingScreen.Instance.LoadScene("BattleField");
-                    //SceneManager.LoadScene("BattleField");
+                    LoadingScreen.Instance.LoadScene("Laboratory");
+                    //SceneManager.LoadScene("MapGeneration");
                 }
             }
-            if (Input.GetKeyDown(KeyCode.M))
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Keypad2))
             {
                 if (allow_cheats)
                 {
@@ -26,17 +27,32 @@ namespace Project
                     //SceneManager.LoadScene("MapGeneration");
                 }
             }
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Keypad3))
+            {
+                if (allow_cheats)
+                {
+                    LoadingScreen.Instance.LoadScene("BattleField");
+                    //SceneManager.LoadScene("BattleField");
+                }
+            }
 
-            if (Input.GetKeyDown(KeyCode.E) && Input.GetKeyDown(KeyCode.T))
+
+
+
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Keypad6))
             {
                 if (allow_cheats)
                 {
                     CHEATS.EndlessTurnsForMonsters();
                 }
             }
-            if (Input.GetKeyDown(KeyCode.L))
+
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Keypad4))
             {
-                SceneManager.LoadScene("Laboratory");
+                if (allow_cheats)
+                {
+                    CHEATS.GiveParts();
+                }
             }
 
         }

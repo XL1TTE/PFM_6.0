@@ -2508,6 +2508,11 @@ MonoBehaviour:
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
+--- !u!1 &904815617 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5850496393196395226, guid: 12971f68514111c499f017b8f5282901, type: 3}
+  m_PrefabInstance: {fileID: 8671907843901579872}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &912094347
 GameObject:
   m_ObjectHideFlags: 0
@@ -2928,7 +2933,7 @@ PrefabInstance:
     - target: {fileID: 6316545792644215433, guid: c189efe9b57d357448fe7b3310fd9a40, type: 3}
       propertyPath: 'allScreensWithWhatTheyEnable.Array.data[1].enable_list.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 904815617}
     - target: {fileID: 6316545792644215433, guid: c189efe9b57d357448fe7b3310fd9a40, type: 3}
       propertyPath: 'allScreensWithWhatTheyEnable.Array.data[5].enable_list.Array.data[0]'
       value: 
@@ -7048,7 +7053,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6009313428544452961, guid: 12971f68514111c499f017b8f5282901, type: 3}
   m_PrefabInstance: {fileID: 8671907843901579872}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 904815617}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 506390e3bf7a13444ba90c8107f25687, type: 3}

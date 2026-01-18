@@ -1415,6 +1415,10 @@ PrefabInstance:
       propertyPath: tooltipController
       value: 
       objectReference: {fileID: 1189380193}
+    - target: {fileID: 6544319781378657094, guid: df22ddca7db4c0443a7a15f4941f6c2d, type: 3}
+      propertyPath: isMapScreen
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6648247890243563975, guid: df22ddca7db4c0443a7a15f4941f6c2d, type: 3}
       propertyPath: tooltipController
       value: 
