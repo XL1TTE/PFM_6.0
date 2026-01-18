@@ -113,12 +113,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Enemy_Portrait_Crow
+      name: Enemy_Portrait_Raven
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 31
+        width: 32
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -506,7 +506,6 @@ TextureImporter:
       Enemy_Portrait_Cat: 878719067
       Enemy_Portrait_Cockroach: -813842757
       Enemy_Portrait_Cow: -697223095
-      Enemy_Portrait_Crow: -8926551453916993016
       Enemy_Portrait_Dog: 586550217
       Enemy_Portrait_Dove: 1372673346
       Enemy_Portrait_Goat: 494962664
@@ -516,6 +515,7 @@ TextureImporter:
       Enemy_Portrait_Pig: -981539599
       Enemy_Portrait_Raccoon: -77240344
       Enemy_Portrait_Rat: 1075773077
+      Enemy_Portrait_Raven: -8926551453916993016
       Enemy_Portrait_Rooster: -1066580789
       Enemy_Portrait_Sheep: -69542915
   mipmapLimitGroupName: 

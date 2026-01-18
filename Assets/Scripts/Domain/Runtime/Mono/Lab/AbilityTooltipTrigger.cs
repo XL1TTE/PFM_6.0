@@ -31,6 +31,8 @@ namespace Project
         [SerializeField] private Sprite abilityIcon;
         [SerializeField] private Vector2Int[] abilityShifts;
 
+        public bool isTurn = false;
+
         private bool isHovering = false;
         private string runtimePartId;
         private BodyPartData runtimeBodyPartData;

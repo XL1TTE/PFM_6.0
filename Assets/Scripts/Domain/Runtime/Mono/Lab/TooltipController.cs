@@ -245,11 +245,12 @@ namespace Project
         {
             if (data.type == BODYPART_TYPE.LEG)
             {
-                abilityNameText.text = $"<b>{LocalizationManager.Instance.GetLocalizedValue("AbilityMovement_Name", "Parts")}</b>\n";
+                abilityNameText.text = $"{LocalizationManager.Instance.GetLocalizedValue("AbilityMovement_Name", "Parts")}\n";
+                abilityDescText.text = "";
             }
             else
             {
-                abilityNameText.text = $"<b>{LocalizationManager.Instance.GetLocalizedValue(data.ability_name, "Parts")}</b>\n";
+                abilityNameText.text = $"{LocalizationManager.Instance.GetLocalizedValue(data.ability_name, "Parts")}\n";
 
                 abilityDescText.text = $"{LocalizationManager.Instance.GetLocalizedValue(data.ability_desc, "Parts")}";
             }
@@ -263,7 +264,6 @@ namespace Project
             {
                 int index = -1;
 
-                // Определяем индекс клетки на основе координат
                 if (shift == new Vector2Int(-2, 2)) index = 0;
                 if (shift == new Vector2Int(-1, 2)) index = 1;
                 if (shift == new Vector2Int(0, 2)) index = 2;
@@ -278,7 +278,7 @@ namespace Project
 
                 if (shift == new Vector2Int(-2, 0)) index = 10;
                 if (shift == new Vector2Int(-1, 0)) index = 11;
-                if (shift == new Vector2Int(0, 0)) index = 12; // Центральная клетка
+                if (shift == new Vector2Int(0, 0)) index = 12;
                 if (shift == new Vector2Int(1, 0)) index = 13;
                 if (shift == new Vector2Int(2, 0)) index = 14;
 
@@ -296,15 +296,12 @@ namespace Project
 
                 if (index >= 0)
                 {
-                    // Проверяем, является ли это центральной клеткой (0,0)
                     if (shift == Vector2Int.zero)
                     {
-                        // Центральная клетка - розовый цвет
                         gridTransform.GetChild(index).GetComponent<Image>().color = centerCellColor;
                     }
                     else
                     {
-                        // Остальные клетки - красный цвет
                         gridTransform.GetChild(index).GetComponent<Image>().color = activeCellColor;
                     }
                 }
@@ -316,14 +313,13 @@ namespace Project
         {
             for (int i = 0; i < gridTransform.childCount; i++)
             {
-                //gridTransform.GetChild(i).gameObject.SetActive(false);
                 if (i == 12)
                 {
                     gridTransform.GetChild(i).GetComponent<Image>().color = Color.red;
                 }
                 else
                 {
-                    gridTransform.GetChild(i).GetComponent<Image>().color = inactiveCellColor; // Зеленый
+                    gridTransform.GetChild(i).GetComponent<Image>().color = inactiveCellColor;
                 }
             }
         }

@@ -127,10 +127,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 14
+        width: 13
         height: 22
       alignment: 9
-      pivot: {x: 0.2780139, y: 0.8355016}
+      pivot: {x: 0.26923078, y: 0.84090906}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -147,12 +147,12 @@ TextureImporter:
       name: Spr_Bp_fLeg
       rect:
         serializedVersion: 2
-        x: 13
-        y: 0
-        width: 15
-        height: 22
+        x: 14
+        y: 1
+        width: 13
+        height: 21
       alignment: 9
-      pivot: {x: 0.3279607, y: 0.85442084}
+      pivot: {x: 0.34615386, y: 0.8333333}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -169,12 +169,12 @@ TextureImporter:
       name: Spr_Bp_nArm
       rect:
         serializedVersion: 2
-        x: 29
-        y: 8
-        width: 11
-        height: 14
+        x: 30
+        y: 9
+        width: 9
+        height: 13
       alignment: 9
-      pivot: {x: 0.53531545, y: 0.8151407}
+      pivot: {x: 0.5, y: 0.8076923}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -191,12 +191,12 @@ TextureImporter:
       name: Spr_Bp_fArm
       rect:
         serializedVersion: 2
-        x: 40
-        y: 8
-        width: 7
-        height: 14
+        x: 41
+        y: 9
+        width: 6
+        height: 13
       alignment: 9
-      pivot: {x: 0.42468208, y: 0.84288895}
+      pivot: {x: 0.41666666, y: 0.8076923}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

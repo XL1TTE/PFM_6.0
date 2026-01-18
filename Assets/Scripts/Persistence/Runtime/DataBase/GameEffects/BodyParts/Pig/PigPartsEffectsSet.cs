@@ -16,6 +16,18 @@ namespace Persistence.DB
             {
                 m_Flat = 2
             });
+            With<PoisonResistanceModiffier>(new PoisonResistanceModiffier
+            {
+                m_Stage = IResistanceModiffier.Stage.IMMUNE
+            });
+            With<BleedResistanceModiffier>(new BleedResistanceModiffier
+            {
+                m_Stage = IResistanceModiffier.Stage.RESISTANT
+            });
+            With<BurningResistanceModiffier>(new BurningResistanceModiffier
+            {
+                m_Stage = IResistanceModiffier.Stage.IMMUNE
+            });
         }
     }
     public sealed class PigLegEffect : IDbRecord
@@ -44,6 +56,35 @@ namespace Persistence.DB
             With<BurningResistanceModiffier>(new BurningResistanceModiffier
             {
                 m_Stage = IResistanceModiffier.Stage.RESISTANT
+            });
+        }
+    }
+    public sealed class PigTorsoEffect : IDbRecord
+    {
+        public PigTorsoEffect()
+        {
+            ID("effect_pig-torso");
+
+            With<MaxHealthModifier>(new MaxHealthModifier
+            {
+                m_Flat = 10
+            });
+            With<SpeedModifier>(new SpeedModifier
+            {
+                m_Flat = 1
+            });
+
+            With<PoisonResistanceModiffier>(new PoisonResistanceModiffier
+            {
+                m_Stage = IResistanceModiffier.Stage.IMMUNE
+            });
+            With<BleedResistanceModiffier>(new BleedResistanceModiffier
+            {
+                m_Stage = IResistanceModiffier.Stage.RESISTANT
+            });
+            With<BurningResistanceModiffier>(new BurningResistanceModiffier
+            {
+                m_Stage = IResistanceModiffier.Stage.IMMUNE
             });
         }
     }

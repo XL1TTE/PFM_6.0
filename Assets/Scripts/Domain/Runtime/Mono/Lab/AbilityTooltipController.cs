@@ -198,16 +198,13 @@ namespace Project
         {
             if (abilityNameText != null)
             {
-                abilityNameText.text = "<b>Movement (Combined)</b>";
+                string abilityName = $"{LocalizationManager.Instance.GetLocalizedValue("AbilityMovement_Name", "Parts")}\n";
+                abilityNameText.text = $"{abilityName}";
             }
 
             if (abilityDescriptionText != null)
             {
-                string leftDesc = !string.IsNullOrEmpty(leftLegData.ability_desc) ? leftLegData.ability_desc : "Movement ability";
-                string rightDesc = !string.IsNullOrEmpty(rightLegData.ability_desc) ? rightLegData.ability_desc : "Movement ability";
-
-                string description = $"<color=#FF6B6B>Left Leg:</color> {leftDesc}\n<color=#4ECDC4>Right Leg:</color> {rightDesc}";
-                abilityDescriptionText.text = description;
+                abilityDescriptionText.text = "";
             }
 
             if (abilityIcon != null)
@@ -242,14 +239,41 @@ namespace Project
         {
             if (abilityNameText != null)
             {
-                string abilityName = !string.IsNullOrEmpty(data.ability_name) ?
-                    data.ability_name : GetDefaultAbilityName(data.type);
-                abilityNameText.text = $"<b>{abilityName}</b>";
+                string abilityName = "";
+
+                
+                if (data.type == BODYPART_TYPE.LEG)
+                {
+                    abilityName = LocalizationManager.Instance.GetLocalizedValue("AbilityMovement_Name", "Parts") ?? "Movement";
+                }
+                else if (!string.IsNullOrEmpty(data.ability_name))
+                {
+                    abilityName = LocalizationManager.Instance.GetLocalizedValue(data.ability_name, "Parts") ?? data.ability_name;
+                }
+                else
+                {
+                    abilityName = GetDefaultAbilityName(data.type);
+                }
+
+                abilityNameText.text = $"{abilityName}";
             }
 
             if (abilityDescriptionText != null && !string.IsNullOrEmpty(data.ability_desc))
             {
-                abilityDescriptionText.text = data.ability_desc;
+                string localizedDesc = LocalizationManager.Instance.GetLocalizedValue(data.ability_desc, "Parts") ?? data.ability_desc;
+
+                if (data.type != BODYPART_TYPE.LEG)
+                {
+                    abilityDescriptionText.text = localizedDesc;
+                }
+                else
+                {
+                    abilityDescriptionText.text = "";
+                }
+            }
+            else if (abilityDescriptionText != null && data.type == BODYPART_TYPE.LEG)
+            {
+                abilityDescriptionText.text = "";
             }
 
             if (abilityIcon != null)

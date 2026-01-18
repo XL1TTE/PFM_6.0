@@ -1,4 +1,5 @@
 using Domain.Stats.Components;
+using ExcelDataReader.Log;
 
 namespace Persistence.DB
 {
@@ -6,7 +7,7 @@ namespace Persistence.DB
     {
         public CowArmEffect()
         {
-            ID("effect_CowArm");
+            ID("effect_cow-arm");
 
             With<MaxHealthModifier>(new MaxHealthModifier
             {

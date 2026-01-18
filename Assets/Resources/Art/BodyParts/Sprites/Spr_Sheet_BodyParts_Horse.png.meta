@@ -123,11 +123,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 35
-        width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        y: 36
+        width: 15
+        height: 23
+      alignment: 9
+      pivot: {x: 0.56666666, y: 0.84782606}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -144,12 +144,12 @@ TextureImporter:
       name: Spr_Bp_fLeg
       rect:
         serializedVersion: 2
-        x: 18
-        y: 35
-        width: 15
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 19
+        y: 36
+        width: 13
+        height: 23
+      alignment: 9
+      pivot: {x: 0.34615386, y: 0.84782606}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -166,12 +166,12 @@ TextureImporter:
       name: Spr_Bp_Head
       rect:
         serializedVersion: 2
-        x: 34
+        x: 35
         y: 0
-        width: 27
+        width: 26
         height: 59
       alignment: 9
-      pivot: {x: 0.4086561, y: 0.85463876}
+      pivot: {x: 0.5576923, y: 0.7711864}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

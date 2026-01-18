@@ -237,7 +237,7 @@ MonoBehaviour:
   serializedData:
     m_TemporalEffects: []
     m_PermanentEffects:
-    - m_EffectId: effect_Pig
+    - m_EffectId: effect_cockroach
 --- !u!114 &6165744893290528280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,11 +340,6 @@ MonoBehaviour:
   serializedData:
     loot:
     - loot_id: gold
-      use_fixed_rolls: 1
-      loot_rolls: 1
-      use_random_rools: 0
-      loot_min_rolls: 0
-      loot_max_rolls: 0
       use_fixed_amount: 0
       loot_amount: 0
       use_random_amount: 1
@@ -352,11 +347,6 @@ MonoBehaviour:
       loot_max_amount: 20
       loot_chance: 1
     - loot_id: bp_cockroach-arm
-      use_fixed_rolls: 1
-      loot_rolls: 1
-      use_random_rools: 0
-      loot_min_rolls: 0
-      loot_max_rolls: 0
       use_fixed_amount: 0
       loot_amount: 0
       use_random_amount: 1

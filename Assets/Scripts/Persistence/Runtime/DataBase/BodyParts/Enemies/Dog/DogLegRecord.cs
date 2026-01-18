@@ -1,7 +1,7 @@
-
 using Domain.Components;
 using Domain.Extentions;
 using Persistence.Components;
+using System.Linq;
 
 namespace Persistence.DB
 {
@@ -24,6 +24,12 @@ namespace Persistence.DB
             });
             With<TagBodyPart>();
             With<TagLeg>();
+
+            With<EffectsProvider>(new EffectsProvider
+            {
+                m_Effects = Enumerable.Repeat("effect_dog-leg", 1).ToArray()
+            });
+
             With<AbilityProvider>(new AbilityProvider
             {
                 m_AbilityTemplateID = "abt_dog-leg"

@@ -1,5 +1,7 @@
 using Domain.Extentions;
+using Domain.TurnSystem.Components;
 using Persistence.Components;
+using System.Linq;
 
 namespace Persistence.DB
 {
@@ -15,14 +17,22 @@ namespace Persistence.DB
             {
                 m_Value = GR.SPR_BP_HEAD_DOG
             });
+            With<AvatarUI>(new AvatarUI
+            {
+                m_Value = GR.SPR_UI_AVATAR_DOG
+            });
             With<IconUI>(new IconUI
             {
                 m_Value = GR.SPR_UI_BP_HEAD_DOG
             });
 
             With<TagBodyPart>();
-
             With<TagHead>();
+
+            With<EffectsProvider>(new EffectsProvider
+            {
+                m_Effects = Enumerable.Repeat("effect_dog-head", 1).ToArray()
+            });
 
             With<AbilityProvider>(new AbilityProvider
             {

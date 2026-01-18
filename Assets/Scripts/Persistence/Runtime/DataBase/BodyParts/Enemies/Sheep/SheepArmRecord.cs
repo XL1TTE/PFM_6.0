@@ -1,5 +1,6 @@
 using Domain.Extentions;
 using Domain.Monster.Components;
+using Domain.TurnSystem.Components;
 using Persistence.Components;
 using System.Linq;
 using UnityEngine;
@@ -51,6 +52,10 @@ namespace Persistence.DB
             With<HeadSprite>(new HeadSprite
             {
                 m_Value = GR.SPR_BP_HEAD_SHEEP
+            });
+            With<AvatarUI>(new AvatarUI
+            {
+                m_Value = GR.SPR_UI_AVATAR_SHEEP
             });
             With<IconUI>(new IconUI
             {

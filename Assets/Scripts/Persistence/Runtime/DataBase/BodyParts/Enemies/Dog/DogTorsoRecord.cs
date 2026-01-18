@@ -32,7 +32,7 @@ namespace Persistence.DB
                 NearArmOffset = new Vector2(9f, 4f),
                 FarArmOffset = new Vector2(13f, 1f),
                 HeadOffset = new Vector2(22f, -4f),
-                BodyOffset = new Vector2(0f, 22f)
+                BodyOffset = new Vector2(0f, 12f)
             });
             With<EffectsProvider>(new EffectsProvider
             {

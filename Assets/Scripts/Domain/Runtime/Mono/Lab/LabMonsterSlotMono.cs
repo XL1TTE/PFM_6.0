@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Domain.TurnSystem.Components;
 
 namespace Project
 {
@@ -81,35 +82,28 @@ namespace Project
             {
                 float timeSinceLastClick = Time.time - lastClickTime;
 
-                // Проверяем двойной клик
                 if (timeSinceLastClick <= doubleClickTime)
                 {
-                    // Двойной клик - обрабатываем как обычно
                     HandleSingleClick();
                 }
                 else
                 {
-                    // Одиночный клик - только для фиксации тултипа
                     lastClickTime = Time.time;
 
-                    // Проверяем, включена ли фиксация и есть ли тултип
                     if (monsterTooltipController != null &&
                         monsterTooltipController.isFixedByClick &&
                         is_occupied && currentMonsterData != null)
                     {
-                        // Показываем/фиксируем тултип
                         if (!monsterTooltipController.IsTooltipShowing())
                         {
                             monsterTooltipController.ShowMonsterTooltip(currentMonsterData, transform.position);
                         }
                         else if (monsterTooltipController.IsTooltipFixed())
                         {
-                            // Если уже зафиксирован - разфиксируем
                             monsterTooltipController.ToggleFix();
                         }
                         else
                         {
-                            // Если показывается но не зафиксирован - фиксируем
                             monsterTooltipController.ToggleFix();
                         }
                     }
@@ -269,7 +263,7 @@ namespace Project
                 currentMonsterData = data;
                 if (DataBase.TryFindRecordByID(data.Head_id, out var e_record))
                 {
-                    if (DataBase.TryGetRecord<IconUI>(e_record, out var e_icon))
+                    if (DataBase.TryGetRecord<AvatarUI>(e_record, out var e_icon))
                     {
                         sprite_renderer.sprite = e_icon.m_Value;
                         sprite_renderer.color = Color.white;
