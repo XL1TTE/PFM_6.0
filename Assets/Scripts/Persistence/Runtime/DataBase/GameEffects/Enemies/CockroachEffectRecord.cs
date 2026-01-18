@@ -11,7 +11,7 @@ namespace Persistence.DB
             With<MaxHealthModifier>(
                 new MaxHealthModifier
                 {
-                    m_Flat = 12
+                    m_Flat = 6
                 });
             With<SpeedModifier>(
                 new SpeedModifier

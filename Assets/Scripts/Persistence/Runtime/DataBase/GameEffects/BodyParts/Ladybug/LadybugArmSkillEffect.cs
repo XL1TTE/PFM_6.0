@@ -9,7 +9,7 @@ namespace Persistence.DB
         {
             ID("effect_ladybug-arm-skill");
 
-            With<Name>(new Name("LadybugHeadSkillEffect_name"));
+            With<Name>(new Name("LadybugArmSkillEffect_name"));
 
             With<MaxHealthModifier>(new MaxHealthModifier
             {
