@@ -38,7 +38,7 @@ namespace Persistence.DB
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
                     new WaitForTweenActionFrame(),
-                    new DealDamage(7, DamageType.PHYSICAL_DAMAGE),
+                    new DealDamage(4, DamageType.PHYSICAL_DAMAGE),
                     new WaitForLastAnimationEnd()
                 }),
             });

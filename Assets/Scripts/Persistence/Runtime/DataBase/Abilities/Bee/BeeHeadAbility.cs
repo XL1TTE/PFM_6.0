@@ -40,7 +40,7 @@ namespace Persistence.DB
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
                     new WaitForTweenActionFrame(),
                     new DealDamage(3, DamageType.PHYSICAL_DAMAGE),
-                    new ApplyPoison(3, 13),
+                    new ApplyPoison(3, 7),
                     new WaitForLastAnimationEnd()
                 }),
             });
