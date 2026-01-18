@@ -28,10 +28,11 @@ namespace Persistence.DB
                 },
                 m_AbilityType = AbilityType.INTERACTION,
                 m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
-                m_Shifts = new Vector2Int[3] {
+                m_Shifts = new Vector2Int[4] {
                     new Vector2Int(-1, 0),
                     new Vector2Int(-1, 1),
                     new Vector2Int(-1, -1),
+                    new Vector2Int(-2, 0),
                 },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {

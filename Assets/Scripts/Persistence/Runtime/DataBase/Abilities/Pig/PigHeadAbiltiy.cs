@@ -36,7 +36,7 @@ namespace Persistence.DB
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
                     new ApplyToAllAlliesInArea(new List<IAbilityNode>{
-                        new ApplyEffect(2, "effect_pig-head-skill"),
+                        new ApplyEffect(1, "effect_pig-head-skill"),
                     }, 1),
                     new WaitForLastAnimationEnd()
                 }),

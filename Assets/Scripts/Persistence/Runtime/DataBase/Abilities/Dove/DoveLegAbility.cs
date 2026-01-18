@@ -9,11 +9,11 @@ using UnityEngine;
 
 namespace Persistence.DB
 {
-    public sealed class dove : IDbRecord
+    public sealed class DoveLegAbility : IDbRecord
     {
-        public dove()
+        public DoveLegAbility()
         {
-            ID("abt_dog-leg");
+            ID("abt_dove-leg");
 
             With<AbilityShiftsSprite>(new AbilityShiftsSprite() { m_Value = Resources.Load<Sprite>("Assets/Resources/Art/Abilities/Spr_Bodypart_Head_Test_1") });
 

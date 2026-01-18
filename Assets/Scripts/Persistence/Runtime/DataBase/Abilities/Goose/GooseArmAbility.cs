@@ -24,26 +24,21 @@ namespace Persistence.DB
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
-                    AbilityTags.EFFECT
+                    AbilityTags.DEBUFF
                 },
                 m_AbilityType = AbilityType.INTERACTION,
                 m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
-                m_Shifts = new Vector2Int[9] {
-                    new Vector2Int(1, 0),
-                    new Vector2Int(-1, 0),
-                    new Vector2Int(0, 1),
-                    new Vector2Int(0, -1),
-                    new Vector2Int(1, -1),
-                    new Vector2Int(-1, 1),
-                    new Vector2Int(1, 1),
+                m_Shifts = new Vector2Int[4] {
                     new Vector2Int(-1, -1),
-                    new Vector2Int(0, 0),
+                    new Vector2Int(-1, 1),
+                    new Vector2Int(-2, 1),
+                    new Vector2Int(-2, -1),
                 },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
-                    new ApplyToAllAlliesInArea(new List<IAbilityNode>{
-                        new ApplyEffect(2, "effect_goose-arm-skill"),
+                    new ApplyToAllEnemiesInArea(new List<IAbilityNode>{
+                        new ApplyEffect(3, "effect_goose-arm-skill"),
                     }, 1),
                     new WaitForLastAnimationEnd()
                 }),

@@ -28,17 +28,20 @@ namespace Persistence.DB
                 },
                 m_AbilityType = AbilityType.INTERACTION,
                 m_TargetType = TargetSelectionTypes.CELL_WITH_ALLY,
-                m_Shifts = new Vector2Int[3]
+                m_Shifts = new Vector2Int[5]
                 {
-                    new Vector2Int(1, 0),
-                    new Vector2Int(1, 1),
-                    new Vector2Int(1, -1),
+                    new Vector2Int(2, 0),
+                    new Vector2Int(2, 1),
+                    new Vector2Int(2, -1),
+                    new Vector2Int(2, 2),
+                    new Vector2Int(2, -2),
                 },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
                     new WaitForTweenActionFrame(),
-                    new Heal(4),
+                    new Heal(3),
+                    new ApplyEffect(2, "effect_sheep-head-skill"),
                     new WaitForLastAnimationEnd()
                 }),
             });

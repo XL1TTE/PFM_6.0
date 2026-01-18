@@ -23,8 +23,8 @@ namespace Persistence.DB
                 m_TargetType = TargetSelectionTypes.CELL_EMPTY,
                 m_Shifts = new Vector2Int[3] {
                     new Vector2Int(-2, 0),
-                    new Vector2Int(-1, 2),
-                    new Vector2Int(-1, -2),
+                    new Vector2Int(-1, 1),
+                    new Vector2Int(-1, -1),
                 },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {

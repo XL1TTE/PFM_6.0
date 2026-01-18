@@ -24,7 +24,6 @@ namespace Persistence.DB
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
-                    AbilityTags.DAMAGE,
                     AbilityTags.DEBUFF
                 },
                 m_AbilityType = AbilityType.INTERACTION,
@@ -39,8 +38,7 @@ namespace Persistence.DB
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
                     new WaitForTweenActionFrame(),
-                    new DealDamage(2, DamageType.PHYSICAL_DAMAGE),
-                    new ApplyEffect(2, "effect_cat-head-skill"),
+                    new ApplyEffect(3, "effect_cat-head-skill"),
                     new WaitForLastAnimationEnd()
                 }),
             });
