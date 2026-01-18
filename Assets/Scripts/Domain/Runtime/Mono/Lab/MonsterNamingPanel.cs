@@ -54,12 +54,32 @@ namespace Project
             return '\0';
         }
 
+        private bool ContainsNonEnglishLetters(string text)
+        {
+            foreach (char c in text)
+            {
+                if (char.IsLetter(c))
+                {
+                    if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         private void OnNameInputChanged(string newName)
         {
             HideErrorMessage();
 
             if (!string.IsNullOrEmpty(newName))
             {
+                if (ContainsNonEnglishLetters(newName))
+                {
+                    ShowErrorMessage(LocalizationManager.Instance.GetLocalizedValue("Laboratory_MonsterNaming_OnlyEnglish", "UI_Menu"));
+                    return;
+                }
                 if (ContainsInvalidCharacters(newName))
                 {
                     ShowErrorMessage(LocalizationManager.Instance.GetLocalizedValue("Laboratory_MonsterNaming_Erorr_Characters", "UI_Menu"));
@@ -77,8 +97,10 @@ namespace Project
         {
             foreach (char c in text)
             {
-                // Разрешаем: буквы (любые), цифры, пробел, подчеркивание, дефис
-                if (!(char.IsLetterOrDigit(c) || c == ' ' || c == '_' || c == '-'))
+                bool isEnglishLetter = (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+                bool isAllowedSymbol = char.IsDigit(c) || c == ' ' || c == '_' || c == '-';
+
+                if (!isEnglishLetter && !isAllowedSymbol)
                 {
                     return true;
                 }
@@ -159,6 +181,11 @@ namespace Project
             if (string.IsNullOrEmpty(monsterName))
             {
                 ShowErrorMessage(LocalizationManager.Instance.GetLocalizedValue("Laboratory_MonsterNaming_Erorr_NameEmpty", "UI_Menu"));
+                return;
+            }
+            if (ContainsNonEnglishLetters(monsterName))
+            {
+                ShowErrorMessage(LocalizationManager.Instance.GetLocalizedValue("Laboratory_MonsterNaming_OnlyEnglish", "UI_Menu"));
                 return;
             }
 

@@ -526,7 +526,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spr_pig-ar
+      name: spr_pig-arm
       rect:
         serializedVersion: 2
         x: 54
@@ -1046,7 +1046,7 @@ TextureImporter:
       spr_ladybug-arm: 701033466
       spr_ladybug-head: -506218144
       spr_move: -32962102
-      spr_pig-ar: 1716419296
+      spr_pig-arm: 1716419296
       spr_pig-head: -1031214024
       spr_raccoon-arm: 231616533
       spr_raccoon-head: 671860842

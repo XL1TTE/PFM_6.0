@@ -16,35 +16,33 @@ namespace Persistence.DB
         public CockroachArmAbility()
         {
             ID("abt_cockroach-arm");
-
-            With<IconUI>(new IconUI(GR.SPR_UI_ABT_COCKROACH_ARM));
-
+            
             With<Name>(new Name("CockroachArmAbility_name"));
             With<Description>(new Description("CockroachArmAbility_desc"));
+            //With<AbilityShiftsSprite>(new AbilityShiftsSprite() { m_Value = Resources.Load<Sprite>("Assets/Resources/Art/Abilities/Spr_Bodypart_Head_Test_1") });
 
-
-            With<AbilityShiftsSprite>(new AbilityShiftsSprite() { m_Value = Resources.Load<Sprite>("Assets/Resources/Art/Abilities/Spr_Bodypart_Head_Test_1") });
-
+            With<IconUI>(new IconUI(GR.SPR_UI_ABT_COCKROACH_ARM));
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
-                    AbilityTags.DEBUFF
+                    AbilityTags.DAMAGE
                 },
                 m_AbilityType = AbilityType.INTERACTION,
                 m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
-                m_Shifts = new Vector2Int[2] {
+                m_Shifts = new Vector2Int[6] {
                     new Vector2Int(1, 0),
-                    new Vector2Int(2, 0),
+                     new Vector2Int(-1, 0),
+                     new Vector2Int(2, 1),
+                     new Vector2Int(-2, -1),
+                     new Vector2Int(1, 1),
+                     new Vector2Int(-1, -1),
                 },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
                     new WaitForTweenActionFrame(),
-                    new ApplyToAllEnemiesInArea(new List<IAbilityNode>{
-                        new DealDamage(2, DamageType.POISON_DAMAGE),
-                        new ApplyPoison(2, 5),
-                    }, 1),
-
+                    new DealDamage(1, DamageType.PHYSICAL_DAMAGE),
+                    new ApplyPoison(2, 2),
                     new WaitForLastAnimationEnd()
                 }),
             });

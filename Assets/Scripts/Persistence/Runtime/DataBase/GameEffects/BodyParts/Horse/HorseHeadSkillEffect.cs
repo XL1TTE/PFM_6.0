@@ -3,18 +3,14 @@ using Persistence.Components;
 
 namespace Persistence.DB
 {
-    public sealed class CatHeadSkillEffect : IDbRecord
+    public sealed class HorseHeadSkillEffect : IDbRecord
     {
-        public CatHeadSkillEffect()
+        public HorseHeadSkillEffect()
         {
-            ID("effect_cat-head-skill");
+            ID("effect_horse-head-skill");
 
-            With<Name>(new Name("CatHeadSkillEffect_name"));
+            With<Name>(new Name("HorseHeadSkillEffect_name"));
 
-            With<MaxHealthModifier>(new MaxHealthModifier
-            {
-                m_Flat = -3
-            });
             With<BleedResistanceModiffier>(new BleedResistanceModiffier
             {
                 m_Stage = IResistanceModiffier.Stage.STRONG_WEAKNESS

@@ -3,21 +3,21 @@ using Persistence.Components;
 
 namespace Persistence.DB
 {
-    public sealed class DogArmSkillEffect : IDbRecord
+    public sealed class LadybugHeadSkillEffect : IDbRecord
     {
-        public DogArmSkillEffect()
+        public LadybugHeadSkillEffect()
         {
-            ID("effect_dog-arm-skill");
+            ID("effect_ladybug-head-skill");
 
-            With<Name>(new Name("DogHeadSkillEffect_name"));
+            With<Name>(new Name("LadybugHeadSkillEffect_name"));
 
             With<MaxHealthModifier>(new MaxHealthModifier
             {
-                m_Flat = 5
+                m_Flat = -3
             });
             With<SpeedModifier>(new SpeedModifier
             {
-                m_Flat = 3
+                m_Flat = -3
             });
         }
     }

@@ -24,26 +24,22 @@ namespace Persistence.DB
             With(new AbilityDefenition
             {
                 m_Tags = new List<AbilityTags>{
-                    AbilityTags.EFFECT
+                    AbilityTags.DAMAGE
                 },
                 m_AbilityType = AbilityType.INTERACTION,
                 m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
-                m_Shifts = new Vector2Int[9] {
-                    new Vector2Int(1, 0),
+                m_Shifts = new Vector2Int[3] {
                     new Vector2Int(-1, 0),
-                    new Vector2Int(0, 1),
-                    new Vector2Int(0, -1),
-                    new Vector2Int(1, -1),
                     new Vector2Int(-1, 1),
-                    new Vector2Int(1, 1),
                     new Vector2Int(-1, -1),
-                    new Vector2Int(0, 0),
                 },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
-                    new ApplyToAllAlliesInArea(new List<IAbilityNode>{
-                        new ApplyEffect(2, "effect_raven-arm-skill"),
+                    new WaitForTweenActionFrame(),
+                    new ApplyToAllEnemiesInArea(new List<IAbilityNode>{
+                         new DealDamage(1, DamageType.PHYSICAL_DAMAGE),
+                         new ApplyBurning(3, 3),
                     }, 1),
                     new WaitForLastAnimationEnd()
                 }),

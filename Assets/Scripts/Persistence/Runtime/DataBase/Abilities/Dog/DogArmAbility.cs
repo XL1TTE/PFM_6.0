@@ -27,7 +27,7 @@ namespace Persistence.DB
                     AbilityTags.EFFECT
                 },
                 m_AbilityType = AbilityType.INTERACTION,
-                m_TargetType = TargetSelectionTypes.CELL_WITH_ENEMY,
+                m_TargetType = TargetSelectionTypes.CELL_WITH_ALLY,
                 m_Shifts = new Vector2Int[9] {
                     new Vector2Int(1, 0),
                     new Vector2Int(-1, 0),
@@ -42,9 +42,8 @@ namespace Persistence.DB
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
-                    new ApplyToAllAlliesInArea(new List<IAbilityNode>{
-                        new ApplyEffect(2, "effect_dog-arm-skill"),
-                    }, 1),
+                    new WaitForTweenActionFrame(),
+                    new ApplyEffect(2, "effect_dog-arm-skill"),
                     new WaitForLastAnimationEnd()
                 }),
             });

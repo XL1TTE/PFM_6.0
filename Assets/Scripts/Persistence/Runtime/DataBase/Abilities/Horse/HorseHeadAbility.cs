@@ -31,15 +31,15 @@ namespace Persistence.DB
                 m_Shifts = new Vector2Int[3]
                 {
                      new Vector2Int(1, 0),
-                     new Vector2Int(1, 1),
-                     new Vector2Int(1, -1),
+                     new Vector2Int(2, 1),
+                     new Vector2Int(2, -1),
                 },
                 m_Ability = new Ability(new List<IAbilityNode>
                 {
                     new PlayTweenAnimation(TweenAnimations.ATTACK),
                     new WaitForTweenActionFrame(),
-                    new DealDamage(4, DamageType.PHYSICAL_DAMAGE),
-                    new ApplyBleeding(3, 2),
+                    new DealDamage(7, DamageType.PHYSICAL_DAMAGE),
+                    new ApplyStun(1),
                     new WaitForLastAnimationEnd()
                 }),
             });
