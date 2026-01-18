@@ -27,7 +27,7 @@ namespace Game
 
         private static List<MonsterData> MONSTERS_TO_SPAWN = new List<MonsterData>{
                     new MonsterData(
-                        "bp_pig-head",
+                        "bp_goat-head",
                         "bp_rat-arm",
                         "bp_cow-arm",
                         "bp_pig-torso",

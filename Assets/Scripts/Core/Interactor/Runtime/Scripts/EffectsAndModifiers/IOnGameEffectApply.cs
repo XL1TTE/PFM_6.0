@@ -90,7 +90,7 @@ namespace Interactions
 
             FloatingGui.Show(position, TextPool.I()
                 .WarmupElement()
-                .SetText(notification)
+                .SetText(LocalizationManager.Instance.GetLocalizedValue(notification, "Parts"))
                 .FitContent(true)
                 .FontSize(T.TEXT_SIZE_H2)
                 .SetColor(C.COLOR_DEFAULT));
