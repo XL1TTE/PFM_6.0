@@ -12,7 +12,8 @@ namespace DS.Files
             With<LoadConfig>(new LoadConfig
             {
                 // Level by default
-                m_prefab_level = "Levels/lvl_Village 3".LoadResource<GameObject>()
+                //m_prefab_level = "Levels/lvl_Village".LoadResource<GameObject>()
+                m_prefab_level = "Levels/lvl_Village_Holes".LoadResource<GameObject>()
             });
         }
     }
