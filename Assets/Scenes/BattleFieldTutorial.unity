@@ -180,7 +180,7 @@ MonoBehaviour:
   m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizationKey: Tutorial_Continue
-  sheetName: UI_Menu
+  sheetName: Tutorial
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
@@ -308,7 +308,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 6.0999985}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9236967
@@ -331,12 +331,22 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: All entities have Movement abilities which are "Move" and "Turn". Move
-    will move an entity to specified cell and turn will turn it, mirroring its abilities
-    affecting positions. All other abilities are considered Interaction.
+  m_text: "\u0412\u0441\u0435 \u0441\u0443\u0449\u043D\u043E\u0441\u0442\u0438 \u043E\u0431\u043B\u0430\u0434\u0430\u044E\u0442
+    \u0441\u043F\u043E\u0441\u043E\u0431\u043D\u043E\u0441\u0442\u044F\u043C\u0438
+    \u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F: <color=#006EAB>\xAB\u041F\u0435\u0440\u0435\u043C\u0435\u0449\u0435\u043D\u0438\u0435\xBB</color>
+    \u0438 <color=#006EAB>\xAB\u0420\u0430\u0437\u0432\u043E\u0440\u043E\u0442\xBB</color>.
+    <color=#006EAB>\u041F\u0435\u0440\u0435\u043C\u0435\u0449\u0435\u043D\u0438\u0435</color>
+    \u043F\u0435\u0440\u0435\u043C\u0435\u0441\u0442\u0438\u0442 \u0441\u0443\u0449\u043D\u043E\u0441\u0442\u044C
+    \u0432 \u0443\u043A\u0430\u0437\u0430\u043D\u043D\u0443\u044E \u044F\u0447\u0435\u0439\u043A\u0443,
+    \u0430 <color=#006EAB>\u0440\u0430\u0437\u0432\u043E\u0440\u043E\u0442</color>
+    \u2014 \u0440\u0430\u0437\u0432\u0435\u0440\u043D\u0435\u0442 \u0435\u0435, \u043E\u0442\u0440\u0430\u0436\u0430\u044F
+    \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0435 \u0435\u0435 \u0441\u043F\u043E\u0441\u043E\u0431\u043D\u043E\u0441\u0442\u0435\u0439
+    \u043D\u0430 \u043F\u043E\u043B\u043E\u0436\u0435\u043D\u0438\u0435. \u0412\u0441\u0435
+    \u043E\u0441\u0442\u0430\u043B\u044C\u043D\u044B\u0435 \u0441\u043F\u043E\u0441\u043E\u0431\u043D\u043E\u0441\u0442\u0438
+    \u0441\u0447\u0438\u0442\u0430\u044E\u0442\u0441\u044F <color=#8400ab>\u0432\u0437\u0430\u0438\u043C\u043E\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0435\u043C</color>."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -425,7 +435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizationKey: Tutorial_BattleTurnInfo2
-  sheetName: UI_Menu
+  sheetName: Tutorial
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
@@ -487,12 +497,19 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You can click on entity to lock information about them on the right part
-    of the book and hover over abilities in the Book to get additional info about
-    them.
+  m_text: "\u0412\u044B \u043C\u043E\u0436\u0435\u0442\u0435 \u043D\u0430\u0436\u0430\u0442\u044C
+    <color=#8400ab>\u041B\u041A\u041C</color> \u043F\u043E \u0441\u0443\u0449\u043D\u043E\u0441\u0442\u0438,
+    \u0447\u0442\u043E\u0431\u044B \u0437\u0430\u0431\u043B\u043E\u043A\u0438\u0440\u043E\u0432\u0430\u0442\u044C
+    \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044E \u043E \u043D\u0435\u0439
+    \u0432 <color=#8400ab>\u043F\u0440\u0430\u0432\u043E\u0439 \u0447\u0430\u0441\u0442\u0438
+    \u043A\u043D\u0438\u0433\u0438</color>, \u0430 \u043D\u0430\u0432\u0435\u0441\u0442\u0438
+    \u043A\u0443\u0440\u0441\u043E\u0440 \u043D\u0430 \u0441\u043F\u043E\u0441\u043E\u0431\u043D\u043E\u0441\u0442\u0438
+    \u0432 \u043A\u043D\u0438\u0433\u0435, \u0447\u0442\u043E\u0431\u044B \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C
+    \u0434\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u0443\u044E
+    \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044E \u043E \u043D\u0438\u0445."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -581,7 +598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizationKey: Tutorial_HoverOverInfo
-  sheetName: UI_Menu
+  sheetName: Tutorial
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
@@ -597,6 +614,7 @@ GameObject:
   - component: {fileID: 187199976}
   - component: {fileID: 187199975}
   - component: {fileID: 187199974}
+  - component: {fileID: 187199977}
   m_Layer: 0
   m_Name: TutorialContinueButton
   m_TagString: Untagged
@@ -621,7 +639,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 39.5, y: -29.5}
+  m_AnchoredPosition: {x: 0, y: -29.5}
   m_SizeDelta: {x: 58, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &187199974
@@ -718,6 +736,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 187199972}
   m_CullTransparentMesh: 1
+--- !u!114 &187199977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187199972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fedba8a0517f14a900cd2723de0d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  englishSprite: {fileID: 21300000, guid: a831b73dab06b6a4e9fb575f96bc968f, type: 3}
+  russianSprite: {fileID: 21300000, guid: 104ac5a87db371141bd6f675e9d709b9, type: 3}
+  updateOnStart: 1
+  updateOnLanguageChange: 1
 --- !u!1 &366003133
 GameObject:
   m_ObjectHideFlags: 0
@@ -817,7 +851,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &425070886
 RectTransform:
   m_ObjectHideFlags: 0
@@ -837,7 +871,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -6}
-  m_SizeDelta: {x: 187, y: 112}
+  m_SizeDelta: {x: 196, y: 108}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &425070887
 MonoBehaviour:
@@ -859,7 +893,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 44904d1034c05704d8c4beefa8a9c037, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 42288190c25df23448f5cd6dee4eaa32, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -938,7 +972,7 @@ MonoBehaviour:
   m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1027,7 +1061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizationKey: Tutorial_Continue
-  sheetName: UI_Menu
+  sheetName: Tutorial
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
@@ -1043,6 +1077,7 @@ GameObject:
   - component: {fileID: 479150519}
   - component: {fileID: 479150518}
   - component: {fileID: 479150517}
+  - component: {fileID: 479150520}
   m_Layer: 0
   m_Name: TutorialContinueButton
   m_TagString: Untagged
@@ -1067,7 +1102,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 92, y: -35.3}
+  m_AnchoredPosition: {x: 0, y: -45.2}
   m_SizeDelta: {x: 58, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &479150517
@@ -1164,6 +1199,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 479150515}
   m_CullTransparentMesh: 1
+--- !u!114 &479150520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479150515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fedba8a0517f14a900cd2723de0d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  englishSprite: {fileID: 21300000, guid: a831b73dab06b6a4e9fb575f96bc968f, type: 3}
+  russianSprite: {fileID: 21300000, guid: 104ac5a87db371141bd6f675e9d709b9, type: 3}
+  updateOnStart: 1
+  updateOnLanguageChange: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1401,10 +1452,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This is Battle screen. Here you will use your monsters to defeat enemies.
+  m_text: "\u042D\u0442\u043E <color=#ab0000>\u042D\u043A\u0440\u0430\u043D \u0421\u0440\u0430\u0436\u0435\u043D\u0438\u044F</color>.
+    \u0417\u0434\u0435\u0441\u044C \u0432\u044B \u0431\u0443\u0434\u0435\u0442\u0435
+    \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C \u0441\u0432\u043E\u0438\u0445
+    <color=#8400ab>\u043C\u043E\u043D\u0441\u0442\u0440\u043E\u0432</color>, \u0447\u0442\u043E\u0431\u044B
+    \u043F\u043E\u0431\u0435\u0434\u0438\u0442\u044C \u0432\u0440\u0430\u0433\u043E\u0432."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1489,14 +1544,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 617295387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfe73686a0c5eca4f8894f88e0b0c094, type: 3}
+  m_Script: {fileID: 11500000, guid: b1dbd5d45cdd8fc4984f1a5f4e4ce341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sourceTextWithTags: "\u042D\u0442\u043E <color=#ab0000>\u042D\u043A\u0440\u0430\u043D
+    \u0421\u0440\u0430\u0436\u0435\u043D\u0438\u044F</color>. \u0417\u0434\u0435\u0441\u044C
+    \u0432\u044B \u0431\u0443\u0434\u0435\u0442\u0435 \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C
+    \u0441\u0432\u043E\u0438\u0445 <color=#8400ab>\u043C\u043E\u043D\u0441\u0442\u0440\u043E\u0432</color>,
+    \u0447\u0442\u043E\u0431\u044B <shake>\u043F\u043E\u0431\u0435\u0434\u0438\u0442\u044C</shake>
+    \u0432\u0440\u0430\u0433\u043E\u0432."
+  useLocalization: 1
   localizationKey: Tutorial_BattleGeneralInfo
-  sheetName: UI_Menu
-  updateOnAwake: 1
-  updateOnLanguageChange: 1
-  formatArgs: []
+  sheetName: Tutorial
+  capitalsFontSizeMultiplier: 1.5
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1642,7 +1702,7 @@ MonoBehaviour:
   m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1731,10 +1791,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizationKey: Tutorial_Continue
-  sheetName: UI_Menu
+  sheetName: Tutorial
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
+--- !u!1 &704394855 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5850496393196395226, guid: 12971f68514111c499f017b8f5282901, type: 3}
+  m_PrefabInstance: {fileID: 8671907843901579872}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &730582632
 GameObject:
   m_ObjectHideFlags: 0
@@ -1793,10 +1858,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This is current battle state board.
+  m_text: "\u042D\u0442\u043E \u0442\u0435\u043A\u0443\u0449\u0435\u0435 <color=#8400ab>\u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0435</color>
+    \u0441\u0440\u0430\u0436\u0435\u043D\u0438\u044F."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1885,7 +1951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizationKey: Tutorial_CurrStateBoardInfo
-  sheetName: UI_Menu
+  sheetName: Tutorial
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
@@ -1901,6 +1967,7 @@ GameObject:
   - component: {fileID: 764328738}
   - component: {fileID: 764328737}
   - component: {fileID: 764328736}
+  - component: {fileID: 764328739}
   m_Layer: 0
   m_Name: TutorialContinueButton
   m_TagString: Untagged
@@ -1925,7 +1992,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 19, y: -24.6}
+  m_AnchoredPosition: {x: 0, y: -21}
   m_SizeDelta: {x: 58, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &764328736
@@ -2022,6 +2089,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 764328734}
   m_CullTransparentMesh: 1
+--- !u!114 &764328739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764328734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fedba8a0517f14a900cd2723de0d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  englishSprite: {fileID: 21300000, guid: a831b73dab06b6a4e9fb575f96bc968f, type: 3}
+  russianSprite: {fileID: 21300000, guid: 104ac5a87db371141bd6f675e9d709b9, type: 3}
+  updateOnStart: 1
+  updateOnLanguageChange: 1
 --- !u!1 &765018109
 GameObject:
   m_ObjectHideFlags: 0
@@ -2034,6 +2117,7 @@ GameObject:
   - component: {fileID: 765018113}
   - component: {fileID: 765018112}
   - component: {fileID: 765018111}
+  - component: {fileID: 765018114}
   m_Layer: 0
   m_Name: TutorialContinueButton
   m_TagString: Untagged
@@ -2058,7 +2142,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 92, y: -35.3}
+  m_AnchoredPosition: {x: 0, y: -50.5}
   m_SizeDelta: {x: 58, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &765018111
@@ -2155,6 +2239,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765018109}
   m_CullTransparentMesh: 1
+--- !u!114 &765018114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765018109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fedba8a0517f14a900cd2723de0d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  englishSprite: {fileID: 21300000, guid: a831b73dab06b6a4e9fb575f96bc968f, type: 3}
+  russianSprite: {fileID: 21300000, guid: 104ac5a87db371141bd6f675e9d709b9, type: 3}
+  updateOnStart: 1
+  updateOnLanguageChange: 1
 --- !u!1 &786014083
 GameObject:
   m_ObjectHideFlags: 0
@@ -2216,7 +2316,7 @@ MonoBehaviour:
   m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2305,7 +2405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizationKey: Tutorial_Continue
-  sheetName: UI_Menu
+  sheetName: Tutorial
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
@@ -2324,7 +2424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &877229789
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2415,7 +2515,7 @@ MonoBehaviour:
   m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2508,11 +2608,6 @@ MonoBehaviour:
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
---- !u!1 &904815617 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5850496393196395226, guid: 12971f68514111c499f017b8f5282901, type: 3}
-  m_PrefabInstance: {fileID: 8671907843901579872}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &912094347
 GameObject:
   m_ObjectHideFlags: 0
@@ -2548,7 +2643,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 2, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &912094349
@@ -2571,13 +2666,24 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "In the first battle state you need to move your monsters in available
-    positions. \nAfter doing that you can press \"Begin Battle\" to start it. This
-    specific battle is easy, so finish it and then return to the Lab to end this
-    tutorial."
+  m_text: "\u0421\u043D\u0430\u0447\u0430\u043B\u0430 \u0432 <color=#ab0000>\u0441\u0440\u0430\u0436\u0435\u043D\u0438\u0438</color>
+    \u0432\u0430\u043C \u043D\u0443\u0436\u043D\u043E \u043F\u0435\u0440\u0435\u043C\u0435\u0441\u0442\u0438\u0442\u044C
+    \u0441\u0432\u043E\u0438\u0445 <color=#8400ab>\u043C\u043E\u043D\u0441\u0442\u0440\u043E\u0432</color>
+    \u043D\u0430 \u0441\u0432\u043E\u0431\u043E\u0434\u043D\u044B\u0435 \u043F\u043E\u0437\u0438\u0446\u0438\u0438.\n\u041F\u043E\u0441\u043B\u0435
+    \u044D\u0442\u043E\u0433\u043E \u0432\u044B \u043C\u043E\u0436\u0435\u0442\u0435
+    \u043D\u0430\u0436\u0430\u0442\u044C \u043A\u043D\u043E\u043F\u043A\u0443 <color=#ab0000>\xAB\u041D\u0430\u0447\u0430\u0442\u044C
+    \u0421\u0440\u0430\u0436\u0435\u043D\u0438\u0435\xBB</color>, \u0447\u0442\u043E\u0431\u044B
+    \u043D\u0430\u0447\u0430\u0442\u044C \u0435\u0433\u043E. \u042D\u0442\u043E\u0442
+    \u043A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u0441\u0440\u0430\u0436\u0435\u043D\u0438\u0435
+    \u043D\u0435\u0441\u043B\u043E\u0436\u043D\u043E\u0435, \u043F\u043E\u044D\u0442\u043E\u043C\u0443
+    \u0437\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u0435 \u0435\u0433\u043E, \u0430
+    \u0437\u0430\u0442\u0435\u043C \u0432\u0435\u0440\u043D\u0438\u0442\u0435\u0441\u044C
+    \u0432 <color=#ab0000>\u041B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u0438\u044E</color>,
+    \u0447\u0442\u043E\u0431\u044B <color=#ab0000>\u0437\u0430\u043A\u043E\u043D\u0447\u0438\u0442\u044C<color=#ab0000>
+    \u044D\u0442\u043E \u043E\u0431\u0443\u0447\u0435\u043D\u0438\u0435!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2662,14 +2768,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 912094347}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfe73686a0c5eca4f8894f88e0b0c094, type: 3}
+  m_Script: {fileID: 11500000, guid: b1dbd5d45cdd8fc4984f1a5f4e4ce341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sourceTextWithTags: "\u0421\u043D\u0430\u0447\u0430\u043B\u0430 \u0432 <color=#ab0000>\u0441\u0440\u0430\u0436\u0435\u043D\u0438\u0438</color>
+    \u0432\u0430\u043C \u043D\u0443\u0436\u043D\u043E \u043F\u0435\u0440\u0435\u043C\u0435\u0441\u0442\u0438\u0442\u044C
+    \u0441\u0432\u043E\u0438\u0445 <color=#8400ab>\u043C\u043E\u043D\u0441\u0442\u0440\u043E\u0432</color>
+    \u043D\u0430 \u0441\u0432\u043E\u0431\u043E\u0434\u043D\u044B\u0435 \u043F\u043E\u0437\u0438\u0446\u0438\u0438.\n\u041F\u043E\u0441\u043B\u0435
+    \u044D\u0442\u043E\u0433\u043E \u0432\u044B \u043C\u043E\u0436\u0435\u0442\u0435
+    \u043D\u0430\u0436\u0430\u0442\u044C \u043A\u043D\u043E\u043F\u043A\u0443 <color=#ab0000>\xAB\u041D\u0430\u0447\u0430\u0442\u044C
+    \u0421\u0440\u0430\u0436\u0435\u043D\u0438\u0435\xBB</color>, \u0447\u0442\u043E\u0431\u044B
+    \u043D\u0430\u0447\u0430\u0442\u044C \u0435\u0433\u043E. \u042D\u0442\u043E\u0442
+    \u043A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u0441\u0440\u0430\u0436\u0435\u043D\u0438\u0435
+    \u043D\u0435\u0441\u043B\u043E\u0436\u043D\u043E\u0435, \u043F\u043E\u044D\u0442\u043E\u043C\u0443
+    \u0437\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u0435 \u0435\u0433\u043E, \u0430
+    \u0437\u0430\u0442\u0435\u043C \u0432\u0435\u0440\u043D\u0438\u0442\u0435\u0441\u044C
+    \u0432 <color=#ab0000>\u041B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u0438\u044E</color>,
+    \u0447\u0442\u043E\u0431\u044B <shake><color=#ab0000>\u0437\u0430\u043A\u043E\u043D\u0447\u0438\u0442\u044C<color=#ab0000></shake>
+    \u044D\u0442\u043E \u043E\u0431\u0443\u0447\u0435\u043D\u0438\u0435!"
+  useLocalization: 1
   localizationKey: Tutorial_BattlePrepInfo
-  sheetName: UI_Menu
-  updateOnAwake: 1
-  updateOnLanguageChange: 1
-  formatArgs: []
+  sheetName: Tutorial
+  capitalsFontSizeMultiplier: 1.5
 --- !u!1001 &971718843
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2900,7 +3020,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6316545792644215433, guid: c189efe9b57d357448fe7b3310fd9a40, type: 3}
       propertyPath: allScreensWithWhatTheyEnable.Array.data[1].enable_list.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6316545792644215433, guid: c189efe9b57d357448fe7b3310fd9a40, type: 3}
       propertyPath: allScreensWithWhatTheyEnable.Array.data[5].enable_list.Array.size
@@ -2933,7 +3053,7 @@ PrefabInstance:
     - target: {fileID: 6316545792644215433, guid: c189efe9b57d357448fe7b3310fd9a40, type: 3}
       propertyPath: 'allScreensWithWhatTheyEnable.Array.data[1].enable_list.Array.data[0]'
       value: 
-      objectReference: {fileID: 904815617}
+      objectReference: {fileID: 704394855}
     - target: {fileID: 6316545792644215433, guid: c189efe9b57d357448fe7b3310fd9a40, type: 3}
       propertyPath: 'allScreensWithWhatTheyEnable.Array.data[5].enable_list.Array.data[0]'
       value: 
@@ -3107,7 +3227,7 @@ MonoBehaviour:
   m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3196,7 +3316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizationKey: Tutorial_Continue
-  sheetName: UI_Menu
+  sheetName: Tutorial
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
@@ -3258,12 +3378,22 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Examples: on your turn you can Move and Attack, or Attack and then Move,
-    or Turn and Buff an ally, or just Move. The possibilities are endless. But do
-    remember that your enemies can do the same.'
+  m_text: "<color=#8400ab>\u041F\u0440\u0438\u043C\u0435\u0440\u044B:</color> \u0432
+    \u0441\u0432\u043E\u0439 \u0445\u043E\u0434 \u0432\u044B \u043C\u043E\u0436\u0435\u0442\u0435
+    \u043F\u0435\u0440\u0435\u043C\u0435\u0441\u0442\u0438\u0442\u044C\u0441\u044F
+    \u0438 \u0430\u0442\u0430\u043A\u043E\u0432\u0430\u0442\u044C, \u0438\u043B\u0438
+    \u0430\u0442\u0430\u043A\u043E\u0432\u0430\u0442\u044C, \u0430 \u0437\u0430\u0442\u0435\u043C
+    \u043F\u0435\u0440\u0435\u043C\u0435\u0441\u0442\u0438\u0442\u044C\u0441\u044F,
+    \u0438\u043B\u0438 \u043F\u0435\u0440\u0435\u043C\u0435\u0441\u0442\u0438\u0442\u044C\u0441\u044F
+    \u0438 \u0443\u0441\u0438\u043B\u0438\u0442\u044C \u0441\u043E\u044E\u0437\u043D\u0438\u043A\u0430,
+    \u0438\u043B\u0438 \u043F\u0440\u043E\u0441\u0442\u043E \u043F\u0435\u0440\u0435\u043C\u0435\u0441\u0442\u0438\u0442\u044C\u0441\u044F.
+    \u0412\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0441\u0442\u0438 \u0431\u0435\u0437\u0433\u0440\u0430\u043D\u0438\u0447\u043D\u044B.
+    \u041D\u043E \u043F\u043E\u043C\u043D\u0438\u0442\u0435, \u0447\u0442\u043E \u0432\u0430\u0448\u0438
+    \u0432\u0440\u0430\u0433\u0438 \u043C\u043E\u0433\u0443\u0442 \u0434\u0435\u043B\u0430\u0442\u044C
+    \u0442\u043E \u0436\u0435 \u0441\u0430\u043C\u043E\u0435!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3352,7 +3482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizationKey: Tutorial_BattleTurnInfo3
-  sheetName: UI_Menu
+  sheetName: Tutorial
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
@@ -3417,7 +3547,7 @@ MonoBehaviour:
   m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3506,7 +3636,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizationKey: Tutorial_Continue
-  sheetName: UI_Menu
+  sheetName: Tutorial
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
@@ -3525,7 +3655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1017521948
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3565,7 +3695,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1017845536
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3585,7 +3715,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 60.2}
-  m_SizeDelta: {x: 187, y: 137.2981}
+  m_SizeDelta: {x: 196, y: 108}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1017845537
 MonoBehaviour:
@@ -3607,7 +3737,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 44904d1034c05704d8c4beefa8a9c037, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 42288190c25df23448f5cd6dee4eaa32, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3871,7 +4001,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1333536746
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3890,8 +4020,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -246.10663, y: 59.1}
-  m_SizeDelta: {x: 120.8359, y: 112}
+  m_AnchoredPosition: {x: -214, y: 59.1}
+  m_SizeDelta: {x: 187, y: 87}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1333536747
 MonoBehaviour:
@@ -3913,7 +4043,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 44904d1034c05704d8c4beefa8a9c037, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 037da49322148e74180afb2384119a4d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3948,7 +4078,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1341086881
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3967,8 +4097,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -4.1432}
-  m_SizeDelta: {x: 284.3, y: 141.1336}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 304, y: 142}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1341086882
 MonoBehaviour:
@@ -3990,7 +4120,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 44904d1034c05704d8c4beefa8a9c037, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1e290ca3899e0d046b08338ae64d26fe, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4043,7 +4173,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 10.599998}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1411011382
@@ -4066,11 +4196,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This is turn order queue. The order is determined by speed of the entity.
-    The fastest entities go first, from left to right.
+  m_text: "\u042D\u0442\u043E <color=#8400ab>\u043E\u0447\u0435\u0440\u0435\u0434\u044C</color>
+    \u0441 \u043F\u043E\u0440\u044F\u0434\u043A\u043E\u043C \u0445\u043E\u0434\u0430.
+    \u041F\u043E\u0440\u044F\u0434\u043E\u043A \u043E\u043F\u0440\u0435\u0434\u0435\u043B\u044F\u0435\u0442\u0441\u044F
+    <color=#006EAB>\u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C\u044E</color>
+    \u043E\u0431\u044A\u0435\u043A\u0442\u0430. \u0421\u0430\u043C\u044B\u0435 \u0431\u044B\u0441\u0442\u0440\u044B\u0435
+    \u043E\u0431\u044A\u0435\u043A\u0442\u044B \u0445\u043E\u0434\u044F\u0442 \u043F\u0435\u0440\u0432\u044B\u043C\u0438,
+    \u0441\u043B\u0435\u0432\u0430 \u043D\u0430\u043F\u0440\u0430\u0432\u043E."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4159,7 +4294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizationKey: Tutorial_OrderQueueInfo
-  sheetName: UI_Menu
+  sheetName: Tutorial
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
@@ -4221,12 +4356,22 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This is your Book. It is the main source of information during battle.
-    Left part represents monster that is currently making a turn. Right part represents
-    entity that you hover your mouse over.
+  m_text: "\u042D\u0442\u043E \u0432\u0430\u0448\u0430 <color=#8400ab>\u041A\u043D\u0438\u0433\u0430</color>.
+    \u041E\u043D\u0430 \u044F\u0432\u043B\u044F\u0435\u0442\u0441\u044F \u043E\u0441\u043D\u043E\u0432\u043D\u044B\u043C
+    \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A\u043E\u043C \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u0438
+    \u0432\u043E \u0432\u0440\u0435\u043C\u044F \u0441\u0440\u0430\u0436\u0435\u043D\u0438\u044F.
+    <color=#8400ab>\u041B\u0435\u0432\u0430\u044F \u0447\u0430\u0441\u0442\u044C</color>
+    \u043E\u0442\u043E\u0431\u0440\u0430\u0436\u0430\u0435\u0442 \u0438\u0444\u043D\u043E\u0440\u043C\u0430\u0446\u0438\u044E
+    \u043E \u043C\u043E\u043D\u0441\u0442\u0440\u0435, \u043A\u043E\u0442\u043E\u0440\u044B\u0439
+    \u0432 \u0434\u0430\u043D\u043D\u044B\u0439 \u043C\u043E\u043C\u0435\u043D\u0442
+    \u0441\u043E\u0432\u0435\u0440\u0448\u0430\u0435\u0442 \u0445\u043E\u0434. <color=#8400ab>\u041F\u0440\u0430\u0432\u0430\u044F
+    \u0447\u0430\u0441\u0442\u044C</color> \u043E\u0442\u043E\u0431\u0440\u0430\u0436\u0430\u0435\u0442
+    \u0441\u0443\u0449\u043D\u043E\u0441\u0442\u044C, \u043D\u0430 \u043A\u043E\u0442\u043E\u0440\u0443\u044E
+    \u0432\u044B \u043D\u0430\u0432\u043E\u0434\u0438\u0442\u0435 \u043A\u0443\u0440\u0441\u043E\u0440
+    \u043C\u044B\u0448\u0438."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4315,7 +4460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizationKey: Tutorial_BookInfo1
-  sheetName: UI_Menu
+  sheetName: Tutorial
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
@@ -4331,6 +4476,7 @@ GameObject:
   - component: {fileID: 1486374710}
   - component: {fileID: 1486374709}
   - component: {fileID: 1486374708}
+  - component: {fileID: 1486374711}
   m_Layer: 0
   m_Name: TutorialContinueButton
   m_TagString: Untagged
@@ -4355,7 +4501,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 44.3, y: -38.2}
+  m_AnchoredPosition: {x: 0, y: -43}
   m_SizeDelta: {x: 58, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1486374708
@@ -4452,6 +4598,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1486374706}
   m_CullTransparentMesh: 1
+--- !u!114 &1486374711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486374706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fedba8a0517f14a900cd2723de0d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  englishSprite: {fileID: 21300000, guid: a831b73dab06b6a4e9fb575f96bc968f, type: 3}
+  russianSprite: {fileID: 21300000, guid: 104ac5a87db371141bd6f675e9d709b9, type: 3}
+  updateOnStart: 1
+  updateOnLanguageChange: 1
 --- !u!1 &1493581362
 GameObject:
   m_ObjectHideFlags: 0
@@ -4516,7 +4678,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1500770761
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4536,7 +4698,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -15.3055}
-  m_SizeDelta: {x: 153.918, y: 105.189}
+  m_SizeDelta: {x: 196, y: 108}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1500770762
 MonoBehaviour:
@@ -4558,7 +4720,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 44904d1034c05704d8c4beefa8a9c037, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 42288190c25df23448f5cd6dee4eaa32, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4588,6 +4750,7 @@ GameObject:
   - component: {fileID: 1514261735}
   - component: {fileID: 1514261734}
   - component: {fileID: 1514261733}
+  - component: {fileID: 1514261736}
   m_Layer: 0
   m_Name: TutorialContinueButton
   m_TagString: Untagged
@@ -4612,7 +4775,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 79, y: -40}
+  m_AnchoredPosition: {x: 102, y: -48.3}
   m_SizeDelta: {x: 58, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1514261733
@@ -4709,6 +4872,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1514261731}
   m_CullTransparentMesh: 1
+--- !u!114 &1514261736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514261731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fedba8a0517f14a900cd2723de0d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  englishSprite: {fileID: 21300000, guid: a831b73dab06b6a4e9fb575f96bc968f, type: 3}
+  russianSprite: {fileID: 21300000, guid: 104ac5a87db371141bd6f675e9d709b9, type: 3}
+  updateOnStart: 1
+  updateOnLanguageChange: 1
 --- !u!1 &1558983581
 GameObject:
   m_ObjectHideFlags: 0
@@ -4721,6 +4900,7 @@ GameObject:
   - component: {fileID: 1558983585}
   - component: {fileID: 1558983584}
   - component: {fileID: 1558983583}
+  - component: {fileID: 1558983586}
   m_Layer: 0
   m_Name: TutorialContinueButton
   m_TagString: Untagged
@@ -4745,7 +4925,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 71.6, y: -22.6}
+  m_AnchoredPosition: {x: 0, y: -41}
   m_SizeDelta: {x: 58, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1558983583
@@ -4842,6 +5022,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1558983581}
   m_CullTransparentMesh: 1
+--- !u!114 &1558983586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558983581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fedba8a0517f14a900cd2723de0d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  englishSprite: {fileID: 21300000, guid: a831b73dab06b6a4e9fb575f96bc968f, type: 3}
+  russianSprite: {fileID: 21300000, guid: 104ac5a87db371141bd6f675e9d709b9, type: 3}
+  updateOnStart: 1
+  updateOnLanguageChange: 1
 --- !u!1 &1581275239
 GameObject:
   m_ObjectHideFlags: 0
@@ -4854,6 +5050,7 @@ GameObject:
   - component: {fileID: 1581275243}
   - component: {fileID: 1581275242}
   - component: {fileID: 1581275241}
+  - component: {fileID: 1581275244}
   m_Layer: 0
   m_Name: TutorialContinueButton
   m_TagString: Untagged
@@ -4878,7 +5075,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 44.3, y: -27.5}
+  m_AnchoredPosition: {x: 39.7, y: -36.6}
   m_SizeDelta: {x: 58, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1581275241
@@ -4975,6 +5172,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1581275239}
   m_CullTransparentMesh: 1
+--- !u!114 &1581275244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581275239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fedba8a0517f14a900cd2723de0d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  englishSprite: {fileID: 21300000, guid: a831b73dab06b6a4e9fb575f96bc968f, type: 3}
+  russianSprite: {fileID: 21300000, guid: 104ac5a87db371141bd6f675e9d709b9, type: 3}
+  updateOnStart: 1
+  updateOnLanguageChange: 1
 --- !u!1 &1583491541
 GameObject:
   m_ObjectHideFlags: 0
@@ -4992,7 +5205,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1583491542
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5011,8 +5224,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1.7221}
-  m_SizeDelta: {x: 284.3004, y: 139.244}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 304, y: 142}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1583491543
 MonoBehaviour:
@@ -5034,7 +5247,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 44904d1034c05704d8c4beefa8a9c037, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1e290ca3899e0d046b08338ae64d26fe, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5113,7 +5326,7 @@ MonoBehaviour:
   m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5202,7 +5415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizationKey: Tutorial_Continue
-  sheetName: UI_Menu
+  sheetName: Tutorial
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
@@ -5346,7 +5559,7 @@ MonoBehaviour:
   m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5531,7 +5744,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1761494542
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5551,7 +5764,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 19.7}
-  m_SizeDelta: {x: 187, y: 137.2981}
+  m_SizeDelta: {x: 187, y: 134}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1761494543
 MonoBehaviour:
@@ -5573,7 +5786,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 44904d1034c05704d8c4beefa8a9c037, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6c680db9e1a86f2449b81077bbb13abd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5608,7 +5821,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1768237745
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5627,8 +5840,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -118.9}
-  m_SizeDelta: {x: 284.3004, y: 112}
+  m_AnchoredPosition: {x: 0, y: -104}
+  m_SizeDelta: {x: 304, y: 129}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1768237746
 MonoBehaviour:
@@ -5650,7 +5863,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 44904d1034c05704d8c4beefa8a9c037, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 717e4333e297ed747b785e6db4721f91, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5690,7 +5903,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1800430269
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5710,7 +5923,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.4, y: 59.1}
-  m_SizeDelta: {x: 251.1508, y: 135.1}
+  m_SizeDelta: {x: 261, y: 195}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1800430270
 MonoBehaviour:
@@ -5732,7 +5945,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 44904d1034c05704d8c4beefa8a9c037, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d1fb446b95cc97748b637b4b59e1c9b4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5785,7 +5998,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 8.299999}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1816963775
@@ -5808,10 +6021,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'During a turn entity can perform only one "Interaction" and one "Movement". '
+  m_text: "\u0417\u0430 \u043E\u0434\u0438\u043D \u0445\u043E\u0434 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u043E
+    \u043C\u043E\u0436\u0435\u0442 \u0432\u044B\u043F\u043E\u043B\u043D\u0438\u0442\u044C
+    \u0442\u043E\u043B\u044C\u043A\u043E \u043E\u0434\u043D\u043E <color=#8400ab>\xAB\u0412\u0437\u0430\u0438\u043C\u043E\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0435\xBB</color>
+    \u0438 \u043F\u0440\u0438 \u044D\u0442\u043E\u043C \u043E\u0434\u043D\u043E <color=#006EAB>\xAB\u0414\u0432\u0438\u0436\u0435\u043D\u0438\u0435\xBB</color>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5900,7 +6116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizationKey: Tutorial_BattleTurnInfo1
-  sheetName: UI_Menu
+  sheetName: Tutorial
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
@@ -5916,6 +6132,7 @@ GameObject:
   - component: {fileID: 1821690727}
   - component: {fileID: 1821690726}
   - component: {fileID: 1821690725}
+  - component: {fileID: 1821690728}
   m_Layer: 0
   m_Name: TutorialContinueButton
   m_TagString: Untagged
@@ -5940,7 +6157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 44.3, y: -38.2}
+  m_AnchoredPosition: {x: 0, y: -36.7}
   m_SizeDelta: {x: 58, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1821690725
@@ -6037,6 +6254,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1821690723}
   m_CullTransparentMesh: 1
+--- !u!114 &1821690728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821690723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fedba8a0517f14a900cd2723de0d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  englishSprite: {fileID: 21300000, guid: a831b73dab06b6a4e9fb575f96bc968f, type: 3}
+  russianSprite: {fileID: 21300000, guid: 104ac5a87db371141bd6f675e9d709b9, type: 3}
+  updateOnStart: 1
+  updateOnLanguageChange: 1
 --- !u!1 &1822248416
 GameObject:
   m_ObjectHideFlags: 0
@@ -6049,6 +6282,7 @@ GameObject:
   - component: {fileID: 1822248420}
   - component: {fileID: 1822248419}
   - component: {fileID: 1822248418}
+  - component: {fileID: 1822248421}
   m_Layer: 0
   m_Name: TutorialContinueButton
   m_TagString: Untagged
@@ -6073,7 +6307,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 84.3, y: -48}
+  m_AnchoredPosition: {x: 71, y: -74}
   m_SizeDelta: {x: 58, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1822248418
@@ -6170,6 +6404,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822248416}
   m_CullTransparentMesh: 1
+--- !u!114 &1822248421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822248416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fedba8a0517f14a900cd2723de0d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  englishSprite: {fileID: 21300000, guid: a831b73dab06b6a4e9fb575f96bc968f, type: 3}
+  russianSprite: {fileID: 21300000, guid: 104ac5a87db371141bd6f675e9d709b9, type: 3}
+  updateOnStart: 1
+  updateOnLanguageChange: 1
 --- !u!1 &1844829009
 GameObject:
   m_ObjectHideFlags: 0
@@ -6275,7 +6525,7 @@ MonoBehaviour:
   m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6364,7 +6614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localizationKey: Tutorial_Continue
-  sheetName: UI_Menu
+  sheetName: Tutorial
   updateOnAwake: 1
   updateOnLanguageChange: 1
   formatArgs: []
@@ -6426,11 +6676,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You win the Battle if all enemies die. After winning you may recieve bodyparts
-    of your enemies and your fallen monsters.
+  m_text: "\u0412\u044B <color=#8400ab>\u043F\u043E\u0431\u0435\u0436\u0434\u0430\u0435\u0442\u0435
+    \u0432 \u0431\u0438\u0442\u0432\u0435</color>, \u0435\u0441\u043B\u0438 \u0432\u0441\u0435
+    \u0432\u0440\u0430\u0433\u0438 <color=#8400ab>\u043F\u043E\u0433\u0438\u0431\u0430\u044E\u0442</color>.
+    \u041F\u043E\u0441\u043B\u0435 \u043F\u043E\u0431\u0435\u0434\u044B \u0432\u044B
+    \u043C\u043E\u0436\u0435\u0442\u0435 \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C
+    \u0447\u0430\u0441\u0442\u0438 \u0442\u0435\u043B \u0432\u0430\u0448\u0438\u0445
+    \u0432\u0440\u0430\u0433\u043E\u0432."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6515,14 +6770,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1976368624}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfe73686a0c5eca4f8894f88e0b0c094, type: 3}
+  m_Script: {fileID: 11500000, guid: b1dbd5d45cdd8fc4984f1a5f4e4ce341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sourceTextWithTags: "\u0412\u044B <color=#8400ab><wave>\u043F\u043E\u0431\u0435\u0436\u0434\u0430\u0435\u0442\u0435
+    \u0432 \u0431\u0438\u0442\u0432\u0435</color></wave>, \u0435\u0441\u043B\u0438
+    \u0432\u0441\u0435 \u0432\u0440\u0430\u0433\u0438 <color=#8400ab><shake>\u043F\u043E\u0433\u0438\u0431\u0430\u044E\u0442</color></wave>.
+    \u041F\u043E\u0441\u043B\u0435 \u043F\u043E\u0431\u0435\u0434\u044B \u0432\u044B
+    \u043C\u043E\u0436\u0435\u0442\u0435 \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C
+    \u0447\u0430\u0441\u0442\u0438 \u0442\u0435\u043B \u0432\u0430\u0448\u0438\u0445
+    \u0432\u0440\u0430\u0433\u043E\u0432."
+  useLocalization: 1
   localizationKey: Tutorial_BattleEndInfo
-  sheetName: UI_Menu
-  updateOnAwake: 1
-  updateOnLanguageChange: 1
-  formatArgs: []
+  sheetName: Tutorial
+  capitalsFontSizeMultiplier: 1.5
 --- !u!1 &1987672892
 GameObject:
   m_ObjectHideFlags: 0
@@ -6540,7 +6801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1987672893
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6559,8 +6820,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -11.9}
-  m_SizeDelta: {x: 284.3004, y: 112}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 304, y: 142}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1987672894
 MonoBehaviour:
@@ -6582,7 +6843,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 44904d1034c05704d8c4beefa8a9c037, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1e290ca3899e0d046b08338ae64d26fe, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6951,11 +7212,11 @@ PrefabInstance:
     - target: {fileID: 8428011976718082056, guid: 12971f68514111c499f017b8f5282901, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+      objectReference: {fileID: 11400000, guid: 3d7f19f346293ed40b45b5d885e5bca7, type: 2}
     - target: {fileID: 8428011976718082056, guid: 12971f68514111c499f017b8f5282901, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+      objectReference: {fileID: -9216410288600928319, guid: 3d7f19f346293ed40b45b5d885e5bca7, type: 2}
     - target: {fileID: 8428011976718082056, guid: 12971f68514111c499f017b8f5282901, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
@@ -6995,11 +7256,11 @@ PrefabInstance:
     - target: {fileID: 8969927224922932998, guid: 12971f68514111c499f017b8f5282901, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+      objectReference: {fileID: 11400000, guid: 3d7f19f346293ed40b45b5d885e5bca7, type: 2}
     - target: {fileID: 8969927224922932998, guid: 12971f68514111c499f017b8f5282901, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+      objectReference: {fileID: -9216410288600928319, guid: 3d7f19f346293ed40b45b5d885e5bca7, type: 2}
     - target: {fileID: 8969927224922932998, guid: 12971f68514111c499f017b8f5282901, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
@@ -7053,7 +7314,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6009313428544452961, guid: 12971f68514111c499f017b8f5282901, type: 3}
   m_PrefabInstance: {fileID: 8671907843901579872}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 904815617}
+  m_GameObject: {fileID: 704394855}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 506390e3bf7a13444ba90c8107f25687, type: 3}
