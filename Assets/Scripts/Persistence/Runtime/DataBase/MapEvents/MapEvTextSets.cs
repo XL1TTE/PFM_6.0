@@ -52,7 +52,7 @@ namespace Persistence.DB
 
             // -------------------------------------------------- ID and TAG
             //With<ID>(new ID { m_Value = "ev_TextDefault" });
-            //With<MapEvUnavailableTag>(new MapEvUnavailableTag { });
+            With<MapEvUnavailableTag>(new MapEvUnavailableTag { });
             With<MapEvTextTag>(new MapEvTextTag { });
 
             // -------------------------------------------------- Required components
@@ -213,7 +213,6 @@ namespace Persistence.DB
     // }
 
 
-    /*
 
     public sealed class ev_TextFireRing : IDbRecord
     {
@@ -251,22 +250,41 @@ namespace Persistence.DB
 
                     { "ev_TextFireRing_choice1",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 10 },
-                            res_text = "ev_TextFireRing_result1" } },
-
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.SWAP_PARTS,
+                                new SwapPartsRequest() {
+                                    parts_type_with_id = new Dictionary<BODYPART_SPECIFIED_TYPE, string>()
+                                    {
+                                        {BODYPART_SPECIFIED_TYPE.HEAD, "bp_goat-head" },
+                                        {BODYPART_SPECIFIED_TYPE.RLEG, "bp_rat-leg" },
+                                        {BODYPART_SPECIFIED_TYPE.LLEG, "bp_raven-leg" },
+                                    }
+                                }}
+                            },
+                            res_text = "ev_TextFireRing_result1"
+                        }
+                    },
                     { "ev_TextFireRing_choice2",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.TAKE_GOLD,
-                            request = new TakeGoldRequest() { amount = 999999999 },
-                            res_text = "ev_TextFireRing_result2" } },
-
+                            request_type_data = null,
+                            res_text = "ev_TextFireRing_result2"
+                        }
+                    },
                     { "ev_TextFireRing_choice3",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 10 },
-                            res_text = "ev_TextFireRing_result3" } }
-
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.TAKE_HP,
+                                new TakeHPRequest() {
+                                    use_percent = true,
+                                    amount_percent = 0.1f,
+                                    monster_count = 3
+                                }}
+                            },
+                            res_text = "ev_TextFireRing_result3"
+                        }
+                    }
                 }
             });
         }
@@ -292,31 +310,58 @@ namespace Persistence.DB
             {
                 choices = new Dictionary<string, MapChoiceWrapper>
                 {
+
                     { "ev_TextBlackCurse_choice1",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextBlackCurse_result1" }  },
+                            request_type_data = null,
+                            res_text = "ev_TextBlackCurse_result1"
+                        }
+                    },
                     { "ev_TextBlackCurse_choice2",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextBlackCurse_result2" }  },
-                     { "ev_TextBlackCurse_choice3",
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.TAKE_HP,
+                                new TakeHPRequest() {
+                                    use_percent = true,
+                                    amount_percent = 0.1f,
+                                    monster_count = 3
+                                }}
+                            },
+                            res_text = "ev_TextBlackCurse_result2"
+                        }
+                    },
+                    { "ev_TextBlackCurse_choice3",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextBlackCurse_result3" }  }
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.TAKE_HP,
+                                new TakeHPRequest() {
+                                    use_percent = true,
+                                    amount_percent = 0.1f,
+                                    monster_count = 1
+                                }},
+
+                                {CHOICE_SCRIPT_TYPE.GIVE_HP,
+                                new GiveHPRequest() {
+                                    use_percent = true,
+                                    amount_percent = 0.3f,
+                                    monster_count = 3
+                                }}
+                            },
+                            res_text = "ev_TextBlackCurse_result3"
+                        }
+                    }
                 }
             });
         }
     }
 
-    public sealed class ev_TextBlockOfCrows : IDbRecord
+    public sealed class ev_TextFlockOfCrows : IDbRecord
     {
-        public ev_TextBlockOfCrows()
+        public ev_TextFlockOfCrows()
         {
-            ID("ev_TextBlockOfCrows");
+            ID("ev_TextFlockOfCrows");
             //// -------------------------------------------------- ID and TAG
             With<MapEvTextTag>(new MapEvTextTag { });
             // -------------------------------------------------- Main information
@@ -326,27 +371,63 @@ namespace Persistence.DB
             });
             With<MapEvTextMessageComponent>(new MapEvTextMessageComponent
             {
-                string_message = "ev_TextBlockOfCrows_message"
+                string_message = "ev_TextFlockOfCrows_message"
             });
             With<MapEvTextChoicesComponent>(new MapEvTextChoicesComponent
             {
                 choices = new Dictionary<string, MapChoiceWrapper>
                 {
-                    { "ev_TextBlockOfCrows_choice1",
+
+                    { "ev_TextFlockOfCrows_choice1",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextBlockOfCrows_result1" }  },
-                    { "ev_TextBlockOfCrows_choice2",
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.SWAP_PARTS,
+                                new SwapPartsRequest() {
+                                    parts_type_with_id = new Dictionary<BODYPART_SPECIFIED_TYPE, string>()
+                                    {
+                                        {BODYPART_SPECIFIED_TYPE.TORSO, "bp_raven-torso" },
+                                        {BODYPART_SPECIFIED_TYPE.RLEG, "bp_raven-leg" },
+                                        {BODYPART_SPECIFIED_TYPE.LLEG, "bp_raven-leg" },
+                                        {BODYPART_SPECIFIED_TYPE.RARM, "bp_raven-arm" },
+                                        {BODYPART_SPECIFIED_TYPE.LARM, "bp_raven-arm" }
+                                    }
+                                }}
+                            },
+                            res_text = "ev_TextFlockOfCrows_result1"
+                        }
+                    },
+                    { "ev_TextFlockOfCrows_choice2",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextBlockOfCrows_result2" }  },
-                    { "ev_TextBlockOfCrows_choice3",
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.GIVE_PARTS,
+                                new GivePartsRequest() {
+                                    parts_id_and_amount = new Dictionary<string, int>()
+                                    {
+                                        {"bp_raven-torso",1},
+                                        {"bp_raven-leg",2},
+                                        {"bp_raven-arm",2},
+                                    }
+                                }}
+                            },
+                            res_text = "ev_TextFlockOfCrows_result2"
+                        }
+                    },
+                    { "ev_TextFlockOfCrows_choice3",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextBlockOfCrows_result3" }  }
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.TAKE_HP,
+                                new TakeHPRequest() {
+                                    use_percent = false,
+                                    amount_flat = 1,
+                                    monster_count = 3
+                                }}
+                            },
+                            res_text = "ev_TextFlockOfCrows_result3"
+                        }
+                    }
                 }
             });
         }
@@ -359,6 +440,7 @@ namespace Persistence.DB
             ID("ev_TextWheatField");
             //// -------------------------------------------------- ID and TAG
             With<MapEvTextTag>(new MapEvTextTag { });
+            With<MapEvUnavailableTag>(new MapEvUnavailableTag { });
             // -------------------------------------------------- Main information
             With<MapEvTextBGComponent>(new MapEvTextBGComponent
             {
@@ -372,16 +454,43 @@ namespace Persistence.DB
             {
                 choices = new Dictionary<string, MapChoiceWrapper>
                 {
+
                     { "ev_TextWheatField_choice1",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextWheatField_result1" }  },
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.SWAP_PARTS,
+                                new SwapPartsRequest() {
+                                    parts_type_with_id = new Dictionary<BODYPART_SPECIFIED_TYPE, string>()
+                                    {
+                                        {BODYPART_SPECIFIED_TYPE.TORSO, "bp_raven-torso" },
+                                        {BODYPART_SPECIFIED_TYPE.RLEG, "bp_raven-leg" },
+                                        {BODYPART_SPECIFIED_TYPE.LLEG, "bp_raven-leg" },
+                                        {BODYPART_SPECIFIED_TYPE.RARM, "bp_raven-arm" },
+                                        {BODYPART_SPECIFIED_TYPE.LARM, "bp_raven-arm" }
+                                    }
+                                }}
+                            },
+                            res_text = "ev_TextWheatField_result1"
+                        }
+                    },
                     { "ev_TextWheatField_choice2",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextWheatField_result2" }  }
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.GIVE_PARTS,
+                                new GivePartsRequest() {
+                                    parts_id_and_amount = new Dictionary<string, int>()
+                                    {
+                                        {"bp_raven-torso",1},
+                                        {"bp_raven-leg",2},
+                                        {"bp_raven-arm",2},
+                                    }
+                                }}
+                            },
+                            res_text = "ev_TextWheatField_result2"
+                        }
+                    }
                 }
             });
         }
@@ -407,21 +516,43 @@ namespace Persistence.DB
             {
                 choices = new Dictionary<string, MapChoiceWrapper>
                 {
+
                     { "ev_TextGoatsHoof_choice1",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextGoatsHoof_result1" }  },
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.SWAP_PARTS,
+                                new SwapPartsRequest() {
+                                    parts_type_with_id = new Dictionary<BODYPART_SPECIFIED_TYPE, string>()
+                                    {
+                                        {BODYPART_SPECIFIED_TYPE.HEAD, "bp_goat-head" }
+                                    }
+                                }}
+                            },
+                            res_text = "ev_TextGoatsHoof_result1"
+                        }
+                    },
                     { "ev_TextGoatsHoof_choice2",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextGoatsHoof_result2" }  },
+                            request_type_data = null,
+                            res_text = "ev_TextGoatsHoof_result2"
+                        }
+                    },
                     { "ev_TextGoatsHoof_choice3",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextGoatsHoof_result3" }  }
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.SWAP_PARTS_BETWEEN,
+                                new SwapPartsBetweenMonstersRequest() {
+                                    parts_types = new List<BODYPART_SPECIFIED_TYPE>()
+                                    {
+                                        BODYPART_SPECIFIED_TYPE.HEAD
+                                    }
+                                }}
+                            },
+                            res_text = "ev_TextGoatsHoof_result3"
+                        }
+                    }
                 }
             });
         }
@@ -447,21 +578,52 @@ namespace Persistence.DB
             {
                 choices = new Dictionary<string, MapChoiceWrapper>
                 {
+
                     { "ev_TextWishingWell_choice1",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextWishingWell_result1" }  },
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                                new GiveGoldRequest() { amount = 20 } },
+
+                            },
+                            res_text = "ev_TextWishingWell_result1"
+                        }
+                    },
                     { "ev_TextWishingWell_choice2",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextWishingWell_result2" }  },
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.GIVE_PARTS,
+                                new GivePartsRequest() {
+                                    parts_id_and_amount = new Dictionary<string, int>()
+                                    {
+                                        {"bp_pig-torso",1},
+                                        {"bp_ladybug-arm",1},
+                                        {"bp_cow-arm",1},
+                                        {"bp_raccoon-leg",1},
+                                        {"bp_cat-head",1},
+                                        {"bp_bear-arm",1}
+                                    }
+                                }}
+                            },
+                            res_text = "ev_TextWishingWell_result2"
+                        }
+                    },
                     { "ev_TextWishingWell_choice3",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextWishingWell_result3" }  }
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.GIVE_HP,
+                                new GiveHPRequest() {
+                                    use_percent = true,
+                                    amount_percent = 0.5f,
+                                    monster_count = 3
+                                }}
+                            },
+                            res_text = "ev_TextWishingWell_result3"
+                        }
+                    }
                 }
             });
         }
@@ -489,19 +651,47 @@ namespace Persistence.DB
                 {
                     { "ev_TextStoneAtCrossroads_choice1",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextStoneAtCrossroads_result1" }  },
-                     { "ev_TextStoneAtCrossroads_choice2",
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.TAKE_GOLD,
+                                new TakeGoldRequest() { amount = 10 } },
+
+                            },
+                            res_text = "ev_TextStoneAtCrossroads_result1"
+                        }
+                    },
+                    { "ev_TextStoneAtCrossroads_choice2",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextStoneAtCrossroads_result2" }  },
-                      { "ev_TextStoneAtCrossroads_choice3",
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.TAKE_HP,
+                                new TakeHPRequest() {
+                                    use_percent = false,
+                                    amount_flat = 25,
+                                    monster_count = 1
+                                }},
+
+                                {CHOICE_SCRIPT_TYPE.GIVE_HP,
+                                new GiveHPRequest() {
+                                    use_percent = false,
+                                    amount_flat = 15,
+                                    monster_count = 3
+                                }}
+                            },
+                            res_text = "ev_TextStoneAtCrossroads_result2"
+                        }
+                    },
+                    { "ev_TextStoneAtCrossroads_choice3",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextStoneAtCrossroads_result3" }  }
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                                new GiveGoldRequest() { amount = 10 } },
+
+                            },
+                            res_text = "ev_TextStoneAtCrossroads_result3"
+                        }
+                    }
                 }
             });
         }
@@ -529,14 +719,45 @@ namespace Persistence.DB
                 {
                     { "ev_TextBurningHope_choice1",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextBurningHope_result1" }  },
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.TAKE_HP,
+                                new TakeHPRequest() {
+                                    use_percent = true,
+                                    amount_percent = 0.5f,
+                                    monster_count = 1
+                                }},
+
+                                {CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                                new GiveGoldRequest() { amount = 12 } }
+                            },
+                            res_text = "ev_TextBurningHope_result1"
+                        }
+                    },
                     { "ev_TextBurningHope_choice2",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextBurningHope_result2" }  }
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                                new GiveGoldRequest() { amount = 6 } },
+
+
+                                {CHOICE_SCRIPT_TYPE.GIVE_PARTS,
+                                new GivePartsRequest() {
+                                    parts_id_and_amount = new Dictionary<string, int>()
+                                    {
+                                        {"bp_pig-head",1},
+                                        {"bp_pig-torso",2},
+                                        {"bp_pig-leg",3},
+                                        {"bp_cow-arm",1},
+                                        {"bp_sheep-arm",2},
+                                        {"bp_rooster-torso",1}
+                                    }
+                                }}
+                            },
+                            res_text = "ev_TextBurningHope_result2"
+                        }
+                    }
                 }
             });
         }
@@ -564,19 +785,53 @@ namespace Persistence.DB
                 {
                     { "ev_TextCollapsedChurch_choice1",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextCollapsedChurch_result1" }  },
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.SWAP_PARTS_BETWEEN,
+                                new SwapPartsBetweenMonstersRequest() {
+                                    parts_types = new List<BODYPART_SPECIFIED_TYPE>()
+                                    {
+                                        BODYPART_SPECIFIED_TYPE.TORSO,
+                                        BODYPART_SPECIFIED_TYPE.LARM,
+                                        BODYPART_SPECIFIED_TYPE.LLEG
+                                    }
+                                }},
+                            },
+                            res_text = "ev_TextCollapsedChurch_result1"
+                        }
+                    },
                     { "ev_TextCollapsedChurch_choice2",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextCollapsedChurch_result2" }  },
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.GIVE_HP,
+                                new GiveHPRequest() {
+                                    use_percent = true,
+                                    amount_percent = 0.33f,
+                                    monster_count = 3
+                                }},
+                            },
+                            res_text = "ev_TextCollapsedChurch_result2"
+                        }
+                    },
                     { "ev_TextCollapsedChurch_choice3",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextCollapsedChurch_result3" }  }
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                                new GiveGoldRequest() { amount = 12 } },
+
+
+                                {CHOICE_SCRIPT_TYPE.TAKE_HP,
+                                new TakeHPRequest() {
+                                    use_percent = true,
+                                    amount_percent = 0.33f,
+                                    monster_count = 1
+                                }}
+                            },
+                            res_text = "ev_TextCollapsedChurch_result3"
+                        }
+                    }
                 }
             });
         }
@@ -604,19 +859,61 @@ namespace Persistence.DB
                 {
                     { "ev_TextGiantCow_choice1",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextGiantCow_result1" }  },
-                     { "ev_TextGiantCow_choice2",
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.GIVE_HP,
+                                new GiveHPRequest() {
+                                    use_percent = true,
+                                    amount_percent = 1f,
+                                    monster_count = 3
+                                }}
+                            },
+                            res_text = "ev_TextGiantCow_result1"
+                        }
+                    },
+                    { "ev_TextGiantCow_choice2",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextGiantCow_result2" }  },
-                      { "ev_TextGiantCow_choice3",
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.SWAP_PARTS,
+                                new SwapPartsRequest() {
+                                    parts_type_with_id = new Dictionary<BODYPART_SPECIFIED_TYPE, string>()
+                                    {
+                                        {BODYPART_SPECIFIED_TYPE.LARM, "bp_cow-arm" }
+                                    }
+                                }},
+                                {CHOICE_SCRIPT_TYPE.TAKE_HP,
+                                new TakeHPRequest() {
+                                    use_percent = false,
+                                    amount_flat = 5,
+                                    monster_count = 3
+                                }}
+                            },
+                            res_text = "ev_TextGiantCow_result2"
+                        }
+                    },
+                    { "ev_TextGiantCow_choice3",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextGiantCow_result3" }  }
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                                new GiveGoldRequest() { amount = 7 } },
+
+                                {CHOICE_SCRIPT_TYPE.GIVE_PARTS,
+                                new GivePartsRequest() {
+                                    parts_id_and_amount = new Dictionary<string, int>()
+                                    {
+                                        {"bp_horse-leg",1},
+                                        {"bp_goose-head",1},
+                                        {"bp_bee-arm",1},
+                                        {"bp_bear-leg",1},
+                                        {"bp_dove-arm",1}
+                                    }
+                                }}
+                            },
+                            res_text = "ev_TextGiantCow_result3"
+                        }
+                    }
                 }
             });
         }
@@ -644,24 +941,28 @@ namespace Persistence.DB
                 {
                     { "ev_TextHorse_choice1",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextHorse_result1" }  },
+                            request_type_data = null,
+                            res_text = "ev_TextHorse_result1"
+                        }
+                    },
                     { "ev_TextHorse_choice2",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextHorse_result2" }  },
+                            request_type_data = null,
+                            res_text = "ev_TextHorse_result2"
+                        }
+                    },
                     { "ev_TextHorse_choice3",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextHorse_result3" }  },
+                            request_type_data = null,
+                            res_text = "ev_TextHorse_result3"
+                        }
+                    },
                     { "ev_TextHorse_choice4",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextHorse_result4" }  }
+                            request_type_data = null,
+                            res_text = "ev_TextHorse_result4"
+                        }
+                    }
                 }
             });
         }
@@ -689,19 +990,45 @@ namespace Persistence.DB
                 {
                     { "ev_TextCartOfProvisions_choice1",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextCartOfProvisions_result1" }  },
-                     { "ev_TextCartOfProvisions_choice2",
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.GIVE_PARTS,
+                                new GivePartsRequest() {
+                                    parts_id_and_amount = new Dictionary<string, int>()
+                                    {
+                                        {"bp_cockroach-arm",1},
+                                        {"bp_cat-arm",1},
+                                        {"bp_dog-torso",1},
+                                        {"bp_goat-leg",2},
+                                        {"bp_raccoon-torso",1},
+                                        {"bp_raccoon-leg",2},
+                                        {"bp_raccoon-arm",2}
+                                    }
+                                }}
+                            },
+                            res_text = "ev_TextCartOfProvisions_result1"
+                        }
+                    },
+                    { "ev_TextCartOfProvisions_choice2",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextCartOfProvisions_result2" }  },
-                     { "ev_TextCartOfProvisions_choice3",
-                        new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextCartOfProvisions_result3" }  }
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.GIVE_GOLD,
+                                new GiveGoldRequest() { amount = 13 } },
+
+                                {CHOICE_SCRIPT_TYPE.GIVE_PARTS,
+                                new GivePartsRequest() {
+                                    parts_id_and_amount = new Dictionary<string, int>()
+                                    {
+                                        {"bp_rat-arm",1},
+                                        {"bp_rat-leg",1},
+                                        {"bp_sheep-head",1}
+                                    }
+                                }}
+                            },
+                            res_text = "ev_TextCartOfProvisions_result2"
+                        }
+                    }
                 }
             });
         }
@@ -729,24 +1056,56 @@ namespace Persistence.DB
                 {
                     { "ev_TextBlushingAppleTree_choice1",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextBlushingAppleTree_result1" }  },
-                     { "ev_TextBlushingAppleTree_choice2",
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.GIVE_HP,
+                                new GiveHPRequest() {
+                                    use_percent = true,
+                                    amount_percent = 1f,
+                                    monster_count = 1
+                                }},
+                            },
+                            res_text = "ev_TextBlushingAppleTree_result1"
+                        }
+                    },
+                    { "ev_TextBlushingAppleTree_choice2",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextBlushingAppleTree_result2" }  },
-                     { "ev_TextBlushingAppleTree_choice3",
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.TAKE_HP,
+                                new TakeHPRequest() {
+                                    use_percent = true,
+                                    amount_percent = 0.15f,
+                                    monster_count = 3
+                                }}
+                            },
+                            res_text = "ev_TextBlushingAppleTree_result2"
+                        }
+                    },
+                    { "ev_TextBlushingAppleTree_choice3",
                         new MapChoiceWrapper() {
-                            type = CHOICE_SCRIPT_TYPE.GIVE_GOLD,
-                            request = new GiveGoldRequest() { amount = 67 },
-                            res_text = "ev_TextBlushingAppleTree_result3" }  }
+                            request_type_data = new Dictionary<CHOICE_SCRIPT_TYPE, Scellecs.Morpeh.IRequestData>()
+                            {
+                                {CHOICE_SCRIPT_TYPE.SWAP_PARTS_BETWEEN,
+                                new SwapPartsBetweenMonstersRequest() {
+                                    parts_types = new List<BODYPART_SPECIFIED_TYPE>()
+                                    {
+                                        BODYPART_SPECIFIED_TYPE.LLEG,
+                                        BODYPART_SPECIFIED_TYPE.HEAD,
+                                        BODYPART_SPECIFIED_TYPE.RARM,
+                                        BODYPART_SPECIFIED_TYPE.TORSO
+                                    }
+                                }}
+                            },
+                            res_text = "ev_TextBlushingAppleTree_result3"
+                        }
+                    }
                 }
             });
         }
     }
 
+    /*
     public sealed class ev_TextTest3 : IDbRecord
     {
         public ev_TextTest3()
@@ -791,8 +1150,8 @@ namespace Persistence.DB
             });
         }
     }
-
-
     */
+
+
 
 }

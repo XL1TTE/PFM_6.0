@@ -158,7 +158,14 @@ namespace Game
         private static EnemyLootWrapper[] GetLootRewards(Entity a_enemyEntity, World a_world)
         {
             var stash_enemyLoot = a_world.GetStash<EnemyLootComponent>();
+
+            if (!stash_enemyLoot.Has(a_enemyEntity))
+            {
+                return null;
+            }
+
             var t_loot = stash_enemyLoot.Get(a_enemyEntity);
+
 
             return t_loot.loot;
         }

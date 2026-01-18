@@ -96,7 +96,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     Offset: {x: 0, y: 0}
-    Size: {x: 60, y: 16}
+    Size: {x: 90, y: 9}
 --- !u!114 &8527508909623426910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_text: 'Choose 1 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
-  m_sharedMaterial: {fileID: -7662499027434940714, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
+  m_sharedMaterial: {fileID: 6436590806595301563, guid: 3a58b8eb553174440af7db6563b9a579, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
