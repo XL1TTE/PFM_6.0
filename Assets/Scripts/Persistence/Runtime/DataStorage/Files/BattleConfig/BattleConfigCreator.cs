@@ -13,7 +13,7 @@ namespace DS.Files
             {
                 // Level by default
                 //m_prefab_level = "Levels/lvl_Village".LoadResource<GameObject>()
-                m_prefab_level = "Levels/lvl_Village_Holes".LoadResource<GameObject>()
+                m_prefab_level = "Levels/lvl_Village_Tutorial".LoadResource<GameObject>()
             });
         }
     }

@@ -343,8 +343,8 @@ MonoBehaviour:
       use_fixed_amount: 0
       loot_amount: 0
       use_random_amount: 1
-      loot_min_amount: 10
-      loot_max_amount: 20
+      loot_min_amount: 1
+      loot_max_amount: 10
       loot_chance: 1
     - loot_id: bp_cockroach-arm
       use_fixed_amount: 0

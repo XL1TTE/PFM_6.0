@@ -53,6 +53,13 @@ namespace Project
         [SerializeField] private Sprite poisonNoneSprite;
         [SerializeField] private Sprite poisonResistantSprite;
 
+
+
+        [SerializeField] private bool isMapScreen = false;
+
+
+
+
         private LabReferences labRef;
         private RectTransform tooltipRect;
         private Canvas parentCanvas;
@@ -419,7 +426,14 @@ namespace Project
                 totalSpeed += rightLegData.speed_amount;
             }
 
-            hpText.text = $"{totalHP}";
+            if (!isMapScreen)
+            {
+                hpText.text = $"{totalHP}";
+            }
+            else
+            {
+                hpText.text = $"{data.current_hp}/{data.max_hp}";
+            }
             speedText.text = $"{totalSpeed}";
         }
 
