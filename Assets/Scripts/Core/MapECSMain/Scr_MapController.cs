@@ -61,7 +61,7 @@ namespace Domain.Map.Mono
 
 
         // collumn_count does not include start and end nodes, only path in between
-        public byte collumn_count = 20;
+        public byte collumn_count = 9;
         // row_count represents maximum POSSIBLE amount of rows (including zero), but will try to be belowe that point
         public byte row_count = 3;
 

@@ -137,6 +137,7 @@ namespace Gameplay.MapEvents.Systems
                             //choice.Value.
                             UpdateTextUI(LocalizationManager.Instance.GetLocalizedValue(choice.Value.res_text, "TextEvents"));
 
+                            if (choice.Value.request_type_data  == null) { return; }
 
                             foreach(var request in choice.Value.request_type_data)
                             {
@@ -216,10 +217,12 @@ namespace Gameplay.MapEvents.Systems
 
                 prefabedChoice.transform.SetParent(ptr_choices, false);
 
-                if (prefabedChoice.TryGetComponent<MapTextEvChoiceProvider>(out var t_choice))
-                {
-                    t_choice.GetData().count_id = count;
-                }
+                //if (prefabedChoice.TryGetComponent<MapTextEvChoiceProvider>(out var t_choice))
+                //{
+                //    t_choice.GetData().count_id = count;
+                //}
+
+                prefabedChoice.GetComponentInChildren<MapTextEvChoiceProvider>().GetData().count_id = count;
 
                 count++;
             }
