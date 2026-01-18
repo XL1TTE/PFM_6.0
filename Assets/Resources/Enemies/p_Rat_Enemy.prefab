@@ -347,12 +347,12 @@ MonoBehaviour:
       loot_max_amount: 20
       loot_chance: 1
     - loot_id: bp_rat-arm
-      use_fixed_amount: 1
+      use_fixed_amount: 0
       loot_amount: 1
-      use_random_amount: 0
-      loot_min_amount: 0
-      loot_max_amount: 0
-      loot_chance: 0.5
+      use_random_amount: 1
+      loot_min_amount: 1
+      loot_max_amount: 2
+      loot_chance: 0.2
     - loot_id: bp_rat-leg
       use_fixed_amount: 0
       loot_amount: 0
