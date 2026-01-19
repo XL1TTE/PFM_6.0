@@ -30,5 +30,6 @@ namespace Domain.Map
         public GameObject mapController;
 
         public TutorialController tutorialController;
+        public GameObject tutorialCanvas;
     }
 }

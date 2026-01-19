@@ -18,6 +18,18 @@ namespace Persistence.DB
                 {
                     m_Flat = 13
                 });
+            With<PoisonResistanceModiffier>(new PoisonResistanceModiffier
+            {
+                m_Stage = IResistanceModiffier.Stage.NONE
+            });
+            With<BleedResistanceModiffier>(new BleedResistanceModiffier
+            {
+                m_Stage = IResistanceModiffier.Stage.NONE
+            });
+            With<BurningResistanceModiffier>(new BurningResistanceModiffier
+            {
+                m_Stage = IResistanceModiffier.Stage.NONE
+            });
         }
     }
 }

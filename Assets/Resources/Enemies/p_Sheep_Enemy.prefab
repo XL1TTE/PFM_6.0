@@ -237,7 +237,7 @@ MonoBehaviour:
   serializedData:
     m_TemporalEffects: []
     m_PermanentEffects:
-    - m_EffectId: effect_Pig
+    - m_EffectId: effect_Sheep
 --- !u!114 &6165744893290528280
 MonoBehaviour:
   m_ObjectHideFlags: 0

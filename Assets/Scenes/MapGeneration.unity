@@ -5054,7 +5054,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1526979749
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5737,6 +5737,7 @@ MonoBehaviour:
   textEvUI: {fileID: 1247935571}
   mapController: {fileID: 1259684086}
   tutorialController: {fileID: 1961157857}
+  tutorialCanvas: {fileID: 1526979748}
 --- !u!114 &1868467339 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4292339604048430958, guid: fca2b387ba9b1024ba1010460e01437b, type: 3}
