@@ -1,8 +1,6 @@
 using Core.Utilities;
 using Cysharp.Threading.Tasks;
-using Domain.HealthBars.Components;
 using Domain.Monster.Mono;
-using Domain.Monster.Tags;
 using Domain.Stats.Components;
 using Game;
 using Persistence.Components;
@@ -10,10 +8,6 @@ using Persistence.DB;
 using Persistence.DS;
 using Scellecs.Morpeh;
 using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
-using Unity.VisualScripting;
-using UnityEngine.LightTransport;
 
 namespace Interactions
 {

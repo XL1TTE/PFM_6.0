@@ -78,6 +78,10 @@ namespace Game
             {
                 MapReferences.Instance().tutorialController.BeginTutorial();
             }
+            else
+            {
+                MapReferences.Instance().tutorialCanvas.SetActive(false);
+            }
 
             ConfigureSystems();
         }
